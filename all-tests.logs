@@ -10288,3 +10288,3147 @@
       at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
 
   ✘ packages/pipelines/docops/dist/tests/preview.front.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/purge.scan-files.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/purge.strip-links.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/purge.scan-files.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/purge.strip-links.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/query.run.branching.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/query.run.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/query.run.branching.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/relations.missing-chunks.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/relations.missing-chunks.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/query.run.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/rename.db-update.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/relations.thresholds.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/rename.db-update.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/relations.thresholds.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/relations.caps.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/relations.caps.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/utils.misc.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/utils.misc.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/utils.parse.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/utils.parse.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/error-logging.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/error-logging.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/env-expand.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/env-expand.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/fsutils.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/fsutils.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/file-routes-rate-limit.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/file-routes-rate-limit.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/readmeflow/dist/tests/cache.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/hash.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/js-step.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/readmeflow/dist/tests/cache.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/input-parse-error.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/hash.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/piper/dist/tests/input-parse-error.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/piper/dist/tests/js-step.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/jsonc.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/runjs-globals.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/jsonc.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/piper/dist/tests/runjs-globals.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/retry.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/run-route.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/retry.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/semverguard/dist/tests/utils.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/run-route.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/semverguard/dist/tests/utils.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/output-dir.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/output-dir.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/runner.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/runner.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/runner.worker.smoke.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/sonarflow/dist/tests/utils.test.js
+
+  packages/pipelines/sonarflow/dist/tests/utils.test.js:38
+
+   37: };                                                            
+   38: Object.defineProperty(exports, "__esModule", { value: true });
+   39: var ava_1 = require("ava");                                   
+
+  ReferenceError: exports is not defined in ES module scope
+  This file is being treated as an ES module because it has a '.js' file extension and '/home/err/devel/promethean/packages/pipelines/sonarflow/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+
+  › This file is being treated as an ES module because it has a '.js' file extension and 'packages/pipelines/sonarflow/package.json' contains "type": "module". To treat it as a CommonJS script, rename it to use the '.cjs' file extension.
+  › file://packages/pipelines/sonarflow/dist/tests/utils.test.js:38:23
+
+  ✘ packages/pipelines/piper/dist/tests/runner.worker.smoke.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/schema.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/schema.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/sonarflow/dist/tests/utils.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/tests/frontend/devui.static.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/piper/dist/tests/frontend/devui.static.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/readmeflow/dist/tests/outline.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/readmeflow/dist/tests/outline.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/tests/frontend/main.register.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/piper/dist/tests/frontend/run-pipeline.control.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/piper/dist/tests/frontend/main.register.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/tests/frontend/piper-step.component.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/piper/dist/tests/frontend/run-pipeline.control.test.js exited with a non-zero exit code: 1
+  ✘ packages/piper/dist/tests/frontend/piper-step.component.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/tests/frontend/selection.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/symdocs/dist/tests/collect-source-files.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/piper/dist/tests/frontend/selection.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/symdocs/dist/tests/collect-source-files.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/simtask/dist/tests/write-tasks-escape.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/simtask/dist/tests/collect-source-files.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/simtask/dist/tests/write-tasks-escape.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/simtask/dist/tests/collect-source-files.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/tests/frontend/devui.runjs.args.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/piper/dist/tests/frontend/devui.runjs.args.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/tests/frontend/filetree.lazy-cache.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/piper/dist/tests/frontend/filetree.lazy-cache.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/tests/frontend/hmr.state.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/piper/dist/tests/frontend/hmr.state.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/indexer.incremental.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/indexer.incremental.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/system/agent.supervisor.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'nanoid' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/agent.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'nanoid' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/agent.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/system/agent.supervisor.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.agent.stubs.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.agent.stubs.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/auth.static.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/auth.static.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.agent.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.agent.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.exec.auth.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.exec.auth.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.files.list.security.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.files.list.security.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/piper/dist/frontend/tests/file-tree.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.exec.cwd.security.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.exec.cwd.security.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.exec.flag.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/piper/dist/frontend/tests/file-tree.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.exec.flag.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.files.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.files.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.files.tree.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.files.tree.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.openapi.auth.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.openapi.auth.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.files.view.security.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.files.view.security.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/files.more.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/agent.more.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'nanoid' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/agent.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'nanoid' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/agent.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/agent.more.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/unit/files.more.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.openapi.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.openapi.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/files.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.reindex.success.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.search.errors.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/files.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.search.errors.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.reindex.success.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/grep.more.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/grep.more.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/grep.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/grep.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.search.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.search.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.symbols.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.v1.openapi.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.v1.openapi.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.symbols.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.more.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/remoteEmbedding.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/remoteEmbedding.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.v1.files.put.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/integration/server.v1.routes.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find package 'mongodb-memory-server' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/tests/helpers/server.js
+      at Object.getPackageJSONURL (node:internal/modules/package_json_reader:266:9)
+      at packageResolve (node:internal/modules/esm/resolve:767:81)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/remoteEmbedding.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/remoteEmbedding.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/fastifyApp.rate-limit.test.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-service/client' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexerClient.js
+
+  Error [ERR_MODULE_NOT_FOUND]: Cannot find module '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-service/client' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexerClient.js
+      at finalizeResolution (node:internal/modules/esm/resolve:274:11)
+      at moduleResolve (node:internal/modules/esm/resolve:859:10)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.more.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.v1.files.put.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/integration/server.v1.routes.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.timeout.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/remoteEmbedding.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/remoteEmbedding.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/fastifyApp.rate-limit.test.js exited with a non-zero exit code: 1
+  ✘ packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.timeout.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/global.teardown.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/global.teardown.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/indexer.branches.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/v1Client.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/indexer.branches.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/frontends/docops-frontend/dist/frontend/tests/api.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/kanban/dist/lib/directory-adapter/tests/security.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/v1Client.test.js exited with a non-zero exit code: 1
+  ✘ packages/frontends/docops-frontend/dist/frontend/tests/api.test.js exited with a non-zero exit code: 1
+  ✘ packages/kanban/dist/lib/directory-adapter/tests/security.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/indexer.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/indexer.test.js exited with a non-zero exit code: 1
+  ✘ No tests found in packages/pantheon/state/dist/tests/utils/fixtures.js, make sure to import "ava" at the top of your test file
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/indexer.scan-files.test.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+
+  Error: Cannot find package '/home/err/devel/promethean/packages/smartgpt-bridge/node_modules/@promethean/indexer-core/index.js' imported from /home/err/devel/promethean/packages/smartgpt-bridge/dist/indexer.js
+      at legacyMainResolve (node:internal/modules/esm/resolve:204:26)
+      at packageResolve (node:internal/modules/esm/resolve:777:12)
+      at moduleResolve (node:internal/modules/esm/resolve:853:18)
+      at defaultResolve (node:internal/modules/esm/resolve:983:11)
+      at #cachedDefaultResolve (node:internal/modules/esm/loader:731:20)
+      at ModuleLoader.resolve (node:internal/modules/esm/loader:708:38)
+      at ModuleLoader.getModuleJobForImport (node:internal/modules/esm/loader:310:38)
+      at ModuleJob._link (node:internal/modules/esm/module_job:183:49)
+
+  Uncaught exception in packages/pipelines/buildfix/dist/timeout/tests/timeout-manager.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ No tests found in packages/pantheon/state/dist/tests/utils/mocks.js, make sure to import "ava" at the top of your test file
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/changelog/check.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/indexer.scan-files.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/buildfix/dist/timeout/tests/timeout-manager.test.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/changelog/check.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/logger.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/logger.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/smartgpt-bridge/dist/tests/unit/symbols.util.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/smartgpt-bridge/dist/tests/unit/symbols.util.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/buildfix/dist/tests/integration/pipeline.run.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/buildfix/dist/tests/integration/pipeline.run.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/e2e/file-tree-refresh.e2e.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/e2e/file-tree-refresh.e2e.spec.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/e2e/chunk-hits.e2e.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/e2e/chunk-hits.e2e.spec.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/frontend/devui.static.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/frontend/devui.static.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.api.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.data.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.data.spec.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.api.spec.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/e2e/pipeline.run.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/e2e/docops.e2e.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/e2e/pipeline.run.spec.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/e2e/docops.e2e.spec.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/piper/dist/tests/frontend/devui.runjs.args.test.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/piper/dist/tests/frontend/devui.runjs.args.test.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.files.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.files.spec.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.negatives.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.negatives.spec.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.params.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.ws-fallback.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.pipeline.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.ws-fallback.spec.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.params.spec.js exited with a non-zero exit code: 1
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.pipeline.spec.js exited with a non-zero exit code: 1
+
+  Uncaught exception in packages/pipelines/docops/dist/tests/integration/devui.spec.js
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+  AssertionError [ERR_ASSERTION]: The expression evaluated to a falsy value:
+
+    assert(refs.runnerChain)
+
+      at Object.<anonymous> (/home/err/devel/promethean/node_modules/.pnpm/ava@6.4.1_@ava+typescript@4.1.0_encoding@0.1.13_rollup@4.52.3/node_modules/ava/lib/worker/main.cjs:8:1)
+      at Module._compile (node:internal/modules/cjs/loader:1706:14)
+      at Object..js (node:internal/modules/cjs/loader:1839:10)
+      at Module.load (node:internal/modules/cjs/loader:1441:32)
+      at Function._load (node:internal/modules/cjs/loader:1263:12)
+      at TracingChannel.traceSync (node:diagnostics_channel:322:14)
+      at wrapModuleLoad (node:internal/modules/cjs/loader:237:24)
+      at cjsLoader (node:internal/modules/esm/translators:309:5)
+      at ModuleWrap.<anonymous> (node:internal/modules/esm/translators:202:7)
+      at ModuleJob.run (node:internal/modules/esm/module_job:345:25)
+
+  ✘ packages/pipelines/docops/dist/tests/integration/devui.spec.js exited with a non-zero exit code: 1
+
+  ✘ Timed out while running tests
+
+  Failed to exit when running scripts/testing/test-mcp-security-integration.mjs
+
+  Failed to exit when running scripts/testing/test-path-traversal-end-to-end.mjs
+
+  Failed to exit when running scripts/testing/test-whitespace.js
+
+  Failed to exit when running src/tests/create-task-hanging-test.mjs
+
+  Failed to exit when running packages/agent-ecs/dist/agent-ecs.doublebuffer.test.js
+
+  Failed to exit when running packages/agent-ecs/dist/voice.system.test.js
+
+  Failed to exit when running packages/ai-learning/dist/test-eidolon-integration.js
+
+  Failed to exit when running packages/broker/tests/broker.integration.test.js
+
+  Failed to exit when running packages/cephalon/tests/coverage-boost.test.js
+
+  Failed to exit when running packages/cephalon/tests/innerState.test.js
+
+  Failed to exit when running packages/cephalon/tests/smoke.test.js
+
+  Failed to exit when running packages/cephalon/tests/think.test.js
+
+  Failed to exit when running packages/compiler/dist/compiler.test.js
+
+  Failed to exit when running packages/ds/dist/bst.test.js
+
+  Failed to exit when running packages/ds/dist/ecs.doublebuffer.behavior.test.js
+
+  Failed to exit when running packages/ds/dist/ecs.prefab.test.js
+
+  Failed to exit when running packages/ds/dist/ecs.scheduler.test.js
+
+  Failed to exit when running packages/ds/dist/ecs.test.js
+
+  Failed to exit when running packages/ds/dist/graph.test.js
+
+  Failed to exit when running packages/duck/duck-utils/test-compiled.cjs
+
+  Failed to exit when running packages/duck/duck-utils/test-compiled.js
+
+  Failed to exit when running packages/duck/duck-utils/test-compiled.mjs
+
+  Failed to exit when running packages/eidolon-field/tests/tick.test.js
+
+  Failed to exit when running packages/event/dist/event.bus.test.js
+
+  Failed to exit when running packages/github-sync/src/test-classic-token.mjs
+
+  Failed to exit when running packages/github-sync/src/test-github-sync.mjs
+
+  Failed to exit when running packages/health/tests/health.test.js
+
+  Failed to exit when running packages/heartbeat/tests/client.integration.test.js
+
+  Failed to exit when running packages/heartbeat/tests/heartbeat.integration.test.js
+
+  Failed to exit when running packages/heartbeat/tests/lifecycle.integration.test.js
+
+  Failed to exit when running packages/heartbeat/tests/monitor.unit.test.js
+
+  Failed to exit when running packages/indexer-client/dist/path-validation.test.js
+
+  Failed to exit when running packages/indexer-client/src/path-validation.test.js
+
+  Failed to exit when running packages/kanban/pseudo/test-coordinator.js
+
+  Failed to exit when running packages/kanban/pseudo/test-find-file.js
+
+  Failed to exit when running packages/kanban/pseudo/test-fix.js
+
+  Failed to exit when running packages/kanban/pseudo/test-git-tracking.js
+
+  Failed to exit when running packages/kanban/pseudo/test-heal.js
+
+  Failed to exit when running packages/kanban/pseudo/test-underscore-normalization.js
+
+  Failed to exit when running packages/kanban/pseudo/test-validation-require.js
+
+  Failed to exit when running packages/kanban/pseudo/test-validation.js
+
+  Failed to exit when running packages/legacy/embeddings/versioning.test.js
+
+  Failed to exit when running packages/legacy/tests/taskQueue.test.js
+
+  Failed to exit when running packages/mcp/pseudo/test-direct-fastify.js
+
+  Failed to exit when running packages/mcp/pseudo/test-direct-mcp.js
+
+  Failed to exit when running packages/mcp/pseudo/test-gradual-complexity.js
+
+  Failed to exit when running packages/mcp/pseudo/test-host-binding.js
+
+  Failed to exit when running packages/mcp/pseudo/test-mcp-sdk-direct.js
+
+  Failed to exit when running packages/mcp/pseudo/test-minimal-config.js
+
+  Failed to exit when running packages/mcp/pseudo/test-minimal-fastify-start.js
+
+  Failed to exit when running packages/mcp/pseudo/test-minimal-mcp-server.js
+
+  Failed to exit when running packages/mcp/pseudo/test-no-security-middleware.js
+
+  Failed to exit when running packages/mcp/pseudo/test-no-security.js
+
+  Failed to exit when running packages/mcp/pseudo/test-oauth.js
+
+  Failed to exit when running packages/mcp/pseudo/test-real-startup.js
+
+  Failed to exit when running packages/mcp/pseudo/test-server.js
+
+  Failed to exit when running packages/mcp/pseudo/test-transport-only.js
+
+  Failed to exit when running packages/migrations/dist/chroma.test.js
+
+  Failed to exit when running packages/migrations/dist/embedder.test.js
+
+  Failed to exit when running packages/opencode-client/dist/test-setup.js
+
+  Failed to exit when running packages/opencode-client/dist/test-utils.js
+
+  Failed to exit when running packages/pipelines/buildfix/test-dsl-output.mjs
+
+  Failed to exit when running packages/pipelines/buildfix/test-first-fixture.js
+
+  Failed to exit when running packages/pipelines/buildfix/test-gpt-oss-only.js
+
+  Failed to exit when running packages/pipelines/buildfix/test-isolated-fixtures.js
+
+  Failed to exit when running packages/pipelines/buildfix/test-qwen3-14b.mjs
+
+  Failed to exit when running packages/pipelines/buildfix/test-timeout-integration.js
+
+  Failed to exit when running packages/pipelines/buildfix/test-timeout.js
+
+  Failed to exit when running packages/pipelines/buildfix/test-ts-morph-fix.mjs
+
+  Failed to exit when running packages/pipelines/pipeline-automation/test-buildfix.js
+
+  Failed to exit when running packages/pipelines/pipeline-automation/test-monitoring.js
+
+  Failed to exit when running packages/pipelines/pipeline-automation/test-timeout-resources.js
+
+  Failed to exit when running packages/tests/dist/cephalon-transform.test.js
+
+  Failed to exit when running packages/tests/dist/dev.harness.int.test.js
+
+  Failed to exit when running packages/tests/dist/fileExplorer.test.js
+
+  Failed to exit when running packages/tests/dist/integration.markdown.sync.test.js
+
+  Failed to exit when running packages/tests/dist/kanban.test.js
+
+  Failed to exit when running packages/tests/dist/markdown.kanban.helpers.test.js
+
+  Failed to exit when running packages/tests/dist/markdown.statuses.test.js
+
+  Failed to exit when running packages/tests/dist/markdown.sync.helpers.test.js
+
+  Failed to exit when running packages/tests/dist/markdown.sync.test.js
+
+  Failed to exit when running packages/tests/dist/markdown.task.test.js
+
+  Failed to exit when running packages/tests/dist/stream-title.test.js
+
+  Failed to exit when running packages/tests/dist/transformer.test.js
+
+  Failed to exit when running packages/tests/dist/url.test.js
+
+  Failed to exit when running packages/trello/dist/test-trello-connection.js
+
+  Failed to exit when running pseudo/markdown-graph/tests/graph.test.js
+
+  Failed to exit when running pseudo/vision/tests/broker.unit.test.js
+
+  Failed to exit when running pseudo/vision/tests/capture.test.js
+
+  Failed to exit when running pseudo/vision/tests/websocket.integration.test.js
+
+  Failed to exit when running packages/agent/dist/tests/policy.test.js
+
+  Failed to exit when running packages/agents-workflow/dist/tests/markdown.test.js
+
+  Failed to exit when running packages/agents-workflow/dist/tests/ollama-provider.test.js
+
+  Failed to exit when running packages/alias-rewrite/dist/tests/deprecated.test.js
+
+  Failed to exit when running packages/apply-patch/dist/tests/github.test.js
+
+  Failed to exit when running packages/apply-patch/dist/tests/parse-plan.test.js
+
+  Failed to exit when running packages/auth-service/dist/tests/oauth-flow.test.js
+
+  Failed to exit when running packages/auth-service/dist/tests/security.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/autocommit.unit.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/config.unit.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/deep-nested-integration.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/empty-staging.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/git.unit.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/llm.unit.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/recursive-integration.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/recursive.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/simple-recursive.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/simple.test.js
+
+  Failed to exit when running packages/autocommit/dist/tests/subrepo.test.js
+
+  Failed to exit when running packages/boardrev/dist/test/cache.test.js
+
+  Failed to exit when running packages/boardrev/dist/test/ensure-fm.test.js
+
+  Failed to exit when running packages/boardrev/dist/test/utils.test.js
+
+  Failed to exit when running packages/buildfix/dist/tests/errors.step.test.js
+
+  Failed to exit when running packages/buildfix/dist/tests/iterate.step.test.js
+
+  Failed to exit when running packages/buildfix/dist/tests/path-resolution.test.js
+
+  Failed to exit when running packages/buildfix/dist/tests/report.step.test.js
+
+  Failed to exit when running packages/buildfix/dist/tests/utils.test.js
+
+  Failed to exit when running packages/changefeed/dist/tests/mongo.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/actions.leave-voice.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/actions.ping.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/bot.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/capture_channel.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/commands.join-voice.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/commands.leave-voice.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/commands.ping.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/converter.js
+
+  Failed to exit when running packages/cephalon/dist/tests/desktop_channel.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/embedding.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/enso-chat-agent.spec.js
+
+  Failed to exit when running packages/cephalon/dist/tests/enso-tool-rationale.spec.js
+
+  Failed to exit when running packages/cephalon/dist/tests/enso-tools.spec.js
+
+  Failed to exit when running packages/cephalon/dist/tests/image_forward.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/integration.non-discord.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/llm-prompt-injection.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/llm_forward.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/messageThrottler.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/mode.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/ping_effect.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/security-integration.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/speechCoordinator.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/store.effects.voice.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/tickrate.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/transcriber.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/voice_session.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/voice_session_artifacts.integration.test.js
+
+  Failed to exit when running packages/cli/dist/tests/lisp.test.js
+
+  Failed to exit when running packages/codemods/dist/tests/utils.test.js
+
+  Failed to exit when running packages/codepack/dist/tests/collect-code-blocks.test.js
+
+  Failed to exit when running packages/compaction/dist/tests/compactor.test.js
+
+  Failed to exit when running packages/compiler/dist/lisp/driver.test.js
+
+  Failed to exit when running packages/compiler/dist/lisp/ts2lisp.test.js
+
+  Failed to exit when running packages/contracts/dist/tests/agent-bus.test.js
+
+  Failed to exit when running packages/cookbookflow/dist/tests/utils.test.js
+
+  Failed to exit when running packages/data-stores/dist/tests/data-store-manager.test.js
+
+  Failed to exit when running packages/dev/dist/tests/harness.test.js
+
+  Failed to exit when running packages/discord/dist/tests/attachments.test.js
+
+  Failed to exit when running packages/discord/dist/tests/automod.test.js
+
+  Failed to exit when running packages/discord/dist/tests/converter.test.js
+
+  Failed to exit when running packages/discord/dist/tests/embedding.test.js
+
+  Failed to exit when running packages/discord/dist/tests/flow.test.js
+
+  Failed to exit when running packages/discord/dist/tests/gateway.test.js
+
+  Failed to exit when running packages/discord/dist/tests/message-embedder.test.js
+
+  Failed to exit when running packages/discord/dist/tests/message-indexer.test.js
+
+  Failed to exit when running packages/discord/dist/tests/rest.test.js
+
+  Failed to exit when running packages/discord/dist/tests/test.js
+
+  Failed to exit when running packages/dlq/dist/tests/with-dlq.test.js
+
+  Failed to exit when running packages/docops/dist/tests/convert-wikilinks.test.js
+
+  Failed to exit when running packages/docops/dist/tests/devui.static.test.js
+
+  Failed to exit when running packages/docops/dist/tests/embed.cleaning.test.js
+
+  Failed to exit when running packages/docops/dist/tests/footers.wikilinks.test.js
+
+  Failed to exit when running packages/docops/dist/tests/frontmatter.offline.test.js
+
+  Failed to exit when running packages/docops/dist/tests/preview.front.test.js
+
+  Failed to exit when running packages/docops/dist/tests/purge.scan-files.test.js
+
+  Failed to exit when running packages/docops/dist/tests/purge.strip-links.test.js
+
+  Failed to exit when running packages/docops/dist/tests/query.helpers.test.js
+
+  Failed to exit when running packages/docops/dist/tests/query.run.branching.test.js
+
+  Failed to exit when running packages/docops/dist/tests/query.run.test.js
+
+  Failed to exit when running packages/docops/dist/tests/relations.caps.test.js
+
+  Failed to exit when running packages/docops/dist/tests/relations.missing-chunks.test.js
+
+  Failed to exit when running packages/docops/dist/tests/relations.thresholds.test.js
+
+  Failed to exit when running packages/docops/dist/tests/utils.misc.test.js
+
+  Failed to exit when running packages/docops/dist/tests/utils.parse.test.js
+
+  Failed to exit when running packages/duck-audio/dist/tests/clampPcm16.test.js
+
+  Failed to exit when running packages/duck-audio/dist/tests/topcm16kmono.test.js
+
+  Failed to exit when running packages/effects/dist/tests/rest.test.js
+
+  Failed to exit when running packages/embedding/dist/tests/attachment.test.js
+
+  Failed to exit when running packages/embedding/dist/tests/remote.test.js
+
+  Failed to exit when running packages/embedding/dist/tests/smoke.test.js
+
+  Failed to exit when running packages/embedding-cache/dist/tests/embedding-cache.test.js
+
+  Failed to exit when running packages/enso-browser-gateway/src/tests/voice-forwarder.spec.mjs
+
+  Failed to exit when running packages/enso-protocol/dist/tests/basic.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/cli.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/conversation.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/end-to-end.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/flow.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/guardrails.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/intents.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/mcp-client.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/modules.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/policy.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/security.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/tools.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/transport.spec.js
+
+  Failed to exit when running packages/enso-protocol/dist/tests/voice-transport.spec.js
+
+  Failed to exit when running packages/file-indexer/dist/tests/scan-files.test.js
+
+  Failed to exit when running packages/file-watcher/dist/tests/broker.unit.test.js
+
+  Failed to exit when running packages/file-watcher/dist/tests/events.test.js
+
+  Failed to exit when running packages/file-watcher/dist/tests/repo-watcher.test.js
+
+  Failed to exit when running packages/frontend-service/dist/tests/server.test.js
+
+  Failed to exit when running packages/fs/dist/tests/ecs.test.js
+
+  Failed to exit when running packages/fs/dist/tests/ensureDir.test.js
+
+  Failed to exit when running packages/fs/dist/tests/streamTreeConcurrent.test.js
+
+  Failed to exit when running packages/fsm/dist/tests/integration-fsm-architecture.test.js
+
+  Failed to exit when running packages/fsm/dist/tests/machine.test.js
+
+  Failed to exit when running packages/http/dist/tests/hf.test.js
+
+  Failed to exit when running packages/image-link-generator/dist/tests/index.test.js
+
+  Failed to exit when running packages/indexer-service/dist/tests/server.test.js
+
+  Failed to exit when running packages/intention/dist/tests/dummy.test.js
+
+  Failed to exit when running packages/kanban/dist/board/test-cache.js
+
+  Failed to exit when running packages/kanban/dist/tests/agent-integration.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/board.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/bulk-import-duplication.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/cli-config.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/clojure-only.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/column-key-normalization.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/column-normalizer.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/command-handlers.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/commit-message-generator.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/config-resolution.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/createTask.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/deduplication.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/delete-whitespace.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/dev-server.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/event-log.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/file-duplication-bug-regression.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/file-watcher.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/git-sync.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/git-utils.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/git-workflow-integration.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/heal-command.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/indexer.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/label-parsing.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/markdown-output.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/move-commands-basic.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/move-commands-e2e-simple.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/move-commands-edge-cases-simple.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/move-commands-integration-simple.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/pull.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/push.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/regenerate.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/safe-rule-evaluation.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/scar-context-builder.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/scar-context-types.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/scar-file-manager.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/starting-status-validation.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/sync.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-complexity.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-content-ai.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-content-editor.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-content-lifecycle.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-content-manager.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-content-parser.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-duplication-integration.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-duplication-regression.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/task-tools.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/testing-transition-ai.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/timestamp-preservation.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/transition-rules.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/ui-server.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/validateStartingStatus.test.js
+
+  Failed to exit when running packages/kanban/dist/tests/wip-enforcement.test.js
+
+  Failed to exit when running packages/kanban/src/tests/create-task-hanging-test.mjs
+
+  Failed to exit when running packages/kanban-processor/dist/tests/queue.test.js
+
+  Failed to exit when running packages/level-cache/dist/tests/cache.test.js
+
+  Failed to exit when running packages/llm/dist/tests/smoke.test.js
+
+  Failed to exit when running packages/llm/src/tests/basic.test.js
+
+  Failed to exit when running packages/llm/src/tests/drivers.test.js
+
+  Failed to exit when running packages/llm/src/tests/template.test.js
+
+  Failed to exit when running packages/lmdb-cache/dist/tests/cache.test.js
+
+  Failed to exit when running packages/markdown/dist/tests/anchors.test.js
+
+  Failed to exit when running packages/markdown/dist/tests/chunking.test.js
+
+  Failed to exit when running packages/markdown/dist/tests/frontmatter.test.js
+
+  Failed to exit when running packages/markdown/dist/tests/kanban.test.js
+
+  Failed to exit when running packages/markdown/dist/tests/system.test.js
+
+  Failed to exit when running packages/markdown/dist/tests/template.test.js
+
+  Failed to exit when running packages/math-utils/dist/tests/fibonacci.test.js
+
+  Failed to exit when running packages/math-utils/dist/tests/mandelbrot.test.js
+
+  Failed to exit when running packages/mcp/dist/tests/kanban.test.js
+
+  Failed to exit when running packages/mcp/dist/tests/security.test.js
+
+  Failed to exit when running packages/mcp-github-conflicts/dist/tests/github.test.js
+
+  Failed to exit when running packages/mcp-ollama/dist/tests/parse-task.test.js
+
+  Failed to exit when running packages/mcp-ollama/dist/tests/run-task.test.js
+
+  Failed to exit when running packages/monitoring/dist/tests/limiter.test.js
+
+  Failed to exit when running packages/monitoring/dist/tests/monitoring.test.js
+
+  Failed to exit when running packages/naming/dist/tests/rewrite.test.js
+
+  Failed to exit when running packages/nitpack/dist/tests/classify.test.js
+
+  Failed to exit when running packages/nitpack/dist/tests/normalize.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/coverage-test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/pantheon-system.test.js
+
+  Failed to exit when running packages/parity/dist/tests/parity-runner.test.js
+
+  Failed to exit when running packages/persistence/dist/tests/chroma-write-queue.test.js
+
+  Failed to exit when running packages/persistence/dist/tests/contextStore.class.test.js
+
+  Failed to exit when running packages/persistence/dist/tests/dualStoreManager.class.test.js
+
+  Failed to exit when running packages/persistence/dist/tests/regression.test.js
+
+  Failed to exit when running packages/persistence/dist/tests/smoke.test.js
+
+  Failed to exit when running packages/piper/dist/tests/env-expand.test.js
+
+  Failed to exit when running packages/piper/dist/tests/error-logging.test.js
+
+  Failed to exit when running packages/piper/dist/tests/file-routes-rate-limit.test.js
+
+  Failed to exit when running packages/piper/dist/tests/fsutils.test.js
+
+  Failed to exit when running packages/piper/dist/tests/hash.test.js
+
+  Failed to exit when running packages/piper/dist/tests/input-parse-error.test.js
+
+  Failed to exit when running packages/piper/dist/tests/js-step.test.js
+
+  Failed to exit when running packages/piper/dist/tests/jsonc.test.js
+
+  Failed to exit when running packages/piper/dist/tests/output-dir.test.js
+
+  Failed to exit when running packages/piper/dist/tests/retry.test.js
+
+  Failed to exit when running packages/piper/dist/tests/run-route.test.js
+
+  Failed to exit when running packages/piper/dist/tests/runjs-globals.test.js
+
+  Failed to exit when running packages/piper/dist/tests/runner.test.js
+
+  Failed to exit when running packages/piper/dist/tests/runner.worker.smoke.test.js
+
+  Failed to exit when running packages/piper/dist/tests/schema.test.js
+
+  Failed to exit when running packages/platform/dist/tests/provider-registry.test.js
+
+  Failed to exit when running packages/platform/dist/tests/topic.test.js
+
+  Failed to exit when running packages/platform/dist/tests/urn.test.js
+
+  Failed to exit when running packages/platform-core/dist/tests/feature-registry.test.js
+
+  Failed to exit when running packages/platform-core/dist/tests/runtime-detector.test.js
+
+  Failed to exit when running packages/pm2-helpers/dist/tests/pm2-helpers.test.js
+
+  Failed to exit when running packages/projectors/dist/tests/smoke.test.js
+
+  Failed to exit when running packages/providers/dist/discord/normalize.test.js
+
+  Failed to exit when running packages/readmeflow/dist/tests/cache.test.js
+
+  Failed to exit when running packages/readmeflow/dist/tests/outline.test.js
+
+  Failed to exit when running packages/report-forge/dist/tests/generate.test.js
+
+  Failed to exit when running packages/scar/dist/tests/corruption-detector.test.js
+
+  Failed to exit when running packages/scar/dist/tests/healers.test.js
+
+  Failed to exit when running packages/scar/dist/tests/scar-context.test.js
+
+  Failed to exit when running packages/schema/dist/tests/registry.test.js
+
+  Failed to exit when running packages/security/dist/tests/comprehensive-security.test.js
+
+  Failed to exit when running packages/security/dist/tests/fuzzing.test.js
+
+  Failed to exit when running packages/security/dist/tests/integration-security-comprehensive.test.js
+
+  Failed to exit when running packages/security/dist/tests/path-validation.test.js
+
+  Failed to exit when running packages/security/dist/tests/policy.test.js
+
+  Failed to exit when running packages/security/dist/tests/prompt-injection.test.js
+
+  Failed to exit when running packages/security/dist/tests/secure-file-operations.test.js
+
+  Failed to exit when running packages/semverguard/dist/tests/utils.test.js
+
+  Failed to exit when running packages/shadow-conf/dist/tests/ecosystem.test.js
+
+  Failed to exit when running packages/shadow-conf/dist/tests/security-final.test.js
+
+  Failed to exit when running packages/simtask/dist/tests/collect-source-files.test.js
+
+  Failed to exit when running packages/simtask/dist/tests/write-tasks-escape.test.js
+
+  Failed to exit when running packages/snapshots/dist/tests/api.test.js
+
+  Failed to exit when running packages/sonarflow/dist/tests/utils.test.js
+
+  Failed to exit when running packages/stream/dist/tests/title.test.js
+
+  Failed to exit when running packages/symdocs/dist/tests/collect-source-files.test.js
+
+  Failed to exit when running packages/test-utils/dist/tests/broker.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/dummy-server-body.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/dummy-server.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/e2e-url.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/page-title.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/persistence-install.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/persistence.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/process-readiness.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/process.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/waits-cleanup.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/waits.spec.js
+
+  Failed to exit when running packages/test-utils/dist/tests/with-proc.spec.js
+
+  Failed to exit when running packages/testgap/dist/tests/utils.test.js
+
+  Failed to exit when running packages/tests/dist/parity/normalizers.test.js
+
+  Failed to exit when running packages/tests/dist/parity/runner.test.js
+
+  Failed to exit when running packages/timetravel/dist/tests/reconstruct.test.js
+
+  Failed to exit when running packages/ui-components/dist/tests/ui-components.test.js
+
+  Failed to exit when running packages/unified-indexer/dist/tests/corrected-simple.test.js
+
+  Failed to exit when running packages/utils/dist/tests/cosine.test.js
+
+  Failed to exit when running packages/utils/dist/tests/fileBackedRegistry.test.js
+
+  Failed to exit when running packages/utils/dist/tests/hash.test.js
+
+  Failed to exit when running packages/utils/dist/tests/in-memory-chroma.test.js
+
+  Failed to exit when running packages/utils/dist/tests/list-files-rec.test.js
+
+  Failed to exit when running packages/utils/dist/tests/logger.test.js
+
+  Failed to exit when running packages/utils/dist/tests/ollama.test.js
+
+  Failed to exit when running packages/utils/dist/tests/parse-args.test.js
+
+  Failed to exit when running packages/utils/dist/tests/rel-from-repo.test.js
+
+  Failed to exit when running packages/utils/dist/tests/retry.test.js
+
+  Failed to exit when running packages/utils/dist/tests/slug.test.js
+
+  Failed to exit when running packages/utils/dist/tests/strip-generated-sections.test.js
+
+  Failed to exit when running packages/utils/dist/tests/ts-ast.test.js
+
+  Failed to exit when running packages/utils/dist/tests/uuid.test.js
+
+  Failed to exit when running packages/voice/dist/tests/dummy.test.js
+
+  Failed to exit when running packages/voice/dist/tests/speaker.test.js
+
+  Failed to exit when running packages/voice/dist/tests/voice-recorder.test.js
+
+  Failed to exit when running packages/web-utils/dist/tests/core.test.js
+
+  Failed to exit when running packages/web-utils/dist/tests/crawler.test.js
+
+  Failed to exit when running packages/web-utils/dist/tests/image-links.test.js
+
+  Failed to exit when running packages/webcrawler-service/dist/tests/helpers.test.js
+
+  Failed to exit when running packages/webcrawler-service/dist/tests/orchestrator.test.js
+
+  Failed to exit when running packages/webcrawler-service/dist/tests/webcrawler.integration.test.js
+
+  Failed to exit when running packages/webcrawler-service/dist/tests/webcrawler.test.js
+
+  Failed to exit when running packages/worker/dist/zero/snapshot.test.js
+
+  Failed to exit when running packages/worker/dist/zero/struct.test.js
+
+  Failed to exit when running packages/ws/dist/tests/server.test.js
+
+  Failed to exit when running packages/buildfix/dist/tests/integration/pipeline.run.test.js
+
+  Failed to exit when running packages/cephalon/dist/tests/enso/transcriber-enso.test.js
+
+  Failed to exit when running packages/docops/dist/tests/changelog/check.test.js
+
+  Failed to exit when running packages/docops/dist/tests/e2e/chunk-hits.e2e.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/e2e/docops.e2e.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/e2e/file-tree-refresh.e2e.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/e2e/pipeline.run.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.api.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.data.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.files.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.negatives.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.params.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.pipeline.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.spec.js
+
+  Failed to exit when running packages/docops/dist/tests/integration/devui.ws-fallback.spec.js
+
+  Failed to exit when running packages/duck/duck-audio/dist/tests/clampPcm16.test.js
+
+  Failed to exit when running packages/duck/duck-audio/dist/tests/topcm16kmono.test.js
+
+  Failed to exit when running packages/examples/dist/tests/process/projector.test.js
+
+  Failed to exit when running packages/indexer-core/dist/tests/unit/indexer.test.js
+
+  Failed to exit when running packages/kanban/dist/lib/validation/integration.test.js
+
+  Failed to exit when running packages/kanban/dist/lib/validation/p0-security-validator.test.js
+
+  Failed to exit when running packages/pantheon/core/dist/tests/orchestrator.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/core/actors.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/core/context.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/core/orchestrator.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/core/ports.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/core/types.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/utils/actor-utils.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/utils/async-utils.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/utils/config-utils.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/utils/context-utils.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/utils/error-utils.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/utils/generators.test.js
+
+  Failed to exit when running packages/pantheon/dist/tests/utils/logging-utils.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/auth.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/basic.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/context-lifecycle.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/context-manager.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/context-metadata.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/context-sharing.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/event-store.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/functional-integration.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/mocks.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/security.test.js
+
+  Failed to exit when running packages/persistence/dist/tests/types/simple-search-types.test.js
+
+  Failed to exit when running packages/persistence/dist/tests/types/simple-service-types.test.js
+
+  Failed to exit when running packages/pipelines/boardrev/dist/test/cache.test.js
+
+  Failed to exit when running packages/pipelines/boardrev/dist/test/ensure-fm.test.js
+
+  Failed to exit when running packages/pipelines/boardrev/dist/test/utils.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/benchmark/test-dsl.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/benchmark/test-isolated.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/benchmark/test-large-models.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/benchmark/test-models-detailed.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/benchmark/test-models.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/build-caching-strategies.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/cache_strategy.unit.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/dsl.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/errors.step.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/eval.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/git.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/iterate.step.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/mutaant.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/path-resolution.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/plan.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/prompt.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/report.step.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/report.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/timeout-integration.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/ts-morph-import-resolution.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/types.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/utils.test.js
+
+  Failed to exit when running packages/pipelines/codemods/dist/tests/utils.test.js
+
+  Failed to exit when running packages/pipelines/codepack/dist/tests/collect-code-blocks.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/convert-wikilinks.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/devui.static.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/embed.cleaning.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/footers.wikilinks.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/frontmatter.offline.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/preview.front.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/purge.scan-files.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/purge.strip-links.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/query.helpers.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/query.run.branching.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/query.run.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/relations.caps.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/relations.missing-chunks.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/relations.thresholds.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/rename.db-update.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/utils.misc.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/utils.parse.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/env-expand.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/error-logging.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/file-routes-rate-limit.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/fsutils.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/hash.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/input-parse-error.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/js-step.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/jsonc.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/output-dir.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/retry.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/run-route.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/runjs-globals.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/runner.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/runner.worker.smoke.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/schema.test.js
+
+  Failed to exit when running packages/pipelines/readmeflow/dist/tests/cache.test.js
+
+  Failed to exit when running packages/pipelines/readmeflow/dist/tests/outline.test.js
+
+  Failed to exit when running packages/pipelines/semverguard/dist/tests/utils.test.js
+
+  Failed to exit when running packages/pipelines/simtask/dist/tests/collect-source-files.test.js
+
+  Failed to exit when running packages/pipelines/simtask/dist/tests/write-tasks-escape.test.js
+
+  Failed to exit when running packages/pipelines/sonarflow/dist/tests/utils.test.js
+
+  Failed to exit when running packages/pipelines/symdocs/dist/tests/collect-source-files.test.js
+
+  Failed to exit when running packages/piper/dist/frontend/tests/file-tree.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/devui.runjs.args.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/devui.static.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/filetree.lazy-cache.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/hmr.state.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/main.register.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/piper-step.component.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/run-pipeline.control.test.js
+
+  Failed to exit when running packages/piper/dist/tests/frontend/selection.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/system/agent.supervisor.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/auth.static.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/indexer.incremental.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.agent.stubs.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.agent.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.exec.auth.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.exec.cwd.security.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.exec.flag.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.files.list.security.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.files.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.files.tree.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.files.view.security.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.openapi.auth.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.openapi.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.reindex.success.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.search.errors.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.search.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.symbols.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.v1.files.put.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.v1.openapi.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/integration/server.v1.routes.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/agent.more.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/fastifyApp.rate-limit.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/files.more.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/files.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/global.teardown.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/grep.more.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/grep.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/indexer.branches.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/indexer.scan-files.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/indexer.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/logger.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.more.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/remoteEmbedding.timeout.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/symbols.util.test.js
+
+  Failed to exit when running packages/smartgpt-bridge/dist/tests/unit/v1Client.test.js
+
+  Failed to exit when running packages/frontends/docops-frontend/dist/frontend/tests/api.test.js
+
+  Failed to exit when running packages/kanban/dist/lib/directory-adapter/tests/security.test.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/utils/fixtures.js
+
+  Failed to exit when running packages/pantheon/state/dist/tests/utils/mocks.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/tests/integration/pipeline.run.test.js
+
+  Failed to exit when running packages/pipelines/buildfix/dist/timeout/tests/timeout-manager.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/changelog/check.test.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/e2e/chunk-hits.e2e.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/e2e/docops.e2e.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/e2e/file-tree-refresh.e2e.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/e2e/pipeline.run.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.api.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.data.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.files.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.negatives.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.params.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.pipeline.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.spec.js
+
+  Failed to exit when running packages/pipelines/docops/dist/tests/integration/devui.ws-fallback.spec.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/frontend/devui.runjs.args.test.js
+
+  Failed to exit when running packages/pipelines/piper/dist/tests/frontend/devui.static.test.js
+
+  ─
+
+  592 uncaught exceptions
