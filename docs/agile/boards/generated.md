@@ -335,6 +335,7 @@ kanban-plugin: board
 
 ## ready
 
+- [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:dfa8c193-b745-41db-b360-b5fbf1d40f22)
 - [ ] [[011f7e11-fix-pnpm-kanban-create-hanging-bug|Fix recurring pnpm kanban create hanging bug]] #bugfix #critical #kanban #hanging #file-io #git-tracking #duplicate-detection prio:P0 (uuid:011f7e11-b408-4651-92e1-33216ea80b89)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[design-unified-api-architecture-2|Design Unified API Architecture and Standards]] #api #architecture #design #standards #versioning prio:P1 (uuid:448a4bac-0000-0000-0000-000000000000)
@@ -448,7 +449,6 @@ kanban-plugin: board
 - [ ] [[Design Agent OS Core Message Protocol]] #agent-os #protocol #messaging #core #design #critical prio:P0 (uuid:0c3189e4-4c58-4be4-b9b0-8e69474e0047)
 - [ ] [[Progress Update Implement Automated Compliance Monitoring System|Progress Update: Implement Automated Compliance Monitoring System]] #progress #kanban #compliance prio:P0 (uuid:progress-automated-compliance-20251025)
 - [ ] [[Implement Automated Compliance Monitoring System]] #monitoring #automation #compliance #real-time #alerting prio:P0 (uuid:fbc2b53d-0878-44f8-a6a3-96ee83f0b492)
-- [ ] [[Implement P0 Security Task Validation Gate]] #security-gates #automation #p0-validation #kanban-cli #process-compliance prio:P0 (uuid:dfa8c193-b745-41db-b360-b5fbf1d40f22)
 - [ ] [[P0-Security-Task-Validation-Gate|Implement P0 Security Task Validation Gate]] #security #validation #gate #P0 #critical #tool:security-validator #env:production prio:P0 (uuid:2cd46676-ae6f-4c8d-9b3a-4c5d6e7f8a9b)
 - [ ] [[Parallel Security Testing Pipeline]] #security #testing #critical #parallel #pipeline prio:P0 (uuid:40e07691-40bb-45c1-9eb8-aedc9433e9cc)
 - [ ] [[Progress Update Scar Context Core Types and Interfaces|Progress Update: Scar Context Core Types and Interfaces]] #progress #kanban #scar-context prio:P1 (uuid:progress-scar-context-20251025)
