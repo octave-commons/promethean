@@ -272,6 +272,7 @@ kanban-plugin: board
 - [ ] reclaim the board
 - [ ] Some tasks in the generated board have unresolvable links
 - [ ] Ensure the kanban tool handles human board file edits correctly
+- [ ] SPIKE: review existing popular spec based agent programming solutions
 
 
 ## accepted
