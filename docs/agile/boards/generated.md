@@ -264,9 +264,7 @@ kanban-plugin: board
 - [ ] [[plugin-parity-001-implement-event-hooks-plugin|plugin-parity-001: implement event-hooks plugin]] #plugin #event-driven #hooks prio:P0 (uuid:b1a7f9e2-3c4d-4f6b-9d0a-1a2b3c4d5e6f)
 - [ ] [[refactor-complex-functions-boardrev-evaluate|Refactor Complex Functions in boardrev evaluate.ts]] #refactoring #complexity #boardrev #code-quality prio:P0 (uuid:a1b2c3d4-e5f6-4a7b-8c9d-0e1f2a3b4c5d)
 - [ ] [[refactor-enhanced-context-complex-functions|Refactor Complex Functions in enhanced-context.ts]] #refactoring #complexity #boardrev #code-quality prio:P0 (uuid:b2c3d4e5-f6a7-4b8c-9d0e-1f2a3b4c5d6e)
-- [ ] [[task]] #nothing #blocked #blocks (uuid:0939c83d-bb57-4c26-8bee-1bd1d5f6b2ad)
 - [ ] [[test-malformed-yaml-detection|"Test Malformed YAML Detection"]] #test #validation prio:"P1" (uuid:"test-malformed-yaml-001")
-- [ ] [[testing]] #testing #nothing #blocked #blocks (uuid:fc52c605-7114-48a8-a75c-99788b0b1cc7)
 - [ ] [[unify-cli-tool-interfaces|Unify CLI and Tool Interfaces]] #cli #tools #interfaces #unification #epic3 prio:P1 (uuid:f3c311a0-de6a-44ba-90ac-ad8ab96f4699)
 - [ ] promethean git client
 
