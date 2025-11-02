@@ -327,6 +327,7 @@ kanban-plugin: board
 - [ ] [[fix-jwt-security-issues-pantheon|Fix JWT Security Issues in Pantheon Packages]] #pantheon #security #jwt #authentication #critical prio:P0 (uuid:jwt-security-pantheon-001)
 - [ ] [[merge-session-messaging-systems|Merge Session and Messaging Systems]] #sessions #messaging #consolidation #communication #epic3 prio:P0 (uuid:bc67bd50-c96c-4eba-8832-fa459caa864c)
 - [ ] [[standardize-configuration-validation-pantheon|Standardize Configuration Validation Across Pantheon Packages]] #pantheon #configuration #validation #standardization #quality prio:P1 (uuid:config-validation-pantheon-001)
+- [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
 
 
 ## blocked
@@ -379,7 +380,6 @@ kanban-plugin: board
 - [ ] [[phase-1-runtime-detection-system-cross-platform-compatibility|Phase 1: Runtime Detection System - Cross-Platform Compatibility]] #cross-platform #runtime-detection #foundation #compatibility prio:P1 (uuid:e0283b7a-phase1-001)
 - [ ] [[phase-2-cli-epic-operations-kanban-board|Phase 2: CLI Epic Operations - Kanban Board]] #epic #cli #operations #kanban prio:P1 (uuid:07bc6e1c-phase2-001)
 - [ ] [[Resolve BuildFix Ollama resource limitations and OOM issues]] #buildfix #ollama #memory #high prio:P1 (uuid:5b15c395-fc63-457f-97cc-7d528c559e9b)
-- [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
 - [ ] [[Standardize Health Check Utilities Across Services]] #refactoring #duplication #health #monitoring #web-utils #standardization prio:P1 (uuid:eeb1fc4d-26bc-4128-88c6-1c871c6f4bd0)
 - [ ] [[Implement Configuration Validation Framework (Phase 1)]] #pantheon #configuration #validation #framework #zod prio:P1 (uuid:config-validation-framework-001)
 - [ ] [[Integrate Configuration Validation Across Pantheon Packages (Phase 3)]] #pantheon #configuration #integration #migration #validation prio:P1 (uuid:config-validation-integration-003)
