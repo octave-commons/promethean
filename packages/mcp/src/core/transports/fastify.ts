@@ -1973,7 +1973,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           await oauthIntegration.cleanup();
           console.log('[mcp:http] OAuth integration cleaned up successfully');
         } catch (error) {
-          logger.warn('[mcp:http] OAuth cleanup failed:', error);
+          logger.warn('OAuth cleanup failed', { error: error.message });
         }
       }
 
