@@ -53,7 +53,7 @@ touching `promethean.mcp.json` by hand:
 
 ```bash
 bb -m mk.mcp-cli push-all --edn config/mcp_servers.edn
-pnpm --filter @promethean-os/mcp dev -- --config ./promethean.mcp.json
+nx mcp dev -- --config ./promethean.mcp.json
 ```
 
 Each server will be available at `http://<host>:<port>/<name>/mcp` unless you set `:http-path` in the EDN entry. Use `--prefix` to prepend a base path (e.g., `/mcp`).

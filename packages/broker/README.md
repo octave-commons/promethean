@@ -40,9 +40,15 @@ If a Redis server is available (configured via `REDIS_URL` or default `redis://1
 
 ## Development
 
-```
+```bash
+# Build the package
+nx build broker
+
+# Run tests
+nx test broker
+
+# Install dependencies (if needed)
 pnpm install
-pnpm test
 ```
 
 <!-- READMEFLOW:BEGIN -->
