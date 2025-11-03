@@ -26,7 +26,8 @@
         "lisp": "node dist/cli/lisp.js",
         "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
         "test:markdown": "pnpm run build && ava --config ../../config/ava.config.mjs dist/tests/markdown.*.test.js",
-        "format": "pnpm exec prettier --write ."
+        "format": "pnpm exec prettier --write .",
+        "dev:watch": "tsc --watch"
     },
     "module": "dist/index.js",
     "dependencies": {

@@ -30,6 +30,9 @@
       "dependsOn": ["^build"],
       "outputs": ["{projectRoot}/dist"]
     },
+    "dev:watch": {
+      "dependsOn": ["^build"]
+    },
     "test": {
       "dependsOn": ["build"]
     },
