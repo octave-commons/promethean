@@ -107,7 +107,7 @@ export const isRetryableError = (error: PrometheanError): boolean => {
 /**
  * Get retry delay from error
  */
-export const getRetryDelay = (error: PrometheanError, attempt: number): number => {
+export const getRetryDelay = (_error: PrometheanError, attempt: number): number => {
   const baseDelay = 1000; // 1 second
   const maxDelay = 30000; // 30 seconds
   const backoffMultiplier = 2;
