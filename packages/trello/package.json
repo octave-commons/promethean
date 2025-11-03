@@ -11,7 +11,8 @@
     "dev": "tsc -b tsconfig.json --watch",
     "clean": "rm -rf dist",
     "sync:trello": "node dist/cli/sync-kanban-to-trello.js",
-    "sync:trello:dev": "tsx src/cli/sync-kanban-to-trello.ts"
+    "sync:trello:dev": "tsx src/cli/sync-kanban-to-trello.ts",
+    "dev:watch": "dev"
   },
   "dependencies": {
     "@promethean-os/kanban": "workspace:*",

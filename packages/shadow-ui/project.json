@@ -1,7 +1,16 @@
 {
-  "name": "@promethean/shadow-ui",
   "root": "packages/shadow-ui",
   "sourceRoot": "packages/shadow-ui/src",
+  "name": "@promethean/shadow-ui",
+  "projectType": "library",
+  "tags": [
+    "npm:private",
+    "scope:packages",
+    "type:shadow-cljs"
+  ],
+  "metadata": {
+    "targetGroups": {}
+  },
   "targets": {
     "build": {
       "executor": "nx:run-commands",
@@ -9,22 +18,44 @@
         "command": "pnpm run build",
         "cwd": "packages/shadow-ui"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     },
     "watch": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run watch",
         "cwd": "packages/shadow-ui"
-      }
+      },
+      "configurations": {},
+      "parallelism": true
     },
     "clean": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run clean",
         "cwd": "packages/shadow-ui"
-      }
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:packages", "type:shadow-cljs"]
+  "implicitDependencies": []
 }

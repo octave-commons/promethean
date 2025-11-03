@@ -12,7 +12,8 @@
     "clean": "rm -rf dist",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "dev:watch": "dev"
   },
   "keywords": [
     "errors",

@@ -28,7 +28,8 @@
     "benchmark": "pnpm run build && node dist/cli.js",
     "benchmark:compare": "pnpm run build && node dist/cli.js --compare",
     "benchmark:health": "pnpm run build && node dist/cli.js --health",
-    "benchmark:list": "pnpm run build && node dist/cli.js --list"
+    "benchmark:list": "pnpm run build && node dist/cli.js --list",
+    "dev:watch": "tsc --watch"
   },
   "module": "dist/index.js",
   "dependencies": {

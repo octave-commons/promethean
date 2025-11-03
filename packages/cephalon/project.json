@@ -1,40 +1,182 @@
 {
-  "name": "@promethean/cephalon",
   "root": "packages/cephalon",
   "sourceRoot": "packages/cephalon/src",
+  "name": "@promethean/cephalon",
+  "projectType": "library",
+  "tags": [
+    "npm:public",
+    "npm:discord",
+    "npm:radio",
+    "npm:bot",
+    "npm:audio",
+    "npm:speakers",
+    "npm:hardware",
+    "npm:dj",
+    "scope:packages"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "start",
+        "coverage",
+        "build:check",
+        "deploy",
+        "format",
+        "start:dev"
+      ]
+    },
+    "description": "A proof-of-concept basic bot using @discordjs/voice"
+  },
   "targets": {
+    "start": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "start"
+      },
+      "metadata": {
+        "scriptContent": "node dist/index.js",
+        "runCommand": "pnpm run start"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "coverage": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "coverage"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && SKIP_NETWORK_TESTS=1 c8 ava --config ../../../config/ava.config.mjs \"tests/**/*.test.js\" --node-arguments='--enable-source-maps'",
+        "runCommand": "pnpm run coverage"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "test:unit",
+        "test:integration",
+        "test:e2e"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    },
+    "build:check": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "build:check"
+      },
+      "metadata": {
+        "scriptContent": "tsc --noEmit --incremental false -p .",
+        "runCommand": "pnpm run build:check"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "deploy": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "deploy"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
+        "runCommand": "pnpm run deploy"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "format": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "format"
+      },
+      "metadata": {
+        "scriptContent": "pnpm exec prettier --write .",
+        "runCommand": "pnpm run format"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "start:dev": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "start:dev"
+      },
+      "metadata": {
+        "scriptContent": "node  --loader ts-node/esm  src/index.ts",
+        "runCommand": "pnpm run start:dev"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "dependsOn": [
+        "^nx-release-publish"
+      ],
+      "options": {},
+      "configurations": {},
+      "parallelism": true
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
         "cwd": "packages/cephalon"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
         "cwd": "packages/cephalon"
-      }
+      },
+      "configurations": {},
+      "parallelism": true
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "{projectRoot}",
+        "cwd": "packages/cephalon",
         "env": {
           "AVA_PROJECT_ROOT": "."
         }
-      }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/cephalon"
-      }
+        "cwd": "packages/cephalon",
+        "forwardAllArgs": false
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:packages"]
+  "implicitDependencies": []
 }

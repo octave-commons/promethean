@@ -1,40 +1,196 @@
 {
-  "name": "@promethean/testgap",
   "root": "packages/testgap",
   "sourceRoot": "packages/testgap/src",
+  "name": "@promethean/testgap",
+  "projectType": "library",
+  "tags": [
+    "npm:private",
+    "scope:packages"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "tg:01-scan-exports",
+        "tg:02-read-coverage",
+        "tg:03-map-gaps",
+        "tg:04-cookbook-cross",
+        "tg:05-plan",
+        "tg:06-write",
+        "tg:07-report",
+        "tg:08-gate",
+        "tg:all"
+      ]
+    }
+  },
   "targets": {
+    "tg:01-scan-exports": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:01-scan-exports"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/01-scan-exports.ts",
+        "runCommand": "pnpm run tg:01-scan-exports"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:02-read-coverage": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:02-read-coverage"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/02-read-coverage.ts",
+        "runCommand": "pnpm run tg:02-read-coverage"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:03-map-gaps": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:03-map-gaps"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/03-map-gaps.ts",
+        "runCommand": "pnpm run tg:03-map-gaps"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:04-cookbook-cross": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:04-cookbook-cross"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/04-cookbook-cross.ts",
+        "runCommand": "pnpm run tg:04-cookbook-cross"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:05-plan": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:05-plan"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/05-plan.ts",
+        "runCommand": "pnpm run tg:05-plan"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:06-write": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:06-write"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/06-write.ts",
+        "runCommand": "pnpm run tg:06-write"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:07-report": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:07-report"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/07-report.ts",
+        "runCommand": "pnpm run tg:07-report"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:08-gate": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:08-gate"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/08-gate.ts",
+        "runCommand": "pnpm run tg:08-gate"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "tg:all": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "tg:all"
+      },
+      "metadata": {
+        "scriptContent": "pnpm tg:01-scan-exports && pnpm tg:02-read-coverage && pnpm tg:03-map-gaps && pnpm tg:04-cookbook-cross && pnpm tg:05-plan && pnpm tg:06-write && pnpm tg:07-report",
+        "runCommand": "pnpm run tg:all"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b",
         "cwd": "packages/testgap"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit",
         "cwd": "packages/testgap"
-      }
+      },
+      "configurations": {},
+      "parallelism": true
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "ava",
-        "cwd": "{projectRoot}",
+        "cwd": "packages/testgap",
         "env": {
           "AVA_PROJECT_ROOT": "."
         }
-      }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
         "command": "eslint .",
-        "cwd": "packages/testgap"
-      }
+        "cwd": "packages/testgap",
+        "forwardAllArgs": false
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:packages"]
+  "implicitDependencies": []
 }

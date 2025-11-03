@@ -9,7 +9,8 @@
     "test": "ava",
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:watch": "dev"
   },
   "dependencies": {
     "@promethean-os/pantheon-state": "workspace:*",

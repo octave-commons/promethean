@@ -1,38 +1,123 @@
 {
-  "name": "@promethean/web-utils",
   "root": "packages/web-utils",
   "sourceRoot": "packages/web-utils/src",
+  "name": "@promethean/web-utils",
+  "projectType": "library",
+  "tags": [
+    "npm:private",
+    "scope:packages"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "clean",
+        "coverage",
+        "format"
+      ]
+    }
+  },
   "targets": {
+    "clean": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "clean"
+      },
+      "metadata": {
+        "scriptContent": "rimraf dist",
+        "runCommand": "pnpm run clean"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "coverage": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "coverage"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+        "runCommand": "pnpm run coverage"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "test:unit",
+        "test:integration",
+        "test:e2e"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    },
+    "format": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "format"
+      },
+      "metadata": {
+        "scriptContent": "pnpm exec prettier --write .",
+        "runCommand": "pnpm run format"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -b"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
         "command": "tsc -p tsconfig.json --noEmit"
-      }
+      },
+      "configurations": {},
+      "parallelism": true
     },
     "test": {
       "executor": "nx:run-commands",
-      "dependsOn": ["build"],
+      "dependsOn": [
+        "build"
+      ],
       "options": {
         "command": "ava",
         "env": {
           "AVA_PROJECT_ROOT": "."
         },
-        "cwd": "{projectRoot}"
-      }
+        "cwd": "packages/web-utils"
+      },
+      "configurations": {},
+      "parallelism": true
     },
     "lint": {
       "executor": "nx:run-commands",
       "options": {
-        "command": "eslint ."
-      }
+        "command": "eslint .",
+        "forwardAllArgs": false
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:packages"]
+  "implicitDependencies": []
 }

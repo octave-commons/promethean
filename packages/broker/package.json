@@ -10,7 +10,8 @@
     "typecheck": "echo \"no types to check (JS package)\"",
     "test": "pnpm run build && ava --config ../../../config/ava.config.mjs",
     "coverage": "c8 ava --config ../../../config/ava.config.mjs",
-    "lint": "pnpm -w exec eslint ."
+    "lint": "pnpm -w exec eslint .",
+    "dev:watch": "echo \"No watch command available for this project\""
   },
   "dependencies": {
     "@promethean-os/legacy": "workspace:*",

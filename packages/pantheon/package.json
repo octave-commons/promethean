@@ -70,7 +70,8 @@
     "test": "ava",
     "coverage": "c8 --config ./c8.config.json ava",
     "coverage:check": "c8 --config ./c8.config.json --check-coverage ava",
-    "lint": "pnpm exec eslint ."
+    "lint": "pnpm exec eslint .",
+    "dev:watch": "dev"
   },
   "dependencies": {
     "@promethean-os/pantheon-core": "workspace:*",
@@ -81,7 +82,6 @@
     "@promethean-os/pantheon-ecs": "workspace:*",
     "@promethean-os/pantheon-state": "workspace:*",
     "@promethean-os/pantheon-protocol": "workspace:*",
-    "@promethean-os/pantheon-core": "workspace:*",
     "@promethean-os/pantheon-llm-openai": "workspace:*",
     "commander": "^11.1.0",
     "jsonwebtoken": "^9.0.2",

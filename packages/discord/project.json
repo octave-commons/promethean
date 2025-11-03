@@ -1,28 +1,101 @@
 {
-  "name": "@promethean/discord",
   "root": "packages/discord",
+  "sourceRoot": "packages/discord/src",
+  "name": "@promethean/discord",
+  "projectType": "library",
+  "tags": [
+    "npm:private",
+    "scope:packages"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "clean",
+        "coverage",
+        "format"
+      ]
+    }
+  },
   "targets": {
+    "clean": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "clean"
+      },
+      "metadata": {
+        "scriptContent": "rimraf dist",
+        "runCommand": "pnpm run clean"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "coverage": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "coverage"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && c8 ava",
+        "runCommand": "pnpm run coverage"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "test:unit",
+        "test:integration",
+        "test:e2e"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    },
+    "format": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "format"
+      },
+      "metadata": {
+        "scriptContent": "pnpm exec prettier --write .",
+        "runCommand": "pnpm run format"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run build",
         "cwd": "packages/discord"
       },
-      "outputs": ["{projectRoot}/dist"]
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run typecheck",
         "cwd": "packages/discord"
-      }
+      },
+      "configurations": {},
+      "parallelism": true
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run test",
         "cwd": "packages/discord"
-      }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
     },
     "lint": {
       "executor": "nx:run-commands",
@@ -30,9 +103,21 @@
         "command": "pnpm run lint",
         "cwd": "packages/discord",
         "forwardAllArgs": false
-      }
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:packages"],
-  "sourceRoot": "packages/discord/src"
+  "implicitDependencies": []
 }

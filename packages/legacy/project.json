@@ -1,13 +1,27 @@
 {
-  "name": "@promethean/legacy",
   "root": "packages/legacy",
+  "sourceRoot": "packages/legacy",
+  "name": "@promethean/legacy",
+  "projectType": "library",
+  "tags": [
+    "npm:private",
+    "scope:packages"
+  ],
+  "metadata": {
+    "targetGroups": {}
+  },
   "targets": {
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run test",
         "cwd": "packages/legacy"
-      }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
     },
     "lint": {
       "executor": "nx:run-commands",
@@ -15,8 +29,21 @@
         "command": "pnpm exec eslint .",
         "cwd": "packages/legacy",
         "forwardAllArgs": false
-      }
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:packages"]
+  "implicitDependencies": []
 }

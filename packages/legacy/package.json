@@ -35,7 +35,8 @@
     "eslint": "^8.57.0"
   },
   "scripts": {
-    "test": "ava tests/*.test.js --config ../../config/ava.config.mjs"
+    "test": "ava tests/*.test.js --config ../../config/ava.config.mjs",
+    "dev:watch": "echo \"No watch command available for this project\""
   },
   "bin": {
     "apply_patch": "./scripts/apply_patch.js"

@@ -1,29 +1,108 @@
 {
-  "name": "@promethean/broker",
   "root": "packages/broker",
   "sourceRoot": "packages/broker",
+  "name": "@promethean/broker",
+  "projectType": "library",
+  "tags": [
+    "npm:public",
+    "scope:packages"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "start",
+        "clean",
+        "coverage"
+      ]
+    }
+  },
   "targets": {
+    "start": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "start"
+      },
+      "metadata": {
+        "scriptContent": "node index.js",
+        "runCommand": "pnpm run start"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "clean": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "clean"
+      },
+      "metadata": {
+        "scriptContent": "rimraf coverage .turbo .cache || true",
+        "runCommand": "pnpm run clean"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "coverage": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "coverage"
+      },
+      "metadata": {
+        "scriptContent": "c8 ava --config ../../../config/ava.config.mjs",
+        "runCommand": "pnpm run coverage"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "test:unit",
+        "test:integration",
+        "test:e2e"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "dependsOn": [
+        "^nx-release-publish"
+      ],
+      "options": {},
+      "configurations": {},
+      "parallelism": true
+    },
     "build": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run build",
         "cwd": "packages/broker"
       },
-      "outputs": []
+      "outputs": [],
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     },
     "typecheck": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run typecheck",
         "cwd": "packages/broker"
-      }
+      },
+      "configurations": {},
+      "parallelism": true
     },
     "test": {
       "executor": "nx:run-commands",
       "options": {
         "command": "pnpm run test",
         "cwd": "packages/broker"
-      }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
     },
     "lint": {
       "executor": "nx:run-commands",
@@ -31,8 +110,21 @@
         "command": "pnpm -w exec eslint .",
         "cwd": "packages/broker",
         "forwardAllArgs": false
-      }
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": ["scope:packages"]
+  "implicitDependencies": []
 }

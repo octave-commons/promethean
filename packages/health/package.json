@@ -7,7 +7,8 @@
     "start": "node index.js",
     "test": "ava --config ../../../config/ava.config.mjs",
     "coverage": "c8 ava --config ../../../config/ava.config.mjs",
-    "lint": "eslint -c ../eslint.config.js ."
+    "lint": "eslint -c ../eslint.config.js .",
+    "dev:watch": "echo \"No watch command available for this project\""
   },
   "dependencies": {
     "@promethean-os/legacy": "workspace:*",

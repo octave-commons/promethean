@@ -1,0 +1,131 @@
+{
+  "root": "packages/trello",
+  "sourceRoot": "packages/trello",
+  "name": "@promethean-os/trello",
+  "projectType": "library",
+  "tags": [
+    "npm:public",
+    "npm:trello",
+    "npm:kanban",
+    "npm:project-management",
+    "npm:automation",
+    "npm:promethean"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "build",
+        "test",
+        "dev",
+        "clean",
+        "sync:trello",
+        "sync:trello:dev"
+      ]
+    },
+    "description": "Trello integration for Promethean kanban board synchronization"
+  },
+  "targets": {
+    "build": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "build"
+      },
+      "metadata": {
+        "scriptContent": "tsc -b tsconfig.json",
+        "runCommand": "pnpm run build"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "test": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "test"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && ava",
+        "runCommand": "pnpm run test"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "dev": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev"
+      },
+      "metadata": {
+        "scriptContent": "tsc -b tsconfig.json --watch",
+        "runCommand": "pnpm run dev"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "clean": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "clean"
+      },
+      "metadata": {
+        "scriptContent": "rm -rf dist",
+        "runCommand": "pnpm run clean"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "sync:trello": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "sync:trello"
+      },
+      "metadata": {
+        "scriptContent": "node dist/cli/sync-kanban-to-trello.js",
+        "runCommand": "pnpm run sync:trello"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "sync:trello:dev": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "sync:trello:dev"
+      },
+      "metadata": {
+        "scriptContent": "tsx src/cli/sync-kanban-to-trello.ts",
+        "runCommand": "pnpm run sync:trello:dev"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "dependsOn": [
+        "^nx-release-publish"
+      ],
+      "options": {},
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
+    }
+  },
+  "implicitDependencies": []
+}

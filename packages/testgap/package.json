@@ -23,7 +23,8 @@
     "tg:06-write": "tsx src/06-write.ts",
     "tg:07-report": "tsx src/07-report.ts",
     "tg:08-gate": "tsx src/08-gate.ts",
-    "tg:all": "pnpm tg:01-scan-exports && pnpm tg:02-read-coverage && pnpm tg:03-map-gaps && pnpm tg:04-cookbook-cross && pnpm tg:05-plan && pnpm tg:06-write && pnpm tg:07-report"
+    "tg:all": "pnpm tg:01-scan-exports && pnpm tg:02-read-coverage && pnpm tg:03-map-gaps && pnpm tg:04-cookbook-cross && pnpm tg:05-plan && pnpm tg:06-write && pnpm tg:07-report",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/utils": "workspace:*",

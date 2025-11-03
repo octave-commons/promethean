@@ -1,0 +1,150 @@
+{
+  "root": "packages/errors",
+  "sourceRoot": "packages/errors",
+  "name": "@promethean-os/errors",
+  "projectType": "library",
+  "tags": [
+    "npm:public",
+    "npm:errors",
+    "npm:error-handling",
+    "npm:structured",
+    "npm:promethean"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "build",
+        "test",
+        "test:unit",
+        "clean",
+        "typecheck",
+        "lint",
+        "dev"
+      ]
+    },
+    "description": "Structured error handling package for Promethean with domain-specific errors"
+  },
+  "targets": {
+    "build": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "build"
+      },
+      "metadata": {
+        "scriptContent": "tsc",
+        "runCommand": "pnpm run build"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ],
+      "outputs": [
+        "{projectRoot}/dist"
+      ]
+    },
+    "test": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "test"
+      },
+      "metadata": {
+        "scriptContent": "ava",
+        "runCommand": "pnpm run test"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "test:unit": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "test:unit"
+      },
+      "metadata": {
+        "scriptContent": "ava src/tests/**/*.test.ts",
+        "runCommand": "pnpm run test:unit"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage/unit"
+      ]
+    },
+    "clean": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "clean"
+      },
+      "metadata": {
+        "scriptContent": "rm -rf dist",
+        "runCommand": "pnpm run clean"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "typecheck": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "typecheck"
+      },
+      "metadata": {
+        "scriptContent": "tsc --noEmit",
+        "runCommand": "pnpm run typecheck"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "lint": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "lint",
+        "forwardAllArgs": false
+      },
+      "metadata": {
+        "scriptContent": "eslint src --ext .ts",
+        "runCommand": "pnpm run lint"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev"
+      },
+      "metadata": {
+        "scriptContent": "tsc --watch",
+        "runCommand": "pnpm run dev"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "nx-release-publish": {
+      "executor": "@nx/js:release-publish",
+      "dependsOn": [
+        "^nx-release-publish"
+      ],
+      "options": {},
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
+    }
+  },
+  "implicitDependencies": []
+}

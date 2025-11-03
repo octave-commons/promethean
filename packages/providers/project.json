@@ -1,40 +1,152 @@
 {
-    "name": "@promethean/providers",
-    "root": "packages/providers",
-    "sourceRoot": "packages/providers/src",
-    "targets": {
-        "build": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -b",
-                "cwd": "packages/providers"
-            },
-            "outputs": ["{projectRoot}/dist"]
-        },
-        "typecheck": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "tsc -p tsconfig.json --noEmit",
-                "cwd": "packages/providers"
-            }
-        },
-        "test": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "ava",
-                "cwd": "{projectRoot}",
-                "env": {
-                    "AVA_PROJECT_ROOT": "."
-                }
-            }
-        },
-        "lint": {
-            "executor": "nx:run-commands",
-            "options": {
-                "command": "eslint .",
-                "cwd": "packages/providers"
-            }
-        }
+  "root": "packages/providers",
+  "sourceRoot": "packages/providers/src",
+  "name": "@promethean/providers",
+  "projectType": "library",
+  "tags": [
+    "npm:private",
+    "scope:packages"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "clean",
+        "lisp",
+        "coverage",
+        "test:markdown",
+        "format"
+      ]
+    }
+  },
+  "targets": {
+    "clean": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "clean"
+      },
+      "metadata": {
+        "scriptContent": "rimraf dist",
+        "runCommand": "pnpm run clean"
+      },
+      "configurations": {},
+      "parallelism": true
     },
-    "tags": ["scope:packages"]
+    "lisp": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "lisp"
+      },
+      "metadata": {
+        "scriptContent": "node dist/cli/lisp.js",
+        "runCommand": "pnpm run lisp"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "coverage": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "coverage"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+        "runCommand": "pnpm run coverage"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "test:unit",
+        "test:integration",
+        "test:e2e"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    },
+    "test:markdown": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "test:markdown"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && ava --config ../../config/ava.config.mjs dist/tests/markdown.*.test.js",
+        "runCommand": "pnpm run test:markdown"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "format": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "format"
+      },
+      "metadata": {
+        "scriptContent": "pnpm exec prettier --write .",
+        "runCommand": "pnpm run format"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -b",
+        "cwd": "packages/providers"
+      },
+      "outputs": [
+        "{projectRoot}/dist"
+      ],
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "tsc -p tsconfig.json --noEmit",
+        "cwd": "packages/providers"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "test": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "ava",
+        "cwd": "packages/providers",
+        "env": {
+          "AVA_PROJECT_ROOT": "."
+        }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
+    },
+    "lint": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "eslint .",
+        "cwd": "packages/providers",
+        "forwardAllArgs": false
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
+    }
+  },
+  "implicitDependencies": []
 }

@@ -13,7 +13,8 @@
     "deploy": "pnpm run build && node --env-file=../../.env dist/util/deploy.js",
     "lint": "pnpm exec eslint . || true",
     "format": "pnpm exec prettier --write .",
-    "start:dev": "node  --loader ts-node/esm  src/index.ts"
+    "start:dev": "node  --loader ts-node/esm  src/index.ts",
+    "dev:watch": "tsc --watch"
   },
   "keywords": [
     "discord",

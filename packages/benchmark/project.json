@@ -1,33 +1,187 @@
 {
-  "name": "benchmark",
-  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "root": "packages/benchmark",
   "sourceRoot": "packages/benchmark/src",
+  "name": "benchmark",
   "projectType": "library",
+  "tags": [
+    "npm:private"
+  ],
+  "metadata": {
+    "targetGroups": {
+      "NPM Scripts": [
+        "clean",
+        "typecheck",
+        "coverage",
+        "format",
+        "benchmark",
+        "benchmark:compare",
+        "benchmark:health",
+        "benchmark:list"
+      ]
+    }
+  },
   "targets": {
+    "clean": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "clean"
+      },
+      "metadata": {
+        "scriptContent": "rimraf dist",
+        "runCommand": "pnpm run clean"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "typecheck": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "typecheck"
+      },
+      "metadata": {
+        "scriptContent": "tsc -p tsconfig.json --noEmit",
+        "runCommand": "pnpm run typecheck"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "coverage": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "coverage"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+        "runCommand": "pnpm run coverage"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "test:unit",
+        "test:integration",
+        "test:e2e"
+      ],
+      "outputs": [
+        "{projectRoot}/coverage"
+      ]
+    },
+    "format": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "format"
+      },
+      "metadata": {
+        "scriptContent": "pnpm exec prettier --write .",
+        "runCommand": "pnpm run format"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "benchmark": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "benchmark"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && node dist/cli.js",
+        "runCommand": "pnpm run benchmark"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "benchmark:compare": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "benchmark:compare"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && node dist/cli.js --compare",
+        "runCommand": "pnpm run benchmark:compare"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "benchmark:health": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "benchmark:health"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && node dist/cli.js --health",
+        "runCommand": "pnpm run benchmark:health"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "benchmark:list": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "benchmark:list"
+      },
+      "metadata": {
+        "scriptContent": "pnpm run build && node dist/cli.js --list",
+        "runCommand": "pnpm run benchmark:list"
+      },
+      "configurations": {},
+      "parallelism": true
+    },
     "build": {
       "executor": "@nx/js:tsc",
-      "outputs": ["{options.outputPath}"],
+      "outputs": [
+        "{options.outputPath}"
+      ],
       "options": {
         "outputPath": "dist/packages/benchmark",
         "main": "packages/benchmark/src/index.ts",
         "tsConfig": "packages/benchmark/tsconfig.json",
         "assets": []
-      }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     },
     "test": {
       "executor": "@nx/js:ava",
-      "outputs": ["{workspaceRoot}/coverage/packages/benchmark"],
+      "outputs": [
+        "{workspaceRoot}/coverage/packages/benchmark"
+      ],
       "options": {
         "avaConfig": "../../config/ava.config.mjs"
-      }
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "build"
+      ]
     },
     "lint": {
       "executor": "@nx/eslint:lint",
-      "outputs": ["{options.outputFile}"],
+      "outputs": [
+        "{options.outputFile}"
+      ],
       "options": {
-        "lintFilePatterns": ["packages/benchmark/**/*.ts"]
-      }
+        "lintFilePatterns": [
+          "packages/benchmark/**/*.ts"
+        ],
+        "forwardAllArgs": false
+      },
+      "configurations": {},
+      "parallelism": true
+    },
+    "dev:watch": {
+      "executor": "nx:run-script",
+      "options": {
+        "script": "dev:watch"
+      },
+      "configurations": {},
+      "parallelism": true,
+      "dependsOn": [
+        "^build"
+      ]
     }
   },
-  "tags": []
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "implicitDependencies": []
 }
