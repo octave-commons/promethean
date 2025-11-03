@@ -195,7 +195,8 @@ const createWinstonLoggerInstance = (
  */
 export const createLogger = (config: Partial<LoggerConfig> = {}): Logger => {
   const finalConfig = mergeConfig(config);
-  const winstonLogger = createWinstonLogger(finalConfig);
+  const winstonLoggerInstance = createWinstonLogger(finalConfig);
+  const correlation = finalConfig.correlation || {};
 
-  return new WinstonLogger(winstonLogger, finalConfig);
+  return createWinstonLoggerInstance(winstonLoggerInstance, finalConfig, {}, correlation);
 };

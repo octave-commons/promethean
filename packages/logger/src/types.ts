@@ -31,6 +31,7 @@ export interface LoggerConfig {
   readonly colorize?: boolean;
   readonly timestamp?: boolean;
   readonly json?: boolean;
+  readonly correlation?: CorrelationContext;
   readonly file: {
     readonly enabled: boolean;
     readonly filename?: string;

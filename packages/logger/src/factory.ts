@@ -1,60 +1,66 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Logger Factory - Factory for creating and managing logger instances
 
-import type { Logger, LoggerFactory, LoggerConfig } from './types.js';
+import type { Logger, LoggerFactory, LoggerConfig, CorrelationContext } from './types.js';
 import { createLogger } from './winston-logger.js';
 
 /**
  * Global logger factory implementation
  */
-class LoggerFactoryImpl implements LoggerFactory {
-  private loggers = new Map<string, Logger>();
-  private globalConfig: Partial<LoggerConfig> = {};
+const createLoggerFactoryImpl = (): LoggerFactory => {
+  const loggers = new Map<string, Logger>();
+  const globalConfigRef = { value: {} as Partial<LoggerConfig> };
 
-  create(config: Partial<LoggerConfig> = {}): Logger {
-    return createLogger({ ...this.globalConfig, ...config });
-  }
+  return {
+    create: (config: Partial<LoggerConfig> = {}): Logger => {
+      return createLogger({ ...globalConfigRef.value, ...config });
+    },
 
-  get(name?: string): Logger {
-    const key = name || 'default';
+    get: (name?: string): Logger => {
+      const key = name || 'default';
 
-    if (!this.loggers.has(key)) {
-      const logger = this.create({ module: name });
-      this.loggers.set(key, logger);
-    }
+      if (!loggers.has(key)) {
+        const logger = createLogger({ ...globalConfigRef.value, module: name });
+        loggers.set(key, logger);
+      }
 
-    return this.loggers.get(key)!;
-  }
+      return loggers.get(key)!;
+    },
 
-  configure(config: Partial<LoggerConfig>): void {
-    this.globalConfig = { ...this.globalConfig, ...config };
+    configure: (config: Partial<LoggerConfig>): void => {
+      globalConfigRef.value = { ...globalConfigRef.value, ...config };
 
-    // Update existing loggers
-    this.loggers.forEach((_, key) => {
-      const module = key === 'default' ? undefined : key;
-      this.loggers.set(key, this.create({ ...this.globalConfig, module }));
-    });
-  }
+      // Update existing loggers
+      loggers.forEach((_, key) => {
+        const module = key === 'default' ? undefined : key;
+        loggers.set(key, createLogger({ ...globalConfigRef.value, module }));
+      });
+    },
 
-  async shutdown(): Promise<void> {
-    // Close all Winston loggers
-    const shutdownPromises = Array.from(this.loggers.values()).map(async () => Promise.resolve());
+    withCorrelation: (correlation: CorrelationContext): Logger => {
+      return createLogger({ ...globalConfigRef.value, correlation });
+    },
 
-    await Promise.all(shutdownPromises);
-    this.loggers.clear();
-  }
-}
+    shutdown: async (): Promise<void> => {
+      // Close all Winston loggers
+      const shutdownPromises = Array.from(loggers.values()).map(async () => Promise.resolve());
+
+      await Promise.all(shutdownPromises);
+      loggers.clear();
+    },
+  };
+};
 
 /**
  * Global logger factory instance
  */
-export const loggerFactory = new LoggerFactoryImpl();
+export const loggerFactory = createLoggerFactoryImpl();
 
 /**
  * Create logger factory function
  */
 export const createLoggerFactory = (): LoggerFactory => {
-  return loggerFactory;
+  return createLoggerFactoryImpl();
 };
 
 /**
