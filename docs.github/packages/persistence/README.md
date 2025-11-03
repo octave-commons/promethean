@@ -22,7 +22,7 @@ graph LR
   R4["@promethean-os/kanban-processor"]
   R5["@promethean-os/markdown-graph"]
   R6["@promethean-os/migrations"]
-  R7["@promethean-os/smartgpt-bridge"]
+  
   R8["@promethean-os/test-utils"]
   A --> D1["@promethean-os/embedding"]
   A --> D2["@promethean-os/legacy"]
@@ -32,7 +32,7 @@ graph LR
   R4["@promethean-os/kanban-processor"] --> A
   R5["@promethean-os/markdown-graph"] --> A
   R6["@promethean-os/migrations"] --> A
-  R7["@promethean-os/smartgpt-bridge"] --> A
+   --> A
   R8["@promethean-os/test-utils"] --> A
   click D1 "../embedding/README.md" "@promethean-os/embedding"
   click D2 "../legacy/README.md" "@promethean-os/legacy"
@@ -42,7 +42,7 @@ graph LR
   click R4 "../kanban-processor/README.md" "@promethean-os/kanban-processor"
   click R5 "../markdown-graph/README.md" "@promethean-os/markdown-graph"
   click R6 "../migrations/README.md" "@promethean-os/migrations"
-  click R7 "../smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge"
+  
   click R8 "../test-utils/README.md" "@promethean-os/test-utils"
 ```
 ## Dependencies
@@ -55,7 +55,7 @@ graph LR
 - @promethean-os/kanban-processor$../kanban-processor/README.md
 - @promethean-os/markdown-graph$../markdown-graph/README.md
 - @promethean-os/migrations$../migrations/README.md
-- @promethean-os/smartgpt-bridge$../smartgpt-bridge/README.md
+
 - @promethean-os/test-utils$../test-utils/README.md
 ```
 <!-- SYMPKG:PKG:END -->

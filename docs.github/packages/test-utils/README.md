@@ -27,7 +27,7 @@ graph LR
   R9["@promethean-os/markdown-graph"]
   R10["@promethean-os/monitoring"]
   R11["@promethean-os/piper"]
-  R12["@promethean-os/smartgpt-bridge"]
+  
   R13["@promethean-os/tests"]
   A --> D1["@promethean-os/persistence"]
   A --> D2["@promethean-os/utils"]
@@ -42,7 +42,7 @@ graph LR
   R9["@promethean-os/markdown-graph"] --> A
   R10["@promethean-os/monitoring"] --> A
   R11["@promethean-os/piper"] --> A
-  R12["@promethean-os/smartgpt-bridge"] --> A
+   --> A
   R13["@promethean-os/tests"] --> A
   click D1 "../persistence/README.md" "@promethean-os/persistence"
   click D2 "../utils/README.md" "@promethean-os/utils"
@@ -57,7 +57,7 @@ graph LR
   click R9 "../markdown-graph/README.md" "@promethean-os/markdown-graph"
   click R10 "../monitoring/README.md" "@promethean-os/monitoring"
   click R11 "../piper/README.md" "@promethean-os/piper"
-  click R12 "../smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge"
+  
   click R13 "../tests/README.md" "@promethean-os/tests"
 ```
 ## Dependencies
@@ -75,7 +75,7 @@ graph LR
 - @promethean-os/markdown-graph$../markdown-graph/README.md
 - @promethean-os/monitoring$../monitoring/README.md
 - @promethean-os/piper$../piper/README.md
-- @promethean-os/smartgpt-bridge$../smartgpt-bridge/README.md
+
 - @promethean-os/tests$../tests/README.md
 ```
 <!-- SYMPKG:PKG:END -->

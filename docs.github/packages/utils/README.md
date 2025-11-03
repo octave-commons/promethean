@@ -40,7 +40,7 @@ graph LR
   R24["@promethean-os/readmeflow"]
   R25["@promethean-os/semverguard"]
   R26["@promethean-os/simtasks"]
-  R27["@promethean-os/smartgpt-bridge"]
+  
   R28["@promethean-os/snapshots"]
   R29["@promethean-os/sonarflow"]
   R30["@promethean-os/symdocs"]
@@ -74,7 +74,7 @@ graph LR
   R24["@promethean-os/readmeflow"] --> A
   R25["@promethean-os/semverguard"] --> A
   R26["@promethean-os/simtasks"] --> A
-  R27["@promethean-os/smartgpt-bridge"] --> A
+   --> A
   R28["@promethean-os/snapshots"] --> A
   R29["@promethean-os/sonarflow"] --> A
   R30["@promethean-os/symdocs"] --> A
@@ -108,7 +108,7 @@ graph LR
   click R24 "../readmeflow/README.md" "@promethean-os/readmeflow"
   click R25 "../semverguard/README.md" "@promethean-os/semverguard"
   click R26 "../simtask/README.md" "@promethean-os/simtasks"
-  click R27 "../smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge"
+  
   click R28 "../snapshots/README.md" "@promethean-os/snapshots"
   click R29 "../sonarflow/README.md" "@promethean-os/sonarflow"
   click R30 "../symdocs/README.md" "@promethean-os/symdocs"
@@ -146,7 +146,7 @@ graph LR
 - @promethean-os/readmeflow$../readmeflow/README.md
 - @promethean-os/semverguard$../semverguard/README.md
 - @promethean-os/simtasks$../simtask/README.md
-- @promethean-os/smartgpt-bridge$../smartgpt-bridge/README.md
+
 - @promethean-os/snapshots$../snapshots/README.md
 - @promethean-os/sonarflow$../sonarflow/README.md
 - @promethean-os/symdocs$../symdocs/README.md

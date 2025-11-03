@@ -22,7 +22,7 @@ graph LR
   R4["@promethean-os/kanban-processor"]
   R5["@promethean-os/markdown"]
   R6["@promethean-os/piper"]
-  R7["@promethean-os/smartgpt-bridge"]
+  
   R8["@promethean-os/tests"]
   R9["@promethean-os/web-utils"]
   A --> D1["@promethean-os/ds"]
@@ -33,7 +33,7 @@ graph LR
   R4["@promethean-os/kanban-processor"] --> A
   R5["@promethean-os/markdown"] --> A
   R6["@promethean-os/piper"] --> A
-  R7["@promethean-os/smartgpt-bridge"] --> A
+   --> A
   R8["@promethean-os/tests"] --> A
   R9["@promethean-os/web-utils"] --> A
   click D1 "../ds/README.md" "@promethean-os/ds"
@@ -44,7 +44,7 @@ graph LR
   click R4 "../kanban-processor/README.md" "@promethean-os/kanban-processor"
   click R5 "../markdown/README.md" "@promethean-os/markdown"
   click R6 "../piper/README.md" "@promethean-os/piper"
-  click R7 "../smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge"
+  
   click R8 "../tests/README.md" "@promethean-os/tests"
   click R9 "../web-utils/README.md" "@promethean-os/web-utils"
 ```
@@ -58,7 +58,7 @@ graph LR
 - @promethean-os/kanban-processor$../kanban-processor/README.md
 - @promethean-os/markdown$../markdown/README.md
 - @promethean-os/piper$../piper/README.md
-- @promethean-os/smartgpt-bridge$../smartgpt-bridge/README.md
+
 - @promethean-os/tests$../tests/README.md
 - @promethean-os/web-utils$../web-utils/README.md
 ```

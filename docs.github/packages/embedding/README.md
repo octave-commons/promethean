@@ -23,7 +23,7 @@ graph LR
   R4["@promethean-os/indexer-core"]
   R5["@promethean-os/migrations"]
   R6["@promethean-os/persistence"]
-  R7["@promethean-os/smartgpt-bridge"]
+  
   A --> D1["@promethean-os/legacy"]
   A --> D2["@promethean-os/platform"]
   A --> D3["@promethean-os/utils"]
@@ -33,7 +33,7 @@ graph LR
   R4["@promethean-os/indexer-core"] --> A
   R5["@promethean-os/migrations"] --> A
   R6["@promethean-os/persistence"] --> A
-  R7["@promethean-os/smartgpt-bridge"] --> A
+   --> A
   click D1 "../legacy/README.md" "@promethean-os/legacy"
   click D2 "../platform/README.md" "@promethean-os/platform"
   click D3 "../utils/README.md" "@promethean-os/utils"
@@ -43,7 +43,7 @@ graph LR
   click R4 "../indexer-core/README.md" "@promethean-os/indexer-core"
   click R5 "../migrations/README.md" "@promethean-os/migrations"
   click R6 "../persistence/README.md" "@promethean-os/persistence"
-  click R7 "../smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge"
+  
 ```
 ## Dependencies
 - @promethean-os/legacy$../legacy/README.md
@@ -56,7 +56,7 @@ graph LR
 - @promethean-os/indexer-core$../indexer-core/README.md
 - @promethean-os/migrations$../migrations/README.md
 - @promethean-os/persistence$../persistence/README.md
-- @promethean-os/smartgpt-bridge$../smartgpt-bridge/README.md
+
 ```
 <!-- SYMPKG:PKG:END -->
 ```
