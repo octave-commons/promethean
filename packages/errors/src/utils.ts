@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Error Utilities - Utility functions for error handling
 
-import type { PrometheanError, ErrorContext, ErrorCategory, ErrorSeverity } from './types.js';
+import type { PrometheanError, ErrorContext, ErrorCategory } from './types.js';
 
 /**
  * Check if an error is a Promethean error
@@ -13,9 +13,12 @@ export const isPrometheanError = (error: unknown): error is PrometheanError => {
 /**
  * Convert any error to Promethean error
  */
-export const toPrometheanError = (error: unknown, context?: ErrorContext): PrometheanError => {
+export const toPrometheanError = async (
+  error: unknown,
+  context?: ErrorContext,
+): Promise<PrometheanError> => {
   if (isPrometheanError(error)) {
-    return context ? error.withContext(context) : error;
+    return context ? (error as any).withContext(context) : error;
   }
 
   if (error instanceof Error) {
@@ -39,71 +42,58 @@ export const extractErrorContext = (source?: {
   session?: { id?: string };
   request?: { id?: string };
 }): ErrorContext => {
-  const context: ErrorContext = {};
+  const headerContext = source?.headers
+    ? {
+        correlationId: source.headers['x-correlation-id'] || source.headers['correlation-id'],
+        requestId: source.headers['x-request-id'] || source.headers['request-id'],
+        userId: source.headers['x-user-id'] || source.headers['user-id'],
+        sessionId: source.headers['x-session-id'] || source.headers['session-id'],
+        traceId: source.headers['x-trace-id'] || source.headers['trace-id'],
+      }
+    : {};
 
-  if (source?.headers) {
-    context.correlationId = source.headers['x-correlation-id'] || source.headers['correlation-id'];
-    context.requestId = source.headers['x-request-id'] || source.headers['request-id'];
-    context.userId = source.headers['x-user-id'] || source.headers['user-id'];
-    context.sessionId = source.headers['x-session-id'] || source.headers['session-id'];
-    context.traceId = source.headers['x-trace-id'] || source.headers['trace-id'];
-  }
+  const userContext = source?.user?.id ? { userId: source.user.id } : {};
+  const sessionContext = source?.session?.id ? { sessionId: source.session.id } : {};
+  const requestContext = source?.request?.id ? { requestId: source.request.id } : {};
 
-  if (source?.user?.id) {
-    context.userId = context.userId || source.user.id;
-  }
-
-  if (source?.session?.id) {
-    context.sessionId = context.sessionId || source.session.id;
-  }
-
-  if (source?.request?.id) {
-    context.requestId = context.requestId || source.request.id;
-  }
-
-  return context;
+  return {
+    ...headerContext,
+    ...userContext,
+    ...sessionContext,
+    ...requestContext,
+  };
 };
 
 /**
  * Create error response from any error
  */
-export const createErrorResponse = (error: unknown, context?: ErrorContext) => {
-  const prometheanError = toPrometheanError(error, context);
-  return prometheanError.toJSON();
+export const createErrorResponse = async (error: unknown, context?: ErrorContext) => {
+  const prometheanError = await toPrometheanError(error, context);
+  return (prometheanError as any).toJSON();
 };
 
 /**
  * Get HTTP status code from error category
  */
 export const getHttpStatusFromError = (error: PrometheanError): number => {
-  switch (error.category) {
-    case 'validation':
-      return 400;
-    case 'authentication':
-      return 401;
-    case 'authorization':
-      return 403;
-    case 'not-found':
-      return 404;
-    case 'conflict':
-      return 409;
-    case 'rate-limit':
-      return 429;
-    case 'timeout':
-      return 408;
-    case 'external':
-    case 'network':
-      return 502;
-    case 'database':
-    case 'system':
-    case 'configuration':
-    case 'internal':
-      return 500;
-    case 'business':
-      return 422;
-    default:
-      return 500;
-  }
+  const statusMap: Record<ErrorCategory, number> = {
+    validation: 400,
+    authentication: 401,
+    authorization: 403,
+    'not-found': 404,
+    conflict: 409,
+    'rate-limit': 429,
+    timeout: 408,
+    external: 502,
+    network: 502,
+    database: 500,
+    system: 500,
+    configuration: 500,
+    internal: 500,
+    business: 422,
+  };
+
+  return statusMap[error.category] || 500;
 };
 
 /**
