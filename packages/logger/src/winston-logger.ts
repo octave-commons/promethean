@@ -3,7 +3,7 @@
 
 import winston from 'winston';
 import DailyRotateFile from 'winston-daily-rotate-file';
-import type { Logger, LoggerConfig, LogLevel, LogContext } from './types.js';
+import type { Logger, LoggerConfig, LogLevel, LogContext, CorrelationContext } from './types.js';
 import { mergeConfig } from './config.js';
 
 /**
@@ -99,70 +99,96 @@ const createWinstonLogger = (config: LoggerConfig): winston.Logger => {
 };
 
 /**
- * Winston-based Logger implementation
+ * Create Winston-based Logger implementation
  */
-export class WinstonLogger implements Logger {
-  private readonly winston: winston.Logger;
-  private config: LoggerConfig;
-  private readonly defaultContext: LogContext;
+const createWinstonLoggerInstance = (
+  winstonLogger: winston.Logger,
+  config: LoggerConfig,
+  defaultContext: LogContext = {},
+  correlation: CorrelationContext = {},
+): Logger => ({
+  error: (message: string, context?: LogContext): void => {
+    createWinstonLoggerInstance(winstonLogger, config, defaultContext, correlation).log(
+      'error',
+      message,
+      context,
+    );
+  },
 
-  constructor(
-    winstonLogger: winston.Logger,
-    config: LoggerConfig,
-    defaultContext: LogContext = {},
-  ) {
-    this.winston = winstonLogger;
-    this.config = { ...config };
-    this.defaultContext = defaultContext;
-  }
+  warn: (message: string, context?: LogContext): void => {
+    createWinstonLoggerInstance(winstonLogger, config, defaultContext, correlation).log(
+      'warn',
+      message,
+      context,
+    );
+  },
 
-  error(message: string, context?: LogContext): void {
-    this.log('error', message, context);
-  }
+  info: (message: string, context?: LogContext): void => {
+    createWinstonLoggerInstance(winstonLogger, config, defaultContext, correlation).log(
+      'info',
+      message,
+      context,
+    );
+  },
 
-  warn(message: string, context?: LogContext): void {
-    this.log('warn', message, context);
-  }
+  http: (message: string, context?: LogContext): void => {
+    createWinstonLoggerInstance(winstonLogger, config, defaultContext, correlation).log(
+      'http',
+      message,
+      context,
+    );
+  },
 
-  info(message: string, context?: LogContext): void {
-    this.log('info', message, context);
-  }
+  verbose: (message: string, context?: LogContext): void => {
+    createWinstonLoggerInstance(winstonLogger, config, defaultContext, correlation).log(
+      'verbose',
+      message,
+      context,
+    );
+  },
 
-  http(message: string, context?: LogContext): void {
-    this.log('http', message, context);
-  }
+  debug: (message: string, context?: LogContext): void => {
+    createWinstonLoggerInstance(winstonLogger, config, defaultContext, correlation).log(
+      'debug',
+      message,
+      context,
+    );
+  },
 
-  verbose(message: string, context?: LogContext): void {
-    this.log('verbose', message, context);
-  }
+  silly: (message: string, context?: LogContext): void => {
+    createWinstonLoggerInstance(winstonLogger, config, defaultContext, correlation).log(
+      'silly',
+      message,
+      context,
+    );
+  },
 
-  debug(message: string, context?: LogContext): void {
-    this.log('debug', message, context);
-  }
+  log: (level: LogLevel, message: string, context?: LogContext): void => {
+    const mergedContext = {
+      ...defaultContext,
+      ...context,
+      correlation,
+    };
+    winstonLogger.log(level, message, mergedContext);
+  },
 
-  silly(message: string, context?: LogContext): void {
-    this.log('silly', message, context);
-  }
+  child: (context: LogContext): Logger => {
+    const mergedContext = { ...defaultContext, ...context };
+    return createWinstonLoggerInstance(winstonLogger, config, mergedContext, correlation);
+  },
 
-  log(level: LogLevel, message: string, context?: LogContext): void {
-    const mergedContext = { ...this.defaultContext, ...context };
-    this.winston.log(level, message, mergedContext);
-  }
+  withCorrelation: (newCorrelation: CorrelationContext): Logger => {
+    return createWinstonLoggerInstance(winstonLogger, config, defaultContext, newCorrelation);
+  },
 
-  child(context: LogContext): Logger {
-    const mergedContext = { ...this.defaultContext, ...context };
-    return new WinstonLogger(this.winston, this.config, mergedContext);
-  }
-
-  setLevel(_level: LogLevel): void {
-    // TODO: Implement level changing by recreating the logger
+  setLevel: (_level: LogLevel): void => {
     console.warn('Dynamic level changing not yet implemented');
-  }
+  },
 
-  getLevel(): LogLevel {
-    return this.winston.level as LogLevel;
-  }
-}
+  getLevel: (): LogLevel => {
+    return winstonLogger.level as LogLevel;
+  },
+});
 
 /**
  * Create a new logger instance
