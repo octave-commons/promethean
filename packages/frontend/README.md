@@ -15,7 +15,6 @@ This package contains multiple frontend applications:
 - **pantheon** - Web interface for Pantheon Agent Management Framework
 - **piper** - Piper frontend
 - **report-forge** - Report forge frontend
-- **smartgpt-dashboard** - SmartGPT dashboard frontend
 
 ## Development
 
@@ -39,7 +38,6 @@ pnpm run dev:openai-server
 pnpm run dev:opencode-session-manager
 pnpm run dev:piper
 pnpm run dev:report-forge
-pnpm run dev:smartgpt-dashboard
 
 # React/Vite application
 pnpm run dev:pantheon
@@ -92,7 +90,6 @@ src/
 ├── pantheon/               # Pantheon React application
 ├── piper/                  # Piper application
 ├── report-forge/           # Report forge
-├── smartgpt-dashboard/     # SmartGPT dashboard
 └── index.ts                # Main entry point
 ```
 
