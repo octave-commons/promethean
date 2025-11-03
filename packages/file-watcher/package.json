@@ -12,7 +12,8 @@
     "test": "pnpm run build && ava --config ../../../config/ava.config.mjs",
     "coverage": "pnpm run build && c8 ava --config ../../../config/ava.config.mjs",
     "lint": "prettier --cache --check . && eslint . --cache || true",
-    "format": "prettier --cache --write . && eslint . --fix --cache || true"
+    "format": "prettier --cache --write . && eslint . --fix --cache || true",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/embedding": "workspace:*",

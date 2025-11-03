@@ -13,7 +13,8 @@
     "coverage": "c8 -r text -r lcov ava",
     "clean": "rimraf dist",
     "prepack": "pnpm run build",
-    "dev-ui": "pnpm build && node dist/dev-ui.js"
+    "dev-ui": "pnpm build && node dist/dev-ui.js",
+    "dev:watch": "tsc --watch"
   },
   "exports": {
     ".": {

@@ -33,7 +33,8 @@
     "monitor:trigger": "tsx src/07-monitor.ts trigger",
     "watch:demo": "tsx src/08-watchers.ts",
     "schedule:demo": "tsx src/09-scheduler.ts",
-    "test": "pnpm run build && ava --config ../../config/ava.config.mjs"
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/kanban": "workspace:*",

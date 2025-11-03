@@ -27,7 +27,8 @@
     "coverage": "pnpm run build && c8 ava",
     "format": "pnpm exec prettier --write .",
     "prestart": "pnpm run build",
-    "start": "node dist/index.js"
+    "start": "node dist/index.js",
+    "dev:watch": "tsc --watch"
   },
   "module": "dist/index.js",
   "dependencies": {

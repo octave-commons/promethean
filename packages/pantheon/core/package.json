@@ -20,7 +20,8 @@
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit",
     "test": "ava",
-    "lint": "pnpm exec eslint ."
+    "lint": "pnpm exec eslint .",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "zod": "^3.22.4"

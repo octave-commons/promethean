@@ -15,7 +15,8 @@
     "test": "pnpm run test:unit",
     "test:unit": "pnpm run build && pnpm exec ava",
     "test:integration": "node -e \"console.log('no integration tests for compliance-monitor')\"",
-    "test:e2e": "node -e \"console.log('no e2e tests for compliance-monitor')\""
+    "test:e2e": "node -e \"console.log('no e2e tests for compliance-monitor')\"",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@fastify/rate-limit": "^10.3.0",

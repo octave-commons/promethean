@@ -11,7 +11,8 @@
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
     "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:watch": "pnpm run dev"
   },
   "keywords": [
     "ai",

@@ -4,10 +4,13 @@
   "type": "module",
   "license": "GPL-3.0-only",
   "private": true,
-  "bin": { "lint-taskgen": "dist/cli.mjs" },
+  "bin": {
+    "lint-taskgen": "dist/cli.mjs"
+  },
   "scripts": {
     "build": "tsc -p tsconfig.json",
-    "start": "node dist/cli.mjs"
+    "start": "node dist/cli.mjs",
+    "dev:watch": "tsc --watch"
   },
   "devDependencies": {
     "typescript": "^5.4.0"

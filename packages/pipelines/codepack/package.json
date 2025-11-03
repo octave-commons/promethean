@@ -12,7 +12,8 @@
     "code:03-cluster": "tsx src/03-cluster.ts --sim-threshold 0.82 --k 8",
     "code:04-name": "tsx src/04-name.ts --gen-model qwen3:4b",
     "code:05-materialize": "tsx src/05-materialize.ts --out out/code_groups",
-    "code:all": "pnpm code:01-extract && pnpm code:02-embed && pnpm code:03-cluster && pnpm code:04-name && pnpm code:05-materialize"
+    "code:all": "pnpm code:01-extract && pnpm code:02-embed && pnpm code:03-cluster && pnpm code:04-name && pnpm code:05-materialize",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/fs": "workspace:*",

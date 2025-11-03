@@ -20,7 +20,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && EMBEDDING_DIM=8 DISCORD_TOKEN_DUCK=test ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
-    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/legacy": "workspace:*",

@@ -7,7 +7,8 @@
   "scripts": {
     "build": "tsc",
     "test": "ava",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "dev:watch": "tsc --watch"
   },
   "keywords": [],
   "author": "",

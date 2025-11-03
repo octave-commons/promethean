@@ -11,7 +11,8 @@
     "test": "ava",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "coverage": "c8 ava"
+    "coverage": "c8 ava",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "@promethean-os/buildfix": "workspace:*",

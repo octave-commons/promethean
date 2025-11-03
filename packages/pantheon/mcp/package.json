@@ -15,7 +15,8 @@
     "build": "tsc",
     "clean": "rm -rf dist",
     "test": "ava",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/pantheon-core": "workspace:*"

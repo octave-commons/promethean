@@ -27,7 +27,8 @@
     "format": "pnpm exec prettier --write .",
     "monitor": "pnpm run build && node dist/cli.js monitor",
     "health-check": "pnpm run build && node dist/cli.js health-check",
-    "setup-alerts": "pnpm run build && node dist/cli.js setup-alerts"
+    "setup-alerts": "pnpm run build && node dist/cli.js setup-alerts",
+    "dev:watch": "tsc --watch"
   },
   "module": "dist/index.js",
   "dependencies": {

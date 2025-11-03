@@ -26,7 +26,8 @@
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "clean": "rimraf dist tsconfig.tsbuildinfo",
-    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs -r text -r lcov"
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs -r text -r lcov",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "fast-glob": "^3.3.2",

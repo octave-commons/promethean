@@ -11,7 +11,8 @@
     "test": "echo \"No tests specified\"",
     "typecheck": "echo \"No TypeScript to check\"",
     "lint": "echo \"No linting configured\"",
-    "serve": "shadow-cljs watch dev-ui"
+    "serve": "shadow-cljs watch dev-ui",
+    "dev:watch": "pnpm run dev"
   },
   "keywords": [
     "frontend",

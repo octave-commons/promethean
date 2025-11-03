@@ -76,7 +76,8 @@
     "typecheck": "tsc --noEmit",
     "clean": "rimraf dist",
     "docker:build": "docker build -t promethean-docs-system .",
-    "docker:run": "docker run -p 3000:3000 -p 5173:5173 promethean-docs-system"
+    "docker:run": "docker run -p 3000:3000 -p 5173:5173 promethean-docs-system",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "react": "^18.2.0",

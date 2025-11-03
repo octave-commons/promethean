@@ -12,7 +12,8 @@
     "clean": "rm -rf target classes",
     "generate": "clojure -M -m ecosystem-dsl.core",
     "generate:watch": "clojure -M -m ecosystem-dsl.core --watch",
-    "validate": "clojure -M -m ecosystem-dsl.core --validate-only"
+    "validate": "clojure -M -m ecosystem-dsl.core --validate-only",
+    "dev:watch": "echo \"No watch command available for this project\""
   },
   "keywords": [
     "clojure",

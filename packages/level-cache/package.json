@@ -17,7 +17,8 @@
     "build": "tsc -p tsconfig.json",
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit -p tsconfig.json",
-    "test": "pnpm build && ava"
+    "test": "pnpm build && ava",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/utils": "workspace:*",

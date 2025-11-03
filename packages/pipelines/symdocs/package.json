@@ -15,7 +15,8 @@
     "symdocs:02-docs": "tsx src/02-docs.ts --model qwen3:4b",
     "symdocs:03-write": "tsx src/03-write.ts --out docs/packages",
     "symdocs:04-graph": "tsx src/04-graph.ts --root packages --out docs/packages --include-imports true --respect-manifest true --render-domain-graphs true --domain-depth 1 --rdeps-table true --max-rdeps-list 12",
-    "symdocs:all": "pnpm symdocs:01-scan && pnpm symdocs:02-docs && pnpm symdocs:03-write"
+    "symdocs:all": "pnpm symdocs:01-scan && pnpm symdocs:02-docs && pnpm symdocs:03-write",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/level-cache": "workspace:*",

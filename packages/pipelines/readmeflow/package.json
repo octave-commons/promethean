@@ -21,7 +21,8 @@
     "rm:02-outline": "tsx src/02-outline.ts",
     "rm:03-write": "tsx src/03-write.ts",
     "rm:04-verify": "tsx src/04-verify.ts",
-    "rm:all": "pnpm rm:01-scan && pnpm rm:02-outline && pnpm rm:03-write && pnpm rm:04-verify"
+    "rm:all": "pnpm rm:01-scan && pnpm rm:02-outline && pnpm rm:03-write && pnpm rm:04-verify",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/utils": "workspace:*",

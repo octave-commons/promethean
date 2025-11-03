@@ -4,7 +4,8 @@
   "type": "module",
   "scripts": {
     "build": "tsc -b tsconfig.json",
-    "test": "pnpm run build && ava"
+    "test": "pnpm run build && ava",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/kanban": "workspace:*",

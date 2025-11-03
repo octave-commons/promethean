@@ -5,7 +5,8 @@
   "type": "module",
   "license": "GPL-3.0-only",
   "scripts": {
-    "dev": "node --env-file=../../.env src/server.mjs"
+    "dev": "node --env-file=../../.env src/server.mjs",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "wrtc": "^0.4.7",

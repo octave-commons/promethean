@@ -36,7 +36,8 @@
     "test": "ava",
     "lint": "eslint src --ext .ts",
     "typecheck": "tsc --noEmit",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "dev:watch": "tsc --watch"
   },
   "keywords": [
     "agent-os",

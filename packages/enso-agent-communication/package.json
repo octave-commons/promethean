@@ -11,7 +11,8 @@
     "typecheck": "tsc --noEmit",
     "clean": "rm -rf dist",
     "lint": "eslint src --ext .ts",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "@promethean-os/enso-protocol": "workspace:*",

@@ -24,7 +24,8 @@
     "clean": "rimraf dist tsconfig.tsbuildinfo",
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && tsc src/tests/**/*.ts --outDir dist/tests --moduleResolution node16 --module Node16 --target esnext --skipLibCheck && ava",
-    "lint": "pnpm exec eslint ."
+    "lint": "pnpm exec eslint .",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@fastify/cors": "^9.0.0",

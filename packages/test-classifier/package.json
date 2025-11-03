@@ -32,7 +32,8 @@
     "coverage:e2e": "pnpm run build && c8 --config ../../config/c8.e2e.config.js ava --config ../../config/ava.e2e.config.mjs",
     "coverage:all": "pnpm run coverage:unit && pnpm run coverage:integration && pnpm run coverage:e2e && node ../../scripts/merge-coverage.js",
     "format": "pnpm exec prettier --write .",
-    "cli": "node dist/cli.js"
+    "cli": "node dist/cli.js",
+    "dev:watch": "tsc --watch"
   },
   "module": "dist/index.js",
   "dependencies": {

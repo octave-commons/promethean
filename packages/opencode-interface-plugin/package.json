@@ -23,7 +23,8 @@
     "test:unit": "pnpm build:tests && ava",
     "test:watch": "ava --watch",
     "test:coverage": "c8 ava",
-    "clean": "rm -rf dist"
+    "clean": "rm -rf dist",
+    "dev:watch": "pnpm run dev"
   },
   "keywords": [
     "opencode",

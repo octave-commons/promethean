@@ -18,7 +18,8 @@
     "sim:03-cluster": "tsx src/03-cluster.ts --sim-threshold 0.84 --k 10 --min-size 2",
     "sim:04-plan": "tsx src/04-plan.ts --model qwen3:4b",
     "sim:05-write": "tsx src/05-write.ts --out docs/agile/tasks",
-    "sim:all": "pnpm sim:01-scan && pnpm sim:02-embed && pnpm sim:03-cluster && pnpm sim:04-plan && pnpm sim:05-write"
+    "sim:all": "pnpm sim:01-scan && pnpm sim:02-embed && pnpm sim:03-cluster && pnpm sim:04-plan && pnpm sim:05-write",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/level-cache": "workspace:*",

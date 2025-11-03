@@ -79,7 +79,8 @@
     "start:electron": "pnpm build && electron .",
     "electron:pack": "pnpm build && electron-builder --dir",
     "electron:dist": "pnpm build && electron-builder",
-    "web-ui": "node src/typescript/server/web-ui/server.js"
+    "web-ui": "node src/typescript/server/web-ui/server.js",
+    "dev:watch": "pnpm run dev"
   },
   "keywords": [
     "opencode",

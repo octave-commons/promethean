@@ -26,7 +26,8 @@
     "test:unit": "pnpm build && ava \"dist/tests/**/*.js\" \"!dist/tests/integration/**/*.js\"",
     "test:integration": "pnpm build && ava \"dist/tests/integration/**/*.js\"",
     "coverage": "pnpm build && c8 ava",
-    "doc:report": "pnpm build && node ./dist/03-report.js"
+    "doc:report": "pnpm build && node ./dist/03-report.js",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/utils": "workspace:*",

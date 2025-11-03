@@ -25,7 +25,8 @@
     "clean": "rimraf dist",
     "typecheck": "tsc --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
-    "lint": "pnpm exec eslint ."
+    "lint": "pnpm exec eslint .",
+    "dev:watch": "shadow-cljs watch"
   },
   "dependencies": {},
   "devDependencies": {

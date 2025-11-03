@@ -40,7 +40,8 @@
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava",
     "test:markdown": "pnpm run build && ava",
-    "format": "pnpm exec prettier --write ."
+    "format": "pnpm exec prettier --write .",
+    "dev:watch": "tsc --watch"
   },
   "module": "dist/index.js",
   "dependencies": {

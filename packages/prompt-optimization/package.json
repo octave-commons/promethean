@@ -17,7 +17,8 @@
     "ab:test": "tsx -e \"import { abTesting } from './src/ab-testing.js'; abTesting.runDefaultTests().then(console.log)\"",
     "clean": "rm -rf dist",
     "lint": "eslint src --ext .ts",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:watch": "pnpm run dev"
   },
   "keywords": [
     "prompt-optimization",

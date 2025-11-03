@@ -23,7 +23,8 @@
     "dev": "tsx src/cli.ts",
     "lint": "eslint .",
     "test": "pnpm clean && pnpm build && ava",
-    "coverage": "c8 ava"
+    "coverage": "c8 ava",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "chokidar": "^3.6.0",

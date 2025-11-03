@@ -13,7 +13,8 @@
     "test": "pnpm run build:tests && ava",
     "lint": "pnpm exec eslint .",
     "coverage": "c8 ava",
-    "format": "pnpm exec prettier --write ."
+    "format": "pnpm exec prettier --write .",
+    "dev:watch": "tsc --watch"
   },
   "keywords": [
     "nlp",

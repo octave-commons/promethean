@@ -33,7 +33,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "pnpm exec eslint src",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
-    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "@fastify/rate-limit": "^10.3.0",

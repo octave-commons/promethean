@@ -14,7 +14,8 @@
     "mods:02-generate": "tsx src/02-generate.ts",
     "mods:03-dry-run": "tsx src/03-run.ts --mode dry --root packages --report docs/agile/tasks/codemods",
     "mods:03-apply": "tsx src/03-run.ts --mode apply --root packages --report docs/agile/tasks/codemods",
-    "mods:all": "pnpm mods:01-spec && pnpm mods:02-generate && pnpm mods:03-dry-run"
+    "mods:all": "pnpm mods:01-spec && pnpm mods:02-generate && pnpm mods:03-dry-run",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/level-cache": "workspace:*",

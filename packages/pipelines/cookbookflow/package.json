@@ -23,7 +23,8 @@
     "cb:06-exec": "tsx src/06-exec.ts",
     "cb:07-verify": "tsx src/07-verify.ts",
     "cb:08-report": "tsx src/08-report.ts",
-    "cb:all": "pnpm cb:01-scan && pnpm cb:02-embed-classify && pnpm cb:03-group && pnpm cb:04-plan && pnpm cb:05-materialize && pnpm cb:06-exec && pnpm cb:07-verify && pnpm cb:08-report"
+    "cb:all": "pnpm cb:01-scan && pnpm cb:02-embed-classify && pnpm cb:03-group && pnpm cb:04-plan && pnpm cb:05-materialize && pnpm cb:06-exec && pnpm cb:07-verify && pnpm cb:08-report",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/utils": "workspace:*",

@@ -21,7 +21,8 @@
     "test": "pnpm run build && ava",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava",
-    "format": "pnpm exec prettier --write ."
+    "format": "pnpm exec prettier --write .",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@openai/agents": "^0.1.9",

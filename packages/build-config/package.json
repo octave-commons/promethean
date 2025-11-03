@@ -32,7 +32,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
-    "format": "pnpm exec prettier --write ."
+    "format": "pnpm exec prettier --write .",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "typescript": "^5.4.0"

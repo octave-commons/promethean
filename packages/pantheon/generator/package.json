@@ -8,7 +8,8 @@
   "scripts": {
     "build": "shadow-cljs release",
     "dev": "shadow-cljs watch",
-    "test": "shadow-cljs compile test && node out/test.js"
+    "test": "shadow-cljs compile test && node out/test.js",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "@promethean-os/pantheon-core": "workspace:*"

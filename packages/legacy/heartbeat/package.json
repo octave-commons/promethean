@@ -4,5 +4,8 @@
   "type": "module",
   "dependencies": {
     "ws": "^8.18.3"
+  },
+  "scripts": {
+    "dev:watch": "echo \"No watch command available for this project\""
   }
 }

@@ -15,7 +15,8 @@
     "coverage": "nyc ava",
     "typecheck": "tsc --noEmit",
     "lint": "eslint src --ext .ts",
-    "dev": "tsc --watch"
+    "dev": "tsc --watch",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {},
   "devDependencies": {

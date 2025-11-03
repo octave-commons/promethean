@@ -13,7 +13,8 @@
     "sonar:fetch": "tsx src/02-fetch.ts",
     "sonar:plan": "tsx src/03-plan.ts",
     "sonar:write": "tsx src/04-write.ts",
-    "sonar:all": "pnpm sonar:fetch && pnpm sonar:plan && pnpm sonar:write"
+    "sonar:all": "pnpm sonar:fetch && pnpm sonar:plan && pnpm sonar:write",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean-os/utils": "workspace:*",

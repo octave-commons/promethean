@@ -31,7 +31,8 @@
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
-    "format": "pnpm exec prettier --write ."
+    "format": "pnpm exec prettier --write .",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "dotenv": "17.2.1",

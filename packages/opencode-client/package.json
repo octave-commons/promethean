@@ -34,7 +34,8 @@
     "test:unit": "pnpm build:tests && ava",
     "test:watch": "ava --watch",
     "test:coverage": "c8 ava",
-    "start": "node dist/cli.js"
+    "start": "node dist/cli.js",
+    "dev:watch": "pnpm run dev"
   },
   "keywords": [
     "cli",

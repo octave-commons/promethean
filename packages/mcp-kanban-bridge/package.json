@@ -42,7 +42,8 @@
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit",
-    "start": "node dist/server.js"
+    "start": "node dist/server.js",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "@modelcontextprotocol/sdk": "^1.0.0",
