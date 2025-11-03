@@ -32,7 +32,8 @@
     "lint": "eslint src --ext .ts",
     "clojure:build": "clojure -M:build",
     "clojure:test": "clojure -M:test",
-    "clojure:clean": "clojure -M:clean"
+    "clojure:clean": "clojure -M:clean",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "@promethean-os/mcp": "workspace:*",

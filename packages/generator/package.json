@@ -15,7 +15,8 @@
     "format": "prettier --write src/**/*.ts",
     "clean": "rm -rf dist",
     "coverage": "nyc ava",
-    "typecheck": "tsc --noEmit"
+    "typecheck": "tsc --noEmit",
+    "dev:watch": "pnpm run dev"
   },
   "dependencies": {
     "commander": "^11.1.0",

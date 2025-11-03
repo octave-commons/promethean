@@ -22,7 +22,8 @@
     "typecheck": "tsc -p tsconfig.json --noEmit",
     "lint": "pnpm exec eslint src",
     "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
-    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
+    "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs",
+    "dev:watch": "tsc --watch"
   },
   "dependencies": {
     "@promethean/embedding": "workspace:*",
