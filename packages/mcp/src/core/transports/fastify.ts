@@ -791,8 +791,8 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
         });
       } else {
         logger.warn(
-          `[mcp:http] dev-ui assets not found. ` +
-            "run build command to generate bundle",
+          'dev-ui assets not found, run build command to generate bundle',
+          { devUiDir, command: "pnpm --filter @promethean-os/mcp-dev-ui build" }
         );
       }
 
