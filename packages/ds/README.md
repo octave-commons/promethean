@@ -445,7 +445,6 @@ flowchart LR
   _promethean_semverguard["@promethean-os/semverguard\n0.1.0"]
   _promethean_simtasks["@promethean-os/simtasks\n0.1.0"]
   _promethean_smart_chat_frontend["@promethean-os/smart-chat-frontend\n0.0.0"]
-  _promethean_smartgpt_bridge["@promethean-os/smartgpt-bridge\n1.0.0"]
   _promethean_smartgpt_dashboard_frontend["@promethean-os/smartgpt-dashboard-frontend\n0.0.0"]
   _promethean_snapshots["@promethean-os/snapshots\n0.0.1"]
   _promethean_sonarflow["@promethean-os/sonarflow\n0.1.0"]
@@ -560,12 +559,6 @@ flowchart LR
   _promethean_semverguard --> _promethean_utils
   _promethean_simtasks --> _promethean_level_cache
   _promethean_simtasks --> _promethean_utils
-  _promethean_smartgpt_bridge --> _promethean_embedding
-  _promethean_smartgpt_bridge --> _promethean_fs
-  _promethean_smartgpt_bridge --> _promethean_level_cache
-  _promethean_smartgpt_bridge --> _promethean_persistence
-  _promethean_smartgpt_bridge --> _promethean_utils
-  _promethean_smartgpt_bridge --> _promethean_test_utils
   _promethean_snapshots --> _promethean_utils
   _promethean_sonarflow --> _promethean_utils
   _promethean_symdocs --> _promethean_utils

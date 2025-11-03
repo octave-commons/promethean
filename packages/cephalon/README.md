@@ -1,4 +1,5 @@
 <!-- READMEFLOW:BEGIN -->
+
 # @promethean-os/cephalon
 
 Cephalon is the production Discord agent runner for Promethean. It brokers
@@ -7,7 +8,6 @@ voice capture, evaluation guardrails, and ENSO tool traffic for personas such as
 and smoke tests can exercise the same flows that ship to Discord.
 
 [TOC]
-
 
 ## Install
 
@@ -18,20 +18,20 @@ pnpm -w add -D @promethean-os/cephalon
 ## Quickstart
 
 ```ts
-import { createEnsoChatAgent } from "@promethean-os/cephalon";
+import { createEnsoChatAgent } from '@promethean-os/cephalon';
 
-const agent = createEnsoChatAgent({ room: "duck:smoke" });
+const agent = createEnsoChatAgent({ room: 'duck:smoke' });
 await agent.connect();
 
 // Send a chat message into the room
-await agent.sendText("human", "Ping tools before we go live");
+await agent.sendText('human', 'Ping tools before we go live');
 
 // Trigger a native tool. Evaluation mode automatically emits a guardrail
 // rationale event before the tool call is forwarded to ENSO.
 const callId = await agent.callTool({
-  provider: "native",
-  name: "duck.ping",
-  args: { echo: "prod-check" },
+  provider: 'native',
+  name: 'duck.ping',
+  args: { echo: 'prod-check' },
 });
 
 console.log({ callId });
@@ -49,9 +49,9 @@ When evaluation mode is toggled for the agent's ENSO session, Cephalon sends an
 type ActRationalePayload = {
   callId: string;
   rationale: string;
-  policy?: string;             // defaults to "morganna@1"
+  policy?: string; // defaults to "morganna@1"
   evidence?: readonly string[];
-  evidenceKind?: "url" | "messageId" | "note"; // defaults to "note"
+  evidenceKind?: 'url' | 'messageId' | 'note'; // defaults to "note"
 };
 ```
 
@@ -60,26 +60,27 @@ Use the optional `policy`, `evidence`, and `evidenceKind` fields when calling
 
 ```ts
 await agent.callTool({
-  provider: "native",
-  name: "duck.ping",
-  reason: "Morganna guardrail trial run",
-  policy: "morganna@2",
-  evidence: ["https://wiki/policy"],
-  evidenceKind: "url",
+  provider: 'native',
+  name: 'duck.ping',
+  reason: 'Morganna guardrail trial run',
+  policy: 'morganna@2',
+  evidence: ['https://wiki/policy'],
+  evidenceKind: 'url',
 });
 ```
 
 If you omit these options, the agent emits a default "note"-style rationale that
 traces back to the Morganna policy bundle.
+
 ## Feature flag: `CEPHALON_MODE`
 
 The Cephalon service is temporarily dual-pathed while the ECS orchestrator rollout completes. Set the
 `CEPHALON_MODE` environment variable before starting the service to choose which execution path boots:
 
-| Value      | Behavior                                                                       |
-| ---------- | ------------------------------------------------------------------------------ |
-| `ecs`      | **Default.** Boots the new ECS orchestrator pipeline and Agent ECS subsystems. |
-| `classic`  | Boots the legacy `AIAgent` pipeline for focused debugging or regression checks. |
+| Value     | Behavior                                                                        |
+| --------- | ------------------------------------------------------------------------------- |
+| `ecs`     | **Default.** Boots the new ECS orchestrator pipeline and Agent ECS subsystems.  |
+| `classic` | Boots the legacy `AIAgent` pipeline for focused debugging or regression checks. |
 
 Unrecognized values fall back to `ecs`. The flag will be removed once the ECS work fully replaces the
 classic path.
@@ -95,7 +96,6 @@ classic path.
 - `lint`
 - `format`
 - `start:dev`
-
 
 ### Package graph
 
@@ -165,7 +165,6 @@ flowchart LR
   _promethean_semverguard["@promethean-os/semverguard\n0.1.0"]
   _promethean_simtasks["@promethean-os/simtasks\n0.1.0"]
   _promethean_smart_chat_frontend["@promethean-os/smart-chat-frontend\n0.0.0"]
-  _promethean_smartgpt_bridge["@promethean-os/smartgpt-bridge\n1.0.0"]
   _promethean_smartgpt_dashboard_frontend["@promethean-os/smartgpt-dashboard-frontend\n0.0.0"]
   _promethean_snapshots["@promethean-os/snapshots\n0.0.1"]
   _promethean_sonarflow["@promethean-os/sonarflow\n0.1.0"]
@@ -280,12 +279,7 @@ flowchart LR
   _promethean_semverguard --> _promethean_utils
   _promethean_simtasks --> _promethean_level_cache
   _promethean_simtasks --> _promethean_utils
-  _promethean_smartgpt_bridge --> _promethean_embedding
-  _promethean_smartgpt_bridge --> _promethean_fs
-  _promethean_smartgpt_bridge --> _promethean_level_cache
-  _promethean_smartgpt_bridge --> _promethean_persistence
-  _promethean_smartgpt_bridge --> _promethean_utils
-  _promethean_smartgpt_bridge --> _promethean_test_utils
+
   _promethean_snapshots --> _promethean_utils
   _promethean_sonarflow --> _promethean_utils
   _promethean_symdocs --> _promethean_utils

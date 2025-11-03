@@ -202,12 +202,6 @@ flowchart LR
   _promethean_semverguard --> _promethean_utils
   _promethean_simtasks --> _promethean_level_cache
   _promethean_simtasks --> _promethean_utils
-  _promethean_smartgpt_bridge --> _promethean_embedding
-  _promethean_smartgpt_bridge --> _promethean_fs
-  _promethean_smartgpt_bridge --> _promethean_level_cache
-  _promethean_smartgpt_bridge --> _promethean_persistence
-  _promethean_smartgpt_bridge --> _promethean_utils
-  _promethean_smartgpt_bridge --> _promethean_test_utils
   _promethean_snapshots --> _promethean_utils
   _promethean_sonarflow --> _promethean_utils
   _promethean_symdocs --> _promethean_utils
