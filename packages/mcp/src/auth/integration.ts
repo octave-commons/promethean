@@ -12,6 +12,7 @@ import type { UserRegistry, User } from './users/registry.js';
 import type { AuthenticationManager } from '../core/authentication.js';
 import type { UserRole } from '../core/authorization.js';
 import type { OAuthUserInfo } from './oauth/types.js';
+import { warn, error } from '@promethean-os/logger';
 
 /**
  * OAuth integration configuration
@@ -275,7 +276,7 @@ export class OAuthIntegration {
 
       return true;
     } catch (error) {
-      console.error('[OAuthIntegration] Logout failed:', error);
+      error('[OAuthIntegration] Logout failed:', error);
       return false;
     }
   }
@@ -302,7 +303,7 @@ export class OAuthIntegration {
 
       return user;
     } catch (error) {
-      console.error('[OAuthIntegration] Failed to get current user:', error);
+      error('[OAuthIntegration] Failed to get current user:', error);
       return null;
     }
   }
@@ -357,7 +358,7 @@ export class OAuthIntegration {
         // Store user in request
         (request as any).oauthUser = user;
       } catch (error) {
-        console.error('[OAuthIntegration] Middleware error:', error);
+        error('[OAuthIntegration] Middleware error:', error);
         return reply.status(500).send({
           error: 'Authentication error',
           message: 'Failed to process authentication',
@@ -387,7 +388,7 @@ export class OAuthIntegration {
         metadata: {},
       };
     } catch (error) {
-      console.error('[OAuthIntegration] Failed to get user info from session:', error);
+      error('[OAuthIntegration] Failed to get user info from session:', error);
       return null;
     }
   }
@@ -445,7 +446,7 @@ export class OAuthIntegration {
 
       return updatedUser;
     } catch (error) {
-      console.error('[OAuthIntegration] Failed to sync user data:', error);
+      error('[OAuthIntegration] Failed to sync user data:', error);
       return user;
     }
   }
@@ -458,7 +459,7 @@ export class OAuthIntegration {
       try {
         await this.syncAllUsers();
       } catch (error) {
-        console.error('[OAuthIntegration] Periodic sync failed:', error);
+        error('[OAuthIntegration] Periodic sync failed:', error);
       }
     }, this.config.syncInterval * 1000);
   }
@@ -486,7 +487,7 @@ export class OAuthIntegration {
             }
           }
         } catch (error) {
-          console.error(`[OAuthIntegration] Failed to sync user ${user.id}:`, error);
+          error(`[OAuthIntegration] Failed to sync user ${user.id}:`, error);
         }
       }
     }

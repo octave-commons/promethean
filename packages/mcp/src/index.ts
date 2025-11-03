@@ -527,7 +527,7 @@ export { toolCatalog };
 
 if (shouldRunMain()) {
   main().catch((err) => {
-    console.error(err);
+    error(err);
     process.exit(1);
   });
 }
