@@ -9,6 +9,7 @@ import type { FastifyInstance } from 'fastify';
 import { AuthenticationManager } from '../core/authentication.js';
 import { OAuthFastifyIntegration, registerOAuthWithFastify } from './fastify-integration.js';
 import { loadOAuthConfig, validateOAuthConfig } from './config.js';
+import { logger } from '@promethean-os/logger';
 
 /**
  * OAuth system options
@@ -45,7 +46,7 @@ export class OAuthSystemManager {
    */
   async initialize(fastify: FastifyInstance): Promise<void> {
     if (this.initialized) {
-      console.warn('[OAuthSystemManager] OAuth system already initialized');
+      logger.warn('OAuth system already initialized');
       return;
     }
 
