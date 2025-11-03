@@ -3,7 +3,15 @@
 
 export type LogLevel = 'error' | 'warn' | 'info' | 'http' | 'verbose' | 'debug' | 'silly';
 
-export type LogContext = Record<string, any>;
+export type LogContext = Record<string, unknown>;
+
+export interface CorrelationContext {
+  readonly correlationId?: string;
+  readonly requestId?: string;
+  readonly userId?: string;
+  readonly sessionId?: string;
+  readonly traceId?: string;
+}
 
 export interface LogEntry {
   readonly level: LogLevel;
@@ -12,6 +20,7 @@ export interface LogEntry {
   readonly context?: LogContext;
   readonly service?: string;
   readonly module?: string;
+  readonly correlation?: CorrelationContext;
 }
 
 export interface LoggerConfig {
