@@ -123,6 +123,7 @@ The documentation must be completely traversable .
 #### Development Patterns
 
 - [[docs/development/nx-command-reference.md]] - Comprehensive Nx command reference
+- [[docs/development/nx-migration-guide.md]] - Migration from pnpm to Nx commands
 - [[docs/development/file-based-operations-pattern.md]] - Standard patterns for file scanning and operations
 - [[docs/documentation-to-code-linking-system.md]] - Documentation and code bridging system
 

@@ -2,6 +2,7 @@ import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import { parseFrontmatter as parseMarkdownFrontmatter } from '@promethean-os/markdown/frontmatter';
 import type { Task } from '../types.js';
+import { warn, error } from '../utils/logger.js';
 import type {
   TaskSection,
   TaskContentResult,
@@ -120,7 +121,7 @@ export class FileBasedTaskCache implements TaskCache {
       await fs.copyFile(filePath, backupPath);
       return backupPath;
     } catch (error) {
-      console.warn(`Failed to backup task ${uuid}:`, error);
+      warn(`Failed to backup task ${uuid}:`, error);
       return undefined;
     }
   }
@@ -289,7 +290,7 @@ export class TaskContentManager {
     try {
       return await getTaskSections(this.cache, uuid);
     } catch (error) {
-      console.error(`Failed to get sections for task ${uuid}:`, error);
+      error(`Failed to get sections for task ${uuid}:`, error);
       return [];
     }
   }
@@ -324,7 +325,7 @@ export class TaskContentManager {
         estimatedReadingTime: Math.ceil(task.content.split(/\s+/).length / 200), // 200 WPM
       };
     } catch (error) {
-      console.error(`Failed to analyze task ${uuid}:`, error);
+      error(`Failed to analyze task ${uuid}:`, error);
       return null;
     }
   }

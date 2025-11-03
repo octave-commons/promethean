@@ -7,6 +7,7 @@ import { promises as fs } from 'fs';
 import { stat } from 'fs/promises';
 import { parse as parseYaml, stringify as stringifyYaml } from 'yaml';
 import { randomUUID } from 'crypto';
+import { warn } from '../utils/logger.js';
 export { parseYaml };
 
 // Read a task file from disk and return parsed pieces
@@ -69,15 +70,15 @@ export function parseTaskContent(content: string): {
         frontmatter = parseYaml(frontmatterText);
       } catch (error) {
         const errorMessage = error instanceof Error ? error.message : String(error);
-        console.warn(`Failed to parse frontmatter YAML: ${errorMessage}`);
-        console.warn('Frontmatter text (first 200 chars):', frontmatterText.slice(0, 200));
+        warn(`Failed to parse frontmatter YAML: ${errorMessage}`);
+        warn('Frontmatter text (first 200 chars):', frontmatterText.slice(0, 200));
         // Try to provide more specific error information
         if (errorMessage.includes('indentation')) {
-          console.warn('Hint: Check YAML indentation - YAML is sensitive to spaces');
+          warn('Hint: Check YAML indentation - YAML is sensitive to spaces');
         } else if (errorMessage.includes('mapping values')) {
-          console.warn('Hint: Check for missing colons or malformed key-value pairs');
+          warn('Hint: Check for missing colons or malformed key-value pairs');
         } else if (errorMessage.includes('block sequence')) {
-          console.warn('Hint: Check array/list formatting with dashes');
+          warn('Hint: Check array/list formatting with dashes');
         }
         // Continue with empty frontmatter rather than failing completely
         frontmatter = {};
@@ -186,7 +187,7 @@ async function generateTaskFrontmatter(
 
     return frontmatter;
   } catch (error) {
-    console.warn(`Failed to generate frontmatter for ${filePath}:`, error);
+    warn(`Failed to generate frontmatter for ${filePath}:`, error);
     return null;
   }
 }
@@ -315,7 +316,7 @@ export async function createBackup(filePath: string): Promise<string> {
     await fs.copyFile(filePath, backupPath);
     return backupPath;
   } catch (error) {
-    console.warn('Failed to create backup:', error);
+    warn('Failed to create backup:', error);
     return '';
   }
 }

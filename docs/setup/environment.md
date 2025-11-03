@@ -137,7 +137,7 @@ ollama list | grep -E "qwen3:4b|nomic-embed-text:latest"
 
 ### Dry-run validation
 ```bash
-pnpm --filter @promethean-os/docops doc:01-fm-ensure --model ${DEFAULT_MODEL:-qwen3:4b}
+nx exec docops -- doc:01-fm-ensure --model ${DEFAULT_MODEL:-qwen3:4b}
 ```
 The command should complete without `ollama` connection errors. If you must run pipelines without AI capabilities (e.g., CI runners without GPU), set `OLLAMA_DISABLE=true` so scripts degrade gracefully.
 
@@ -290,12 +290,12 @@ Keep this document updated whenever new pipelines introduce additional secrets o
 
 **Sonar Pipeline (requires all SONAR_* variables):**
 ```bash
-pnpm --filter @promethean-os/piper piper run sonar
+nx exec piper -- piper run sonar
 ```
 
 **Board Review Pipeline (may use GITHUB_TOKEN):**
 ```bash
-pnpm --filter @promethean-os/piper piper run board-review
+nx exec piper -- piper run board-review
 ```
 
 ## Troubleshooting
@@ -349,10 +349,10 @@ curl -X POST http://localhost:11434/api/generate \
 ### Running AI-Powered Pipelines
 ```bash
 # Test a specific pipeline
-pnpm --filter @promethean-os/piper piper run symdocs --config pipelines.json
+nx exec piper -- piper run symdocs --config pipelines.json
 
 # Run all AI pipelines (requires full setup)
-pnpm --filter @promethean-os/piper piper run symdocs,simtasks,readmes
+nx exec piper -- piper run symdocs,simtasks,readmes
 ```
 
 ### Verifying Setup
@@ -365,7 +365,7 @@ fetch(process.env.OLLAMA_URL + '/api/tags')
 "
 
 # Test pipeline configuration
-pnpm --filter @promethean-os/piper piper list
+nx exec piper -- piper list
 ```
 
 ## Security Notes
