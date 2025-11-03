@@ -751,7 +751,7 @@ const handleDev: CommandHandler = async (args, context) => {
     return new Promise(() => {}); // Never resolves
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error('[kanban-dev] Failed to start development server:', errorMessage);
+    error('[kanban-dev] Failed to start development server:', errorMessage);
     throw error;
   }
 };
@@ -823,7 +823,7 @@ const handleShowTransitions: CommandHandler = async (_args, context) => {
     return overview;
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error('Error loading transition rules:', errorMessage);
+    error('Error loading transition rules:', errorMessage);
     return { error: errorMessage };
   }
 };
@@ -2792,7 +2792,7 @@ const handleAuditTask: CommandHandler = async (args, context) => {
     };
   } catch (error) {
     const errorMessage = error instanceof Error ? error.message : String(error);
-    console.error(`❌ Audit failed: ${errorMessage}`);
+    error(`❌ Audit failed: ${errorMessage}`);
     throw error;
   }
 };

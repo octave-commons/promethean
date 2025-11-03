@@ -14,25 +14,38 @@ On every request when working on promethean:
 3. `pm2 status` → inspect related running services
 3. begin general initiation sequence
 
-## Build/Lint/Test Commands
+## 🚀 Build/Lint/Test Commands (Nx-Centric)
 
-**Root level (all packages):**
+**Root level (all projects):**
 
-- `pnpm build` - Build all packages
-- `pnpm test` - Test all packages
-- `pnpm lint` - Lint all packages
-- `pnpm typecheck:all` - Typecheck all packages
+- `nx run-many -t build` - Build all projects with dependency ordering
+- `nx run-many -t test` - Test all projects
+- `nx run-many -t lint` - Lint all projects  
+- `nx run-many -t typecheck` - Typecheck all projects
 
-**Single package:**
+**Single project:**
 
-- `pnpm --filter @promethean-os/<pkg> build`
-- `pnpm --filter @promethean-os/<pkg> test`
-- `pnpm --filter @promethean-os/<pkg> lint`
-- `pnpm --filter @promethean-os/<pkg> typecheck`
+- `nx build <project-name>` - Build specific project
+- `nx test <project-name>` - Test specific project
+- `nx lint <project-name>` - Lint specific project
+- `nx typecheck <project-name>` - Typecheck specific project
+
+**Affected projects (based on git changes):**
+
+- `nx affected -t build` - Build only changed projects
+- `nx affected -t test` - Test only changed projects
+- `nx affected -t lint` - Lint only changed projects
+- `nx affected -t typecheck` - Typecheck only changed projects
 
 **Single test file:**
 
-- `pnpm --filter @promethean-os/<pkg> exec ava path/to/test.test.js`
+- `nx exec <project-name> -- ava path/to/test.test.js`
+
+**Development workflow:**
+
+- `nx watch <project-name>` - Watch for changes and rebuild
+- `nx graph` - View project dependency graph
+- `nx show projects` - List all available projects
 
 ## Testing
 
@@ -69,17 +82,24 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 
 ---
 
-## 🧱 Local Package Commands
+## 🧱 Local Project Commands (Nx-Centric)
 
-MUST ALWAYS USE **locally scoped commands**:
+MUST ALWAYS USE **nx project commands**:
 
 ```bash
-pnpm --filter @promethean-os/<pkg> test
-pnpm --filter @promethean-os/<pkg> build
-pnpm --filter @promethean-os/<pkg> clean
-pnpm --filter @promethean-os/<pkg> typecheck
-pnpm --filter @promethean-os/<pkg> start
-pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
+nx test <project-name>
+nx build <project-name>
+nx clean <project-name>
+nx typecheck <project-name>
+nx start <project-name>
+nx exec <project-name> -- node ./dist/index.ts
+```
+
+**For multiple projects:**
+
+```bash
+nx run-many -t test -p <project1,project2>
+nx run-many -t build -p <project1,project2>
 ```
 
 ---
@@ -102,6 +122,7 @@ The documentation must be completely traversable .
 
 #### Development Patterns
 
+- [[docs/development/nx-command-reference.md]] - Comprehensive Nx command reference
 - [[docs/development/file-based-operations-pattern.md]] - Standard patterns for file scanning and operations
 - [[docs/documentation-to-code-linking-system.md]] - Documentation and code bridging system
 
