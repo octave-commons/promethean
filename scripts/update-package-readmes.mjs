@@ -6,7 +6,7 @@
 
 import { readFileSync, writeFileSync } from 'fs';
 import { join } from 'path';
-import { globSync } from 'glob';
+import { globSync } from 'node:fs';
 
 const PACKAGES_DIR = 'packages';
 
@@ -47,7 +47,7 @@ function updateReadme(filePath) {
 }
 
 function main() {
-  const readmeFiles = globSync(join(PACKAGES_DIR, '**/README.md'));
+  const readmeFiles = globSync(join(PACKAGES_DIR, '**/README.md'), { recursive: true });
   
   console.log(`🔍 Found ${readmeFiles.length} README files to check...`);
   
