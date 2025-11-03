@@ -7,11 +7,11 @@
  {:portal {:target :browser
            :output-dir "public/apps/portal/js"
            :asset-path "/apps/portal/js"
-           :modules {:main {:entries [promethean.main]}}
-           :devtools {:after-load promethean.main/reload}}
+           :modules {:main {:entries [promethean.main.app]}}
+           :devtools {:after-load promethean.main.app/mount-root}}
 
   :kanban {:target :browser
            :output-dir "public/apps/kanban/js"
            :asset-path "/apps/kanban/js"
-           :modules {:main {:entries [promethean.kanban.app]}}
-           :devtools {:after-load promethean.kanban.app/reload}}}}
+           :modules {:main {:entries [promethean.frontends.kanban.app]}}
+           :devtools {:after-load promethean.frontends.kanban.app/init}}}}

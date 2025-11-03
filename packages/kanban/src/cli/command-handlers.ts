@@ -629,9 +629,9 @@ const handleProcess: CommandHandler = async (args) => {
       debug('');
       debug(processContent);
     }
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error(`Error reading process document: ${message}`);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    error(`Error reading process document: ${message}`);
     process.exit(1);
   }
 };
@@ -862,9 +862,9 @@ const handleShowProcess: CommandHandler = async (_args, _context) => {
       debug('');
       debug('For detailed process information, see: docs/agile/process.md');
     }
-  } catch (error) {
-    const message = error instanceof Error ? error.message : String(error);
-    console.error(`Error reading process document: ${message}`);
+  } catch (err) {
+    const message = err instanceof Error ? err.message : String(err);
+    error(`Error reading process document: ${message}`);
   }
 
   return null;
