@@ -13,6 +13,7 @@ import type {
   OAuthIntegrationConfig,
 } from './types.js';
 import type { UserRole } from '../core/authorization.js';
+import { logger } from '@promethean-os/logger';
 
 /**
  * Complete OAuth configuration
@@ -106,7 +107,7 @@ function loadGitHubProviderConfig() {
   const clientSecret = getEnv('OAUTH_GITHUB_CLIENT_SECRET');
 
   if (!clientId || !clientSecret) {
-    console.warn('[OAuthConfig] GitHub OAuth credentials not provided, GitHub provider disabled');
+    logger.warn('GitHub OAuth credentials not provided, GitHub provider disabled');
     return undefined;
   }
 
@@ -128,7 +129,7 @@ function loadGoogleProviderConfig() {
   const clientSecret = getEnv('OAUTH_GOOGLE_CLIENT_SECRET');
 
   if (!clientId || !clientSecret) {
-    console.warn('[OAuthConfig] Google OAuth credentials not provided, Google provider disabled');
+    logger.warn('Google OAuth credentials not provided, Google provider disabled');
     return undefined;
   }
 
@@ -163,7 +164,7 @@ function getRequiredEnv(key: string, defaultValue?: string): string {
   }
 
   if (defaultValue !== undefined) {
-    console.warn(`[OAuthConfig] Using default value for ${key}: ${defaultValue}`);
+    logger.warn(`Using default value for ${key}`, { key, defaultValue });
     return defaultValue;
   }
 

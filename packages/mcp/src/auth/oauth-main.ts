@@ -157,7 +157,7 @@ export async function initializeOAuthSystem(
   options: OAuthSystemOptions = {},
 ): Promise<OAuthSystemManager> {
   if (globalOAuthManager) {
-    console.warn('[OAuth] Global OAuth system already exists, returning existing instance');
+    logger.warn('Global OAuth system already exists, returning existing instance');
     return globalOAuthManager;
   }
 
