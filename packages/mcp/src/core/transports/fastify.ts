@@ -43,6 +43,7 @@ import {
 import type { Transport, Tool } from '../types.js';
 import type { IncomingMessage } from 'node:http';
 import { createSessionIdGenerator } from './session-id.js';
+import { logger } from '@promethean-os/logger';
 
 const isObject = (value: unknown): value is Record<string, unknown> =>
   typeof value === 'object' && value !== null;
