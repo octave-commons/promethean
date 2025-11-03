@@ -79,7 +79,7 @@ graph LR
   n67["@promethean-os/semverguard"]
   n68["@promethean-os/shadow-conf"]
   n69["@promethean-os/simtasks"]
-  n70["@promethean-os/smartgpt-bridge"]
+  
   n71["@promethean-os/snapshots"]
   n72["@promethean-os/sonarflow"]
   n73["@promethean-os/stream"]
@@ -326,7 +326,7 @@ graph LR
   click n67 "semverguard/README.md" "@promethean-os/semverguard docs"
   click n68 "shadow-conf/README.md" "@promethean-os/shadow-conf docs"
   click n69 "simtask/README.md" "@promethean-os/simtasks docs"
-  click n70 "smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge docs"
+  
   click n71 "snapshots/README.md" "@promethean-os/snapshots docs"
   click n72 "sonarflow/README.md" "@promethean-os/sonarflow docs"
   click n73 "stream/README.md" "@promethean-os/stream docs"
@@ -411,7 +411,7 @@ graph LR
 - @promethean-os/semverguard$./semverguard/README.md — deps: 2, dependents: 0
 - @promethean-os/shadow-conf$./shadow-conf/README.md — deps: 1, dependents: 0
 - @promethean-os/simtasks$./simtask/README.md — deps: 3, dependents: 0
-- @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md — deps: 9, dependents: 0
+
 - @promethean-os/snapshots$./snapshots/README.md — deps: 1, dependents: 0
 - @promethean-os/sonarflow$./sonarflow/README.md — deps: 2, dependents: 0
 - @promethean-os/stream$./stream/README.md — deps: 0, dependents: 2
@@ -433,15 +433,15 @@ graph LR
 |---|---:|---|
 ```
 | @promethean-os/utils$./utils/README.md | 34 | @promethean-os/agent-ecs$./agent-ecs/README.md, @promethean-os/boardrev$./boardrev/README.md, @promethean-os/buildfix$./buildfix/README.md, @promethean-os/cephalon$./cephalon/README.md, @promethean-os/changefeed$./changefeed/README.md, @promethean-os/codemods$./codemods/README.md, @promethean-os/codepack$./codepack/README.md, @promethean-os/compaction$./compaction/README.md, @promethean-os/cookbookflow$./cookbookflow/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/embedding$./embedding/README.md, @promethean-os/event$./event/README.md, +22 more |
-| @promethean-os/level-cache$./level-cache/README.md | 13 | @promethean-os/boardrev$./boardrev/README.md, @promethean-os/cephalon$./cephalon/README.md, @promethean-os/codemods$./codemods/README.md, @promethean-os/codepack$./codepack/README.md, @promethean-os/indexer-core$./indexer-core/README.md, @promethean-os/kanban$./kanban/README.md, @promethean-os/piper$./piper/README.md, @promethean-os/readmeflow$./readmeflow/README.md, @promethean-os/semverguard$./semverguard/README.md, @promethean-os/simtasks$./simtask/README.md, @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md, @promethean-os/sonarflow$./sonarflow/README.md, +1 more |
-| @promethean-os/test-utils$./test-utils/README.md | 13 | @promethean-os/agent-ecs$./agent-ecs/README.md, @promethean-os/agents-workflow$./agents-workflow/README.md, @promethean-os/cephalon$./cephalon/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/event$./event/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/legacy$./legacy/README.md, @promethean-os/level-cache$./level-cache/README.md, @promethean-os/markdown-graph$./markdown-graph/README.md, @promethean-os/monitoring$./monitoring/README.md, @promethean-os/piper$./piper/README.md, @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md, +1 more |
+| @promethean-os/level-cache$./level-cache/README.md | 13 | @promethean-os/boardrev$./boardrev/README.md, @promethean-os/cephalon$./cephalon/README.md, @promethean-os/codemods$./codemods/README.md, @promethean-os/codepack$./codepack/README.md, @promethean-os/indexer-core$./indexer-core/README.md, @promethean-os/kanban$./kanban/README.md, @promethean-os/piper$./piper/README.md, @promethean-os/readmeflow$./readmeflow/README.md, @promethean-os/semverguard$./semverguard/README.md, @promethean-os/simtasks$./simtask/README.md, , @promethean-os/sonarflow$./sonarflow/README.md, +1 more |
+| @promethean-os/test-utils$./test-utils/README.md | 13 | @promethean-os/agent-ecs$./agent-ecs/README.md, @promethean-os/agents-workflow$./agents-workflow/README.md, @promethean-os/cephalon$./cephalon/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/event$./event/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/legacy$./legacy/README.md, @promethean-os/level-cache$./level-cache/README.md, @promethean-os/markdown-graph$./markdown-graph/README.md, @promethean-os/monitoring$./monitoring/README.md, @promethean-os/piper$./piper/README.md, , +1 more |
 | @promethean-os/event$./event/README.md | 11 | @promethean-os/changefeed$./changefeed/README.md, @promethean-os/compaction$./compaction/README.md, @promethean-os/dev$./dev/README.md, @promethean-os/discord$./discord/README.md, @promethean-os/dlq$./dlq/README.md, @promethean-os/examples$./examples/README.md, @promethean-os/http$./http/README.md, @promethean-os/projectors$./projectors/README.md, @promethean-os/schema$./schema/README.md, @promethean-os/timetravel$./timetravel/README.md, @promethean-os/ws$./ws/README.md |
-| @promethean-os/fs$./fs/README.md | 9 | @promethean-os/codepack$./codepack/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/image-link-generator$./image-link-generator/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/markdown$./markdown/README.md, @promethean-os/piper$./piper/README.md, @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md, @promethean-os/tests$./tests/README.md, @promethean-os/web-utils$./web-utils/README.md |
-| @promethean-os/persistence$./persistence/README.md | 8 | @promethean-os/cephalon$./cephalon/README.md, @promethean-os/discord$./discord/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/markdown-graph$./markdown-graph/README.md, @promethean-os/migrations$./migrations/README.md, @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md, @promethean-os/test-utils$./test-utils/README.md |
+| @promethean-os/fs$./fs/README.md | 9 | @promethean-os/codepack$./codepack/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/image-link-generator$./image-link-generator/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/markdown$./markdown/README.md, @promethean-os/piper$./piper/README.md, , @promethean-os/tests$./tests/README.md, @promethean-os/web-utils$./web-utils/README.md |
+| @promethean-os/persistence$./persistence/README.md | 8 | @promethean-os/cephalon$./cephalon/README.md, @promethean-os/discord$./discord/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/markdown-graph$./markdown-graph/README.md, @promethean-os/migrations$./migrations/README.md, , @promethean-os/test-utils$./test-utils/README.md |
 | @promethean-os/pm2-helpers$./pm2-helpers/README.md | 8 | @promethean-os/auth-service$./auth-service/README.md, @promethean-os/cephalon$./cephalon/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/llm$./llm/README.md, @promethean-os/markdown-graph$./markdown-graph/README.md, @promethean-os/shadow-conf$./shadow-conf/README.md, @promethean-os/voice-service$./voice/README.md |
-| @promethean-os/embedding$./embedding/README.md | 7 | @promethean-os/cephalon$./cephalon/README.md, @promethean-os/discord$./discord/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/indexer-core$./indexer-core/README.md, @promethean-os/migrations$./migrations/README.md, @promethean-os/persistence$./persistence/README.md, @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md |
+| @promethean-os/embedding$./embedding/README.md | 7 | @promethean-os/cephalon$./cephalon/README.md, @promethean-os/discord$./discord/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/indexer-core$./indexer-core/README.md, @promethean-os/migrations$./migrations/README.md, @promethean-os/persistence$./persistence/README.md,  |
 | @promethean-os/legacy$./legacy/README.md | 7 | @promethean-os/agent-ecs$./agent-ecs/README.md, @promethean-os/cephalon$./cephalon/README.md, @promethean-os/discord$./discord/README.md, @promethean-os/embedding$./embedding/README.md, @promethean-os/file-watcher$./file-watcher/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/persistence$./persistence/README.md |
-| @promethean-os/file-indexer$./file-indexer/README.md | 6 | @promethean-os/codepack$./codepack/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/indexer-core$./indexer-core/README.md, @promethean-os/simtasks$./simtask/README.md, @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md, @promethean-os/symdocs$./symdocs/README.md |
+| @promethean-os/file-indexer$./file-indexer/README.md | 6 | @promethean-os/codepack$./codepack/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/indexer-core$./indexer-core/README.md, @promethean-os/simtasks$./simtask/README.md, , @promethean-os/symdocs$./symdocs/README.md |
 | @promethean-os/markdown$./markdown/README.md | 5 | @promethean-os/boardrev$./boardrev/README.md, @promethean-os/docops$./docops/README.md, @promethean-os/kanban$./kanban/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/tests$./tests/README.md |
 | @promethean-os/ds$./ds/README.md | 4 | @promethean-os/agent-ecs$./agent-ecs/README.md, @promethean-os/fs$./fs/README.md, @promethean-os/kanban-processor$./kanban-processor/README.md, @promethean-os/worker$./worker/README.md |
 | @promethean-os/platform$./platform/README.md | 4 | @promethean-os/discord$./discord/README.md, @promethean-os/embedding$./embedding/README.md, @promethean-os/providers$./providers/README.md, @promethean-os/security$./security/README.md |
@@ -449,7 +449,7 @@ graph LR
 | @promethean-os/web-utils$./web-utils/README.md | 3 | @promethean-os/frontend-service$./frontend-service/README.md, @promethean-os/tests$./tests/README.md, @promethean-os/webcrawler-service$./webcrawler-service/README.md |
 | @promethean-os/compiler$./compiler/README.md | 2 | @promethean-os/cli$./cli/README.md, @promethean-os/tests$./tests/README.md |
 | @promethean-os/duck-audio$./duck-audio/README.md | 2 | @promethean-os/cephalon$./cephalon/README.md, @promethean-os/duck-web$./duck-web/README.md |
-| @promethean-os/indexer-core$./indexer-core/README.md | 2 | @promethean-os/indexer-service$./indexer-service/README.md, @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md |
+| @promethean-os/indexer-core$./indexer-core/README.md | 2 | @promethean-os/indexer-service$./indexer-service/README.md,  |
 | @promethean-os/monitoring$./monitoring/README.md | 2 | @promethean-os/discord$./discord/README.md, @promethean-os/ws$./ws/README.md |
 | @promethean-os/stream$./stream/README.md | 2 | @promethean-os/fs$./fs/README.md, @promethean-os/tests$./tests/README.md |
 | @promethean-os/agent$./agent/README.md | 1 | @promethean-os/discord$./discord/README.md |
@@ -461,7 +461,7 @@ graph LR
 | @promethean-os/enso-protocol$./enso-protocol/README.md | 1 | @promethean-os/cephalon$./cephalon/README.md |
 | @promethean-os/examples$./examples/README.md | 1 | @promethean-os/dev$./dev/README.md |
 | @promethean-os/http$./http/README.md | 1 | @promethean-os/dev$./dev/README.md |
-| @promethean-os/indexer-service$./indexer-service/README.md | 1 | @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md |
+| @promethean-os/indexer-service$./indexer-service/README.md | 1 |  |
 | @promethean-os/kanban$./kanban/README.md | 1 | @promethean-os/mcp$./mcp/README.md |
 | @promethean-os/llm$./llm/README.md | 1 | @promethean-os/cephalon$./cephalon/README.md |
 | @promethean-os/migrations$./migrations/README.md | 1 | @promethean-os/discord$./discord/README.md |
@@ -506,7 +506,7 @@ graph LR
 | @promethean-os/semverguard$./semverguard/README.md | 0 | _None_ |
 | @promethean-os/shadow-conf$./shadow-conf/README.md | 0 | _None_ |
 | @promethean-os/simtasks$./simtask/README.md | 0 | _None_ |
-| @promethean-os/smartgpt-bridge$./smartgpt-bridge/README.md | 0 | _None_ |
+|  | 0 | _None_ |
 | @promethean-os/snapshots$./snapshots/README.md | 0 | _None_ |
 | @promethean-os/sonarflow$./sonarflow/README.md | 0 | _None_ |
 | @promethean-os/symdocs$./symdocs/README.md | 0 | _None_ |
@@ -587,7 +587,7 @@ graph LR
   dd6oh6i_67["@promethean-os/semverguard"]
   dyskyva_68["@promethean-os/shadow-conf"]
   dq7evou_69["@promethean-os/simtasks"]
-  dr0yddv_70["@promethean-os/smartgpt-bridge"]
+  
   d2ljhe0_71["@promethean-os/snapshots"]
   d36cy6e_72["@promethean-os/sonarflow"]
   dm5e61j_73["@promethean-os/stream"]
@@ -834,7 +834,7 @@ graph LR
   click dd6oh6i_67 "../semverguard/README.md" "@promethean-os/semverguard docs"
   click dyskyva_68 "../shadow-conf/README.md" "@promethean-os/shadow-conf docs"
   click dq7evou_69 "../simtask/README.md" "@promethean-os/simtasks docs"
-  click dr0yddv_70 "../smartgpt-bridge/README.md" "@promethean-os/smartgpt-bridge docs"
+  
   click d2ljhe0_71 "../snapshots/README.md" "@promethean-os/snapshots docs"
   click d36cy6e_72 "../sonarflow/README.md" "@promethean-os/sonarflow docs"
   click dm5e61j_73 "../stream/README.md" "@promethean-os/stream docs"
