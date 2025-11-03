@@ -8,7 +8,6 @@ kanban-plugin: board
 
 - [ ] [[2025.10.08.15.30.00-fix-kanban-config-resolution|Task 2c7e9d46]] #bug #cli #config #kanban prio:P1 (uuid:2c7e9d46-09b2-4670-a3ac-381cb4f0c21e)
 - [ ] [[2025.10.08.16.05.00-implement-omni-auth-rbac|Task 1a148406]] #auth #omni #rbac #security #service prio:P2 (uuid:1a148406-56c1-4178-a282-6ebe180c20a2)
-- [ ] [[2025.10.08.16.25.00-fix-grep-error-handling|Task 0b41959d]] #error-handling #grep #ripgrep #smartgpt-bridge prio:P2 (uuid:0b41959d-cd50-4a9c-bd00-10eebac7257b)
 - [ ] [[2025.10.08.16.30.00-add-kanban-crud-commands|Task efbb8046]] #cli #crud #kanban #task-management prio:P2 (uuid:efbb8046-d29c-4275-a4d6-de2ed898578b)
 - [ ] [[2025.10.08.17.00.00-boardrev-vector-db-epic|Task dc8d973f]] #ai #automation #boardrev #evaluation #vector-database prio:P2 (uuid:dc8d973f-a659-4804-98f9-47db432b0b22)
 - [ ] [[Fix Type Safety Crisis in @promethean opencode-client|Foundation & Interface Alignment - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #foundation #interface-alignment #types #infrastructure prio:P0 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
@@ -504,7 +503,6 @@ kanban-plugin: board
 - [x] [[2025.10.08.16.00.00-create-omni-service-package|Task ad174e6a]] #fastify #omni #scaffolding #service prio:P2 (uuid:ad174e6a-d4bb-4292-9b32-8572e4eca8cb)
 - [x] [[2025.10.08.16.10.00-mount-omni-adapters|Task c04967e5]] #adapters #integration #omni #service prio:P2 (uuid:c04967e5-0295-4711-b8a3-6a1e5e104c17)
 - [x] [[2025.10.08.16.15.00-omni-service-integration-tests|Task 0e98fc4f]] #ci #deployment #omni #service #testing prio:P2 (uuid:0e98fc4f-3c53-4f86-8470-096437b4ff62)
-- [x] [[2025.10.08.16.20.00-reproduce-grep-test-failure|Task 3b354c7c]] #debugging #grep #smartgpt-bridge #testing prio:P2 (uuid:3b354c7c-d394-4e1b-8f91-46ce60d3f5b7)
 - [x] [[2025.10.26.create-pantheon-persistence-package|Create @promethean-os/pantheon-persistence package]] #pantheon #persistence #adapter #package #retrospective prio:P1 (uuid:788a564e-4d37-48df-b336-85ba83666840)
 - [x] [[2025.10.26.implement-pantheon-persistence-adapter|Implement pantheon-persistence adapter functionality]] #pantheon #persistence #adapter #implementation #retrospective prio:P1 (uuid:0ea04a87-39e1-4e08-b410-43903561b8d6)
 - [x] [[Add job-level timeouts to all workflows]] #automation #buildfix #pipeline #timeout prio:P0 (uuid:6f34ddef-fdc8-4fe9-ad60-89c10ca6bac7)

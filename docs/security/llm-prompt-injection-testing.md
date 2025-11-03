@@ -20,7 +20,6 @@ packages/security/src/testing/
 ├── auth-testing.ts             # Authentication security testing
 └── index.ts                    # Main orchestrator
 
-packages/smartgpt-bridge/src/security/
 ├── prompt-injection-middleware.ts  # Enhanced security guard
 ├── agent-supervisor-enhanced.ts    # Secure agent supervisor
 └── ../tests/
@@ -120,7 +119,6 @@ if (validation.allowed) {
 ### Standalone Validation
 
 ```typescript
-import { validatePromptSecure } from '@promethean-os/smartgpt-bridge/security/agent-supervisor-enhanced.js';
 import { validateLLMPrompt } from '@promethean-os/cephalon/security/llm-service-enhanced.js';
 
 // Quick validation

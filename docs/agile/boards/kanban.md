@@ -312,7 +312,6 @@
 - [ ] [[snapshot_prompts_specs_to_repo|Snapshot prompts specs to repo]] #IceBox #ready
 - [ ] [[llm-service-must-accept-tool-calls|LLM service must accept tool calls]] #framework-core #framework-core #Ready #ready
 - [ ] [[make-the-system-hashtag-aware|Make the system hashtag aware]] #ready
-- [ ] [[mvp-local-llm-chat-interface-with-tool-calls-connected-to-gpt-bridge|MVP local LLM chat interface with tool calls connected to gpt bridge]] #agents #ws #openapi #tools #smartgpt-bridge #prompts #promethean #tags #promethean #pythagoras #ws #llm-worker #smartgpt-bridge #openapi #tool-calling #testing #docs #ready
 - [ ] [[promethean-health-dashboard|Promethean Health Dashboard]] #framework-core #observability #eidolon-visualization #dashboard #broker #realtime #IceBox #ready
 - [ ] [[webcrawler]] #Tags #agents #crawler #llm #summarization #chroma #mongodb #etl #dual-sink #search #observability #promethean #tag #tags #tags #c #ai #ethics #promethean #login #home #tags #promethean #agent #crawler #hyperlink-graph #summarization #tags #obsidian #chroma #mongodb #dual-sink #fastify #ollama #qwen #readability #robots #search #observability #in-progress
 - [ ] [[lisp-ecosystem-files|lisp ecosystem files]] #Breakdown #todo
@@ -360,7 +359,6 @@
 - [ ] [[fp-ts-config-and-linting]]
 - [ ] [[breakdown-makefile.hy|Audit Makefile.hy remnants and confirm deprecation]] #framework-core #ready
 - [ ] [[flatten-services|flatten services]] #framework-core #framework-core #Ready #todo
-- [ ] [[convert-smartgpt-bridge-to-ts|convert smartgpt bridge to ts]] #ready
 - [ ] [[post-move-stablization--compat-layer---hook-diet-]] #precommit #refactor #typescript #python #imports #compat #monorepo #tooling #stabilization #accepted
 - [ ] [[setup-new-service-generator|setup new service generator]] #framework-core #in-review
 - [ ] [[mock-broker|Mock broker]] #framework-core #testing #infra #typescript #fastify #websockets #mongodb #chroma #promethean #framework-core #promethean #broker #mock #testing #vitest #typescript #di #inmemory #deterministic #in-review
