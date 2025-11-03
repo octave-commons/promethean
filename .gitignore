@@ -76,22 +76,22 @@ catalog.org
 .envrc
 
 *.snap
-services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json
+
 
 .cache/
 
-services/ts/smartgpt-bridge/logs/agents/
 
-services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json
+
+
 
 /.cache/
 docs/.makemd/
 
 docs/.space/
 context.mdb
-packages/smartgpt-bridge/logs/
 
-packages/smartgpt-bridge/services/ts/smartgpt-bridge/tests/tmp/
+
+
 
 packages/codex-context/docs/codex-context/
 
