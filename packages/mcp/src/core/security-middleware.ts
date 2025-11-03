@@ -7,6 +7,7 @@
 
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import crypto from 'node:crypto';
+import { logger } from '@promethean-os/logger';
 
 // Security Configuration
 export interface SecurityConfig {
@@ -285,8 +286,9 @@ export class SecurityMiddleware {
       });
     }
 
-    console.warn(
-      `[security] IP blocked: ${ipAddress} - ${reason} (expires: ${expiresAt.toISOString()})`,
+    logger.warn(
+      `IP blocked: ${ipAddress} - ${reason} (expires: ${expiresAt.toISOString()})`,
+      { ipAddress, reason, expiresAt: expiresAt.toISOString() }
     );
   }
 

@@ -10,6 +10,7 @@ import jwt, { type JwtPayload } from 'jsonwebtoken';
 import type { FastifyRequest, FastifyReply } from 'fastify';
 import type { ToolContext } from './types.js';
 import type { UserRole } from './authorization.js';
+import { logger } from '@promethean-os/logger';
 
 // JWT Configuration
 export interface JwtConfig {
@@ -186,7 +187,7 @@ export class AuthenticationManager {
           }
         }
       } catch (error) {
-        console.warn('[auth] Failed to parse MCP_API_KEYS environment variable:', error);
+        logger.warn('Failed to parse MCP_API_KEYS environment variable', { error: error.message });
       }
     }
   }
