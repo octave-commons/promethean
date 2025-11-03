@@ -790,7 +790,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           decorateReply: false,
         });
       } else {
-        console.warn(
+        logger.warn(
           `[mcp:http] dev-ui assets not found at ${devUiDir}. ` +
             "Run 'pnpm --filter @promethean-os/mcp-dev-ui build' to generate the bundle.",
         );
@@ -809,7 +809,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
         });
         console.log('[mcp:http] OAuth integration initialized successfully');
       } catch (error) {
-        console.warn('[mcp:http] OAuth integration failed to initialize:', error);
+        logger.warn('[mcp:http] OAuth integration failed to initialize:', error);
         console.log('[mcp:http] Continuing without OAuth authentication');
       }
 
@@ -985,7 +985,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             console.log(`[mcp:http] actions available at ${actionBasePath}: ${names}`);
           })
           .catch((error) => {
-            console.warn(`[mcp:http] failed to resolve actions for ${basePath}:`, error);
+            logger.warn(`[mcp:http] failed to resolve actions for ${basePath}:`, error);
           });
 
         app.get(actionBasePath, async (_request, reply) => {
@@ -1973,7 +1973,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
           await oauthIntegration.cleanup();
           console.log('[mcp:http] OAuth integration cleaned up successfully');
         } catch (error) {
-          console.warn('[mcp:http] OAuth cleanup failed:', error);
+          logger.warn('[mcp:http] OAuth cleanup failed:', error);
         }
       }
 
