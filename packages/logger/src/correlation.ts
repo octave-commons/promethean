@@ -40,31 +40,23 @@ export const extractCorrelationContext = (headers?: Record<string, string>): Cor
   }
 
   // Extract from environment as fallback
-  if (!context.correlationId) {
-    context.correlationId = process.env.CORRELATION_ID;
-  }
-  if (!context.requestId) {
-    context.requestId = process.env.REQUEST_ID;
-  }
-  if (!context.userId) {
-    context.userId = process.env.USER_ID;
-  }
-  if (!context.sessionId) {
-    context.sessionId = process.env.SESSION_ID;
-  }
-  if (!context.traceId) {
-    context.traceId = process.env.TRACE_ID;
-  }
+  const envCorrelationId = context.correlationId || process.env.CORRELATION_ID;
+  const envRequestId = context.requestId || process.env.REQUEST_ID;
+  const envUserId = context.userId || process.env.USER_ID;
+  const envSessionId = context.sessionId || process.env.SESSION_ID;
+  const envTraceId = context.traceId || process.env.TRACE_ID;
 
   // Generate missing IDs if needed
-  if (!context.correlationId) {
-    context.correlationId = generateCorrelationId();
-  }
-  if (!context.requestId) {
-    context.requestId = generateRequestId();
-  }
+  const finalCorrelationId = envCorrelationId || generateCorrelationId();
+  const finalRequestId = envRequestId || generateRequestId();
 
-  return context;
+  return {
+    correlationId: finalCorrelationId,
+    requestId: finalRequestId,
+    userId: envUserId,
+    sessionId: envSessionId,
+    traceId: envTraceId,
+  };
 };
 
 /**
