@@ -2,6 +2,7 @@
 // Error Utilities - Utility functions for error handling
 
 import type { PrometheanError, ErrorContext, ErrorCategory } from './types.js';
+import { ValidationError } from './domain-errors.js';
 
 /**
  * Check if an error is a Promethean error
@@ -18,64 +19,63 @@ export const toPrometheanError = async (
   context?: ErrorContext,
 ): Promise<PrometheanError> => {
   if (isPrometheanError(error)) {
-    return context ? (error as any).withContext(context) : error;
+    if (context && typeof error === 'object' && 'withContext' in error) {
+      return (
+        error as PrometheanError & { withContext: (ctx: ErrorContext) => PrometheanError }
+      ).withContext(context);
+    }
+    return error;
   }
 
   if (error instanceof Error) {
-    const { ValidationError } = await import('./domain-errors.js');
     return ValidationError(error.message, {
       context,
-      details: { originalError: error.name, stack: error.stack },
+      cause: error,
+      details: { stack: error.stack },
     });
   }
 
-  const { ValidationError } = await import('./domain-errors.js');
-  return ValidationError(String(error), { context });
+  const errorMessage = typeof error === 'string' ? error : 'Unknown error occurred';
+  return ValidationError(errorMessage, { context });
 };
 
 /**
- * Extract error context from various sources
+ * Extract error context from error
  */
-export const extractErrorContext = (source?: {
-  headers?: Record<string, string>;
-  user?: { id?: string };
-  session?: { id?: string };
-  request?: { id?: string };
-}): ErrorContext => {
-  const headerContext = source?.headers
-    ? {
-        correlationId: source.headers['x-correlation-id'] || source.headers['correlation-id'],
-        requestId: source.headers['x-request-id'] || source.headers['request-id'],
-        userId: source.headers['x-user-id'] || source.headers['user-id'],
-        sessionId: source.headers['x-session-id'] || source.headers['session-id'],
-        traceId: source.headers['x-trace-id'] || source.headers['trace-id'],
-      }
-    : {};
+export const extractErrorContext = (error: unknown): ErrorContext => {
+  if (isPrometheanError(error)) {
+    return error.context || {};
+  }
 
-  const userContext = source?.user?.id ? { userId: source.user.id } : {};
-  const sessionContext = source?.session?.id ? { sessionId: source.session.id } : {};
-  const requestContext = source?.request?.id ? { requestId: source.request.id } : {};
+  if (error instanceof Error) {
+    return { metadata: { originalMessage: error.message } };
+  }
 
-  return {
-    ...headerContext,
-    ...userContext,
-    ...sessionContext,
-    ...requestContext,
-  };
+  return { metadata: { originalValue: String(error) } };
 };
 
 /**
- * Create error response from any error
+ * Get error category from error
  */
-export const createErrorResponse = async (error: unknown, context?: ErrorContext) => {
-  const prometheanError = await toPrometheanError(error, context);
-  return (prometheanError as any).toJSON();
+export const getErrorCategory = (error: unknown): ErrorCategory => {
+  if (isPrometheanError(error)) {
+    return error.category;
+  }
+
+  if (error instanceof Error) {
+    if (error.name.includes('ValidationError')) return 'validation';
+    if (error.name.includes('AuthError')) return 'authentication';
+    if (error.name.includes('NetworkError')) return 'network';
+    if (error.name.includes('DatabaseError')) return 'database';
+  }
+
+  return 'internal';
 };
 
 /**
- * Get HTTP status code from error category
+ * Map error category to HTTP status code
  */
-export const getHttpStatusFromError = (error: PrometheanError): number => {
+export const getHttpStatus = (error: PrometheanError): number => {
   const statusMap: Record<ErrorCategory, number> = {
     validation: 400,
     authentication: 401,
@@ -84,20 +84,20 @@ export const getHttpStatusFromError = (error: PrometheanError): number => {
     conflict: 409,
     'rate-limit': 429,
     timeout: 408,
+    network: 503,
     external: 502,
-    network: 502,
-    database: 500,
-    system: 500,
-    configuration: 500,
-    internal: 500,
+    database: 503,
     business: 422,
+    configuration: 500,
+    system: 500,
+    internal: 500,
   };
 
   return statusMap[error.category] || 500;
 };
 
 /**
- * Check if error should be retried
+ * Check if error is retryable
  */
 export const isRetryableError = (error: PrometheanError): boolean => {
   const retryableCategories: ErrorCategory[] = ['timeout', 'network', 'external', 'database'];
@@ -112,10 +112,45 @@ export const getRetryDelay = (_error: PrometheanError, attempt: number): number 
   const maxDelay = 30000; // 30 seconds
   const backoffMultiplier = 2;
 
-  let delay = baseDelay * Math.pow(backoffMultiplier, attempt - 1);
+  const initialDelay = baseDelay * Math.pow(backoffMultiplier, attempt - 1);
 
   // Add jitter
-  delay = delay * (0.5 + Math.random() * 0.5);
+  const delay = initialDelay * (0.5 + Math.random() * 0.5);
 
   return Math.min(delay, maxDelay);
+};
+
+/**
+ * Create error response from any error
+ */
+export const createErrorResponse = async (
+  error: unknown,
+  context?: ErrorContext,
+): Promise<unknown> => {
+  const prometheanError = await toPrometheanError(error, context);
+
+  if (
+    typeof prometheanError === 'object' &&
+    prometheanError !== null &&
+    'toJSON' in prometheanError
+  ) {
+    return (prometheanError as { toJSON: () => unknown }).toJSON();
+  }
+
+  return prometheanError;
+};
+
+/**
+ * Format error for logging
+ */
+export const formatErrorForLogging = (error: unknown): string => {
+  if (isPrometheanError(error)) {
+    return `[${error.category}] ${error.code}: ${error.message}`;
+  }
+
+  if (error instanceof Error) {
+    return `${error.name}: ${error.message}`;
+  }
+
+  return String(error);
 };
