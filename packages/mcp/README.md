@@ -63,9 +63,9 @@ Each server will be available at `http://<host>:<port>/<name>/mcp` unless you se
 The HTTP transport exposes a Web Components Dev UI compiled with `shadow-cljs`. Build once before running the server (or use watch mode while iterating):
 
 ```bash
-pnpm --filter @promethean-os/mcp-dev-ui build
+nx build mcp-dev-ui
 # or
-pnpm --filter @promethean-os/mcp-dev-ui watch
+nx watch mcp-dev-ui
 ```
 
 The bundle is emitted to `packages/mcp/static/dev-ui` and served from `/ui/assets/main.js`.
