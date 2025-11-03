@@ -6,6 +6,7 @@
 import type { FastifyInstance, FastifyRequest, FastifyReply } from 'fastify';
 import crypto from 'node:crypto';
 import { createHash } from 'node:crypto';
+import { warn } from '@promethean-os/logger';
 
 // ============================================================================
 // Security Configuration
@@ -845,8 +846,8 @@ export class McpSecurityMiddleware {
     this.addAuditEntry(entry);
 
     // Also log to console for immediate visibility
-    console.warn(`🚨 SECURITY VIOLATION [${violation.severity.toUpperCase()}]`);
-    console.warn(`   Type: ${violation.type}`);
+    warn(`🚨 SECURITY VIOLATION [${violation.severity.toUpperCase()}]`);
+    warn(`   Type: ${violation.type}`);
     console.warn(`   IP: ${violation.context.clientIp}`);
     console.warn(`   Message: ${violation.message}`);
     console.warn(`   URL: ${violation.context.method} ${violation.context.url}`);
