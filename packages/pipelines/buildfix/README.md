@@ -64,7 +64,7 @@ pnpm tsx src/benchmark/run-simple.ts --no-bail
 
 ```bash
 # Build the package first
-pnpm --filter @promethean-os/buildfix build
+nx build buildfix
 
 # Run the complete error fixing pipeline
 pnpm --filter @promethean-os/buildfix bf:01-errors
@@ -166,13 +166,13 @@ See `pipelines.json` for the full configuration.
 ### Unit and Integration Tests
 
 ```sh
-pnpm --filter @promethean-os/buildfix test
+nx test buildfix
 ```
 
 ### Integration Tests Only
 
 ```sh
-pnpm --filter @promethean-os/buildfix test:integration
+nx test buildfix:integration
 ```
 
 ### Benchmark Testing
@@ -309,23 +309,23 @@ The BuildFix benchmark system now includes **intelligent automated analysis** po
 
 ```bash
 # Run benchmark and automatically analyze results
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts
+nx exec buildfix -- tsx src/benchmark/benchmark-and-analyze.ts
 
 # Test specific models
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b,qwen3:14b"
+nx exec buildfix -- tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b,qwen3:14b"
 
 # Force refresh and clear cache
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --force-refresh --clear-cache
+nx exec buildfix -- tsx src/benchmark/benchmark-and-analyze.ts --force-refresh --clear-cache
 ```
 
 ### **Analysis-Only Mode**
 
 ```bash
 # Analyze existing benchmark report
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json
+nx exec buildfix -- tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json
 
 # Use different analysis model
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json --analysis-model qwen3:14b
+nx exec buildfix -- tsx src/benchmark/benchmark-and-analyze.ts --analyze-only --report results.json --analysis-model qwen3:14b
 ```
 
 ### **Generated Reports**
@@ -357,10 +357,10 @@ The AI analyzer identifies:
 
 ```bash
 # Generate large-scale test fixtures (1000+ errors)
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 1000
+nx exec buildfix -- tsx src/benchmark/massive-fixture-generator.ts --target-errors 1000
 
 # Generate specific error count
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 100
+nx exec buildfix -- tsx src/benchmark/massive-fixture-generator.ts --target-errors 100
 ```
 
 **Generated 794 real-world fixtures** from actual TypeScript codebases for comprehensive testing.
@@ -369,12 +369,12 @@ pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-gen
 
 ```bash
 # Run with intelligent caching
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts
+nx exec buildfix -- tsx src/benchmark/run-memoized.ts
 
 # Cache management
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts --cache-info
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts --clear-cache
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts --export-cache backup.json
+nx exec buildfix -- tsx src/benchmark/run-memoized.ts --cache-info
+nx exec buildfix -- tsx src/benchmark/run-memoized.ts --clear-cache
+nx exec buildfix -- tsx src/benchmark/run-memoized.ts --export-cache backup.json
 ```
 
 **Features:**
@@ -388,13 +388,13 @@ pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/run-memoized.ts --e
 
 ```bash
 # Analyze any benchmark report
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/report-analyzer.ts --report memoized-benchmark-results-2025-10-15T06-48-01.json
+nx exec buildfix -- tsx src/benchmark/report-analyzer.ts --report memoized-benchmark-results-2025-10-15T06-48-01.json
 
 # Custom output path
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/report-analyzer.ts --report results.json --output custom-analysis.md
+nx exec buildfix -- tsx src/benchmark/report-analyzer.ts --report results.json --output custom-analysis.md
 
 # Different analysis model
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/report-analyzer.ts --report results.json --model qwen3:14b
+nx exec buildfix -- tsx src/benchmark/report-analyzer.ts --report results.json --model qwen3:14b
 ```
 
 ### **Executive Summaries**
@@ -403,7 +403,7 @@ The orchestrator can generate executive summaries for stakeholders:
 
 ```bash
 # Full pipeline with executive summary
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b"
+nx exec buildfix -- tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b"
 ```
 
 **Executive Summary Includes:**
@@ -429,7 +429,7 @@ The benchmark system is designed for automation:
 
 ```bash
 # CI/CD integration example
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b" --force-refresh
+nx exec buildfix -- tsx src/benchmark/benchmark-and-analyze.ts --models "qwen3:8b" --force-refresh
 ```
 
 **Returns:**
@@ -478,14 +478,14 @@ pnpm --filter @promethean-os/buildfix tsx src/benchmark/run-simple.ts      # 3 f
 
 ```bash
 pnpm --filter @promethean-os/buildfix tsx src/benchmark/run.ts             # Full benchmark suite
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/test-large-models.ts # Test all models thoroughly
+nx exec buildfix -- tsx src/benchmark/test-large-models.ts # Test all models thoroughly
 ```
 
 ### **For Development** (5-15 minutes)
 
 ```bash
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/focused.ts         # Test specific models/fixtures
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/test-dsl.ts        # Test DSL generation
+nx exec buildfix -- tsx src/benchmark/focused.ts         # Test specific models/fixtures
+nx exec buildfix -- tsx src/benchmark/test-dsl.ts        # Test DSL generation
 ```
 
 ## 🔍 Troubleshooting

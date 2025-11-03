@@ -220,13 +220,13 @@ system/                      # Your EDN files
 
 ```bash
 # Build the package
-pnpm --filter @promethean-os/ecosystem-dsl build
+nx build ecosystem-dsl
 
 # Run tests
-pnpm --filter @promethean-os/ecosystem-dsl test
+nx test ecosystem-dsl
 
 # Lint code
-pnpm --filter @promethean-os/ecosystem-dsl lint
+nx lint ecosystem-dsl
 ```
 
 ### Testing the DSL

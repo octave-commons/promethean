@@ -11,13 +11,13 @@ After installing dependencies run the build once so the distributable script is
 available:
 
 ```sh
-pnpm --filter @promethean-os/promethean-cli run build
+nx build promethean-cli
 ```
 
 Once built you can execute the CLI via the repo-level binaries:
 
 ```sh
-pnpm exec promethean --help
+nx exec promethean-cli -- node dist/cli.js --help
 # or, using the short alias
 pnpm exec prom packages lint
 ```

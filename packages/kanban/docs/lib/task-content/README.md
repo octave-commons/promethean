@@ -300,14 +300,14 @@ const aiManager = new TaskAIManager({
 
 ```bash
 # Run AI-specific tests
-pnpm --filter @promethean-os/kanban test src/tests/task-content-ai.test.ts
+nx test kanban src/tests/task-content-ai.test.ts
 ```
 
 ### Integration Tests
 
 ```bash
 # Run full test suite
-pnpm --filter @promethean-os/kanban test
+nx test kanban
 ```
 
 ### Mock Testing

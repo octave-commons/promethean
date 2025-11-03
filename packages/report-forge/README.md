@@ -42,7 +42,7 @@ const md = await generateReport({ repo: 'riatzukiza/promethean', issues }, { llm
 ## Tests
 
 ```sh
-pnpm --filter @promethean-os/report-forge test
+nx test report-forge
 ```
 
 ## Config

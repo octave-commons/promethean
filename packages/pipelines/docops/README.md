@@ -15,7 +15,7 @@ DocOps is a modular documentation pipeline that parses, embeds, queries, relates
 - UI:
 
 ```bash
-pnpm --filter @promethean-os/piper dev-ui -- --config packages/docops/pipelines.json
+nx piper dev-ui -- --config packages/docops/pipelines.json
 # open http://localhost:3939
 ```
 
@@ -61,8 +61,8 @@ Start them before running the suites:
 ```
 ollama serve &
 chromadb run & # or docker run chromadb/chroma
-pnpm --filter @promethean-os/docops test      # integration tests
-pnpm --filter @promethean-os/docops test:e2e  # Playwright e2e tests
+nx test docops      # integration tests
+nx test docops:e2e  # Playwright e2e tests
 ```
 
 ## Notes

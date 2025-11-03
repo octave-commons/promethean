@@ -30,5 +30,5 @@ Shared ClojureScript helpers for Promethean Shadow-CLJS frontends.
 ## Scripts
 
 Shadow-CLJS builds are defined in the repository root `shadow-cljs.edn`. Run
-`pnpm --filter @promethean-os/shadow-ui build` to compile runtime helpers and
-`pnpm --filter @promethean-os/shadow-ui watch` for development.
+`nx build shadow-ui` to compile runtime helpers and
+`nx watch shadow-ui` for development.

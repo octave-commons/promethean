@@ -5,7 +5,7 @@ Serves compiled frontend assets from Promethean packages under a single Fastify 
 ## Usage
 
 ```bash
-pnpm --filter @promethean-os/frontend-service start
+nx frontend-service start
 ```
 
 This will start a server on port `4500`. Each package that contains a `dist/frontend` or `static` directory is mounted under a path matching the package name.

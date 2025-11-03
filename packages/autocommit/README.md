@@ -12,8 +12,8 @@ Watches your git repo and automatically stages + commits changes with LLM-genera
 
 ```bash
 pnpm --filter @promethean-os/autocommit install
-pnpm --filter @promethean-os/autocommit build
-pnpm --filter @promethean-os/autocommit exec autocommit -- --dry-run
+nx build autocommit
+nx exec autocommit -- autocommit -- --dry-run
 ```
 
 ## CLI
