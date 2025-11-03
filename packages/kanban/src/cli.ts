@@ -201,6 +201,9 @@ async function createContext(options: ProgramOptions): Promise<CliContext> {
 
 function registerStandardCommands(program: Command): void {
   for (const [commandName] of Object.entries(COMMAND_HANDLERS)) {
+    // Skip init command as it's already registered in registerSpecialCommands
+    if (commandName === 'init') continue;
+
     const cmd = program.command(commandName).allowUnknownOption(true);
 
     cmd.action(async (...args) => {
