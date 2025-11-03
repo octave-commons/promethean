@@ -4,182 +4,215 @@
 import type { ErrorOptions, PrometheanError } from './types.js';
 import { createPrometheanError, errorMethods } from './base-error.js';
 
+// Error constructor type for proper typing
+type ErrorConstructor = (message: string, options?: ErrorOptions) => PrometheanError;
+
 /**
  * Validation Error - Invalid input data
  */
-export const ValidationError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const ValidationError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'validation', code: 'VALIDATION_ERROR' },
-    ValidationError as any,
+    ValidationError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Authentication Error - Failed authentication
  */
-export const AuthenticationError = (
+export const AuthenticationError: ErrorConstructor = (
   message: string,
   options: ErrorOptions = {},
 ): PrometheanError => {
-  const error = createPrometheanError(
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'authentication', code: 'AUTH_ERROR' },
-    AuthenticationError as any,
+    AuthenticationError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Authorization Error - Insufficient permissions
  */
-export const AuthorizationError = (
+export const AuthorizationError: ErrorConstructor = (
   message: string,
   options: ErrorOptions = {},
 ): PrometheanError => {
-  const error = createPrometheanError(
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'authorization', code: 'AUTHZ_ERROR' },
-    AuthorizationError as any,
+    AuthorizationError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Network Error - Network-related failures
  */
-export const NetworkError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const NetworkError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'network', code: 'NETWORK_ERROR' },
-    NetworkError as any,
+    NetworkError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Database Error - Database operation failures
  */
-export const DatabaseError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const DatabaseError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'database', code: 'DATABASE_ERROR' },
-    DatabaseError as any,
+    DatabaseError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * External Service Error - Third-party service failures
  */
-export const ExternalServiceError = (
+export const ExternalServiceError: ErrorConstructor = (
   message: string,
   options: ErrorOptions = {},
 ): PrometheanError => {
-  const error = createPrometheanError(
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'external', code: 'EXTERNAL_ERROR' },
-    ExternalServiceError as any,
+    ExternalServiceError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Business Logic Error - Business rule violations
  */
-export const BusinessError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const BusinessError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'business', code: 'BUSINESS_ERROR' },
-    BusinessError as any,
+    BusinessError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * System Error - System-level failures
  */
-export const SystemError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const SystemError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'system', code: 'SYSTEM_ERROR' },
-    SystemError as any,
+    SystemError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Configuration Error - Configuration issues
  */
-export const ConfigurationError = (
+export const ConfigurationError: ErrorConstructor = (
   message: string,
   options: ErrorOptions = {},
 ): PrometheanError => {
-  const error = createPrometheanError(
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'configuration', code: 'CONFIG_ERROR' },
-    ConfigurationError as any,
+    ConfigurationError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Timeout Error - Operation timeouts
  */
-export const TimeoutError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const TimeoutError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'timeout', code: 'TIMEOUT_ERROR' },
-    TimeoutError as any,
+    TimeoutError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Rate Limit Error - Rate limiting exceeded
  */
-export const RateLimitError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const RateLimitError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'rate-limit', code: 'RATE_LIMIT_ERROR' },
-    RateLimitError as any,
+    RateLimitError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Not Found Error - Resource not found
  */
-export const NotFoundError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const NotFoundError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'not-found', code: 'NOT_FOUND_ERROR' },
-    NotFoundError as any,
+    NotFoundError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Conflict Error - Resource conflicts
  */
-export const ConflictError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const ConflictError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'conflict', code: 'CONFLICT_ERROR' },
-    ConflictError as any,
+    ConflictError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
 
 /**
  * Internal Error - Unexpected internal errors
  */
-export const InternalError = (message: string, options: ErrorOptions = {}): PrometheanError => {
-  const error = createPrometheanError(
+export const InternalError: ErrorConstructor = (
+  message: string,
+  options: ErrorOptions = {},
+): PrometheanError => {
+  const baseError = createPrometheanError(
     message,
     { ...options, category: 'internal', code: 'INTERNAL_ERROR', severity: 'high' },
-    InternalError as any,
+    InternalError,
   );
-  return Object.assign(error, errorMethods);
+  return { ...baseError, ...errorMethods };
 };
