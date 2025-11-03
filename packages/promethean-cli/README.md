@@ -19,7 +19,7 @@ Once built you can execute the CLI via the repo-level binaries:
 ```sh
 nx exec promethean-cli -- node dist/cli.js --help
 # or, using the short alias
-pnpm exec prom packages lint
+nx exec promethean-cli -- node dist/cli.js packages lint
 ```
 
 The `--help` flag lists every discovered package and their registered scripts.
