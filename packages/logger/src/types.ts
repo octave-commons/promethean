@@ -67,3 +67,15 @@ export interface LoggerFactory {
   readonly shutdown: () => Promise<void>;
   readonly withCorrelation: (correlation: CorrelationContext) => Logger;
 }
+
+/**
+ * Generate a unique correlation ID
+ */
+export declare const generateCorrelationId: () => string;
+
+/**
+ * Extract correlation context from request headers or environment
+ */
+export declare const extractCorrelationContext: (
+  headers?: Record<string, string>,
+) => CorrelationContext;
