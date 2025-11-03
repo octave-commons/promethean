@@ -245,7 +245,11 @@ const evaluateFunctionDefinition = async (
 ): Promise<boolean> => {
   const { evaluateTransitionRule } = await loadValidationFunctions();
 
-  const ruleFn: unknown = await loadString(`#js(${ruleImpl})`);
+  const ruleFn: unknown = await loadString(ruleImpl);
+
+  if (typeof ruleFn !== 'function') {
+    throw new Error('Rule implementation did not evaluate to a function');
+  }
 
   // Call evaluateTransitionRule function directly with JavaScript objects
   const result = (
