@@ -54,6 +54,7 @@
     "build:cljs": "shadow-cljs release kanban-frontend",
     "build:docs": "typedoc --options typedoc.json",
     "dev:cljs": "shadow-cljs watch kanban-frontend",
+    "dev:watch": "tsc --watch",
     "prepack": "pnpm run build && pnpm run build:cljs",
     "test": "pnpm run build:test && ava",
     "build:test": "pnpm clean && tsc -p tsconfig.json && cp -r src/clojure dist/ && cp -r src/tests/fixtures dist/tests/",
