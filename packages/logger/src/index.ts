@@ -9,13 +9,24 @@ export type {
   LoggerConfig,
   Logger,
   LoggerFactory,
+  CorrelationContext,
 } from './types.js';
 
 // Configuration exports
 export { createConfigFromEnv, mergeConfig, isValidLogLevel } from './config.js';
 
 // Winston implementation exports
-export { WinstonLogger, createLogger } from './winston-logger.js';
+export { createLogger } from './winston-logger.js';
 
 // Factory export
-export { createLoggerFactory } from './factory.js';
+export { createLoggerFactory, loggerFactory, getLogger, createNamedLogger } from './factory.js';
+
+// Correlation utilities
+export {
+  generateCorrelationId,
+  generateRequestId,
+  generateTraceId,
+  extractCorrelationContext,
+  createCorrelationContext,
+  mergeCorrelationContext,
+} from './correlation.js';
