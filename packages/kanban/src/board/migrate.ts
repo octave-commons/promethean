@@ -7,6 +7,7 @@ import { fileURLToPath } from "node:url";
 import { loadKanbanConfig } from "./config.js";
 import { createTaskCache } from "./task-cache.js";
 import { migrateJsonlToCache } from "./indexer.js";
+import { warn } from "../lib/utils/logger.js";
 
 const isCliExecution = (): boolean => {
   const entry = process.argv[1];
@@ -45,10 +46,10 @@ const runMigration = async (): Promise<void> => {
     const result = await migrateJsonlToCache(config, cache);
 
     if (result.errors.length > 0) {
-      console.warn(`Migration completed with ${result.errors.length} errors:`);
-      result.errors.slice(0, 10).forEach(error => console.warn(`  - ${error}`));
+      warn(`Migration completed with ${result.errors.length} errors:`);
+      result.errors.slice(0, 10).forEach(error => warn(`  - ${error}`));
       if (result.errors.length > 10) {
-        console.warn(`  ... and ${result.errors.length - 10} more errors`);
+        warn(`  ... and ${result.errors.length - 10} more errors`);
       }
     }
 
@@ -63,7 +64,7 @@ const runMigration = async (): Promise<void> => {
       try {
         await cache.close();
       } catch (error) {
-        console.warn('Error closing cache:', error);
+        warn('Error closing cache:', error);
       }
     }
   }

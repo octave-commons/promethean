@@ -233,20 +233,24 @@ The workspace contains 95+ specialized packages organized by category:
 - **Workspace structure** - All packages use `@promethean-os/<package>*` via "workspace:\*"
 - **No relative imports** outside package roots
 
-### Testing
+### Testing (Nx-Centric)
 
 ```bash
 # Split by type for faster feedback
-pnpm test:unit         # Unit tests (fastest)
-pnpm test:integration  # Integration tests
-pnpm test:e2e         # End-to-end tests
+nx run-many -t test:unit         # Unit tests (fastest)
+nx run-many -t test:integration  # Integration tests
+nx run-many -t test:e2e         # End-to-end tests
+
+# Test affected projects only
+nx affected -t test
 ```
 
-### Linting
+### Linting (Nx-Centric)
 
 ```bash
-pnpm lint:diff        # Only changed files (development)
-pnpm lint            # Full repository (CI/pre-commit)
+nx affected -t lint        # Only changed files (development)
+nx run-many -t lint       # Full repository (CI/pre-commit)
+nx lint <project> --fix   # Auto-fix issues in specific project
 ```
 
 ## 🏃 Service Management
@@ -280,7 +284,7 @@ cp -r docs/vault-config/.obsidian docs/.obsidian
 - **Architecture**: `docs/architecture/` - System design and roadmaps
 - **Process**: `docs/agile/process.md` - Workflow and methodology
 - **Environment**: `docs/setup/environment.md` - Configuration options
-- **Nx Workspace**: `docs/notes/automation/bb-nx-cli.md` - Build tooling commands
+- **Nx Workspace**: `docs/development/nx-command-reference.md` - Comprehensive Nx command reference
 
 ## 🤖 For AI Agents
 
