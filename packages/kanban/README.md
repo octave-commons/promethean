@@ -5,7 +5,9 @@ Automation for the local markdown kanban and process-as-code. Functional TS, nat
 ## Commands
 
 ```bash
-pnpm kanban --help
+nx kanban --help
+# or
+nx exec kanban -- kanban --help
 ```
 
 Available subcommands: `count`, `getColumn`, `getByColumn`, `find`, `find-by-title`, `update_status`, `move_up`, `move_down`, `pull`, `push`, `sync`, `regenerate`, `indexForSearch`, `search`, `ui`, `process`, `process_sync`, `doccheck`, `create`, `update`, `delete`
@@ -27,14 +29,14 @@ Key commands:
 - `indexForSearch` — JSON index for tasks.
 - `process_sync` — run process pipeline (labels + checklists) defined in YAML.
 
-- `pnpm kanban pull` – fold task frontmatter back into the board (like the old
+- `nx kanban pull` – fold task frontmatter back into the board (like the old
   `hashtags_to_kanban.py`).
-- `pnpm kanban push` – project the kanban columns to task files (successor to
+- `nx kanban push` – project the kanban columns to task files (successor to
   `kanban_to_hashtags.py`).
-- `pnpm kanban sync` – run both directions and surface conflicting cards.
-- `pnpm kanban regenerate` – rebuild the board from the current task folder.
-- `pnpm kanban count --kanban path --tasks path` – quick stats for automation.
-- `pnpm kanban ui --port 4173` – launch an interactive kanban dashboard in the
+- `nx kanban sync` – run both directions and surface conflicting cards.
+- `nx kanban regenerate` – rebuild the board from the current task folder.
+- `nx kanban count --kanban path --tasks path` – quick stats for automation.
+- `nx kanban ui --port 4173` – launch an interactive kanban dashboard in the
   browser (defaults to `http://127.0.0.1:4173`).
   All commands emit newline-delimited JSON for downstream tooling.
 
@@ -44,10 +46,10 @@ Key commands:
 
 ```bash
 # Basic task creation
-pnpm kanban create "Implement new feature"
+nx kanban create "Implement new feature"
 
 # With optional metadata
-pnpm kanban create "Bug fix for login issue" \
+nx kanban create "Bug fix for login issue" \
   --priority=P1 \
   --labels="bug,login,urgent" \
   --content="Users cannot login with SSO credentials. Need to investigate OAuth flow." \
@@ -65,10 +67,10 @@ pnpm kanban create "Bug fix for login issue" \
 
 ```bash
 # Update task title
-pnpm kanban update <task-uuid> --title "New updated title"
+nx kanban update <task-uuid> --title "New updated title"
 
 # Update task content
-pnpm kanban update <task-uuid> --content "Updated description with new details"
+nx kanban update <task-uuid> --content "Updated description with new details"
 
 # Update both title and content
 pnpm kanban update <task-uuid> \
