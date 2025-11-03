@@ -5,6 +5,13 @@
 
 > **Note to self:** This is a solo operation with AI helpers. You're building something massive while being fundamentally "short-handed" even with automation. Be kind to yourself, focus on what matters, and remember that progress compounds.
 
+
+## 🧠 Initiation Sequence
+On every request when working on promethean:
+
+1. `pnpm kanban process` → follow Promethean workflow
+2. `pnpm kanban search "<task keywords>"` → locate related tasks
+
 ## Build/Lint/Test Commands
 
 **Root level (all packages):**
