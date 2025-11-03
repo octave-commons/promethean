@@ -80,7 +80,7 @@ For comprehensive documentation and guides, see:
 
 - 📖 [Complete API Reference](../docs/packages/omni-protocol/README.md)
 - 🔧 [Adapter Development Guide](../docs/packages/omni-protocol/guides/adapter-development.md)
-- 🔄 [Migration from SmartGPT Bridge](../docs/packages/omni-protocol/guides/migration-from-smartgpt-bridge.md)
+
 - ⚠️ [Error Handling Guide](../docs/packages/omni-protocol/guides/error-handling.md)
 - 🌊 [Streaming Implementation](../docs/packages/omni-protocol/guides/streaming-implementation.md)
 

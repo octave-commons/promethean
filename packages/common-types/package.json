@@ -1,0 +1,67 @@
+{
+  "name": "@promethean-os/common-types",
+  "version": "1.0.0",
+  "description": "Common TypeScript types and interfaces for Promethean OS packages",
+  "type": "module",
+  "main": "dist/index.js",
+  "types": "dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp/index.d.ts",
+      "import": "./dist/mcp/index.js"
+    },
+    "./kanban": {
+      "types": "./dist/kanban/index.d.ts",
+      "import": "./dist/kanban/index.js"
+    },
+    "./events": {
+      "types": "./dist/events/index.d.ts",
+      "import": "./dist/events/index.js"
+    },
+    "./validation": {
+      "types": "./dist/validation/index.d.ts",
+      "import": "./dist/validation/index.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "tsc",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ../../config/ava.config.mjs",
+    "lint": "pnpm exec eslint .",
+    "format": "pnpm exec prettier --write ."
+  },
+  "dependencies": {
+    "zod": "^3.22.4"
+  },
+  "devDependencies": {
+    "@types/node": "^20.0.0",
+    "ava": "^6.0.0",
+    "esmock": "^2.7.3",
+    "rimraf": "^5.0.0",
+    "typescript": "^5.4.0"
+  },
+  "publishConfig": {
+    "access": "public"
+  },
+  "license": "GPL-3.0-only",
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/PrometheanAI/promethean.git",
+    "directory": "packages/common-types"
+  },
+  "keywords": [
+    "typescript",
+    "types",
+    "interfaces",
+    "validation",
+    "promethean"
+  ]
+}

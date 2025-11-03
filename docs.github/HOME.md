@@ -151,7 +151,7 @@ README for architecture notes, setup commands, and current usage guidance.
 | @promethean-os/security | (coming soon) | Usage details coming soon in package README. | [README]packages/security/README.md |
 | @promethean-os/semverguard | (coming soon) | Usage details coming soon in package README. | [README]packages/semverguard/README.md |
 | @promethean-os/simtasks | (coming soon) | Usage details coming soon in package README. | [README]packages/simtask/README.md |
-| Promethean SmartGPT Bridge — Full | One service, one `/openapi.json`, many powers: | Usage details pending in package README. | [README]packages/smartgpt-bridge/README.md |
+
 | @promethean-os/snapshots | (coming soon) | Usage details coming soon in package README. | [README]packages/snapshots/README.md |
 | @promethean-os/sonarflow | (coming soon) | Usage details coming soon in package README. | [README]packages/sonarflow/README.md |
 | @promethean-os/stream | (coming soon) | Usage details coming soon in package README. | [README]packages/stream/README.md |

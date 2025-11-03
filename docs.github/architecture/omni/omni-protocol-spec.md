@@ -9,7 +9,7 @@
 Define a single, transport-agnostic contract for Promethean's Omni capabilities so REST, GraphQL, WebSocket, and MCP adapters (plus future extensions) share identical semantics, envelopes, and guardrails.
 
 ## 2. Goals
-- Canonicalize domain capabilities currently duplicated between `@promethean-os/smartgpt-bridge` and `@promethean-os/mcp`.
+- Canonicalize domain capabilities currently in `@promethean-os/mcp`.
 - Support multi-interface adapters without re-implementing logic.
 - Preserve backward compatibility with `/v1` REST responses while enabling richer adapters.
 - Bake in security (auth, RBAC, sandbox boundaries) and streaming conventions.

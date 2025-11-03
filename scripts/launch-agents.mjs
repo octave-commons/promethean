@@ -35,13 +35,7 @@ const AGENTS = {
     startScript: 'dev',
     healthEndpoint: null, // WebSocket service
   },
-  'smartgpt-bridge': {
-    package: '@promethean/smartgpt-bridge',
-    description: 'SmartGPT bridge service',
-    devScript: 'dev',
-    startScript: 'start',
-    healthEndpoint: '/health',
-  },
+
   broker: {
     package: '@promethean/broker',
     description: 'Message broker service',
@@ -185,7 +179,7 @@ function getAgentPort(agentName) {
     cephalon: 8081,
     'duck-web': 3000,
     'enso-browser-gateway': 8082,
-    'smartgpt-bridge': 3210,
+
     broker: 7000,
     'llm-service': 8888,
     'voice-service': 8083,

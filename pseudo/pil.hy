@@ -67,11 +67,11 @@
     :tasks   ((install "pnpm install")
               (build   "pnpm run build")
               (test    "pnpm test")))
-(def-service smartgpt-bridge
+
     :version "1.1.0"
     :class GP
     :language ts
-    :root "services/ts/smartgpt-bridge"
+
     :capabilities (http search.exec capabilities)
     :contracts (SearchPlan@1)
     :runtime (node :entry "pnpm start" :port 8140)
@@ -84,7 +84,7 @@
 (def-agent Pandora
     :version "0.1.0"
     :structures (Cephalon Eidolon)
-    :uses (smartgpt-bridge indexer sinks)
+    :uses (indexer sinks)
     :profiles ("pandora.dev.search.v1")
     :capabilities (open discover hypothesize)
     :contracts (AgentContext@1 QueryIntent@1 SearchPlan@1)
@@ -93,7 +93,7 @@
 (def-agent Eris
     :version "0.1.0"
     :structures (Cephalon)
-    :uses (smartgpt-bridge)
+
     :profiles ("eris.dev.adversarial.v1")
     :capabilities (perturb falsify stress-test)
     :policy (scopes ("search:*") :budgets (targets 2 topK 12 timeoutMs 1500)))

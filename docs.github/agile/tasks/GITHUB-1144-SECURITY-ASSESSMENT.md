@@ -16,7 +16,7 @@ The `writeFileContent` function in multiple packages allowed sandbox escape via 
 ### Affected Components
 
 - `@promethean-os/mcp` - `packages/mcp/src/files.ts`
-- `@promethean-os/smartgpt-bridge` - `packages/smartgpt-bridge/src/files.ts`
+
 
 ### Attack Vectors Blocked
 
@@ -45,7 +45,7 @@ The `writeFileContent` function in multiple packages allowed sandbox escape via 
 - `writeFileContent()` - ✅ Full symlink protection
 - `writeFileLines()` - ✅ Same protection as writeFileContent
 
-### SmartGPT Bridge (`packages/smartgpt-bridge/src/files.ts`)
+
 
 **Security Function**: `checkSymlinkSecurity()` (lines 262-310)
 
@@ -158,7 +158,7 @@ The `writeFileContent` function in multiple packages allowed sandbox escape via 
 
 **The GitHub-1144 symlink sandbox escape vulnerability has been successfully mitigated.**
 
-Both affected packages (`@promethean-os/mcp` and `@promethean-os/smartgpt-bridge`) now implement robust symlink validation that:
+The affected package (`@promethean-os/mcp`) now implements robust symlink validation that:
 
 1. **Blocks all known symlink escape vectors**
 2. **Preserves legitimate file operations**

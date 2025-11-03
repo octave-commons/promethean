@@ -9,7 +9,7 @@ Extract the SmartGPT Bridge file indexer into a standalone service while keeping
 
 ### 1. Core Extraction
 - [ ] Create `packages/indexer-core` with `tsconfig.json`, `package.json`, build/test scripts.
-- [ ] Move the following modules from `packages/smartgpt-bridge/src/`:
+
   - `indexer.ts` → `packages/indexer-core/src/indexer.ts`
   - `indexerState.ts` → `packages/indexer-core/src/state/level-cache.ts`
   - `remoteEmbedding.ts` → `packages/indexer-core/src/embeddings.ts`
@@ -35,7 +35,7 @@ Extract the SmartGPT Bridge file indexer into a standalone service while keeping
 - [ ] Ship service-level integration tests using the in-memory state store.
 
 ### 3. Bridge Integration
-- [ ] Introduce `IndexerClient` in `packages/smartgpt-bridge` that targets the new service via HTTP (configurable base URL, default `http://localhost:4209`).
+
 - [ ] Replace imports of `./indexer` and `./indexerState` with client calls across:
   - `fastifyApp.ts` bootstrap replace `ensureBootstrap` with async fire-and-forget request.
   - `/v0/indexer` routes (forward requests and responses).
@@ -64,7 +64,7 @@ Extract the SmartGPT Bridge file indexer into a standalone service while keeping
 - Does any other package import `./indexer` today outside of bridge (needs migration)?
 
 ## Definition of Done
-- `@promethean-os/smartgpt-bridge` builds/tests without direct indexer code.
+
 - `@promethean-os/indexer-service` passes its own test suite and exposes the required endpoints.
 - End-to-end tests cover bridge + indexer service interaction.
 - Documentation updated (ADR, deployment instructions, API references).
