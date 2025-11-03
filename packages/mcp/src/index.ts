@@ -3,6 +3,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { pathToFileURL } from 'node:url';
 import 'dotenv/config';
+import { warn, error } from '@promethean-os/logger';
 console.log(Object.keys(process.env).filter((key) => key.startsWith('OAUTH')));
 import { applyPatchTool } from './tools/apply-patch.js';
 import {
@@ -282,7 +283,7 @@ const selectFactories = (toolIds: readonly string[]): readonly ToolFactory[] =>
     .map((id) => {
       const factory = toolCatalog.get(id);
       if (!factory) {
-        console.warn(`[mcp] Unknown tool id in config: ${id}`);
+        warn(`[mcp] Unknown tool id in config: ${id}`);
       }
       return factory;
     })
