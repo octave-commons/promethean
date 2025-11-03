@@ -1,0 +1,13 @@
+{
+  "name": "@promethean-os/portal",
+  "private": true,
+  "scripts": {
+    "dev": "shadow-cljs watch portal kanban",
+    "build": "shadow-cljs release portal kanban"
+  },
+  "devDependencies": {
+    "shadow-cljs": "^2.28.10",
+    "react": "^18.3.1",
+    "react-dom": "^18.3.1"
+  }
+}

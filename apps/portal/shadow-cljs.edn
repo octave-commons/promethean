@@ -1,0 +1,17 @@
+{:nrepl {:port 7888}                             ;; one REPL for all builds
+ :source-paths ["../../packages/frontend/src/main/cljs"
+                "../../packages/frontend/src/kanban/cljs"]
+ :dependencies []                                ;; use npm for react/etc.
+ :dev-http {8700 "public"}                       ;; one dev server, one port
+ :builds
+ {:portal {:target :browser
+           :output-dir "public/apps/portal/js"
+           :asset-path "/apps/portal/js"
+           :modules {:main {:entries [promethean.main]}}
+           :devtools {:after-load promethean.main/reload}}
+
+  :kanban {:target :browser
+           :output-dir "public/apps/kanban/js"
+           :asset-path "/apps/kanban/js"
+           :modules {:main {:entries [promethean.kanban.app]}}
+           :devtools {:after-load promethean.kanban.app/reload}}}}

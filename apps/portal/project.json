@@ -1,0 +1,16 @@
+{
+  "name": "@promethean-os/portal",
+  "root": "apps/portal",
+  "sourceRoot": "apps/portal/public",
+  "targets": {
+    "serve": {
+      "executor": "nx:run-commands",
+      "options": { "command": "pnpm -C apps/portal dev" }
+    },
+    "build": {
+      "executor": "nx:run-commands",
+      "options": { "command": "pnpm -C apps/portal build" },
+      "outputs": ["{projectRoot}/public/apps/**/js"]
+    }
+  }
+}
