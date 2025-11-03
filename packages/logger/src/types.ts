@@ -55,6 +55,7 @@ export interface Logger {
   readonly silly: (message: string, context?: LogContext) => void;
   readonly log: (level: LogLevel, message: string, context?: LogContext) => void;
   readonly child: (context: LogContext) => Logger;
+  readonly withCorrelation: (correlation: CorrelationContext) => Logger;
   readonly setLevel: (level: LogLevel) => void;
   readonly getLevel: () => LogLevel;
 }
@@ -64,4 +65,5 @@ export interface LoggerFactory {
   readonly get: (name?: string) => Logger;
   readonly configure: (config: Partial<LoggerConfig>) => void;
   readonly shutdown: () => Promise<void>;
+  readonly withCorrelation: (correlation: CorrelationContext) => Logger;
 }
