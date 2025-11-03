@@ -73,7 +73,7 @@ nx kanban update <task-uuid> --title "New updated title"
 nx kanban update <task-uuid> --content "Updated description with new details"
 
 # Update both title and content
-pnpm kanban update <task-uuid> \
+nx kanban update <task-uuid> \
   --title "Comprehensive new title" \
   --content "Comprehensive new description with all details."
 ```
@@ -88,19 +88,19 @@ pnpm kanban update <task-uuid> \
 
 ```bash
 # Safe deletion (shows what will be deleted)
-pnpm kanban delete <task-uuid>
+nx kanban delete <task-uuid>
 
 # Confirmed deletion
-pnpm kanban delete <task-uuid> --confirm
+nx kanban delete <task-uuid> --confirm
 # or
-pnpm kanban delete <task-uuid> -y
+nx kanban delete <task-uuid> -y
 ```
 
 **Delete flags:**
 
 - `--confirm` or `-y` - Skip confirmation prompt and delete immediately
 
-**Note:** Tasks can be found using UUID from `find` or `search` commands: `pnpm kanban search "search term"`
+**Note:** Tasks can be found using UUID from `find` or `search` commands: `nx kanban search "search term"`
 
 ## Configuration & Path Resolution
 
@@ -141,7 +141,7 @@ Bypass with label `skip-docs` (maintainers only). See `docs/contributing/docs-po
 
 ## Web UI
 
-Run `pnpm kanban ui` to start a lightweight HTTP server that renders the
+Run `nx kanban ui` to start a lightweight HTTP server that renders the
 workspace board as a responsive dashboard. The command respects the same
 configuration flags as other subcommands, so `--kanban`, `--tasks`, `--host`,
 and `--port` work as expected. The page refreshes automatically every minute,
