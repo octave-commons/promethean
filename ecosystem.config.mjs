@@ -191,10 +191,10 @@ export const apps =
       "--model",
       "gpt-oss:20b-cloud",
       "--base-url",
-      "http://localhost:11434"
+      "http://localhost:11434/v1"
     ],
     "env": {
-      "OPENAI_BASE_URL": "http://localhost:11434",
+      "OPENAI_BASE_URL": "http://localhost:11434/v1",
       "AUTOCOMMIT_MODEL": "gpt-oss:20b-cloud",
       "NODE_ENV": "production"
     },
