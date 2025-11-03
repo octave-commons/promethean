@@ -809,7 +809,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
         });
         console.log('[mcp:http] OAuth integration initialized successfully');
       } catch (error) {
-        logger.warn('[mcp:http] OAuth integration failed to initialize:', error);
+        logger.warn('OAuth integration failed to initialize', { error: error.message });
         console.log('[mcp:http] Continuing without OAuth authentication');
       }
 
@@ -985,7 +985,7 @@ export const fastifyTransport = (opts?: { port?: number; host?: string }): Trans
             console.log(`[mcp:http] actions available at ${actionBasePath}: ${names}`);
           })
           .catch((error) => {
-            logger.warn(`[mcp:http] failed to resolve actions for ${basePath}:`, error);
+            logger.warn(`failed to resolve actions for ${basePath}`, { basePath, error: error.message });
           });
 
         app.get(actionBasePath, async (_request, reply) => {
