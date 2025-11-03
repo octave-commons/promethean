@@ -75,6 +75,15 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 
 ---
 
+## 🧭 Operational Notes
+
+**The Essentials (actually important):**
+
+- Always run bash commands from **package root** - saves so much confusion
+- File changes auto-commit with LLM-generated messages - one less thing to think about
+- Avoid `cd ... && anything...` - it's confusing and error-prone
+- Skip dynamic imports unless absolutely necessary
+
 ### Docs
 
 Read these if you need to, all documents should be connected in a graph.
