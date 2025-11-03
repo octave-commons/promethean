@@ -11,6 +11,7 @@ On every request when working on promethean:
 
 1. `pnpm kanban process` → follow Promethean workflow
 2. `pnpm kanban search "<task keywords>"` → locate related tasks
+3. begin general initiation sequence
 
 ## Build/Lint/Test Commands
 
