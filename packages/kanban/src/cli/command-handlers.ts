@@ -48,11 +48,17 @@ import { createWIPLimitEnforcement } from '../lib/wip-enforcement.js';
 import { createRebuildEventLogCommand } from '../lib/rebuild-event-log-command.js';
 import { fileURLToPath } from 'node:url';
 import path from 'node:path';
-import { readdir, readFile } from 'node:fs/promises';
+import type { Dirent } from 'node:fs';
+import { access, mkdir, readdir, readFile, writeFile } from 'node:fs/promises';
+import { randomUUID } from 'node:crypto';
 import { readTaskFile } from '../lib/task-content/parser.js';
 
 // Get the equivalent of __dirname in ES modules
 const __dirname = path.dirname(fileURLToPath(import.meta.url));
+
+const DEFAULT_CONFIG_FILENAME = 'promethean.kanban.json';
+const DEFAULT_BOARD_PATH = 'docs/agile/boards/generated.md';
+const DEFAULT_TASKS_DIR = 'docs/agile/tasks';
 
 type Primitive = string | number | boolean | symbol | null | undefined | bigint;
 
@@ -160,6 +166,111 @@ async function findTaskFilePath(tasksDir: string, taskUuid: string): Promise<str
     return null;
   }
 }
+
+type StarterTask = Readonly<{
+  readonly title?: string;
+  readonly status?: string;
+  readonly priority?: string | number;
+  readonly content?: string;
+}>;
+
+type TemplateConfig = Readonly<
+  Record<string, unknown> & {
+    readonly tasksDir?: string;
+    readonly boardFile?: string;
+    readonly statusValues?: ReadonlyArray<string>;
+    readonly wipLimits?: Readonly<Record<string, number>>;
+    readonly _starter_tasks?: ReadonlyArray<StarterTask>;
+  }
+>;
+
+const pathExists = async (targetPath: string): Promise<boolean> => {
+  try {
+    await access(targetPath);
+    return true;
+  } catch {
+    return false;
+  }
+};
+
+const ensureDirectory = async (dirPath: string): Promise<void> => {
+  await mkdir(dirPath, { recursive: true });
+};
+
+const normalizeRelativePath = (baseDir: string, absolutePath: string): string => {
+  const relative = path.relative(baseDir, absolutePath);
+  const normalized = relative.length === 0 ? '.' : relative;
+  return normalized.split(path.sep).join('/');
+};
+
+const slugify = (value: string): string => {
+  const base = value
+    .toLowerCase()
+    .replace(/[^a-z0-9]+/g, '-')
+    .replace(/^-+|-+$/g, '')
+    .slice(0, 60);
+  return base.length > 0 ? base : `task-${Date.now()}`;
+};
+
+const createStarterTaskFiles = async (
+  tasksDir: string,
+  starterTasks: ReadonlyArray<StarterTask>,
+): Promise<ReadonlyArray<string>> => {
+  if (starterTasks.length === 0) {
+    return [];
+  }
+
+  let entries: ReadonlyArray<Dirent> = [];
+  try {
+    entries = await readdir(tasksDir, { withFileTypes: true });
+  } catch {
+    // Directory likely does not exist yet – caller will create it separately
+  }
+
+  const hasExistingTasks = entries.some((entry) => entry.isFile() && entry.name.endsWith('.md'));
+  if (hasExistingTasks) {
+    return [];
+  }
+
+  const createdFiles: string[] = [];
+
+  for (const task of starterTasks) {
+    if (!task || typeof task.title !== 'string') {
+      continue;
+    }
+
+    const baseSlug = slugify(task.title);
+    let attempt = 0;
+    let filePath = '';
+
+    do {
+      const suffix = attempt === 0 ? '' : `-${attempt + 1}`;
+      filePath = path.join(tasksDir, `${baseSlug}${suffix}.md`);
+      attempt += 1;
+    } while (await pathExists(filePath));
+
+    const lines = [
+      '---',
+      `uuid: ${randomUUID()}`,
+      `title: ${task.title}`,
+      `status: ${typeof task.status === 'string' && task.status.trim().length > 0 ? task.status : 'incoming'}`,
+      `priority: ${
+        typeof task.priority === 'string' || typeof task.priority === 'number'
+          ? task.priority
+          : 'P1'
+      }`,
+      '---',
+      '',
+      typeof task.content === 'string' && task.content.length > 0 ? task.content : '',
+      '',
+    ];
+
+    await writeFile(filePath, lines.join('\n'), 'utf8');
+    createdFiles.push(filePath);
+  }
+
+  return createdFiles;
+};
 
 const parsePort = (value: string): number => {
   const trimmed = value.trim();
@@ -2269,7 +2380,107 @@ const handleEpicStatus: CommandHandler = (args, context) =>
     return { epic, subtasks };
   });
 
-// handleInit is implemented separately in registerInitCommand in cli.ts
+const resolveTemplateConfig = async (): Promise<TemplateConfig> => {
+  const templatePath = path.resolve(__dirname, '../../promethean.kanban.json');
+  try {
+    const templateJson = await readFile(templatePath, 'utf8');
+    return JSON.parse(templateJson) as TemplateConfig;
+  } catch (error) {
+    throw new Error(
+      `Failed to load template kanban configuration: ${
+        error instanceof Error ? error.message : 'Unknown error'
+      }`,
+    );
+  }
+};
+
+const createBoardTemplate = (config: TemplateConfig): Board => {
+  const statusValues = Array.isArray(config.statusValues)
+    ? config.statusValues.map((value) => String(value))
+    : [];
+
+  const limitsRecord = (config.wipLimits as Readonly<Record<string, number | null | undefined>>) || {};
+
+  const statuses =
+    statusValues.length > 0
+      ? statusValues
+      : ['incoming', 'ready', 'todo', 'in_progress', 'review', 'done'];
+
+  return {
+    columns: statuses.map((status) => ({
+      name: status,
+      count: 0,
+      limit: typeof limitsRecord[status] === 'number' ? limitsRecord[status] ?? null : null,
+      tasks: [],
+    })),
+  } satisfies Board;
+};
+
+const handleInit: CommandHandler = async (_args, context) => {
+  const templateConfig = await resolveTemplateConfig();
+  const { _starter_tasks: starterTasksRaw, ...baseConfig } = templateConfig;
+  const starterTasks = Array.isArray(starterTasksRaw) ? starterTasksRaw : [];
+
+  const cwd = process.cwd();
+  const configPath = path.resolve(cwd, DEFAULT_CONFIG_FILENAME);
+
+  const boardInput = context.boardFile?.trim().length
+    ? context.boardFile.trim()
+    : (typeof baseConfig.boardFile === 'string' && baseConfig.boardFile.trim().length > 0
+        ? baseConfig.boardFile
+        : DEFAULT_BOARD_PATH);
+  const tasksInput = context.tasksDir?.trim().length
+    ? context.tasksDir.trim()
+    : (typeof baseConfig.tasksDir === 'string' && baseConfig.tasksDir.trim().length > 0
+        ? baseConfig.tasksDir
+        : DEFAULT_TASKS_DIR);
+
+  const boardPath = path.resolve(cwd, boardInput);
+  const tasksDir = path.resolve(cwd, tasksInput);
+
+  await ensureDirectory(path.dirname(configPath));
+  await ensureDirectory(tasksDir);
+  await ensureDirectory(path.dirname(boardPath));
+
+  const configExists = await pathExists(configPath);
+  const boardExists = await pathExists(boardPath);
+
+  if (!boardExists) {
+    const boardTemplate = createBoardTemplate(templateConfig);
+    await writeBoard(boardPath, boardTemplate);
+  }
+
+  const createdTaskFiles = await createStarterTaskFiles(tasksDir, starterTasks);
+
+  if (!configExists) {
+    const configDir = path.dirname(configPath);
+    const configPayload = {
+      ...baseConfig,
+      tasksDir: normalizeRelativePath(configDir, tasksDir),
+      boardFile: normalizeRelativePath(configDir, boardPath),
+    } satisfies Record<string, unknown>;
+
+    await writeFile(configPath, `${JSON.stringify(configPayload, null, 2)}\n`, 'utf8');
+  }
+
+  debug('Kanban init complete:', {
+    configPath,
+    boardPath,
+    tasksDir,
+    createdConfig: !configExists,
+    createdBoard: !boardExists,
+    createdTaskFiles,
+  });
+
+  return {
+    configPath,
+    boardPath,
+    tasksDir,
+    createdConfig: !configExists,
+    createdBoard: !boardExists,
+    createdTaskFiles,
+  } as const;
+};
 
 /**
  * Handle heal command for kanban board healing operations
@@ -2841,7 +3052,8 @@ export const COMMAND_HANDLERS: Readonly<Record<string, CommandHandler>> = Object
   'remove-task': handleRemoveTask,
   'list-epics': handleListEpics,
   'epic-status': handleEpicStatus,
-  // Setup commands (init is handled separately in registerInitCommand)
+  // Setup commands
+  init: handleInit,
   // Event log commands
   'rebuild-event-log': handleRebuildEventLog,
   // Task audit commands
