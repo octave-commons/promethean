@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const apps = 
+export const apps =
 [
   {
     "name": "lein-repl",
@@ -206,7 +206,7 @@ export const apps =
       "-r",
       "--handle-subrepos",
       "--subrepo-strategy",
-      "seperate",
+      "separate",
       "--debounce-ms",
       "10000",
       "--model",
@@ -380,11 +380,11 @@ export const apps =
   }
 ];
 
-export const triggers = 
+export const triggers =
 [];
 
-export const schedules = 
+export const schedules =
 [];
 
-export const actions = 
+export const actions =
 [];
