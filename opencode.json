@@ -14,18 +14,6 @@
         }
       }
     },
-    "ollama_openai": {
-      "npm": "@ai-sdk/openai-compatible",
-      "name": "Ollama OpenAI Compatible",
-      "options": {
-        "baseURL": "http://localhost:11434/v1"
-      },
-      "models": {
-        "error/qwen3:4b-instruct-100k": {
-          "name": "Qwen3 4B Instruct"
-        }
-      }
-    },
     "opencode":{
       "models":{
       "big-pickle": {
