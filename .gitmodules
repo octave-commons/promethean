@@ -13,3 +13,6 @@
 [submodule "test-data/test-git"]
 	path = test-data/test-git
 	url = ./test-data/test-git
+[submodule "packages/auth-service"]
+	path = packages/auth-service
+	url = git@github.com:riatzukiza/auth-service.git
