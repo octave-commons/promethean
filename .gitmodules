@@ -1,0 +1,3 @@
+[submodule "git-subrepo-source"]
+	path = git-subrepo-source
+	url = https://github.com/ingydotnet/git-subrepo.git
