@@ -57,11 +57,24 @@
       "url":"http://localhost:4320/github",
       "enabled": true
     },
-    // "clj": {
-    //   "type": "local",
-    //   "command": ["clojure", "-X:mcp-shadow-dual"],
-    //   "enabled": true
-    // },
+    "clojure-centralized":{
+      "type":"local",
+      "command":["../mcp-server.sh", "unified", "7890"],
+      "enabled": true,
+      "description": "Centralized Clojure MCP server for all runtimes"
+    },
+    "clojure-promethean":{
+      "type":"local",
+      "command":["../mcp-server.sh", "jvm", "7891"],
+      "enabled": true,
+      "description": "Promethean JVM Clojure development MCP server"
+    },
+    "clojure-shadow":{
+      "type":"local",
+      "command":["../mcp-server.sh", "cljs", "7892"],
+      "enabled": true,
+      "description": "Promethean Shadow-CLJS development MCP server"
+    },
     "clj-kondo": {
       "type": "local",
       "command": ["npx", "clj-kondo-mcp"],
