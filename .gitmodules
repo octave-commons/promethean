@@ -1,3 +1,15 @@
 [submodule "git-subrepo-source"]
 	path = git-subrepo-source
 	url = https://github.com/ingydotnet/git-subrepo.git
+[submodule "packages/kanban/test-kanban-hanging-temp"]
+	path = packages/kanban/test-kanban-hanging-temp
+	url = ./packages/kanban/test-kanban-hanging-temp
+[submodule "packages/kanban/test-git-utils-temp"]
+	path = packages/kanban/test-git-utils-temp
+	url = ./packages/kanban/test-git-utils-temp
+[submodule "packages/kanban/test-git-workflow-temp"]
+	path = packages/kanban/test-git-workflow-temp
+	url = ./packages/kanban/test-git-workflow-temp
+[submodule "test-data/test-git"]
+	path = test-data/test-git
+	url = ./test-data/test-git
