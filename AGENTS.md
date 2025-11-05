@@ -97,6 +97,12 @@ The documentation must be completely traversable .
 - [[BOARD_COMMANDS]]
 - [[TYPE_CLASS_PACKAGE_STRUCTURE_GUIDE]]
 - [[MANIFESTO]]
+
+### 🔗 Cross-Repository Documentation
+
+- **[CROSS_REFERENCES.md](./CROSS_REFERENCES.md)** - Complete cross-references to all related repositories
+- **[Workspace AGENTS.md](../AGENTS.md)** - Main workspace documentation
+- **[Repository Index](../REPOSITORY_INDEX.md)** - Complete repository overview
 ---
 
 ## ⚖️ License
