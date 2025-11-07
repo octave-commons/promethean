@@ -89,6 +89,8 @@ pnpm kanban regenerate
 - **Workspace structure** - All packages use `@promethean-os/<package>*` via "workspace:\*"
 - **No relative imports** outside package roots
 
+> **Submodule packages:** The following packages now live in their own `github.com/riatzukiza/<name>` repositories and are mounted into this workspace as git submodules: `packages/apply-patch`, `packages/autocommit`, `packages/auth-service`, `packages/kanban`, `packages/logger`, `packages/mcp`, `packages/naming`, `packages/persistence`, and `packages/utils`. Run `git submodule update --init packages/<name>` after cloning to fetch their content, and use the upstream repo for issue tracking or standalone development.
+
 ### Testing
 
 ```bash

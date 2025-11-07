@@ -1,0 +1,36 @@
+[submodule "packages/apply-patch"]
+	path = packages/apply-patch
+	url = git@github.com:riatzukiza/apply-patch.git
+	branch = main
+[submodule "packages/autocommit"]
+	path = packages/autocommit
+	url = git@github.com:riatzukiza/autocommit.git
+	branch = main
+[submodule "packages/auth-service"]
+	path = packages/auth-service
+	url = git@github.com:riatzukiza/auth-service.git
+	branch = main
+[submodule "packages/kanban"]
+	path = packages/kanban
+	url = https://github.com/riatzukiza/kanban.git
+	branch = main
+[submodule "packages/logger"]
+	path = packages/logger
+	url = git@github.com:riatzukiza/logger.git
+	branch = main
+[submodule "packages/mcp"]
+	path = packages/mcp
+	url = https://github.com/riatzukiza/mcp.git
+	branch = main
+[submodule "packages/naming"]
+	path = packages/naming
+	url = git@github.com:riatzukiza/naming.git
+	branch = main
+[submodule "packages/persistence"]
+	path = packages/persistence
+	url = https://github.com/riatzukiza/persistence.git
+	branch = main
+[submodule "packages/utils"]
+	path = packages/utils
+	url = git@github.com:riatzukiza/utils.git
+	branch = main
