@@ -12,20 +12,17 @@ export class PersistentJobStore {
   constructor(private cachePath: string) {}
 
   async initialize(): Promise<void> {
-    this.jobCache = await new LMDBCache<Job>({
-      path: `${this.cachePath}/jobs`,
+    this.jobCache = await new LMDBCache<Job>(`${this.cachePath}/jobs`, {
       namespace: 'jobs',
       defaultTtlMs: undefined, // Jobs don't expire by default
     });
 
-    this.activeJobsCache = await new LMDBCache<true>({
-      path: `${this.cachePath}/active`,
+    this.activeJobsCache = await new LMDBCache<true>(`${this.cachePath}/active`, {
       namespace: 'active',
       defaultTtlMs: undefined,
     });
 
-    this.processingCache = await new LMDBCache<true>({
-      path: `${this.cachePath}/processing`,
+    this.processingCache = await new LMDBCache<true>(`${this.cachePath}/processing`, {
       namespace: 'processing',
       defaultTtlMs: undefined,
     });
