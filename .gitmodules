@@ -13,7 +13,7 @@
 [submodule "packages/kanban"]
 	path = packages/kanban
 	url = https://github.com/riatzukiza/kanban.git
-	branch = main
+	branch = promethean/dev
 [submodule "packages/logger"]
 	path = packages/logger
 	url = git@github.com:riatzukiza/logger.git
@@ -21,16 +21,16 @@
 [submodule "packages/mcp"]
 	path = packages/mcp
 	url = https://github.com/riatzukiza/mcp.git
-	branch = main
+	branch = promethean/dev
 [submodule "packages/naming"]
 	path = packages/naming
 	url = git@github.com:riatzukiza/naming.git
-	branch = main
+	branch = promethean/dev
 [submodule "packages/persistence"]
 	path = packages/persistence
 	url = https://github.com/riatzukiza/persistence.git
-	branch = main
+	branch = promethean/dev
 [submodule "packages/utils"]
 	path = packages/utils
 	url = git@github.com:riatzukiza/utils.git
-	branch = main
+	branch = promethean/dev

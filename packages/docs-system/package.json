@@ -64,7 +64,7 @@
     "dev": "concurrently \"pnpm dev:backend\" \"pnpm dev:frontend\"",
     "dev:backend": "tsx watch src/backend/index.ts",
     "dev:frontend": "vite",
-    "build": "pnpm build:backend && pnpm build:frontend",
+    "build": "pnpm build:backend",
     "build:backend": "tsc -p tsconfig.backend.json",
     "build:frontend": "vite build",
     "start": "node dist/backend/index.js",

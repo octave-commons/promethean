@@ -1,2 +1,2 @@
-export { openLmdbCache, defaultNamespace } from "./cache.js";
-export type { Cache, CacheOptions, PutOptions } from "./types.js";
+export { LMDBCache } from "./cache.js";
+export type { Cache, CacheOptions, PutOptions, Millis } from "./types.js";

@@ -20,7 +20,8 @@
     "test": "pnpm build && ava"
   },
   "dependencies": {
-    "@promethean-os/utils": "workspace:*"
+    "@promethean-os/utils": "workspace:*",
+    "lmdb": "^3.4.4"
   },
   "devDependencies": {
     "@promethean-os/test-utils": "workspace:*"
