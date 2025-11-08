@@ -364,7 +364,7 @@ class DeploymentManager {
       {
         template: template as any,
         confidence: 0.9,
-        reasoning: ,
+        reasoning: `Phase ${metrics.phase}`,
         fallbackChain: [],
         estimatedTokens:
           metrics.v2Requests > 0
