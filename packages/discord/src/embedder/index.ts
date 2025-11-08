@@ -1,4 +1,4 @@
-import { ObjectId, Collection } from 'mongodb';
+import { ObjectId } from 'mongodb';
 import { AGENT_NAME } from '@promethean-os/legacy/env.js';
 import { HeartbeatClient } from '@promethean-os/legacy/heartbeat/index.js';
 import { ContextStore, getMongoClient } from '@promethean-os/persistence';
@@ -29,7 +29,8 @@ const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
   const db = mongoClient.db('database');
 
   const family = `${AGENT_NAME}_discord_messages`;
-  const discordMessagesCollection: Collection<DiscordMessage> = db.collection(family);
+    // Avoid cross-version mongodb type conflicts by relaxing the type here
+  const discordMessagesCollection = db.collection(family) as any;
 
   // dual store + context manager
   const ctxStore = new ContextStore();
