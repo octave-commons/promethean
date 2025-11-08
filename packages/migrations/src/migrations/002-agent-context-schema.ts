@@ -1,9 +1,9 @@
-import { Migration } from '../contract';
+import { Migration } from '../contract.js';
 
 export const migration: Migration = {
   id: '002-agent-context-schema',
   description: 'Create Agent OS context management tables',
-  up: async (db) => {
+  up: async (db: any) => {
     // Create agent_context_events table
     await db.query(`
       CREATE TABLE IF NOT EXISTS agent_context_events (
@@ -149,7 +149,7 @@ export const migration: Migration = {
     `);
   },
   
-  down: async (db) => {
+  down: async (db: any) => {
     // Drop tables in reverse order due to dependencies
     await db.query('DROP TABLE IF EXISTS agent_context_metadata CASCADE;');
     await db.query('DROP TABLE IF EXISTS agent_context_shares CASCADE;');
