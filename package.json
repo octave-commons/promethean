@@ -65,7 +65,7 @@
     "clean:tagged": "node ./scripts/run-nx-task.mjs clean tagged",
     "build:docs": "node scripts/generate-service-docs.js",
     "health:node-abi": "node -p \"process.versions.node + ' ABI ' + process.versions.modules\"",
-    "prepare": "node ./scripts/ensure-cli-perms.mjs",
+    "prepare": "node ./scripts/ensure-submodules.mjs && node ./scripts/ensure-cli-perms.mjs",
     "lint": "eslint --cache ./packages",
     "lint:diff": "bash ./bin/lint-diff-ts.sh",
     "opencode": "node ./packages/opencode-client/dist/cli.js",

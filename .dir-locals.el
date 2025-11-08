@@ -24,6 +24,8 @@
                                     (js-mode :dir "pseudo/inbox" :ext ".js")
                                     (typescript-ts-mode :dir "pseudo/inbox" :ext ".ts")))
 
-         (lsp-enable-file-watchers . t)      ;; keep watchers on, but…
-         (lsp-file-watch-threshold . 1500)   ;; avoid nag; tune if needed
-         (eval . (promethean-lsp-append-gitignore-to-ignored-dirs)))))
+         ;; (lsp-enable-file-watchers . t)      ;; keep watchers on, but…
+         ;; (lsp-file-watch-threshold . 1500)   ;; avoid nag; tune if needed
+         ;; (eval . (promethean-lsp-append-gitignore-to-ignored-dirs))
+         ))
+ )

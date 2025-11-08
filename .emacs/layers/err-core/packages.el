@@ -96,8 +96,7 @@
     (setq lsp-response-timeout 30)
 
     ;; 2) Reduce contention: disable extra analyzers for now
-    ;; (setq lsp-disabled-clients
-    ;;       (append lsp-disabled-clients '(semgrep-ls sonarlint-ls)))
+    (add-to-list  'lsp-disabled-clients '(semgrep-ls sonarlint-ls))
 
 
     ;; 3) Tame file watchers
