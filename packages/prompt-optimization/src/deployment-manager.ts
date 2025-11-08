@@ -358,11 +358,22 @@ class DeploymentManager {
     this.metrics.push(metrics);
 
     // Send to monitoring dashboard
-    await monitoringDashboard.recordRequest(
-      template,
-      metrics.phase,
+    monitoringDashboard.recordRequest(
+      template as any,
+      '',
+      {
+        template: template as any,
+        confidence: 0.9,
+        reasoning: ,
+        fallbackChain: [],
+        estimatedTokens:
+          metrics.v2Requests > 0
+            ? this.estimateTokens('v2-output')
+            : this.estimateTokens('legacy-output'),
+        estimatedTime: processingTime / 1000,
+      },
       success,
-      processingTime,
+      processingTime / 1000,
       metrics.v2Requests > 0
         ? this.estimateTokens('v2-output')
         : this.estimateTokens('legacy-output'),
