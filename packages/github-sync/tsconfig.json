@@ -5,11 +5,16 @@
     "outDir": "dist",
     "composite": true
   },
-  "include": ["src"],
-  "exclude": ["node_modules", "dist"],
+  "include": [
+    "src"
+  ],
+  "exclude": [
+    "node_modules",
+    "dist"
+  ],
   "references": [
     {
-      "path": "../kanban"
+      "path": "../kanban/tsconfig.build.json"
     }
   ]
 }
