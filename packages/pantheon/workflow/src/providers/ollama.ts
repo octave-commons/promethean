@@ -1,37 +1,25 @@
 /* eslint-disable import/order */
 import { randomUUID } from 'node:crypto';
 import {
-  Usage,
   assistant,
-  type AgentInputItem,
-  type AssistantMessageItem,
   type Model,
   type ModelProvider,
   type ModelRequest,
   type ModelResponse,
   type StreamEvent,
-  type SystemMessageItem,
-  type UserMessageItem,
 } from '@openai/agents';
 import {
   Ollama as OllamaClient,
   type ChatRequest,
   type ChatResponse,
-  type Message,
-  type Tool as OllamaTool,
 } from 'ollama';
 
 import {
-  isMessageItem,
-  flattenEntries,
-  toMessageContent,
   convertInputToMessages,
-  normalizeJsonSchema,
   convertTools,
   convertSettings,
-  toUsage,
   toUsageComponents,
-} from './ollamaHelpers';
+} from './ollamaHelpers.js';
 
 // Defines compatible client interface
 export type OllamaClientLike = {
@@ -69,7 +57,7 @@ class OllamaModel implements Model {
     if (this.defaults) {
       for (const [key, value] of Object.entries(this.defaults)) {
         if (value === undefined || key === 'model' || key === 'messages' || key === 'stream') continue;
-        (base as Record<string, unknown>)[key] = value;
+        (base as unknown as Record<string, unknown>)[key] = value;
       }
     }
     const tools = convertTools(request.tools);

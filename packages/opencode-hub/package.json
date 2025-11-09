@@ -1,0 +1,52 @@
+{
+  "name": "@promethean-os/opencode-hub",
+  "version": "0.1.0",
+  "description": "Continuously discover repos under ~/devel, spawn opencode servers per repo, index sessions for RAG, and provide a Shadow CLJS UI hub.",
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "engines": {
+    "node": ">=20.0.0",
+    "pnpm": ">=9.0.0"
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.simple.json",
+    "build:full": "tsc -p tsconfig.json",
+    "dev": "NODE_ENV=development tsx src/index-simple.ts",
+    "dev:full": "NODE_ENV=development tsx src/index.ts",
+    "test": "ava",
+    "test:unit": "ava",
+    "ui:watch": "shadow-cljs watch app",
+    "ui:release": "shadow-cljs release app",
+    "ui:server": "shadow-cljs watch app --debug",
+    "lint": "eslint src --ext .ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "bin": {
+    "opencode-hub": "dist/cli.js"
+  },
+  "dependencies": {
+    "@fastify/http-proxy": "^10.0.1",
+    "@fastify/static": "^7.0.0",
+    "chokidar": "^3.6.0",
+    "deepmerge": "^4.3.1",
+    "execa": "^9.5.0",
+    "fastify": "^5.0.0",
+    "get-port": "^7.1.0",
+    "p-limit": "^6.1.0",
+    "semver": "^7.6.3",
+    "ws": "^8.18.0"
+  },
+  "devDependencies": {
+    "@eslint/js": "^9.0.0",
+    "@types/node": "^22.8.1",
+    "@types/ws": "^8.5.0",
+    "ava": "^6.1.3",
+    "bun-types": "^1.0.0",
+    "esbuild": "^0.24.0",
+    "eslint": "^9.0.0",
+    "shadow-cljs": "2.28.15",
+    "tsx": "^4.19.1",
+    "typescript": "^5.6.3",
+    "typescript-eslint": "^8.0.0"
+  }
+}

@@ -158,3 +158,5 @@ packages/kanban/kanban-test-*/
 .stryker-tmp
 indexer-state.json
 test-data/test-git/
+
+packages/kanban/test-git-workflow-temp

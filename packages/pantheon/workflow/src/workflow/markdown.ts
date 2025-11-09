@@ -61,7 +61,7 @@ export function parseMarkdownWorkflows(
   content: string,
   _options: MarkdownWorkflowOptions = {},
 ): MarkdownWorkflowDocument {
-  const tree = unified().use(remarkParse).parse(content) as { children?: MdNode[] };
+  const tree = unified().use(remarkParse).parse(content) as unknown as { children?: MdNode[] };
   const workflows: WorkflowDefinition[] = [];
   const jsonBlocks: Record<string, unknown> = {};
 

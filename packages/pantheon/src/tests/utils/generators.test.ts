@@ -49,14 +49,20 @@ test('generateActorId creates properly formatted IDs', (t) => {
   t.true(actorId.startsWith('actor_test-actor_'));
 
   const parts = actorId.split('_');
-  t.is(parts.length, 3);
+  t.is(parts.length, 4);
   t.is(parts[0], 'actor');
   t.is(parts[1], 'test-actor');
 
-  // Third part should contain timestamp and random parts
+  // Third part should be timestamp
   const thirdPart = parts[2];
   if (thirdPart) {
-    t.true(thirdPart.includes('_'));
+    t.true(/^\d+$/.test(thirdPart));
+  }
+
+  // Fourth part should be random string
+  const fourthPart = parts[3];
+  if (fourthPart) {
+    t.true(/^[a-z0-9]+$/.test(fourthPart));
   }
 });
 

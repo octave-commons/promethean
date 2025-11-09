@@ -84,6 +84,9 @@ export {
   decodeJWTPayload,
 } from './serializers/index.js';
 
+// LLM Adapters
+export { makeOpenAIAdapter, type OpenAIAdapterConfig } from './llm/openai.js';
+
 // Utilities
 export {
   generateId,

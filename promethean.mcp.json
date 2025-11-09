@@ -2,7 +2,7 @@
   "metadata": {
     "generatedBy": "clj-hacks"
   },
-  "version": "2025-06-18",
+  "version": "2024-10-01",
   "transport": "http",
   "tools": [
     "mcp.help",
@@ -160,36 +160,6 @@
     "workspace": {
       "tools": ["pnpm.install", "pnpm.add", "pnpm.remove", "pnpm.runScript"],
       "includeHelp": true
-    },
-    "vision": {
-      "tools": [],
-      "includeHelp": true,
-      "meta": {
-        "title": "Vision Analysis Tools",
-        "description": "AI-powered image and video analysis using Z.AI's GLM-4.5V model.",
-        "workflow": [
-          "zai-mcp-server_analyze_image -> analyze image content",
-          "zai-mcp-server_analyze_video -> analyze video content"
-        ],
-        "expectations": {
-          "usage": [
-            "Use zai-mcp-server_analyze_image to analyze images",
-            "Use zai-mcp-server_analyze_video to analyze videos",
-            "Provide file paths or URLs to media files",
-            "Include detailed prompts for specific analysis needs"
-          ],
-          "pitfalls": [
-            "Large files may take longer to process",
-            "URLs must be accessible and publicly available",
-            "Local files must exist and be readable"
-          ],
-          "prerequisites": [
-            "Valid Z.AI API key configured",
-            "Network access for remote URLs",
-            "Sufficient file permissions for local files"
-          ]
-        }
-      }
     }
   }
 }

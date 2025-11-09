@@ -1,6 +1,6 @@
 {:apps [{:name "unified-indexer"
           :script "node"
-          :args ["packages/persistence/dist/index.js" "--config" "config/production.json" "--daemon"]
+          :args ["packages/unified-indexer/dist/index.js" "--config" "config/production.json" "--daemon"]
           :interpreter "/usr/bin/env"
           :out_file "./logs/unified-indexer.log"
           :error_file "./logs/unified-indexer.log"
@@ -26,4 +26,4 @@
           :cwd "."
          :readiness_probe {:http_get {:url "http://localhost:3000/ready" :timeout 10000}}
          :liveness_probe {:http_get {:url "http://localhost:3000/health" :timeout 5000}}
-         :startup_probe {:http_get {:url "http://localhost:3000/health" :timeout 30000 :retries 3}}]}
+         :startup_probe {:http_get {:url "http://localhost:3000/health" :timeout 30000 :retries 3}}}]}

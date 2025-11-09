@@ -51,90 +51,100 @@ test.serial('SECURITY-002: Path traversal in output directory should be blocked'
   }
 });
 
-test.serial('SECURITY-003: Code injection in filename should be blocked', async (t) => {
-  const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
+test.serial(
+  'prompts user and action is denied when risky string is detected (filename)',
+  async (t) => {
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
 
-  const maliciousFilenames = [
-    "<script>alert('xss')</script>.mjs",
-    "javascript:alert('xss').mjs",
-    "'; DROP TABLE apps; --.mjs",
-    '$(rm -rf /).mjs',
-    '`whoami`.mjs',
-    'CON.mjs', // Windows reserved name
-    'PRN.mjs', // Windows reserved name
-    'AUX.mjs', // Windows reserved name
-    'file/with/slashes.mjs',
-    'file\\with\\backslashes.mjs',
-    'file..with..dots.mjs',
-  ];
+    const maliciousFilenames = [
+      "<script>alert('xss')</script>.mjs",
+      "javascript:alert('xss').mjs",
+      "'; DROP TABLE apps; --.mjs",
+      '$(rm -rf /).mjs',
+      '`whoami`.mjs',
+      'CON.mjs', // Windows reserved name
+      'PRN.mjs', // Windows reserved name
+      'AUX.mjs', // Windows reserved name
+      'file/with/slashes.mjs',
+      'file\\with\\backslashes.mjs',
+      'file..with..dots.mjs',
+    ];
 
-  for (const filename of maliciousFilenames) {
-    await t.throwsAsync(
-      async () => {
-        await generateEcosystem({
-          inputDir: tmpDir,
-          fileName: filename,
-        });
-      },
-      {
-        message:
-          /Filename must not contain path separators|Filename contains invalid characters|Path boundary violation|Script injection detected|Command injection detected|Directory traversal detected|Reserved filename detected/,
-      },
-    );
-  }
-});
+    for (const filename of maliciousFilenames) {
+      await t.throwsAsync(
+        async () => {
+          await generateEcosystem({
+            inputDir: tmpDir,
+            fileName: filename,
+          });
+        },
+        {
+          message:
+            /Filename must not contain path separators|Filename contains invalid characters|Path boundary violation|Script injection detected|Command injection detected|Directory traversal detected|Reserved filename detected/,
+        },
+      );
+    }
+  },
+);
 
-test.serial('SECURITY-004: Malicious content in EDN files should be blocked', async (t) => {
-  const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
-  const ednFile = path.join(tmpDir, 'malicious.edn');
+test.serial(
+  'prompts user and action is denied when risky string is detected (edn-content)',
+  async (t) => {
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
+    const ednFile = path.join(tmpDir, 'malicious.edn');
 
-  const maliciousContents = [
-    '{:apps [{:name "<script>alert(\'xss\')</script>"}]}',
-    '{:apps [{:name "javascript:alert(\'xss\')"}]}',
-    '{:apps [{:name "\'; DROP TABLE apps; --"}]}',
-    '{:apps [{:name "$(rm -rf /)"}]}',
-    '{:apps [{:script "eval(\'malicious code\')"}]}',
-  ];
+    const maliciousContents = [
+      '{:apps [{:name "<script>alert(\'xss\')</script>"}]}',
+      '{:apps [{:name "javascript:alert(\'xss\')"}]}',
+      '{:apps [{:name "\'; DROP TABLE apps; --"}]}',
+      '{:apps [{:name "$(rm -rf /)"}]}',
+      '{:apps [{:script "eval(\'malicious code\')"}]}',
+    ];
 
-  for (const content of maliciousContents) {
-    await writeFile(ednFile, content, 'utf8');
+    for (const content of maliciousContents) {
+      await writeFile(ednFile, content, 'utf8');
 
-    await t.throwsAsync(
-      async () => {
-        await loadEdnFile(ednFile);
-      },
-      {
-        message: /Potentially dangerous content detected|File too large|File extension not allowed/,
-      },
-    );
-  }
-});
+      await t.throwsAsync(
+        async () => {
+          await loadEdnFile(ednFile);
+        },
+        {
+          message:
+            /Potentially dangerous content detected|File too large|File extension not allowed/,
+        },
+      );
+    }
+  },
+);
 
-test.serial('SECURITY-005: Path traversal in EDN file paths should be blocked', async (t) => {
-  const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
-  const ednFile = path.join(tmpDir, 'paths.edn');
+test.serial(
+  'prompts user and action is denied when risky string is detected (edn-paths)',
+  async (t) => {
+    const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));
+    const ednFile = path.join(tmpDir, 'paths.edn');
 
-  const maliciousPaths = [
-    '{:apps [{:name "app" :script "../../../etc/passwd"}]}',
-    '{:apps [{:name "app" :cwd "..\\..\\windows\\system32"}]}',
-    '{:apps [{:name "app" :env_file "%2e%2e%2fetc%2fpasswd"}]}',
-    '{:apps [{:name "app" :watch ["../../../etc", "normal/path"]}]}',
-    '{:apps [{:name "app" :env {:CONFIG_PATH "../../../etc"}}]}',
-  ];
+    const maliciousPaths = [
+      '{:apps [{:name "app" :script "../../../etc/passwd"}]}',
+      '{:apps [{:name "app" :cwd "..\\..\\windows\\system32"}]}',
+      '{:apps [{:name "app" :env_file "%2e%2e%2fetc%2fpasswd"}]}',
+      '{:apps [{:name "app" :watch ["../../../etc", "normal/path"]}]}',
+      '{:apps [{:name "app" :env {:CONFIG_PATH "../../../etc"}}]}',
+    ];
 
-  for (const content of maliciousPaths) {
-    await writeFile(ednFile, content, 'utf8');
+    for (const content of maliciousPaths) {
+      await writeFile(ednFile, content, 'utf8');
 
-    await t.throwsAsync(
-      async () => {
-        await generateEcosystem({ inputDir: tmpDir });
-      },
-      {
-        message: /Directory traversal detected|Path boundary violation/,
-      },
-    );
-  }
-});
+      await t.throwsAsync(
+        async () => {
+          await generateEcosystem({ inputDir: tmpDir });
+        },
+        {
+          message: /Directory traversal detected|Path boundary violation/,
+        },
+      );
+    }
+  },
+);
 
 test.serial('SECURITY-006: Large files should be rejected', async (t) => {
   const tmpDir = await mkdtemp(path.join(os.tmpdir(), 'shadow-conf-security-'));

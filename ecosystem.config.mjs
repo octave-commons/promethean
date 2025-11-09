@@ -3,7 +3,7 @@ import dotenv from "dotenv";
 
 dotenv.config();
 
-export const apps = 
+export const apps =
 [
   {
     "name": "lein-repl",
@@ -202,7 +202,11 @@ export const apps =
     "args": [
       "autocommit",
       "--path",
-      ".",
+      "../",
+      "-r",
+      "--handle-subrepos",
+      "--subrepo-strategy",
+      "separate",
       "--debounce-ms",
       "10000",
       "--model",
@@ -319,14 +323,68 @@ export const apps =
       "tmp",
       ".git"
     ]
+  },
+  {
+    "name": "unified-indexer",
+    "script": "node",
+    "args": [
+      "packages/unified-indexer/dist/index.js",
+      "--config",
+      "config/production.json",
+      "--daemon"
+    ],
+    "interpreter": "/usr/bin/env",
+    "out_file": "./logs/unified-indexer.log",
+    "error_file": "./logs/unified-indexer.log",
+    "merge_logs": true,
+    "instances": 1,
+    "autorestart": true,
+    "restart_delay": 15000,
+    "env_file": "./.env",
+    "kill_timeout": 10000,
+    "env": {
+      "NODE_ENV": "production",
+      "PM2_PROCESS_NAME": "unified-indexer",
+      "LOG_LEVEL": "info",
+      "AGENT_NAME": "promethean",
+      "MONGODB_URL": "${MONGODB_URL}",
+      "CHROMA_DB_URL": "${CHROMA_DB_URL}",
+      "REDIS_URL": "${REDIS_URL}",
+      "EMBEDDING_API_KEY": "${EMBEDDING_API_KEY}",
+      "EMBEDDING_FUNCTION": "${EMBEDDING_FUNCTION}",
+      "EMBEDDING_DIMENSIONS": "${EMBEDDING_DIMENSIONS}",
+      "CONFIG_PATH": "config/production.json",
+      "PID_FILE": "./var/run/unified-indexer.pid",
+      "LOG_FILE": "./logs/unified-indexer/daemon.log"
+    },
+    "cwd": ".",
+    "readiness_probe": {
+      "http_get": {
+        "url": "http://localhost:3000/ready",
+        "timeout": 10000
+      }
+    },
+    "liveness_probe": {
+      "http_get": {
+        "url": "http://localhost:3000/health",
+        "timeout": 5000
+      }
+    },
+    "startup_probe": {
+      "http_get": {
+        "url": "http://localhost:3000/health",
+        "timeout": 30000,
+        "retries": 3
+      }
+    }
   }
 ];
 
-export const triggers = 
+export const triggers =
 [];
 
-export const schedules = 
+export const schedules =
 [];
 
-export const actions = 
+export const actions =
 [];

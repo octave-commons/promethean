@@ -62,44 +62,77 @@ export async function loadEdnFile(filePath: string): Promise<unknown> {
   // SECURITY: Validate file path before reading
   validateFilePath(filePath);
 
-  try {
-    const content = await readFile(filePath, 'utf8');
+  const content = await readFile(filePath, 'utf8');
 
-    // SECURITY: Validate file size before parsing
-    const sizeResult = validateFileSize(content.length, DEFAULT_SECURITY_CONFIG, filePath);
-    if (!sizeResult.success) {
-      throw new Error(sizeResult.error);
-    }
-
-    // SECURITY: Content validation for immediate threats
-    // Check for dangerous patterns using simple string matching
-    const dangerousPatterns = [
-      '<script',
-      'javascript:',
-      'eval(',
-      'document.',
-      'window.',
-      'global.',
-      'process.',
-      'require(',
-      'exec(',
-      'spawn(',
-      'child_process',
-      'fs.',
-      'os.',
-    ];
-
-    const lowerContent = content.toLowerCase();
-    for (const pattern of dangerousPatterns) {
-      if (lowerContent.includes(pattern)) {
-        throw new Error(`Potentially dangerous content detected in EDN file: ${filePath}`);
-      }
-    }
-
-    return normalize(edn.toJS(edn.parse(content)));
-  } catch (e) {
-    throw new Error(`Failed to parse EDN file at ${filePath}: ${(e as Error).message}`);
+  // SECURITY: Validate file size before parsing
+  const sizeResult = validateFileSize(content.length, DEFAULT_SECURITY_CONFIG, filePath);
+  if (!sizeResult.success) {
+    throw new Error(sizeResult.error);
   }
+
+  // SECURITY: Content validation for immediate threats
+  // Check for dangerous patterns using simple string matching
+  const dangerousPatterns = [
+    '<script',
+    'javascript:',
+    'eval(',
+    'document.',
+    'window.',
+    'global.',
+    'process.',
+    'require(',
+    'exec(',
+    'spawn(',
+    'child_process',
+    'fs.',
+    'os.',
+    '; DROP TABLE', // SQL injection
+    '$(rm -rf', // Command injection
+    '`whoami`', // Command substitution
+  ];
+
+  const lowerContent = content.toLowerCase();
+  for (const pattern of dangerousPatterns) {
+    if (lowerContent.includes(pattern)) {
+      throw new Error(`Potentially dangerous content detected in EDN file: ${filePath}`);
+    }
+  }
+
+  // Parse EDN first
+  const parsed = edn.toJS(edn.parse(content));
+
+  // SECURITY: Validate parsed content for path traversal in string values
+  const validateContentForTraversal = (obj: unknown, path: string = ''): void => {
+    if (typeof obj === 'string') {
+      // Check for path traversal patterns in string values
+      const traversalPatterns = [
+        '../../../etc',
+        '..\\..\\windows\\system32',
+        '%2e%2e%2fetc%2fpasswd',
+        '../../../etc',
+        '..\\..\\windows\\system32',
+        '%2e%2e%2fetc',
+      ];
+
+      for (const pattern of traversalPatterns) {
+        if (obj.toLowerCase().includes(pattern.toLowerCase())) {
+          throw new Error(`Directory traversal detected in EDN content at ${path}: ${obj}`);
+        }
+      }
+    } else if (Array.isArray(obj)) {
+      obj.forEach((item, index) => {
+        validateContentForTraversal(item, `${path}[${index}]`);
+      });
+    } else if (obj && typeof obj === 'object') {
+      Object.entries(obj as Record<string, unknown>).forEach(([key, value]) => {
+        validateContentForTraversal(value, `${path}.${key}`);
+      });
+    }
+  };
+
+  validateContentForTraversal(parsed);
+
+  return normalize(parsed);
 }
 
 /**
