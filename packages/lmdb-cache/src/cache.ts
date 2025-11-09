@@ -35,7 +35,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
 
   // Open LMDB database
   const db = open<Envelope<T>, string>(options.path, {
-    encoding: 'json',
+    encoding: 'msgpack',
     compression: true,
     useVersions: true,
     noSubdir: false,
