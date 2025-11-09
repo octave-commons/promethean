@@ -115,7 +115,7 @@ export function reindexFilesTool(client: IndexerServiceClient): unknown {
   });
 }
 
-export function reindexAllTool(client: IndexerServiceClient) {
+export function reindexAllTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Full reindex',
     args: {},
@@ -134,7 +134,7 @@ export function reindexAllTool(client: IndexerServiceClient) {
   });
 }
 
-export function removeTool(client: IndexerServiceClient) {
+export function removeTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Remove from index',
     args: { path: tool.schema.string().min(1) },
@@ -152,7 +152,7 @@ export function removeTool(client: IndexerServiceClient) {
   });
 }
 
-export function resetTool(client: IndexerServiceClient) {
+export function resetTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Reset indexer',
     args: { confirm: tool.schema.boolean().default(false) },
@@ -174,7 +174,7 @@ export function resetTool(client: IndexerServiceClient) {
 export function configureTool(clientRef: {
   client: IndexerServiceClient;
   cfg: IndexerServiceConfig;
-}) {
+}): unknown {
   return tool({
     description: 'Configure service URL',
     args: { baseUrl: tool.schema.string().url() },
@@ -193,7 +193,7 @@ export function configureTool(clientRef: {
   });
 }
 
-export function batchTool(client: IndexerServiceClient) {
+export function batchTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Batch ops',
     args: {
