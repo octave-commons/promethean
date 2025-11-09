@@ -1,5 +1,5 @@
 import { tool } from '@opencode-ai/plugin/tool';
-import { IndexerServiceClient, type IndexerServiceConfig } from './indexer-client';
+import { IndexerServiceClient, type IndexerServiceConfig } from './indexer-client.js';
 import { validateAndNormalizePath, validateFilePatterns } from './path-validation.js';
 
 // --- Helpers ---
