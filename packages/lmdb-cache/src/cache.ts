@@ -153,7 +153,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       let expiredEntries = 0;
       const namespaces = new Set<string>();
 
-      for await (const [key, env] of db.getRange()) {
+      for await (const { key, value: env } of db.getRange()) {
         totalEntries++;
         const [, expired] = unwrap(env);
         if (expired) {
@@ -240,7 +240,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
         async *entries(opts): AsyncGenerator<[string, T]> {
           const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
 
-          for await (const [storedKey, env] of db.getRange({
+          for await (const { key: storedKey, value: env } of db.getRange({
             gte: prefix,
             lt: prefix ? `${prefix}\uFFFF` : undefined,
             limit: opts?.limit,
@@ -262,7 +262,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
           const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
 
           await db.transaction(async () => {
-            for await (const [key, env] of db.getRange({
+            for await (const { key, value: env } of db.getRange({
               gte: prefix,
               lt: prefix ? `${prefix}\uFFFF` : undefined,
             })) {
@@ -283,7 +283,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
           const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
 
           await db.transaction(async () => {
-            for await (const [env] of db.getRange({
+            for await (const { value: env } of db.getRange({
               gte: prefix,
               lt: prefix ? `${prefix}\uFFFF` : undefined,
             })) {
