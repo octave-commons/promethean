@@ -10,8 +10,6 @@ import type { Cache, CacheOptions, PutOptions, Millis } from './types.js';
 type Envelope<T> = Readonly<{ v: T; x?: Millis }>;
 
 const now = (): Millis => Date.now();
-const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
-const DEFAULT_NAMESPACE = 'default';
 
 /** deterministic, reversible namespacing (no mutation) */
 const joinKey = (ns: string | undefined, key: string): string => (ns ? `${ns}\u241F${key}` : key); // \u241F = SYMBOL FOR UNIT SEPARATOR
@@ -98,9 +96,9 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
           const scoped = namespacedKey(options.namespace, op.key);
           if (op.type === 'put') {
             const ttl = op.ttlMs ?? options.defaultTtlMs;
-            db.putSync!(scoped, envelopeFor(op.value, ttl));
+            (db as any).putSync(scoped, envelopeFor(op.value, ttl));
           } else {
-            db.removeSync!(scoped);
+            (db as any).removeSync(scoped);
           }
         }
       });
@@ -112,25 +110,20 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       const namespace = opts?.namespace ?? options.namespace;
       const prefix = namespace ? `${namespace}\u241F` : '';
 
-for await (const [storedKey, env] of db.getRange({
-                gte: prefix,
-                lt: prefix ? `${prefix}\uFFFF` : undefined,
-                limit: opts?.limit
-            })) {
-                const [value, expired] = unwrap(env);
-                if (expired) {
-                    await db.remove(storedKey);
-                    continue;
-                }
-                if (value === undefined) continue;
-                
-                const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
-                yield [logicalKey, value as T];
-            }
+      for await (const [storedKey, env] of db.getRange({
+        gte: prefix,
+        lt: prefix ? `${prefix}\uFFFF` : undefined,
+        limit: opts?.limit,
+      })) {
+        const [value, expired] = unwrap(env);
+        if (expired) {
+          await db.remove(storedKey);
+          continue;
+        }
         if (value === undefined) continue;
 
         const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
-        yield [logicalKey, value];
+        yield [logicalKey, value as T];
       }
     },
 
@@ -199,11 +192,11 @@ for await (const [storedKey, env] of db.getRange({
           const [value, expired] = unwrap(env);
 
           if (expired) {
-            await db.remove(scoped);
+            (db as any).removeSync(scoped);
             return undefined;
           }
 
-          return value;
+          return value as T | undefined;
         },
 
         async has(key: string): Promise<boolean> {
@@ -212,7 +205,7 @@ for await (const [storedKey, env] of db.getRange({
           const [value, expired] = unwrap(env);
 
           if (expired) {
-            await db.remove(scoped);
+            (db as any).removeSync(scoped);
             return false;
           }
 
@@ -236,9 +229,9 @@ for await (const [storedKey, env] of db.getRange({
               const scoped = namespacedKey(fullNamespace, op.key);
               if (op.type === 'put') {
                 const ttl = op.ttlMs ?? options.defaultTtlMs;
-                db.putSync!(scoped, envelopeFor(op.value, ttl));
+                (db as any).putSync(scoped, envelopeFor(op.value, ttl));
               } else {
-                db.removeSync!(scoped);
+                (db as any).removeSync(scoped);
               }
             }
           });
@@ -260,7 +253,7 @@ for await (const [storedKey, env] of db.getRange({
             if (value === undefined) continue;
 
             const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
-            yield [logicalKey, value];
+            yield [logicalKey, value as T];
           }
         },
 
@@ -290,7 +283,7 @@ for await (const [storedKey, env] of db.getRange({
           const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
 
           await db.transaction(async () => {
-            for await (const [key, env] of db.getRange({
+            for await (const [env] of db.getRange({
               gte: prefix,
               lt: prefix ? `${prefix}\uFFFF` : undefined,
             })) {
