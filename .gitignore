@@ -60,8 +60,6 @@ frames/
 
 **/*.mp4
 
-
-
 # Ignore Smart Environment folder
 .smart-env
 
@@ -158,3 +156,12 @@ packages/kanban/kanban-test-*/
 .stryker-tmp
 indexer-state.json
 test-data/test-git/
+
+# Local caches and tooling
+.lsp/
+.scannerwork/
+.clj-kondo/
+
+# Test fixtures and temp
+simple-test-temp/
+**/test.txt
