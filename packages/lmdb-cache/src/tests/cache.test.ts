@@ -64,16 +64,16 @@ test('entries yields non-expired logical keys only', async (t) => {
     { type: 'put', key: 'a', value: 1 },
     { type: 'put', key: 'b', value: 2, ttlMs: 500 },
   ]);
-  const first = [];
-  for await (const [k, v] of cache.entries()) first.push([k, v]);
+  const first: [string, number][] = [];
+  for await (const [k, v] of cache.entries()) first.push([k, v] as [string, number]);
   t.deepEqual(first.sort(), [
     ['a', 1],
     ['b', 2],
-  ]);
+  ] as [string, number][]);
   await sleep(800);
-  const second = [];
-  for await (const [k, v] of cache.entries()) second.push([k, v]);
-  t.deepEqual(second, [['a', 1]]);
+  const second: [string, number][] = [];
+  for await (const [k, v] of cache.entries()) second.push([k, v] as [string, number]);
+  t.deepEqual(second, [['a', 1]] as [string, number][]);
   await cache.close();
   rmSync(path, { recursive: true, force: true });
 });
