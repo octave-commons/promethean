@@ -110,7 +110,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       const namespace = opts?.namespace ?? options.namespace;
       const prefix = namespace ? `${namespace}\u241F` : '';
 
-      for await (const [storedKey, env] of db.getRange({
+      for await (const { key: storedKey, value: env } of db.getRange({
         gte: prefix,
         lt: prefix ? `${prefix}\uFFFF` : undefined,
         limit: opts?.limit,
@@ -131,7 +131,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       let deletedCount = 0;
 
       await db.transaction(async () => {
-        for await (const [key, env] of db.getRange()) {
+        for await (const { key, value: env } of db.getRange()) {
           const [, expired] = unwrap(env);
           if (expired) {
             await db.remove(key);
