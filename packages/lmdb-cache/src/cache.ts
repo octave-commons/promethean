@@ -143,7 +143,7 @@ const createSweepExpired =
     let deletedCount = 0;
 
     await db.transaction(async () => {
-      for await (const [key, env] of db.getRange()) {
+      for await (const { key, value: env } of db.getRange()) {
         const [, expired] = unwrap(env as Envelope<T> | undefined);
         if (!expired) continue;
         await db.remove(key);
@@ -160,7 +160,7 @@ const collectStats = async <T>(db: any, state: CacheScopeState) => {
   const namespaces = new Set<string>();
   const range = rangeForNamespace(state.namespace);
 
-  for await (const [key, env] of db.getRange(range)) {
+  for await (const { key, value: env } of db.getRange(range)) {
     totalEntries++;
     const [, expired] = unwrap(env as Envelope<T> | undefined);
     if (expired) {
