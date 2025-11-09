@@ -1,7 +1,7 @@
 import { mkdir } from 'node:fs/promises';
 import { open } from 'lmdb';
 
-import type { Cache, CacheOptions, PutOptions, Millis } from './types.js';
+import type { Cache, CacheOptions, Millis, PutOptions } from './types.js';
 
 /**
  * Internal on-disk envelope. Keep it tiny.
@@ -10,9 +10,16 @@ import type { Cache, CacheOptions, PutOptions, Millis } from './types.js';
 type Envelope<T> = Readonly<{ v: T; x?: Millis }>;
 
 const now = (): Millis => Date.now();
+const DEFAULT_TTL_MS = 24 * 60 * 60 * 1000;
+const DEFAULT_NAMESPACE = 'default';
 
 /** deterministic, reversible namespacing (no mutation) */
 const joinKey = (ns: string | undefined, key: string): string => (ns ? `${ns}\u241F${key}` : key); // \u241F = SYMBOL FOR UNIT SEPARATOR
+
+const composeNamespace = (base: string | undefined, ns: string): string =>
+  base ? `${base}/${ns}` : ns;
+
+const prefixFor = (ns: string | undefined): string => (ns ? `${ns}\u241F` : '');
 
 /** unwrap, checking TTL; returns [value, expired?] */
 const unwrap = <T>(env: Envelope<T> | undefined): readonly [T | undefined, boolean] => {
@@ -21,19 +28,229 @@ const unwrap = <T>(env: Envelope<T> | undefined): readonly [T | undefined, boole
   return [expired ? undefined : (env.v as T), expired];
 };
 
-const namespacedKey = (namespace: string | undefined, key: string): string =>
-  joinKey(namespace, key);
-
 const envelopeFor = <T>(value: T, ttl: Millis | undefined): Envelope<T> =>
   typeof ttl === 'number' ? { v: value, x: now() + ttl } : { v: value };
 
+const rangeForNamespace = (
+  namespace: string | undefined,
+  limit?: number,
+): Record<string, unknown> => {
+  const prefix = prefixFor(namespace);
+  return {
+    gte: prefix,
+    lt: prefix ? `${prefix}\uFFFF` : undefined,
+    limit,
+  };
+};
+
+type CacheScopeState = Readonly<{
+  namespace: string;
+  defaultTtlMs: Millis;
+}>;
+
+type HitMissCounters = { hit: number; miss: number };
+
+const namespacedKey = (state: CacheScopeState, key: string): string =>
+  joinKey(state.namespace, key);
+
+const resolveScopeState = (options: CacheOptions): CacheScopeState => ({
+  namespace: options.namespace ?? DEFAULT_NAMESPACE,
+  defaultTtlMs: options.defaultTtlMs ?? DEFAULT_TTL_MS,
+});
+
+const createGet =
+  <T>(
+    db: ReturnType<typeof open<Envelope<T>, string>>,
+    state: CacheScopeState,
+    counters: HitMissCounters,
+  ): Cache<T>['get'] =>
+  async (key: string) => {
+    const scoped = namespacedKey(state, key);
+    const env = db.get(scoped) as Envelope<T> | undefined;
+    const [value, expired] = unwrap(env);
+
+    if (expired) {
+      (db as any).removeSync(scoped);
+      counters.miss++;
+      return undefined;
+    }
+
+    if (value === undefined) {
+      counters.miss++;
+      return undefined;
+    }
+
+    counters.hit++;
+    return value;
+  };
+
+const createHas =
+  <T>(get: Cache<T>['get']): Cache<T>['has'] =>
+  async (key: string) =>
+    (await get(key)) !== undefined;
+
+const createSet =
+  <T>(db: ReturnType<typeof open<Envelope<T>, string>>, state: CacheScopeState): Cache<T>['set'] =>
+  async (key, value, putOpts) => {
+    const ttl = putOpts?.ttlMs ?? state.defaultTtlMs;
+    await db.put(namespacedKey(state, key), envelopeFor(value, ttl));
+  };
+
+const createDel =
+  <T>(db: ReturnType<typeof open<Envelope<T>, string>>, state: CacheScopeState): Cache<T>['del'] =>
+  async (key) => {
+    await db.remove(namespacedKey(state, key));
+  };
+
+const createBatch =
+  <T>(
+    db: ReturnType<typeof open<Envelope<T>, string>>,
+    state: CacheScopeState,
+  ): Cache<T>['batch'] =>
+  async (ops) => {
+    await db.transaction(() => {
+      for (const op of ops) {
+        const scoped = namespacedKey(state, op.key);
+        if (op.type === 'put') {
+          const ttl = op.ttlMs ?? state.defaultTtlMs;
+          (db as any).putSync(scoped, envelopeFor(op.value, ttl));
+        } else {
+          (db as any).removeSync(scoped);
+        }
+      }
+    });
+  };
+
+const createEntries = <T>(
+  db: ReturnType<typeof open<Envelope<T>, string>>,
+  state: CacheScopeState,
+): Cache<T>['entries'] =>
+  async function* entries(opts = {}) {
+    const namespace = opts?.namespace ?? state.namespace;
+    const range = rangeForNamespace(namespace, opts?.limit);
+    const prefix = prefixFor(namespace);
+
+    for await (const [storedKey, env] of db.getRange(range as any)) {
+      const [value, expired] = unwrap(env as Envelope<T> | undefined);
+      if (expired) {
+        await db.remove(storedKey);
+        continue;
+      }
+      if (value === undefined) continue;
+
+      const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
+      yield [logicalKey, value as T];
+    }
+  };
+
+const createSweepExpired =
+  <T>(db: ReturnType<typeof open<Envelope<T>, string>>): Cache<T>['sweepExpired'] =>
+  async () => {
+    let deletedCount = 0;
+
+    await db.transaction(async () => {
+      for await (const { key, value: env } of db.getRange()) {
+        const [, expired] = unwrap(env as Envelope<T> | undefined);
+        if (!expired) continue;
+        await db.remove(key);
+        deletedCount++;
+      }
+    });
+
+    return deletedCount;
+  };
+
+const collectStats = async <T>(
+  db: ReturnType<typeof open<Envelope<T>, string>>,
+  state: CacheScopeState,
+): Promise<{
+  totalEntries: number;
+  expiredEntries: number;
+  namespaces: readonly string[];
+}> => {
+  let totalEntries = 0;
+  let expiredEntries = 0;
+  const namespaces = new Set<string>();
+  const range = rangeForNamespace(state.namespace);
+
+  for await (const { key, value: env } of db.getRange(range)) {
+    totalEntries++;
+    const [, expired] = unwrap(env as Envelope<T> | undefined);
+    if (expired) {
+      expiredEntries++;
+    }
+
+    const keyParts = key.split('\u241F');
+    if (keyParts.length > 1 && keyParts[0]) {
+      namespaces.add(keyParts[0]);
+    }
+  }
+
+  if (namespaces.size === 0 && state.namespace) {
+    namespaces.add(state.namespace);
+  }
+
+  return {
+    totalEntries,
+    expiredEntries,
+    namespaces: Array.from(namespaces),
+  };
+};
+
+const createGetStats =
+  <T>(
+    db: ReturnType<typeof open<Envelope<T>, string>>,
+    state: CacheScopeState,
+    counters: HitMissCounters,
+  ): Cache<T>['getStats'] =>
+  async () => {
+    const { totalEntries, expiredEntries, namespaces } = await collectStats<T>(db, state);
+    const totalAccesses = counters.hit + counters.miss;
+    const hitRate = totalAccesses > 0 ? counters.hit / totalAccesses : 0;
+
+    return {
+      totalEntries,
+      expiredEntries,
+      namespaces,
+      hitRate,
+    };
+  };
+
+const buildCacheScope = <T>(
+  db: ReturnType<typeof open<Envelope<T>, string>>,
+  state: CacheScopeState,
+  counters: HitMissCounters,
+): Cache<T> => {
+  const get = createGet<T>(db, state, counters);
+
+  return {
+    get,
+    has: createHas(get),
+    set: createSet(db, state),
+    del: createDel(db, state),
+    batch: createBatch(db, state),
+    entries: createEntries(db, state),
+    sweepExpired: createSweepExpired(db),
+    getStats: createGetStats(db, state, counters),
+    withNamespace: (ns: string): Cache<T> => {
+      const namespace = ns ? composeNamespace(state.namespace, ns) : DEFAULT_NAMESPACE;
+      const childState: CacheScopeState = {
+        namespace,
+        defaultTtlMs: state.defaultTtlMs,
+      };
+      return buildCacheScope<T>(db, childState, counters);
+    },
+    close: async () => {
+      await db.close();
+    },
+  };
+};
+
 export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
-  // Ensure directory exists
   if (options.path) {
     void mkdir(options.path, { recursive: true });
   }
 
-  // Open LMDB database
   const db = open<Envelope<T>, string>(options.path, {
     encoding: 'msgpack',
     compression: true,
@@ -41,291 +258,14 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
     noSubdir: false,
   }) as any; // Cast to any to access sync methods not in type definition
 
-  let hitCount = 0;
-  let missCount = 0;
-
-  return {
-    async get(key: string): Promise<T | undefined> {
-      const scoped = namespacedKey(options.namespace, key);
-      const env = db.get(scoped);
-      const [value, expired] = unwrap(env);
-
-      if (expired) {
-        (db as any).removeSync(scoped);
-        missCount++;
-      } else if (value !== undefined) {
-        hitCount++;
-      } else {
-        missCount++;
-      }
-
-      return value as T | undefined;
-    },
-
-    async has(key: string): Promise<boolean> {
-      const scoped = namespacedKey(options.namespace, key);
-      const env = db.get(scoped);
-      const [value, expired] = unwrap(env);
-
-      if (expired) {
-        (db as any).removeSync(scoped);
-        return false;
-      }
-
-      return value !== undefined;
-    },
-
-    async set(key: string, value: T, opts?: PutOptions): Promise<void> {
-      const scoped = namespacedKey(options.namespace, key);
-      const ttl = opts?.ttlMs ?? options.defaultTtlMs;
-      await db.put(scoped, envelopeFor(value, ttl));
-    },
-
-    async del(key: string): Promise<void> {
-      const scoped = namespacedKey(options.namespace, key);
-      await db.remove(scoped);
-    },
-
-    async batch(
-      ops: ReadonlyArray<
-        { type: 'put'; key: string; value: T; ttlMs?: number } | { type: 'del'; key: string }
-      >,
-    ): Promise<void> {
-      await db.transaction(() => {
-        for (const op of ops) {
-          const scoped = namespacedKey(options.namespace, op.key);
-          if (op.type === 'put') {
-            const ttl = op.ttlMs ?? options.defaultTtlMs;
-            (db as any).putSync(scoped, envelopeFor(op.value, ttl));
-          } else {
-            (db as any).removeSync(scoped);
-          }
-        }
-      });
-    },
-
-    async *entries(
-      opts?: Readonly<{ limit?: number; namespace?: string }>,
-    ): AsyncGenerator<[string, T]> {
-      const namespace = opts?.namespace ?? options.namespace;
-      const prefix = namespace ? `${namespace}\u241F` : '';
-
-      for await (const { key: storedKey, value: env } of db.getRange({
-        gte: prefix,
-        lt: prefix ? `${prefix}\uFFFF` : undefined,
-        limit: opts?.limit,
-      })) {
-        const [value, expired] = unwrap(env);
-        if (expired) {
-          await db.remove(storedKey);
-          continue;
-        }
-        if (value === undefined) continue;
-
-        const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
-        yield [logicalKey, value as T];
-      }
-    },
-
-    async sweepExpired(): Promise<number> {
-      let deletedCount = 0;
-
-      await db.transaction(async () => {
-        for await (const { key, value: env } of db.getRange()) {
-          const [, expired] = unwrap(env);
-          if (expired) {
-            await db.remove(key);
-            deletedCount++;
-          }
-        }
-      });
-
-      return deletedCount;
-    },
-
-    async getStats(): Promise<{
-      totalEntries: number;
-      expiredEntries: number;
-      namespaces: readonly string[];
-      hitRate: number;
-    }> {
-      let totalEntries = 0;
-      let expiredEntries = 0;
-      const namespaces = new Set<string>();
-
-      for await (const { key, value: env } of db.getRange()) {
-        totalEntries++;
-        const [, expired] = unwrap(env);
-        if (expired) {
-          expiredEntries++;
-        }
-
-        // Extract namespace from key pattern "namespace\u241Fkey"
-        const keyParts = key.split('\u241F');
-        if (keyParts.length > 1 && keyParts[0]) {
-          namespaces.add(keyParts[0]);
-        }
-      }
-
-      const totalAccesses = hitCount + missCount;
-      const hitRate = totalAccesses > 0 ? hitCount / totalAccesses : 0;
-
-      return {
-        totalEntries,
-        expiredEntries,
-        namespaces: Array.from(namespaces),
-        hitRate,
-      };
-    },
-
-    withNamespace(ns: string): Cache<T> {
-      const fullNamespace = ns
-        ? options.namespace
-          ? `${options.namespace}/${ns}`
-          : ns
-        : undefined;
-
-      return {
-        async get(key: string): Promise<T | undefined> {
-          const scoped = namespacedKey(fullNamespace, key);
-          const env = db.get(scoped);
-          const [value, expired] = unwrap(env);
-
-          if (expired) {
-            (db as any).removeSync(scoped);
-            return undefined;
-          }
-
-          return value as T | undefined;
-        },
-
-        async has(key: string): Promise<boolean> {
-          const scoped = namespacedKey(fullNamespace, key);
-          const env = db.get(scoped);
-          const [value, expired] = unwrap(env);
-
-          if (expired) {
-            (db as any).removeSync(scoped);
-            return false;
-          }
-
-          return value !== undefined;
-        },
-
-        async set(key: string, value: T, opts?: PutOptions): Promise<void> {
-          const scoped = namespacedKey(fullNamespace, key);
-          const ttl = opts?.ttlMs ?? options.defaultTtlMs;
-          await db.put(scoped, envelopeFor(value, ttl));
-        },
-
-        async del(key: string): Promise<void> {
-          const scoped = namespacedKey(fullNamespace, key);
-          await db.remove(scoped);
-        },
-
-        async batch(ops): Promise<void> {
-          await db.transaction(() => {
-            for (const op of ops) {
-              const scoped = namespacedKey(fullNamespace, op.key);
-              if (op.type === 'put') {
-                const ttl = op.ttlMs ?? options.defaultTtlMs;
-                (db as any).putSync(scoped, envelopeFor(op.value, ttl));
-              } else {
-                (db as any).removeSync(scoped);
-              }
-            }
-          });
-        },
-
-        async *entries(opts): AsyncGenerator<[string, T]> {
-          const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
-
-          for await (const { key: storedKey, value: env } of db.getRange({
-            gte: prefix,
-            lt: prefix ? `${prefix}\uFFFF` : undefined,
-            limit: opts?.limit,
-          })) {
-            const [value, expired] = unwrap(env);
-            if (expired) {
-              await db.remove(storedKey);
-              continue;
-            }
-            if (value === undefined) continue;
-
-            const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
-            yield [logicalKey, value as T];
-          }
-        },
-
-        async sweepExpired(): Promise<number> {
-          let deletedCount = 0;
-          const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
-
-          await db.transaction(async () => {
-            for await (const { key, value: env } of db.getRange({
-              gte: prefix,
-              lt: prefix ? `${prefix}\uFFFF` : undefined,
-            })) {
-              const [, expired] = unwrap(env);
-              if (expired) {
-                await db.remove(key);
-                deletedCount++;
-              }
-            }
-          });
-
-          return deletedCount;
-        },
-
-        async getStats() {
-          let totalEntries = 0;
-          let expiredEntries = 0;
-          const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
-
-          await db.transaction(async () => {
-            for await (const { value: env } of db.getRange({
-              gte: prefix,
-              lt: prefix ? `${prefix}\uFFFF` : undefined,
-            })) {
-              totalEntries++;
-              const [, expired] = unwrap(env);
-              if (expired) {
-                expiredEntries++;
-              }
-            }
-          });
-
-          return {
-            totalEntries,
-            expiredEntries,
-            namespaces: fullNamespace ? [fullNamespace] : [],
-            hitRate: 0,
-          };
-        },
-
-        withNamespace(subNs: string): Cache<T> {
-          const nestedNamespace = fullNamespace ? `${fullNamespace}/${subNs}` : subNs;
-          return openLmdbCache<T>({
-            ...options,
-            namespace: nestedNamespace,
-          }).withNamespace('');
-        },
-
-        async close(): Promise<void> {
-          // No-op for namespaced cache - parent cache handles closing
-        },
-      };
-    },
-
-    async close(): Promise<void> {
-      db.close();
-    },
-  };
+  const counters: HitMissCounters = { hit: 0, miss: 0 };
+  const state = resolveScopeState(options);
+  return buildCacheScope<T>(db, state, counters);
 }
 
 // Export class for backward compatibility
 export class LMDBCache<T> implements Cache<T> {
-  private cache: Cache<T>;
+  private readonly cache: Cache<T>;
 
   constructor(path: string, options: Omit<CacheOptions, 'path'> = {}) {
     const mergedOptions: CacheOptions = { ...options, path };
