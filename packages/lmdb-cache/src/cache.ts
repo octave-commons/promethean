@@ -1,4 +1,4 @@
-import { mkdir } from 'node:fs/promises';
+import { mkdirSync } from 'node:fs';
 import { open } from 'lmdb';
 
 import type { Cache, CacheOptions, Millis, PutOptions } from './types.js';
@@ -231,7 +231,7 @@ const buildCacheScope = <T>(
 
 export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
   if (options.path) {
-    void mkdir(options.path, { recursive: true });
+    mkdirSync(options.path, { recursive: true });
   }
 
   const db = open<Envelope<T>, string>(options.path, {
