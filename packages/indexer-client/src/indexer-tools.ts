@@ -25,7 +25,7 @@ ${snippet}
 }
 
 // --- Tool Factories ---
-export function healthTool(baseUrl: string) {
+export function healthTool(baseUrl: string): unknown {
   return tool({
     description: 'Health check for indexer service',
     args: {},
@@ -43,7 +43,7 @@ export function healthTool(baseUrl: string) {
   });
 }
 
-export function statusTool(client: IndexerServiceClient) {
+export function statusTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Get indexer status',
     args: {},
@@ -57,7 +57,7 @@ export function statusTool(client: IndexerServiceClient) {
   });
 }
 
-export function searchTool(client: IndexerServiceClient) {
+export function searchTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Semantic search',
     args: {
@@ -76,7 +76,7 @@ export function searchTool(client: IndexerServiceClient) {
   });
 }
 
-export function indexTool(client: IndexerServiceClient) {
+export function indexTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Index a file',
     args: { path: tool.schema.string().min(1) },
@@ -96,7 +96,7 @@ export function indexTool(client: IndexerServiceClient) {
   });
 }
 
-export function reindexFilesTool(client: IndexerServiceClient) {
+export function reindexFilesTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Reindex file patterns',
     args: { patterns: tool.schema.array(tool.schema.string()).min(1) },
