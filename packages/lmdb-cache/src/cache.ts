@@ -59,11 +59,7 @@ const resolveScopeState = (options: CacheOptions): CacheScopeState => ({
 });
 
 const createGet =
-  <T>(
-    db: ReturnType<typeof open<Envelope<T>, string>>,
-    state: CacheScopeState,
-    counters: HitMissCounters,
-  ): Cache<T>['get'] =>
+  <T>(db: any, state: CacheScopeState, counters: HitMissCounters): Cache<T>['get'] =>
   async (key: string) => {
     const scoped = namespacedKey(state, key);
     const env = db.get(scoped) as Envelope<T> | undefined;
