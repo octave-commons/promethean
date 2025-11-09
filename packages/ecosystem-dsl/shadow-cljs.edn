@@ -21,7 +21,7 @@
 
   :script {:target :node-script
            :output-to "target/scripts/generate-ecosystem.js"
-           :main ecosystem-dsl.script/main
+            :main ecosystem-dsl.core/main
            :compiler-options {:optimizations :simple
                               :target :nodejs
                               :nodejs-rt true}}}}
