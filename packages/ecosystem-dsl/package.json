@@ -5,7 +5,7 @@
   "main": "src/ecosystem_dsl/core.clj",
   "type": "module",
   "scripts": {
-    "build": "echo 'ecosystem-dsl build skipped - Clojure only package'",
+    "build": "clojure -M -m ecosystem-dsl.core",
     "test": "clojure -M:test",
     "lint": "clj-kondo --lint src",
     "typecheck": "clojure -M:check",
