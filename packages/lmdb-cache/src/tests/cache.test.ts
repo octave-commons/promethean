@@ -59,7 +59,7 @@ test('namespaces are isolated and composable', async (t) => {
 
 test('entries yields non-expired logical keys only', async (t) => {
   const path = tmpPath('entries');
-  const cache = await openLmdbCache({ path, namespace: 'ns' });
+  const cache = openLmdbCache({ path, namespace: 'ns' });
   await cache.batch([
     { type: 'put', key: 'a', value: 1 },
     { type: 'put', key: 'b', value: 2, ttlMs: 500 },
@@ -80,7 +80,7 @@ test('entries yields non-expired logical keys only', async (t) => {
 
 test('batch operations work correctly', async (t) => {
   const path = tmpPath('batch');
-  const cache = await openLmdbCache({ path });
+  const cache = openLmdbCache({ path });
 
   await cache.batch([
     { type: 'put', key: 'key1', value: 'value1' },
