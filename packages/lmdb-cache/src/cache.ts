@@ -53,7 +53,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       const [value, expired] = unwrap(env);
 
       if (expired) {
-        db.removeSync(scoped);
+        db.remove(scoped);
         missCount++;
       } else if (value !== undefined) {
         hitCount++;
@@ -70,7 +70,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       const [value, expired] = unwrap(env);
 
       if (expired) {
-        db.removeSync(scoped);
+        await db.remove(scoped);
         return false;
       }
 
@@ -98,9 +98,9 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
           const scoped = namespacedKey(options.namespace, op.key);
           if (op.type === 'put') {
             const ttl = op.ttlMs ?? options.defaultTtlMs;
-            db.putSync(scoped, envelopeFor(op.value, ttl));
+            db.putSync!(scoped, envelopeFor(op.value, ttl));
           } else {
-            db.removeSync(scoped);
+            db.removeSync!(scoped);
           }
         }
       });
@@ -132,13 +132,15 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
     async sweepExpired(): Promise<number> {
       let deletedCount = 0;
 
-      for await (const [key, env] of db.getRange()) {
-        const [, expired] = unwrap(env);
-        if (expired) {
-          await db.remove(key);
-          deletedCount++;
+      await db.transaction(async () => {
+        for await (const [key, env] of db.getRange()) {
+          const [, expired] = unwrap(env);
+          if (expired) {
+            await db.remove(key);
+            deletedCount++;
+          }
         }
-      }
+      });
 
       return deletedCount;
     },
@@ -178,201 +180,101 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       };
     },
 
-    async has(key: string): Promise<boolean> {
-      const entry = inMemory.get(key);
-      if (!entry) {
-        return false;
-      }
-
-      const now = Date.now();
-      if (entry.expiresAt && entry.expiresAt < now) {
-        inMemory.delete(key);
-        return false;
-      }
-
-      return true;
-    },
-
-    async set(key: string, value: T, opts?: PutOptions): Promise<void> {
-      const ttlMs = opts?.ttlMs || options.defaultTtlMs || undefined;
-      const expiresAt = ttlMs ? Date.now() + ttlMs : undefined;
-
-      inMemory.set(key, { value, expiresAt });
-    },
-
-    async del(key: string): Promise<void> {
-      inMemory.delete(key);
-    },
-
-    async batch(
-      ops: ReadonlyArray<
-        { type: 'put'; key: string; value: T; ttlMs?: number } | { type: 'del'; key: string }
-      >,
-    ): Promise<void> {
-      for (const op of ops) {
-        if (op.type === 'put') {
-          await this.set(op.key, op.value, { ttlMs: op.ttlMs });
-        } else {
-          await this.del(op.key);
-        }
-      }
-    },
-
-    async *entries(
-      opts?: Readonly<{ limit?: number; namespace?: string }>,
-    ): AsyncGenerator<[string, T]> {
-      const now = Date.now();
-      let count = 0;
-      const limit = opts?.limit || Infinity;
-
-      for (const [key, entry] of inMemory) {
-        if (count >= limit) break;
-
-        if (entry.expiresAt && entry.expiresAt < now) {
-          continue; // Skip expired entries
-        }
-
-        // Apply namespace filter if specified
-        if (opts?.namespace) {
-          if (key.startsWith(`${opts.namespace}:`)) {
-            const actualKey = key.replace(`${opts.namespace}:`, '');
-            yield [actualKey, entry.value];
-            count++;
-          }
-        } else {
-          yield [key, entry.value];
-          count++;
-        }
-      }
-    },
-
-    async sweepExpired(): Promise<number> {
-      const now = Date.now();
-      let deletedCount = 0;
-
-      for (const [key, entry] of inMemory) {
-        if (entry.expiresAt && entry.expiresAt < now) {
-          inMemory.delete(key);
-          deletedCount++;
-        }
-      }
-
-      return deletedCount;
-    },
-
-    async getStats(): Promise<{
-      totalEntries: number;
-      expiredEntries: number;
-      namespaces: readonly string[];
-      hitRate: number;
-    }> {
-      const now = Date.now();
-      let expiredEntries = 0;
-      const namespaces = new Set<string>();
-
-      for (const [key, entry] of inMemory) {
-        if (entry.expiresAt && entry.expiresAt < now) {
-          expiredEntries++;
-        }
-
-        // Extract namespace from key pattern "namespace:key"
-        const keyParts = key.split(':');
-        if (keyParts.length > 1 && keyParts[0]) {
-          namespaces.add(keyParts[0]);
-        }
-      }
-
-      return {
-        totalEntries: inMemory.size,
-        expiredEntries,
-        namespaces: Array.from(namespaces),
-        hitRate: 0, // TODO: Implement hit rate tracking
-      };
-    },
-
     withNamespace(ns: string): Cache<T> {
-      const fullNamespace = ns;
+      const fullNamespace = ns
+        ? options.namespace
+          ? `${options.namespace}/${ns}`
+          : ns
+        : undefined;
 
       return {
         async get(key: string): Promise<T | undefined> {
-          const namespacedKey = `${fullNamespace}:${key}`;
-          const entry = inMemory.get(namespacedKey);
-          if (!entry) return undefined;
+          const scoped = namespacedKey(fullNamespace, key);
+          const env = db.get(scoped);
+          const [value, expired] = unwrap(env);
 
-          const now = Date.now();
-          if (entry.expiresAt && entry.expiresAt < now) {
-            inMemory.delete(namespacedKey);
+          if (expired) {
+            await db.remove(scoped);
             return undefined;
           }
-          return entry.value;
+
+          return value;
         },
 
         async has(key: string): Promise<boolean> {
-          const namespacedKey = `${fullNamespace}:${key}`;
-          const entry = inMemory.get(namespacedKey);
-          if (!entry) return false;
+          const scoped = namespacedKey(fullNamespace, key);
+          const env = db.get(scoped);
+          const [value, expired] = unwrap(env);
 
-          const now = Date.now();
-          if (entry.expiresAt && entry.expiresAt < now) {
-            inMemory.delete(namespacedKey);
+          if (expired) {
+            await db.remove(scoped);
             return false;
           }
-          return true;
+
+          return value !== undefined;
         },
 
         async set(key: string, value: T, opts?: PutOptions): Promise<void> {
-          const namespacedKey = `${fullNamespace}:${key}`;
-          const ttlMs = opts?.ttlMs || options.defaultTtlMs || undefined;
-          const expiresAt = ttlMs ? Date.now() + ttlMs : undefined;
-
-          inMemory.set(namespacedKey, { value, expiresAt });
+          const scoped = namespacedKey(fullNamespace, key);
+          const ttl = opts?.ttlMs ?? options.defaultTtlMs;
+          await db.put(scoped, envelopeFor(value, ttl));
         },
 
         async del(key: string): Promise<void> {
-          const namespacedKey = `${fullNamespace}:${key}`;
-          inMemory.delete(namespacedKey);
+          const scoped = namespacedKey(fullNamespace, key);
+          await db.remove(scoped);
         },
 
         async batch(ops): Promise<void> {
-          for (const op of ops) {
-            if (op.type === 'put') {
-              await this.set(op.key, op.value, { ttlMs: op.ttlMs });
-            } else {
-              await this.del(op.key);
+          await db.transaction(() => {
+            for (const op of ops) {
+              const scoped = namespacedKey(fullNamespace, op.key);
+              if (op.type === 'put') {
+                const ttl = op.ttlMs ?? options.defaultTtlMs;
+                db.putSync!(scoped, envelopeFor(op.value, ttl));
+              } else {
+                db.removeSync!(scoped);
+              }
             }
-          }
+          });
         },
 
         async *entries(opts): AsyncGenerator<[string, T]> {
-          const now = Date.now();
-          let count = 0;
-          const limit = opts?.limit || Infinity;
+          const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
 
-          for (const [key, entry] of inMemory) {
-            if (count >= limit) break;
-
-            if (entry.expiresAt && entry.expiresAt < now) {
-              continue; // Skip expired entries
+          for await (const [storedKey, env] of db.getRange({
+            gte: prefix,
+            lt: prefix ? `${prefix}\uFFFF` : undefined,
+            limit: opts?.limit,
+          })) {
+            const [value, expired] = unwrap(env);
+            if (expired) {
+              await db.remove(storedKey);
+              continue;
             }
+            if (value === undefined) continue;
 
-            if (key.startsWith(`${fullNamespace}:`)) {
-              const actualKey = key.replace(`${fullNamespace}:`, '');
-              yield [actualKey, entry.value];
-              count++;
-            }
+            const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
+            yield [logicalKey, value];
           }
         },
 
         async sweepExpired(): Promise<number> {
           let deletedCount = 0;
-          const now = Date.now();
+          const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
 
-          for (const [key, entry] of inMemory) {
-            if (key.startsWith(`${fullNamespace}:`) && entry.expiresAt && entry.expiresAt < now) {
-              inMemory.delete(key);
-              deletedCount++;
+          await db.transaction(async () => {
+            for await (const [key, env] of db.getRange({
+              gte: prefix,
+              lt: prefix ? `${prefix}\uFFFF` : undefined,
+            })) {
+              const [, expired] = unwrap(env);
+              if (expired) {
+                await db.remove(key);
+                deletedCount++;
+              }
             }
-          }
+          });
 
           return deletedCount;
         },
@@ -380,37 +282,45 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
         async getStats() {
           let totalEntries = 0;
           let expiredEntries = 0;
-          const now = Date.now();
+          const prefix = fullNamespace ? `${fullNamespace}\u241F` : '';
 
-          for (const [key, entry] of inMemory) {
-            if (key.startsWith(`${fullNamespace}:`)) {
+          await db.transaction(async () => {
+            for await (const [key, env] of db.getRange({
+              gte: prefix,
+              lt: prefix ? `${prefix}\uFFFF` : undefined,
+            })) {
               totalEntries++;
-              if (entry.expiresAt && entry.expiresAt < now) {
+              const [, expired] = unwrap(env);
+              if (expired) {
                 expiredEntries++;
               }
             }
-          }
+          });
 
           return {
             totalEntries,
             expiredEntries,
-            namespaces: [ns],
+            namespaces: fullNamespace ? [fullNamespace] : [],
             hitRate: 0,
           };
         },
 
         withNamespace(subNs: string): Cache<T> {
-          return this.withNamespace(`${ns}:${subNs}`);
+          const nestedNamespace = fullNamespace ? `${fullNamespace}/${subNs}` : subNs;
+          return openLmdbCache<T>({
+            ...options,
+            namespace: nestedNamespace,
+          }).withNamespace('');
         },
 
         async close(): Promise<void> {
-          // No-op for namespaced cache
+          // No-op for namespaced cache - parent cache handles closing
         },
       };
     },
 
     async close(): Promise<void> {
-      inMemory.clear();
+      db.close();
     },
   };
 }
