@@ -66,7 +66,7 @@ const createGet =
     const [value, expired] = unwrap(env);
 
     if (expired) {
-      (db as any).removeSync(scoped);
+      db.removeSync?.(scoped) ?? (await db.remove(scoped));
       counters.miss++;
       return undefined;
     }
@@ -86,50 +86,45 @@ const createHas =
     (await get(key)) !== undefined;
 
 const createSet =
-  <T>(db: ReturnType<typeof open<Envelope<T>, string>>, state: CacheScopeState): Cache<T>['set'] =>
+  <T>(db: any, state: CacheScopeState): Cache<T>['set'] =>
   async (key, value, putOpts) => {
     const ttl = putOpts?.ttlMs ?? state.defaultTtlMs;
     await db.put(namespacedKey(state, key), envelopeFor(value, ttl));
   };
 
 const createDel =
-  <T>(db: ReturnType<typeof open<Envelope<T>, string>>, state: CacheScopeState): Cache<T>['del'] =>
+  <T>(db: any, state: CacheScopeState): Cache<T>['del'] =>
   async (key) => {
     await db.remove(namespacedKey(state, key));
   };
 
 const createBatch =
-  <T>(
-    db: ReturnType<typeof open<Envelope<T>, string>>,
-    state: CacheScopeState,
-  ): Cache<T>['batch'] =>
+  <T>(db: any, state: CacheScopeState): Cache<T>['batch'] =>
   async (ops) => {
     await db.transaction(() => {
       for (const op of ops) {
         const scoped = namespacedKey(state, op.key);
         if (op.type === 'put') {
           const ttl = op.ttlMs ?? state.defaultTtlMs;
-          (db as any).putSync(scoped, envelopeFor(op.value, ttl));
+          db.putSync?.(scoped, envelopeFor(op.value, ttl)) ??
+            db.put(scoped, envelopeFor(op.value, ttl));
         } else {
-          (db as any).removeSync(scoped);
+          db.removeSync?.(scoped) ?? db.remove(scoped);
         }
       }
     });
   };
 
-const createEntries = <T>(
-  db: ReturnType<typeof open<Envelope<T>, string>>,
-  state: CacheScopeState,
-): Cache<T>['entries'] =>
+const createEntries = <T>(db: any, state: CacheScopeState): Cache<T>['entries'] =>
   async function* entries(opts = {}) {
     const namespace = opts?.namespace ?? state.namespace;
-    const range = rangeForNamespace(namespace, opts?.limit);
     const prefix = prefixFor(namespace);
-    const iterable = (db.getRange as (options?: any) => AsyncIterable<[string, Envelope<T>]>)(
-      range,
-    );
 
-    for await (const [storedKey, env] of iterable) {
+    for await (const [storedKey, env] of db.getRange({
+      gte: prefix,
+      lt: prefix ? `${prefix}\uFFFF` : undefined,
+      limit: opts?.limit,
+    })) {
       const [value, expired] = unwrap(env as Envelope<T> | undefined);
       if (expired) {
         await db.remove(storedKey);
@@ -143,7 +138,7 @@ const createEntries = <T>(
   };
 
 const createSweepExpired =
-  <T>(db: ReturnType<typeof open<Envelope<T>, string>>): Cache<T>['sweepExpired'] =>
+  <T>(db: any): Cache<T>['sweepExpired'] =>
   async () => {
     let deletedCount = 0;
 
@@ -159,20 +154,13 @@ const createSweepExpired =
     return deletedCount;
   };
 
-const collectStats = async <T>(
-  db: ReturnType<typeof open<Envelope<T>, string>>,
-  state: CacheScopeState,
-): Promise<{
-  totalEntries: number;
-  expiredEntries: number;
-  namespaces: readonly string[];
-}> => {
+const collectStats = async <T>(db: any, state: CacheScopeState) => {
   let totalEntries = 0;
   let expiredEntries = 0;
   const namespaces = new Set<string>();
   const range = rangeForNamespace(state.namespace);
 
-  for await (const [key, env] of db.getRange(range as any)) {
+  for await (const [key, env] of db.getRange(range)) {
     totalEntries++;
     const [, expired] = unwrap(env as Envelope<T> | undefined);
     if (expired) {
@@ -193,15 +181,11 @@ const collectStats = async <T>(
     totalEntries,
     expiredEntries,
     namespaces: Array.from(namespaces),
-  };
+  } as const;
 };
 
 const createGetStats =
-  <T>(
-    db: ReturnType<typeof open<Envelope<T>, string>>,
-    state: CacheScopeState,
-    counters: HitMissCounters,
-  ): Cache<T>['getStats'] =>
+  <T>(db: any, state: CacheScopeState, counters: HitMissCounters): Cache<T>['getStats'] =>
   async () => {
     const { totalEntries, expiredEntries, namespaces } = await collectStats<T>(db, state);
     const totalAccesses = counters.hit + counters.miss;
@@ -216,7 +200,7 @@ const createGetStats =
   };
 
 const buildCacheScope = <T>(
-  db: ReturnType<typeof open<Envelope<T>, string>>,
+  db: any,
   state: CacheScopeState,
   counters: HitMissCounters,
 ): Cache<T> => {
@@ -255,7 +239,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
     compression: true,
     useVersions: true,
     noSubdir: false,
-  }) as any; // Cast to any to access sync methods not in type definition
+  }) as any;
 
   const counters: HitMissCounters = { hit: 0, miss: 0 };
   const state = resolveScopeState(options);
