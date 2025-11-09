@@ -131,7 +131,7 @@ test('entries with limit works correctly', async (t) => {
     await cache.set(`key${i}`, `value${i}`);
   }
 
-  const entries = [];
+  const entries: [string, string][] = [];
   for await (const [k, v] of cache.entries({ limit: 5 })) {
     entries.push([k, v]);
   }
