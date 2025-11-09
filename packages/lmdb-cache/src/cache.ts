@@ -120,7 +120,7 @@ const createEntries = <T>(db: any, state: CacheScopeState): Cache<T>['entries'] 
     const namespace = opts?.namespace ?? state.namespace;
     const prefix = prefixFor(namespace);
 
-    for await (const [storedKey, env] of db.getRange({
+    for await (const { key: storedKey, value: env } of db.getRange({
       gte: prefix,
       lt: prefix ? `${prefix}\uFFFF` : undefined,
       limit: opts?.limit,
