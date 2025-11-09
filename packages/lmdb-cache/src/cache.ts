@@ -20,7 +20,7 @@ const joinKey = (ns: string | undefined, key: string): string => (ns ? `${ns}\u2
 const unwrap = <T>(env: Envelope<T> | undefined): readonly [T | undefined, boolean] => {
   if (env == null) return [undefined, false];
   const expired = typeof env.x === 'number' && env.x <= now();
-  return [expired ? undefined : env.v, expired];
+  return [expired ? undefined : (env.v as T), expired];
 };
 
 const namespacedKey = (namespace: string | undefined, key: string): string =>
@@ -41,7 +41,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
     compression: true,
     useVersions: true,
     noSubdir: false,
-  });
+  }) as any; // Cast to any to access sync methods not in type definition
 
   let hitCount = 0;
   let missCount = 0;
@@ -53,7 +53,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       const [value, expired] = unwrap(env);
 
       if (expired) {
-        db.remove(scoped);
+        (db as any).removeSync(scoped);
         missCount++;
       } else if (value !== undefined) {
         hitCount++;
@@ -61,7 +61,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
         missCount++;
       }
 
-      return value;
+      return value as T | undefined;
     },
 
     async has(key: string): Promise<boolean> {
@@ -70,7 +70,7 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       const [value, expired] = unwrap(env);
 
       if (expired) {
-        await db.remove(scoped);
+        (db as any).removeSync(scoped);
         return false;
       }
 
@@ -112,16 +112,21 @@ export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
       const namespace = opts?.namespace ?? options.namespace;
       const prefix = namespace ? `${namespace}\u241F` : '';
 
-      for await (const [storedKey, env] of db.getRange({
-        gte: prefix,
-        lt: prefix ? `${prefix}\uFFFF` : undefined,
-        limit: opts?.limit,
-      })) {
-        const [value, expired] = unwrap(env);
-        if (expired) {
-          await db.remove(storedKey);
-          continue;
-        }
+for await (const [storedKey, env] of db.getRange({
+                gte: prefix,
+                lt: prefix ? `${prefix}\uFFFF` : undefined,
+                limit: opts?.limit
+            })) {
+                const [value, expired] = unwrap(env);
+                if (expired) {
+                    await db.remove(storedKey);
+                    continue;
+                }
+                if (value === undefined) continue;
+                
+                const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
+                yield [logicalKey, value as T];
+            }
         if (value === undefined) continue;
 
         const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
