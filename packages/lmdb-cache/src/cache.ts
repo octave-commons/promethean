@@ -129,8 +129,11 @@ const createEntries = <T>(
     const namespace = opts?.namespace ?? state.namespace;
     const range = rangeForNamespace(namespace, opts?.limit);
     const prefix = prefixFor(namespace);
+    const iterable = (db.getRange as (options?: any) => AsyncIterable<[string, Envelope<T>]>)(
+      range,
+    );
 
-    for await (const [storedKey, env] of db.getRange(range as any)) {
+    for await (const [storedKey, env] of iterable) {
       const [value, expired] = unwrap(env as Envelope<T> | undefined);
       if (expired) {
         await db.remove(storedKey);
