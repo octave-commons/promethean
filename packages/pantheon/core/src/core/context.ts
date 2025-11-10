@@ -16,18 +16,23 @@ export type ContextPortDeps = {
 export const makeContextPort = (deps: ContextPortDeps): ContextPort => {
   return {
     compile: async ({ texts = [], sources, recentLimit = 10, queryLimit = 5, limit = 20 }) => {
-      const colls = await deps.getCollectionsFor(sources);
+      // Sources are currently unused but kept for future compatibility
+      void sources;
 
       // Dynamically import persistence to avoid circular deps
-      const { makeContextStore } = await import('@promethean-os/persistence');
-      const { compileContext } = makeContextStore({
-        getCollections: () => colls,
-        resolveRole: deps.resolveRole,
-        resolveDisplayName: deps.resolveName,
+      const { createContextStoreFactory } = await import('@promethean-os/persistence');
+
+      const contextStore = createContextStoreFactory({
         formatTime: deps.formatTime,
+        assistantName: 'Pantheon',
       });
 
-      return compileContext({ texts, recentLimit, queryLimit, limit });
+      return contextStore.compileContext({
+        texts,
+        recentLimit,
+        queryLimit,
+        limit,
+      });
     },
   };
 };

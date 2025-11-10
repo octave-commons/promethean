@@ -165,3 +165,5 @@ test-data/test-git/
 # Test fixtures and temp
 simple-test-temp/
 **/test.txt
+
+.worktrees/
