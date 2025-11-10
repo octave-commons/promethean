@@ -98,7 +98,13 @@ test('retry with linear backoff', async (t) => {
   const delay1 = timestamps[1]! - timestamps[0]!;
   const delay2 = timestamps[2]! - timestamps[1]!;
 
-  t.true(Math.abs(delay1 - delay2) <= 5); // Allow small variance
+  // For linear backoff: delay2 should be approximately double delay1
+  // delay1 ≈ 10ms, delay2 ≈ 20ms, so delay2 should be > delay1
+  t.true(delay2 > delay1, 'Second delay should be greater than first delay');
+  t.true(delay1 >= 8, 'First delay should be at least 8ms (target: 10ms)');
+  t.true(delay1 <= 15, 'First delay should be at most 15ms (target: 10ms)');
+  t.true(delay2 >= 15, 'Second delay should be at least 15ms (target: 20ms)');
+  t.true(delay2 <= 60, 'Second delay should be at most 60ms (target: 20ms)');
 });
 
 test('retry with exponential backoff', async (t) => {

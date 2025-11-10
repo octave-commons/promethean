@@ -43,6 +43,7 @@ services/py/stt_ws/coverage.xml
 
 services/py/whisper_stream_ws/coverage.xml
 
+
 *.xml
 
 shared/py/.coverage
@@ -157,6 +158,7 @@ packages/kanban/kanban-test-*/
 indexer-state.json
 test-data/test-git/
 
+packages/kanban/test-git-workflow-temp
 # Local caches and tooling
 .lsp/
 .scannerwork/

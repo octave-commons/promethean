@@ -1,15 +1,16 @@
 ---
-uuid: "task-build-context-enrichment-2025-10-15"
-title: "Build Context Enrichment System"
-slug: "build-context-enrichment-system"
-status: "incoming"
-priority: "P1"
-labels: ["kanban", "context", "file-indexer", "agents-workflow"]
-created_at: "2025-10-15T13:60:00Z"
+uuid: 'task-build-context-enrichment-2025-10-15'
+title: 'Build Context Enrichment System'
+slug: 'build-context-enrichment-system'
+status: 'incoming'
+priority: 'P1'
+labels: ['kanban', 'context', 'file-indexer', 'agents-workflow']
+created_at: '2025-10-15T13:60:00Z'
 estimates:
-  complexity: ""
-  scale: ""
-  time_to_completion: ""
+  complexity: 5
+  scale: 'medium'
+  time_to_completion: '3 sessions'
+storyPoints: 5
 ---
 
 # Build Context Enrichment System

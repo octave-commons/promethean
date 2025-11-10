@@ -61,6 +61,7 @@ export function makeMCPToolAdapter(): MCPToolPort {
 
     register(tool: ToolSpec): void {
       // Convert ToolSpec to MCPTool format
+      const defaultHandler = async () => ({ result: 'Tool executed' });
       const mcpTool: MCPTool = {
         name: tool.name,
         description: tool.description,

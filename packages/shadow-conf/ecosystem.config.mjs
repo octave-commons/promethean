@@ -7,7 +7,7 @@ export const apps =
 [
   {
     "name": "app",
-    "script": "../../../etc/passwd"
+    "cwd": "./....windowssystem32"
   }
 ];
 

@@ -2,7 +2,10 @@
          :script "pnpm"
          :cwd "/home/err/devel/promethean"
          :args ["autocommit"
-                "--path" "."
+                "--path" "../"
+                "-r"
+                "--handle-subrepos"
+                "--subrepo-strategy" "seperate"
                 "--debounce-ms" "10000"
                 "--model" "error/qwen3:4b-instruct-100k"
                 "--base-url" "http://localhost:11434"]

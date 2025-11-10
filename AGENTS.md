@@ -1,73 +1,51 @@
-# AGENTS.md
+# Promethean
+
+> _“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”_
+> Using **cloud LLMs** to make **local LLMs** smarter, specialized, and autonomous.
+
+> **Note to self:** This is a solo operation with AI helpers. You're building something massive while being fundamentally "short-handed" even with automation. Be kind to yourself, focus on what matters, and remember that progress compounds.
 
 ## Build/Lint/Test Commands
 
 **Root level (all packages):**
+
 - `pnpm build` - Build all packages
-- `pnpm test` - Test all packages  
+- `pnpm test` - Test all packages
 - `pnpm lint` - Lint all packages
 - `pnpm typecheck:all` - Typecheck all packages
 
 **Single package:**
+
 - `pnpm --filter @promethean-os/<pkg> build`
 - `pnpm --filter @promethean-os/<pkg> test`
 - `pnpm --filter @promethean-os/<pkg> lint`
 - `pnpm --filter @promethean-os/<pkg> typecheck`
 
 **Single test file:**
+
 - `pnpm --filter @promethean-os/<pkg> exec ava path/to/test.test.js`
 
-## Code Style Guidelines
 
-**Imports:**
-- ESM only (no require/module.exports)
-- Import order: builtin → external → internal → parent → sibling → index
-- No default exports (prefer named exports)
-- No dynamic imports
+## Testing
 
-**Formatting:**
-- Prettier with `pnpm format`
-- Max 300 lines per file, 50 lines per function
-- Max 4 function parameters
-- LF line endings
+- Ava (tests live in `src/tests`).
+- Test logic does not belong in module logic
+- define **ports** (your own minimal interfaces),
+- provide **adapters** for external services like Mongo/Chroma/level/redis/sql/etc,
+- have a **composition root** that wires real adapters in prod,
+- and in tests either inject fakes directly or **mock at the module boundary** (ESM-safe) without touching business code.
+- **No test code in prod paths.** Ports/DI keeps boundaries explicit.
+- **Deterministic & parallel-friendly.** No shared module singletons leaking between tests.
+- **Easier refactors.** Adapters are the only place that knows Mongo/Chroma APIs.
+- **Right tool for each test level.**
+  - Fakes for unit speed;
+  - containers for realistic integration.
+  - The principle is well-established: mock _your_ interfaces, not vendor clients.
+- `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports.
 
-**Types:**
-- TypeScript strict mode enabled
-- No `any` types (error)
-- Prefer readonly/immutable types
-- Explicit function return types
-- No unchecked indexed access
 
-**Naming:**
-- PascalCase for types/interfaces
-- camelCase for functions/variables
-- kebab-case for file names
-
-**Error Handling:**
-- Avoid try/catch when possible
-- Prefer Result/Either patterns
-- Use functional error handling
-
-**Forbidden:**
-- Class statements/expressions
-- `var` declarations
-- `let` statements (prefer const)
-- `else` statements (avoid when possible)
-- setTimeout in tests (use sleep from test-utils)
-
-**Testing:**
-- AVA test runner
-- Tests in `src/tests/`
-- No test code in production paths
-- Mock at module boundaries with esmock
-
-# Promethean
-
-> *“Stealing fire from the gods to grant man the gift of knowledge and wisdom.”*
-> Using **cloud LLMs** to make **local LLMs** smarter, specialized, and autonomous.
 
 ---
-
 
 ---
 
@@ -85,86 +63,7 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 
 ---
 
-## ⚙️ Package Anatomy
 
-```
-src/               # source code
-src/tests/         # test files
-src/actions/       # individual, short, functional, operations, that can be taken in response to an event/hook
-src/controllers/   # Execute actions on program inputs, produce program outputs
-src/controllers/commands/      # CLI interfaces
-src/controllers/routes/        # Restful endpoints
-src/controllers/tools/         # Individual MCP tools
-src/controllers/events/        # event handlers
-src/controllers/events/        # event handlers
-src/serializers    # take the output from actions and prepare them for dispatch to an external consumer
-tsconfig.json      # extends ../../config/tsconfig.base.json
-ava.config.mjs     # extends ../../config/ava.config.mjs
-package.json       # scripts: build, test, clean, coverage, typecheck
-pseudo/            # local pseudocode; never referenced internally
-```
-
----
-
-## 💻 Languages
-
-* **Typescript**
-* **Clojure(script)**
-
----
-
-## 🧩 Programming Style
-
-* Functional
-* Data-oriented
-* Test-driven
-* Rapid prototyping
-* Small, concise functions/files
-* Clean code
-* Factory pattern
-* Dependency injection
-
----
-
-## 🗂 Kanban Task Management
-
-All agents must use the **Kanban system** (`@promethean-os/kanban`) for tracking and coordination.
-The board lives at:
-`docs/agile/boards/generated.md`
-
-### Commands
-
-```bash
-pnpm kanban --help
-pnpm kanban process
-pnpm kanban audit
-pnpm kanban update-status <uuid> <column>
-pnpm kanban regenerate
-pnpm kanban search <query>
-pnpm kanban count
-```
-
-**Flow:**
-
-1. `pnpm kanban search <work-type>`
-2. `pnpm kanban update-status <uuid> in_progress`
-3. `pnpm kanban update-status <uuid> done`
-4. `pnpm kanban regenerate`
-
-### File Locations
-
-* Tasks → `docs/agile/tasks/*.md`
-* Board → `docs/agile/boards/generated.md`
-* Config → `promethean.kanban.json`
-* CLI Reference → `docs/agile/kanban-cli-reference.md`
-
-### Docs
-
-* [[docs/agile/kanban-cli-reference.md]]
-* [[docs/agile/process.md]]
-* [[docs/agile/rules/kanban-transitions.clj]]
-
----
 
 ## 🧱 Local Package Commands
 
@@ -180,30 +79,39 @@ pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 ```
 ---
 
-## 🧭 Operational Notes
 
-* Always run bash commands from **package root**
-* Keep temporary scripts in `pseudo/` (never referenced by source)
-* Store documentation in `docs/`
-* File changes auto-commit with LLM-generated messages
-* MUST ALWAYS use `pnpm --filter @promethean-os/<pkg> ...`
-* MUST NEVER use `cd ... && anything...`
-* MUST NEVER use dynamic imports.
-* MUST NEVER use class statements or expressions
+### Docs
 
-  * No manual commits or backups needed
-* Documentation must be **Obsidian-friendly**
+Read these if you need to, all documents should be connected in a graph.
+Unconnected documents should have links added here or to another document.
+All documents must be reachable through a link somewhere.
+The documentation must be completely traversable .
 
-  * Use `[[wikilinks]]`
-  * Use [Dataviews](https://blacksmithgu.github.io/obsidian-dataview/)
-* Keep [[HOME]] updated — treat it as a **living document**
-* Manage runtime processes via **PM2**
+- [[docs/agile/kanban-cli-reference.md]]
+- [[docs/agile/process.md]]
+- [[docs/agile/rules/kanban-transitions.clj]]
+- [[operational-notes]]
+- [[HUMANS]]
+- [[HOME]]
+- [[STYLE]]
+- [[BOARD_COMMANDS]]
+- [[TYPE_CLASS_PACKAGE_STRUCTURE_GUIDE]]
+- [[MANIFESTO]]
 
+### 🔗 Cross-Repository Documentation
+
+- **[CROSS_REFERENCES.md](./CROSS_REFERENCES.md)** - Complete cross-references to all related repositories
+- **[Workspace AGENTS.md](../AGENTS.md)** - Main workspace documentation
+- **[Repository Index](../REPOSITORY_INDEX.md)** - Complete repository overview
 ---
 
 ## ⚖️ License
 
 All packages use:
+
 ```
 "license": "GPL-3.0-only"
 ```
+
+<!--  LocalWords:  traversable
+ -->

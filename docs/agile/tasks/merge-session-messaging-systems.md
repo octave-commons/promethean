@@ -10,6 +10,7 @@ estimates:
   complexity: '8'
   scale: 'large'
   time_to_completion: '4 sessions'
+storyPoints: 8
 ---
 
 ## 💬 Merge Session and Messaging Systems

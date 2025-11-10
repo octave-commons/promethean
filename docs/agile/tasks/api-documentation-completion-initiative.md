@@ -2,20 +2,14 @@
 title: 'API Documentation Completion Initiative'
 status: 'incoming'
 priority: 'P0'
-labels:
-  [
-    'documentation',
-    'api-docs',
-    'critical-gap',
-    'quality-assurance',
-    'developer-experience',
-  ]
+labels: ['documentation', 'api-docs', 'critical-gap', 'quality-assurance', 'developer-experience']
 created_at: '2025-10-28T00:00:00.000Z'
 uuid: 'api-docs-completion-001'
 estimates:
-  complexity: '13'
+  complexity: 13
   scale: 'large'
   time_to_completion: '6 sessions'
+storyPoints: 13
 ---
 
 # API Documentation Completion Initiative
@@ -41,6 +35,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 ## Acceptance Criteria
 
 ### Documentation Coverage Requirements
+
 - [ ] 100% of public APIs documented with JSDoc
 - [ ] Complete parameter and return type documentation
 - [ ] Comprehensive usage examples for all major functions
@@ -49,6 +44,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 - [ ] Cross-package API integration documentation
 
 ### Quality Standards
+
 - [ ] Documentation follows pantheon-persistence gold standard
 - [ ] All JSDoc compiles without warnings or errors
 - [ ] Examples are practical, tested, and copy-paste ready
@@ -57,6 +53,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 - [ ] API changelog and migration guides
 
 ### Developer Experience Requirements
+
 - [ ] Interactive API documentation (if possible)
 - [ ] Quick start guides for each package
 - [ ] Tutorial content for common use cases
@@ -67,6 +64,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 ## Implementation Plan
 
 ### Phase 1: Foundation & Standards (1 session)
+
 - Establish documentation standards based on pantheon-persistence
 - Set up JSDoc generation and validation tools
 - Create documentation templates and examples
@@ -74,6 +72,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 - Establish quality gates for documentation
 
 ### Phase 2: Core Package Documentation (2 sessions)
+
 - Complete opencode-client API documentation
 - Document kanban workflow management APIs
 - Create comprehensive security framework documentation
@@ -81,6 +80,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 - Develop pantheon-mcp integration documentation
 
 ### Phase 3: Advanced Package Documentation (2 sessions)
+
 - Document simtasks API comprehensively
 - Complete agents-workflow API documentation
 - Create cross-package integration guides
@@ -88,6 +88,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 - Develop troubleshooting and FAQ content
 
 ### Phase 4: Validation & Enhancement (1 session)
+
 - Validate all documentation completeness
 - Test all examples and code snippets
 - Optimize documentation for developer experience
@@ -97,6 +98,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 ## Technical Requirements
 
 ### Documentation Standards
+
 - Follow pantheon-persistence gold standard format
 - Use comprehensive JSDoc with all tags
 - Include TypeScript type information
@@ -104,6 +106,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 - Maintain consistent formatting and style
 
 ### Quality Assurance
+
 - Automated JSDoc compilation checks
 - Example validation and testing
 - Coverage reporting for documentation
@@ -111,6 +114,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 - Cross-package consistency checks
 
 ### Tooling Requirements
+
 - JSDoc generation tools (TypeDoc or similar)
 - Documentation validation in CI/CD
 - Example testing framework
@@ -120,6 +124,7 @@ Code review revealed **major gaps in API documentation** across packages, severe
 ## Documentation Structure
 
 ### Package-Level Documentation
+
 ```
 packages/[package-name]/
 ├── docs/
@@ -133,7 +138,8 @@ packages/[package-name]/
 ```
 
 ### API Documentation Template
-```typescript
+
+````typescript
 /**
  * Brief description of the function/interface.
  *
@@ -155,7 +161,7 @@ packages/[package-name]/
  * @since 1.0.0
  * @see [RelatedFunction](link) Related API or concept
  */
-```
+````
 
 ## Dependencies
 
@@ -185,12 +191,14 @@ packages/[package-name]/
 ## Risk Mitigation
 
 ### Quality Risks
+
 - **Incomplete Documentation**: Automated coverage validation
 - **Outdated Examples**: Example testing and validation
 - **Inconsistent Format**: Standardized templates and tools
 - **Type Mismatches**: TypeScript integration and validation
 
 ### Timeline Risks
+
 - **Scope Creep**: Clear package boundaries and acceptance criteria
 - **Resource Constraints**: Prioritize high-impact packages first
 - **Technical Complexity**: Phase-based implementation approach

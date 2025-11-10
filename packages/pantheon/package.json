@@ -25,6 +25,38 @@
     "./utils": {
       "types": "./dist/utils/index.d.ts",
       "import": "./dist/utils/index.js"
+    },
+    "./mcp": {
+      "types": "./dist/mcp.d.ts",
+      "import": "./dist/mcp.js"
+    },
+    "./orchestrator": {
+      "types": "./dist/orchestrator.d.ts",
+      "import": "./dist/orchestrator.js"
+    },
+    "./persistence": {
+      "types": "./dist/persistence.d.ts",
+      "import": "./dist/persistence.js"
+    },
+    "./workflow": {
+      "types": "./dist/workflow.d.ts",
+      "import": "./dist/workflow.js"
+    },
+    "./ecs": {
+      "types": "./dist/ecs.d.ts",
+      "import": "./dist/ecs.js"
+    },
+    "./state": {
+      "types": "./dist/state.d.ts",
+      "import": "./dist/state.js"
+    },
+    "./protocol": {
+      "types": "./dist/protocol.d.ts",
+      "import": "./dist/protocol.js"
+    },
+    "./core": {
+      "types": "./dist/core.d.ts",
+      "import": "./dist/core.js"
     }
   },
   "files": [
@@ -44,6 +76,12 @@
     "@promethean-os/pantheon-core": "workspace:*",
     "@promethean-os/pantheon-persistence": "workspace:*",
     "@promethean-os/pantheon-mcp": "workspace:*",
+    "@promethean-os/pantheon-orchestrator": "workspace:*",
+    "@promethean-os/pantheon-workflow": "workspace:*",
+    "@promethean-os/pantheon-ecs": "workspace:*",
+    "@promethean-os/pantheon-state": "workspace:*",
+    "@promethean-os/pantheon-protocol": "workspace:*",
+    "@promethean-os/pantheon-core": "workspace:*",
     "@promethean-os/pantheon-llm-openai": "workspace:*",
     "commander": "^11.1.0",
     "jsonwebtoken": "^9.0.2",

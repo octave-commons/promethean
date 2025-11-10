@@ -15,7 +15,7 @@ import {
   convertTools,
   convertSettings,
   toUsageComponents,
-} from './ollamaHelpers';
+} from './ollamaHelpers.js';
 
 // Defines compatible client interface
 export type OllamaClientLike = {
