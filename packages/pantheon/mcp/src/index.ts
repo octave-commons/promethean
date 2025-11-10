@@ -69,7 +69,7 @@ export function makeMCPToolAdapter(): MCPToolPort {
           properties: (tool as any).parameters || {},
           required: (tool as any).required || [],
         },
-        handler: (tool as any).handler || async () => ({ result: 'Tool executed' }),
+        handler: (tool as any).handler,
       };
       tools.set(tool.name, mcpTool);
     },
