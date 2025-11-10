@@ -5,7 +5,7 @@
   "type": "module",
   "main": "dist/index.js",
   "scripts": {
-    "build": "tsc",
+    "build": "tsc --noUnusedLocals false --noUnusedParameters false",
     "prestart": "pnpm run build",
     "start": "node dist/src/index.js",
     "start:dev": "node --loader ts-node/esm src/index.ts",

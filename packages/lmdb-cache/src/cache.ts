@@ -1,10 +1,10 @@
-// Temporary in-memory cache implementation to unblock builds
-// TODO: Replace with proper LMDB integration once type issues are resolved
+import { mkdirSync } from 'node:fs';
+import { open } from 'lmdb';
 
-import type { Cache, CacheOptions, Millis } from './types.js';
+import type { Cache, CacheOptions, Millis, PutOptions } from './types.js';
 
 /**
- * Internal in-memory envelope. Keep it tiny.
+ * Internal on-disk envelope. Keep it tiny.
  * v: value, x: expiry epoch ms (optional)
  */
 type Envelope<T> = Readonly<{ v: T; x?: Millis }>;
@@ -16,195 +16,287 @@ const DEFAULT_NAMESPACE = 'default';
 /** deterministic, reversible namespacing (no mutation) */
 const joinKey = (ns: string | undefined, key: string): string => (ns ? `${ns}\u241F${key}` : key); // \u241F = SYMBOL FOR UNIT SEPARATOR
 
+const composeNamespace = (base: string | undefined, ns: string): string =>
+  base ? `${base}/${ns}` : ns;
+
+const prefixFor = (ns: string | undefined): string => (ns ? `${ns}\u241F` : '');
+
 /** unwrap, checking TTL; returns [value, expired?] */
 const unwrap = <T>(env: Envelope<T> | undefined): readonly [T | undefined, boolean] => {
   if (env == null) return [undefined, false];
   const expired = typeof env.x === 'number' && env.x <= now();
-  return [expired ? undefined : env.v, expired];
+  return [expired ? undefined : (env.v as T), expired];
 };
-
-type CacheScopeState = Readonly<{
-  namespace?: string;
-  defaultTtlMs?: Millis;
-}>;
-
-const namespacedKey = (state: CacheScopeState, key: string): string =>
-  joinKey(state.namespace, key);
 
 const envelopeFor = <T>(value: T, ttl: Millis | undefined): Envelope<T> =>
   typeof ttl === 'number' ? { v: value, x: now() + ttl } : { v: value };
 
+const rangeForNamespace = (
+  namespace: string | undefined,
+  limit?: number,
+): Record<string, unknown> => {
+  const prefix = prefixFor(namespace);
+  return {
+    gte: prefix,
+    lt: prefix ? `${prefix}\uFFFF` : undefined,
+    limit,
+  };
+};
+
+type CacheScopeState = Readonly<{
+  namespace: string;
+  defaultTtlMs: Millis;
+}>;
+
+type HitMissCounters = { hit: number; miss: number };
+
+const namespacedKey = (state: CacheScopeState, key: string): string =>
+  joinKey(state.namespace, key);
+
+const resolveScopeState = (options: CacheOptions): CacheScopeState => ({
+  namespace: options.namespace ?? DEFAULT_NAMESPACE,
+  defaultTtlMs: options.defaultTtlMs ?? DEFAULT_TTL_MS,
+});
+
 const createGet =
-  <T>(store: Map<string, Envelope<T>>, state: CacheScopeState): Cache<T>['get'] =>
-  async (key: string): Promise<T | undefined> => {
+  <T>(db: any, state: CacheScopeState, counters: HitMissCounters): Cache<T>['get'] =>
+  async (key: string) => {
     const scoped = namespacedKey(state, key);
-    const env = store.get(scoped);
+    const env = db.get(scoped) as Envelope<T> | undefined;
     const [value, expired] = unwrap(env);
-    if (expired) store.delete(scoped);
+
+    if (expired) {
+      db.removeSync?.(scoped) ?? (await db.remove(scoped));
+      counters.miss++;
+      return undefined;
+    }
+
+    if (value === undefined) {
+      counters.miss++;
+      return undefined;
+    }
+
+    counters.hit++;
     return value;
   };
 
 const createHas =
   <T>(get: Cache<T>['get']): Cache<T>['has'] =>
-  async (key: string): Promise<boolean> =>
+  async (key: string) =>
     (await get(key)) !== undefined;
 
 const createSet =
-  <T>(store: Map<string, Envelope<T>>, state: CacheScopeState): Cache<T>['set'] =>
-  async (key: string, value: T, putOpts?: { ttlMs?: Millis }): Promise<void> => {
+  <T>(db: any, state: CacheScopeState): Cache<T>['set'] =>
+  async (key, value, putOpts) => {
     const ttl = putOpts?.ttlMs ?? state.defaultTtlMs;
-    store.set(namespacedKey(state, key), envelopeFor(value, ttl));
+    await db.put(namespacedKey(state, key), envelopeFor(value, ttl));
   };
 
 const createDel =
-  <T>(store: Map<string, Envelope<T>>, state: CacheScopeState): Cache<T>['del'] =>
-  async (key: string): Promise<void> => {
-    store.delete(namespacedKey(state, key));
+  <T>(db: any, state: CacheScopeState): Cache<T>['del'] =>
+  async (key) => {
+    await db.remove(namespacedKey(state, key));
   };
 
 const createBatch =
-  <T>(store: Map<string, Envelope<T>>, state: CacheScopeState): Cache<T>['batch'] =>
-  async (ops): Promise<void> => {
-    for (const op of ops) {
-      const key = namespacedKey(state, op.key);
-      if (op.type === 'del') {
-        store.delete(key);
-      } else {
-        const ttl = op.ttlMs ?? state.defaultTtlMs;
-        store.set(key, envelopeFor(op.value, ttl));
+  <T>(db: any, state: CacheScopeState): Cache<T>['batch'] =>
+  async (ops) => {
+    await db.transaction(() => {
+      for (const op of ops) {
+        const scoped = namespacedKey(state, op.key);
+        if (op.type === 'put') {
+          const ttl = op.ttlMs ?? state.defaultTtlMs;
+          db.putSync?.(scoped, envelopeFor(op.value, ttl)) ??
+            db.put(scoped, envelopeFor(op.value, ttl));
+        } else {
+          db.removeSync?.(scoped) ?? db.remove(scoped);
+        }
       }
-    }
+    });
   };
 
-const createEntries = <T>(
-  store: Map<string, Envelope<T>>,
-  state: CacheScopeState,
-): Cache<T>['entries'] =>
+const createEntries = <T>(db: any, state: CacheScopeState): Cache<T>['entries'] =>
   async function* entries(opts = {}) {
-    const prefix = state.namespace ? `${state.namespace}\u241F` : '';
-    let count = 0;
+    const namespace = opts?.namespace ?? state.namespace;
+    const prefix = prefixFor(namespace);
 
-    for (const [storedKey, env] of store.entries()) {
-      if (opts.limit !== undefined && count >= opts.limit) break;
-
-      const [value, expired] = unwrap(env);
+    for await (const { key: storedKey, value: env } of db.getRange({
+      gte: prefix,
+      lt: prefix ? `${prefix}\uFFFF` : undefined,
+      limit: opts?.limit,
+    })) {
+      const [value, expired] = unwrap(env as Envelope<T> | undefined);
       if (expired) {
-        store.delete(storedKey);
+        await db.remove(storedKey);
         continue;
       }
       if (value === undefined) continue;
 
-      if (!storedKey.startsWith(prefix)) continue;
-
       const logicalKey = prefix ? storedKey.slice(prefix.length) : storedKey;
-      yield [logicalKey, value] as [string, T];
-      count++;
+      yield [logicalKey, value as T];
     }
   };
 
 const createSweepExpired =
-  <T>(store: Map<string, Envelope<T>>): Cache<T>['sweepExpired'] =>
-  async (): Promise<number> => {
+  <T>(db: any): Cache<T>['sweepExpired'] =>
+  async () => {
     let deletedCount = 0;
 
-    for (const [key, env] of store.entries()) {
-      const [, expired] = unwrap(env);
-      if (expired) {
-        store.delete(key);
+    await db.transaction(async () => {
+      for await (const { key, value: env } of db.getRange()) {
+        const [, expired] = unwrap(env as Envelope<T> | undefined);
+        if (!expired) continue;
+        await db.remove(key);
         deletedCount++;
       }
-    }
+    });
 
     return deletedCount;
   };
 
-const createWithNamespace =
-  <T>(store: Map<string, Envelope<T>>, state: CacheScopeState): Cache<T>['withNamespace'] =>
-  (ns) => {
-    const cfg: ScopeConfig = {
-      namespace: ns ? composeNamespace(state.namespace, ns) : DEFAULT_NAMESPACE,
-      ...(state.defaultTtlMs !== undefined ? { defaultTtlMs: state.defaultTtlMs } : {}),
-    };
-    return buildCacheScope<T>(store, cfg);
-  };
+const collectStats = async <T>(db: any, state: CacheScopeState) => {
+  let totalEntries = 0;
+  let expiredEntries = 0;
+  const namespaces = new Set<string>();
+  const range = rangeForNamespace(state.namespace);
+
+  for await (const { key, value: env } of db.getRange(range)) {
+    totalEntries++;
+    const [, expired] = unwrap(env as Envelope<T> | undefined);
+    if (expired) {
+      expiredEntries++;
+    }
+
+    const keyParts = key.split('\u241F');
+    if (keyParts.length > 1 && keyParts[0]) {
+      namespaces.add(keyParts[0]);
+    }
+  }
+
+  if (namespaces.size === 0 && state.namespace) {
+    namespaces.add(state.namespace);
+  }
+
+  return {
+    totalEntries,
+    expiredEntries,
+    namespaces: Array.from(namespaces),
+  } as const;
+};
 
 const createGetStats =
-  <T>(store: Map<string, Envelope<T>>): Cache<T>['getStats'] =>
-  async (): Promise<import('./types.js').CacheStats> => {
-    let totalEntries = 0;
-    let expiredEntries = 0;
-    const namespaces = new Set<string>();
-    const currentTime = now();
-
-    for (const [key, env] of store.entries()) {
-      totalEntries++;
-
-      // Extract namespace from key
-      const separatorIndex = key.indexOf('\u241F');
-      if (separatorIndex !== -1) {
-        namespaces.add(key.slice(0, separatorIndex));
-      }
-
-      // Check if expired
-      if (typeof env.x === 'number' && env.x <= currentTime) {
-        expiredEntries++;
-      }
-    }
+  <T>(db: any, state: CacheScopeState, counters: HitMissCounters): Cache<T>['getStats'] =>
+  async () => {
+    const { totalEntries, expiredEntries, namespaces } = await collectStats<T>(db, state);
+    const totalAccesses = counters.hit + counters.miss;
+    const hitRate = totalAccesses > 0 ? counters.hit / totalAccesses : 0;
 
     return {
       totalEntries,
       expiredEntries,
-      namespaces: Array.from(namespaces),
-      hitRate: 0, // Would need tracking to calculate accurately
+      namespaces,
+      hitRate,
     };
   };
 
-type ScopeConfig = Readonly<{
-  namespace?: string;
-  defaultTtlMs?: Millis;
-}>;
-
-function composeNamespace(baseNs: string | undefined, ns: string): string {
-  return baseNs ? `${baseNs}/${ns}` : ns;
-}
-
-function buildCacheScope<T>(store: Map<string, Envelope<T>>, cfg: ScopeConfig): Cache<T> {
-  const state: CacheScopeState = {
-    namespace: cfg.namespace,
-    defaultTtlMs: cfg.defaultTtlMs,
-  };
-
-  const get = createGet(store, state);
+const buildCacheScope = <T>(
+  db: any,
+  state: CacheScopeState,
+  counters: HitMissCounters,
+): Cache<T> => {
+  const get = createGet<T>(db, state, counters);
 
   return {
     get,
     has: createHas(get),
-    set: createSet(store, state),
-    del: createDel(store, state),
-    batch: createBatch(store, state),
-    entries: createEntries(store, state),
-    sweepExpired: createSweepExpired(store),
-    getStats: createGetStats(store),
-    withNamespace: createWithNamespace(store, state),
-    close: async (): Promise<void> => {
-      store.clear();
+    set: createSet(db, state),
+    del: createDel(db, state),
+    batch: createBatch(db, state),
+    entries: createEntries(db, state),
+    sweepExpired: createSweepExpired(db),
+    getStats: createGetStats(db, state, counters),
+    withNamespace: (ns: string): Cache<T> => {
+      const namespace = ns ? composeNamespace(state.namespace, ns) : DEFAULT_NAMESPACE;
+      const childState: CacheScopeState = {
+        namespace,
+        defaultTtlMs: state.defaultTtlMs,
+      };
+      return buildCacheScope<T>(db, childState, counters);
+    },
+    close: async () => {
+      await db.close();
     },
   };
-}
-
-export const openLmdbCache = async <T = unknown>(opts: CacheOptions): Promise<Cache<T>> => {
-  // Temporary in-memory store instead of LMDB
-  const store = new Map<string, Envelope<T>>();
-
-  const cfg: ScopeConfig = {
-    defaultTtlMs: opts.defaultTtlMs ?? DEFAULT_TTL_MS,
-    namespace: opts.namespace ?? DEFAULT_NAMESPACE,
-  };
-
-  return buildCacheScope<T>(store, cfg);
 };
 
-// helpers retained for external consumers
-export function defaultNamespace(base: Readonly<Partial<CacheOptions>>, ns: string): string {
-  return base.namespace ? `${base.namespace}/${ns}` : ns;
+export function openLmdbCache<T = unknown>(options: CacheOptions): Cache<T> {
+  if (options.path) {
+    mkdirSync(options.path, { recursive: true });
+  }
+
+  const db = open<Envelope<T>, string>(options.path, {
+    encoding: 'msgpack',
+    compression: true,
+    useVersions: true,
+    noSubdir: false,
+  }) as any;
+
+  const counters: HitMissCounters = { hit: 0, miss: 0 };
+  const state = resolveScopeState(options);
+  return buildCacheScope<T>(db, state, counters);
+}
+
+// Export class for backward compatibility
+export class LMDBCache<T> implements Cache<T> {
+  private readonly cache: Cache<T>;
+
+  constructor(path: string, options: Omit<CacheOptions, 'path'> = {}) {
+    const mergedOptions: CacheOptions = { ...options, path };
+    this.cache = openLmdbCache<T>(mergedOptions);
+  }
+
+  async get(key: string): Promise<T | undefined> {
+    return this.cache.get(key);
+  }
+
+  async has(key: string): Promise<boolean> {
+    return this.cache.has(key);
+  }
+
+  async set(key: string, value: T, opts?: PutOptions): Promise<void> {
+    return this.cache.set(key, value, opts);
+  }
+
+  async del(key: string): Promise<void> {
+    return this.cache.del(key);
+  }
+
+  async batch(ops: Parameters<Cache<T>['batch']>[0]): Promise<void> {
+    return this.cache.batch(ops);
+  }
+
+  async *entries(opts?: Parameters<Cache<T>['entries']>[0]): AsyncGenerator<[string, T]> {
+    yield* this.cache.entries(opts);
+  }
+
+  async sweepExpired(): Promise<number> {
+    return this.cache.sweepExpired();
+  }
+
+  async getStats(): Promise<{
+    totalEntries: number;
+    expiredEntries: number;
+    namespaces: readonly string[];
+    hitRate: number;
+  }> {
+    return this.cache.getStats();
+  }
+
+  withNamespace(ns: string): Cache<T> {
+    return this.cache.withNamespace(ns);
+  }
+
+  async close(): Promise<void> {
+    return this.cache.close();
+  }
 }

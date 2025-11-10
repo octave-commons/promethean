@@ -1,5 +1,5 @@
 import { tool } from '@opencode-ai/plugin/tool';
-import { IndexerServiceClient, type IndexerServiceConfig } from './indexer-client';
+import { IndexerServiceClient, type IndexerServiceConfig } from './indexer-client.js';
 import { validateAndNormalizePath, validateFilePatterns } from './path-validation.js';
 
 // --- Helpers ---
@@ -25,7 +25,7 @@ ${snippet}
 }
 
 // --- Tool Factories ---
-export function healthTool(baseUrl: string) {
+export function healthTool(baseUrl: string): unknown {
   return tool({
     description: 'Health check for indexer service',
     args: {},
@@ -43,7 +43,7 @@ export function healthTool(baseUrl: string) {
   });
 }
 
-export function statusTool(client: IndexerServiceClient) {
+export function statusTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Get indexer status',
     args: {},
@@ -57,7 +57,7 @@ export function statusTool(client: IndexerServiceClient) {
   });
 }
 
-export function searchTool(client: IndexerServiceClient) {
+export function searchTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Semantic search',
     args: {
@@ -76,7 +76,7 @@ export function searchTool(client: IndexerServiceClient) {
   });
 }
 
-export function indexTool(client: IndexerServiceClient) {
+export function indexTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Index a file',
     args: { path: tool.schema.string().min(1) },
@@ -96,7 +96,7 @@ export function indexTool(client: IndexerServiceClient) {
   });
 }
 
-export function reindexFilesTool(client: IndexerServiceClient) {
+export function reindexFilesTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Reindex file patterns',
     args: { patterns: tool.schema.array(tool.schema.string()).min(1) },
@@ -115,7 +115,7 @@ export function reindexFilesTool(client: IndexerServiceClient) {
   });
 }
 
-export function reindexAllTool(client: IndexerServiceClient) {
+export function reindexAllTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Full reindex',
     args: {},
@@ -134,7 +134,7 @@ export function reindexAllTool(client: IndexerServiceClient) {
   });
 }
 
-export function removeTool(client: IndexerServiceClient) {
+export function removeTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Remove from index',
     args: { path: tool.schema.string().min(1) },
@@ -152,7 +152,7 @@ export function removeTool(client: IndexerServiceClient) {
   });
 }
 
-export function resetTool(client: IndexerServiceClient) {
+export function resetTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Reset indexer',
     args: { confirm: tool.schema.boolean().default(false) },
@@ -174,7 +174,7 @@ export function resetTool(client: IndexerServiceClient) {
 export function configureTool(clientRef: {
   client: IndexerServiceClient;
   cfg: IndexerServiceConfig;
-}) {
+}): unknown {
   return tool({
     description: 'Configure service URL',
     args: { baseUrl: tool.schema.string().url() },
@@ -193,7 +193,7 @@ export function configureTool(clientRef: {
   });
 }
 
-export function batchTool(client: IndexerServiceClient) {
+export function batchTool(client: IndexerServiceClient): unknown {
   return tool({
     description: 'Batch ops',
     args: {

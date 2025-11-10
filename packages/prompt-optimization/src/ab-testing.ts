@@ -575,10 +575,12 @@ export class ABTestingFramework {
     }
 
     // Calculate statistical significance
-    const significance: Record<string, number> = {};
+    const significanceByGroup: Record<string, number> = {};
+
+    let sigAcc = { successRate: 0, processingTime: 0, tokenUsage: 0, confidence: 0 };
+    let sigCount = 0;
 
     testGroups.forEach(([groupId, testStats]) => {
-      // Simple significance calculation (would use proper statistical tests in production)
       const successRateDiff = Math.abs(testStats.successRate - control.successRate);
       const processingTimeDiff = Math.abs(
         testStats.averageProcessingTime - control.averageProcessingTime,
@@ -586,8 +588,14 @@ export class ABTestingFramework {
       const tokenUsageDiff = Math.abs(testStats.averageTokenUsage - control.averageTokenUsage);
       const confidenceDiff = Math.abs(testStats.averageConfidence - control.averageConfidence);
 
-      significance[groupId] =
+      significanceByGroup[groupId] =
         (successRateDiff + processingTimeDiff + tokenUsageDiff + confidenceDiff) / 4;
+
+      sigAcc.successRate += successRateDiff;
+      sigAcc.processingTime += processingTimeDiff;
+      sigAcc.tokenUsage += tokenUsageDiff;
+      sigAcc.confidence += confidenceDiff;
+      sigCount += 1;
     });
 
     // Determine recommendation
@@ -603,9 +611,9 @@ export class ABTestingFramework {
           control.averageTokenUsage * (1 / test.successCriteria.minTokenEfficiency) &&
         testStats.averageConfidence >= test.successCriteria.minConfidence;
 
-      if (meetsCriteria && significance[groupId] > maxConfidence) {
+      if (meetsCriteria && significanceByGroup[groupId] > maxConfidence) {
         recommendation = 'test';
-        maxConfidence = significance[groupId];
+        maxConfidence = significanceByGroup[groupId];
         bestGroupId = groupId;
       }
     });
@@ -632,7 +640,12 @@ export class ABTestingFramework {
     return {
       control,
       test: Object.fromEntries(testGroups),
-      significance,
+      significance: {
+        successRate: sigCount ? sigAcc.successRate / sigCount : 0,
+        processingTime: sigCount ? sigAcc.processingTime / sigCount : 0,
+        tokenUsage: sigCount ? sigAcc.tokenUsage / sigCount : 0,
+        confidence: sigCount ? sigAcc.confidence / sigCount : 0,
+      },
       recommendation,
       confidence: maxConfidence,
       reasoning,

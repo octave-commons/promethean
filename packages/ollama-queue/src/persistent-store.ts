@@ -1,7 +1,7 @@
 // SPDX-License-Identifier: GPL-3.0-only
 // Persistent job storage using LMDB-cache
 
-import { openLmdbCache, type Cache } from '@promethean-os/lmdb-cache';
+import { LMDBCache, type Cache } from '@promethean-os/lmdb-cache';
 import { Job, UUID, JobStatus } from './index.js';
 
 export class PersistentJobStore {
@@ -12,20 +12,17 @@ export class PersistentJobStore {
   constructor(private cachePath: string) {}
 
   async initialize(): Promise<void> {
-    this.jobCache = await openLmdbCache<Job>({
-      path: `${this.cachePath}/jobs`,
+    this.jobCache = await new LMDBCache<Job>(`${this.cachePath}/jobs`, {
       namespace: 'jobs',
       defaultTtlMs: undefined, // Jobs don't expire by default
     });
 
-    this.activeJobsCache = await openLmdbCache<true>({
-      path: `${this.cachePath}/active`,
+    this.activeJobsCache = await new LMDBCache<true>(`${this.cachePath}/active`, {
       namespace: 'active',
       defaultTtlMs: undefined,
     });
 
-    this.processingCache = await openLmdbCache<true>({
-      path: `${this.cachePath}/processing`,
+    this.processingCache = await new LMDBCache<true>(`${this.cachePath}/processing`, {
       namespace: 'processing',
       defaultTtlMs: undefined,
     });

@@ -84,10 +84,10 @@ fetch('http://localhost:3210/mcp/status?api_key=connector-key');
 
 ```bash
 # Enable OAuth
-export MCP_OAUTH_ENABLED=true
-export MCP_OAUTH_GITHUB_CLIENT_ID=your_client_id
-export MCP_OAUTH_GITHUB_CLIENT_SECRET=your_client_secret
-export MCP_OAUTH_REDIRECT_URI=http://localhost:3210/auth/oauth/callback
+export OAUTH_ENABLED=true
+export OAUTH_GITHUB_CLIENT_ID=your_client_id
+export OAUTH_GITHUB_CLIENT_SECRET=your_client_secret
+export OAUTH_REDIRECT_URI=http://localhost:3210/auth/oauth/callback
 ```
 
 **Required Endpoints:**
@@ -219,9 +219,9 @@ const response = await fetch('/api/user/profile');
 1. **Configure OAuth Provider:**
 
    ```bash
-   export MCP_OAUTH_ENABLED=true
-   export MCP_OAUTH_GITHUB_CLIENT_ID=your_id
-   export MCP_OAUTH_GITHUB_CLIENT_SECRET=your_secret
+   export OAUTH_ENABLED=true
+   export OAUTH_GITHUB_CLIENT_ID=your_id
+   export OAUTH_GITHUB_CLIENT_SECRET=your_secret
    ```
 
 2. **Update Client Flow:**
@@ -249,7 +249,7 @@ const response = await fetch('/api/user/profile');
 | Symptom                  | Cause                | Solution                           |
 | ------------------------ | -------------------- | ---------------------------------- |
 | 404 on /auth/oauth/login | Wrong auth mode      | Use API Key mode for connectors    |
-| Redirect loop            | Invalid callback URL | Fix MCP_OAUTH_REDIRECT_URI         |
+| Redirect loop            | Invalid callback URL | Fix OAUTH_REDIRECT_URI             |
 | Invalid state            | CSRF protection      | Implement state parameter handling |
 
 ## Best Practices

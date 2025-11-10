@@ -31,7 +31,7 @@ export abstract class BaseComplianceRule {
 
   abstract execute(context: RuleContext): Promise<RuleResult>;
 
-  protected createCheck(result: RuleResult, context: RuleContext): ComplianceCheck {
+  public createCheck(result: RuleResult, context: RuleContext): ComplianceCheck {
     return {
       id: randomUUID(),
       ruleId: this.rule.id,

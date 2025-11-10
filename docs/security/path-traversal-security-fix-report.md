@@ -1,20 +1,20 @@
-# P0 Critical Security Fix: Path Traversal Vulnerability in Indexer Service
+# Security Fix: Path Traversal Vulnerability in Indexer Service
 
-## 🚨 Executive Summary
+## Executive Summary
 
-**Severity**: P0 - Critical  
+**Severity**: P0 - High  
 **CVE Classification**: Path Traversal (CWE-22)  
 **Affected Component**: Indexer Service (`@promethean-os/file-indexer-service`)  
-**Status**: ✅ FIXED
+**Status**: ✅ Fixed
 
-## 📋 Vulnerability Description
+## Vulnerability Description
 
-The indexer service contained multiple critical path traversal vulnerabilities that allowed attackers to:
+The indexer service contained path traversal vulnerabilities that allowed:
 
-1. **Access arbitrary files** outside intended directories
-2. **Read system files** including `/etc/passwd`, `/etc/shadow`, Windows SAM files
-3. **Bypass security controls** via encoded and Unicode attacks
-4. **Execute directory traversal** through multiple attack vectors
+1. Access files outside intended directories
+2. Read system files including configuration files
+3. Bypass security controls via encoded and Unicode attacks
+4. Execute directory traversal through multiple attack vectors
 
 ## 🎯 Attack Vectors Identified
 

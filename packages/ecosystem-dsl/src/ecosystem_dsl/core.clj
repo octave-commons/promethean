@@ -424,10 +424,15 @@
            (run! #(.delete %))))))
 
 (defn get-generation-stats
-  "Get statistics about the generation process."
-  [system-dir]
-  (let [edn-files (find-ecosystem-files system-dir)]
-    {:edn-files-count (count edn-files)
-     :edn-files (map #(.getName (io/file %)) edn-files)
-     :system-dir system-dir
-     :timestamp (java.util.Date.)}))
+   "Get statistics about generation process."
+   [system-dir]
+   (let [edn-files (find-ecosystem-files system-dir)]
+     {:edn-files-count (count edn-files)
+      :edn-files (map #(.getName (io/file %)) edn-files)
+      :system-dir system-dir
+      :timestamp (java.util.Date.)}))
+
+(defn -main
+  "Main entry point for script execution."
+  [& args]
+  (generate-ecosystem! {}))

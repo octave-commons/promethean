@@ -1,55 +1,61 @@
-import { type ModelRequest } from "@openai/agents";
-import { Usage, type AgentInputItem, type AssistantMessageItem, type SystemMessageItem, type UserMessageItem } from "@openai/agents";
-import { Message, type ChatRequest, type ChatResponse, type Tool as OllamaTool } from "ollama";
+import {
+  Usage,
+  type AgentInputItem,
+  type AssistantMessageItem,
+  type ModelRequest,
+  type SystemMessageItem,
+  type UserMessageItem,
+} from '@openai/agents';
+import { Message, type ChatRequest, type ChatResponse, type Tool as OllamaTool } from 'ollama';
 
 export const isMessageItem = (
   item: AgentInputItem,
 ): item is AssistantMessageItem | SystemMessageItem | UserMessageItem =>
-  typeof (item as { role?: unknown }).role === "string";
+  typeof (item as { role?: unknown }).role === 'string';
 
 export const flattenEntries = (entries: ReadonlyArray<unknown>): string =>
   entries
     .map((entry) => {
-      if (!entry || typeof entry !== "object") {
-        return typeof entry === "string" ? entry : "";
+      if (!entry || typeof entry !== 'object') {
+        return typeof entry === 'string' ? entry : '';
       }
       if (
-        "text" in (entry as Record<string, unknown>) &&
-        typeof (entry as { text?: unknown }).text === "string"
+        'text' in (entry as Record<string, unknown>) &&
+        typeof (entry as { text?: unknown }).text === 'string'
       ) {
         return (entry as { text: string }).text;
       }
       if (
-        "refusal" in (entry as Record<string, unknown>) &&
-        typeof (entry as { refusal?: unknown }).refusal === "string"
+        'refusal' in (entry as Record<string, unknown>) &&
+        typeof (entry as { refusal?: unknown }).refusal === 'string'
       ) {
         return (entry as { refusal: string }).refusal;
       }
       return JSON.stringify(entry);
     })
     .filter((segment) => segment.length > 0)
-    .join("\n");
+    .join('\n');
 
 export const toMessageContent = (
   item: AssistantMessageItem | SystemMessageItem | UserMessageItem,
 ): string => {
   const { content } = item as { content: unknown };
-  if (typeof content === "string") {
+  if (typeof content === 'string') {
     return content;
   }
   if (Array.isArray(content)) {
     return flattenEntries(content);
   }
-  return "";
+  return '';
 };
 
 export const convertInputToMessages = (request: ModelRequest): Message[] => {
   const messages: Message[] = [];
   if (request.systemInstructions) {
-    messages.push({ role: "system", content: request.systemInstructions });
+    messages.push({ role: 'system', content: request.systemInstructions });
   }
-  if (typeof request.input === "string") {
-    messages.push({ role: "user", content: request.input });
+  if (typeof request.input === 'string') {
+    messages.push({ role: 'user', content: request.input });
     return messages;
   }
   for (const item of request.input) {
@@ -65,9 +71,7 @@ export const convertInputToMessages = (request: ModelRequest): Message[] => {
   return messages;
 };
 
-export const normalizeJsonSchema = (
-  schema: unknown,
-): Record<string, unknown> | undefined => {
+export const normalizeJsonSchema = (schema: unknown): Record<string, unknown> | undefined => {
   if (!schema) {
     return undefined;
   }
@@ -79,14 +83,12 @@ export const normalizeJsonSchema = (
   return plain;
 };
 
-export const convertTools = (
-  tools: ModelRequest["tools"],
-): OllamaTool[] | undefined =>
+export const convertTools = (tools: ModelRequest['tools']): OllamaTool[] | undefined =>
   tools && tools.length > 0
     ? tools
-        .filter((tool) => tool.type === "function")
+        .filter((tool) => tool.type === 'function')
         .map((tool) => ({
-          type: "function",
+          type: 'function',
           function: {
             name: tool.name,
             description: tool.description,
@@ -96,19 +98,19 @@ export const convertTools = (
     : undefined;
 
 export const convertSettings = (
-  settings: ModelRequest["modelSettings"],
-): ChatRequest["options"] | undefined => {
+  settings: ModelRequest['modelSettings'],
+): ChatRequest['options'] | undefined => {
   if (!settings) {
     return undefined;
   }
   const { temperature, topP, frequencyPenalty, presencePenalty, maxTokens } = settings;
-  const options: ChatRequest["options"] = {};
-  if (typeof temperature === "number") options.temperature = temperature;
-  if (typeof topP === "number") options.top_p = topP;
-  if (typeof frequencyPenalty === "number") options.repeat_penalty = frequencyPenalty;
-  if (typeof presencePenalty === "number") options.presence_penalty = presencePenalty;
-  if (typeof maxTokens === "number") options.num_predict = maxTokens;
-  return Object.keys(options).length > 0 ? (options as ChatRequest["options"]) : undefined;
+  const options: ChatRequest['options'] = {};
+  if (typeof temperature === 'number') options.temperature = temperature;
+  if (typeof topP === 'number') options.top_p = topP;
+  if (typeof frequencyPenalty === 'number') options.repeat_penalty = frequencyPenalty;
+  if (typeof presencePenalty === 'number') options.presence_penalty = presencePenalty;
+  if (typeof maxTokens === 'number') options.num_predict = maxTokens;
+  return Object.keys(options).length > 0 ? (options as ChatRequest['options']) : undefined;
 };
 
 export const toUsage = (response: ChatResponse | undefined): Usage => {

@@ -117,7 +117,8 @@ async function runSimulatedTraffic() {
         `      ✅ ${result.usedV2 ? 'v2.0' : 'Legacy'} | ${result.success ? 'Success' : 'Failed'} | ${result.processingTime}ms`,
       );
     } catch (error) {
-      console.log(`      ❌ Error: ${error.message}`);
+      const message = error instanceof Error ? error.message : String(error);
+      console.log(`      ❌ Error: ${message}`);
     }
 
     // Small delay between requests

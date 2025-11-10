@@ -1,4 +1,4 @@
-(ns report-forge.render
+(ns promethean.render)
   (:require [clojure.string :as str]))
 
 (defn- esc [s]
@@ -15,6 +15,22 @@
          (when closedAt (str " — closed " (subs closedAt 0 10))))))
 
 (defn render-markdown [{:keys [repo issues]}]
+  (let [by-state (fn [st] (filter #(= (:state %) st) issues))
+        opens (map format-issue (by-state "open"))
+        closed (->> (by-state "closed")
+                    (take 10)
+                    (map format-issue))]
+    (str/join 
+"\n"
+      [
+       (str "# Discovery Notes: " repo)
+       "## Open issues"
+       (if (seq opens) (str/join "\n" opens) "*none*")
+       "## Recently closed"
+       (if (seq closed) (str/join "\n" closed) "*none*")])))
+
+(defn init []
+  (println "Render module initialized"))
   (let [by-state (fn [st] (filter #(= (:state %) st) issues))
         opens (map format-issue (by-state "open"))
         closed (->> (by-state "closed")

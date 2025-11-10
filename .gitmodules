@@ -1,33 +1,36 @@
-[submodule "git-subrepo-source"]
-	path = git-subrepo-source
-	url = https://github.com/ingydotnet/git-subrepo.git
-[submodule "packages/kanban/test-kanban-hanging-temp"]
-	path = packages/kanban/test-kanban-hanging-temp
-	url = ./packages/kanban/test-kanban-hanging-temp
-[submodule "packages/kanban/test-git-utils-temp"]
-	path = packages/kanban/test-git-utils-temp
-	url = ./packages/kanban/test-git-utils-temp
-[submodule "packages/kanban/test-git-workflow-temp"]
-	path = packages/kanban/test-git-workflow-temp
-	url = ./packages/kanban/test-git-workflow-temp
-[submodule "test-data/test-git"]
-	path = test-data/test-git
-	url = ./test-data/test-git
-[submodule "packages/auth-service"]
-	path = packages/auth-service
-	url = git@github.com:riatzukiza/auth-service.git
+[submodule "packages/apply-patch"]
+	path = packages/apply-patch
+	url = git@github.com:riatzukiza/apply-patch.git
+	branch = main
 [submodule "packages/autocommit"]
 	path = packages/autocommit
 	url = git@github.com:riatzukiza/autocommit.git
+	branch = main
+[submodule "packages/auth-service"]
+	path = packages/auth-service
+	url = git@github.com:riatzukiza/auth-service.git
+	branch = main
+[submodule "packages/kanban"]
+	path = packages/kanban
+	url = https://github.com/riatzukiza/kanban.git
+	branch = promethean/dev
+[submodule "packages/logger"]
+	path = packages/logger
+	url = git@github.com:riatzukiza/logger.git
+	branch = main
+[submodule "packages/mcp"]
+	path = packages/mcp
+	url = https://github.com/riatzukiza/mcp.git
+	branch = promethean/dev
 [submodule "packages/naming"]
 	path = packages/naming
 	url = git@github.com:riatzukiza/naming.git
-[submodule "packages/kanban"]
-	path = packages/kanban
-	url = git@github.com:riatzukiza/kanban.git
+	branch = promethean/dev
 [submodule "packages/persistence"]
 	path = packages/persistence
-	url = git@github.com:riatzukiza/persistence.git
-[submodule "packages/mcp"]
-	path = packages/mcp
-	url = git@github.com:riatzukiza/mcp.git
+	url = https://github.com/riatzukiza/persistence.git
+	branch = promethean/dev
+[submodule "packages/utils"]
+	path = packages/utils
+	url = git@github.com:riatzukiza/utils.git
+	branch = promethean/dev

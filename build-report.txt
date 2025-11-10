@@ -1,0 +1,263 @@
+ WARN  Unsupported engine: wanted: {"node":"22.20.0"} (current: {"node":"v22.18.0","pnpm":"10.16.1"})
+
+> promethean@0.0.1 build /home/err/devel/orgs/riatzukiza/promethean
+> pnpm -r --no-bail build
+
+.                                        |  WARN  Unsupported engine: wanted: {"node":"22.20.0"} (current: {"node":"v22.18.0","pnpm":"10.16.1"})
+Scope: 129 of 130 workspace projects
+packages/apply-patch build$ tsc
+packages/autocommit build$ tsc -p tsconfig.json
+packages/compiler build$ tsc
+packages/ds build$ tsc
+packages/ds build: Done
+packages/compiler build: Done
+packages/duck/duck-audio build$ tsc --project tsconfig.json
+packages/duck/duck-tools build$ tsc -p tsconfig.json
+packages/apply-patch build: Done
+packages/duck/duck-utils build$ shadow-cljs compile duck-utils
+packages/duck/duck-utils build: shadow-cljs - config: /home/err/devel/orgs/riatzukiza/promethean/shadow-cljs.edn
+packages/autocommit build: Done
+packages/ecosystem-dsl build$ clojure -M:build -m cljs.main --compile-opts '{:main ecosystem-dsl.core}' --target node
+packages/duck/duck-tools build: Done
+packages/effects build$ tsc
+packages/duck/duck-utils build: shadow-cljs - updating dependencies
+packages/duck/duck-audio build: Done
+packages/enso-protocol build$ tsc --project tsconfig.json
+packages/ecosystem-dsl build: Execution error (FileNotFoundException) at clojure.main/main (main.java:40).
+packages/ecosystem-dsl build: Could not locate cljs/main__init.class, cljs/main.clj or cljs/main.cljc on classpath.
+packages/ecosystem-dsl build: Full report at:
+packages/ecosystem-dsl build: /tmp/clojure-4144294380187855060.edn
+packages/ecosystem-dsl build: Failed
+packages/fsm build$ tsc -p tsconfig.json
+packages/duck/duck-utils build: shadow-cljs - dependencies updated
+packages/enso-protocol build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/enso-protocol build: src/adapter.ts(28,15): error TS2304: Cannot find name 'ErrorOptions'.
+packages/enso-protocol build: src/adapter.ts(30,20): error TS2554: Expected 0-1 arguments, but got 2.
+packages/enso-protocol build: src/adapter.ts(316,31): error TS2802: Type 'MapIterator<[string, { resolve: (value: JsonRpcResponse) => void; reject: (reason: unknown) => void; }]>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/adapter.ts(366,33): error TS2802: Type 'MapIterator<[string, { resolve: (value: JsonRpcResponse) => void; reject: (reason: unknown) => void; }]>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/cli.ts(297,5): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+packages/enso-protocol build: src/conversation.ts(209,43): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+packages/enso-protocol build: src/registry.ts(465,29): error TS2802: Type 'MapIterator<[string, ContextViewState]>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/registry.ts(489,22): error TS2802: Type 'MapIterator<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/registry.ts(593,29): error TS2802: Type 'MapIterator<Context>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/registry.ts(608,16): error TS2802: Type 'MapIterator<DataSourceMeta>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/registry.ts(888,26): error TS2802: Type 'MapIterator<DataSourceMeta>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/server.ts(240,25): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/server.ts(260,31): error TS2802: Type 'Map<string, SessionRecord>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/enso-protocol build: src/server.ts(311,26): error TS2339: Property 'missing' does not exist on type 'ToolCallEvaluation'.
+packages/enso-protocol build:   Property 'missing' does not exist on type '{ readonly allowed: true; }'.
+packages/enso-protocol build: src/tests/modules.spec.ts(257,21): error TS1252: Function declarations are not allowed inside blocks in strict mode when targeting 'ES5'. Modules are automatically in strict mode.
+packages/enso-protocol build: src/tests/modules.spec.ts(273,21): error TS1252: Function declarations are not allowed inside blocks in strict mode when targeting 'ES5'. Modules are automatically in strict mode.
+packages/enso-protocol build: src/transport.ts(2,8): error TS1259: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/@types+ws@8.18.1/node_modules/@types/ws/index"' can only be default-imported using the 'esModuleInterop' flag
+packages/enso-protocol build: src/ws-server.ts(2,8): error TS1192: Module '"node:http"' has no default export.
+packages/effects build: Done
+packages/generator build$ tsc -p tsconfig.json
+packages/enso-protocol build: Failed
+packages/indexer-client build$ tsc
+packages/fsm build: Done
+packages/intention build$ tsc
+packages/indexer-client build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/indexer-client build: src/indexer-service.ts(1,24): error TS2307: Cannot find module '@opencode-ai/plugin' or its corresponding type declarations.
+packages/indexer-client build:   There are types at '/home/err/devel/orgs/riatzukiza/promethean/packages/indexer-client/node_modules/@opencode-ai/plugin/dist/index.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+packages/indexer-client build: src/indexer-tools.ts(1,22): error TS2307: Cannot find module '@opencode-ai/plugin/tool' or its corresponding type declarations.
+packages/indexer-client build:   There are types at '/home/err/devel/orgs/riatzukiza/promethean/packages/indexer-client/node_modules/@opencode-ai/plugin/dist/tool.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+packages/indexer-client build: Failed
+packages/logger build$ tsc
+packages/intention build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/intention build: Failed
+packages/math-utils build$ tsc
+packages/generator build: Done
+packages/naming build$ tsc
+packages/logger build: Done
+packages/obsidian-export build$ tsc -p tsconfig.json
+packages/naming build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/naming build: Failed
+packages/openai-server build$ pnpm run clean && tsc -b
+packages/openai-server build: > @promethean-os/openai-server@0.0.0 clean /home/err/devel/orgs/riatzukiza/promethean/packages/openai-server
+packages/openai-server build: > rimraf dist tsconfig.tsbuildinfo
+packages/math-utils build: Done
+packages/pipelines/lint-taskgen build$ tsc -p tsconfig.json
+packages/obsidian-export build: Done
+packages/platform-core build$ tsc
+packages/pipelines/lint-taskgen build: Done
+packages/pm2-helpers build$ tsc
+packages/platform-core build: Done
+packages/promethean-cli build$ shadow-cljs release promethean-cli && chmod +x dist/promethean_cli.cjs
+packages/promethean-cli build: shadow-cljs - config: /home/err/devel/orgs/riatzukiza/promethean/shadow-cljs.edn
+packages/pm2-helpers build: Done
+packages/report-forge build$ pnpm run build:cljs && tsc -p tsconfig.json
+packages/report-forge build: > @promethean-os/report-forge@0.0.1 build:cljs /home/err/devel/orgs/riatzukiza/promethean/packages/report-forge
+packages/report-forge build: > shadow-cljs release render
+packages/report-forge build: shadow-cljs - config: /home/err/devel/orgs/riatzukiza/promethean/packages/report-forge/shadow-cljs.edn
+packages/report-forge build: WARNING: The org.clojure/clojurescript dependency in shadow-cljs.edn was ignored. Default version is used and override is not allowed to ensure compatibility.
+packages/report-forge build: The versions provided by shadow-cljs can be found here: https://clojars.org/thheller/shadow-cljs/versions/2.28.17
+packages/duck/duck-utils build: [:duck-utils] Compiling ...
+packages/duck/duck-utils build: The required namespace "promethean.duck-utils.flags" is not available.
+packages/duck/duck-utils build: Failed
+packages/scar build$ tsc
+packages/openai-server build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/openai-server build: src/auth/jwtService.ts(2,22): error TS7016: Could not find a declaration file for module 'jsonwebtoken'. '/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/jsonwebtoken@9.0.2/node_modules/jsonwebtoken/index.js' implicitly has an 'any' type.
+packages/openai-server build:   Try `npm i --save-dev @types/jsonwebtoken` if it exists or add a new declaration (.d.ts) file containing `declare module 'jsonwebtoken';`
+packages/openai-server build: src/auth/jwtService.ts(3,25): error TS7016: Could not find a declaration file for module 'bcryptjs'. '/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/bcryptjs@2.4.3/node_modules/bcryptjs/index.js' implicitly has an 'any' type.
+packages/openai-server build:   Try `npm i --save-dev @types/bcryptjs` if it exists or add a new declaration (.d.ts) file containing `declare module 'bcryptjs';`
+packages/openai-server build: src/security/contentSanitizer.ts(2,31): error TS7016: Could not find a declaration file for module 'sanitize-html'. '/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/sanitize-html@2.17.0/node_modules/sanitize-html/index.js' implicitly has an 'any' type.
+packages/openai-server build:   Try `npm i --save-dev @types/sanitize-html` if it exists or add a new declaration (.d.ts) file containing `declare module 'sanitize-html';`
+packages/openai-server build: src/security/inputValidation.ts(3,26): error TS7016: Could not find a declaration file for module 'sanitize-html'. '/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/sanitize-html@2.17.0/node_modules/sanitize-html/index.js' implicitly has an 'any' type.
+packages/openai-server build:   Try `npm i --save-dev @types/sanitize-html` if it exists or add a new declaration (.d.ts) file containing `declare module 'sanitize-html';`
+packages/openai-server build: Failed
+packages/shadow-ui build$ shadow-cljs release shadow-ui
+packages/shadow-ui build: shadow-cljs - config: /home/err/devel/orgs/riatzukiza/promethean/shadow-cljs.edn
+packages/scar build: Done
+packages/stream build$ tsc
+packages/stream build: Done
+packages/test-classifier build$ tsc
+packages/promethean-cli build: [:promethean-cli] Compiling ...
+packages/test-classifier build: Done
+packages/ui-components build$ tsc
+packages/ui-components build: Done
+packages/utils build$ tsc
+packages/report-forge build: [:render] Compiling ...
+packages/report-forge build: The required namespace "promethean.render" is not available.
+packages/report-forge build:  ELIFECYCLE  Command failed with exit code 1.
+packages/report-forge build: Failed
+packages/utils build: Done
+packages/shadow-ui build: [:shadow-ui] Compiling ...
+packages/promethean-cli build: [:promethean-cli] Build completed. (46 files, 0 compiled, 0 warnings, 11.36s)
+packages/promethean-cli build: Done
+packages/shadow-ui build: [:shadow-ui] Build completed. (45 files, 0 compiled, 0 warnings, 10.14s)
+packages/shadow-ui build: Done
+packages/auth-service build$ tsc
+packages/benchmark build$ tsc
+packages/broker build$ true
+packages/build-monitoring build$ tsc
+packages/broker build: Done
+packages/cli build$ tsc
+packages/build-monitoring build: ../../test-lint-errors.ts(2,11): error TS6133: 'unusedVariable' is declared but its value is never read.
+packages/build-monitoring build: ../../test-lint-errors.ts(14,29): error TS6133: 'param' is declared but its value is never read.
+packages/build-monitoring build: ../../test-lint-errors.ts(19,7): error TS6133: 'testInstance' is declared but its value is never read.
+packages/build-monitoring build: ../../test-lint-errors.ts(20,7): error TS6133: 'unusedConst' is declared but its value is never read.
+packages/build-monitoring build: Failed
+packages/cookbookflow build$ tsc -p tsconfig.json
+packages/cli build: Done
+packages/duck/duck-web build$ vite build
+packages/duck/duck-web build: vite v5.4.20 building for production...
+packages/duck/duck-web build: transforming...
+packages/duck/duck-web build: ✓ 3 modules transformed.
+packages/duck/duck-web build: rendering chunks...
+packages/duck/duck-web build: computing gzip size...
+packages/duck/duck-web build: dist/index.html                0.37 kB │ gzip: 0.26 kB
+packages/duck/duck-web build: dist/assets/index-BheHqKL4.js  0.94 kB │ gzip: 0.53 kB
+packages/duck/duck-web build: ✓ built in 227ms
+packages/duck/duck-web build: Done
+packages/embedding-cache build$ tsc
+packages/cookbookflow build: Done
+packages/file-indexer build$ tsc
+packages/benchmark build: Done
+packages/fs build$ tsc
+packages/auth-service build: Done
+packages/llm build$ tsc
+packages/embedding-cache build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/embedding-cache build: ../utils/dist/ts-ast.d.ts(1,8): error TS1259: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/typescript"' can only be default-imported using the 'esModuleInterop' flag
+packages/embedding-cache build: Failed
+packages/pipelines/buildfix build$ tsc -p tsconfig.json
+packages/file-indexer build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/file-indexer build: ../utils/dist/ts-ast.d.ts(1,8): error TS1259: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/typescript"' can only be default-imported using the 'esModuleInterop' flag
+packages/file-indexer build: Failed
+packages/platform build$ tsc
+packages/fs build: Done
+packages/shadow-conf build$ NODE_OPTIONS="--max-old-space-size=4096" tsc -b
+packages/shadow-conf build: Done
+packages/snapshots build$ tsc
+packages/llm build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/llm build: src/drivers/index.ts(2,8): error TS1192: Module '"fs"' has no default export.
+packages/llm build: src/drivers/index.ts(3,8): error TS1259: Module '"path"' can only be default-imported using the 'esModuleInterop' flag
+packages/llm build: src/drivers/index.ts(10,46): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+packages/llm build: src/index.ts(2,8): error TS1192: Module '"http"' has no default export.
+packages/llm build: src/index.ts(6,8): error TS1259: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/@types+express@4.17.21/node_modules/@types/express/index"' can only be default-imported using the 'esModuleInterop' flag
+packages/llm build: src/index.ts(137,76): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+packages/llm build: src/index.ts(138,70): error TS1343: The 'import.meta' meta-property is only allowed when the '--module' option is 'es2020', 'es2022', 'esnext', 'system', 'node16', 'node18', 'node20', or 'nodenext'.
+packages/llm build: ../utils/dist/ts-ast.d.ts(1,8): error TS1259: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/typescript"' can only be default-imported using the 'esModuleInterop' flag
+packages/llm build: Failed
+packages/testgap build$ tsc -p tsconfig.json
+packages/platform build: Done
+packages/voice build$ tsc -b
+packages/pipelines/buildfix build: Done
+packages/worker build$ tsc
+packages/voice build: Done
+packages/snapshots build: Done
+packages/testgap build: Done
+packages/worker build: Done
+packages/embedding build$ tsc -p tsconfig.json
+packages/image-link-generator build$ tsc
+packages/markdown build$ tsc
+packages/providers build$ tsc
+packages/markdown build: Done
+packages/security build$ tsc
+packages/image-link-generator build: Done
+packages/web-utils build$ tsc
+packages/providers build: Done
+packages/embedding build: Done
+packages/security build: Done
+packages/web-utils build: Done
+packages/persistence build$ tsc
+packages/pipelines/docops build$ tsc -p tsconfig.json
+packages/frontend-service build$ tsc -b tsconfig.json --force
+packages/persistence build: Done
+packages/pipelines/docops build: tsconfig.json(20,5): error TS6053: File '/home/err/devel/orgs/riatzukiza/promethean/packages/file-system/file-indexer' not found.
+packages/pipelines/docops build: Failed
+packages/frontend-service build: Done
+packages/data-stores build$ tsc
+packages/file-indexer-service build$ tsc
+packages/migrations build$ tsc
+packages/opencode-interface-plugin build$ tsc
+packages/migrations build: src/migrations/002-agent-context-schema.ts(1,27): error TS2835: Relative import paths need explicit file extensions in ECMAScript imports when '--moduleResolution' is 'node16' or 'nodenext'. Did you mean '../contract.js'?
+packages/migrations build: src/migrations/002-agent-context-schema.ts(6,14): error TS7006: Parameter 'db' implicitly has an 'any' type.
+packages/migrations build: src/migrations/002-agent-context-schema.ts(152,16): error TS7006: Parameter 'db' implicitly has an 'any' type.
+packages/migrations build: Failed
+packages/test-utils build$ tsc
+packages/data-stores build: src/tests/data-store-manager.test.ts(10,24): error TS2305: Module '"@promethean-os/persistence"' has no exported member '__setContextStoreDualFactoryForTests'.
+packages/data-stores build: src/tests/data-store-manager.test.ts(121,47): error TS7006: Parameter 'name' implicitly has an 'any' type.
+packages/data-stores build: src/tests/data-store-manager.test.ts(121,53): error TS7006: Parameter 'textKey' implicitly has an 'any' type.
+packages/data-stores build: src/tests/data-store-manager.test.ts(121,62): error TS7006: Parameter 'timeStampKey' implicitly has an 'any' type.
+packages/data-stores build: src/tests/data-store-manager.test.ts(279,5): error TS2554: Expected 0-2 arguments, but got 3.
+packages/data-stores build: src/tests/data-store-manager.test.ts(279,6): error TS7006: Parameter 'formatTime' implicitly has an 'any' type.
+packages/data-stores build: src/tests/data-store-manager.test.ts(279,18): error TS7006: Parameter 'assistantName' implicitly has an 'any' type.
+packages/data-stores build: src/tests/data-store-manager.test.ts(280,50): error TS7006: Parameter 'value' implicitly has an 'any' type.
+packages/data-stores build: Failed
+packages/opencode-interface-plugin build: src/services/unified-store.ts(3,15): error TS2305: Module '"@promethean-os/persistence"' has no exported member 'GenericEntry'.
+packages/opencode-interface-plugin build: Failed
+packages/test-utils build: Done
+packages/file-indexer-service build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/file-indexer-service build: src/service.ts(1,8): error TS1259: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/@types+express@4.17.21/node_modules/@types/express/index"' can only be default-imported using the 'esModuleInterop' flag
+packages/file-indexer-service build: ../persistence/dist/dualStore.d.ts(57,76): error TS2552: Cannot find name 'TextKey_1'. Did you mean 'TextKey'?
+packages/file-indexer-service build: ../persistence/dist/dualStore.d.ts(57,87): error TS2552: Cannot find name 'TimeKey_1'. Did you mean 'TimeKey'?
+packages/file-indexer-service build: Failed
+packages/event build$ tsc
+packages/compliance-monitor build$ tsc
+packages/level-cache build$ tsc -p tsconfig.json
+packages/file-watcher build$ tsc -p tsconfig.json
+packages/file-watcher build: error TS5083: Cannot read file '/home/err/devel/orgs/riatzukiza/config/tsconfig.base.json'.
+packages/file-watcher build: src/board-watcher.ts(1,8): error TS1192: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/chokidar@3.6.0/node_modules/chokidar/types/index"' has no default export.
+packages/file-watcher build: src/file-lock.ts(7,26): error TS2802: Type 'Set<string>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/file-watcher build: src/repo-watcher.ts(3,8): error TS1192: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/chokidar@3.6.0/node_modules/chokidar/types/index"' has no default export.
+packages/file-watcher build: src/repo-watcher.ts(179,34): error TS2802: Type 'MapIterator<[string, { action: "index" | "remove"; timer: number | Timeout; }]>' can only be iterated through when using the '--downlevelIteration' flag or with a '--target' of 'es2015' or higher.
+packages/file-watcher build: src/tasks-watcher.ts(1,8): error TS1192: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/chokidar@3.6.0/node_modules/chokidar/types/index"' has no default export.
+packages/file-watcher build: src/tests/broker.unit.test.ts(9,8): error TS2307: Cannot find module '@promethean-os/test-utils/broker.js' or its corresponding type declarations.
+packages/file-watcher build:   There are types at '/home/err/devel/orgs/riatzukiza/promethean/packages/file-watcher/node_modules/@promethean-os/test-utils/dist/broker.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+packages/file-watcher build: src/tests/broker.unit.test.ts(10,23): error TS2307: Cannot find module '@promethean-os/utils/sleep.js' or its corresponding type declarations.
+packages/file-watcher build:   There are types at '/home/err/devel/orgs/riatzukiza/promethean/packages/file-watcher/node_modules/@promethean-os/utils/dist/sleep.d.ts', but this result could not be resolved under your current 'moduleResolution' setting. Consider updating to 'node16', 'nodenext', or 'bundler'.
+packages/file-watcher build: ../utils/dist/ts-ast.d.ts(1,8): error TS1259: Module '"/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/typescript@5.9.3/node_modules/typescript/lib/typescript"' can only be default-imported using the 'esModuleInterop' flag
+packages/file-watcher build: Failed
+packages/lmdb-cache build$ tsc -p tsconfig.json
+packages/level-cache build: Done
+packages/monitoring build$ tsc
+packages/event build: Done
+packages/pantheon/ecs build$ tsc
+packages/compliance-monitor build: src/core/rule-engine.ts(62,17): error TS6133: 'context' is declared but its value is never read.
+packages/compliance-monitor build: src/core/rule-engine.ts(154,17): error TS6133: 'context' is declared but its value is never read.
+packages/compliance-monitor build: src/core/rule-engine.ts(204,17): error TS6133: 'context' is declared but its value is never read.
+packages/compliance-monitor build: src/core/rule-engine.ts(318,19): error TS2445: Property 'createCheck' is protected and only accessible within class 'BaseComplianceRule' and its subclasses.
+packages/compliance-monitor build: Failed
+packages/pantheon/workflow build$ tsc -p tsconfig.json
+packages/pantheon/workflow build: Failed
+ ELIFECYCLE  Command failed.

@@ -8,11 +8,7 @@ import {
   type ModelResponse,
   type StreamEvent,
 } from '@openai/agents';
-import {
-  Ollama as OllamaClient,
-  type ChatRequest,
-  type ChatResponse,
-} from 'ollama';
+import { Ollama as OllamaClient, type ChatRequest, type ChatResponse } from 'ollama';
 
 import {
   convertInputToMessages,
@@ -53,13 +49,20 @@ class OllamaModel implements Model {
 
   // Build the chat request with defaults, tools, and settings
   private buildRequest(request: ModelRequest, stream: boolean): ChatRequest {
-    const base: ChatRequest = { model: this.modelName, messages: convertInputToMessages(request), stream };
+    const base: ChatRequest = {
+      model: this.modelName,
+      messages: convertInputToMessages(request),
+      stream,
+    };
     if (this.defaults) {
+      const mutableBase = base as unknown as Record<string, unknown>;
       for (const [key, value] of Object.entries(this.defaults)) {
-        if (value === undefined || key === 'model' || key === 'messages' || key === 'stream') continue;
-        (base as unknown as Record<string, unknown>)[key] = value;
+        if (value === undefined || key === 'model' || key === 'messages' || key === 'stream')
+          continue;
+        mutableBase[key] = value;
       }
     }
+
     const tools = convertTools(request.tools);
     if (tools) base.tools = tools;
     const options = convertSettings(request.modelSettings);
@@ -86,7 +89,9 @@ class OllamaModel implements Model {
       const response = await this.client.chat(chatRequest);
       return this.toResponse(response);
     } catch (err) {
-      throw new Error(`OllamaModel getResponse failed: ${err instanceof Error ? err.message : String(err)}`);
+      throw new Error(
+        `OllamaModel getResponse failed: ${err instanceof Error ? err.message : String(err)}`,
+      );
     }
   }
 
@@ -106,20 +111,22 @@ class OllamaModel implements Model {
           yield { type: 'output_text_delta', delta } as StreamEvent;
         }
       }
-      const finalChunk = lastChunk ?? ({
-        model: this.modelName,
-        created_at: new Date(),
-        message: { role: 'assistant', content: aggregated },
-        done: true,
-        done_reason: 'stop',
-        total_duration: 0,
-        load_duration: 0,
-        prompt_eval_count: 0,
-        prompt_eval_duration: 0,
-        eval_count: 0,
-        eval_duration: 0,
-      } as ChatResponse);
-      const { payload } = toUsageComponents(lastChunk);
+      const finalChunk =
+        lastChunk ??
+        ({
+          model: this.modelName,
+          created_at: new Date(),
+          message: { role: 'assistant', content: aggregated },
+          done: true,
+          done_reason: 'stop',
+          total_duration: 0,
+          load_duration: 0,
+          prompt_eval_count: 0,
+          prompt_eval_duration: 0,
+          eval_count: 0,
+          eval_duration: 0,
+        } as ChatResponse);
+      const { payload } = toUsageComponents(lastChunk ?? finalChunk);
       const responseId = `ollama-${randomUUID()}`;
       yield {
         type: 'response_done',
@@ -131,7 +138,9 @@ class OllamaModel implements Model {
         },
       } as StreamEvent;
     } catch (err) {
-      throw new Error(`OllamaModel getStreamedResponse failed: ${err instanceof Error ? err.message : String(err)}`);
+      throw new Error(
+        `OllamaModel getStreamedResponse failed: ${err instanceof Error ? err.message : String(err)}`,
+      );
     }
   }
 }
@@ -145,7 +154,8 @@ export class OllamaModelProvider implements ModelProvider {
   constructor(options: OllamaModelProviderOptions = {}) {
     this.defaultModel = options.defaultModel ?? 'llama3.1';
     this.requestDefaults = options.requestOptions;
-    this.client = options.client ?? new OllamaClient(options.host ? { host: options.host } : undefined);
+    this.client =
+      options.client ?? new OllamaClient(options.host ? { host: options.host } : undefined);
   }
 
   async getModel(modelName?: string): Promise<Model> {
@@ -155,6 +165,8 @@ export class OllamaModelProvider implements ModelProvider {
 }
 
 // Helper to create provider
-export function createOllamaModelProvider(options: OllamaModelProviderOptions = {}): OllamaModelProvider {
+export function createOllamaModelProvider(
+  options: OllamaModelProviderOptions = {},
+): OllamaModelProvider {
   return new OllamaModelProvider(options);
 }
