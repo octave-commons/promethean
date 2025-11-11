@@ -3,6 +3,12 @@ import path from 'node:path';
 import { globby } from 'globby';
 import { parseFrontmatter, stringifyFrontmatter, normalizeStringList } from '@promethean-os/markdown/frontmatter';
 
+// Re-export chroma and embedder utilities for discord package
+export { makeChromaWrapper } from './chroma.js';
+export { makeDeterministicEmbedder } from './embedder.js';
+export type { ChromaConfig, ChromaWrapper } from './chroma.js';
+export type { EmbedderConfig, Embedder } from './embedder.js';
+
 export type Ctx = {
     repoRoot: string;
     parseFrontmatter: typeof parseFrontmatter;
