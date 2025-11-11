@@ -1,3 +1,4 @@
+import { createRequire } from 'node:module';
 import type { HookResult, HookContext } from '../types.js';
 
 /**
@@ -70,6 +71,20 @@ export interface SecurityViolation {
   blocked: boolean;
 }
 
+type SandboxStats = {
+  activeSandboxes: number;
+  totalViolations: number;
+  violationsByType: Record<ViolationType, number>;
+  pluginStats?: Array<{
+    pluginName: string;
+    memoryUsage: number;
+    cpuTime: number;
+    networkRequests: number;
+    fileOperations: number;
+    violations: number;
+  }>;
+};
+
 /**
  * Plugin sandbox for secure execution
  */
@@ -137,7 +152,11 @@ export class PluginSandbox {
           timestamp: Date.now(),
           description: `Execution time ${executionTime}ms exceeded limit ${sandbox.policy.resourceLimits.maxExecutionTime}ms`,
           severity: 'high',
-          details: { executionTime, limit: sandbox.policy.resourceLimits.maxExecutionTime },
+          details: {
+            executionTime,
+            limit: sandbox.policy.resourceLimits.maxExecutionTime,
+            hookContext: context,
+          },
           blocked: true,
         });
         throw new Error(`Plugin execution time exceeded limit`);
@@ -153,7 +172,11 @@ export class PluginSandbox {
           timestamp: Date.now(),
           description: `Memory usage ${memoryUsed} bytes exceeded limit ${sandbox.policy.resourceLimits.maxMemory}MB`,
           severity: 'high',
-          details: { memoryUsed, limit: sandbox.policy.resourceLimits.maxMemory },
+          details: {
+            memoryUsed,
+            limit: sandbox.policy.resourceLimits.maxMemory,
+            hookContext: context,
+          },
           blocked: true,
         });
         throw new Error(`Plugin memory usage exceeded limit`);
@@ -169,7 +192,7 @@ export class PluginSandbox {
           timestamp: Date.now(),
           description: error.message,
           severity: 'medium',
-          details: { originalError: error },
+          details: { originalError: error, hookContext: context },
           blocked: true,
         });
       }
@@ -209,10 +232,14 @@ export class PluginSandbox {
 
     // Override global functions to monitor access
     const originalFetch = globalThis.fetch;
-    const originalRequire = globalThis.require;
+    const runtimeRequire: NodeJS.Require | undefined =
+      typeof globalThis.require === 'function'
+        ? globalThis.require
+        : typeof process !== 'undefined' && process.versions?.node
+          ? createRequire(import.meta.url)
+          : undefined;
 
     try {
-      // Monitor network requests
       globalThis.fetch = async (...args) => {
         sandbox.networkRequests++;
 
@@ -224,21 +251,31 @@ export class PluginSandbox {
         return originalFetch(...args);
       };
 
-      // Monitor module imports (if in Node.js environment)
-      if (typeof globalThis.require !== 'undefined') {
-        globalThis.require = (id: string) => {
-          if (!this.isModuleAllowed(sandbox.policy, id)) {
-            throw new SecurityError(`Module import ${id} is not allowed`);
-          }
-          return originalRequire(id);
-        };
+      if (runtimeRequire) {
+        const sandboxRequire: NodeJS.Require = Object.assign(
+          (id: string) => {
+            if (!this.isModuleAllowed(sandbox.policy, id)) {
+              throw new SecurityError(`Module import ${id} is not allowed`);
+            }
+            return runtimeRequire(id);
+          },
+          {
+            cache: runtimeRequire.cache,
+            extensions: runtimeRequire.extensions,
+            main: runtimeRequire.main,
+            resolve: runtimeRequire.resolve.bind(runtimeRequire),
+          },
+        );
+
+        globalThis.require = sandboxRequire;
       }
 
       return await fn();
     } finally {
-      // Restore original functions
       globalThis.fetch = originalFetch;
-      globalThis.require = originalRequire;
+      if (runtimeRequire) {
+        globalThis.require = runtimeRequire;
+      }
     }
   }
 
@@ -369,20 +406,8 @@ export class PluginSandbox {
   /**
    * Get sandbox statistics
    */
-  getSandboxStats(pluginName?: string): {
-    activeSandboxes: number;
-    totalViolations: number;
-    violationsByType: Record<ViolationType, number>;
-    pluginStats?: Array<{
-      pluginName: string;
-      memoryUsage: number;
-      cpuTime: number;
-      networkRequests: number;
-      fileOperations: number;
-      violations: number;
-    }>;
-  } {
-    const stats = {
+  getSandboxStats(pluginName?: string): SandboxStats {
+    const stats: SandboxStats = {
       activeSandboxes: this.activeSandboxes.size,
       totalViolations: this.violations.length,
       violationsByType: {
@@ -392,7 +417,7 @@ export class PluginSandbox {
         [ViolationType.RESOURCE_LIMIT]: 0,
         [ViolationType.API_ACCESS]: 0,
         [ViolationType.EXECUTION_TIME]: 0,
-      } as Record<ViolationType, number>,
+      },
     };
 
     // Count violations by type

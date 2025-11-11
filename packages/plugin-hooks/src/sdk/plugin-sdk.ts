@@ -1,12 +1,5 @@
-import type { 
-  Plugin, 
-  PluginContext, 
-  HookRegistration, 
-  HookResult, 
-  HookContext,
-  EventBus,
-  HookRegistry 
-} from '../types.js';
+import type { Plugin, PluginContext, HookRegistration, HookResult, HookContext } from '../types.js';
+
 import { z } from 'zod';
 
 /**
@@ -28,7 +21,7 @@ export class PluginSDK {
         input?: z.ZodSchema<T>;
         output?: z.ZodSchema<R>;
       };
-    }
+    },
   ): HookRegistration<T, R> {
     const wrappedHandler = async (data: T, hookContext: HookContext): Promise<HookResult<R>> => {
       try {
@@ -48,9 +41,9 @@ export class PluginSDK {
 
         return { success: true, data: result };
       } catch (error) {
-        return { 
-          success: false, 
-          error: error instanceof Error ? error : new Error(String(error)) 
+        return {
+          success: false,
+          error: error instanceof Error ? error : new Error(String(error)),
         };
       }
     };
@@ -75,10 +68,14 @@ export class PluginSDK {
   /**
    * Publish an event to the event bus
    */
-  async publishEvent<T>(topic: string, payload: T, options?: {
-    headers?: Record<string, string>;
-    key?: string;
-  }): Promise<void> {
+  async publishEvent<T>(
+    topic: string,
+    payload: T,
+    options?: {
+      headers?: Record<string, string>;
+      key?: string;
+    },
+  ): Promise<void> {
     await this.context.eventBus.publish(topic, payload, options);
   }
 
@@ -90,12 +87,12 @@ export class PluginSDK {
     handler: (event: T) => Promise<void>,
     options?: {
       group?: string;
-    }
+    },
   ): Promise<() => Promise<void>> {
     return this.context.eventBus.subscribe(
       topic,
       options?.group || this.getPluginName(),
-      async (event) => handler(event.payload as T)
+      async (event) => handler(event.payload as T),
     );
   }
 
@@ -131,11 +128,7 @@ export class PluginSDK {
   /**
    * Create HTTP client with security constraints
    */
-  createHttpClient(options?: {
-    timeout?: number;
-    retries?: number;
-    baseURL?: string;
-  }) {
+  createHttpClient(options?: { timeout?: number; retries?: number; baseURL?: string }) {
     return new HttpClient(this.context, options);
   }
 }
@@ -146,7 +139,7 @@ export class PluginSDK {
 export class PluginLogger {
   constructor(
     private pluginName: string,
-    private label?: string
+    private label?: string,
   ) {}
 
   private log(level: string, message: string, meta?: Record<string, unknown>): void {
@@ -175,11 +168,14 @@ export class PluginLogger {
   }
 
   error(message: string, error?: Error | Record<string, unknown>): void {
-    const meta = error instanceof Error ? {
-      error: error.message,
-      stack: error.stack,
-    } : error;
-    
+    const meta =
+      error instanceof Error
+        ? {
+            error: error.message,
+            stack: error.stack,
+          }
+        : error;
+
     this.log('error', message, meta);
   }
 }
@@ -193,7 +189,7 @@ export class ConfigManager<T> {
   constructor(
     private pluginName: string,
     private schema: z.ZodSchema<T>,
-    defaults: T
+    defaults: T,
   ) {
     this.config = this.validateConfig(defaults);
   }
@@ -224,7 +220,8 @@ export class ConfigManager<T> {
    * Set configuration value
    */
   set<K extends keyof T>(key: K, value: T[K]): void {
-    this.update({ [key]: value } as Partial<T>);
+    const patch = { [key]: value } as unknown as Partial<T>;
+    this.update(patch);
   }
 
   /**
@@ -236,7 +233,7 @@ export class ConfigManager<T> {
     } catch (error) {
       if (error instanceof z.ZodError) {
         throw new Error(
-          `Configuration validation failed for plugin ${this.pluginName}: ${error.message}`
+          `Configuration validation failed for plugin ${this.pluginName}: ${error.message}`,
         );
       }
       throw error;
@@ -254,7 +251,7 @@ export class ConfigManager<T> {
       if (key.startsWith(`${envPrefix}_`)) {
         const configKey = key.substring(envPrefix.length + 1).toLowerCase();
         const value = process.env[key];
-        
+
         // Try to parse as JSON, fallback to string
         try {
           envConfig[configKey] = JSON.parse(value!);
@@ -284,7 +281,7 @@ export class StorageManager {
   async set<T>(key: string, value: T): Promise<void> {
     const fullKey = `${this.pluginName}:${key}`;
     this.storage[fullKey] = value;
-    
+
     // In a real implementation, this would persist to disk or database
     console.debug(`[Storage] Set ${fullKey}`);
   }
@@ -295,7 +292,7 @@ export class StorageManager {
   async get<T>(key: string, defaultValue?: T): Promise<T | undefined> {
     const fullKey = `${this.pluginName}:${key}`;
     const value = this.storage[fullKey] as T | undefined;
-    
+
     console.debug(`[Storage] Get ${fullKey}: ${value !== undefined ? 'found' : 'not found'}`);
     return value !== undefined ? value : defaultValue;
   }
@@ -307,7 +304,7 @@ export class StorageManager {
     const fullKey = `${this.pluginName}:${key}`;
     const existed = fullKey in this.storage;
     delete this.storage[fullKey];
-    
+
     console.debug(`[Storage] Delete ${fullKey}: ${existed ? 'deleted' : 'not found'}`);
     return existed;
   }
@@ -326,8 +323,8 @@ export class StorageManager {
   async listKeys(): Promise<string[]> {
     const prefix = `${this.pluginName}:`;
     return Object.keys(this.storage)
-      .filter(key => key.startsWith(prefix))
-      .map(key => key.substring(prefix.length));
+      .filter((key) => key.startsWith(prefix))
+      .map((key) => key.substring(prefix.length));
   }
 
   /**
@@ -335,12 +332,12 @@ export class StorageManager {
    */
   async clear(): Promise<void> {
     const prefix = `${this.pluginName}:`;
-    const keysToDelete = Object.keys(this.storage).filter(key => key.startsWith(prefix));
-    
+    const keysToDelete = Object.keys(this.storage).filter((key) => key.startsWith(prefix));
+
     for (const key of keysToDelete) {
       delete this.storage[key];
     }
-    
+
     console.debug(`[Storage] Cleared ${keysToDelete.length} keys for ${this.pluginName}`);
   }
 }
@@ -350,13 +347,15 @@ export class StorageManager {
  */
 export class HttpClient {
   constructor(
-    private context: PluginContext,
+    private readonly context: PluginContext,
     private options: {
       timeout?: number;
       retries?: number;
       baseURL?: string;
-    } = {}
-  ) {}
+    } = {},
+  ) {
+    void this.context;
+  }
 
   /**
    * Make HTTP GET request
@@ -406,10 +405,10 @@ export class HttpClient {
   private async request<T = unknown>(
     method: string,
     url: string,
-    options?: RequestInit
+    options?: RequestInit,
   ): Promise<T> {
     const fullUrl = this.options.baseURL ? `${this.options.baseURL}${url}` : url;
-    
+
     const requestOptions: RequestInit = {
       method,
       ...options,
@@ -422,19 +421,19 @@ export class HttpClient {
     for (let attempt = 0; attempt <= maxRetries; attempt++) {
       try {
         const response = await fetch(fullUrl, requestOptions);
-        
+
         if (!response.ok) {
           throw new Error(`HTTP ${response.status}: ${response.statusText}`);
         }
 
-        return await response.json() as T;
+        return (await response.json()) as T;
       } catch (error) {
         lastError = error instanceof Error ? error : new Error(String(error));
-        
+
         if (attempt < maxRetries) {
           // Exponential backoff
           const delay = Math.pow(2, attempt) * 1000;
-          await new Promise(resolve => setTimeout(resolve, delay));
+          await new Promise((resolve) => setTimeout(resolve, delay));
         }
       }
     }
@@ -485,7 +484,7 @@ export class PluginBuilder {
   addHook<T = unknown, R = unknown>(
     hookName: string,
     handler: (data: T, context: HookContext) => R | Promise<R>,
-    options?: { priority?: number }
+    options?: { priority?: number },
   ): this {
     if (!this.plugin.getHooks) {
       this.plugin.getHooks = () => [];

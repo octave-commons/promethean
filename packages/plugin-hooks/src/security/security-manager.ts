@@ -263,7 +263,7 @@ export class SecurityManager {
       timestamp: violation.timestamp,
       pluginName: violation.pluginName,
       action: 'violation_detected',
-      details: violation,
+      details: { ...violation },
       severity:
         violation.severity === 'critical'
           ? 'critical'
@@ -275,22 +275,29 @@ export class SecurityManager {
     });
 
     // Check if plugin should be blocked
+    if (!this.sandbox) return;
     const pluginViolations = this.sandbox.getViolations(violation.pluginName);
-    if (pluginViolations.length >= this.config.globalSettings.maxViolationsPerPlugin) {
+    const safeViolations: SecurityViolation[] = pluginViolations || [];
+    const maxViolations = this.config.globalSettings.maxViolationsPerPlugin ?? 10;
+    if (safeViolations.length >= maxViolations) {
       if (this.config.globalSettings.autoBlockOnViolation) {
         this.blockPlugin(violation.pluginName);
       }
     }
 
     // Check for alert threshold
-    if (this.config.monitoring.enableRealTimeMonitoring) {
-      const recentViolations = pluginViolations.filter(
-        (v) => Date.now() - v.timestamp < 60000, // Last minute
-      );
+    const monitoring = this.config.monitoring;
+    if (!monitoring || !monitoring.enableRealTimeMonitoring) {
+      return;
+    }
 
-      if (recentViolations.length >= this.config.monitoring.violationAlertThreshold) {
-        this.triggerSecurityAlert(violation.pluginName, recentViolations);
-      }
+    const recentViolations = pluginViolations.filter(
+      (v) => Date.now() - v.timestamp < 60000, // Last minute
+    );
+
+    const threshold = monitoring.violationAlertThreshold ?? Number.POSITIVE_INFINITY;
+    if (recentViolations.length >= threshold) {
+      this.triggerSecurityAlert(violation.pluginName, recentViolations);
     }
   }
 
