@@ -1,12 +1,9 @@
 ---
 uuid: 9fcf6a71-ce53-4f45-9cba-c5953667de3a
-created_at: '2025-09-19T22:32:47Z'
+created_at: 2025-09-19T22:32:47Z
 title: 2025.09.19.22.32.47
 filename: Kanban FSM
-description: >-
-  A cleaned-up Kanban state machine diagram with explicit transitions for
-  incoming items, acceptance, rejection, and ice-boxing. Includes blocked states
-  and unblock paths for workflow management.
+description: A cleaned-up Kanban state machine diagram with explicit transitions for incoming items, acceptance, rejection, and ice-boxing. Includes blocked states and unblock paths for workflow management.
 tags:
   - kanban
   - state machine
@@ -17,6 +14,7 @@ tags:
   - incoming
   - accepted
   - rejected
+status: superseded
 ---
 got it—here’s the cleaned-up **Kanban FSM** mermaid, with your tweaks:
 
