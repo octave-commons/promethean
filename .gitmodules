@@ -34,3 +34,6 @@
 	path = packages/utils
 	url = git@github.com:riatzukiza/utils.git
 	branch = promethean/dev
+[submodule "packages/agent-os-protocol"]
+	path = packages/agent-os-protocol
+	url = git@github.com:riatzukiza/agent-os-protocol.git
