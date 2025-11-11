@@ -67,94 +67,240 @@ export const MetadataQuerySchema = z.object({
   offset: z.number().int().min(0).max(10000).optional(),
 });
 
-// Input validation utilities
-export class SecurityValidator {
-  static validateAgentId(id: unknown): string {
-    return AgentIdSchema.parse(id);
+// Security validation actions
+export type ValidateAgentIdInput = {
+  agentId: unknown;
+};
+
+export type ValidateAgentIdScope = {
+  schemas: {
+    AgentIdSchema: typeof AgentIdSchema;
+  };
+};
+
+export const validateAgentId = (
+  input: ValidateAgentIdInput,
+  scope: ValidateAgentIdScope,
+): string => {
+  return scope.schemas.AgentIdSchema.parse(input.agentId);
+};
+
+export type ValidateContextKeyInput = {
+  key: unknown;
+};
+
+export type ValidateContextKeyScope = {
+  schemas: {
+    ContextKeySchema: typeof ContextKeySchema;
+  };
+};
+
+export const validateContextKey = (
+  input: ValidateContextKeyInput,
+  scope: ValidateContextKeyScope,
+): string => {
+  return scope.schemas.ContextKeySchema.parse(input.key);
+};
+
+export type ValidateContextValueInput = {
+  value: unknown;
+};
+
+export type ValidateContextValueScope = {
+  schemas: {
+    ContextValueSchema: typeof ContextValueSchema;
+  };
+};
+
+export const validateContextValue = (
+  input: ValidateContextValueInput,
+  scope: ValidateContextValueScope,
+): unknown => {
+  return scope.schemas.ContextValueSchema.parse(input.value);
+};
+
+export type ValidateShareTypeInput = {
+  shareType: unknown;
+};
+
+export type ValidateShareTypeScope = {
+  schemas: {
+    ShareTypeSchema: typeof ShareTypeSchema;
+  };
+};
+
+export const validateShareType = (
+  input: ValidateShareTypeInput,
+  scope: ValidateShareTypeScope,
+): 'read' | 'write' | 'admin' => {
+  return scope.schemas.ShareTypeSchema.parse(input.shareType);
+};
+
+export type ValidatePermissionsInput = {
+  permissions: unknown;
+};
+
+export type ValidatePermissionsScope = {
+  schemas: {
+    PermissionSchema: typeof PermissionSchema;
+  };
+};
+
+export const validatePermissions = (
+  input: ValidatePermissionsInput,
+  scope: ValidatePermissionsScope,
+): string[] => {
+  if (Array.isArray(input.permissions)) {
+    return input.permissions.map((p) => scope.schemas.PermissionSchema.parse(p));
+  }
+  throw new Error('Permissions must be an array');
+};
+
+export type ValidateTokenInput = {
+  token: unknown;
+};
+
+export type ValidateTokenScope = {
+  schemas: {
+    TokenSchema: typeof TokenSchema;
+  };
+};
+
+export const validateToken = (input: ValidateTokenInput, scope: ValidateTokenScope): string => {
+  return scope.schemas.TokenSchema.parse(input.token);
+};
+
+export type ValidateEventDataInput = {
+  data: unknown;
+};
+
+export type ValidateEventDataScope = {
+  schemas: {
+    EventDataSchema: typeof EventDataSchema;
+  };
+};
+
+export const validateEventData = (
+  input: ValidateEventDataInput,
+  scope: ValidateEventDataScope,
+): Record<string, unknown> => {
+  return scope.schemas.EventDataSchema.parse(input.data);
+};
+
+export type ValidateSnapshotIdInput = {
+  snapshotId: unknown;
+};
+
+export type ValidateSnapshotIdScope = {
+  schemas: {
+    SnapshotIdSchema: typeof SnapshotIdSchema;
+  };
+};
+
+export const validateSnapshotId = (
+  input: ValidateSnapshotIdInput,
+  scope: ValidateSnapshotIdScope,
+): string => {
+  return scope.schemas.SnapshotIdSchema.parse(input.snapshotId);
+};
+
+export type ValidateMetadataQueryInput = {
+  query: unknown;
+};
+
+export type ValidateMetadataQueryScope = {
+  schemas: {
+    MetadataQuerySchema: typeof MetadataQuerySchema;
+  };
+};
+
+export const validateMetadataQuery = (
+  input: ValidateMetadataQueryInput,
+  scope: ValidateMetadataQueryScope,
+): unknown => {
+  return scope.schemas.MetadataQuerySchema.parse(input.query);
+};
+
+// Sanitization actions
+export type SanitizeStringInput = {
+  input: unknown;
+  maxLength?: number;
+};
+
+export type SanitizeStringScope = Record<string, never>;
+
+export const sanitizeString = (input: SanitizeStringInput): string => {
+  if (typeof input.input !== 'string') {
+    throw new Error('Input must be a string');
   }
 
-  static validateContextKey(key: unknown): string {
-    return ContextKeySchema.parse(key);
+  const maxLength = input.maxLength || 1000;
+
+  // Remove potentially dangerous characters
+  const cleanInput = input.input
+    .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '') // Control characters
+    .replace(/[\uFFFE\uFFFF]/g, '') // Invalid Unicode
+    .trim();
+
+  // Truncate if too long
+  return cleanInput.length > maxLength ? cleanInput.substring(0, maxLength) : cleanInput;
+};
+
+export type SanitizeObjectInput = {
+  obj: unknown;
+};
+
+export type SanitizeObjectScope = Record<string, never>;
+
+export const sanitizeObject = (input: SanitizeObjectInput, scope: SanitizeObjectScope): unknown => {
+  if (input.obj === null || input.obj === undefined) {
+    return input.obj;
   }
 
-  static validateContextValue(value: unknown): unknown {
-    return ContextValueSchema.parse(value);
+  if (typeof input.obj !== 'object') {
+    return input.obj;
   }
 
-  static validateShareType(shareType: unknown): 'read' | 'write' | 'admin' {
-    return ShareTypeSchema.parse(shareType);
+  if (Array.isArray(input.obj)) {
+    return input.obj.map((item) => sanitizeObject({ obj: item }, scope));
   }
 
-  static validatePermissions(permissions: unknown): string[] {
-    if (Array.isArray(permissions)) {
-      return permissions.map((p) => PermissionSchema.parse(p));
+  const sanitized: Record<string, unknown> = {};
+  const objRecord = input.obj as Record<string, unknown>;
+  for (const key in objRecord) {
+    // Skip dangerous prototype properties
+    if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
+      continue;
     }
-    throw new Error('Permissions must be an array');
+
+    sanitized[key] = sanitizeObject({ obj: objRecord[key] }, scope);
   }
 
-  static validateToken(token: unknown): string {
-    return TokenSchema.parse(token);
-  }
+  return sanitized;
+};
 
-  static validateEventData(data: unknown): Record<string, unknown> {
-    return EventDataSchema.parse(data);
-  }
-
-  static validateSnapshotId(snapshotId: unknown): string {
-    return SnapshotIdSchema.parse(snapshotId);
-  }
-
-  static validateMetadataQuery(query: unknown): any {
-    return MetadataQuerySchema.parse(query);
-  }
-
-  // Sanitization utilities
-  static sanitizeString(input: unknown, maxLength: number = 1000): string {
-    if (typeof input !== 'string') {
-      throw new Error('Input must be a string');
-    }
-
-    // Remove potentially dangerous characters
-    let sanitized = input
-      .replace(/[\x00-\x08\x0B\x0C\x0E-\x1F\x7F]/g, '') // Control characters
-      .replace(/[\uFFFE\uFFFF]/g, '') // Invalid Unicode
-      .trim();
-
-    // Truncate if too long
-    if (sanitized.length > maxLength) {
-      sanitized = sanitized.substring(0, maxLength);
-    }
-
-    return sanitized;
-  }
-
-  static sanitizeObject(obj: unknown): unknown {
-    if (obj === null || obj === undefined) {
-      return obj;
-    }
-
-    if (typeof obj !== 'object') {
-      return obj;
-    }
-
-    if (Array.isArray(obj)) {
-      return obj.map((item) => this.sanitizeObject(item));
-    }
-
-    const sanitized: Record<string, unknown> = {};
-    const objRecord = obj as Record<string, unknown>;
-    for (const key in objRecord) {
-      // Skip dangerous prototype properties
-      if (key === '__proto__' || key === 'constructor' || key === 'prototype') {
-        continue;
-      }
-
-      sanitized[key] = this.sanitizeObject(objRecord[key]);
-    }
-
-    return sanitized;
-  }
-}
+// Legacy compatibility exports
+export const SecurityValidator = {
+  validateAgentId: (id: unknown) =>
+    validateAgentId({ agentId: id }, { schemas: { AgentIdSchema } }),
+  validateContextKey: (key: unknown) =>
+    validateContextKey({ key }, { schemas: { ContextKeySchema } }),
+  validateContextValue: (value: unknown) =>
+    validateContextValue({ value }, { schemas: { ContextValueSchema } }),
+  validateShareType: (shareType: unknown) =>
+    validateShareType({ shareType }, { schemas: { ShareTypeSchema } }),
+  validatePermissions: (permissions: unknown) =>
+    validatePermissions({ permissions }, { schemas: { PermissionSchema } }),
+  validateToken: (token: unknown) => validateToken({ token }, { schemas: { TokenSchema } }),
+  validateEventData: (data: unknown) =>
+    validateEventData({ data }, { schemas: { EventDataSchema } }),
+  validateSnapshotId: (snapshotId: unknown) =>
+    validateSnapshotId({ snapshotId }, { schemas: { SnapshotIdSchema } }),
+  validateMetadataQuery: (query: unknown) =>
+    validateMetadataQuery({ query }, { schemas: { MetadataQuerySchema } }),
+  sanitizeString: (input: unknown, maxLength?: number) => sanitizeString({ input, maxLength }),
+  sanitizeObject: (obj: unknown) => sanitizeObject({ obj }, {}),
+};
 
 // Rate limiting utilities
 export class RateLimiter {

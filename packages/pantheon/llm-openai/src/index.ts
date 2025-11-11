@@ -6,12 +6,7 @@
 import type { LlmPort, Message } from '@promethean-os/pantheon-core';
 import OpenAI from 'openai';
 import { z } from 'zod';
-import {
-  OpenAIAdapterError,
-  ValidationError,
-  TimeoutError,
-  RateLimitError,
-} from '@promethean-os/pantheon-core';
+import { OpenAIAdapterError } from '@promethean-os/pantheon-core';
 
 // Retry configuration
 export type RetryConfig = {

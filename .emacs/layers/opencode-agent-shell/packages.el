@@ -42,7 +42,8 @@
 
 (defconst opencode-agent-shell-packages
   '(
-     shell-maker
+     (shell-maker :location (repo :fetcher github
+                              :repo "xenodium/shell-maker"))
      (acp :location (recipe :fetcher github
                       :repo "xenodium/acp.el"
                       ))      ;; we use :vc in init below

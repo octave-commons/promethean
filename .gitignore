@@ -43,6 +43,7 @@ services/py/stt_ws/coverage.xml
 
 services/py/whisper_stream_ws/coverage.xml
 
+
 *.xml
 
 shared/py/.coverage
@@ -59,8 +60,6 @@ patch.sh
 frames/
 
 **/*.mp4
-
-
 
 # Ignore Smart Environment folder
 .smart-env
@@ -158,3 +157,13 @@ packages/kanban/kanban-test-*/
 .stryker-tmp
 indexer-state.json
 test-data/test-git/
+
+packages/kanban/test-git-workflow-temp
+# Local caches and tooling
+.lsp/
+.scannerwork/
+.clj-kondo/
+
+# Test fixtures and temp
+simple-test-temp/
+**/test.txt

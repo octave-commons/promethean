@@ -2,7 +2,7 @@
 uuid: 'ff7ac92c-ff43-4078-9631-329cd9f2601b'
 title: 'Create adapter factory and registry system'
 slug: 'Create adapter factory and registry system'
-status: 'breakdown'
+status: 'ready'
 priority: 'P0'
 labels: ['create', 'adapter', 'factory', 'registry']
 created_at: '2025-10-13T08:06:09.151Z'
@@ -10,6 +10,7 @@ estimates:
   complexity: '5'
   scale: 'medium'
   time_to_completion: '3 sessions'
+storyPoints: 5
 ---
 
 ## 🏭 Critical: Adapter Factory and Registry System

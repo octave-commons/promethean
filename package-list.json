@@ -135,12 +135,6 @@
         "resolved": "https://registry.npmjs.org/http-proxy/-/http-proxy-1.18.1.tgz",
         "path": "/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/http-proxy@1.18.1/node_modules/http-proxy"
       },
-      "mcp-auth": {
-        "from": "mcp-auth",
-        "version": "0.1.1",
-        "resolved": "https://registry.npmjs.org/mcp-auth/-/mcp-auth-0.1.1.tgz",
-        "path": "/home/err/devel/orgs/riatzukiza/promethean/node_modules/.pnpm/mcp-auth@0.1.1_express@5.1.0/node_modules/mcp-auth"
-      },
       "mongodb": {
         "from": "mongodb",
         "version": "6.18.0",

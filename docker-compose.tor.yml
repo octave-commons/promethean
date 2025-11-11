@@ -1,0 +1,18 @@
+services:
+  tor:
+    image: ${TOR_PROXY_IMAGE:-dperson/torproxy@sha256:d161ddddd47b4d2a91b8fe93d61e81b0760c0452ab6983a35ed37452e24004f6}
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD-SHELL", "nc -z 127.0.0.1 9050 || exit 1"]
+      interval: 10s
+      timeout: 3s
+      retries: 10
+
+  privoxy:
+    image: ${PRIVOXY_IMAGE:-vimagick/privoxy@sha256:10ebc7e0c44f7ad5ef6f92fe929bb48984b0c6fb632439f7255028fc016118b9}
+    restart: unless-stopped
+    environment:
+      - FORWARD_SOCKS5=tor:9050
+    depends_on:
+      tor:
+        condition: service_healthy

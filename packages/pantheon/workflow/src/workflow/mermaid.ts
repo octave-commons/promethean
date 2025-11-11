@@ -12,7 +12,7 @@ const DIRECTIVE_REGEX = /^(?:graph|flowchart|classDef|linkStyle|style)\b/i;
 
 function decodeLabel(raw: string | undefined): string | undefined {
   if (!raw) return undefined;
-  const text = raw.replace(/&quot;/gu, '"').replace(/\\n/gu, "\n").replace(/\\\"/gu, '"');
+  const text = raw.replace(/&quot;/gu, '"').replace(/\\n/gu, "\n").replace(/"/g, '"');
   const trimmed = text.trim();
   return trimmed.startsWith('"') && trimmed.endsWith('"') ? trimmed.slice(1, -1) : trimmed;
 }

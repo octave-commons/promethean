@@ -18,16 +18,16 @@ Anchor on the kanban card as the single source of truth and, before advancing, d
 - Record the scoped plan and supporting notes on the linked task before moving to step 3.
 
 ```
-3. **Breakdown & Estimate**
+3. **Breakdown & Size**
 ```
 
-Break into small, testable slices; estimate **complexity, scale, time (in cloud sessions)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
+Break into small, testable slices; assess **complexity, scope, and Level of Effort (LoE)** and assign a Fibonacci score from **1, 2, 3, 5, 8, 13** on the task card. Scores of **13+ ⇒ must split**; **8 ⇒ continue refinement before implementation**; **≤5 ⇒ eligible to implement**. Any score **>5** must cycle back through clarification/breakdown until the slice is small enough to implement, capturing the updated score on the task card.&#x20;
 
 4. **Ready Gate** _(hard stop before code)_
    Only proceed if:
 
    - A matching task is **In Progress** (or you move it there), and WIP rules aren’t violated.&#x20;
-   - The slice is scored **≤5** and fits the session after planning; otherwise continue refinement/splitting.&#x20;
+   - The slice is scored **≤5** and fits capacity after planning; otherwise continue refinement/splitting.&#x20;
 
 ```
 5. **Implement Slice**
@@ -163,7 +163,7 @@ flowchart TD
   Testing complete; proceed to documentation.
 
 - **In Progress → Todo** _session-end handoff; no PR required_
-  Time/compute limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
+  Capacity limit reached without a reviewable change. Record artifacts/notes + next step; move to **Todo** if WIP allows; else remain **In Progress** and mark a minor blocker.
   Artifacts must include partial outputs (e.g., audit logs, findings lists, reproduction steps) so a follow-on slice can resume immediately.
 
 - **In Progress → Breakdown**
@@ -227,7 +227,14 @@ A rule should be changed when:
 - In Progress: 3 → 10 (multi-agent parallel work capacity)
 - Document: 2 → 4 (maintain flow proportion)
 
-### Guiding Principles
+### Guiding Principles for a Supportive Board
+
+- **The board serves the team, not the other way around**
+- **Work gets done, sometimes outside formal processes - and that's okay**
+- **Retrospective card movement is a ritual of acknowledgment, not compliance**
+- **Failed checks are learning opportunities, not violations**
+- **We think better when we're calm** - even urgent work deserves a thoughtful response
+- **Focus on capacity and flow** - "We may have taken on more work than we can handle, let's reevaluate priorities"
 
 - **Rules enable flow, they don't dictate activity**
 - **Change is temporary unless proven valuable**

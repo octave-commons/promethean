@@ -6,16 +6,16 @@
 
 ## Executive Summary
 
-The kanban board shows significant data quality issues that require immediate attention:
+The kanban board shows data quality issues:
 
-1. **Critical Data Corruption**: 113 duplicate "boardrev-vector-db" tasks
-2. **Invalid UUIDs**: 6 tasks with placeholder `(uuidgen)` values
-3. **Generic Content**: 19 tasks with placeholder "Description" text
-4. **Workflow Bottlenecks**: 969 tasks stuck in icebox (29.5% of total)
+1. Data Issues: 113 duplicate "boardrev-vector-db" tasks
+2. Invalid UUIDs: 6 tasks with placeholder `(uuidgen)` values
+3. Generic Content: 19 tasks with placeholder "Description" text
+4. Workflow Issues: 969 tasks in icebox (29.5% of total)
 
 ## Detailed Findings
 
-### 🚨 Critical Issues
+### Issues Identified
 
 #### 1. Massive Duplicate Task Cluster
 

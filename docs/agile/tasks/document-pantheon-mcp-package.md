@@ -9,7 +9,9 @@ lastCommitSha: 'pending'
 labels: ['pantheon', 'documentation', 'mcp', 'jsdoc', 'high-priority']
 created_at: '2025-10-26T18:35:00Z'
 estimates:
-  complexity: 'high'
+  complexity: 5
+  scale: 'medium'
+  time_to_completion: '4h'
 ---
 
 # Document pantheon-mcp Package to Gold Standard

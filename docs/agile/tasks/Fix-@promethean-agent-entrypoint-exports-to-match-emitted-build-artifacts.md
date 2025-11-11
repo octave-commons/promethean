@@ -10,6 +10,7 @@ estimates:
   complexity: '2'
   scale: 'small'
   time_to_completion: '1 session'
+storyPoints: 2
 ---
 
 ## 📝 Breakdown Assessment

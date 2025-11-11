@@ -10,6 +10,7 @@ estimates:
   complexity: '5'
   scale: 'medium'
   time_to_completion: '3 sessions'
+storyPoints: 5
 lastCommitSha: 'a13dc8292c66d6b2ab63c41bd835d363065cb0eb'
 commitHistory:
   - sha: 'a13dc8292c66d6b2ab63c41bd835d363065cb0eb'

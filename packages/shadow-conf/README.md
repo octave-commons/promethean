@@ -8,12 +8,14 @@ A powerful configuration transformation tool that converts EDN (Extensible Data 
 ## 🚀 Features
 
 - **EDN to PM2 Conversion**: Transform Clojure-style EDN configurations into PM2 ecosystem files
+- **AI-Driven Security Evaluation**: Contextual AI security assessment using Pantheon framework
 - **Declarative Service Management**: Define apps, triggers, schedules, and actions in a structured format
 - **Path Normalization**: Automatically resolves relative paths against output directory
 - **TypeScript Support**: Full TypeScript definitions for enhanced development experience
 - **CLI Tool**: Command-line interface for easy integration into build processes
 - **Environment Integration**: Built-in dotenv support for environment variable management
 - **Recursive Discovery**: Automatically discovers all `.edn` files in input directory
+- **Pantheon Integration**: Leverages Pantheon's LLM adapter system for AI security evaluation
 
 ## 📦 Installation
 
@@ -43,15 +45,15 @@ Create `.edn` files in your project directory defining your services:
          :env_file "./.env.production"
          :watch ["./src" "./config"]
          :max_memory_restart "1G"}]
- 
+
  :triggers [{:name "api-ready"
              :event "api/ready"
              :actions ["notify-team"]}]
- 
+
  :schedules [{:name "api-health-check"
               :cron "*/5 * * * *"
               :actions ["health-check"]}]
- 
+
  :actions [{:name "notify-team"
             :type "webhook"
             :url "https://hooks.slack.com/..."
@@ -108,26 +110,121 @@ pm2 logs
 
 #### `generateEcosystem(options)`
 
-Generates a PM2 ecosystem configuration from EDN files.
+Generates a PM2 ecosystem configuration from EDN files with traditional security validation.
 
 ```typescript
 import { generateEcosystem, type GenerateEcosystemOptions } from '@promethean-os/shadow-conf';
 
 const options: GenerateEcosystemOptions = {
-  inputDir: './config',        // Directory containing .edn files
-  outputDir: './dist',         // Output directory for generated file
-  fileName: 'ecosystem.mjs'    // Name of generated file
+  inputDir: './config', // Directory containing EDN files
+  outputDir: './dist', // Output directory for generated file
+  fileName: 'ecosystem.mjs', // Name of generated file
 };
 
 const result = await generateEcosystem(options);
 ```
 
 **Parameters:**
+
 - `options.inputDir` (string, optional): Directory containing EDN files. Defaults to `process.cwd()`
 - `options.outputDir` (string, optional): Output directory. Defaults to `process.cwd()`
 - `options.fileName` (string, optional): Generated filename. Defaults to `'ecosystem.config.mjs'`
 
 **Returns:** `Promise<GenerateEcosystemResult>`
+
+#### `generateEcosystemSecure(options)`
+
+Generates a PM2 ecosystem configuration with AI-driven security evaluation using Pantheon framework.
+
+```typescript
+import {
+  generateEcosystemSecure,
+  type SecureGenerateEcosystemOptions,
+} from '@promethean-os/shadow-conf';
+
+const options: SecureGenerateEcosystemOptions = {
+  inputDir: './config',
+  outputDir: './dist',
+  fileName: 'ecosystem.mjs',
+  security: {
+    enableAI: true,
+    llmEndpoint: 'http://localhost:11434/v1',
+    model: 'error/qwen3:4b-instruct-100k',
+    blockThreshold: 0.8,
+    warnThreshold: 0.5,
+    enableUserConfirmation: true,
+    fallbackToTraditional: true,
+  },
+};
+
+const result = await generateEcosystemSecure(options);
+```
+
+**Parameters:**
+
+- `options.inputDir` (string, optional): Directory containing EDN files
+- `options.outputDir` (string, optional): Output directory for generated file
+- `options.fileName` (string, optional): Generated filename
+- `options.security` (SecurityConfig, optional): AI security evaluation configuration
+
+**Security Configuration:**
+
+- `enableAI` (boolean): Enable AI-driven security evaluation. Default: `true`
+- `llmEndpoint` (string): LLM API endpoint URL
+- `model` (string): LLM model to use for evaluation
+- `blockThreshold` (number): Confidence threshold for blocking (0-1). Default: `0.8`
+- `warnThreshold` (number): Confidence threshold for warnings (0-1). Default: `0.5`
+- `enableUserConfirmation` (boolean): Prompt user for warnings. Default: `true`
+- `fallbackToTraditional` (boolean): Use traditional validation if AI fails. Default: `true`
+
+**Returns:** `Promise<GenerateEcosystemResult>` with additional security assessment metadata
+
+#### `createAISecurityEvaluator(config)`
+
+Creates an AI security evaluator instance using Pantheon's LLM adapter system.
+
+```typescript
+import { createAISecurityEvaluator, createOllamaAdapter } from '@promethean-os/shadow-conf';
+
+const evaluator = createAISecurityEvaluator({
+  llmPort: createOllamaAdapter(),
+  model: 'error/qwen3:4b-instruct-100k',
+  temperature: 0.2,
+  blockThreshold: 0.8,
+  warnThreshold: 0.5,
+  enableUserConfirmation: true,
+});
+
+// Evaluate specific inputs
+const assessment = await evaluator.evaluateSecurityThreat(
+  '../../../etc/passwd',
+  'filepath',
+  'attempting to access system file',
+);
+
+if (assessment.isThreat) {
+  console.log(`Threat detected: ${assessment.explanation}`);
+}
+```
+
+#### `createOllamaAdapter(model)`
+
+Creates a Pantheon-compatible LLM adapter for Ollama (local OpenAI-compatible endpoint).
+
+```typescript
+import { createOllamaAdapter } from '@promethean-os/shadow-conf';
+
+const adapter = createOllamaAdapter('error/qwen3:4b-instruct-100k');
+
+// Use with Pantheon LLM interface
+const response = await adapter.complete(
+  [
+    { role: 'system', content: 'You are a security evaluator.' },
+    { role: 'user', content: 'Is this path safe: /etc/passwd?' },
+  ],
+  { temperature: 0.2 },
+);
+```
 
 ```typescript
 interface GenerateEcosystemResult {
@@ -199,11 +296,11 @@ shadow-conf ecosystem [options]
 
 ### Options
 
-| Option | Description | Default |
-|--------|-------------|---------|
-| `--input-dir <path>` | Directory containing `.edn` files | Current working directory |
-| `--out <path>` | Output directory for generated file | Current working directory |
-| `--filename <name>` | Name of generated file | `ecosystem.config.mjs` |
+| Option               | Description                         | Default                   |
+| -------------------- | ----------------------------------- | ------------------------- |
+| `--input-dir <path>` | Directory containing `.edn` files   | Current working directory |
+| `--out <path>`       | Output directory for generated file | Current working directory |
+| `--filename <name>`  | Name of generated file              | `ecosystem.config.mjs`    |
 
 ### Examples
 
@@ -305,60 +402,146 @@ Reusable action definitions:
 
 ## 🔧 Advanced Configuration
 
-### Path Resolution
+### AI-Driven Security Evaluation
 
-The package automatically normalizes relative paths:
+shadow-conf uses the Pantheon framework for contextual AI security evaluation:
 
-- **Relative paths** (`./`, `../`) are resolved against the output directory
-- **Absolute paths** are preserved as-is
-- **Array paths** in `watch` and `env` are processed individually
+```typescript
+import { generateEcosystemSecure } from '@promethean-os/shadow-conf';
+
+// AI-enhanced security evaluation
+const result = await generateEcosystemSecure({
+  inputDir: './services',
+  outputDir: './config',
+  fileName: 'ecosystem.config.mjs',
+  security: {
+    enableAI: true,
+    llmEndpoint: 'http://localhost:11434/v1', // Ollama endpoint
+    model: 'error/qwen3:4b-instruct-100k',
+    blockThreshold: 0.8,
+    warnThreshold: 0.5,
+    enableUserConfirmation: true,
+  },
+});
+```
+
+**AI Security Features:**
+
+- **Contextual Threat Assessment**: AI understands development vs production contexts
+- **Pattern Recognition**: Detects sophisticated attack patterns beyond regex
+- **Adaptive Security**: Different security levels for different environments
+- **Explainable Decisions**: AI provides reasoning for security decisions
+- **Fallback Protection**: Traditional pattern-based validation as backup
+
+### LLM Adapter Configuration
+
+Configure different LLM backends through Pantheon's adapter system:
+
+```typescript
+// Ollama (Local OpenAI-compatible)
+const ollamaConfig = {
+  llmEndpoint: 'http://localhost:11434/v1',
+  model: 'error/qwen3:4b-instruct-100k',
+  apiKey: 'ollama', // Not used by Ollama but required
+};
+
+// OpenAI (Cloud)
+const openaiConfig = {
+  llmEndpoint: 'https://api.openai.com/v1',
+  model: 'gpt-4',
+  apiKey: process.env.OPENAI_API_KEY,
+};
+
+// Custom OpenAI-compatible endpoint
+const customConfig = {
+  llmEndpoint: 'https://my-llm-provider.com/v1',
+  model: 'my-custom-model',
+  apiKey: process.env.CUSTOM_API_KEY,
+};
+```
+
+### Security Evaluation Context
+
+The AI evaluator considers multiple contexts:
+
+```typescript
+interface SecurityContext {
+  processingStage: 'discovery' | 'parsing' | 'normalization' | 'generation';
+  environment: 'development' | 'production' | 'ci';
+  userIntent: 'development' | 'deployment' | 'automation';
+  hasUserInteraction: boolean;
+}
+```
+
+**Context-Aware Rules:**
+
+- **Development**: More permissive, warns on suspicious patterns
+- **Production**: Strict validation, blocks on medium confidence
+- **CI/CD**: Automated decisions, no user interaction
+- **Interactive**: Allows user confirmation for borderline cases
+
+### Path Resolution with Security
+
+The package normalizes relative paths with AI security validation:
+
+- **Relative paths** (`./`, `../`) are resolved and validated against security policies
+- **Absolute paths** are preserved and checked for system directory access
+- **Array paths** in `watch` and `env` are processed individually with security checks
+- **AI Evaluation**: Each path is evaluated for traversal attempts and injection risks
 
 ```clojure
 {:apps [{:name "app"
-         :script "./dist/index.js"     ; Becomes "./dist/index.js"
-         :cwd "./apps/app"             ; Becomes "./apps/app"
-         :watch ["./src" "../shared"]  ; Becomes ["./src", "../shared"]
-         :env {:CONFIG "./config/app.edn"}}]} ; Becomes {:CONFIG "./config/app.edn"}
+         :script "./dist/index.js"     ; Validated and normalized
+         :cwd "./apps/app"             ; Checked for directory traversal
+         :watch ["./src" "../shared"]  ; Each path AI-validated
+         :env {:CONFIG "./config/app.edn"}}]} ; Environment variables secured
 ```
 
-### Environment Variables
+### Environment Variables with Security
 
-Generated files include dotenv integration:
+Generated files include dotenv integration with security validation:
 
 ```javascript
 // Generated ecosystem.config.mjs
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 try {
   dotenv.config();
 } catch (error) {
-  if (error?.code !== "ERR_MODULE_NOT_FOUND") {
+  if (error?.code !== 'ERR_MODULE_NOT_FOUND') {
     throw error;
   }
 }
 
+// AI-validated and sanitized configurations
 export const apps = [
-  // Your app configurations
+  // Your app configurations with security-enhanced paths
 ];
 ```
 
-### Multiple EDN Files
+### Multiple EDN Files with AI Security
 
-The package recursively discovers and merges all `.edn` files:
+The package recursively discovers and validates all `.edn` files:
 
 ```
 services/
 ├── api/
-│   └── ecosystem.edn
+│   └── ecosystem.edn    ; AI-validated for API-specific threats
 ├── worker/
-│   └── ecosystem.edn
+│   └── ecosystem.edn    ; Validated for worker process security
 ├── web/
-│   └── ecosystem.edn
+│   └── ecosystem.edn    ; Web-specific security evaluation
 └── shared/
-    └── ecosystem.edn
+    └── ecosystem.edn    ; Shared configuration validation
 ```
 
-All apps, triggers, schedules, and actions are aggregated into a single ecosystem file.
+**AI Security Pipeline:**
+
+1. **File Discovery**: Each `.edn` file path is AI-validated
+2. **Content Analysis**: EDN content evaluated for injection risks
+3. **Contextual Assessment**: Security decisions based on file purpose
+4. **Aggregation**: Merged with security-aware conflict resolution
+5. **Generation**: Output with security-enhanced path normalization
 
 ## 🧪 Testing
 
@@ -409,6 +592,7 @@ pnpm lint
 **Problem**: Generated paths don't match expected locations.
 
 **Solution**: Understand path resolution rules:
+
 - Relative paths are resolved against the **output directory**
 - Use absolute paths for files outside the output directory
 - Test with different `--out` options
@@ -418,6 +602,7 @@ pnpm lint
 **Problem**: Generated ecosystem file can't be imported.
 
 **Solution**: Ensure:
+
 - File extension matches your Node.js version (`.mjs` for ES modules)
 - Node.js version supports ES modules (v14+)
 - No syntax errors in your EDN files
@@ -456,34 +641,51 @@ try {
 
 ```
 src/
-├── ecosystem.ts     # Core generation logic
-├── edn.ts          # EDN parsing and normalization
-├── index.ts        # Public API exports
+├── ecosystem.ts           # Core generation logic
+├── ecosystem-secure.ts    # Security-enhanced generation with AI evaluation
+├── edn.ts                # EDN parsing and normalization
+├── security-utils.ts     # Traditional security validation utilities
+├── ai-security-evaluator.ts # AI-driven security evaluation using Pantheon
+├── index.ts              # Public API exports
 ├── bin/
-│   └── shadow-conf.ts  # CLI implementation
+│   └── shadow-conf.ts    # CLI implementation
 └── tests/
-    └── ecosystem.test.ts  # Test suite
+    ├── ecosystem.test.ts  # Core functionality tests
+    └── security-final.test.ts # Security evaluation tests
 ```
 
 ### Design Principles
 
 1. **Declarative Configuration**: Use EDN for human-readable configuration
-2. **Type Safety**: Full TypeScript support with comprehensive types
-3. **Path Awareness**: Intelligent path resolution for different deployment scenarios
-4. **Extensibility**: Support for custom automation and actions
-5. **Error Handling**: Clear error messages for common configuration issues
+2. **AI-Enhanced Security**: Contextual AI evaluation using Pantheon framework
+3. **Type Safety**: Full TypeScript support with comprehensive types
+4. **Path Awareness**: Intelligent path resolution with security validation
+5. **Extensibility**: Support for custom automation and actions
+6. **Dual Security**: Traditional pattern-based + AI contextual evaluation
+7. **Error Handling**: Clear error messages with security assessment context
 
-### Data Flow
+### Security Architecture
 
 ```
-EDN Files → Parser → Normalizer → Aggregator → Generator → PM2 Ecosystem
+EDN Files → AI Security Evaluation → Traditional Validation → Parser → Normalizer → Generator → PM2 Ecosystem
 ```
 
 1. **Discovery**: Recursively find all `.edn` files
-2. **Parsing**: Convert EDN to JavaScript objects
-3. **Normalization**: Strip EDN keywords, normalize paths
-4. **Aggregation**: Merge all configurations
-5. **Generation**: Create PM2-compatible JavaScript module
+2. **AI Security Evaluation**: Contextual threat assessment using Pantheon LLM adapters
+3. **Traditional Validation**: Pattern-based security checks as fallback
+4. **Parsing**: Convert EDN to JavaScript objects
+5. **Normalization**: Strip EDN keywords, normalize paths with security awareness
+6. **Aggregation**: Merge all configurations
+7. **Generation**: Create PM2-compatible JavaScript module
+
+### Pantheon Integration
+
+shadow-conf leverages the Pantheon framework for AI-driven security evaluation:
+
+- **LlmPort Interface**: Uses Pantheon's standardized LLM adapter system
+- **OpenAI-Compatible Support**: Works with Ollama and other OpenAI-compatible endpoints
+- **Production-Ready Adapters**: Benefits from Pantheon's retry logic and error handling
+- **Contextual Evaluation**: AI understands development vs production contexts
 
 ## 🤝 Contributing
 
@@ -519,8 +721,123 @@ This project is licensed under the GPL-3.0 License. See the [LICENSE](./LICENSE)
 
 ## 🔗 Related Packages
 
+- [@promethean-os/pantheon](https://github.com/promethean/pantheon) - Agent management framework with LLM adapters
+- [@promethean-os/pantheon-llm-openai](https://github.com/promethean/pantheon-llm-openai) - OpenAI LLM adapter for Pantheon
 - [@promethean-os/pm2-helpers](https://github.com/promethean/pm2-helpers) - PM2 utility functions
 - [jsedn](https://github.com/edn-format/jsedn) - EDN parser for JavaScript
+
+## 🤖 Pantheon Integration Details
+
+### Why Pantheon Framework?
+
+shadow-conf's AI-driven security evaluation leverages Pantheon framework for several key reasons:
+
+#### 1. **Production-Ready LLM Adapters**
+
+- **Robust Error Handling**: Built-in retry logic with exponential backoff
+- **Input Validation**: Comprehensive Zod schema validation for all inputs
+- **Timeout Protection**: Prevents hanging operations with configurable timeouts
+- **Rate Limiting**: Built-in rate limiting to prevent API abuse
+
+#### 2. **OpenAI-Compatible Ecosystem**
+
+- **Multiple Providers**: Works with OpenAI, Ollama, and other OpenAI-compatible endpoints
+- **Consistent Interface**: Same `LlmPort` interface across all providers
+- **Easy Switching**: Change LLM providers without changing application code
+
+#### 3. **Security-First Design**
+
+- **Input Sanitization**: All inputs validated before processing
+- **Error Boundaries**: Comprehensive error handling prevents information leakage
+- **Audit Logging**: Built-in logging for security events
+- **Resource Limits**: Configurable limits prevent resource exhaustion
+
+### Integration Architecture
+
+```
+shadow-conf → Pantheon LlmPort → LLM Provider (Ollama/OpenAI/Custom)
+     ↓               ↓                        ↓
+AI Security    Standardized    OpenAI-Compatible
+Evaluation    Interface       API Communication
+     ↓               ↓                        ↓
+Contextual    Retry Logic     Local/Cloud LLM
+Threat        Error Handling  Model Execution
+Assessment    Input Validation
+```
+
+### Benefits Over Direct API Integration
+
+| Feature                | Direct Integration    | Pantheon Integration         |
+| ---------------------- | --------------------- | ---------------------------- |
+| **Error Handling**     | Manual implementation | Built-in retry & backoff     |
+| **Input Validation**   | Custom code required  | Zod schemas included         |
+| **Provider Switching** | Code changes required | Configuration only           |
+| **Security**           | Manual implementation | Built-in protections         |
+| **Monitoring**         | Custom logging needed | Built-in audit trails        |
+| **Testing**            | Mock required         | In-memory adapters available |
+
+### Advanced Usage Examples
+
+#### Custom LLM Provider
+
+```typescript
+import { makeOpenAIAdapter } from '@promethean-os/pantheon-llm-openai';
+import { createAISecurityEvaluator } from '@promethean-os/shadow-conf';
+
+// Custom OpenAI-compatible provider
+const customAdapter = makeOpenAIAdapter({
+  apiKey: process.env.CUSTOM_API_KEY,
+  baseURL: 'https://my-llm-provider.com/v1',
+  defaultModel: 'my-security-model',
+  timeout: 60000,
+  retryConfig: {
+    maxRetries: 5,
+    baseDelay: 2000,
+    maxDelay: 30000,
+  },
+});
+
+const evaluator = createAISecurityEvaluator({
+  llmPort: customAdapter,
+  model: 'my-security-model',
+  blockThreshold: 0.9, // Higher threshold for production
+  warnThreshold: 0.6,
+  enableUserConfirmation: false, // Automated environment
+});
+```
+
+#### Multi-Provider Security Evaluation
+
+```typescript
+import { createAISecurityEvaluator, createOllamaAdapter } from '@promethean-os/shadow-conf';
+import { makeOpenAIAdapter } from '@promethean-os/pantheon-llm-openai';
+
+// Primary: Local Ollama for speed
+const primaryAdapter = createOllamaAdapter('error/qwen3:4b-instruct-100k');
+
+// Fallback: Cloud OpenAI for reliability
+const fallbackAdapter = makeOpenAIAdapter({
+  apiKey: process.env.OPENAI_API_KEY,
+  defaultModel: 'gpt-4',
+});
+
+const evaluator = createAISecurityEvaluator({
+  llmPort: {
+    complete: async (messages, opts) => {
+      try {
+        // Try local Ollama first
+        return await primaryAdapter.complete(messages, opts);
+      } catch (error) {
+        console.warn('Local Ollama failed, falling back to OpenAI:', error);
+        return await fallbackAdapter.complete(messages, opts);
+      }
+    },
+  },
+  model: 'error/qwen3:4b-instruct-100k',
+  blockThreshold: 0.8,
+  warnThreshold: 0.5,
+});
+```
 
 ## 📞 Support
 

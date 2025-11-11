@@ -72,35 +72,38 @@ export const DEFAULT_OUTPUT_FILE_NAME = 'ecosystem.config.mjs';
 export async function generateEcosystem(
   options: GenerateEcosystemOptions = {},
 ): Promise<GenerateEcosystemResult> {
-  // Validate and sanitize input paths
-  const inputDirResult = validateAndSanitizePath(
-    path.resolve(options.inputDir ?? process.cwd()),
+  // SECURITY: Validate raw input paths BEFORE resolution to catch traversal attacks
+  const rawInputDir = options.inputDir ?? process.cwd();
+  const rawOutputDir = options.outputDir ?? process.cwd();
+  const rawFileName = options.fileName ?? DEFAULT_OUTPUT_FILE_NAME;
+
+  // Validate raw input for traversal attacks first
+  const inputDirRawResult = validateAndSanitizePath(
+    rawInputDir,
     'input directory',
     DEFAULT_SECURITY_CONFIG,
   );
-  if (!inputDirResult.success) {
-    throw new Error(inputDirResult.error);
+  if (!inputDirRawResult.success) {
+    throw new Error(inputDirRawResult.error);
   }
 
-  const outputDirResult = validateAndSanitizePath(
-    path.resolve(options.outputDir ?? process.cwd()),
+  const outputDirRawResult = validateAndSanitizePath(
+    rawOutputDir,
     'output directory',
     DEFAULT_SECURITY_CONFIG,
   );
-  if (!outputDirResult.success) {
-    throw new Error(outputDirResult.error);
+  if (!outputDirRawResult.success) {
+    throw new Error(outputDirRawResult.error);
   }
 
-  const fileNameResult = validateAndSanitizeFilename(
-    options.fileName ?? DEFAULT_OUTPUT_FILE_NAME,
-    DEFAULT_SECURITY_CONFIG,
-  );
+  const fileNameResult = validateAndSanitizeFilename(rawFileName, DEFAULT_SECURITY_CONFIG);
   if (!fileNameResult.success) {
     throw new Error(fileNameResult.error);
   }
 
-  const inputDir = inputDirResult.sanitized;
-  const outputDir = outputDirResult.sanitized;
+  // Now resolve paths after validation
+  const inputDir = path.resolve(inputDirRawResult.sanitized);
+  const outputDir = path.resolve(outputDirRawResult.sanitized);
   const fileName = fileNameResult.sanitized;
 
   // Validate path boundaries - only restrict access to system directories
