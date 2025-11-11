@@ -11,15 +11,6 @@ estimates:
   scale: ""
   time_to_completion: ""
 ---
-
-## ⚠️ Task Superseded
-
-This task has been **superseded** and consolidated into:
-
-- **New Task**: [Process Governance Cluster - Quality Gates & Workflow Enforcement](2025.10.09.22.15.00-process-governance-cluster.md)
-- **UUID**: process-governance-cluster-001
-- **Reason**: Consolidated into strategic cluster for better focus and coordination
-
 ### Migration Details
 
 - All work and context transferred to new cluster

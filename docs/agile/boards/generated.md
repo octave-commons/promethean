@@ -357,6 +357,15 @@ kanban-plugin: board
 
 ## ready
 
+- [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
+- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
+- [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
+- [ ] [[Implement Natural Language Command Parser]] #agent-os #nlp #parser #commands #natural-language #critical prio:P0 (uuid:52c48585-42e1-47ce-bc2c-c46686c1ca53)
+- [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
+- [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
+- [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
+- [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
+- [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
 - [ ] [[plugin-parity-001-event-driven-hooks|Event-Driven Plugin Hooks]] #plugin #event-driven #hooks #architecture #critical prio:P0 (uuid:plugin-parity-001)
 - [ ] [[fix-type-safety-pantheon-persistence|Fix type safety violations in pantheon-persistence]] #pantheon #persistence #typescript #type-safety #critical prio:critical (uuid:041284dd-55c5-4007-a28b-08563b29a4e0)
 - [ ] [[cross-platform-core-infrastructure|Implement Core Infrastructure and Runtime Detection]] #architecture #implementation #cross-platform #foundation prio:P0 (uuid:cross-platform-core-infrastructure-2025-10-22)
@@ -382,9 +391,7 @@ kanban-plugin: board
 - [ ] [[P0-MCP-Security-Hardening-Subtasks 3|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:0a80a95e-82cd-42af-87a8-09fd35164eb6)
 - [ ] [[P0-MCP-Security-Hardening-Subtasks|P0: MCP Security Hardening & Validation - Subtask Breakdown]] #security #critical #mcp #hardening #validation #comprehensive prio:P0 (uuid:d794213f-subtask-001)
 - [ ] [[P0-Security-Implementation-Roadmap 2|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:d13e399d-660d-4364-a989-ad38a25e84f3)
-- [ ] [[P0-Security-Implementation-Roadmap 3|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:650faf58-6776-4fc4-bb75-0004a279d3f8)
 - [ ] [[P0-Security-Implementation-Roadmap|P0 Security Implementation Roadmap & Coordination Plan]] #security #roadmap #coordination #implementation #critical prio:P0 (uuid:b6c5f483-roadmap)
-- [ ] [[Resolve BuildFix Ollama resource limitations and OOM issues]] #buildfix #ollama #memory #high prio:P1 (uuid:5b15c395-fc63-457f-97cc-7d528c559e9b)
 - [ ] [[Secure BuildFix command execution]] #buildfix #security #high #provider prio:P1 (uuid:6dae395f-31aa-42c7-b9c8-2dc1d750ddc9)
 - [ ] [[document-pantheon-core-package|Document pantheon-core Package to Gold Standard]] #pantheon #documentation #core #jsdoc #high-priority prio:P1 (uuid:std-doc-core-001)
 - [ ] [[error-handling-phase-1-core-framework|Phase 1: Enhance Core Error Framework]] #pantheon #error-handling #phase-1 #core-framework prio:P1 (uuid:error-handling-pantheon-001-phase-1)
@@ -438,15 +445,6 @@ kanban-plugin: board
 
 ## testing
 
-- [ ] [[20251011235168|Implement Scar Context Builder]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #context-builder #phase-1 prio:P1 (uuid:ca84477b-20d4-4d49-8457-96d3e9749b6a)
-- [ ] [[20251011235189|Implement LLM Integration for Context Enhancement]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #llm-integration #phase-1 prio:P1 (uuid:3ca4b85d-0c71-4e45-bf4a-01a16b990a70)
-- [ ] [[20251011235256|Implement Git Tag Management and Scar History]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #tag-management #scar-history #phase-1 prio:P1 (uuid:86e86422-5956-4df9-97f7-90a7256b744d)
-- [ ] [[Complete breakdown for P0 security tasks]] #breakdown #tasks #complete #security prio:P0 (uuid:b6c5f483-0893-4144-a0cf-f97ffd2b6b74)
-- [ ] [[Create MCP-Kanban Bridge API]] #mcp #kanban #api #bridge #synchronization #critical prio:P0 (uuid:07b10989-e06c-4c6b-87b9-80ce169b7660)
-- [ ] [[Implement MCP Authentication & Authorization Layer]] #mcp #kanban #security #authentication #authorization #critical prio:P0 (uuid:86765f2a-9539-4443-baa2-a0bd37195385)
-- [ ] [[Implement Natural Language Command Parser]] #agent-os #nlp #parser #commands #natural-language #critical prio:P0 (uuid:52c48585-42e1-47ce-bc2c-c46686c1ca53)
-- [ ] [[create-consolidated-package-structure|Create Consolidated Package Structure]] #package-structure #consolidation #setup #foundation #epic1 prio:P0 (uuid:4f276b91-5107-4a58-9499-e93424ba2edd)
-- [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #automation #build-system #cluster #infrastructure #typescript #delegated #devops-orchestrator prio:P0 (uuid:3716d59f-0ddf-47d4-a603-5b7620ca941f)
 - [ ] [[pipeline-buildfix-epic|Pipeline BuildFix & Automation Epic]] #automation #buildfix #epic #pipeline #timeout prio:P0 (uuid:dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd)
 - [ ] [[test-integration-task 2|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation #critical-gap prio:P0 (uuid:4ba0e94c-ba16-4fc4-a446-aee035d1f597)
 - [ ] [[test-integration-task 3|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:f350aee8-dc14-46d7-9ad2-69d16dedf36a)
@@ -455,6 +453,7 @@ kanban-plugin: board
 
 ## review
 
+- [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
 - [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
 - [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
 - [ ] [[2025.10.08.23.58.30-expand-utils-retry-tests|Task f9bc9fe0]] #retry #testing #utils prio:P3 (uuid:f9bc9fe0-8ee2-4ab9-8790-31f60b6680ac)
@@ -466,14 +465,9 @@ kanban-plugin: board
 - [ ] [[Resolve ESLint violations in @packages shadow-conf|Resolve ESLint violations in @packages/shadow-conf/]] #code-quality #eslint #shadow-conf #p1 #linting prio:P1 (uuid:c76a82e5-758e-4585-880d-bf72c316695e)
 
 
-## document
-
-- [ ] [[Design unified FSM architecture using existing foundations]] #fsm #packages #design #architecture #tool:analysis #env:no-egress prio:P0 (uuid:8b1add71-be76-4a34-8f24-b3f0eaac69d5)
-- [ ] [[resolve_biome_lint_errors_in_compiler|Resolve Biome lint errors in compiler package]] #biome #compiler #errors #lint prio:P3 (uuid:f758495c-717a-4455-9e08-8b3eae385e5e)
-
-
 ## done
 
+- [ ] [[infrastructure-stability-cluster|Infrastructure Stability Cluster - Build System & Type Safety]] #automation #build-system #cluster #infrastructure #typescript #delegated #devops-orchestrator prio:P0 (uuid:3716d59f-0ddf-47d4-a603-5b7620ca941f)
 - [ ] [[Add @promethean autocommit package (LLM-generated commit messages) --tags framework-core,doc-this|Add @promethean-os/autocommit package (LLM-generated commit messages) --tags framework-core,doc-this]] #autocommit #package #llm #generated prio:P1 (uuid:afaec0f2-41a6-4676-a98e-1882d5a9ed4a)
 - [x] [[2025.10.08.16.00.00-create-omni-service-package|Task ad174e6a]] #fastify #omni #scaffolding #service prio:P2 (uuid:ad174e6a-d4bb-4292-9b32-8572e4eca8cb)
 - [x] [[2025.10.08.16.10.00-mount-omni-adapters|Task c04967e5]] #adapters #integration #omni #service prio:P2 (uuid:c04967e5-0295-4711-b8a3-6a1e5e104c17)
@@ -505,32 +499,20 @@ kanban-plugin: board
 - [ ] [[infrastructure-stability-cluster-build-system-type-safety-system|Infrastructure Stability Cluster - Build System & Type Safety -system]] #automation #build-system #cluster #infrastructure #typescript prio:P0 (uuid:b82a75e4-260b-4f20-ad06-94db01cd8eb2)
 
 
-## archived
+***
 
-
-
-## backlog
-
-- [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
-
-
-## superseded
+## Archive
 
 - [ ] [[enhance-kanban-process-validation|Enhance kanban process validation with acceptance criteria and Fibonacci scoring]] #automation #enhancement #kanban #process #superseded #validation prio:P2 (uuid:287b9607-3a44-409a-8194-58a1ed3d3a3f)
 - [ ] [[kanban-fsm-2]] #docops #labeled #superseded prio:P3 (uuid:3db9844d-0805-40e4-b16c-9834b9cc639a)
 - [ ] [[kanban-fsm-3]] #docops #labeled #superseded prio:P3 (uuid:35edb5ca-2996-4ea2-bd45-949fe6238035)
 - [ ] [[kanban-fsm-4]] #docops #labeled #superseded prio:P3 (uuid:c7706a26-441d-4921-84ce-00cf3c8e2682)
 - [ ] [[kanban-fsm]] #docops #labeled #superseded prio:P3 (uuid:ffe11354-b4c3-4376-beb2-5aba8fc24f14)
-
-
-## Archive
-
-
-
-
+- [ ] [[resolve_biome_lint_errors_in_compiler|Resolve Biome lint errors in compiler package]] #biome #compiler #errors #lint prio:P3 (uuid:f758495c-717a-4455-9e08-8b3eae385e5e)
+- [ ] [[Resolve BuildFix Ollama resource limitations and OOM issues]] #buildfix #ollama #memory #high prio:P1 (uuid:5b15c395-fc63-457f-97cc-7d528c559e9b)
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,true,true,false,false,false,false,true,false,false,false,false,true,true,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,true,false,false,false,false,true,false,false,false,true,true],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%

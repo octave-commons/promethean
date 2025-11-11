@@ -1,11 +1,15 @@
 ---
-uuid: "f758495c-717a-4455-9e08-8b3eae385e5e"
-title: "Resolve Biome lint errors in compiler package"
-slug: "resolve_biome_lint_errors_in_compiler"
-status: "document"
-priority: "P3"
-labels: ["biome", "compiler", "errors", "lint"]
-created_at: "2025-10-12T23:41:48.142Z"
+uuid: f758495c-717a-4455-9e08-8b3eae385e5e
+title: Resolve Biome lint errors in compiler package
+slug: resolve_biome_lint_errors_in_compiler
+status: review
+priority: P3
+labels:
+  - biome
+  - compiler
+  - errors
+  - lint
+created_at: 2025-10-12T23:41:48.142Z
 estimates:
   complexity: ""
   scale: ""
