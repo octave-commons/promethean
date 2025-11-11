@@ -40,3 +40,75 @@
 [submodule "packages/ai-learning"]
 	path = packages/ai-learning
 	url = git@github.com:riatzukiza/ai-learning.git
+[submodule "packages/cli"]
+	path = packages/cli
+	url = git@github.com:riatzukiza/cli.git
+[submodule "packages/eidolon-field"]
+	path = packages/eidolon-field
+	url = git@github.com:riatzukiza/eidolon-field.git
+[submodule "packages/math-utils"]
+	path = packages/math-utils
+	url = git@github.com:riatzukiza/math-utils.git
+[submodule "packages/migrations"]
+	path = packages/migrations
+	url = git@github.com:riatzukiza/migrations.git
+[submodule "packages/opencode-hub"]
+	path = packages/opencode-hub
+	url = git@github.com:riatzukiza/opencode-hub.git
+[submodule "packages/platform"]
+	path = packages/platform
+	url = git@github.com:riatzukiza/platform.git
+[submodule "packages/test-classifier"]
+	path = packages/test-classifier
+	url = git@github.com:riatzukiza/test-classifier.git
+[submodule "packages/clj-hacks"]
+	path = packages/clj-hacks
+	url = git@github.com:riatzukiza/clj-hacks-tools.git
+[submodule "packages/http"]
+	path = packages/http
+	url = git@github.com:riatzukiza/http.git
+[submodule "packages/shadow-conf"]
+	path = packages/shadow-conf
+	url = git@github.com:riatzukiza/shadow-conf.git
+[submodule "packages/test-utils"]
+	path = packages/test-utils
+	url = git@github.com:riatzukiza/test-utils.git
+[submodule "packages/build-monitoring"]
+	path = packages/build-monitoring
+	url = git@github.com:riatzukiza/build-monitoring.git
+[submodule "packages/compliance-monitor"]
+	path = packages/compliance-monitor
+	url = git@github.com:riatzukiza/compliance-monitor.git
+[submodule "packages/dlq"]
+	path = packages/dlq
+	url = git@github.com:riatzukiza/dlq.git
+[submodule "packages/enso-agent-communication"]
+	path = packages/enso-agent-communication
+	url = git@github.com:riatzukiza/enso-agent-communication.git
+[submodule "packages/mcp-dev-ui-frontend"]
+	path = packages/mcp-dev-ui-frontend
+	url = git@github.com:riatzukiza/mcp-dev-ui-frontend.git
+[submodule "packages/obsidian-export"]
+	path = packages/obsidian-export
+	url = git@github.com:riatzukiza/obsidian-export.git
+[submodule "packages/plugin-hooks"]
+	path = packages/plugin-hooks
+	url = git@github.com:riatzukiza/plugin-hooks.git
+[submodule "packages/report-forge"]
+	path = packages/report-forge
+	url = git@github.com:riatzukiza/report-forge.git
+[submodule "packages/snapshots"]
+	path = packages/snapshots
+	url = git@github.com:riatzukiza/snapshots.git
+[submodule "packages/worker"]
+	path = packages/worker
+	url = git@github.com:riatzukiza/worker.git
+[submodule "packages/ds"]
+	path = packages/ds
+	url = git@github.com:riatzukiza/ds.git
+[submodule "packages/omni-tools"]
+	path = packages/omni-tools
+	url = git@github.com:riatzukiza/omni-tools.git
+[submodule "packages/security"]
+	path = packages/security
+	url = git@github.com:riatzukiza/security.git

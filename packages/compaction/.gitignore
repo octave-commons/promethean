@@ -43,3 +43,14 @@ coverage/
 # Temporary files
 *.tmp
 *.temp
+
+# Clojure specific
+.cpcache/
+.nrepl-port/
+.pom.xml
+*.jar
+target/
+classes/
+
+# Shadow-cljs
+.shadow-cljs/
