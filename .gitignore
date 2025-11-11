@@ -169,3 +169,8 @@ simple-test-temp/
 **/test.txt
 
 .worktrees/
+
+# Ignore submodule working tree changes (untracked files)
+packages/*/node_modules/
+packages/*/dist/
+packages/*/tsconfig.tsbuildinfo
