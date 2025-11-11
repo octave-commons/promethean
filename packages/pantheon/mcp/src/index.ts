@@ -61,7 +61,12 @@ export function makeMCPToolAdapter(): MCPToolPort {
 
     register(tool: ToolSpec): void {
       // Convert ToolSpec to MCPTool format
-      const defaultHandler = async () => ({ result: 'Tool executed' });
+      const defaultHandler = async (args?: Record<string, unknown>) => ({
+        result: 'Tool executed',
+        args,
+      });
+      const handler =
+        typeof (tool as any).handler === 'function' ? (tool as any).handler : defaultHandler;
       const mcpTool: MCPTool = {
         name: tool.name,
         description: tool.description,
@@ -70,7 +75,7 @@ export function makeMCPToolAdapter(): MCPToolPort {
           properties: (tool as any).parameters || {},
           required: (tool as any).required || [],
         },
-        handler: (tool as any).handler,
+        handler,
       };
       tools.set(tool.name, mcpTool);
     },
