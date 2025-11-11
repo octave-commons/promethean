@@ -3,10 +3,10 @@
  * Provides debounced watching, pattern matching, and event filtering
  */
 
-import { EventEmitter } from "node:events";
-import { join, relative, extname, basename } from "node:path";
-import { existsSync, statSync } from "node:fs";
-import { createLogger, type Logger } from "@promethean-os/utils";
+import { EventEmitter } from 'node:events';
+import { join, relative, extname } from 'node:path';
+import { existsSync, statSync } from 'node:fs';
+import { createLogger, type Logger } from '@promethean-os/utils';
 
 export interface FileWatcherConfig {
   paths: string[];
@@ -18,7 +18,7 @@ export interface FileWatcherConfig {
 }
 
 export interface FileChangeEvent {
-  type: "add" | "change" | "unlink" | "addDir" | "unlinkDir";
+  type: 'add' | 'change' | 'unlink' | 'addDir' | 'unlinkDir';
   path: string;
   relativePath: string;
   stats?: any;
@@ -42,13 +42,13 @@ export class FileWatcher extends EventEmitter {
   private watchStats = {
     totalEvents: 0,
     filteredEvents: 0,
-    lastEvent: null as Date | null
+    lastEvent: null as Date | null,
   };
 
   constructor(config: FileWatcherConfig) {
     super();
     this.config = config;
-    this.logger = createLogger({ service: "boardrev-watcher" });
+    this.logger = createLogger({ service: 'boardrev-watcher' });
   }
 
   addFilter(filter: FileFilter): void {
@@ -63,18 +63,18 @@ export class FileWatcher extends EventEmitter {
   }
 
   async start(): Promise<void> {
-    this.logger.info("Starting file watchers");
+    this.logger.info('Starting file watchers');
 
     for (const watchPath of this.config.paths) {
       await this.startWatchingPath(watchPath);
     }
 
     this.logger.info(`Started watching ${this.watchers.size} paths`);
-    this.emit("started");
+    this.emit('started');
   }
 
   async stop(): Promise<void> {
-    this.logger.info("Stopping file watchers");
+    this.logger.info('Stopping file watchers');
 
     // Clear all debounce timers
     for (const timer of this.debounceTimers.values()) {
@@ -88,13 +88,13 @@ export class FileWatcher extends EventEmitter {
         watcher.close();
         this.logger.debug(`Stopped watching ${path}`);
       } catch (error) {
-        this.logger.error(`Error stopping watcher for ${path}:`, error);
+        this.logger.error(`Error stopping watcher for ${path}:`, { error: String(error) });
       }
     }
     this.watchers.clear();
 
-    this.logger.info("Stopped all file watchers");
-    this.emit("stopped");
+    this.logger.info('Stopped all file watchers');
+    this.emit('stopped');
   }
 
   getStats() {
@@ -109,7 +109,7 @@ export class FileWatcher extends EventEmitter {
 
     try {
       // Dynamic import for chokidar
-      const { default: chokidar } = await import("chokidar");
+      const { default: chokidar } = await import('chokidar');
 
       const watcher = chokidar.watch(watchPath, {
         ignored: this.config.ignored,
@@ -117,30 +117,29 @@ export class FileWatcher extends EventEmitter {
         ignoreInitial: true,
         depth: this.config.maxDepth,
         followSymlinks: this.config.followSymlinks,
-        alwaysStat: true
+        alwaysStat: true,
       });
 
-      watcher.on("all", (eventType: string, filename: string | null) => {
+      watcher.on('all', (eventType: string, filename: string | null) => {
         if (filename) {
           this.handleFileEvent(eventType, filename, watchPath);
         }
       });
 
-      watcher.on("error", (error: Error) => {
-        this.logger.error(`File watcher error for ${watchPath}:`, error);
-        this.emit("error", { path: watchPath, error });
+      watcher.on('error', (error: Error) => {
+        this.logger.error(`File watcher error for ${watchPath}:`, { error: String(error) });
+        this.emit('error', { path: watchPath, error });
       });
 
-      watcher.on("ready", () => {
+      watcher.on('ready', () => {
         this.logger.debug(`File watcher ready for ${watchPath}`);
-        this.emit("watcher-ready", { path: watchPath });
+        this.emit('watcher-ready', { path: watchPath });
       });
 
       this.watchers.set(watchPath, watcher);
       this.logger.debug(`Started watching ${watchPath}`);
-
     } catch (error) {
-      this.logger.error(`Failed to start file watcher for ${watchPath}:`, error);
+      this.logger.error(`Failed to start file watcher for ${watchPath}:`, { error: String(error) });
       throw error;
     }
   }
@@ -156,7 +155,7 @@ export class FileWatcher extends EventEmitter {
         path: fullPath,
         relativePath,
         stats,
-        timestamp: new Date()
+        timestamp: new Date(),
       };
 
       this.watchStats.totalEvents++;
@@ -171,20 +170,25 @@ export class FileWatcher extends EventEmitter {
 
       // Debounce events
       this.debounceEvent(event);
-
     } catch (error) {
-      this.logger.error(`Error handling file event for ${fullPath}:`, error);
+      this.logger.error(`Error handling file event for ${fullPath}:`, { error: String(error) });
     }
   }
 
-  private normalizeEventType(eventType: string): FileChangeEvent["type"] {
+  private normalizeEventType(eventType: string): FileChangeEvent['type'] {
     switch (eventType) {
-      case "add": return "add";
-      case "change": return "change";
-      case "unlink": return "unlink";
-      case "addDir": return "addDir";
-      case "unlinkDir": return "unlinkDir";
-      default: return eventType as any;
+      case 'add':
+        return 'add';
+      case 'change':
+        return 'change';
+      case 'unlink':
+        return 'unlink';
+      case 'addDir':
+        return 'addDir';
+      case 'unlinkDir':
+        return 'unlinkDir';
+      default:
+        return eventType as any;
     }
   }
 
@@ -253,7 +257,7 @@ export class FileWatcher extends EventEmitter {
     // Set new timer
     const timer = setTimeout(() => {
       this.debounceTimers.delete(key);
-      this.emit("change", event);
+      this.emit('change', event);
       this.logger.debug(`File change detected: ${event.type} ${event.relativePath}`);
     }, this.config.debounceMs);
 
@@ -263,47 +267,47 @@ export class FileWatcher extends EventEmitter {
   // Utility methods for common filters
   static createMarkdownFilter(): FileFilter {
     return {
-      extensions: [".md", ".markdown"]
+      extensions: ['.md', '.markdown'],
     };
   }
 
   static createTaskFilter(): FileFilter {
     return {
       pattern: /docs\/agile\/tasks\//,
-      extensions: [".md"]
+      extensions: ['.md'],
     };
   }
 
   static createBoardFilter(): FileFilter {
     return {
       pattern: /docs\/agile\/boards\//,
-      extensions: [".md"]
+      extensions: ['.md'],
     };
   }
 
   static createConfigFilter(): FileFilter {
     return {
-      extensions: [".json", ".yaml", ".yml", ".toml", ".config.js", ".config.ts"]
+      extensions: ['.json', '.yaml', '.yml', '.toml', '.config.js', '.config.ts'],
     };
   }
 
   static createIgnoreFilter(patterns: string[]): FileFilter {
     return {
-      ignorePattern: new RegExp(patterns.map(p =>
-        p.replace(/\*/g, ".*").replace(/\?/g, ".")
-      ).join("|"))
+      ignorePattern: new RegExp(
+        patterns.map((p) => p.replace(/\*/g, '.*').replace(/\?/g, '.')).join('|'),
+      ),
     };
   }
 
   static createSizeFilter(min?: number, max?: number): FileFilter {
     return {
-      sizeRange: { min, max }
+      sizeRange: { min, max },
     };
   }
 
   static createCustomFilter(filterFn: (event: FileChangeEvent) => boolean): FileFilter {
     return {
-      custom: filterFn
+      custom: filterFn,
     };
   }
 
@@ -311,26 +315,26 @@ export class FileWatcher extends EventEmitter {
   static createBoardrevWatcher(): FileWatcher {
     const config: FileWatcherConfig = {
       paths: [
-        "docs/agile/tasks",
-        "docs/agile/boards",
-        "package.json",
-        "pnpm-workspace.yaml",
-        ".git"
+        'docs/agile/tasks',
+        'docs/agile/boards',
+        'package.json',
+        'pnpm-workspace.yaml',
+        '.git',
       ],
       ignored: [
-        "**/node_modules/**",
-        "**/.git/**",
-        "**/dist/**",
-        "**/coverage/**",
-        "**/.cache/**",
-        "**/*.tmp",
-        "**/*.swp",
-        "**/*.log"
+        '**/node_modules/**',
+        '**/.git/**',
+        '**/dist/**',
+        '**/coverage/**',
+        '**/.cache/**',
+        '**/*.tmp',
+        '**/*.swp',
+        '**/*.log',
       ],
       debounceMs: 2000,
       maxDepth: 10,
       followSymlinks: false,
-      includeDirectories: false
+      includeDirectories: false,
     };
 
     const watcher = new FileWatcher(config);
@@ -338,27 +342,31 @@ export class FileWatcher extends EventEmitter {
     // Add common filters
     watcher.addFilter(FileWatcher.createMarkdownFilter());
     watcher.addFilter(FileWatcher.createConfigFilter());
-    watcher.addFilter(FileWatcher.createIgnoreFilter([
-      "**/test/**",    // Ignore test files
-      "**/test-*/**",  // Ignore test directories
-      "**/*-test.*",   // Ignore test files
-      "**/*.test.*",   // Ignore test files
-      "**/coverage/**", // Ignore coverage reports
-      "**/.*"          // Ignore hidden files (except specific ones)
-    ]));
+    watcher.addFilter(
+      FileWatcher.createIgnoreFilter([
+        '**/test/**', // Ignore test files
+        '**/test-*/**', // Ignore test directories
+        '**/*-test.*', // Ignore test files
+        '**/*.test.*', // Ignore test files
+        '**/coverage/**', // Ignore coverage reports
+        '**/.*', // Ignore hidden files (except specific ones)
+      ]),
+    );
 
     // Custom filter for significant changes
-    watcher.addFilter(FileWatcher.createCustomFilter((event) => {
-      // Only include files that are likely to affect boardrev results
-      const significantPaths = [
-        "docs/agile/tasks/",
-        "docs/agile/boards/",
-        "package.json",
-        "pnpm-workspace.yaml"
-      ];
+    watcher.addFilter(
+      FileWatcher.createCustomFilter((event) => {
+        // Only include files that are likely to affect boardrev results
+        const significantPaths = [
+          'docs/agile/tasks/',
+          'docs/agile/boards/',
+          'package.json',
+          'pnpm-workspace.yaml',
+        ];
 
-      return significantPaths.some(path => event.relativePath.includes(path));
-    }));
+        return significantPaths.some((path) => event.relativePath.includes(path));
+      }),
+    );
 
     return watcher;
   }

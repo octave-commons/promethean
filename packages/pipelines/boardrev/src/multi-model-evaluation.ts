@@ -355,16 +355,16 @@ export async function evaluateTaskWithMultipleModels(
         if (i !== j) {
           try {
             const assessment = await crossModelAssess(
-              modelEvaluations[j].model,
-              modelEvaluations[i],
+              modelEvaluations[j]?.model || 'unknown',
+              modelEvaluations[i]!,
               modelEvaluations.filter((e) => e !== modelEvaluations[i]),
               context,
             );
             crossAssessments.push(assessment);
           } catch (error) {
             logger.warn(
-              `Cross-assessment failed for ${modelEvaluations[j].model} reviewing ${modelEvaluations[i].model}:`,
-              error,
+              `Cross-assessment failed for ${modelEvaluations[j]?.model || 'unknown'} reviewing ${modelEvaluations[i]?.model || 'unknown'}:`,
+              { error: String(error) },
             );
           }
         }
@@ -435,7 +435,9 @@ export async function batchEvaluateTasks(
       const batchResults = await Promise.all(batchPromises);
       results.push(...batchResults);
     } catch (error) {
-      logger.error(`Batch evaluation failed for tasks ${i}-${i + concurrency - 1}:`, error);
+      logger.error(`Batch evaluation failed for tasks ${i}-${i + concurrency - 1}:`, {
+        error: String(error),
+      });
     }
   }
 
