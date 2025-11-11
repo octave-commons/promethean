@@ -37,3 +37,6 @@
 [submodule "packages/agent-os-protocol"]
 	path = packages/agent-os-protocol
 	url = git@github.com:riatzukiza/agent-os-protocol.git
+[submodule "packages/ai-learning"]
+	path = packages/ai-learning
+	url = git@github.com:riatzukiza/ai-learning.git
