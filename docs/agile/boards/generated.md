@@ -364,6 +364,7 @@ kanban-plugin: board
 - [ ] [[Parallel Security Testing Pipeline]] #security #testing #critical #parallel #pipeline prio:P0 (uuid:40e07691-40bb-45c1-9eb8-aedc9433e9cc)
 - [ ] [[Implement Automated Compliance Monitoring System]] #monitoring #automation #compliance #real-time #alerting prio:P0 (uuid:fbc2b53d-0878-44f8-a6a3-96ee83f0b492)
 - [ ] [[20251011235213|Implement Git Workflow Core Implementation]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #version-control #phase-1 prio:P1 (uuid:5791f7ad-8954-4204-932d-1f1383e90732)
+- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [[20251011235145|Implement Scar Context Core Types and Interfaces]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #scar-context #typescript #phase-1 prio:P1 (uuid:2e73e798-7023-45cc-9733-e9d0037f0525)
 - [ ] [[2025.10.22.cross-platform-error-handling.md 2|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
@@ -455,7 +456,6 @@ kanban-plugin: board
 ## review
 
 - [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
-- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
 - [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
 - [ ] [[2025.10.08.23.58.30-expand-utils-retry-tests|Task f9bc9fe0]] #retry #testing #utils prio:P3 (uuid:f9bc9fe0-8ee2-4ab9-8790-31f60b6680ac)
 - [ ] [[Address security vulnerabilities in @packages shadow-conf|Address security vulnerabilities in @packages/shadow-conf/]] #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
@@ -531,6 +531,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,true,true,false,false,false,false,true,false,true,false,true,true,true,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,true,false,false,false,false,true,false,false,false,false,true,true,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
