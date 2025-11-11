@@ -1,9 +1,8 @@
 ---
-
-    message: 'Create task: 3308ce11-0321-4bc2-a4be-bdf5e5e8701a - Create task: Kanban System Health Monitoring & Alerting Framework'
-    author: 'Error'
-    type: 'create'
-
+message: "Create task: 3308ce11-0321-4bc2-a4be-bdf5e5e8701a - Create task: Kanban System Health Monitoring & Alerting Framework"
+author: Error
+type: create
+status: ready
 ---
 
 ## 📝 Breakdown Assessment
