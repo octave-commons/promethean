@@ -18,6 +18,7 @@ import {
   MetricsCollector,
   WebhookHandler,
   WebhookEvent,
+  Task,
 } from './types.js';
 import { DefaultSyncEngine } from './sync.js';
 import { WebhookServer } from './webhook-server.js';
@@ -45,16 +46,16 @@ interface KanbanClient {
 }
 
 export class BridgeServer extends EventEmitter implements WebhookHandler {
-  private config: BridgeConfig;
-  private syncEngine: SyncEngine;
-  private webhookServer: WebhookServer;
-  private queue: SyncQueue;
-  private storage: EventStorage;
-  private taskMapper: TaskMapper;
-  private conflictResolver: ConflictResolver;
-  private metricsCollector: MetricsCollector;
-  private mcpClient: McpClient;
-  private kanbanClient: KanbanClient;
+  private readonly config: BridgeConfig;
+  private syncEngine!: SyncEngine;
+  private webhookServer!: WebhookServer;
+  private queue!: SyncQueue;
+  private storage!: EventStorage;
+  private taskMapper!: TaskMapper;
+  private conflictResolver!: ConflictResolver;
+  private metricsCollector!: MetricsCollector;
+  private mcpClient!: McpClient;
+  private kanbanClient!: KanbanClient;
 
   constructor(config: BridgeConfig) {
     super();
@@ -72,6 +73,10 @@ export class BridgeServer extends EventEmitter implements WebhookHandler {
     this.conflictResolver = ConflictResolverFactory.create(this.config.sync.conflictResolution);
     this.metricsCollector = MetricsCollectorFactory.create('default');
 
+    // Initialize clients (replace with real implementations)
+    this.mcpClient = this.createMockMcpClient();
+    this.kanbanClient = this.createMockKanbanClient();
+
     // Initialize webhook server
     this.webhookServer = new WebhookServer(this.config);
 
@@ -85,10 +90,6 @@ export class BridgeServer extends EventEmitter implements WebhookHandler {
       this.mcpClient,
       this.kanbanClient,
     );
-
-    // Mock clients - in real implementation, these would be actual API clients
-    this.mcpClient = this.createMockMcpClient();
-    this.kanbanClient = this.createMockKanbanClient();
   }
 
   private setupEventHandlers(): void {
@@ -112,31 +113,34 @@ export class BridgeServer extends EventEmitter implements WebhookHandler {
       console.log('✅ Synchronization completed');
     });
 
-    this.syncEngine.on('taskSynced', ({ taskId, task }) => {
+    this.syncEngine.on('taskSynced', ({ taskId, task }: { taskId: string; task: Task }) => {
       this.metricsCollector.recordTaskSynced(taskId);
       this.emit('taskSynced', { taskId, task });
       console.log(`📝 Task synced: ${taskId}`);
     });
 
-    this.syncEngine.on('conflictResolved', ({ taskId, task }) => {
+    this.syncEngine.on('conflictResolved', ({ taskId, task }: { taskId: string; task: Task }) => {
       this.metricsCollector.recordConflictResolved(taskId);
       this.emit('conflictResolved', { taskId, task });
       console.log(`⚖️ Conflict resolved for task: ${taskId}`);
     });
 
-    this.syncEngine.on('syncError', ({ taskId, error }) => {
+    this.syncEngine.on('syncError', ({ taskId, error }: { taskId: string; error: Error }) => {
       this.emit('syncError', { taskId, error });
       console.error(`❌ Sync error for task ${taskId}:`, error);
     });
 
     // Metrics event handlers
-    this.metricsCollector.on('metric:processed', (event) => {
+    this.metricsCollector.on('metric:processed', (event: { type: string; source: string }) => {
       console.log(`📊 Event processed: ${event.type} from ${event.source}`);
     });
 
-    this.metricsCollector.on('metric:failed', (event) => {
-      console.error(`📊 Event failed: ${event.type} from ${event.source} - ${event.error}`);
-    });
+    this.metricsCollector.on(
+      'metric:failed',
+      (event: { type: string; source: string; error: Error }) => {
+        console.error(`📊 Event failed: ${event.type} from ${event.source} - ${event.error}`);
+      },
+    );
   }
 
   async start(): Promise<void> {
@@ -201,7 +205,6 @@ export class BridgeServer extends EventEmitter implements WebhookHandler {
       const duration = Date.now() - startTime;
       this.metricsCollector.recordEventProcessed(event.type, event.source, duration);
     } catch (error) {
-      const duration = Date.now() - startTime;
       this.metricsCollector.recordEventFailed(event.type, event.source, error as Error);
       throw error;
     }
@@ -380,5 +383,3 @@ if (require.main === module) {
     process.exit(1);
   });
 }
-
-export { BridgeServer };

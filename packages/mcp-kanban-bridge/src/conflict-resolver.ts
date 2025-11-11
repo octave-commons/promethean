@@ -152,7 +152,7 @@ export class DefaultConflictResolver implements ConflictResolver {
     return mergedTask;
   }
 
-  private mergeField(mcpValue: any, kanbanValue: any, fieldName: string): any {
+  private mergeField(mcpValue: any, kanbanValue: any, _fieldName: string): any {
     // Simple merge strategy - prefer non-null/non-empty values
     if (mcpValue && !kanbanValue) return mcpValue;
     if (!mcpValue && kanbanValue) return kanbanValue;
@@ -197,17 +197,19 @@ export class DefaultConflictResolver implements ConflictResolver {
     return mcpIndex > kanbanIndex ? mcpStatus : kanbanStatus;
   }
 
-  private mergePriority(mcpPriority: string, kanbanPriority: string): string {
+  private mergePriority(mcpPriority: string, kanbanPriority: string): 'P0' | 'P1' | 'P2' | 'P3' {
     // Priority merge - prefer higher priority (lower number)
     const priorityOrder = ['P0', 'P1', 'P2', 'P3'];
     const mcpIndex = priorityOrder.indexOf(mcpPriority);
     const kanbanIndex = priorityOrder.indexOf(kanbanPriority);
 
-    if (mcpIndex === -1 && kanbanIndex === -1) return mcpPriority;
-    if (mcpIndex === -1) return kanbanPriority;
-    if (kanbanIndex === -1) return mcpPriority;
+    if (mcpIndex === -1 && kanbanIndex === -1) return 'P3'; // Default priority
+    if (mcpIndex === -1) return kanbanPriority as 'P0' | 'P1' | 'P2' | 'P3';
+    if (kanbanIndex === -1) return mcpPriority as 'P0' | 'P1' | 'P2' | 'P3';
 
-    return mcpIndex < kanbanIndex ? mcpPriority : kanbanPriority;
+    return mcpIndex < kanbanIndex
+      ? (mcpPriority as 'P0' | 'P1' | 'P2' | 'P3')
+      : (kanbanPriority as 'P0' | 'P1' | 'P2' | 'P3');
   }
 
   private mergeTags(mcpTags: string[], kanbanTags: string[]): string[] {

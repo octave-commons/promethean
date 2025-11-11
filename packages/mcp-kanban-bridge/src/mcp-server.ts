@@ -28,8 +28,6 @@ import {
   deleteTask,
   updateTaskDescription,
   renameTask,
-  analyzeTask,
-  breakdownTask,
 } from '@promethean-os/kanban';
 import type { Task, Board } from '@promethean-os/kanban';
 import { z } from 'zod';
@@ -449,7 +447,8 @@ class MCPKanbanServer {
       .parse(args);
 
     try {
-      const task = await findTaskById(parsed.uuid);
+      const { board } = await getKanbanContext();
+      const task = await findTaskById(board, parsed.uuid);
 
       if (!task) {
         throw new McpError(ErrorCode.InvalidRequest, `Task with UUID ${parsed.uuid} not found`);
@@ -482,21 +481,23 @@ class MCPKanbanServer {
     const parsed = UpdateTaskSchema.parse(args);
 
     try {
-      // Update different aspects of the task
+      const { board, boardFile, tasksDir } = await getKanbanContext();
+
+      // Update different aspects of task
       if (parsed.title) {
-        await renameTask(parsed.uuid, parsed.title);
+        await renameTask(board, parsed.uuid, parsed.title, tasksDir, boardFile);
       }
 
       if (parsed.content) {
-        await updateTaskDescription(parsed.uuid, parsed.content);
+        await updateTaskDescription(board, parsed.uuid, parsed.content, tasksDir, boardFile);
       }
 
       if (parsed.status) {
-        await updateStatus(parsed.uuid, parsed.status);
+        await updateStatus(board, parsed.uuid, parsed.status, boardFile, tasksDir);
       }
 
-      // Get the updated task
-      const updatedTask = await findTaskById(parsed.uuid);
+      // Get updated task
+      const updatedTask = await findTaskById(board, parsed.uuid);
 
       if (!updatedTask) {
         throw new McpError(
@@ -529,7 +530,9 @@ class MCPKanbanServer {
     const parsed = MoveTaskSchema.parse(args);
 
     try {
-      await moveTask(parsed.uuid, parsed.direction);
+      const { board, boardFile } = await getKanbanContext();
+      const delta = parsed.direction === 'up' ? -1 : 1;
+      await moveTask(board, parsed.uuid, delta, boardFile);
 
       return {
         content: [
@@ -556,7 +559,8 @@ class MCPKanbanServer {
       .parse(args);
 
     try {
-      await updateStatus(parsed.uuid, parsed.status);
+      const { board, boardFile, tasksDir } = await getKanbanContext();
+      await updateStatus(board, parsed.uuid, parsed.status, boardFile, tasksDir);
 
       return {
         content: [
@@ -578,7 +582,7 @@ class MCPKanbanServer {
     const parsed = SearchTasksSchema.parse(args);
 
     try {
-      const board = await loadBoard();
+      const { board } = await getKanbanContext();
       const searchResult = await searchTasks(board, parsed.query);
 
       // Combine exact and similar results
@@ -615,7 +619,8 @@ class MCPKanbanServer {
     const parsed = GetColumnSchema.parse(args);
 
     try {
-      const columnData = await getColumn(parsed.column);
+      const { board } = await getKanbanContext();
+      const columnData = await getColumn(board, parsed.column);
 
       if (parsed.format === 'markdown') {
         const markdown = this.formatColumnAsMarkdown(columnData);
@@ -657,7 +662,8 @@ class MCPKanbanServer {
       .parse(args);
 
     try {
-      await deleteTask(parsed.uuid);
+      const { board, tasksDir, boardFile } = await getKanbanContext();
+      await deleteTask(board, parsed.uuid, tasksDir, boardFile);
 
       return {
         content: [
@@ -683,7 +689,7 @@ class MCPKanbanServer {
       .parse(args);
 
     try {
-      const board = await loadBoard();
+      const { board } = await getKanbanContext();
 
       if (parsed.format === 'markdown') {
         const markdown = this.formatBoardAsMarkdown(board);

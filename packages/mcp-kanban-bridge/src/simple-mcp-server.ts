@@ -606,7 +606,8 @@ class SimpleMCPKanbanServer {
 
     try {
       const { board, boardFile } = await getKanbanContext();
-      await moveTask(board, parsed.uuid, parsed.direction, boardFile);
+      const delta = parsed.direction === 'up' ? -1 : 1;
+      await moveTask(board, parsed.uuid, delta, boardFile);
 
       return {
         content: [
@@ -808,7 +809,7 @@ class SimpleMCPKanbanServer {
         parsed.analysisType || ('complexity' as any),
         tasksDir,
         boardFile,
-        parsed.context,
+        parsed.context ? { projectInfo: parsed.context } : undefined,
         {},
       );
 
@@ -849,7 +850,11 @@ class SimpleMCPKanbanServer {
         boardFile,
         {
           maxSubtasks: parsed.maxSubtasks,
-          complexity: parsed.complexity,
+          complexity: (parsed.complexity === 'low'
+            ? 'simple'
+            : parsed.complexity === 'high'
+              ? 'complex'
+              : parsed.complexity) as 'medium' | 'simple' | 'complex' | undefined,
         },
       );
 

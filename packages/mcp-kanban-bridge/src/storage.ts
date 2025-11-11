@@ -1,8 +1,8 @@
 import { EventStorage, SyncEvent, BridgeConfig } from './types.js';
-import Redis from 'ioredis';
+import * as Redis from 'ioredis';
 
 export class RedisEventStorage implements EventStorage {
-  private redis: Redis;
+  private redis: Redis.Redis;
   private keyPrefix = 'sync:event:';
 
   constructor(config: BridgeConfig) {
@@ -10,12 +10,11 @@ export class RedisEventStorage implements EventStorage {
       throw new Error('Redis configuration required for RedisEventStorage');
     }
 
-    this.redis = new Redis({
+    this.redis = new Redis.Redis({
       host: config.storage.redis.host,
       port: config.storage.redis.port,
       db: config.storage.redis.db,
       password: config.storage.redis.password,
-      retryDelayOnFailover: 100,
       maxRetriesPerRequest: 3,
     });
   }
