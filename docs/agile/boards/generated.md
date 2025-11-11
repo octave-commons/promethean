@@ -6,6 +6,7 @@ kanban-plugin: board
 
 ## icebox
 
+- [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
 - [ ] [[2025.10.08.15.30.00-fix-kanban-config-resolution|Task 2c7e9d46]] #bug #cli #config #kanban prio:P1 (uuid:2c7e9d46-09b2-4670-a3ac-381cb4f0c21e)
 - [ ] [[2025.10.08.16.05.00-implement-omni-auth-rbac|Task 1a148406]] #auth #omni #rbac #security #service prio:P2 (uuid:1a148406-56c1-4178-a282-6ebe180c20a2)
 - [ ] [[2025.10.08.16.25.00-fix-grep-error-handling|Task 0b41959d]] #error-handling #grep #ripgrep #smartgpt-bridge prio:P2 (uuid:0b41959d-cd50-4a9c-bd00-10eebac7257b)
@@ -525,8 +526,6 @@ kanban-plugin: board
 ***
 
 ## Archive
-
-- [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
 
 %% kanban:settings
 ```
