@@ -1,5 +1,5 @@
 (ns kanban.app
-  (:require [kanban.core :as core]
+  (:require [core :as core]
             [goog.dom :as gdom]))
 
 (defn mount! [root-element]
