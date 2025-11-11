@@ -505,12 +505,7 @@ kanban-plugin: board
 
 ## archived
 
-- [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
 - [ ] [[implement-wip-limit-enforcement-gate|Implement WIP Limit Enforcement Gate]] #security-gates #wip-limits #automation #kanban-cli #capacity-management prio:P0 (uuid:f48b4765-bf7c-4d8e-9a3b-5d6e7f8a9b0c)
-
-
-## in_review
-
 
 
 ## backlog
@@ -527,10 +522,14 @@ kanban-plugin: board
 - [ ] [[kanban-fsm]] #docops #labeled #superseded prio:P3 (uuid:ffe11354-b4c3-4376-beb2-5aba8fc24f14)
 
 
+***
 
+## Archive
+
+- [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,true,true,true,false,true,true,true,false,true,false,true,true,true,true,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,true,true,false,true,true,true,false,true,false,true,true,true,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
