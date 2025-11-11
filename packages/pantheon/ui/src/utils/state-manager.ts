@@ -2,16 +2,16 @@
  * Centralized state management for the Agent Management UI
  */
 
-import { BehaviorSubject, Observable, combineLatest } from 'rxjs';
-import { map, distinctUntilChanged, debounceTime } from 'rxjs/operators';
-import type { 
-  Agent, 
-  AgentTask, 
-  AgentEvent, 
-  DashboardFilters, 
-  UIState, 
+import { BehaviorSubject, combineLatest } from 'rxjs';
+import { map, distinctUntilChanged } from 'rxjs/operators';
+import type {
+  Agent,
+  AgentTask,
+  AgentEvent,
+  DashboardFilters,
+  UIState,
   SystemMetrics,
-  AgentAction 
+  AgentAction,
 } from '../types.js';
 
 export class StateManager {
@@ -23,14 +23,14 @@ export class StateManager {
     type: [],
     search: '',
     sortBy: 'name',
-    sortOrder: 'asc'
+    sortOrder: 'asc',
   });
   private uiState$ = new BehaviorSubject<UIState>({
     sidebarOpen: true,
     theme: 'auto',
     view: 'grid',
     autoRefresh: true,
-    refreshInterval: 5000
+    refreshInterval: 5000,
   });
   private systemMetrics$ = new BehaviorSubject<SystemMetrics>({
     totalAgents: 0,
@@ -41,7 +41,7 @@ export class StateManager {
     systemLoad: 0,
     memoryUsage: 0,
     cpuUsage: 0,
-    uptime: 0
+    uptime: 0,
   });
 
   // Public observables
@@ -53,27 +53,28 @@ export class StateManager {
   readonly systemMetrics = this.systemMetrics$.asObservable();
 
   // Computed observables
-  readonly filteredAgents$ = combineLatest([
+  readonly filteredAgents$ = combineLatest<[Agent[], DashboardFilters]>([
     this.agents$,
-    this.filters$
+    this.filters$,
   ]).pipe(
-    map(([agents, filters]) => this.filterAgents(agents, filters)),
-    distinctUntilChanged()
+    map(([agents, filters]: [Agent[], DashboardFilters]) => this.filterAgents(agents, filters)),
+    distinctUntilChanged(),
   );
 
   readonly activeTasks$ = this.tasks$.pipe(
-    map(tasks => tasks.filter(task => task.status === 'running' || task.status === 'pending'))
+    map((tasks: AgentTask[]) =>
+      tasks.filter((task: AgentTask) => task.status === 'running' || task.status === 'pending'),
+    ),
   );
 
   readonly recentEvents$ = this.events$.pipe(
-    map(events => events.slice(0, 50).reverse())
+    map((events: AgentEvent[]) => events.slice(0, 50).reverse()),
   );
 
-  readonly selectedAgent$ = combineLatest([
-    this.agents$,
-    this.uiState$
-  ]).pipe(
-    map(([agents, uiState]) => agents.find(agent => agent.id === uiState.selectedAgent))
+  readonly selectedAgent$ = combineLatest<[Agent[], UIState]>([this.agents$, this.uiState$]).pipe(
+    map(([agents, uiState]: [Agent[], UIState]) =>
+      agents.find((agent: Agent) => agent.id === uiState.selectedAgent),
+    ),
   );
 
   constructor() {
@@ -94,18 +95,40 @@ export class StateManager {
 
   updateAgent(agentId: string, updates: Partial<Agent>): void {
     const current = this.agents$.value;
-    const index = current.findIndex(agent => agent.id === agentId);
-    if (index !== -1) {
-      const updated = [...current];
-      updated[index] = { ...updated[index], ...updates, updatedAt: new Date() };
-      this.agents$.next(updated);
-      this.updateSystemMetrics(updated);
-    }
+    const index = current.findIndex((agent: Agent) => agent.id === agentId);
+    if (index === -1) return;
+
+    const existing = current[index];
+    if (!existing) return;
+
+    const {
+      id: _ignoredId,
+      metrics: metricsUpdates,
+      config: configUpdates,
+      workflow,
+      capabilities,
+      ...rest
+    } = updates;
+
+    const merged: Agent = {
+      ...existing,
+      ...rest,
+      metrics: metricsUpdates ? { ...existing.metrics, ...metricsUpdates } : existing.metrics,
+      config: configUpdates ? { ...existing.config, ...configUpdates } : existing.config,
+      workflow: workflow ?? existing.workflow,
+      capabilities: capabilities ?? existing.capabilities,
+      updatedAt: new Date(),
+    };
+
+    const nextAgents = [...current];
+    nextAgents[index] = merged;
+    this.agents$.next(nextAgents);
+    this.updateSystemMetrics(nextAgents);
   }
 
   removeAgent(agentId: string): void {
     const current = this.agents$.value;
-    const filtered = current.filter(agent => agent.id !== agentId);
+    const filtered = current.filter((agent: Agent) => agent.id !== agentId);
     this.agents$.next(filtered);
     this.updateSystemMetrics(filtered);
   }
@@ -122,12 +145,23 @@ export class StateManager {
 
   updateTask(taskId: string, updates: Partial<AgentTask>): void {
     const current = this.tasks$.value;
-    const index = current.findIndex(task => task.id === taskId);
-    if (index !== -1) {
-      const updated = [...current];
-      updated[index] = { ...updated[index], ...updates };
-      this.tasks$.next(updated);
-    }
+    const index = current.findIndex((task: AgentTask) => task.id === taskId);
+    if (index === -1) return;
+
+    const existing = current[index];
+    if (!existing) return;
+
+    const { id: _ignoredId, agentId: _ignoredAgentId, metadata, ...rest } = updates;
+
+    const merged: AgentTask = {
+      ...existing,
+      ...rest,
+      metadata: metadata ? { ...existing.metadata, ...metadata } : existing.metadata,
+    };
+
+    const nextTasks = [...current];
+    nextTasks[index] = merged;
+    this.tasks$.next(nextTasks);
   }
 
   // Event management
@@ -152,7 +186,7 @@ export class StateManager {
       type: [],
       search: '',
       sortBy: 'name',
-      sortOrder: 'asc'
+      sortOrder: 'asc',
     });
   }
 
@@ -190,20 +224,21 @@ export class StateManager {
 
     // Status filter
     if (filters.status.length > 0) {
-      filtered = filtered.filter(agent => filters.status.includes(agent.status));
+      filtered = filtered.filter((agent) => filters.status.includes(agent.status));
     }
 
     // Type filter
     if (filters.type.length > 0) {
-      filtered = filtered.filter(agent => filters.type.includes(agent.type));
+      filtered = filtered.filter((agent) => filters.type.includes(agent.type));
     }
 
     // Search filter
     if (filters.search) {
       const search = filters.search.toLowerCase();
-      filtered = filtered.filter(agent => 
-        agent.name.toLowerCase().includes(search) ||
-        agent.capabilities.some(cap => cap.toLowerCase().includes(search))
+      filtered = filtered.filter(
+        (agent) =>
+          agent.name.toLowerCase().includes(search) ||
+          agent.capabilities.some((cap) => cap.toLowerCase().includes(search)),
       );
     }
 
@@ -211,7 +246,7 @@ export class StateManager {
     filtered.sort((a, b) => {
       const aValue = this.getSortValue(a, filters.sortBy);
       const bValue = this.getSortValue(b, filters.sortBy);
-      
+
       if (aValue < bValue) return filters.sortOrder === 'asc' ? -1 : 1;
       if (aValue > bValue) return filters.sortOrder === 'asc' ? 1 : -1;
       return 0;
@@ -220,26 +255,33 @@ export class StateManager {
     return filtered;
   }
 
-  private getSortValue(agent: Agent, field: string): any {
+  private getSortValue(agent: Agent, field: string): string | number {
     switch (field) {
-      case 'name': return agent.name;
-      case 'status': return agent.status;
-      case 'type': return agent.type;
-      case 'lastActive': return agent.lastActive?.getTime() || 0;
-      case 'tasksCompleted': return agent.metrics.tasksCompleted;
-      case 'errorRate': return agent.metrics.errorRate;
-      default: return agent.name;
+      case 'name':
+        return agent.name;
+      case 'status':
+        return agent.status;
+      case 'type':
+        return agent.type;
+      case 'lastActive':
+        return agent.lastActive?.getTime() || 0;
+      case 'tasksCompleted':
+        return agent.metrics.tasksCompleted;
+      case 'errorRate':
+        return agent.metrics.errorRate;
+      default:
+        return agent.name;
     }
   }
 
   private updateSystemMetrics(agents: Agent[]): void {
     const tasks = this.tasks$.value;
-    const activeAgents = agents.filter(agent => 
-      agent.status === 'active' || agent.status === 'busy'
+    const activeAgents = agents.filter(
+      (agent) => agent.status === 'active' || agent.status === 'busy',
     ).length;
 
-    const completedTasks = tasks.filter(task => task.status === 'completed').length;
-    const failedTasks = tasks.filter(task => task.status === 'failed').length;
+    const completedTasks = tasks.filter((task: AgentTask) => task.status === 'completed').length;
+    const failedTasks = tasks.filter((task: AgentTask) => task.status === 'failed').length;
 
     this.systemMetrics$.next({
       totalAgents: agents.length,
@@ -250,7 +292,7 @@ export class StateManager {
       systemLoad: 0, // Would be populated by monitoring system
       memoryUsage: 0, // Would be populated by monitoring system
       cpuUsage: 0, // Would be populated by monitoring system
-      uptime: 0 // Would be populated by monitoring system
+      uptime: 0, // Would be populated by monitoring system
     });
   }
 
@@ -284,16 +326,18 @@ export class StateManager {
   }
 
   private initializeAutoRefresh(): void {
-    this.uiState$.pipe(
-      map(state => state.autoRefresh),
-      distinctUntilChanged()
-    ).subscribe(autoRefresh => {
-      if (autoRefresh) {
-        this.startAutoRefresh();
-      } else {
-        this.stopAutoRefresh();
-      }
-    });
+    this.uiState$
+      .pipe(
+        map((state: UIState) => state.autoRefresh),
+        distinctUntilChanged(),
+      )
+      .subscribe((autoRefresh: boolean) => {
+        if (autoRefresh) {
+          this.startAutoRefresh();
+        } else {
+          this.stopAutoRefresh();
+        }
+      });
   }
 
   private refreshInterval?: NodeJS.Timeout;
