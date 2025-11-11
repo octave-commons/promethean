@@ -319,7 +319,6 @@ kanban-plugin: board
 
 - [ ] [[2025.10.16.design-cross-platform-compatibility-layer.md 2|Design Cross-Platform Compatibility Layer]] #architecture #design #cross-platform #foundation prio:P0 (uuid:e0283b7a-9bad-4924-86d5-9af797f96238)
 - [ ] [[Implement LLM-powered kanban explain command]] #llm #explain #command #kanban prio:P1 (uuid:6866f097-f4c8-485a-8c1d-78de260459d2)
-- [ ] [[Add @promethean autocommit package (LLM-generated commit messages) --tags framework-core,doc-this|Add @promethean-os/autocommit package (LLM-generated commit messages) --tags framework-core,doc-this]] #autocommit #package #llm #generated prio:P1 (uuid:afaec0f2-41a6-4676-a98e-1882d5a9ed4a)
 - [ ] [[Add Epic Functionality to Kanban Board]] #[epic #kanban #feature #implementation] prio:P0 (uuid:07bc6e1c-4f3f-49fe-8a21-088017cb17fa)
 - [ ] [[Add comprehensive input validation to indexer-core]] #security #validation #indexer-core #input-sanitization prio:P1 (uuid:275a6b80-0c0c-4c78-a6d0-bc3d9b098b40)
 - [ ] [[Comprehensive Kanban Board Analysis - Strategic Insights & Recommendations]] #analysis #governance #health-check #recommendations #strategy prio:P1 (uuid:bac7cd41-7bf8-4698-84b3-db6b31b966ed)
@@ -353,6 +352,7 @@ kanban-plugin: board
 
 ## ready
 
+- [ ] [[2025.10.22.cross-platform-error-handling.md 2|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
 - [ ] [[Kanban System Health Monitoring & Alerting Framework]] #kanban #health-monitoring #automation #alerting #framework #mcp-integration #healing prio:P1 (uuid:3308ce11-0321-4bc2-a4be-bdf5e5e8701a)
 - [ ] [[Add BuildFix process timeout handling]] #buildfix #critical #timeout #provider prio:P0 (uuid:e02ca039-c992-431d-81ff-bdabddb2502d)
 - [ ] [[BuildFix Provider Optimization Epic]] #buildfix #epic #optimization #provider prio:P0 (uuid:8ec5fd9d-f58a-46a1-abd2-da4f56b2ffa7)
@@ -452,6 +452,10 @@ kanban-plugin: board
 
 ## review
 
+- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
+- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
+- [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
+- [ ] [[2025.10.08.23.58.30-expand-utils-retry-tests|Task f9bc9fe0]] #retry #testing #utils prio:P3 (uuid:f9bc9fe0-8ee2-4ab9-8790-31f60b6680ac)
 - [ ] [[Address security vulnerabilities in @packages shadow-conf|Address security vulnerabilities in @packages/shadow-conf/]] #security #critical #shadow-conf #p0 #vulnerability #path-traversal prio:P0 (uuid:e3473da0-b7a0-4704-9a20-3b6adf3fa3f5)
 - [ ] [[Create optimized build pipeline with parallel jobs]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:2f160835-dd8b-4a25-a512-d5fde95bcd6c)
 - [ ] [[Fix TypeScript compilation errors in @packages shadow-conf|Fix TypeScript compilation errors in @packages/shadow-conf/]] #critical #typescript #compilation #shadow-conf #p0 #build-fix prio:P0 (uuid:530efcaa-d246-4a44-a27c-e66633216d7d)
@@ -468,6 +472,7 @@ kanban-plugin: board
 
 ## done
 
+- [ ] [[Add @promethean autocommit package (LLM-generated commit messages) --tags framework-core,doc-this|Add @promethean-os/autocommit package (LLM-generated commit messages) --tags framework-core,doc-this]] #autocommit #package #llm #generated prio:P1 (uuid:afaec0f2-41a6-4676-a98e-1882d5a9ed4a)
 - [x] [[2025.10.08.16.00.00-create-omni-service-package|Task ad174e6a]] #fastify #omni #scaffolding #service prio:P2 (uuid:ad174e6a-d4bb-4292-9b32-8572e4eca8cb)
 - [x] [[2025.10.08.16.10.00-mount-omni-adapters|Task c04967e5]] #adapters #integration #omni #service prio:P2 (uuid:c04967e5-0295-4711-b8a3-6a1e5e104c17)
 - [x] [[2025.10.08.16.15.00-omni-service-integration-tests|Task 0e98fc4f]] #ci #deployment #omni #service #testing prio:P2 (uuid:0e98fc4f-3c53-4f86-8470-096437b4ff62)
@@ -506,15 +511,10 @@ kanban-plugin: board
 
 ## in_review
 
-- [ ] [[2025.10.08.23.58.30-expand-utils-retry-tests|Task f9bc9fe0]] #retry #testing #utils prio:P3 (uuid:f9bc9fe0-8ee2-4ab9-8790-31f60b6680ac)
-- [ ] [[Fix BuildFix path resolution logic duplication]] #buildfix #critical #bug #provider prio:P0 (uuid:fc5dc875-cd6c-47fb-b02b-56138c06b2fb)
-- [ ] [[Fix Kanban Column Underscore Normalization Bug]] #kanban #column #bug #fix prio:P0 (uuid:02c78938-cf9c-45a0-b5ff-6e7a212fb043)
-- [ ] [[cephalon_feature_flag_path_selection|cephalon feature flag path selection]] #cephalon #feature #flag #path prio:P3 (uuid:1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269)
 
 
 ## backlog
 
-- [ ] [[2025.10.22.cross-platform-error-handling.md 2|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
 - [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
 
 
@@ -531,6 +531,6 @@ kanban-plugin: board
 
 %% kanban:settings
 ```
-{"kanban-plugin":"board","list-collapse":[true,true,true,true,false,true,true,true,false,true,true,true,true,true,true,true,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
+{"kanban-plugin":"board","list-collapse":[true,true,true,true,false,true,true,true,false,true,false,true,true,true,true,false,false],"new-note-template":"docs/agile/templates/task.stub.template.md","new-note-folder":"docs/agile/tasks","metadata-keys":[{"metadataKey":"tags","label":"","shouldHideLabel":false,"containsMarkdown":false},{"metadataKey":"hashtags","label":"","shouldHideLabel":false,"containsMarkdown":false}]}
 ```
 %%
