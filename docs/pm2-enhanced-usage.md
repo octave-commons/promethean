@@ -242,6 +242,28 @@ pm2 restart all --max-memory-restart 1G
 pm2 logs nx-watcher | grep -i memory
 ```
 
+#### 2a. Nx Daemon Source & Memory Control
+
+The `nx-watcher` PM2 process defined in `packages/ecosystem-dsl/src/ecosystem_dsl/core.clj#create-nx-watcher-config` runs `scripts/nx-watcher.mjs`, which shells out to `pnpm nx …` (see `scripts/nx-watcher.mjs:174-205`). The first Nx command spawns `node …/nx/src/daemon/server/start.js`, so every watcher restart or concurrent batch shows up in `htop` exactly like the screenshot.
+
+```bash
+# Inspect or restart just the daemon
+cd orgs/riatzukiza/promethean
+pnpm nx daemon              # shows PID + log path
+pnpm nx reset --only-daemon # stop the current daemon
+```
+
+To disable the daemon entirely while diagnosing leaks, either export `NX_DAEMON=false` before starting PM2 or set `"useDaemonProcess": false` in `nx.json` under `tasksRunnerOptions.default.options`.
+
+To cap heap usage for both the watcher and the daemon, start/restart PM2 with Node options:
+
+```bash
+export NODE_OPTIONS="--max-old-space-size=768"
+pm2 restart nx-watcher --update-env
+```
+
+`NODE_OPTIONS` is inherited by every `pnpm nx` invocation, so the spawned daemon respects the same heap limit. Combine this with `pm2 restart all --max-memory-restart …` if you also want PM2 to auto-restart the parent when it crosses a ceiling.
+
 #### 3. Build/Test Failures
 
 ```bash
