@@ -1,14 +1,14 @@
 [
   {
     "scar": {
-      "id": "scar_1762821596064_i7rn658fc",
+      "id": "scar_1762983372136_0stqxr8gv",
       "filePath": "/home/err/devel/orgs/riatzukiza/promethean/packages/scar/test-content.md",
       "type": "content_corruption",
       "severity": "medium",
       "status": "completed",
-      "detectedAt": "2025-11-11T00:39:56.063Z",
-      "healedAt": "2025-11-11T00:39:56.064Z",
-      "healingOperationId": "op_1762821596064_8qojy1uzp",
+      "detectedAt": "2025-11-12T21:36:12.134Z",
+      "healedAt": "2025-11-12T21:36:12.136Z",
+      "healingOperationId": "op_1762983372136_nrgsqq1jd",
       "description": "Repeated slash patterns in content",
       "evidence": [
         "//*"
@@ -27,7 +27,7 @@
       ]
     },
     "healingOperation": {
-      "id": "op_1762821596064_8qojy1uzp",
+      "id": "op_1762983372136_nrgsqq1jd",
       "filePath": "/home/err/devel/orgs/riatzukiza/promethean/packages/scar/test-content.md",
       "corruptions": [
         {
@@ -35,7 +35,7 @@
           "severity": "medium",
           "description": "Repeated slash patterns in content",
           "filePath": "/home/err/devel/orgs/riatzukiza/promethean/packages/scar/test-content.md",
-          "detectedAt": "2025-11-11T00:39:56.063Z",
+          "detectedAt": "2025-11-12T21:36:12.134Z",
           "evidence": [
             "//*"
           ],
@@ -43,8 +43,8 @@
         }
       ],
       "status": "completed",
-      "startedAt": "2025-11-11T00:39:56.064Z",
-      "completedAt": "2025-11-11T00:39:56.064Z",
+      "startedAt": "2025-11-12T21:36:12.136Z",
+      "completedAt": "2025-11-12T21:36:12.136Z",
       "originalChecksum": "-68472398",
       "healedChecksum": "5c30c2b8"
     },
@@ -54,7 +54,7 @@
       "checksum": "-68472398",
       "size": 68,
       "encoding": "utf-8",
-      "timestamp": "2025-11-11T00:39:56.063Z",
+      "timestamp": "2025-11-12T21:36:12.134Z",
       "metadata": {}
     },
     "afterSnapshot": {
@@ -63,20 +63,20 @@
       "checksum": "5c30c2b8",
       "size": 68,
       "encoding": "utf-8",
-      "timestamp": "2025-11-11T00:39:56.064Z",
+      "timestamp": "2025-11-12T21:36:12.136Z",
       "metadata": {}
     }
   },
   {
     "scar": {
-      "id": "scar_1762821596064_i7rn658fc",
+      "id": "scar_1762983372136_0stqxr8gv",
       "filePath": "/home/err/devel/orgs/riatzukiza/promethean/packages/scar/test-content.md",
       "type": "content_corruption",
       "severity": "medium",
       "status": "completed",
-      "detectedAt": "2025-11-11T00:39:56.063Z",
-      "healedAt": "2025-11-11T00:39:56.064Z",
-      "healingOperationId": "op_1762821596064_8qojy1uzp",
+      "detectedAt": "2025-11-12T21:36:12.134Z",
+      "healedAt": "2025-11-12T21:36:12.136Z",
+      "healingOperationId": "op_1762983372136_nrgsqq1jd",
       "description": "Repeated slash patterns in content",
       "evidence": [
         "//*"
@@ -95,7 +95,7 @@
       ]
     },
     "healingOperation": {
-      "id": "op_1762821596064_8qojy1uzp",
+      "id": "op_1762983372136_nrgsqq1jd",
       "filePath": "/home/err/devel/orgs/riatzukiza/promethean/packages/scar/test-content.md",
       "corruptions": [
         {
@@ -103,7 +103,7 @@
           "severity": "medium",
           "description": "Repeated slash patterns in content",
           "filePath": "/home/err/devel/orgs/riatzukiza/promethean/packages/scar/test-content.md",
-          "detectedAt": "2025-11-11T00:39:56.063Z",
+          "detectedAt": "2025-11-12T21:36:12.134Z",
           "evidence": [
             "//*"
           ],
@@ -111,8 +111,8 @@
         }
       ],
       "status": "completed",
-      "startedAt": "2025-11-11T00:39:56.064Z",
-      "completedAt": "2025-11-11T00:39:56.064Z",
+      "startedAt": "2025-11-12T21:36:12.136Z",
+      "completedAt": "2025-11-12T21:36:12.136Z",
       "originalChecksum": "-68472398",
       "healedChecksum": "5c30c2b8"
     },
@@ -122,7 +122,7 @@
       "checksum": "-68472398",
       "size": 68,
       "encoding": "utf-8",
-      "timestamp": "2025-11-11T00:39:56.063Z",
+      "timestamp": "2025-11-12T21:36:12.134Z",
       "metadata": {}
     },
     "afterSnapshot": {
@@ -131,7 +131,7 @@
       "checksum": "5c30c2b8",
       "size": 68,
       "encoding": "utf-8",
-      "timestamp": "2025-11-11T00:39:56.064Z",
+      "timestamp": "2025-11-12T21:36:12.136Z",
       "metadata": {}
     }
   }
