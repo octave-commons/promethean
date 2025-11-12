@@ -10,6 +10,9 @@
   "references": [
     {
       "path": "../persistence"
+    },
+    {
+      "path": "../opencode-interface-plugin"
     }
   ]
 }

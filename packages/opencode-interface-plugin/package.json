@@ -1,7 +1,7 @@
 {
   "name": "@promethean-os/opencode-interface-plugin",
-  "version": "0.1.0",
-  "description": "OpenCode Interface Plugin - Provides OpenCode functionality as tools",
+  "version": "0.2.0",
+  "description": "Session Orchestrator Plugin for OpenCode (indexing + agent orchestration)",
   "type": "module",
   "main": "dist/index.js",
   "publishConfig": {

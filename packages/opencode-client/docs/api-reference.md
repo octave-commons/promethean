@@ -509,18 +509,24 @@ interface Message {
 
 ## Plugins
 
-### OpencodeInterfacePlugin
+### SessionOrchestratorPlugin (formerly OpencodeInterfacePlugin)
 
-Main plugin for OpenCode interface integration.
+Combined plugin that exposes both the session indexing and agent orchestration toolsets. The legacy `OpencodeInterfacePlugin` export remains available as an alias.
 
 ```typescript
-import { OpencodeInterfacePlugin } from '@promethean-os/opencode-client';
+import {
+  SessionOrchestratorPlugin,
+  SessionIndexingPlugin,
+  AgentOrchestrationPlugin,
+} from '@promethean-os/opencode-client';
 
-const plugin = new OpencodeInterfacePlugin({
+const plugin = await SessionOrchestratorPlugin({
   baseUrl: 'http://localhost:4096',
   apiKey: 'your-api-key',
 });
 ```
+
+Use `SessionIndexingPlugin` when you only need read-only context search (`compile-context`, `search-context`, `list-events`, `list-messages`, `get-message`). Use `AgentOrchestrationPlugin` for lifecycle + prompt tools (`list-sessions`, `get-session`, `spawn-session`, `close-session`, `search-sessions`, `send-prompt`).
 
 ### RealtimeCapturePlugin
 

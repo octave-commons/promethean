@@ -1,4 +1,6 @@
-# OpenCode Interface Plugin
+# Session Orchestrator Plugin (formerly OpenCode Interface Plugin)
+
+> The consolidated plugin now exports three names: `SessionOrchestratorPlugin` (combined), `SessionIndexingPlugin`, and `AgentOrchestrationPlugin`. The legacy `OpencodeInterfacePlugin` identifier still works as an alias.
 
 This plugin provides OpenCode functionality as tools within the OpenCode ecosystem, exposing the same capabilities as the `opencode-client` CLI but as tools that can be used within OpenCode sessions.
 
@@ -37,8 +39,11 @@ This plugin provides OpenCode functionality as tools within the OpenCode ecosyst
 The plugin is included in the `@promethean-os/opencode-client` package and can be imported as:
 
 ```typescript
-import { OpencodeInterfacePlugin } from '@promethean-os/opencode-client/plugins';
-import { OpencodeInterfacePlugin } from '@promethean-os/opencode-client/plugins/opencode-interface';
+import {
+  SessionOrchestratorPlugin,
+  SessionIndexingPlugin,
+  AgentOrchestrationPlugin,
+} from '@promethean-os/opencode-client/plugins';
 ```
 
 ### Example Usage in OpenCode

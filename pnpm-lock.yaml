@@ -3512,6 +3512,9 @@ importers:
       '@promethean-os/ollama-queue':
         specifier: workspace:*
         version: link:../ollama-queue
+      '@promethean-os/opencode-interface-plugin':
+        specifier: workspace:*
+        version: link:../opencode-interface-plugin
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
