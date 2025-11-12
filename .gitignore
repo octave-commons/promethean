@@ -4,6 +4,18 @@ build/
 lib/
 *.tsbuildinfo
 
+# ClojureScript/Clojure build artifacts
+.shadow-cljs/
+.cpcache/
+
+# Test coverage
+coverage/
+.nyc_output/
+
+# Cache directories
+.cache/
+*.cache
+
 # Dependencies 
 node_modules/
 *.log
