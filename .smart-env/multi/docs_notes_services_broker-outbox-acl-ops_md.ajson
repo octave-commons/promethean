@@ -1,0 +1,2 @@
+
+"smart_sources:docs/notes/services/broker-outbox-acl-ops.md": {"path":"docs/notes/services/broker-outbox-acl-ops.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"zgnh5n","at":1762869273582},"class_name":"SmartSource","last_import":{"mtime":1762546647584,"size":528,"at":1762869273663,"hash":"zgnh5n"},"blocks":{"#":[1,10],"##{1}":[4,4],"##{2}":[5,5],"##{3}":[6,6],"##{4}":[7,10],"#tags: #broker #eventbus #acl #jwt #ops":[11,13]},"outlinks":[],"metadata":{"tags":["#tags","#broker","#eventbus","#acl","#jwt","#ops"]},"task_lines":[]},

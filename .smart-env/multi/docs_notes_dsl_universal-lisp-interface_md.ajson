@@ -1,0 +1,2 @@
+
+"smart_sources:docs/notes/dsl/universal-lisp-interface.md": {"path":"docs/notes/dsl/universal-lisp-interface.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"v72le5","at":1762869273582},"class_name":"SmartSource","last_import":{"mtime":1762546647576,"size":505,"at":1762869273663,"hash":"v72le5"},"blocks":{"#":[1,4],"#tags: #lisp #ffi #polyglot":[5,6]},"outlinks":[],"metadata":{"tags":["#tags","#lisp","#ffi","#polyglot"]},"task_lines":[]},

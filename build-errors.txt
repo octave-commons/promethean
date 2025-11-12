@@ -1,0 +1,250 @@
+packages/knowledge-graph build: error: Could not resolve: "better-sqlite3". Maybe you need to "bun install"?
+packages/knowledge-graph build: error: Could not resolve: "glob". Maybe you need to "bun install"?
+packages/pipelines/symdocs build: tsconfig.json(11,18): error TS6053: File '/home/err/devel/orgs/riatzukiza/promethean/packages/pipelines/level-cache' not found.
+packages/plugin-hooks build: src/sdk/plugin-sdk.ts(7,3): error TS6196: 'EventBus' is declared but never used.
+packages/plugin-hooks build: src/sdk/plugin-sdk.ts(8,3): error TS6196: 'HookRegistry' is declared but never used.
+packages/plugin-hooks build: src/sdk/plugin-sdk.ts(227,17): error TS2352: Conversion of type '{ [key]: T[K]; }' to type 'Partial<T>' may be a mistake because neither type sufficiently overlaps with the other. If this was intentional, convert the expression to 'unknown' first.
+packages/plugin-hooks build: src/sdk/plugin-sdk.ts(353,13): error TS6138: Property 'context' is declared but its value is never read.
+packages/plugin-hooks build: src/security/plugin-sandbox.ts(109,5): error TS6133: 'context' is declared but its value is never read.
+packages/plugin-hooks build: src/security/plugin-sandbox.ts(229,9): error TS2739: Type '(id: string) => any' is missing the following properties from type 'Require': cache, extensions, main, resolve
+packages/plugin-hooks build: src/security/plugin-sandbox.ts(415,15): error TS2339: Property 'pluginStats' does not exist on type '{ activeSandboxes: number; totalViolations: number; violationsByType: Record<ViolationType, number>; }'.
+packages/plugin-hooks build: src/security/plugin-sandbox.ts(417,15): error TS2339: Property 'pluginStats' does not exist on type '{ activeSandboxes: number; totalViolations: number; violationsByType: Record<ViolationType, number>; }'.
+packages/plugin-hooks build: src/security/security-manager.ts(266,7): error TS2322: Type 'SecurityViolation' is not assignable to type 'Record<string, unknown>'.
+packages/plugin-hooks build: src/security/security-manager.ts(279,36): error TS2532: Object is possibly 'undefined'.
+packages/plugin-hooks build: src/security/security-manager.ts(291,38): error TS2532: Object is possibly 'undefined'.
+packages/pantheon/coordination build: src/types/agent-instance.ts(7,1): error TS6133: 'randomUUID' is declared but its value is never read.
+packages/pantheon/coordination build: src/types/enso-integration.ts(8,1): error TS6133: 'AgentInstance' is declared but its value is never read.
+packages/pantheon/coordination build: src/types/index.ts(9,1): error TS2308: Module './agent-instance.js' has already exported a member named 'AgentFilter'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(9,1): error TS2308: Module './agent-instance.js' has already exported a member named 'AssignedTask'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(9,1): error TS2308: Module './agent-instance.js' has already exported a member named 'CommunicationChannel'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(9,1): error TS2308: Module './agent-instance.js' has already exported a member named 'SecurityLevel'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(9,1): error TS2308: Module './agent-instance.js' has already exported a member named 'TaskPriority'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(9,1): error TS2308: Module './agent-instance.js' has already exported a member named 'TaskStatus'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'AgentDiscoveryQuery'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'AgentStatus'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'MitigationStrategy'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'ProficiencyLevel'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'RiskAssessment'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'RiskFactor'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'SecurityLevel'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './agent-instance.js' has already exported a member named 'TaskPriority'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'AlternativeAssignment'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'AssignmentReasoning'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'AssignmentStrategy'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'AssignmentWeights'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'CapabilityRequirement'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'CollaborationNeed'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'IssueSeverity'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'IssueType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'OptimizationGoal'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'ResourceRequirement'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(10,1): error TS2308: Module './coordination.js' has already exported a member named 'TaskType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './agent-instance.js' has already exported a member named 'AgentCapability'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './agent-instance.js' has already exported a member named 'HealthCheck'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './agent-instance.js' has already exported a member named 'TaskStatus'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './coordination.js' has already exported a member named 'DeliveryReceipt'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './coordination.js' has already exported a member named 'MessageAttachment'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './coordination.js' has already exported a member named 'MessagePriority'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './coordination.js' has already exported a member named 'MessageStatus'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './coordination.js' has already exported a member named 'MessageType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './task-assignment.js' has already exported a member named 'DependencyType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './task-assignment.js' has already exported a member named 'ResourceConstraint'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './task-assignment.js' has already exported a member named 'ResourceType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './task-assignment.js' has already exported a member named 'TaskDependency'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './task-assignment.js' has already exported a member named 'ToolAccessLevel'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(11,1): error TS2308: Module './task-assignment.js' has already exported a member named 'ToolRequirement'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './agent-instance.js' has already exported a member named 'AgentStatus'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './agent-instance.js' has already exported a member named 'TaskPriority'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './agent-instance.js' has already exported a member named 'TaskStatus'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './enso-integration.js' has already exported a member named 'BlockerSeverity'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './enso-integration.js' has already exported a member named 'BlockerType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './enso-integration.js' has already exported a member named 'ConditionType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './enso-integration.js' has already exported a member named 'TaskBlocker'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './task-assignment.js' has already exported a member named 'DependencyType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './task-assignment.js' has already exported a member named 'RecommendationType'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(12,1): error TS2308: Module './task-assignment.js' has already exported a member named 'TaskDependency'. Consider explicitly re-exporting to resolve the ambiguity.
+packages/pantheon/coordination build: src/types/index.ts(13,15): error TS2307: Cannot find module './performance.js' or its corresponding type declarations.
+packages/pantheon/coordination build: src/types/index.ts(14,15): error TS2307: Cannot find module './learning.js' or its corresponding type declarations.
+packages/pantheon/coordination build: src/types/index.ts(15,15): error TS2307: Cannot find module './security.js' or its corresponding type declarations.
+packages/pantheon/coordination build: src/types/kanban-integration.ts(8,1): error TS6133: 'AgentInstance' is declared but its value is never read.
+packages/pantheon/coordination build: src/types/kanban-integration.ts(9,10): error TS6133: 'TaskAnalysis' is declared but its value is never read.
+packages/pantheon/core build: src/core/context.ts(25,11): error TS2353: Object literal may only specify known properties, and 'texts' does not exist in type 'ContextState'.
+packages/opencode-unified build: src/typescript/client/cli.ts(22,9): error TS2353: Object literal may only specify known properties, and 'invalidProperty' does not exist in type 'Partial<ClientConfig>'.
+packages/opencode-unified build: src/typescript/client/cli.ts(32,33): error TS2339: Property 'getNonExistentMethod' does not exist on type 'OpenCodeClient'.
+packages/pantheon/ui build: src/components/agent-card.ts(5,39): error TS2307: Cannot find module 'lit' or its corresponding type declarations.
+packages/pantheon/ui build: src/components/agent-card.ts(6,41): error TS2307: Cannot find module 'lit/decorators.js' or its corresponding type declarations.
+packages/pantheon/ui build: src/components/agent-card.ts(7,37): error TS2307: Cannot find module 'luxon' or its corresponding type declarations.
+packages/pantheon/ui build: src/components/agent-card.ts(10,3): error TS6133: 'agentDesignTokens' is declared but its value is never read.
+packages/pantheon/ui build: src/components/agent-card.ts(13,3): error TS6133: 'getStatusColor' is declared but its value is never read.
+packages/pantheon/ui build: src/components/agent-card.ts(14,3): error TS6133: 'getTypeColor' is declared but its value is never read.
+packages/pantheon/ui build: src/components/agent-card.ts(231,10): error TS2339: Property 'dispatchEvent' does not exist on type 'AgentCard'.
+packages/pantheon/ui build: src/components/agent-card.ts(240,10): error TS2339: Property 'dispatchEvent' does not exist on type 'AgentCard'.
+packages/pantheon/ui build: src/components/agent-list.ts(5,39): error TS2307: Cannot find module 'lit' or its corresponding type declarations.
+packages/pantheon/ui build: src/components/agent-list.ts(6,41): error TS2307: Cannot find module 'lit/decorators.js' or its corresponding type declarations.
+packages/pantheon/ui build: src/components/agent-list.ts(7,37): error TS2307: Cannot find module 'luxon' or its corresponding type declarations.
+packages/pantheon/ui build: src/components/agent-list.ts(195,41): error TS6133: 'event' is declared but its value is never read.
+packages/pantheon/ui build: src/components/agent-list.ts(196,10): error TS2339: Property 'dispatchEvent' does not exist on type 'AgentList'.
+packages/pantheon/ui build: src/components/agent-list.ts(205,10): error TS2339: Property 'dispatchEvent' does not exist on type 'AgentList'.
+packages/pantheon/ui build: src/components/agent-list.ts(212,11): error TS6133: 'formatLastActive' is declared but its value is never read.
+packages/pantheon/ui build: src/design-system.ts(6,44): error TS2307: Cannot find module '@promethean-os/ui-components' or its corresponding type declarations.
+packages/pantheon/ui build: src/utils/state-manager.ts(5,27): error TS6133: 'Observable' is declared but its value is never read.
+packages/pantheon/ui build: src/utils/state-manager.ts(5,60): error TS2307: Cannot find module 'rxjs' or its corresponding type declarations.
+packages/pantheon/ui build: src/utils/state-manager.ts(6,37): error TS6133: 'debounceTime' is declared but its value is never read.
+packages/pantheon/ui build: src/utils/state-manager.ts(6,57): error TS2307: Cannot find module 'rxjs/operators' or its corresponding type declarations.
+packages/pantheon/ui build: src/utils/state-manager.ts(60,11): error TS7031: Binding element 'agents' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(60,19): error TS7031: Binding element 'filters' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(65,9): error TS7006: Parameter 'tasks' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(65,31): error TS7006: Parameter 'task' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(69,9): error TS7006: Parameter 'events' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(76,11): error TS7031: Binding element 'agents' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(76,19): error TS7031: Binding element 'uiState' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(76,44): error TS7006: Parameter 'agent' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(97,37): error TS7006: Parameter 'agent' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(108,37): error TS7006: Parameter 'agent' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(125,37): error TS7006: Parameter 'task' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(241,41): error TS7006: Parameter 'task' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(242,38): error TS7006: Parameter 'task' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(288,11): error TS7006: Parameter 'state' implicitly has an 'any' type.
+packages/pantheon/ui build: src/utils/state-manager.ts(290,17): error TS7006: Parameter 'autoRefresh' implicitly has an 'any' type.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(9,1): error TS6133: 'z' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(66,11): error TS6133: 'crisisHandlers' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(211,65): error TS6133: 'payload' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(319,23): error TS6138: Property 'adapter' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(373,11): error TS6133: 'session' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(390,63): error TS6133: 'session' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(402,57): error TS6133: 'session' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(487,58): error TS7006: Parameter 'cap' implicitly has an 'any' type.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(488,9): error TS18048: 'agent' is possibly 'undefined'.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(491,30): error TS18048: 'agent' is possibly 'undefined'.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(491,50): error TS18048: 'agent' is possibly 'undefined'.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(492,9): error TS2322: Type 'AgentInfo | undefined' is not assignable to type 'AgentInfo | null'.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(633,24): error TS6133: 'agentId' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(638,28): error TS6133: 'agentId' is declared but its value is never read.
+packages/pantheon/protocol build: src/adapters/protocol-adapter.ts(675,53): error TS6133: 'message' is declared but its value is never read.
+packages/pantheon/mcp build: src/index.ts(64,13): error TS6133: 'defaultHandler' is declared but its value is never read.
+packages/pantheon build: src/orchestrator.ts(16,8): error TS2307: Cannot find module '@promethean-os/pantheon-orchestrator' or its corresponding type declarations.
+packages/mcp build: src/auth/mcp-auth-adapter.ts(11,1): error TS6133: 'AuthServerConfig' is declared but its value is never read.
+packages/mcp build: src/auth/mcp-auth-adapter.ts(31,11): error TS2564: Property 'mcpAuth' has no initializer and is not definitely assigned in the constructor.
+packages/mcp build: src/auth/mcp-auth-adapter.ts(45,9): error TS2322: Type '"oidc" | "oauth2"' is not assignable to type 'AuthServerType'.
+packages/mcp build: src/auth/mcp-auth-adapter.ts(50,9): error TS2353: Object literal may only specify known properties, and 'protectedResources' does not exist in type 'MCPAuthConfig'.
+packages/mcp build: src/auth/mcp-auth-adapter.ts(152,41): error TS2769: No overload matches this call.
+packages/mcp build:   Overload 1 of 2, '(verifyAccessToken: VerifyAccessTokenFunction, config?: Omit<BearerAuthConfig, "issuer" | "verifyAccessToken"> | undefined): RequestHandler<...>', gave the following error.
+packages/mcp build:   Overload 2 of 2, '(mode: "jwt", config?: (Omit<BearerAuthConfig, "issuer" | "verifyAccessToken"> & BearerAuthJwtConfig) | undefined): RequestHandler<ParamsDictionary, any, any, ParsedQs, Record<...>>', gave the following error.
+packages/mcp build: src/auth/oauth-main.ts(247,13): error TS6133: 'hasActiveSessions' is declared but its value is never read.
+packages/mcp build: src/auth/oauth/routes.ts(14,1): error TS6192: All imports in import declaration are unused.
+packages/mcp build: src/auth/oauth/routes.ts(73,52): error TS6133: 'jwtManager' is declared but its value is never read.
+packages/mcp build: src/auth/oauth/routes.ts(73,78): error TS6133: 'authManager' is declared but its value is never read.
+packages/mcp build: src/auth/oauth/routes.ts(86,17): error TS1355: A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
+packages/mcp build: src/auth/oauth/routes.ts(91,11): error TS2339: Property 'setCookie' does not exist on type 'FastifyReply<RouteGenericInterface, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(97,11): error TS2339: Property 'setCookie' does not exist on type 'FastifyReply<RouteGenericInterface, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(103,11): error TS2339: Property 'setCookie' does not exist on type 'FastifyReply<RouteGenericInterface, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(115,17): error TS1355: A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
+packages/mcp build: src/auth/oauth/routes.ts(119,11): error TS2339: Property 'clearCookie' does not exist on type 'FastifyReply<RouteGenericInterface, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(120,11): error TS2339: Property 'clearCookie' does not exist on type 'FastifyReply<RouteGenericInterface, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(121,11): error TS2339: Property 'clearCookie' does not exist on type 'FastifyReply<RouteGenericInterface, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(157,47): error TS6133: 'request' is declared but its value is never read.
+packages/mcp build: src/auth/oauth/routes.ts(190,13): error TS2339: Property 'setCookie' does not exist on type 'FastifyReply<{ Body: OAuthLoginRequest; }, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(194,19): error TS1355: A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
+packages/mcp build: src/auth/oauth/routes.ts(218,15): error TS6133: 'clientInfo' is declared but its value is never read.
+packages/mcp build: src/auth/oauth/routes.ts(221,37): error TS2339: Property 'cookies' does not exist on type 'FastifyRequest<{ Querystring: OAuthCallbackRequest; }, RawServerDefault, IncomingMessage, FastifySchema, FastifyTypeProviderDefault, unknown, FastifyBaseLogger, ResolveFastifyRequestType<...>>'.
+packages/mcp build: src/auth/oauth/routes.ts(228,15): error TS2339: Property 'clearCookie' does not exist on type 'FastifyReply<{ Querystring: OAuthCallbackRequest; }, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(279,25): error TS2339: Property 'sessionId' does not exist on type 'Readonly<{ readonly accessToken: string; readonly refreshToken: string; readonly expiresIn: number; readonly tokenType: "Bearer"; }>'.
+packages/mcp build: src/auth/oauth/routes.ts(291,46): error TS2339: Property 'redirect_uri' does not exist on type 'OAuthCallbackRequest'.
+packages/mcp build: src/auth/oauth/routes.ts(292,26): error TS2345: Argument of type 'number' is not assignable to parameter of type 'string'.
+packages/mcp build: src/auth/oauth/routes.ts(352,13): error TS2339: Property 'setCookie' does not exist on type 'FastifyReply<{ Body: OAuthRefreshRequest; }, RawServerDefault, IncomingMessage, ServerResponse<IncomingMessage>, unknown, FastifySchema, FastifyTypeProviderDefault, unknown>'.
+packages/mcp build: src/auth/oauth/routes.ts(356,19): error TS1355: A 'const' assertions can only be applied to references to enum members, or string, number, boolean, array, or object literals.
+packages/mcp build: src/auth/oauth/routes.ts(380,13): error TS6133: 'clientInfo' is declared but its value is never read.
+packages/mcp build: src/auth/oauth/routes.ts(455,43): error TS6133: 'request' is declared but its value is never read.
+packages/mcp build: src/auth/oauth/routes.ts(516,44): error TS6133: 'request' is declared but its value is never read.
+packages/mcp build: src/auth/ui/oauth-login.ts(48,11): error TS2300: Duplicate identifier 'onAuthSuccess'.
+packages/mcp build: src/auth/ui/oauth-login.ts(48,11): error TS6133: 'onAuthSuccess' is declared but its value is never read.
+packages/mcp build: src/auth/ui/oauth-login.ts(49,11): error TS2300: Duplicate identifier 'onAuthError'.
+packages/mcp build: src/auth/ui/oauth-login.ts(353,3): error TS2300: Duplicate identifier 'onAuthSuccess'.
+packages/mcp build: src/auth/ui/oauth-login.ts(360,3): error TS2300: Duplicate identifier 'onAuthError'.
+packages/mcp build: src/config/auth-config.ts(254,3): error TS2322: Type 'string[] | undefined' is not assignable to type 'string[]'.
+packages/pipelines/boardrev build: src/01-ensure-fm.ts(76,55): error TS1005: ')' expected.
+packages/pipelines/boardrev build: src/04-enhanced-context.ts(391,35): error TS1005: ',' expected.
+packages/pipelines/boardrev build: src/04-enhanced-context.ts(391,39): error TS1002: Unterminated string literal.
+packages/pipelines/boardrev build: src/04-enhanced-context.ts(392,7): error TS1005: ',' expected.
+packages/pipelines/boardrev build: src/04-enhanced-context.ts(392,11): error TS1005: ',' expected.
+packages/pipelines/boardrev build: src/04-enhanced-context.ts(394,11): error TS1005: ',' expected.
+packages/pipelines/boardrev build: src/04-enhanced-context.ts(395,5): error TS1005: ',' expected.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(47,14): error TS2323: Cannot redeclare exported variable 'BridgeServer'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(49,11): error TS2564: Property 'syncEngine' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(50,11): error TS2564: Property 'webhookServer' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(51,11): error TS2564: Property 'queue' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(52,11): error TS2564: Property 'storage' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(53,11): error TS2564: Property 'taskMapper' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(54,11): error TS2564: Property 'conflictResolver' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(55,11): error TS2564: Property 'metricsCollector' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(56,11): error TS2564: Property 'mcpClient' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(57,11): error TS2564: Property 'kanbanClient' has no initializer and is not definitely assigned in the constructor.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(105,21): error TS2339: Property 'on' does not exist on type 'SyncEngine'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(110,21): error TS2339: Property 'on' does not exist on type 'SyncEngine'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(115,21): error TS2339: Property 'on' does not exist on type 'SyncEngine'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(115,41): error TS7031: Binding element 'taskId' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(115,49): error TS7031: Binding element 'task' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(121,21): error TS2339: Property 'on' does not exist on type 'SyncEngine'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(121,47): error TS7031: Binding element 'taskId' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(121,55): error TS7031: Binding element 'task' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(127,21): error TS2339: Property 'on' does not exist on type 'SyncEngine'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(127,40): error TS7031: Binding element 'taskId' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(127,48): error TS7031: Binding element 'error' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(133,27): error TS2339: Property 'on' does not exist on type 'MetricsCollector'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(133,51): error TS7006: Parameter 'event' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(137,27): error TS2339: Property 'on' does not exist on type 'MetricsCollector'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(137,48): error TS7006: Parameter 'event' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(152,25): error TS2339: Property 'startPeriodicSync' does not exist on type 'SyncEngine'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(171,23): error TS2339: Property 'stopPeriodicSync' does not exist on type 'SyncEngine'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(204,13): error TS6133: 'duration' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(384,10): error TS2323: Cannot redeclare exported variable 'BridgeServer'.
+packages/mcp-kanban-bridge build: src/bridge-server.ts(384,10): error TS2484: Export declaration conflicts with exported declaration of 'BridgeServer'.
+packages/mcp-kanban-bridge build: src/conflict-resolver.ts(134,7): error TS2322: Type 'string' is not assignable to type '"P0" | "P1" | "P2" | "P3"'.
+packages/mcp-kanban-bridge build: src/conflict-resolver.ts(155,55): error TS6133: 'fieldName' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(31,3): error TS6133: 'analyzeTask' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(32,3): error TS6133: 'breakdownTask' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(452,26): error TS2554: Expected 2 arguments, but got 1.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(487,15): error TS2554: Expected 5 arguments, but got 2.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(491,15): error TS2554: Expected 5 arguments, but got 2.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(495,15): error TS2554: Expected 4-9 arguments, but got 2.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(499,33): error TS2554: Expected 2 arguments, but got 1.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(532,13): error TS2554: Expected 4 arguments, but got 2.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(559,13): error TS2554: Expected 4-9 arguments, but got 2.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(581,27): error TS2554: Expected 2 arguments, but got 0.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(618,32): error TS2554: Expected 2 arguments, but got 1.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(660,13): error TS2554: Expected 4 arguments, but got 1.
+packages/mcp-kanban-bridge build: src/mcp-server.ts(686,27): error TS2554: Expected 2 arguments, but got 0.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(159,7): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(160,7): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(161,7): error TS2322: Type 'number | undefined' is not assignable to type 'number'.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(216,24): error TS6133: 'type' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(216,38): error TS6133: 'source' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(222,21): error TS6133: 'type' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(222,35): error TS6133: 'source' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(222,51): error TS6133: 'error' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(226,20): error TS6133: 'taskId' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/metrics-collector.ts(230,26): error TS6133: 'taskId' is declared but its value is never read.
+packages/mcp-kanban-bridge build: src/queue.ts(5,18): error TS2709: Cannot use namespace 'Redis' as a type.
+packages/mcp-kanban-bridge build: src/queue.ts(14,22): error TS2351: This expression is not constructable.
+packages/mcp-kanban-bridge build: src/queue.ts(42,23): error TS7006: Parameter 'event' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/queue.ts(49,24): error TS7006: Parameter 'event' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/queue.ts(71,29): error TS7006: Parameter 'event' implicitly has an 'any' type.
+packages/mcp-kanban-bridge build: src/simple-mcp-server.ts(609,42): error TS2345: Argument of type 'string' is not assignable to parameter of type 'number'.
+packages/mcp-kanban-bridge build: src/simple-mcp-server.ts(811,9): error TS2345: Argument of type 'string | undefined' is not assignable to parameter of type '{ projectInfo?: string | undefined; teamContext?: string | undefined; deadlines?: string[] | undefined; dependencies?: string[] | undefined; } | undefined'.
+packages/mcp-kanban-bridge build: src/simple-mcp-server.ts(852,11): error TS2322: Type '"low" | "medium" | "high" | undefined' is not assignable to type '"medium" | "simple" | "complex" | undefined'.
+packages/mcp-kanban-bridge build: src/storage.ts(5,18): error TS2709: Cannot use namespace 'Redis' as a type.
+packages/mcp-kanban-bridge build: src/storage.ts(13,22): error TS2351: This expression is not constructable.
+ ERROR  @promethean-os/knowledge-graph@1.0.0 build: `bun build src/index.ts --outdir dist --target node --format esm --splitting`
+ ERROR  @promethean-os/symdocs@0.1.0 build: `tsc -p tsconfig.json`
+ ERROR  @promethean-os/plugin-hooks@0.1.0 build: `tsc`
+ ERROR  @promethean-os/opencode-unified@0.1.0 build: `pnpm build:typescript`
+ ERROR  @promethean-os/pantheon-coordination@0.1.0 build: `tsc`
+ ERROR  @promethean-os/pantheon-core@0.1.0 build: `tsc`
+ ERROR  @promethean-os/pantheon-protocol@0.1.0 build: `tsc`
+ ERROR  @promethean-os/pantheon-ui@0.1.0 build: `tsc`
+ ERROR  @promethean-os/frontend@0.1.0 build: `pnpm run build:shadow && pnpm run build:ts`
+ ERROR  @promethean-os/pantheon-mcp@0.0.1 build: `tsc`
+ ERROR  @promethean-os/pantheon@0.1.0 build: `tsc`
+ ERROR  @promethean-os/mcp@0.1.0 build: `tsc`
+ ERROR  @promethean-os/mcp-kanban-bridge@0.1.0 build: `tsc`
+ ERROR  @promethean-os/boardrev@0.1.0 build: `tsc -p tsconfig.json`

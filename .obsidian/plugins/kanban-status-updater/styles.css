@@ -1,0 +1,13 @@
+/* styles.css for Kanban Status Updater */
+
+/* Status bar styling - minimal to ensure good performance */
+.kanban-status-updater-statusbar {
+  color: var(--text-accent);
+  font-size: 0.8em;
+  padding: 0 8px;
+  opacity: 0.8;
+}
+
+.kanban-status-updater-statusbar:hover {
+  opacity: 1;
+}

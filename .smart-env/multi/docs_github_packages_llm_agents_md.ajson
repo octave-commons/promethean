@@ -1,0 +1,2 @@
+
+"smart_sources:docs.github/packages/llm/agents.md": {"path":"docs.github/packages/llm/agents.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"afgit7","at":1762869280465},"class_name":"SmartSource","last_import":{"mtime":1762546647515,"size":117,"at":1762869280942,"hash":"afgit7"},"blocks":{"#Llm Service":[1,12],"#Llm Service#Overview":[3,6],"#Llm Service#Overview#{1}":[5,6],"#Llm Service#Paths":[7,10],"#Llm Service#Paths#{1}":[9,10],"#Llm Service#Tags":[11,12],"#service #ts":[13,14]},"outlinks":[],"metadata":{"tags":["#service","#ts"]},"task_lines":[]},

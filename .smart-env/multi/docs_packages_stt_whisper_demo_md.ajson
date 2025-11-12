@@ -1,0 +1,2 @@
+
+"smart_sources:docs/packages/stt/whisper_demo.md": {"path":"docs/packages/stt/whisper_demo.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"12tnymb","at":1762869272868},"class_name":"SmartSource","last_import":{"mtime":1762546647593,"size":158,"at":1762869273580,"hash":"12tnymb"},"blocks":{"#whisper_demo.py":[1,14],"#whisper_demo.py#{1}":[2,7],"#whisper_demo.py#Dependencies":[8,10],"#whisper_demo.py#Dependencies#{1}":[9,10],"#whisper_demo.py#Dependents":[11,14],"#whisper_demo.py#Dependents#{1}":[12,14]},"outlinks":[],"task_lines":[]},

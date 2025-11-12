@@ -1,0 +1,2 @@
+
+"smart_sources:docs.github/notes/dsl/compiler-kit-foundations.md": {"path":"docs.github/notes/dsl/compiler-kit-foundations.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1twcg2w","at":1762869280945},"class_name":"SmartSource","last_import":{"mtime":1762546647492,"size":380,"at":1762869281272,"hash":"1twcg2w"},"blocks":{"#":[1,6],"#tags: #compiler #parser #ir #codegen":[7,9]},"outlinks":[],"metadata":{"tags":["#tags","#compiler","#parser","#ir","#codegen"]},"task_lines":[]},

@@ -1,0 +1,2 @@
+
+"smart_sources:docs/notes/js/ecs-offload-workers.md": {"path":"docs/notes/js/ecs-offload-workers.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"vlhqev","at":1762869273582},"class_name":"SmartSource","last_import":{"mtime":1762546647579,"size":510,"at":1762869273663,"hash":"vlhqev"},"blocks":{"#":[1,9],"##{1}":[4,4],"##{2}":[5,5],"##{3}":[6,9],"#tags: #js #workers #ecs #parallel":[10,12]},"outlinks":[],"metadata":{"tags":["#tags","#js","#workers","#ecs","#parallel"]},"task_lines":[]},

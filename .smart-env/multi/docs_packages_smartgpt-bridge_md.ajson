@@ -1,0 +1,2 @@
+
+"smart_sources:docs/packages/smartgpt-bridge.md": {"path":"docs/packages/smartgpt-bridge.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1dm7wey","at":1762869248541},"class_name":"SmartSource","last_import":{"mtime":1762546647593,"size":552,"at":1762869248850,"hash":"1dm7wey"},"blocks":{"#SmartGPT Bridge":[1,12],"#SmartGPT Bridge#{1}":[3,4],"#SmartGPT Bridge#grep":[5,12],"#SmartGPT Bridge#grep#{1}":[7,12]},"outlinks":[{"title":"ripgrep","target":"https://github.com/BurntSushi/ripgrep","line":7}],"task_lines":[]},

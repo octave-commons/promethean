@@ -1,0 +1,2 @@
+
+"smart_sources:docs/labeled/kanban-as-fsm-kernel-2.md": {"path":"docs/labeled/kanban-as-fsm-kernel-2.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1kow3mg","at":1762869249895},"class_name":"SmartSource","last_import":{"mtime":1762546647566,"size":4071,"at":1762869250259,"hash":"1kow3mg"},"blocks":{"#---frontmatter---":[1,34],"#":[35,36],"#Step 1 — minimal patch for `process.md` (append verbatim)":[37,101],"#Step 1 — minimal patch for `process.md` (append verbatim)#{1}":[39,101]},"outlinks":[],"task_lines":[]},

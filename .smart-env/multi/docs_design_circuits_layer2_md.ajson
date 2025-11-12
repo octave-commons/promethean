@@ -1,0 +1,2 @@
+
+"smart_sources:docs/design/circuits/layer2.md": {"path":"docs/design/circuits/layer2.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1ed4ox1","at":1762869270905},"class_name":"SmartSource","last_import":{"mtime":1762546647545,"size":273,"at":1762869271119,"hash":"1ed4ox1"},"blocks":{"#":[1,16],"#---frontmatter---":[4,null]},"outlinks":[{"title":"dorian","target":"dorian","line":8},{"title":"Proxy service","target":"proxy","line":12},{"title":"Duck agent","target":"duck","line":13}],"metadata":{"tags":["#hashtags","#design","#layer2"]},"task_lines":[]},

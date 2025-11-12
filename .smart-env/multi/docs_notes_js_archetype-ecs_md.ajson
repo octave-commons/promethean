@@ -1,0 +1,2 @@
+
+"smart_sources:docs/notes/js/archetype-ecs.md": {"path":"docs/notes/js/archetype-ecs.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"cptzdh","at":1762869273582},"class_name":"SmartSource","last_import":{"mtime":1762546647579,"size":717,"at":1762869273663,"hash":"cptzdh"},"blocks":{"#":[1,13],"##{1}":[6,6],"##{2}":[7,7],"##{3}":[8,8],"##{4}":[9,9],"##{5}":[10,13],"#tags: #js #ecs #soa #performance":[14,16]},"outlinks":[],"metadata":{"tags":["#tags","#js","#ecs","#soa","#performance"]},"task_lines":[]},

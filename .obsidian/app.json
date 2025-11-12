@@ -1,0 +1,10 @@
+{
+  "showLineNumber": true,
+  "vimMode": true,
+  "userIgnoreFilters": [
+    "node_modules/",
+    "/.*node_modules.*/"
+  ],
+  "alwaysUpdateLinks": true,
+  "promptDelete": false
+}
