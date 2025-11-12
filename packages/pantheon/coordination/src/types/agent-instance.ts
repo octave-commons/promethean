@@ -4,8 +4,6 @@
  * Core types for managing agent instances as first-class OS citizens.
  */
 
-import { randomUUID } from 'node:crypto';
-
 // Basic Agent Instance
 export interface AgentInstance {
   // Identification

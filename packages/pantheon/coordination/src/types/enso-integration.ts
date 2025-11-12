@@ -5,7 +5,6 @@
  * real-time communication, collaboration, and context sharing.
  */
 
-import { AgentInstance } from './agent-instance.js';
 import { TaskAnalysis, AssignmentDecision } from './task-assignment.js';
 
 // Enso Integration Core

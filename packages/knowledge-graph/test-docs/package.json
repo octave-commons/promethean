@@ -4,7 +4,7 @@
   "description": "Test repository for knowledge graph",
   "dependencies": {
     "remark": "^15.0.0",
-    "babel": "^7.23.0",
+    "babel": "6.23.0",
     "sqlite3": "^5.1.0"
   },
   "devDependencies": {

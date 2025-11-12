@@ -1,3 +1,0 @@
-[mcp_servers."github"]
-command = "gh"
-args = ["api", "me"]

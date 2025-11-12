@@ -1,9 +1,5 @@
-import {
-  fileBackedRegistry,
-  type ProviderRegistry,
-} from "@promethean-os/platform";
-import { makeChromaWrapper } from "@promethean-os/migrations/chroma.js";
-import { makeDeterministicEmbedder } from "@promethean-os/migrations/embedder.js";
+import { fileBackedRegistry, type ProviderRegistry } from '@promethean-os/platform';
+import { makeChromaWrapper, makeDeterministicEmbedder } from '@promethean-os/migrations';
 
 type EmbedMessageEvent = {
   readonly provider: string;
@@ -21,10 +17,10 @@ export async function embedMessage(
   const reg = cfg?.registry ?? fileBackedRegistry(cfg?.configPath);
   const tenantCfg = await reg.get(evt.provider, evt.tenant);
   const ns = `${tenantCfg.storage.chroma_ns}__messages`;
-  const dim = Number(process.env.EMBEDDING_DIM || "1536");
-  const model = process.env.EMBEDDING_MODEL || "deterministic:v1";
+  const dim = Number(process.env.EMBEDDING_DIM || '1536');
+  const model = process.env.EMBEDDING_MODEL || 'deterministic:v1';
   const chroma = makeChromaWrapper({
-    url: process.env.CHROMA_URL || "http://localhost:8000",
+    url: process.env.CHROMA_URL || 'http://localhost:8000',
     collection: ns,
     prefix: tenantCfg.storage.chroma_ns,
     embeddingDim: dim,
@@ -49,6 +45,6 @@ export async function embedMessage(
 }
 
 if (import.meta.url === `file://${process.argv[1]}`) {
-  console.log("discord-message-embedder ready (stub run)");
+  console.log('discord-message-embedder ready (stub run)');
   setInterval(() => {}, 1 << 30);
 }

@@ -63,11 +63,11 @@
   "scripts": {
     "build": "pnpm run build:shadow && pnpm run build:ts",
     "build:shadow": "shadow-cljs release main",
-    "build:ts": "tsc",
+    "build:ts": "tsc -p tsconfig.build.json",
     "dev": "shadow-cljs watch main",
     "watch": "shadow-cljs watch main",
     "clean": "rimraf dist dist/frontend",
-    "typecheck": "tsc -p tsconfig.json",
+    "typecheck": "tsc -p tsconfig.build.json",
     "test": "pnpm run build && ava",
     "lint": "pnpm exec eslint .",
     "coverage": "pnpm run build && c8 ava",

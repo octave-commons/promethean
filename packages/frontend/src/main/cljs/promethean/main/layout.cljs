@@ -5,6 +5,6 @@
 
 (defn app-container []
   [:div.app-container
-   [nav/navigation-bar]
+   [nav/navigation-bar router/current-route router/navigate-to]
    [:main.content
     [router/current-page]]])

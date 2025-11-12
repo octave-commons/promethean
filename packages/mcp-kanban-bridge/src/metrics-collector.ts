@@ -156,9 +156,9 @@ export class DefaultMetricsCollector extends EventEmitter implements MetricsColl
     const p99Index = Math.floor(processedEvents.length * 0.99);
 
     return {
-      p50: processedEvents[p50Index],
-      p95: processedEvents[p95Index],
-      p99: processedEvents[p99Index],
+      p50: processedEvents[p50Index] || 0,
+      p95: processedEvents[p95Index] || 0,
+      p99: processedEvents[p99Index] || 0,
     };
   }
 
@@ -202,7 +202,7 @@ export class DefaultMetricsCollector extends EventEmitter implements MetricsColl
   }
 }
 
-export class InMemoryMetricsCollector implements MetricsCollector {
+export class InMemoryMetricsCollector extends EventEmitter implements MetricsCollector {
   private metrics: BridgeMetrics = {
     eventsProcessed: 0,
     eventsFailed: 0,
@@ -213,21 +213,21 @@ export class InMemoryMetricsCollector implements MetricsCollector {
     queueSize: 0,
   };
 
-  recordEventProcessed(type: string, source: string, duration: number): void {
+  recordEventProcessed(_type: string, _source: string, duration: number): void {
     this.metrics.eventsProcessed++;
     this.metrics.lastSyncTime = new Date();
     this.updateAverageSyncTime(duration);
   }
 
-  recordEventFailed(type: string, source: string, error: Error): void {
+  recordEventFailed(_type: string, _source: string, _error: Error): void {
     this.metrics.eventsFailed++;
   }
 
-  recordTaskSynced(taskId: string): void {
+  recordTaskSynced(_taskId: string): void {
     this.metrics.tasksSynced++;
   }
 
-  recordConflictResolved(taskId: string): void {
+  recordConflictResolved(_taskId: string): void {
     this.metrics.conflictsResolved++;
   }
 

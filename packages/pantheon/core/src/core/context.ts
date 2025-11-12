@@ -1,37 +1,32 @@
 /**
  * Context Engine — Dynamic context compilation port adapter
- * Wraps @promethean-os/persistence to provide Pantheon-native context
+ * Wraps @promethean-os/persistence collections to provide Pantheon-native context
  */
+
+import { makeContextStore } from '@promethean-os/persistence';
 
 import type { ContextPort } from './ports.js';
 import type { ContextSource } from './types.js';
 
 export type ContextPortDeps = {
-  getCollectionsFor: (sources: readonly ContextSource[]) => Promise<readonly any[]>;
-  resolveRole: (meta?: any) => 'system' | 'user' | 'assistant';
-  resolveName: (meta?: any) => string;
+  getCollectionsFor: (sources: readonly ContextSource[]) => Promise<readonly unknown[]>;
+  resolveRole: (meta?: Record<string, unknown>) => 'system' | 'user' | 'assistant';
+  resolveName: (meta?: Record<string, unknown>) => string;
   formatTime: (ms: number) => string;
 };
 
-export const makeContextPort = (deps: ContextPortDeps): ContextPort => {
-  return {
-    compile: async ({ texts = [], sources, recentLimit = 10, queryLimit = 5, limit = 20 }) => {
-      const colls = await deps.getCollectionsFor(sources);
+const ASSISTANT_NAME = 'Pantheon';
 
-      // Dynamically import persistence to avoid circular deps
-      const { compileContext } = await import('@promethean-os/persistence');
+export const makeContextPort = (deps: ContextPortDeps): ContextPort => ({
+  compile: async ({ texts = [], sources, recentLimit, queryLimit, limit }) => {
+    const { compileContext } = makeContextStore({
+      getCollections: () => deps.getCollectionsFor(sources),
+      resolveRole: deps.resolveRole,
+      resolveDisplayName: deps.resolveName,
+      formatTime: deps.formatTime,
+      assistantName: ASSISTANT_NAME,
+    });
 
-      return compileContext(
-        { texts, recentLimit, queryLimit, limit },
-        {
-          state: {
-            collections: new Map(),
-            formatTime: deps.formatTime,
-            assistantName: 'Pantheon',
-          },
-          getCollections: () => colls,
-        }
-      );
-    },
-  };
-};
+    return compileContext({ texts, recentLimit, queryLimit, limit });
+  },
+});

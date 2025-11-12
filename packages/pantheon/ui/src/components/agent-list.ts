@@ -4,13 +4,13 @@
 
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { formatDistanceToNow } from 'luxon';
+import { DateTime } from 'luxon';
 import type { Agent } from '../types.js';
 import { agentStatusConfig, agentTypeConfig } from '../design-system.js';
 
 @customElement('agent-list')
 export class AgentList extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       background: white;
@@ -54,7 +54,7 @@ export class AgentList extends LitElement {
 
     .list-item[selected] {
       background: #eff6ff;
-      border-left: 3px solid var(--agent-colorPrimary, #4A90E2);
+      border-left: 3px solid var(--agent-colorPrimary, #4a90e2);
     }
 
     .agent-name {
@@ -149,8 +149,13 @@ export class AgentList extends LitElement {
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
     }
 
     /* Responsive design */
@@ -192,35 +197,42 @@ export class AgentList extends LitElement {
   @property({ type: Boolean })
   compact = false;
 
-  private handleItemClick(agent: Agent, event: Event) {
-    this.dispatchEvent(new CustomEvent('agent-selected', {
-      detail: { agent },
-      bubbles: true,
-      composed: true
-    }));
+  private handleItemClick(agent: Agent) {
+    this.dispatchEvent(
+      new CustomEvent('agent-selected', {
+        detail: { agent },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private handleActionClick(agent: Agent, action: string, event: Event) {
     event.stopPropagation();
-    this.dispatchEvent(new CustomEvent('agent-action', {
-      detail: { agent, action },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('agent-action', {
+        detail: { agent, action },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private formatLastActive(date?: Date): string {
     if (!date) return 'Never';
-    return formatDistanceToNow(date, { addSuffix: true });
+    const relative = DateTime.fromJSDate(date).toRelative({ style: 'short' });
+    return relative ?? 'just now';
   }
 
-  render() {
+  override render() {
     if (this.agents.length === 0) {
       return html`
         <div style="padding: 32px; text-align: center; color: #6b7280;">
           <div style="font-size: 48px; margin-bottom: 16px;">🤖</div>
           <div style="font-size: 16px; font-weight: 500;">No agents found</div>
-          <div style="font-size: 14px; margin-top: 4px;">Create your first agent to get started</div>
+          <div style="font-size: 14px; margin-top: 4px;">
+            Create your first agent to get started
+          </div>
         </div>
       `;
     }
@@ -235,31 +247,32 @@ export class AgentList extends LitElement {
         <div>Actions</div>
       </div>
 
-      ${this.agents.map(agent => {
+      ${this.agents.map((agent) => {
         const statusConfig = agentStatusConfig[agent.status];
         const typeConfig = agentTypeConfig[agent.type];
         const isSelected = agent.id === this.selectedAgentId;
 
         return html`
-          <div 
-            class="list-item" 
+          <div
+            class="list-item"
             ?selected=${isSelected}
-            @click=${(e: Event) => this.handleItemClick(agent, e)}
+            @click=${() => this.handleItemClick(agent)}
           >
             <div class="agent-name">
-              <div 
-                class="agent-icon" 
+              <div
+                class="agent-icon"
                 style="background: ${typeConfig.color}20; color: ${typeConfig.color}"
               >
                 ${typeConfig.icon}
               </div>
               <span>${agent.name}</span>
               ${agent.status === 'error' ? html`<div class="error-indicator"></div>` : ''}
+              <div class="last-active">${this.formatLastActive(agent.lastActive)}</div>
             </div>
 
             <div>
-              <div 
-                class="status-badge" 
+              <div
+                class="status-badge"
                 style="background: ${statusConfig.color}20; color: ${statusConfig.color}"
               >
                 <span>${statusConfig.icon}</span>
@@ -268,8 +281,8 @@ export class AgentList extends LitElement {
             </div>
 
             <div>
-              <div 
-                class="type-badge" 
+              <div
+                class="type-badge"
                 style="background: ${typeConfig.color}20; color: ${typeConfig.color}"
               >
                 <span>${typeConfig.icon}</span>
@@ -288,22 +301,22 @@ export class AgentList extends LitElement {
             </div>
 
             <div class="actions">
-              <button 
-                class="action-button" 
+              <button
+                class="action-button"
                 @click=${(e: Event) => this.handleActionClick(agent, 'restart', e)}
                 title="Restart Agent"
               >
                 🔄
               </button>
-              <button 
-                class="action-button" 
+              <button
+                class="action-button"
                 @click=${(e: Event) => this.handleActionClick(agent, 'configure', e)}
                 title="Configure Agent"
               >
                 ⚙️
               </button>
-              <button 
-                class="action-button" 
+              <button
+                class="action-button"
                 @click=${(e: Event) => this.handleActionClick(agent, 'logs', e)}
                 title="View Logs"
               >

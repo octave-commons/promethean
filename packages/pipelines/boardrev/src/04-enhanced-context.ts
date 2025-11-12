@@ -1,23 +1,24 @@
-import * as path from "path";
-import { fileURLToPath } from "url";
-import { exec } from "child_process";
-import { promisify } from "util";
-import { promises as fs } from "fs";
-import matter from "gray-matter";
-import { openLevelCache, type Cache } from "@promethean-os/level-cache";
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { exec } from 'child_process';
+import { promisify } from 'util';
+import { promises as fs } from 'fs';
+import matter from 'gray-matter';
+import { openLevelCache, type Cache } from '@promethean-os/level-cache';
 import {
   cosine,
   parseArgs,
   ollamaEmbed,
   writeText,
   createLogger,
-} from "@promethean-os/utils";
+  readMaybe,
+} from '@promethean-os/utils';
 
-import { listTaskFiles } from "./utils.js";
-import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
+import { listTaskFiles } from './utils.js';
+import { Priority, type RepoDoc, type Embeddings, type TaskContext, type TaskFM } from './types.js';
 
 const execAsync = promisify(exec);
-const logger = createLogger({ service: "boardrev-enhanced" });
+const logger = createLogger({ service: 'boardrev-enhanced' });
 
 interface BuildTestResult {
   taskFile: string;
@@ -84,34 +85,34 @@ async function runBuild(affectedFiles: string[]): Promise<BuildTestResult['build
     logger.info(`Running build on affected files: ${affectedFiles.join(', ')}`);
 
     // Try to build specific packages first
-    const packageFiles = affectedFiles.filter(f => f.startsWith('packages/'));
+    const packageFiles = affectedFiles.filter((f) => f.startsWith('packages/'));
     if (packageFiles.length > 0) {
-      const packages = [...new Set(packageFiles.map(f => f.split('/')[1]))];
+      const packages = [...new Set(packageFiles.map((f) => f.split('/')[1]))];
       for (const pkg of packages) {
         try {
           const { stdout, stderr } = await execAsync(`pnpm --filter @promethean-os/${pkg} build`, {
             timeout: 60000,
-            cwd: process.cwd()
+            cwd: process.cwd(),
           });
 
           if (stderr && !stdout) {
             return {
               success: false,
               output: stderr,
-              errors: [stderr]
+              errors: [stderr],
             };
           }
 
           return {
             success: true,
             output: stdout,
-            errors: []
+            errors: [],
           };
         } catch (error) {
           return {
             success: false,
             output: (error as any).stdout || (error as any).stderr || 'Build failed',
-            errors: [(error as Error).message]
+            errors: [(error as Error).message],
           };
         }
       }
@@ -120,20 +121,19 @@ async function runBuild(affectedFiles: string[]): Promise<BuildTestResult['build
     // Fallback to general build
     const { stdout, stderr } = await execAsync('pnpm build', {
       timeout: 120000,
-      cwd: process.cwd()
+      cwd: process.cwd(),
     });
 
     return {
       success: !stderr,
       output: stdout + (stderr ? '\nSTDERR:\n' + stderr : ''),
-      errors: stderr ? [stderr] : []
+      errors: stderr ? [stderr] : [],
     };
-
   } catch (error) {
     return {
       success: false,
       output: (error as any).stdout || (error as any).stderr || 'Build command failed',
-      errors: [(error as Error).message]
+      errors: [(error as Error).message],
     };
   }
 }
@@ -145,14 +145,14 @@ async function runTests(affectedFiles: string[]): Promise<BuildTestResult['testR
   try {
     logger.info(`Running tests on affected files: ${affectedFiles.join(', ')}`);
 
-    const packageFiles = affectedFiles.filter(f => f.startsWith('packages/'));
+    const packageFiles = affectedFiles.filter((f) => f.startsWith('packages/'));
     if (packageFiles.length > 0) {
-      const packages = [...new Set(packageFiles.map(f => f.split('/')[1]))];
+      const packages = [...new Set(packageFiles.map((f) => f.split('/')[1]))];
       for (const pkg of packages) {
         try {
           const { stdout, stderr } = await execAsync(`pnpm --filter @promethean-os/${pkg} test`, {
             timeout: 120000,
-            cwd: process.cwd()
+            cwd: process.cwd(),
           });
 
           const failedTests: string[] = [];
@@ -164,13 +164,13 @@ async function runTests(affectedFiles: string[]): Promise<BuildTestResult['testR
           return {
             success: !failedTests.length,
             output: stdout + (stderr ? '\nSTDERR:\n' + stderr : ''),
-            failedTests
+            failedTests,
           };
         } catch (error) {
           return {
             success: false,
             output: (error as any).stdout || (error as any).stderr || 'Test command failed',
-            failedTests: [(error as Error).message]
+            failedTests: [(error as Error).message],
           };
         }
       }
@@ -179,7 +179,7 @@ async function runTests(affectedFiles: string[]): Promise<BuildTestResult['testR
     // Fallback to general test
     const { stdout, stderr } = await execAsync('pnpm test:unit', {
       timeout: 180000,
-      cwd: process.cwd()
+      cwd: process.cwd(),
     });
 
     const failedTests: string[] = [];
@@ -191,14 +191,13 @@ async function runTests(affectedFiles: string[]): Promise<BuildTestResult['testR
     return {
       success: !failedTests.length,
       output: stdout + (stderr ? '\nSTDERR:\n' + stderr : ''),
-      failedTests
+      failedTests,
     };
-
   } catch (error) {
     return {
       success: false,
       output: (error as any).stdout || (error as any).stderr || 'Test command failed',
-      failedTests: [(error as Error).message]
+      failedTests: [(error as Error).message],
     };
   }
 }
@@ -210,14 +209,14 @@ async function runLint(affectedFiles: string[]): Promise<BuildTestResult['lintRe
   try {
     logger.info(`Running lint on affected files: ${affectedFiles.join(', ')}`);
 
-    const packageFiles = affectedFiles.filter(f => f.startsWith('packages/'));
+    const packageFiles = affectedFiles.filter((f) => f.startsWith('packages/'));
     if (packageFiles.length > 0) {
-      const packages = [...new Set(packageFiles.map(f => f.split('/')[1]))];
+      const packages = [...new Set(packageFiles.map((f) => f.split('/')[1]))];
       for (const pkg of packages) {
         try {
           const { stdout, stderr } = await execAsync(`pnpm --filter @promethean-os/${pkg} lint`, {
             timeout: 60000,
-            cwd: process.cwd()
+            cwd: process.cwd(),
           });
 
           const warnings: string[] = [];
@@ -234,14 +233,14 @@ async function runLint(affectedFiles: string[]): Promise<BuildTestResult['lintRe
             success: errors.length === 0,
             output: stdout + (stderr ? '\nSTDERR:\n' + stderr : ''),
             warnings,
-            errors
+            errors,
           };
         } catch (error) {
           return {
             success: false,
             output: (error as any).stdout || (error as any).stderr || 'Lint command failed',
             warnings: [],
-            errors: [(error as Error).message]
+            errors: [(error as Error).message],
           };
         }
       }
@@ -251,15 +250,14 @@ async function runLint(affectedFiles: string[]): Promise<BuildTestResult['lintRe
       success: true,
       output: 'No lint issues found',
       warnings: [],
-      errors: []
+      errors: [],
     };
-
   } catch (error) {
     return {
       success: false,
       output: (error as any).stdout || (error as any).stderr || 'Lint command failed',
       warnings: [],
-      errors: [(error as Error).message]
+      errors: [(error as Error).message],
     };
   }
 }
@@ -285,8 +283,8 @@ export async function matchEnhancedContext({
   const db = await openLevelCache<unknown>({
     path: path.resolve(cache),
   });
-  const docCache = db.withNamespace("idx") as Cache<RepoDoc>;
-  const embCache = db.withNamespace("emb") as Cache<number[]>;
+  const docCache = db.withNamespace('idx') as Cache<RepoDoc>;
+  const embCache = db.withNamespace('emb') as Cache<number[]>;
   const repoIndex: RepoDoc[] = [];
   const repoEmb: Embeddings = {};
 
@@ -300,7 +298,7 @@ export async function matchEnhancedContext({
   const buildTestResults: BuildTestResult[] = [];
 
   for (const f of files) {
-    const raw = await fs.readFile(f, "utf-8");
+    const raw = await fs.readFile(f, 'utf-8');
     const gm = matter(raw);
 
     // Extract affected files from task content
@@ -308,21 +306,23 @@ export async function matchEnhancedContext({
 
     let buildTestResult: BuildTestResult | undefined;
     if (runBuildTests && affectedFiles.length > 0) {
-      logger.info(`Processing task ${path.basename(f)} with affected files: ${affectedFiles.join(', ')}`);
+      logger.info(
+        `Processing task ${path.basename(f)} with affected files: ${affectedFiles.join(', ')}`,
+      );
 
       // Run build, tests, and lint in parallel
       const [buildResult, testResult, lintResult] = await Promise.all([
         runBuild(affectedFiles),
         runTests(affectedFiles),
-        runLint(affectedFiles)
+        runLint(affectedFiles),
       ]);
 
       buildTestResult = {
-        taskFile: f.replace(/\\/g, "/"),
+        taskFile: f.replace(/\\/g, '/'),
         affectedFiles,
         buildResult,
         testResult,
-        lintResult
+        lintResult,
       };
 
       buildTestResults.push(buildTestResult);
@@ -330,17 +330,24 @@ export async function matchEnhancedContext({
 
     // Enhanced text for embedding includes build/test results
     const enhancedText = [
-      `TITLE: ${gm.data?.title ?? ""}`,
-      `STATUS: ${gm.data?.status ?? ""}  PRIORITY: ${gm.data?.priority ?? ""}`,
+      `TITLE: ${gm.data?.title ?? ''}`,
+      `STATUS: ${gm.data?.status ?? ''}  PRIORITY: ${gm.data?.priority ?? ''}`,
       gm.content,
       buildTestResult ? buildTestResult.buildResult?.output || '' : '',
       buildTestResult ? buildTestResult.testResult?.output || '' : '',
       buildTestResult ? buildTestResult.lintResult?.output || '' : '',
-    ].join("\n").trim();
+    ]
+      .join('\n')
+      .trim();
 
     const vec = await ollamaEmbed(embedModel, enhancedText);
 
-    const scored: Array<{path: string; kind: 'code' | 'doc' | 'test-results'; excerpt: string; score: number}> = repoIndex
+    const scored: Array<{
+      path: string;
+      kind: 'code' | 'doc' | 'test-results';
+      excerpt: string;
+      score: number;
+    }> = repoIndex
       .map((d) => ({
         path: d.path,
         kind: d.kind as 'code' | 'doc',
@@ -357,7 +364,12 @@ export async function matchEnhancedContext({
 
     // Add build/test results to context hits if available
     if (buildTestResult) {
-      const buildTestHit: {path: string; kind: 'code' | 'doc' | 'test-results'; excerpt: string; score: number} = {
+      const buildTestHit: {
+        path: string;
+        kind: 'code' | 'doc' | 'test-results';
+        excerpt: string;
+        score: number;
+      } = {
         path: `${buildTestResult.taskFile}:build-test-results`,
         kind: 'test-results',
         excerpt: [
@@ -366,10 +378,18 @@ export async function matchEnhancedContext({
           `Lint: ${buildTestResult.lintResult?.success ? '✅ PASSED' : '❌ FAILED'}`,
           '',
           `Affected Files: ${buildTestResult.affectedFiles.join(', ')}`,
-          buildTestResult.buildResult?.errors.length ? `Build Errors: ${buildTestResult.buildResult.errors.join('; ')}` : '',
-          buildTestResult.testResult?.failedTests.length ? `Failed Tests: ${buildTestResult.testResult.failedTests.join('; ')}` : '',
-          buildTestResult.lintResult?.errors.length ? `Lint Errors: ${buildTestResult.lintResult.errors.join('; ')}` : '',
-        ].filter(Boolean).join('\n'),
+          buildTestResult.buildResult?.errors.length
+            ? `Build Errors: ${buildTestResult.buildResult.errors.join('; ')}`
+            : '',
+          buildTestResult.testResult?.failedTests.length
+            ? `Failed Tests: ${buildTestResult.testResult.failedTests.join('; ')}`
+            : '',
+          buildTestResult.lintResult?.errors.length
+            ? `Lint Errors: ${buildTestResult.lintResult.errors.join('; ')}`
+            : '',
+        ]
+          .filter(Boolean)
+          .join('\n'),
         score: 0.9, // High score for build/test results
       };
       scored.unshift(buildTestHit);
@@ -377,21 +397,41 @@ export async function matchEnhancedContext({
 
     // Read task file to get task metadata
     const taskContent = await readMaybe(f);
-    let task: TaskFM & { content?: string; tags?: string[] } | undefined;
+    let task: TaskContext['task'] | undefined;
     if (taskContent) {
       const parsed = matter(taskContent);
+      const fm = parsed.data as Partial<TaskFM> & { tags?: string[] };
+      const priorityValue = typeof fm.priority === 'string' ? fm.priority : '';
+      const priority = (Object.values(Priority) as string[]).includes(priorityValue)
+        ? (priorityValue as Priority)
+        : Priority.P3;
+      const labels = Array.isArray(fm.labels) ? fm.labels : [];
+      const explicitTags = Array.isArray(fm.tags) ? fm.tags : undefined;
+
       task = {
-        ...parsed.data as TaskFM,
+        uuid: typeof fm.uuid === 'string' ? fm.uuid : '',
+        title: typeof fm.title === 'string' ? fm.title : '',
+        status: typeof fm.status === 'string' ? fm.status : 'todo',
+        priority,
+        labels,
         content: parsed.content,
-        tags: parsed.data.labels as string[] || parsed.data.tags as string[] || [],
+        tags: explicitTags ?? labels,
       };
     }
-    
-    outData.push({ 
-      taskFile: f.replace(/\/g, "/"), 
-      hits: scored, 
+
+    const fallbackTask: TaskContext['task'] = {
+      uuid: '',
+      title: '',
+      status: 'todo',
+      priority: Priority.P3,
+      labels: [],
+    };
+
+    outData.push({
+      taskFile: f.replace(/\\/g, '/'),
+      hits: scored,
       links,
-      task: task || { uuid: '', title: '', status: '', priority: Priority.P3 }
+      task: task ?? fallbackTask,
     });
   }
 
@@ -401,32 +441,31 @@ export async function matchEnhancedContext({
     buildTestResults: runBuildTests ? buildTestResults : undefined,
   };
 
-  await writeText(
-    path.resolve(out),
-    JSON.stringify(outputData, null, 2),
-  );
+  await writeText(path.resolve(out), JSON.stringify(outputData, null, 2));
   await db.close();
 
-  logger.info(`boardrev: enhanced context matched for ${outData.length} task(s)${runBuildTests ? ` with build/test results for ${buildTestResults.length} task(s)` : ''}`);
+  logger.info(
+    `boardrev: enhanced context matched for ${outData.length} task(s)${runBuildTests ? ` with build/test results for ${buildTestResults.length} task(s)` : ''}`,
+  );
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
-    "--tasks": "docs/agile/tasks",
-    "--cache": ".cache/boardrev/repo-cache",
-    "--embed-model": "nomic-embed-text:latest",
-    "--k": "8",
-    "--out": ".cache/boardrev/enhanced-context.json",
-    "--run-build-tests": "false",
+    '--tasks': 'docs/agile/tasks',
+    '--cache': '.cache/boardrev/repo-cache',
+    '--embed-model': 'nomic-embed-text:latest',
+    '--k': '8',
+    '--out': '.cache/boardrev/enhanced-context.json',
+    '--run-build-tests': 'false',
   });
 
   matchEnhancedContext({
-    tasks: args["--tasks"],
-    cache: args["--cache"],
-    embedModel: args["--embed-model"],
-    k: Number(args["--k"]),
-    out: args["--out"],
-    runBuildTests: args["--run-build-tests"] === "true",
+    tasks: args['--tasks'],
+    cache: args['--cache'],
+    embedModel: args['--embed-model'],
+    k: Number(args['--k']),
+    out: args['--out'],
+    runBuildTests: args['--run-build-tests'] === 'true',
   }).catch((e) => {
     logger.error((e as Error).message);
     process.exit(1);

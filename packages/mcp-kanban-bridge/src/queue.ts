@@ -1,8 +1,8 @@
 import { SyncQueue, SyncEvent, BridgeConfig } from './types.js';
-import Redis from 'ioredis';
+import * as Redis from 'ioredis';
 
 export class RedisSyncQueue implements SyncQueue {
-  private redis: Redis;
+  private redis: Redis.Redis;
   private processingQueue: string;
   private failedQueue: string;
 
@@ -11,12 +11,11 @@ export class RedisSyncQueue implements SyncQueue {
       throw new Error('Redis configuration required for RedisSyncQueue');
     }
 
-    this.redis = new Redis({
+    this.redis = new Redis.Redis({
       host: config.storage.redis.host,
       port: config.storage.redis.port,
       db: config.storage.redis.db,
       password: config.storage.redis.password,
-      retryDelayOnFailover: 100,
       maxRetriesPerRequest: 3,
     });
 
@@ -54,9 +53,11 @@ export class RedisSyncQueue implements SyncQueue {
     const events = await this.redis.lrange(this.processingQueue, 0, -1);
 
     for (let i = 0; i < events.length; i++) {
-      const event = JSON.parse(events[i]);
+      const eventStr = events[i];
+      if (!eventStr) continue;
+      const event = JSON.parse(eventStr);
       if (event.id === eventId) {
-        await this.redis.lrem(this.processingQueue, 1, events[i]);
+        await this.redis.lrem(this.processingQueue, 1, eventStr);
         break;
       }
     }

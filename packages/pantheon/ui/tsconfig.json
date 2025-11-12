@@ -5,7 +5,8 @@
     "moduleResolution": "node",
     "outDir": "./dist",
     "rootDir": "./src",
-    "noEmitHelpers": true
+    "noEmitHelpers": true,
+    "lib": ["ES2022", "DOM", "DOM.Iterable", "esnext.disposable"]
   },
   "include": ["src/**/*"],
   "exclude": ["dist", "node_modules", "**/*.test.ts"]

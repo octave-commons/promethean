@@ -4,19 +4,13 @@
 
 import { LitElement, html, css } from 'lit';
 import { customElement, property } from 'lit/decorators.js';
-import { formatDistanceToNow } from 'luxon';
+import { DateTime } from 'luxon';
 import type { Agent } from '../types.js';
-import { 
-  agentDesignTokens, 
-  agentStatusConfig, 
-  agentTypeConfig,
-  getStatusColor,
-  getTypeColor 
-} from '../design-system.js';
+import { agentStatusConfig, agentTypeConfig } from '../design-system.js';
 
 @customElement('agent-card')
 export class AgentCard extends LitElement {
-  static styles = css`
+  static override styles = css`
     :host {
       display: block;
       background: white;
@@ -35,7 +29,7 @@ export class AgentCard extends LitElement {
     }
 
     :host([selected]) {
-      border: 2px solid var(--agent-colorPrimary, #4A90E2);
+      border: 2px solid var(--agent-colorPrimary, #4a90e2);
     }
 
     .card-header {
@@ -59,7 +53,7 @@ export class AgentCard extends LitElement {
       align-items: center;
       justify-content: center;
       font-size: 20px;
-      background: var(--agent-colorSecondary, #50E3C2);
+      background: var(--agent-colorSecondary, #50e3c2);
     }
 
     .agent-details h3 {
@@ -180,7 +174,7 @@ export class AgentCard extends LitElement {
 
     .progress-fill {
       height: 100%;
-      background: var(--agent-colorPrimary, #4A90E2);
+      background: var(--agent-colorPrimary, #4a90e2);
       transition: width var(--agent-transitionNormal);
     }
 
@@ -196,8 +190,13 @@ export class AgentCard extends LitElement {
     }
 
     @keyframes pulse {
-      0%, 100% { opacity: 1; }
-      50% { opacity: 0.5; }
+      0%,
+      100% {
+        opacity: 1;
+      }
+      50% {
+        opacity: 0.5;
+      }
     }
 
     /* Responsive design */
@@ -228,25 +227,30 @@ export class AgentCard extends LitElement {
   compact = false;
 
   private handleCardClick() {
-    this.dispatchEvent(new CustomEvent('agent-selected', {
-      detail: { agent: this.agent },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('agent-selected', {
+        detail: { agent: this.agent },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private handleActionClick(action: string, event: Event) {
     event.stopPropagation();
-    this.dispatchEvent(new CustomEvent('agent-action', {
-      detail: { agent: this.agent, action },
-      bubbles: true,
-      composed: true
-    }));
+    this.dispatchEvent(
+      new CustomEvent('agent-action', {
+        detail: { agent: this.agent, action },
+        bubbles: true,
+        composed: true,
+      }),
+    );
   }
 
   private formatLastActive(date?: Date): string {
     if (!date) return 'Never';
-    return formatDistanceToNow(date, { addSuffix: true });
+    const relative = DateTime.fromJSDate(date).toRelative({ style: 'short' });
+    return relative ?? 'just now';
   }
 
   private getTaskProgress(): number {
@@ -255,7 +259,7 @@ export class AgentCard extends LitElement {
     return (this.agent.metrics.tasksCompleted / total) * 100;
   }
 
-  render() {
+  override render() {
     const statusConfig = agentStatusConfig[this.agent.status];
     const typeConfig = agentTypeConfig[this.agent.type];
     const progress = this.getTaskProgress();
@@ -269,9 +273,7 @@ export class AgentCard extends LitElement {
 
       <div class="card-header">
         <div class="agent-info">
-          <div class="agent-icon" style="background: ${typeConfig.color}20">
-            ${typeConfig.icon}
-          </div>
+          <div class="agent-icon" style="background: ${typeConfig.color}20">${typeConfig.icon}</div>
           <div class="agent-details">
             <h3>${this.agent.name}</h3>
             <div class="agent-type">
@@ -280,41 +282,51 @@ export class AgentCard extends LitElement {
             </div>
           </div>
         </div>
-        <div class="status-badge" style="background: ${statusConfig.color}20; color: ${statusConfig.color}">
+        <div
+          class="status-badge"
+          style="background: ${statusConfig.color}20; color: ${statusConfig.color}"
+        >
           <span>${statusConfig.icon}</span>
           <span>${statusConfig.label}</span>
         </div>
       </div>
 
       <div class="card-body">
-        ${!this.compact ? html`
-          <div class="capabilities">
-            ${this.agent.capabilities.slice(0, 3).map(cap => 
-              html`<span class="capability-tag">${cap}</span>`
-            )}
-            ${this.agent.capabilities.length > 3 ? 
-              html`<span class="capability-tag">+${this.agent.capabilities.length - 3}</span>` : ''}
-          </div>
+        ${!this.compact
+          ? html`
+              <div class="capabilities">
+                ${this.agent.capabilities
+                  .slice(0, 3)
+                  .map((cap) => html`<span class="capability-tag">${cap}</span>`)}
+                ${this.agent.capabilities.length > 3
+                  ? html`<span class="capability-tag">+${this.agent.capabilities.length - 3}</span>`
+                  : ''}
+              </div>
 
-          <div class="metrics">
-            <div class="metric">
-              <span class="metric-label">Tasks</span>
-              <span class="metric-value">${this.agent.metrics.tasksCompleted}</span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Success Rate</span>
-              <span class="metric-value">${Math.round((1 - this.agent.metrics.errorRate) * 100)}%</span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">Response Time</span>
-              <span class="metric-value">${Math.round(this.agent.metrics.averageResponseTime)}ms</span>
-            </div>
-            <div class="metric">
-              <span class="metric-label">CPU</span>
-              <span class="metric-value">${Math.round(this.agent.metrics.cpuUsage)}%</span>
-            </div>
-          </div>
-        ` : ''}
+              <div class="metrics">
+                <div class="metric">
+                  <span class="metric-label">Tasks</span>
+                  <span class="metric-value">${this.agent.metrics.tasksCompleted}</span>
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Success Rate</span>
+                  <span class="metric-value"
+                    >${Math.round((1 - this.agent.metrics.errorRate) * 100)}%</span
+                  >
+                </div>
+                <div class="metric">
+                  <span class="metric-label">Response Time</span>
+                  <span class="metric-value"
+                    >${Math.round(this.agent.metrics.averageResponseTime)}ms</span
+                  >
+                </div>
+                <div class="metric">
+                  <span class="metric-label">CPU</span>
+                  <span class="metric-value">${Math.round(this.agent.metrics.cpuUsage)}%</span>
+                </div>
+              </div>
+            `
+          : ''}
       </div>
 
       <div class="card-footer">
@@ -323,22 +335,22 @@ export class AgentCard extends LitElement {
           <span>${this.formatLastActive(this.agent.lastActive)}</span>
         </div>
         <div class="actions">
-          <button 
-            class="action-button" 
+          <button
+            class="action-button"
             @click=${(e: Event) => this.handleActionClick('restart', e)}
             title="Restart Agent"
           >
             🔄
           </button>
-          <button 
-            class="action-button" 
+          <button
+            class="action-button"
             @click=${(e: Event) => this.handleActionClick('configure', e)}
             title="Configure Agent"
           >
             ⚙️
           </button>
-          <button 
-            class="action-button" 
+          <button
+            class="action-button"
             @click=${(e: Event) => this.handleActionClick('logs', e)}
             title="View Logs"
           >
@@ -347,7 +359,10 @@ export class AgentCard extends LitElement {
         </div>
       </div>
 
-      <div @click=${this.handleCardClick} style="position: absolute; inset: 0; cursor: pointer;"></div>
+      <div
+        @click=${this.handleCardClick}
+        style="position: absolute; inset: 0; cursor: pointer;"
+      ></div>
     `;
   }
 }

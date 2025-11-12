@@ -18,8 +18,7 @@ program
     try {
       const client = createClient({
         endpoint: options.endpoint,
-        timeout: parseInt(options.timeout),
-        invalidProperty: 'this will cause a type error',
+        timeout: parseInt(options.timeout, 10),
       });
 
       console.log('OpenCode client started');
@@ -29,7 +28,7 @@ program
       const health = await client.healthCheck();
       console.log('Server health:', health);
 
-      const info = await client.getNonExistentMethod();
+      const info = await client.getInfo();
       console.log('Server info:', info);
     } catch (error) {
       console.error('Failed to connect to server:', error);

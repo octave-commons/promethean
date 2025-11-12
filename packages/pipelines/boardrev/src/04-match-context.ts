@@ -1,21 +1,15 @@
-import * as path from "path";
-import { fileURLToPath } from "url";
-import { promises as fs } from "fs";
+import * as path from 'path';
+import { fileURLToPath } from 'url';
+import { promises as fs } from 'fs';
 
-import matter from "gray-matter";
-import { openLevelCache, type Cache } from "@promethean-os/level-cache";
-import {
-  cosine,
-  parseArgs,
-  ollamaEmbed,
-  writeText,
-  createLogger,
-} from "@promethean-os/utils";
+import matter from 'gray-matter';
+import { openLevelCache, type Cache } from '@promethean-os/level-cache';
+import { cosine, parseArgs, ollamaEmbed, writeText, createLogger } from '@promethean-os/utils';
 
-import { listTaskFiles } from "./utils.js";
-import type { RepoDoc, Embeddings, TaskContext } from "./types.js";
+import { listTaskFiles } from './utils.js';
+import { Priority, type RepoDoc, Embeddings, TaskContext } from './types.js';
 
-const logger = createLogger({ service: "boardrev" });
+const logger = createLogger({ service: 'boardrev' });
 
 // eslint-disable-next-line max-lines-per-function
 export async function matchContext({
@@ -36,8 +30,8 @@ export async function matchContext({
   const db = await openLevelCache<unknown>({
     path: path.resolve(cache),
   });
-  const docCache = db.withNamespace("idx") as Cache<RepoDoc>;
-  const embCache = db.withNamespace("emb") as Cache<number[]>;
+  const docCache = db.withNamespace('idx') as Cache<RepoDoc>;
+  const embCache = db.withNamespace('emb') as Cache<number[]>;
   const repoIndex: RepoDoc[] = [];
   const repoEmb: Embeddings = {};
   for await (const [p, d] of docCache.entries()) {
@@ -49,13 +43,13 @@ export async function matchContext({
   const outData: TaskContext[] = [];
 
   for (const f of files) {
-    const raw = await fs.readFile(f, "utf-8");
+    const raw = await fs.readFile(f, 'utf-8');
     const gm = matter(raw);
     const text = [
-      `TITLE: ${gm.data?.title ?? ""}`,
-      `STATUS: ${gm.data?.status ?? ""}  PRIORITY: ${gm.data?.priority ?? ""}`,
+      `TITLE: ${gm.data?.title ?? ''}`,
+      `STATUS: ${gm.data?.status ?? ''}  PRIORITY: ${gm.data?.priority ?? ''}`,
       gm.content,
-    ].join("\n");
+    ].join('\n');
     const vec = await ollamaEmbed(embedModel, text);
 
     const scored = repoIndex
@@ -73,31 +67,42 @@ export async function matchContext({
       .map((m) => m[1])
       .filter((x): x is string => Boolean(x));
 
-    outData.push({ taskFile: f.replace(/\\/g, "/"), hits: scored, links });
+    outData.push({
+      taskFile: f.replace(/\\/g, '/'),
+      hits: scored,
+      links,
+      task: {
+        uuid: '',
+        title: gm.data?.title ?? '',
+        status: gm.data?.status ?? '',
+        priority: Priority[gm.data?.priority as keyof typeof Priority] ?? Priority.P3,
+        labels: gm.data?.labels,
+        created_at: gm.data?.created_at,
+        assignee: gm.data?.assignee,
+        content: gm.content,
+      },
+    });
   }
 
-  await writeText(
-    path.resolve(out),
-    JSON.stringify({ contexts: outData }, null, 2),
-  );
+  await writeText(path.resolve(out), JSON.stringify({ contexts: outData }, null, 2));
   await db.close();
   logger.info(`boardrev: matched context for ${outData.length} task(s)`);
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
-    "--tasks": "docs/agile/tasks",
-    "--cache": ".cache/boardrev/repo-cache",
-    "--embed-model": "nomic-embed-text:latest",
-    "--k": "8",
-    "--out": ".cache/boardrev/context.json",
+    '--tasks': 'docs/agile/tasks',
+    '--cache': '.cache/boardrev/repo-cache',
+    '--embed-model': 'nomic-embed-text:latest',
+    '--k': '8',
+    '--out': '.cache/boardrev/context.json',
   });
   matchContext({
-    tasks: args["--tasks"],
-    cache: args["--cache"],
-    embedModel: args["--embed-model"],
-    k: Number(args["--k"]),
-    out: args["--out"],
+    tasks: args['--tasks'],
+    cache: args['--cache'],
+    embedModel: args['--embed-model'],
+    k: Number(args['--k']),
+    out: args['--out'],
   }).catch((e) => {
     logger.error((e as Error).message);
     process.exit(1);

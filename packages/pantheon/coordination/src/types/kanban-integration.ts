@@ -5,8 +5,7 @@
  * task tracking, status management, and workflow automation.
  */
 
-import { AgentInstance } from './agent-instance.js';
-import { TaskAnalysis, AssignmentDecision } from './task-assignment.js';
+import { AssignmentDecision } from './task-assignment.js';
 
 // Kanban Integration Core
 export interface KanbanIntegrationManager {

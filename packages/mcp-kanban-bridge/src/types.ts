@@ -1,3 +1,4 @@
+import type { EventEmitter } from 'events';
 import { z } from 'zod';
 
 export const TaskSchema = z.object({
@@ -114,12 +115,14 @@ export interface WebhookHandler {
   verifySignature(event: WebhookEvent, secret: string): boolean;
 }
 
-export interface SyncEngine {
+export interface SyncEngine extends EventEmitter {
   syncTask(taskId: string): Promise<void>;
   syncAll(): Promise<void>;
   handleMcpEvent(event: any): Promise<void>;
   handleKanbanEvent(event: any): Promise<void>;
   resolveConflict(taskId: string): Promise<Task>;
+  startPeriodicSync(): void;
+  stopPeriodicSync(): void;
 }
 
 export interface BridgeMetrics {
@@ -132,7 +135,7 @@ export interface BridgeMetrics {
   queueSize: number;
 }
 
-export interface MetricsCollector {
+export interface MetricsCollector extends EventEmitter {
   recordEventProcessed(type: string, source: string, duration: number): void;
   recordEventFailed(type: string, source: string, error: Error): void;
   recordTaskSynced(taskId: string): void;
