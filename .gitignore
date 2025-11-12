@@ -174,3 +174,5 @@ simple-test-temp/
 packages/*/node_modules/
 packages/*/dist/
 packages/*/tsconfig.tsbuildinfo
+
+.nx/
