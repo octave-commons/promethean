@@ -6,17 +6,42 @@ import { Router } from 'express';
 import { ResponseHelper } from '../../shared/index.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-const router = Router();
+const router: Router = Router();
 
 // TODO: Implement Ollama routes
 router.get(
   '/jobs',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     res.json(
       ResponseHelper.success({
         message: 'Ollama jobs list endpoint - TODO: Implement job listing logic',
       }),
     );
+  }),
+);
+
+router.post(
+  '/jobs',
+  asyncHandler(async (_req, res) => {
+    res.json(
+      ResponseHelper.success({
+        message: 'Create Ollama job endpoint - TODO: Implement job creation logic',
+      }),
+    );
+  }),
+);
+...
+router.get(
+  '/models',
+  asyncHandler(async (_req, res) => {
+    res.json(
+      ResponseHelper.success({
+        message: 'List Ollama models endpoint - TODO: Implement model listing logic',
+      }),
+    );
+  }),
+);
+
   }),
 );
 
