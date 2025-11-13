@@ -17,6 +17,23 @@
 - `packages/knowledge-graph/tsconfig.json` – extends missing `/home/err/devel/orgs/riatzukiza/tsconfig.json` and lacks `@types/babel__parser` dependency, preventing compiler startup.
 - `packages/data-stores/src/tests/data-store-manager.test.ts:10-280` – missing exports from `@promethean-os/persistence`, implicit `any` parameters, and outdated helper signatures.
 
+### Knowledge-graph package (2025-11-13 deep dive)
+
+- `packages/knowledge-graph/src/builder.ts:6-12,32,65-80,154` – unused `resolve` import, unused `DependencyProcessor`, and metadata `processingContext` typed as `Record<string, unknown>` leading to `filePath` access errors; helper receives `ProcessingContext` but logger still sees `{}`.
+- `packages/knowledge-graph/src/cli.ts:22-40` – CLI wires the in-memory `Database` adapter, which lacks the methods expected by `GraphRepository` (`db`, `createTables`, etc.), causing structural type mismatch.
+- `packages/knowledge-graph/src/database/database.ts:59-246` – return type declared as `Database.Database` even though `Database` is a class (not namespace); config `verbose` type mismatches better-sqlite3 signature and causes downstream failures in `src/database/migrate.ts:8`.
+- `packages/knowledge-graph/src/database/memory-database.ts:1-83` – unused schema import, unused `config`/`args`, and hand-rolled adapter does not align with the real Database interface (no logger, `getDatabase` returns loose object).
+- `packages/knowledge-graph/src/processors/content.ts:2` – unused `resolve` import keeps failing `noUnusedLocals`.
+- `packages/knowledge-graph/src/processors/dependency.ts:3`, `src/processors/markdown.ts:6`, `src/processors/typescript.ts:3` – bad relative paths (`../../types/index.js`) lead to TS2307; markdown processor also references `unist` types without installing `@types/unist`, and lacks guards for wikilink parsing.
+- `packages/knowledge-graph/src/processors/markdown.ts:98-112` – regex capture handling allows `content` to be `undefined`, so `text` assignment triggers TS18048/TS2322.
+- `packages/knowledge-graph/src/processors/typescript.ts:3-70,97-112` – traverse import has no call signatures under `moduleResolution: nodenext`, visitor callbacks use implicit `any` parameters, and helper methods (`getImportType`, `isTypeOnlyImport`) appear unused because `this` is lost inside visitor objects.
+
+**Knowledge-graph Definition of Done**
+
+- `pnpm --filter @promethean-os/knowledge-graph typecheck` runs clean with 0 TypeScript diagnostics.
+- CLI + database wiring rely on the production SQLite adapter so runtime behaviour matches the public surface.
+- Processor outputs always include a strongly typed `processingContext` and avoid undefined string assignments.
+
 ## Existing Issues / PRs
 
 - None explicitly identified for these failures (searched command history only). Note: update if related tickets surface.
