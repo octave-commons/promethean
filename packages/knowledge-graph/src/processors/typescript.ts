@@ -1,6 +1,9 @@
-import { parse } from '@babel/parser'
-import traverse from '@babel/traverse'
-import { ExtractedData, Import, ProcessingContext } from '../../types/index.js'
+import { parse } from '@babel/parser';
+import type { NodePath } from '@babel/traverse';
+import type * as t from '@babel/types';
+import { ExtractedData, Import, ProcessingContext } from '../types/index.js';
+
+const traverseModulePromise = import('@babel/traverse');
 
 export class TypeScriptProcessor {
   async process(content: string, context: ProcessingContext): Promise<ExtractedData> {
@@ -19,55 +22,57 @@ export class TypeScriptProcessor {
           'exportNamespaceFrom',
           'dynamicImport',
           'nullishCoalescingOperator',
-          'optionalChaining'
-        ]
-      })
+          'optionalChaining',
+        ],
+      });
 
-      const imports: Import[] = []
+      const imports: Import[] = [];
 
       traverse(ast, {
         ImportDeclaration(path) {
-          const node = path.node
+          const node = path.node;
           if (node.source && node.specifiers) {
-            const specifiers = node.specifiers.map(spec => {
-              if (spec.type === 'ImportDefaultSpecifier') {
-                return spec.local.name
-              } else if (spec.type === 'ImportSpecifier') {
-                return spec.imported?.name || spec.local.name
-              } else if (spec.type === 'ImportNamespaceSpecifier') {
-                return `*${spec.local.name}`
-              }
-              return spec.local.name
-            }).filter(Boolean)
+            const specifiers = node.specifiers
+              .map((spec) => {
+                if (spec.type === 'ImportDefaultSpecifier') {
+                  return spec.local.name;
+                } else if (spec.type === 'ImportSpecifier') {
+                  return spec.imported?.name || spec.local.name;
+                } else if (spec.type === 'ImportNamespaceSpecifier') {
+                  return `*${spec.local.name}`;
+                }
+                return spec.local.name;
+              })
+              .filter(Boolean);
 
             const importInfo: Import = {
               source: node.source.value,
               specifiers,
               type: this.getImportType(node.specifiers),
               isTypeOnly: this.isTypeOnlyImport(node),
-              lineNumber: node.loc?.start.line
-            }
+              lineNumber: node.loc?.start.line,
+            };
 
-            imports.push(importInfo)
+            imports.push(importInfo);
           }
         },
 
         CallExpression(path) {
           if (path.node.callee.type === 'Import') {
-            const args = path.node.arguments
+            const args = path.node.arguments;
             if (args.length > 0 && args[0].type === 'StringLiteral') {
               const importInfo: Import = {
                 source: args[0].value,
                 specifiers: ['dynamic'],
                 type: 'default',
                 isTypeOnly: false,
-                lineNumber: path.node.loc?.start.line
-              }
-              imports.push(importInfo)
+                lineNumber: path.node.loc?.start.line,
+              };
+              imports.push(importInfo);
             }
           }
-        }
-      })
+        },
+      });
 
       return {
         links: [],
@@ -76,9 +81,9 @@ export class TypeScriptProcessor {
         metadata: {
           processingContext: context,
           processedAt: new Date().toISOString(),
-          language: 'typescript'
-        }
-      }
+          language: 'typescript',
+        },
+      };
     } catch (error) {
       return {
         links: [],
@@ -88,26 +93,28 @@ export class TypeScriptProcessor {
           processingContext: context,
           processedAt: new Date().toISOString(),
           language: 'typescript',
-          error: error instanceof Error ? error.message : 'Unknown error'
-        }
-      }
+          error: error instanceof Error ? error.message : 'Unknown error',
+        },
+      };
     }
   }
 
   private getImportType(specifiers: any[]): 'default' | 'named' | 'namespace' {
-    if (specifiers.length === 0) return 'named'
-    
-    const hasDefault = specifiers.some(s => s.type === 'ImportDefaultSpecifier')
-    const hasNamespace = specifiers.some(s => s.type === 'ImportNamespaceSpecifier')
-    const hasNamed = specifiers.some(s => s.type === 'ImportSpecifier')
+    if (specifiers.length === 0) return 'named';
 
-    if (hasNamespace) return 'namespace'
-    if (hasDefault && !hasNamed) return 'default'
-    return 'named'
+    const hasDefault = specifiers.some((s) => s.type === 'ImportDefaultSpecifier');
+    const hasNamespace = specifiers.some((s) => s.type === 'ImportNamespaceSpecifier');
+    const hasNamed = specifiers.some((s) => s.type === 'ImportSpecifier');
+
+    if (hasNamespace) return 'namespace';
+    if (hasDefault && !hasNamed) return 'default';
+    return 'named';
   }
 
   private isTypeOnlyImport(node: any): boolean {
-    return node.importKind === 'type' || 
-           (node.specifiers && node.specifiers.every((s: any) => s.importKind === 'type'))
+    return (
+      node.importKind === 'type' ||
+      (node.specifiers && node.specifiers.every((s: any) => s.importKind === 'type'))
+    );
   }
 }
