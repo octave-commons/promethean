@@ -4,12 +4,13 @@ import { promises as fs } from 'fs';
 
 import { globby } from 'globby';
 import { openLevelCache, type Cache } from '@promethean-os/level-cache';
-import { ollamaEmbed, parseArgs, createLogger } from '@promethean-os/utils';
+import { ollamaEmbed, parseArgs } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 
 import type { RepoDoc, FileMetadata, IndexStats } from './types.js';
 import { detectChangedFiles, updateFileMetadata } from './utils.js';
 
-const logger = createLogger({ service: 'boardrev' });
+const logger = getLogger('boardrev');
 
 export async function indexRepo({
   globs,
