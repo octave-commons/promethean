@@ -185,7 +185,8 @@ test.serial('createDataStoreManager creates a functional manager', async (t) => 
 });
 
 test.serial('getDataStoreManager returns singleton instance', async (t) => {
-  const manager1 = getDataStoreManager();
+  const factory = createStubContextStoreFactory();
+  const manager1 = getDataStoreManager(undefined, undefined, factory);
   const manager2 = getDataStoreManager();
 
   t.is(manager1, manager2, 'Should return the same instance');
