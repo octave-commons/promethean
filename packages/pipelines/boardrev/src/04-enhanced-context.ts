@@ -5,20 +5,14 @@ import { promisify } from 'util';
 import { promises as fs } from 'fs';
 import matter from 'gray-matter';
 import { openLevelCache, type Cache } from '@promethean-os/level-cache';
-import {
-  cosine,
-  parseArgs,
-  ollamaEmbed,
-  writeText,
-  createLogger,
-  readMaybe,
-} from '@promethean-os/utils';
+import { cosine, parseArgs, ollamaEmbed, writeText, readMaybe } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 
 import { listTaskFiles } from './utils.js';
 import { Priority, type RepoDoc, type Embeddings, type TaskContext, type TaskFM } from './types.js';
 
 const execAsync = promisify(exec);
-const logger = createLogger({ service: 'boardrev-enhanced' });
+const logger = getLogger('boardrev-enhanced');
 
 interface BuildTestResult {
   taskFile: string;
