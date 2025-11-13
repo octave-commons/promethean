@@ -5,13 +5,13 @@
  * Monitors file changes, git events, and scheduled runs to trigger boardrev updates
  */
 
-import { createLogger } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 import { EventEmitter } from 'node:events';
 import { setInterval, clearInterval } from 'node:timers';
 import { existsSync, mkdirSync, writeFileSync, readFileSync } from 'node:fs';
 import { join } from 'node:path';
 
-const logger = createLogger({ service: 'boardrev-monitor' });
+const logger = getLogger('boardrev-monitor');
 
 export interface MonitorConfig {
   // File watching

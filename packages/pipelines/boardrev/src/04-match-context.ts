@@ -4,12 +4,13 @@ import { promises as fs } from 'fs';
 
 import matter from 'gray-matter';
 import { openLevelCache, type Cache } from '@promethean-os/level-cache';
-import { cosine, parseArgs, ollamaEmbed, writeText, createLogger } from '@promethean-os/utils';
+import { cosine, parseArgs, ollamaEmbed, writeText } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 
 import { listTaskFiles } from './utils.js';
 import { Priority, type RepoDoc, Embeddings, TaskContext } from './types.js';
 
-const logger = createLogger({ service: 'boardrev' });
+const logger = getLogger('boardrev');
 
 // eslint-disable-next-line max-lines-per-function
 export async function matchContext({
