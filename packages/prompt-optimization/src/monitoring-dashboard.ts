@@ -225,7 +225,10 @@ export class MonitoringDashboard {
    */
   private collectMetrics(): void {
     const routingStats = adaptiveRouting.getStatistics();
-    const currentMetrics = this.metrics[this.metrics.length - 1];
+    const currentMetrics = this.metrics.at(-1);
+    if (!currentMetrics) {
+      return;
+    }
 
     // Calculate overall metrics
     const totalRequests = Object.values(routingStats.templatePerformance).reduce(
@@ -313,7 +316,10 @@ export class MonitoringDashboard {
    * Check for alerts based on current metrics
    */
   private checkAlerts(): void {
-    const currentMetrics = this.metrics[this.metrics.length - 1];
+    const currentMetrics = this.metrics.at(-1);
+    if (!currentMetrics) {
+      return;
+    }
 
     // Check overall success rate
     if (currentMetrics.overall.successRate < this.alertThresholds.successRate) {
@@ -383,7 +389,11 @@ export class MonitoringDashboard {
    * Get current dashboard metrics
    */
   public getCurrentMetrics(): DashboardMetrics {
-    return this.metrics[this.metrics.length - 1] || this.metrics[0];
+    const currentMetrics = this.metrics.at(-1) ?? this.metrics[0];
+    if (!currentMetrics) {
+      throw new Error('No dashboard metrics available');
+    }
+    return currentMetrics;
   }
 
   /**
