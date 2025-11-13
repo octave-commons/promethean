@@ -214,7 +214,7 @@ export const createDataStoreManager = (
  * Determine which store an entry came from based on its metadata
  */
 const determineStoreFromEntry = (entry: ContextStoreDocument): StoreNames => {
-  const metadata = entry.metadata || {};
+  const metadata = (entry.metadata ?? {}) as Record<string, any>;
 
   if (metadata.type === 'session') return StoreNames.SESSION;
   if (metadata.type === 'event') return StoreNames.EVENT;
