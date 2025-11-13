@@ -43,7 +43,6 @@
         "javascript-time-ago": "^2.5.11",
         "js-yaml": "^4.1.0",
         "mongodb": "^6.18.0",
-        "ollama": "^0.5.17",
         "prom-client": "^15.1.0",
         "remark-gfm": "^4.0.1",
         "remark-parse": "^11.0.0",

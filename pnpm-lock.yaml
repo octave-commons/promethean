@@ -2415,7 +2415,7 @@ importers:
         version: 6.0.1
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.9.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
 
   packages/indexer-client:
     dependencies:
@@ -2523,6 +2523,9 @@ importers:
       '@promethean-os/lmdb-cache':
         specifier: workspace:*
         version: link:../lmdb-cache
+      '@promethean-os/logger':
+        specifier: workspace:*
+        version: link:../logger
       '@promethean-os/markdown':
         specifier: workspace:*
         version: link:../markdown
@@ -2590,6 +2593,9 @@ importers:
       '@types/xml2js':
         specifier: ^0.4.11
         version: 0.4.14
+      c8:
+        specifier: ^10.1.2
+        version: 10.1.3
       esmock:
         specifier: ^2.7.3
         version: 2.7.3
@@ -4207,7 +4213,7 @@ importers:
         version: 5.3.1(@ava/typescript@4.1.0)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.9.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -4676,6 +4682,9 @@ importers:
       '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
+      '@promethean-os/pantheon-llm-openai':
+        specifier: workspace:*
+        version: link:../../pantheon/llm-openai
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../utils
@@ -24730,6 +24739,7 @@ snapshots:
   '@types/node@24.9.1':
     dependencies:
       undici-types: 7.16.0
+    optional: true
 
   '@types/nodemailer@6.4.20':
     dependencies:
@@ -26120,7 +26130,7 @@ snapshots:
 
   axios@1.12.2:
     dependencies:
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       form-data: 4.0.4
       proxy-from-env: 1.1.0
     transitivePeerDependencies:
@@ -30195,7 +30205,7 @@ snapshots:
   http-proxy@1.18.1:
     dependencies:
       eventemitter3: 4.0.7
-      follow-redirects: 1.15.11(debug@4.3.7)
+      follow-redirects: 1.15.11(debug@4.4.3)
       requires-port: 1.0.0
     transitivePeerDependencies:
       - debug
@@ -36253,24 +36263,6 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  ts-node@10.9.2(@types/node@24.9.1)(typescript@5.9.3):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 24.9.1
-      acorn: 8.15.0
-      acorn-walk: 8.3.4
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.9.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -36522,7 +36514,8 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.16.0: {}
+  undici-types@7.16.0:
+    optional: true
 
   undici@5.29.0:
     dependencies:

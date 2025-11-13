@@ -18,7 +18,7 @@
           "deps": ["rm-scan"],
           "js": {
             "module": "packages/readmeflow/dist/02-outline.js",
-            "args": { "cache": ".cache/readmes", "model": "qwen3:4b" },
+            "args": { "cache": ".cache/readmes", "model": "gpt-oss:20b-cloud" },
             "isolate": "worker"
           },
           "env": {

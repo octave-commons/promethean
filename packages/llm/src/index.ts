@@ -189,9 +189,7 @@ export async function initServer(port: number): Promise<http.Server> {
         ws.on('message', (data: RawData) => {
             Promise.resolve()
                 .then(() => JSON.parse(data.toString()) as GenerateArgs)
-                .then(({ prompt, context = [], format = null, tools = [] }) =>
-                    generate({ prompt, context, format, tools }),
-                )
+                .then(({ prompt, context = [], format = null }) => generate({ prompt, context, format }))
                 .then((reply) => {
                     ws.send(JSON.stringify({ reply }));
                 })

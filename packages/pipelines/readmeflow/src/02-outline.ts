@@ -25,7 +25,13 @@ export function buildPrompts(pkg: Readonly<PkgInfo>): Prompts {
     "You write tight, practical READMEs for dev tools. Use short sections and code blocks when useful.",
     "Return ONLY JSON: { title, tagline, includeTOC?, sections:[{heading, body}], badges?[] }",
     "Prefer concise install, quickstart, CLI/API usage, configuration, and troubleshooting.",
+    "Use the provided <ctx>context</ctx> to tailor examples and commands.",
   ].join("\n");
+
+  const filesCtx = (pkg.files ?? [])
+    .slice(0, 3)
+    .map((f) => `FILE: ${f.path}\n---\n${f.content}`)
+    .join("\n\n");
 
   const user = [
     `PACKAGE: ${pkg.name} v${pkg.version}`,
@@ -42,6 +48,10 @@ export function buildPrompts(pkg: Readonly<PkgInfo>): Prompts {
     "If the package is a CLI, include a 'Commands' section with examples.",
     "If it's a library, include a 'Quickstart' import/usage snippet.",
     "If the repo uses Piper pipelines, mention how to run the relevant pipeline.",
+    "",
+    "<ctx>",
+    filesCtx || "(no files)",
+    "</ctx>",
   ].join("\n");
 
   return { sys, user };
@@ -49,42 +59,53 @@ export function buildPrompts(pkg: Readonly<PkgInfo>): Prompts {
 
 export async function fetchOutline(
   pkg: Readonly<PkgInfo>,
-  model = "qwen3:4b",
+  model = "gpt-oss:20b-cloud",
 ): Promise<Readonly<Outline>> {
   const { sys, user } = buildPrompts(pkg);
-  const obj = await ollamaJSON(
-    model,
-    `SYSTEM:\n${sys}\n\nUSER:\n${user}`,
-  ).catch(() => ({
-    title: pkg.name,
-    tagline: pkg.description ?? "",
-    includeTOC: true,
-    sections: [
-      {
-        heading: "Install",
-        body: `\`\`\`bash\npnpm -w add -D ${pkg.name}\n\`\`\``,
-      },
-      { heading: "Quickstart", body: "```ts\n// usage example\n```" },
-      {
-        heading: "Commands",
-        body:
-          Object.keys(pkg.scripts ?? {})
-            .map((k) => `- \`${k}\``)
-            .join("\n") || "N/A",
-      },
-    ],
-  }));
-  const parsed = OutlineSchema.safeParse(obj);
-  const outlineRaw = parsed.success
-    ? parsed.data
+  const baseURL = process.env.OPENAI_BASE_URL || process.env.OLLAMA_URL || "http://localhost:11434/v1";
+  const apiKey = process.env.OPENAI_API_KEY || "ollama";
+
+  const llm = makeOpenAIAdapter({
+    apiKey,
+    baseURL,
+    defaultModel: model,
+    timeout: 120000,
+    retryConfig: { maxRetries: 2, baseDelay: 1000 },
+  });
+
+  const obj = await llm
+    .complete(
+      [
+        { role: "system", content: sys },
+        { role: "user", content: user },
+      ],
+      { model },
+    )
+    .then((m) => {
+      try {
+        return JSON.parse(m.content as string);
+      } catch {
+        return null;
+      }
+    })
+    .catch(() => null);
+
+  const outlineRaw = obj && OutlineSchema.safeParse(obj).success
+    ? (OutlineSchema.parse(obj) as any)
     : {
         title: pkg.name,
         tagline: pkg.description ?? "",
         includeTOC: true,
         sections: [
-          { heading: "Install", body: `pnpm add ${pkg.name}` },
-          { heading: "Usage", body: "(coming soon)" },
-          { heading: "License", body: "GPL-3.0-only" },
+          { heading: "Install", body: `\`\`\`bash\npnpm -w add -D ${pkg.name}\n\`\`\`` },
+          { heading: "Quickstart", body: "```ts\n// usage example\n```" },
+          {
+            heading: "Commands",
+            body:
+              Object.keys(pkg.scripts ?? {})
+                .map((k) => `- \`${k}\``)
+                .join("\n") || "N/A",
+          },
         ],
       };
 
@@ -95,7 +116,7 @@ export async function fetchOutline(
     includeTOC: outlineRaw.includeTOC,
     sections: outlineRaw.sections,
     ...(outlineRaw.badges?.length ? { badges: outlineRaw.badges } : {}),
-  };
+  } as Outline;
 }
 
 export async function outline(
