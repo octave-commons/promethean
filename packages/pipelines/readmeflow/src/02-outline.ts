@@ -3,7 +3,8 @@ import { fileURLToPath } from "node:url";
 
 import { z } from "zod";
 import { openLevelCache } from "@promethean-os/level-cache";
-import { parseArgs, ollamaJSON } from "@promethean-os/utils";
+import { parseArgs } from "@promethean-os/utils";
+import { makeOpenAIAdapter } from "@promethean-os/pantheon-llm-openai";
 
 import type { ScanOut, Outline, OutlinesFile, PkgInfo } from "./types.js";
 

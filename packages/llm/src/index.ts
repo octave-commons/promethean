@@ -101,8 +101,8 @@ export async function handleTask(task: Readonly<BrokerTask>): Promise<void> {
 }
 
 app.post('/generate', (req: Request, res: Response) => {
-    const { prompt, context = [], format = null, tools = [] } = (req.body || {}) as GenerateArgs;
-    generate({ prompt, context, format, tools })
+    const { prompt, context = [], format = null } = (req.body || {}) as GenerateArgs;
+    generate({ prompt, context, format })
         .then((reply) => {
             res.json({ reply });
         })

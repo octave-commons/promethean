@@ -11,6 +11,7 @@ export type PkgInfo = {
   workspaceDeps: string[];     // internal deps
   hasTsConfig: boolean;
   readme?: string;             // existing README content (if any)
+  files?: Array<{ path: string; content: string }>; // sampled source files for LLM context
 };
 
 export type ScanOut = {

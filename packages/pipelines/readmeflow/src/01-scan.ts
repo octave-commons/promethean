@@ -3,6 +3,7 @@ import { promises as fs } from "node:fs";
 import * as path from "node:path";
 import { fileURLToPath } from "node:url";
 
+import { globby } from "globby";
 import { openLevelCache } from "@promethean-os/level-cache";
 import { parseArgs, readMaybe } from "@promethean-os/utils";
 
@@ -24,6 +25,32 @@ export async function scan(
       const json = JSON.parse(await fs.readFile(pj, "utf-8"));
       const name = json.name ?? d;
       const maybeReadme = await readMaybe(path.join(dir, "README.md"));
+
+      // Sample a few source files to use as LLM context
+      let files: Array<{ path: string; content: string }> = [];
+      try {
+        const patterns = [
+          path.join(dir, "src/index.{ts,tsx,js,mjs}"),
+          path.join(dir, "src/main.{ts,tsx,js,mjs}"),
+          path.join(dir, "src/**/*.{ts,tsx,js,mjs}"),
+        ];
+        const matched = await globby(patterns, { absolute: true });
+        const preferred = matched
+          .sort((a, b) => a.length - b.length) // prefer shorter paths like index.ts
+          .slice(0, 3);
+        for (const f of preferred) {
+          try {
+            const raw = await fs.readFile(f, "utf-8");
+            const content = raw.slice(0, 5000);
+            files.push({ path: path.relative(dir, f), content });
+          } catch {
+            /* ignore */
+          }
+        }
+      } catch {
+        /* ignore */
+      }
+
       const info: PkgInfo = {
         name,
         version: json.version ?? "0.0.0",
@@ -37,6 +64,7 @@ export async function scan(
         workspaceDeps: [],
         hasTsConfig: !!(await readMaybe(path.join(dir, "tsconfig.json"))),
         ...(maybeReadme !== undefined ? { readme: maybeReadme } : {}),
+        ...(files.length ? { files } : {}),
       };
       pkgMap.set(name, info);
     } catch {
