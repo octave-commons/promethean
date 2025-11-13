@@ -44,33 +44,35 @@ export class MarkdownProcessor {
     const visitTree = visit as unknown as (
       tree: unknown,
       test: string,
-      visitor: (node: MarkdownNode) => void,
+      visitor: (node: unknown) => void,
     ) => void;
 
-    visitTree(tree, 'link', (node: LinkNode) => {
-      if (node.url && node.position) {
+    visitTree(tree, 'link', (node: unknown) => {
+      const linkNode = node as LinkNode;
+      if (linkNode.url && linkNode.position) {
         const link: Link = {
-          url: node.url,
-          text: this.extractText(node),
-          type: this.getLinkType(node.url),
-          lineNumber: node.position.start.line,
+          url: linkNode.url,
+          text: this.extractText(linkNode),
+          type: this.getLinkType(linkNode.url),
+          lineNumber: linkNode.position.start.line,
         };
         links.push(link);
       }
     });
 
-    visitTree(tree, 'text', (node: WikilinkNode) => {
-      if (!node.value) {
+    visitTree(tree, 'text', (node: unknown) => {
+      const textNode = node as WikilinkNode;
+      if (!textNode.value) {
         return;
       }
-      const wikilinkMatches = this.extractWikilinks(node.value);
+      const wikilinkMatches = this.extractWikilinks(textNode.value);
       for (const match of wikilinkMatches) {
-        if (node.position) {
+        if (textNode.position) {
           const wikilink: Link = {
             url: match.link,
             text: match.text,
             type: 'wikilink',
-            lineNumber: node.position.start.line,
+            lineNumber: textNode.position.start.line,
           };
           wikilinks.push(wikilink);
         }
@@ -112,20 +114,27 @@ export class MarkdownProcessor {
   }
 
   private extractWikilinks(text: string): Array<{ link: string; text: string }> {
-    const wikilinkRegex = /\[\[([^\]]+)\]\]/g;
-    const matches: Array<{ link: string; text: string }> = [];
+    const wikilinkRegex = /\[\[([^\]]+)\]\]/g
+    const matches: Array<{ link: string; text: string }> = []
 
-    let match;
+    let match: RegExpExecArray | null
     while ((match = wikilinkRegex.exec(text)) !== null) {
-      const fullMatch = match[0];
-      const content = match[1];
-
-      const [link, displayText] = content.split('|').map((s) => s.trim());
+      const rawContent = match[1]
+      if (!rawContent) {
+        continue
+      }
+      const [link, displayText] = rawContent.split('|').map(segment => segment.trim())
+      const resolvedLink = link || rawContent
+      const resolvedText = displayText || link || rawContent
       matches.push({
-        link: link || content,
-        text: displayText || link || content,
-      });
+        link: resolvedLink,
+        text: resolvedText
+      })
     }
+
+    return matches
+  }
+
 
     return matches;
   }
