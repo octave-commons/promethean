@@ -8,5 +8,9 @@
     "exactOptionalPropertyTypes": false
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [
+    {
+      "path": "../../logger"
+    }
+  ]
 }
