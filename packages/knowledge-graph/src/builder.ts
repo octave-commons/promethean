@@ -7,7 +7,6 @@ import { Logger } from './utils/logger.js';
 
 export class KnowledgeGraphBuilder {
   private contentProcessor = new ContentProcessor();
-  private dependencyProcessor = new DependencyProcessor();
   private readonly logger = Logger.getInstance();
 
   constructor(private readonly repository: GraphRepository) {}
@@ -81,7 +80,10 @@ export class KnowledgeGraphBuilder {
   }
 
   private async processExtractedData(data: ExtractedData): Promise<void> {
-    const context = data.metadata.processingContext as ProcessingContext;
+    const context = data.metadata.processingContext;
+    if (!context) {
+      throw new Error('Processing context missing from extracted data');
+    }
 
     const fileNode = this.createFileNode(context);
     this.repository.createNode(fileNode);
@@ -95,7 +97,7 @@ export class KnowledgeGraphBuilder {
     }
 
     for (const dependency of data.dependencies) {
-      await this.processDependency(dependency, fileNode, context);
+      await this.processDependency(dependency, fileNode);
     }
   }
 
