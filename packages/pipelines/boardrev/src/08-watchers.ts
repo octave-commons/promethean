@@ -6,7 +6,8 @@
 import { EventEmitter } from 'node:events';
 import { join, relative, extname } from 'node:path';
 import { existsSync, statSync } from 'node:fs';
-import { createLogger, type Logger } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
+import type { Logger } from '@promethean-os/logger';
 
 export interface FileWatcherConfig {
   paths: string[];
@@ -48,7 +49,7 @@ export class FileWatcher extends EventEmitter {
   constructor(config: FileWatcherConfig) {
     super();
     this.config = config;
-    this.logger = createLogger({ service: 'boardrev-watcher' });
+    this.logger = getLogger('boardrev-watcher');
   }
 
   addFilter(filter: FileFilter): void {

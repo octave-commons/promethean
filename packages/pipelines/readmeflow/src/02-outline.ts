@@ -71,8 +71,8 @@ export async function fetchOutline(
     apiKey,
     baseURL,
     defaultModel: model,
-    timeout: 120000,
-    retryConfig: { maxRetries: 2, baseDelay: 1000 },
+    timeout: 8000,
+    retryConfig: { maxRetries: 1, baseDelay: 500 },
   });
 
   const obj = await llm
