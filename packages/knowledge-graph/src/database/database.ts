@@ -78,7 +78,7 @@ const SCHEMA: DatabaseSchema = {
 };
 
 export class Database {
-  private readonly db: SQLite3.Database;
+  private readonly db: SQLiteDatabase;
   private readonly config: DatabaseConfig;
   private readonly logger = Logger.getInstance();
 
@@ -184,7 +184,7 @@ export class Database {
     stmt.run(version);
   }
 
-  getDatabase(): Database.Database {
+  getDatabase(): SQLiteDatabase {
     return this.db;
   }
 
