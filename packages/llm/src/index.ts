@@ -6,6 +6,7 @@ import type { WebSocket, RawData } from 'ws';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { retry, createLogger } from '@promethean-os/utils';
+import { ollamaJSON } from '@promethean-os/utils';
 
 import { loadDriver, LLMDriver } from './drivers/index.js';
 import type { Tool } from './tools.js';
