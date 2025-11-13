@@ -6,7 +6,6 @@ import type { WebSocket, RawData } from 'ws';
 import express from 'express';
 import { WebSocketServer } from 'ws';
 import { retry, createLogger } from '@promethean-os/utils';
-import { ollamaJSON } from '@promethean-os/utils';
 
 import { loadDriver, LLMDriver } from './drivers/index.js';
 import type { Tool } from './tools.js';
@@ -50,9 +49,9 @@ type GenerateFn = (args: GenerateArgs) => Promise<unknown>;
 
 const generateState = (() => {
     /* eslint-disable functional/no-let */
-    let fn: GenerateFn = async ({ prompt, context = [], format, tools = [] }: GenerateArgs): Promise<unknown> => {
+    let fn: GenerateFn = async ({ prompt, context = [], format }: GenerateArgs): Promise<unknown> => {
         const d = await loadModel();
-        return d.generate({ prompt, context: context as ContextItem[], format, tools });
+        return d.generate({ prompt, context: context as ContextItem[], format });
     };
     /* eslint-enable functional/no-let */
     return {
