@@ -83,6 +83,12 @@ export async function writeReadmes(
   const scan = (await cache.get('scan')) as ScanOut;
   const outlines = (await cache.get('outlines')) as OutlinesFile;
 
+  if (!scan.packages.length) {
+    console.warn('readmeflow: no packages discovered during README generation');
+    await cache.close();
+    return;
+  }
+
   // Derive repo root from first package dir and locate .gitmodules there
   const first = scan.packages[0];
   const packagesDir = path.dirname(first.dir); // .../promethean/packages
