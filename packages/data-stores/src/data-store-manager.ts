@@ -9,10 +9,27 @@ import {
 } from './types.js';
 import { STORE_CONFIGS, ALL_STORES } from './store-configs.js';
 
+type ContextStoreDocument = Record<string, unknown>;
+
+export type ContextStoreLike = {
+  createCollection: (
+    name: string,
+    textKey: string,
+    timestampKey: string,
+  ) => Promise<unknown> | unknown;
+  getCollection: (name: string) => unknown;
+  getAllRelatedDocuments: (
+    queries: readonly string[],
+    limit: number,
+    where?: any,
+  ) => Promise<ContextStoreDocument[]>;
+  getLatestDocuments: (limit: number) => Promise<ContextStoreDocument[]>;
+};
+
 export type ContextStoreFactory = (
   formatTime?: (epochMs: number) => string,
   assistantName?: string,
-) => ContextStore;
+) => ContextStoreLike;
 
 /**
  * Internal state for the data store manager
@@ -196,7 +213,7 @@ export const createDataStoreManager = (
 /**
  * Determine which store an entry came from based on its metadata
  */
-const determineStoreFromEntry = (entry: any): StoreNames => {
+const determineStoreFromEntry = (entry: ContextStoreDocument): StoreNames => {
   const metadata = entry.metadata || {};
 
   if (metadata.type === 'session') return StoreNames.SESSION;
