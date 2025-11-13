@@ -3,6 +3,7 @@
  */
 
 import { Request, Response, NextFunction } from 'express';
+import { ObjectId } from 'mongodb';
 import jwt from 'jsonwebtoken';
 import { ResponseHelper, Logger, ConfigManager } from '../../shared/index.js';
 import { DocsSystemError, AuthenticationError, AuthorizationError } from '../../types/index.js';
@@ -77,7 +78,7 @@ export function requireRole(requiredRole: string) {
   };
 }
 
-export function optionalAuth(req: Request, res: Response, next: NextFunction): void {
+export function optionalAuth(req: Request, _res: Response, next: NextFunction): void {
   const token = extractToken(req);
 
   if (!token) {
@@ -186,8 +187,9 @@ export async function validateUser(req: Request, res: Response, next: NextFuncti
 
   try {
     const usersCollection = getCollection('users');
+    const userObjectId = new ObjectId(req.user.id);
     const user = await usersCollection.findOne(
-      { _id: req.user.id, isActive: true },
+      { _id: userObjectId, isActive: true },
       { projection: { _id: 1, email: 1, username: 1, role: 1, isActive: 1 } },
     );
 

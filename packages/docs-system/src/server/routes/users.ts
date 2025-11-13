@@ -6,7 +6,7 @@ import { Router } from 'express';
 import { ResponseHelper } from '../../shared/index.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-const router = Router();
+const router: Router = Router();
 
 // TODO: Implement user routes
 router.get(
@@ -23,7 +23,7 @@ router.get(
 
 router.put(
   '/profile',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     res.json(
       ResponseHelper.success({
         message: 'Update user profile endpoint - TODO: Implement profile update logic',
@@ -34,7 +34,7 @@ router.put(
 
 router.get(
   '/settings',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     res.json(
       ResponseHelper.success({
         message: 'Get user settings endpoint - TODO: Implement settings retrieval logic',
@@ -45,7 +45,7 @@ router.get(
 
 router.put(
   '/settings',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     res.json(
       ResponseHelper.success({
         message: 'Update user settings endpoint - TODO: Implement settings update logic',

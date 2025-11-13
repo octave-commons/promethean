@@ -30,31 +30,6 @@ router.post(
     );
   }),
 );
-...
-router.get(
-  '/models',
-  asyncHandler(async (_req, res) => {
-    res.json(
-      ResponseHelper.success({
-        message: 'List Ollama models endpoint - TODO: Implement model listing logic',
-      }),
-    );
-  }),
-);
-
-  }),
-);
-
-router.post(
-  '/jobs',
-  asyncHandler(async (req, res) => {
-    res.json(
-      ResponseHelper.success({
-        message: 'Create Ollama job endpoint - TODO: Implement job creation logic',
-      }),
-    );
-  }),
-);
 
 router.get(
   '/jobs/:id',
@@ -82,7 +57,7 @@ router.delete(
 
 router.get(
   '/models',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     res.json(
       ResponseHelper.success({
         message: 'List Ollama models endpoint - TODO: Implement model listing logic',
