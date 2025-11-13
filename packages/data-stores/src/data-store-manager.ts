@@ -18,7 +18,7 @@ export type ContextStoreFactory = (
  * Internal state for the data store manager
  */
 interface DataStoreState {
-  readonly contextStore: ContextStore;
+  readonly contextStore: ContextStoreLike;
   readonly initializedStores: ReadonlySet<StoreNames>;
 }
 
