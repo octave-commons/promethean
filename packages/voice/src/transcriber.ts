@@ -1,11 +1,11 @@
-import { EventEmitter } from "node:events";
-import http, { RequestOptions } from "node:http";
-import { PassThrough } from "node:stream";
+import { EventEmitter } from 'node:events';
+import http, { RequestOptions } from 'node:http';
+import { PassThrough } from 'node:stream';
 
-import { User } from "discord.js";
-import { createLogger } from "@promethean-os/utils";
+import { User } from 'discord.js';
+import { getLogger } from '@promethean-os/logger';
 
-import type { Speaker } from "./speaker.js";
+import type { Speaker } from './speaker.js';
 
 export type TranscriberOptions = {
   hostname: string;
@@ -40,13 +40,13 @@ export type TranscriberEvents = {
 
 export class Transcriber extends EventEmitter<TranscriberEvents> {
   httpOptions: RequestOptions;
-  #log = createLogger({ service: "voice:transcriber" });
+  #log = getLogger('voice:transcriber');
 
   constructor(
     options: TranscriberOptions = {
-      hostname: "localhost",
+      hostname: 'localhost',
       port: Number(process.env.PROXY_PORT) || 8080,
-      endpoint: "/stt/transcribe_pcm",
+      endpoint: '/stt/transcribe_pcm',
     },
   ) {
     super();
@@ -54,12 +54,12 @@ export class Transcriber extends EventEmitter<TranscriberEvents> {
       hostname: options.hostname,
       port: options.port,
       path: options.endpoint,
-      method: "POST",
+      method: 'POST',
       headers: {
-        "Content-Type": "application/octet-stream",
-        "Transfer-Encoding": "chunked",
-        "X-Sample-Rate": 48000,
-        "X-Dtype": "int16",
+        'Content-Type': 'application/octet-stream',
+        'Transfer-Encoding': 'chunked',
+        'X-Sample-Rate': 48000,
+        'X-Dtype': 'int16',
       },
     };
   }
@@ -68,18 +68,18 @@ export class Transcriber extends EventEmitter<TranscriberEvents> {
     speaker: Speaker,
     pcmStream: PassThrough,
   ): http.ClientRequest {
-    this.emit("transcriptStart", { startTime, speaker });
+    this.emit('transcriptStart', { startTime, speaker });
     // ✅ Pipe PCM directly into the HTTP request
     return pcmStream.pipe(
       http
         .request(this.httpOptions, (res) => {
           const transcriptChunks: TranscriptChunk[] = [];
-          res.on("data", (chunk: Buffer) => {
+          res.on('data', (chunk: Buffer) => {
             const chunkStr = chunk.toString();
-            this.#log.debug("chunk", { chunk: chunkStr });
+            this.#log.debug('chunk', { chunk: chunkStr });
             const parsed = JSON.parse(chunkStr) as { transcription: string };
             const transcript = parsed.transcription;
-            this.#log.info("transcription chunk", { transcript });
+            this.#log.info('transcription chunk', { transcript });
             const transcriptObject: TranscriptChunk = {
               startTime,
               speaker,
@@ -87,16 +87,14 @@ export class Transcriber extends EventEmitter<TranscriberEvents> {
               endTime: Date.now(),
             };
             transcriptChunks.push(transcriptObject);
-            this.emit("transcriptChunk", transcriptObject);
+            this.emit('transcriptChunk', transcriptObject);
           });
-          res.on("end", async () => {
-            this.#log.info("transcription ended");
+          res.on('end', async () => {
+            this.#log.info('transcription ended');
 
-            const originalTranscript = transcriptChunks
-              .map((t) => t.text)
-              .join(" ");
+            const originalTranscript = transcriptChunks.map((t) => t.text).join(' ');
 
-            this.emit("transcriptEnd", {
+            this.emit('transcriptEnd', {
               startTime,
               speaker,
               originalTranscript,
@@ -107,8 +105,8 @@ export class Transcriber extends EventEmitter<TranscriberEvents> {
             });
           });
         })
-        .on("error", (err) => {
-          this.#log.error("transcription request error", { err });
+        .on('error', (err) => {
+          this.#log.error('transcription request error', { err });
         }),
     );
   }

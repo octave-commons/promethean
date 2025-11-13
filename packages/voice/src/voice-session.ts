@@ -48,7 +48,7 @@ export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
   transcriber: Transcriber;
   recorder: VoiceRecorder;
   voiceSynth: VoiceSynth;
-  #log = createLogger({ service: 'voice:session' });
+  #log = getLogger('voice:session');
   constructor(options: VoiceSessionOptions) {
     super();
     this.id = randomUUID();
