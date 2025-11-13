@@ -4,7 +4,6 @@ export type GenerateArgs = {
     prompt: string;
     context?: ReadonlyArray<{ readonly role: string; readonly content: string }>;
     format?: unknown;
-    tools?: Tool[];
 };
 
 export type LLMDriver = {

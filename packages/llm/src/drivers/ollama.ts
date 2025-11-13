@@ -1,5 +1,4 @@
-import ollama from 'ollama';
-
+import { ollamaJSON } from '@promethean-os/utils';
 import { LLMDriver, GenerateArgs } from './base.js';
 
 export const createOllamaDriver = (initialModel = 'gemma3:latest'): LLMDriver => {
@@ -10,15 +9,17 @@ export const createOllamaDriver = (initialModel = 'gemma3:latest'): LLMDriver =>
             state.model = model;
         },
 
-        async generate({ prompt, context = [], format, tools = [] }: GenerateArgs): Promise<unknown> {
-            const res = (await ollama.chat({
-                model: state.model,
-                messages: [{ role: 'system', content: prompt }, ...context],
-                ...(format ? { format: format as string | Record<string, unknown> } : {}),
-                tools,
-            })) as { message: { content: string } };
-            const content = res.message.content;
-            return format ? JSON.parse(content) : content;
+        async generate({ prompt, context = [], format }: GenerateArgs): Promise<unknown> {
+            // Convert context to system prompt if provided
+            const systemPrompt =
+                context.length > 0
+                    ? `${prompt}\n\nContext: ${context.map((c) => `${c.role}: ${c.content}`).join('\n')}`
+                    : prompt;
+
+            return ollamaJSON(state.model, systemPrompt, {
+                schema: format as object,
+                timeout: 120000,
+            });
         },
     };
 };
