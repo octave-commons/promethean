@@ -21,6 +21,46 @@ const normaliseTimestamp = (value: unknown): number => {
 
 type StoredEntry = DualStoreEntry<'text', 'timestamp'>;
 
+class StubContextStore {
+  private readonly stores = new Map<string, StubDualStore>();
+
+  async createCollection(name: string, textKey: string, timeStampKey: string): Promise<void> {
+    if (!this.stores.has(name)) {
+      this.stores.set(name, new StubDualStore(name, textKey, timeStampKey));
+    }
+  }
+
+  getCollection(name: string): DualStoreManager<string, string> {
+    const store = this.stores.get(name);
+    if (!store) {
+      throw new Error(`Store ${name} is not initialized`);
+    }
+    return store as unknown as DualStoreManager<string, string>;
+  }
+
+  async getAllRelatedDocuments(
+    queries: readonly string[],
+    limit: number,
+    where?: unknown,
+  ): Promise<StoredEntry[]> {
+    if (queries.length === 0) {
+      return [];
+    }
+
+    const results = await Promise.all(
+      Array.from(this.stores.values()).map((store) => store.getMostRelevant(queries, limit, where)),
+    );
+    return results.flat();
+  }
+
+  async getLatestDocuments(limit: number): Promise<StoredEntry[]> {
+    const results = await Promise.all(
+      Array.from(this.stores.values()).map((store) => store.getMostRecent(limit)),
+    );
+    return results.flat().slice(0, limit);
+  }
+}
+
 class StubDualStore {
   readonly name: string;
   private readonly textKey: string;
@@ -122,16 +162,11 @@ const createStubEnvironment = (
   return { manager };
 };
 
-test.beforeEach(async () => {
-  __setContextStoreDualFactoryForTests(async (name, textKey, timeStampKey) => {
-    const stub = new StubDualStore(name, textKey, timeStampKey);
-    return stub as unknown as DualStoreManager<string, string>;
-  });
+test.beforeEach(() => {
   resetGlobalDataStoreManager();
 });
 
 test.afterEach.always(() => {
-  __setContextStoreDualFactoryForTests(null);
   resetGlobalDataStoreManager();
 });
 
