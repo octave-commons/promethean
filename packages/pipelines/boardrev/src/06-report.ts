@@ -9,7 +9,7 @@ import { getLogger } from '@promethean-os/logger';
 import type { EvalItem } from './types.js';
 
 const statusOrder = ['backlog', 'todo', 'doing', 'review', 'blocked', 'done'];
-const logger = createLogger({ service: '06-report-board-review' });
+const logger = getLogger('06-report-board-review');
 
 export async function loadEvals(evalsPath: string): Promise<EvalItem[]> {
   const raw = await fs.readFile(path.resolve(evalsPath), 'utf-8');
