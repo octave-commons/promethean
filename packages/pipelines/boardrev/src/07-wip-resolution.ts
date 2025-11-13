@@ -1,12 +1,13 @@
 import { exec } from 'child_process';
 import { fileURLToPath } from 'url';
 import { promisify } from 'util';
-import { createLogger, parseArgs, writeText } from '@promethean-os/utils';
+import { parseArgs, writeText } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 import { loadEvals } from './06-report.js';
 import type { EvalItem } from './types.js';
 
 const execAsync = promisify(exec);
-const logger = createLogger({ service: 'wip-resolution' });
+const logger = getLogger('wip-resolution');
 
 export interface WIPViolation {
   columnName: string;
@@ -45,11 +46,15 @@ export async function detectWIPViolations(): Promise<WIPViolation[]> {
             columnName: columnData.name,
             currentCount: columnData.count,
             limit: columnData.limit,
-            overLimit: columnData.count - columnData.limit
+            overLimit: columnData.count - columnData.limit,
           });
-          logger.warn(`WIP violation: ${columnData.name} has ${columnData.count} tasks (limit: ${columnData.limit})`);
+          logger.warn(
+            `WIP violation: ${columnData.name} has ${columnData.count} tasks (limit: ${columnData.limit})`,
+          );
         } else {
-          logger.info(`Column ${columnData.name}: ${columnData.count}/${columnData.limit || '∞'} tasks`);
+          logger.info(
+            `Column ${columnData.name}: ${columnData.count}/${columnData.limit || '∞'} tasks`,
+          );
         }
       } catch (columnError) {
         logger.warn(`Could not check column ${columnName}: ${(columnError as Error).message}`);
@@ -66,7 +71,7 @@ export async function detectWIPViolations(): Promise<WIPViolation[]> {
 
 export async function assessTasksForWIPResolution(
   violations: WIPViolation[],
-  evalsPath: string
+  evalsPath: string,
 ): Promise<WIPResolution[]> {
   logger.info('Assessing tasks for WIP resolution using LLM evaluations...');
 
@@ -86,14 +91,14 @@ export async function assessTasksForWIPResolution(
 
     try {
       // Get tasks from the violating column
-      const { stdout: columnStdout } = await execAsync(`pnpm kanban getColumn ${violation.columnName}`);
+      const { stdout: columnStdout } = await execAsync(
+        `pnpm kanban getColumn ${violation.columnName}`,
+      );
       const columnData = JSON.parse(columnStdout);
 
       // Get evaluations for tasks in violating column
-      const columnEvals = evaluations.filter(evaluation =>
-        columnData.tasks?.some((task: any) =>
-          task.uuid === evaluation.taskUuid
-        )
+      const columnEvals = evaluations.filter((evaluation) =>
+        columnData.tasks?.some((task: any) => task.uuid === evaluation.taskUuid),
       );
 
       // Sort tasks by confidence and readiness to move
@@ -154,17 +159,19 @@ export async function assessTasksForWIPResolution(
           currentStatus: violation.columnName,
           recommendedStatus,
           confidence: evaluation.confidence,
-          reason: evaluation.summary
+          reason: evaluation.summary,
         });
       }
     } catch (error) {
-      logger.warn(`Failed to assess tasks for column ${violation.columnName}: ` + (error as Error).message);
+      logger.warn(
+        `Failed to assess tasks for column ${violation.columnName}: ` + (error as Error).message,
+      );
       continue;
     }
 
     resolutions.push({
       column: violation.columnName,
-      tasksToMove
+      tasksToMove,
     });
   }
 
@@ -173,7 +180,7 @@ export async function assessTasksForWIPResolution(
 
 export async function applyWIPResolutions(
   resolutions: WIPResolution[],
-  dryRun: boolean = true
+  dryRun: boolean = true,
 ): Promise<void> {
   logger.info(`${dryRun ? 'DRY RUN: ' : ''}Applying WIP resolutions...`);
 
@@ -182,12 +189,18 @@ export async function applyWIPResolutions(
 
     for (const taskMove of resolution.tasksToMove) {
       const action = dryRun ? 'Would move' : 'Moving';
-      logger.info(`${action} task ${taskMove.taskUuid} from ${taskMove.currentStatus} to ${taskMove.recommendedStatus} (confidence: ${(taskMove.confidence * 100).toFixed(0)}%)`);
+      logger.info(
+        `${action} task ${taskMove.taskUuid} from ${taskMove.currentStatus} to ${taskMove.recommendedStatus} (confidence: ${(taskMove.confidence * 100).toFixed(0)}%)`,
+      );
 
       if (!dryRun) {
         try {
-          await execAsync(`pnpm kanban update-status ${taskMove.taskUuid} ${taskMove.recommendedStatus}`);
-          logger.info(`Successfully moved task ${taskMove.taskUuid} to ${taskMove.recommendedStatus}`);
+          await execAsync(
+            `pnpm kanban update-status ${taskMove.taskUuid} ${taskMove.recommendedStatus}`,
+          );
+          logger.info(
+            `Successfully moved task ${taskMove.taskUuid} to ${taskMove.recommendedStatus}`,
+          );
         } catch (error) {
           logger.error(`Failed to move task ${taskMove.taskUuid}: ${(error as Error).message}`);
         }
@@ -199,7 +212,7 @@ export async function applyWIPResolutions(
 export async function generateWIPReport(
   violations: WIPViolation[],
   resolutions: WIPResolution[],
-  outputPath: string
+  outputPath: string,
 ): Promise<void> {
   const report = [
     '# WIP Violation Resolution Report',
@@ -212,37 +225,43 @@ export async function generateWIPReport(
     '',
     '## Violations Detected',
     '',
-    ...violations.map(v => [
-      `### ${v.columnName}`,
-      '',
-      `- **Current Count:** ${v.currentCount}`,
-      `- **WIP Limit:** ${v.limit}`,
-      `- **Over Limit:** ${v.overLimit}`,
-      ''
-    ].join('\n')),
+    ...violations.map((v) =>
+      [
+        `### ${v.columnName}`,
+        '',
+        `- **Current Count:** ${v.currentCount}`,
+        `- **WIP Limit:** ${v.limit}`,
+        `- **Over Limit:** ${v.overLimit}`,
+        '',
+      ].join('\n'),
+    ),
     '',
     '## Recommended Resolutions',
     '',
-    ...resolutions.map(r => [
-      `### ${r.column}`,
-      '',
-      `**Tasks to Move:** ${r.tasksToMove.length}`,
-      '',
-      ...r.tasksToMove.map(t => [
-        `- **${t.taskUuid}**`,
-        `  - From: ${t.currentStatus} → To: ${t.recommendedStatus}`,
-        `  - Confidence: ${(t.confidence * 100).toFixed(0)}%`,
-        `  - Reason: ${t.reason}`,
-        ''
-      ].join('\n'))
-    ].join('\n')),
+    ...resolutions.map((r) =>
+      [
+        `### ${r.column}`,
+        '',
+        `**Tasks to Move:** ${r.tasksToMove.length}`,
+        '',
+        ...r.tasksToMove.map((t) =>
+          [
+            `- **${t.taskUuid}**`,
+            `  - From: ${t.currentStatus} → To: ${t.recommendedStatus}`,
+            `  - Confidence: ${(t.confidence * 100).toFixed(0)}%`,
+            `  - Reason: ${t.reason}`,
+            '',
+          ].join('\n'),
+        ),
+      ].join('\n'),
+    ),
     '',
     '## Next Steps',
     '',
     '1. Review the recommended resolutions',
     '2. Apply resolutions using: `pnpm boardrev:07-wip --apply`',
     '3. Verify board state after changes',
-    ''
+    '',
   ].join('\n');
 
   await writeText(outputPath, report);
@@ -252,7 +271,7 @@ export async function generateWIPReport(
 export async function resolveWIPViolations({
   evalsPath = '.cache/boardrev/evals.json',
   reportPath = 'docs/agile/reports/wip-resolution.md',
-  apply = false
+  apply = false,
 }: {
   evalsPath?: string;
   reportPath?: string;
@@ -277,7 +296,6 @@ export async function resolveWIPViolations({
     await applyWIPResolutions(resolutions, !apply);
 
     logger.info(`WIP resolution complete. Report: ${reportPath}`);
-
   } catch (error) {
     logger.error(`WIP resolution failed: ${(error as Error).message}`);
     throw error;
@@ -288,13 +306,13 @@ if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
     '--evals-path': '.cache/boardrev/evals.json',
     '--report-path': 'docs/agile/reports/wip-resolution.md',
-    '--apply': 'false'
+    '--apply': 'false',
   });
 
   await resolveWIPViolations({
     evalsPath: args['--evals-path'],
     reportPath: args['--report-path'],
-    apply: args['--apply'] === 'true'
+    apply: args['--apply'] === 'true',
   }).catch((error) => {
     logger.error(error);
     process.exit(1);
