@@ -1,37 +1,43 @@
-import { GraphNode, GraphEdge, ProcessingContext, ExtractedData } from './types/index.js'
-import { GraphRepository } from './database/repository.js'
-import { ContentProcessor } from './processors/content.js'
-import { DependencyProcessor } from './processors/dependency.js'
-import { randomUUID } from 'crypto'
-import { normalize, join, resolve, relative } from 'path'
-import { Logger } from './utils/logger.js'
+import { GraphNode, GraphEdge, ProcessingContext, ExtractedData } from './types/index.js';
+import { GraphRepository } from './database/repository.js';
+import { ContentProcessor } from './processors/content.js';
+import { randomUUID } from 'crypto';
+import { normalize, join, relative } from 'path';
+import { Logger } from './utils/logger.js';
 
 export class KnowledgeGraphBuilder {
-  private contentProcessor = new ContentProcessor()
-  private dependencyProcessor = new DependencyProcessor()
-  private readonly logger = Logger.getInstance()
+  private contentProcessor = new ContentProcessor();
+  private dependencyProcessor = new DependencyProcessor();
+  private readonly logger = Logger.getInstance();
 
   constructor(private readonly repository: GraphRepository) {}
 
   async buildRepositoryGraph(repositoryPath: string): Promise<void> {
     try {
-      this.logger.info('KnowledgeGraphBuilder', 'Starting repository graph build', { repositoryPath })
+      this.logger.info('KnowledgeGraphBuilder', 'Starting repository graph build', {
+        repositoryPath,
+      });
 
-      const extractedData = await this.contentProcessor.processRepository(repositoryPath)
-      
-      let successCount = 0
-      let errorCount = 0
-      
+      const extractedData = await this.contentProcessor.processRepository(repositoryPath);
+
+      let successCount = 0;
+      let errorCount = 0;
+
       for (const data of extractedData) {
         try {
-          await this.processExtractedData(data)
-          successCount++
+          await this.processExtractedData(data);
+          successCount++;
         } catch (error) {
-          errorCount++
-          this.logger.error('KnowledgeGraphBuilder', 'Failed to process extracted data', {
-            filePath: data.metadata.processingContext?.filePath,
-            error: error instanceof Error ? error.message : 'Unknown error'
-          }, error as Error)
+          errorCount++;
+          this.logger.error(
+            'KnowledgeGraphBuilder',
+            'Failed to process extracted data',
+            {
+              filePath: data.metadata.processingContext?.filePath,
+              error: error instanceof Error ? error.message : 'Unknown error',
+            },
+            error as Error,
+          );
         }
       }
 
@@ -39,54 +45,67 @@ export class KnowledgeGraphBuilder {
         totalFiles: extractedData.length,
         successCount,
         errorCount,
-        repositoryPath
-      })
+        repositoryPath,
+      });
     } catch (error) {
-      this.logger.error('KnowledgeGraphBuilder', 'Failed to build repository graph', { repositoryPath }, error as Error)
-      throw error
+      this.logger.error(
+        'KnowledgeGraphBuilder',
+        'Failed to build repository graph',
+        { repositoryPath },
+        error as Error,
+      );
+      throw error;
     }
   }
 
   async processFile(filePath: string, repositoryPath: string): Promise<void> {
     try {
-      this.logger.debug('KnowledgeGraphBuilder', 'Processing single file', { filePath, repositoryPath })
-      
-      const extractedData = await this.contentProcessor.processFile(filePath, repositoryPath)
-      await this.processExtractedData(extractedData)
-      
-      this.logger.debug('KnowledgeGraphBuilder', 'Successfully processed file', { filePath })
+      this.logger.debug('KnowledgeGraphBuilder', 'Processing single file', {
+        filePath,
+        repositoryPath,
+      });
+
+      const extractedData = await this.contentProcessor.processFile(filePath, repositoryPath);
+      await this.processExtractedData(extractedData);
+
+      this.logger.debug('KnowledgeGraphBuilder', 'Successfully processed file', { filePath });
     } catch (error) {
-      this.logger.error('KnowledgeGraphBuilder', 'Failed to process file', { filePath, repositoryPath }, error as Error)
-      throw error
+      this.logger.error(
+        'KnowledgeGraphBuilder',
+        'Failed to process file',
+        { filePath, repositoryPath },
+        error as Error,
+      );
+      throw error;
     }
   }
 
   private async processExtractedData(data: ExtractedData): Promise<void> {
-    const context = data.metadata.processingContext as ProcessingContext
-    
-    const fileNode = this.createFileNode(context)
-    this.repository.createNode(fileNode)
+    const context = data.metadata.processingContext as ProcessingContext;
+
+    const fileNode = this.createFileNode(context);
+    this.repository.createNode(fileNode);
 
     for (const link of data.links) {
-      await this.processLink(link, fileNode, context)
+      await this.processLink(link, fileNode, context);
     }
 
     for (const import_ of data.imports) {
-      await this.processImport(import_, fileNode, context)
+      await this.processImport(import_, fileNode, context);
     }
 
     for (const dependency of data.dependencies) {
-      await this.processDependency(dependency, fileNode, context)
+      await this.processDependency(dependency, fileNode, context);
     }
   }
 
   private createFileNode(context: ProcessingContext): GraphNode {
-    const relativePath = context.filePath.replace(context.repositoryPath, '').replace(/^\//, '')
-    const extension = context.filePath.split('.').pop()?.toLowerCase()
-    
-    let nodeType: GraphNode['type'] = 'code'
+    const relativePath = context.filePath.replace(context.repositoryPath, '').replace(/^\//, '');
+    const extension = context.filePath.split('.').pop()?.toLowerCase();
+
+    let nodeType: GraphNode['type'] = 'code';
     if (extension === 'md' || extension === 'markdown') {
-      nodeType = 'documentation'
+      nodeType = 'documentation';
     }
 
     return {
@@ -95,28 +114,32 @@ export class KnowledgeGraphBuilder {
       data: {
         title: relativePath.split('/').pop() || relativePath,
         filePath: relativePath,
-        language: this.getLanguageFromExtension(extension)
+        language: this.getLanguageFromExtension(extension),
       },
       metadata: {
         createdAt: new Date(),
         updatedAt: new Date(),
-        source: context.repositoryPath
-      }
-    }
+        source: context.repositoryPath,
+      },
+    };
   }
 
-  private async processLink(link: ExtractedData['links'][0], sourceNode: GraphNode, context: ProcessingContext): Promise<void> {
-    let targetNode: GraphNode
+  private async processLink(
+    link: ExtractedData['links'][0],
+    sourceNode: GraphNode,
+    context: ProcessingContext,
+  ): Promise<void> {
+    let targetNode: GraphNode;
 
     if (link.type === 'wikilink') {
-      targetNode = this.createWikilinkNode(link)
+      targetNode = this.createWikilinkNode(link);
     } else if (link.type === 'external') {
-      targetNode = this.createWebResourceNode(link)
+      targetNode = this.createWebResourceNode(link);
     } else {
-      targetNode = this.createMarkdownLinkNode(link, context)
+      targetNode = this.createMarkdownLinkNode(link, context);
     }
 
-    this.repository.createNode(targetNode)
+    this.repository.createNode(targetNode);
 
     const edge: GraphEdge = {
       id: randomUUID(),
@@ -125,16 +148,20 @@ export class KnowledgeGraphBuilder {
       type: 'links_to',
       data: {
         text: link.text,
-        lineNumber: link.lineNumber
-      }
-    }
+        lineNumber: link.lineNumber,
+      },
+    };
 
-    this.repository.createEdge(edge)
+    this.repository.createEdge(edge);
   }
 
-  private async processImport(import_: ExtractedData['imports'][0], sourceNode: GraphNode, context: ProcessingContext): Promise<void> {
-    const targetNode = this.createImportNode(import_, context)
-    this.repository.createNode(targetNode)
+  private async processImport(
+    import_: ExtractedData['imports'][0],
+    sourceNode: GraphNode,
+    context: ProcessingContext,
+  ): Promise<void> {
+    const targetNode = this.createImportNode(import_, context);
+    this.repository.createNode(targetNode);
 
     const edge: GraphEdge = {
       id: randomUUID(),
@@ -144,16 +171,20 @@ export class KnowledgeGraphBuilder {
       data: {
         specifiers: import_.specifiers,
         isTypeOnly: import_.isTypeOnly,
-        lineNumber: import_.lineNumber
-      }
-    }
+        lineNumber: import_.lineNumber,
+      },
+    };
 
-    this.repository.createEdge(edge)
+    this.repository.createEdge(edge);
   }
 
-  private async processDependency(dependency: ExtractedData['dependencies'][0], sourceNode: GraphNode, context: ProcessingContext): Promise<void> {
-    const targetNode = this.createPackageNode(dependency)
-    this.repository.createNode(targetNode)
+  private async processDependency(
+    dependency: ExtractedData['dependencies'][0],
+    sourceNode: GraphNode,
+    context: ProcessingContext,
+  ): Promise<void> {
+    const targetNode = this.createPackageNode(dependency);
+    this.repository.createNode(targetNode);
 
     const edge: GraphEdge = {
       id: randomUUID(),
@@ -162,11 +193,11 @@ export class KnowledgeGraphBuilder {
       type: 'depends_on',
       data: {
         version: dependency.version,
-        dependencyType: dependency.type
-      }
-    }
+        dependencyType: dependency.type,
+      },
+    };
 
-    this.repository.createEdge(edge)
+    this.repository.createEdge(edge);
   }
 
   private createWikilinkNode(link: ExtractedData['links'][0]): GraphNode {
@@ -175,14 +206,14 @@ export class KnowledgeGraphBuilder {
       type: 'documentation',
       data: {
         title: link.text || link.url,
-        url: link.url
+        url: link.url,
       },
       metadata: {
         createdAt: new Date(),
         updatedAt: new Date(),
-        source: 'wikilink'
-      }
-    }
+        source: 'wikilink',
+      },
+    };
   }
 
   private createWebResourceNode(link: ExtractedData['links'][0]): GraphNode {
@@ -191,48 +222,54 @@ export class KnowledgeGraphBuilder {
       type: 'web_resource',
       data: {
         title: link.text,
-        url: link.url
+        url: link.url,
       },
       metadata: {
         createdAt: new Date(),
         updatedAt: new Date(),
-        source: 'external-link'
-      }
-    }
+        source: 'external-link',
+      },
+    };
   }
 
-  private createMarkdownLinkNode(link: ExtractedData['links'][0], context: ProcessingContext): GraphNode {
-    const resolvedPath = this.resolveRelativePath(link.url, context)
+  private createMarkdownLinkNode(
+    link: ExtractedData['links'][0],
+    context: ProcessingContext,
+  ): GraphNode {
+    const resolvedPath = this.resolveRelativePath(link.url, context);
     return {
       id: `file:${resolvedPath}`,
       type: 'documentation',
       data: {
         title: link.text || link.url,
-        filePath: resolvedPath
+        filePath: resolvedPath,
       },
       metadata: {
         createdAt: new Date(),
         updatedAt: new Date(),
-        source: context.repositoryPath
-      }
-    }
+        source: context.repositoryPath,
+      },
+    };
   }
 
-  private createImportNode(import_: ExtractedData['imports'][0], context: ProcessingContext): GraphNode {
-    const resolvedPath = this.resolveImportPath(import_.source, context)
+  private createImportNode(
+    import_: ExtractedData['imports'][0],
+    context: ProcessingContext,
+  ): GraphNode {
+    const resolvedPath = this.resolveImportPath(import_.source, context);
     return {
       id: `module:${resolvedPath}`,
       type: 'code',
       data: {
         title: import_.source,
-        filePath: resolvedPath
+        filePath: resolvedPath,
       },
       metadata: {
         createdAt: new Date(),
         updatedAt: new Date(),
-        source: 'import'
-      }
-    }
+        source: 'import',
+      },
+    };
   }
 
   private createPackageNode(dependency: ExtractedData['dependencies'][0]): GraphNode {
@@ -242,119 +279,119 @@ export class KnowledgeGraphBuilder {
       data: {
         title: dependency.name,
         version: dependency.version,
-        resolved: dependency.resolved
+        resolved: dependency.resolved,
       },
       metadata: {
         createdAt: new Date(),
         updatedAt: new Date(),
-        source: 'npm'
-      }
-    }
+        source: 'npm',
+      },
+    };
   }
 
   private resolveRelativePath(url: string, context: ProcessingContext): string {
     // Validate input
     if (!url || typeof url !== 'string') {
-      throw new Error('Invalid URL: must be a non-empty string')
+      throw new Error('Invalid URL: must be a non-empty string');
     }
 
     // Prevent path traversal attacks
     if (url.includes('..') || url.includes('~') || url.includes('$')) {
-      throw new Error('Invalid URL: contains potentially dangerous path components')
+      throw new Error('Invalid URL: contains potentially dangerous path components');
     }
 
-    let resolvedPath: string
-    
+    let resolvedPath: string;
+
     if (url.startsWith('/')) {
       // Absolute path - remove leading slash and validate
-      const cleanPath = url.slice(1)
+      const cleanPath = url.slice(1);
       if (cleanPath.includes('..') || cleanPath.includes('~')) {
-        throw new Error('Invalid URL: absolute path contains dangerous components')
+        throw new Error('Invalid URL: absolute path contains dangerous components');
       }
-      resolvedPath = cleanPath
+      resolvedPath = cleanPath;
     } else {
       // Relative path - resolve against current file directory
-      const currentDir = normalize(context.filePath.split('/').slice(0, -1).join('/'))
-      const joinedPath = normalize(join(currentDir, url))
-      
+      const currentDir = normalize(context.filePath.split('/').slice(0, -1).join('/'));
+      const joinedPath = normalize(join(currentDir, url));
+
       // Ensure the resolved path stays within the repository
-      const repoRoot = normalize(context.repositoryPath)
-      const relativePath = relative(repoRoot, joinedPath)
-      
+      const repoRoot = normalize(context.repositoryPath);
+      const relativePath = relative(repoRoot, joinedPath);
+
       if (relativePath.startsWith('..') || relativePath.startsWith('..\\')) {
-        throw new Error('Invalid URL: path traversal attempt detected')
+        throw new Error('Invalid URL: path traversal attempt detected');
       }
-      
-      resolvedPath = relativePath
+
+      resolvedPath = relativePath;
     }
 
     // Final validation
     if (!resolvedPath || resolvedPath.length === 0) {
-      throw new Error('Invalid URL: resolved to empty path')
+      throw new Error('Invalid URL: resolved to empty path');
     }
 
-    return normalize(resolvedPath)
+    return normalize(resolvedPath);
   }
 
   private resolveImportPath(source: string, context: ProcessingContext): string {
     // Validate input
     if (!source || typeof source !== 'string') {
-      throw new Error('Invalid import source: must be a non-empty string')
+      throw new Error('Invalid import source: must be a non-empty string');
     }
 
     // Prevent path traversal attacks
     if (source.includes('..') || source.includes('~') || source.includes('$')) {
-      throw new Error('Invalid import source: contains potentially dangerous path components')
+      throw new Error('Invalid import source: contains potentially dangerous path components');
     }
 
-    let resolvedPath: string
-    
+    let resolvedPath: string;
+
     if (source.startsWith('.')) {
       // Relative import - resolve against current file directory
-      const currentDir = normalize(context.filePath.split('/').slice(0, -1).join('/'))
-      const joinedPath = normalize(join(currentDir, source))
-      
+      const currentDir = normalize(context.filePath.split('/').slice(0, -1).join('/'));
+      const joinedPath = normalize(join(currentDir, source));
+
       // Ensure the resolved path stays within the repository
-      const repoRoot = normalize(context.repositoryPath)
-      const relativePath = relative(repoRoot, joinedPath)
-      
+      const repoRoot = normalize(context.repositoryPath);
+      const relativePath = relative(repoRoot, joinedPath);
+
       if (relativePath.startsWith('..') || relativePath.startsWith('..\\')) {
-        throw new Error('Invalid import source: path traversal attempt detected')
+        throw new Error('Invalid import source: path traversal attempt detected');
       }
-      
-      resolvedPath = relativePath
+
+      resolvedPath = relativePath;
     } else {
       // External module or absolute import
       // For external modules, return as-is (they'll be handled differently)
       if (!source.startsWith('/')) {
-        return source
+        return source;
       }
-      
+
       // Absolute path - validate and normalize
-      const cleanPath = normalize(source.slice(1))
+      const cleanPath = normalize(source.slice(1));
       if (cleanPath.includes('..') || cleanPath.includes('~')) {
-        throw new Error('Invalid import source: absolute path contains dangerous components')
+        throw new Error('Invalid import source: absolute path contains dangerous components');
       }
-      resolvedPath = cleanPath
+      resolvedPath = cleanPath;
     }
 
     // Final validation
     if (!resolvedPath || resolvedPath.length === 0) {
-      throw new Error('Invalid import source: resolved to empty path')
+      throw new Error('Invalid import source: resolved to empty path');
     }
 
-    return normalize(resolvedPath)
+    return normalize(resolvedPath);
   }
 
   private getLanguageFromExtension(extension?: string): string | undefined {
     const languageMap: Record<string, string> = {
-      'ts': 'typescript',
-      'tsx': 'typescript',
-      'js': 'javascript',
-      'jsx': 'javascript',
-      'md': 'markdown',
-      'markdown': 'markdown'
-    }
-    return extension ? languageMap[extension] : undefined
+      ts: 'typescript',
+      tsx: 'typescript',
+      js: 'javascript',
+      jsx: 'javascript',
+      md: 'markdown',
+      markdown: 'markdown',
+    };
+    return extension ? languageMap[extension] : undefined;
   }
 }

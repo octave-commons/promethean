@@ -1,20 +1,21 @@
-export type { 
-  GraphNode, 
-  GraphEdge, 
+export type {
+  GraphNode,
+  GraphEdge,
   GraphData,
-  NodeType, 
+  NodeType,
   EdgeType,
-  NodeData, 
+  NodeData,
   NodeMetadata,
   EdgeData,
   ProcessingContext,
   ExtractedData,
+  ExtractionMetadata,
   Link,
   Import,
   Dependency,
   ValidationResult,
-  NormalizedData
-} from './graph.js'
+  NormalizedData,
+} from './graph.js';
 
 export type {
   DatabaseConfig,
@@ -24,5 +25,5 @@ export type {
   IndexSchema,
   QueryOptions,
   GraphQueryResult,
-  AnalyticsResult
-} from './database.js'
+  AnalyticsResult,
+} from './database.js';
