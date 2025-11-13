@@ -5,7 +5,7 @@ import { slug, parseArgs, writeText, readMaybe } from '@promethean-os/utils';
 import { getLogger } from '@promethean-os/logger';
 import type { PromptChunk } from './types.js';
 
-const logger = createLogger({ service: 'boardrev' });
+const logger = getLogger('boardrev');
 
 export async function processPrompts({
   process,
