@@ -6,12 +6,12 @@ import { Router } from 'express';
 import { ResponseHelper } from '../../shared/index.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 
-const router = Router();
+const router: Router = Router();
 
 // TODO: Implement query routes
 router.get(
   '/',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     res.json(
       ResponseHelper.success({
         message: 'Queries list endpoint - TODO: Implement query listing logic',
@@ -22,7 +22,7 @@ router.get(
 
 router.post(
   '/',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     res.json(
       ResponseHelper.success({
         message: 'Create query endpoint - TODO: Implement query creation logic',

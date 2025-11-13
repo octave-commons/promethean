@@ -3,12 +3,11 @@
  */
 
 import { Router } from 'express';
-import { ResponseHelper, Logger } from '../../shared/index.js';
+import { ResponseHelper } from '../../shared/index.js';
 import { asyncHandler } from '../middleware/errorHandler.js';
 import { authRateLimit } from '../middleware/rateLimit.js';
 
-const router = Router();
-const logger = Logger.getInstance();
+const router: Router = Router();
 
 /**
  * @swagger
@@ -57,7 +56,7 @@ const logger = Logger.getInstance();
 router.post(
   '/login',
   authRateLimit,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     // TODO: Implement login logic
     res.json(
       ResponseHelper.success({
@@ -107,7 +106,7 @@ router.post(
 router.post(
   '/register',
   authRateLimit,
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     // TODO: Implement registration logic
     res.json(
       ResponseHelper.success({
@@ -133,7 +132,7 @@ router.post(
  */
 router.post(
   '/logout',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     // TODO: Implement logout logic
     res.json(
       ResponseHelper.success({
@@ -159,7 +158,7 @@ router.post(
  */
 router.post(
   '/refresh',
-  asyncHandler(async (req, res) => {
+  asyncHandler(async (_req, res) => {
     // TODO: Implement token refresh logic
     res.json(
       ResponseHelper.success({
