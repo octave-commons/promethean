@@ -24,8 +24,10 @@
 
 1. Replace the placeholder `...` tokens with concrete `router.use` registrations for `authRoutes`, `documentRoutes`, `queryRoutes`, `ollamaRoutes`, and `userRoutes`.
 2. Keep the root `GET /` handler that returns the API metadata payload for smoke checks.
-3. Ensure the module still exports `setupRoutes` as a `Router` instance and remains compatible with `app.use('/api/v1', authMiddleware, setupRoutes)`.
-4. TypeScript typecheck must finish without errors within the docs-system package.
+3. Ensure every router file exports a `Router` instance with an explicit `Router` type annotation (to avoid non-portable inferred types) and rename unused request/response parameters with `_` prefixes so `tsconfig`'s `noUnusedParameters` no longer fails.
+4. Update `optionalAuth` and `validateUser` middleware signatures to avoid unused parameters and use `new ObjectId(req.user.id)` when querying MongoDB.
+5. Ensure the module still exports `setupRoutes` as a `Router` instance and remains compatible with `app.use('/api/v1', authMiddleware, setupRoutes)`.
+6. TypeScript typecheck must finish without errors within the docs-system package.
 
 ## Definition of Done
 
@@ -39,5 +41,11 @@
    - Import the remaining feature routers (`documentRoutes`, `queryRoutes`, `ollamaRoutes`, `userRoutes`).
    - Instantiate the Express `Router`, register each sub-router under the appropriate `/auth`, `/documents`, `/queries`, `/ollama`, `/users` prefixes, and keep the root info route.
    - Export the configured router as `setupRoutes`.
-2. **Verification**
+2. **Route Module Hygiene**
+   - Add explicit `Router` type annotations to every feature route file.
+   - Rename unused handler parameters to `_req` / `_res` (and `_next` if necessary) to satisfy `noUnusedParameters`.
+   - Either wire the logger usage or drop it so `tsc` stops flagging the unused symbol.
+3. **Auth Middleware Typing**
+   - Rename the unused `res` parameter in `optionalAuth` and import `ObjectId` from `mongodb` to build a correctly typed `_id` filter in `validateUser`.
+4. **Verification**
    - Run `pnpm --filter @promethean-os/docs-system typecheck` to confirm the compilation failure is resolved.
