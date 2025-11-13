@@ -6,7 +6,6 @@ import { Server as SocketIOServer, Socket } from 'socket.io';
 import jwt from 'jsonwebtoken';
 import { Logger, ConfigManager } from '../../shared/index.js';
 import { AuthenticationError } from '../../types/index.js';
-import { validateUser } from '../middleware/auth.js';
 
 const logger = Logger.getInstance();
 const config = ConfigManager.getInstance();

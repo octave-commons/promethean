@@ -76,7 +76,13 @@ setInterval(
     let cleaned = 0;
 
     for (const key in store) {
-      if (now > store[key].resetTime) {
+      const entry = store[key];
+
+      if (!entry) {
+        continue;
+      }
+
+      if (now > entry.resetTime) {
         delete store[key];
         cleaned++;
       }
