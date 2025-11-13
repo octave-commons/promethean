@@ -5,7 +5,7 @@ import { z } from 'zod';
 
 import type { EvalItem, TaskContext } from './types.js';
 
-const logger = createLogger({ service: 'multi-model-evaluation' });
+const logger = getLogger('multi-model-evaluation');
 
 // Available models for evaluation - can be configured via environment or args
 const DEFAULT_MODELS = ['qwen2.5:3b', 'llama3.2:3b', 'gemma2:2b', 'phi3:3.8b'];
