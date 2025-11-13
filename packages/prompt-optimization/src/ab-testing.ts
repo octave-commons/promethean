@@ -582,6 +582,7 @@ export class ABTestingFramework {
     if (!control) {
       throw new Error('Control group statistics not available');
     }
+    const controlStats: TestStatistics = control;
 
     // Calculate statistical significance
     const significanceByGroup: Record<string, number> = {};
@@ -590,12 +591,12 @@ export class ABTestingFramework {
     let sigCount = 0;
 
     testGroups.forEach(([groupId, testStats]) => {
-      const successRateDiff = Math.abs(testStats.successRate - control.successRate);
+      const successRateDiff = Math.abs(testStats.successRate - controlStats.successRate);
       const processingTimeDiff = Math.abs(
-        testStats.averageProcessingTime - control.averageProcessingTime,
+        testStats.averageProcessingTime - controlStats.averageProcessingTime,
       );
-      const tokenUsageDiff = Math.abs(testStats.averageTokenUsage - control.averageTokenUsage);
-      const confidenceDiff = Math.abs(testStats.averageConfidence - control.averageConfidence);
+      const tokenUsageDiff = Math.abs(testStats.averageTokenUsage - controlStats.averageTokenUsage);
+      const confidenceDiff = Math.abs(testStats.averageConfidence - controlStats.averageConfidence);
 
       significanceByGroup[groupId] =
         (successRateDiff + processingTimeDiff + tokenUsageDiff + confidenceDiff) / 4;
@@ -617,21 +618,22 @@ export class ABTestingFramework {
         testStats.successRate >= test.successCriteria.minSuccessRate &&
         testStats.averageProcessingTime <= test.successCriteria.maxProcessingTime &&
         testStats.averageTokenUsage <=
-          control.averageTokenUsage * (1 / test.successCriteria.minTokenEfficiency) &&
+          controlStats.averageTokenUsage * (1 / test.successCriteria.minTokenEfficiency) &&
         testStats.averageConfidence >= test.successCriteria.minConfidence;
 
-      if (meetsCriteria && significanceByGroup[groupId] > maxConfidence) {
+      const groupConfidence = significanceByGroup[groupId] ?? 0;
+      if (meetsCriteria && groupConfidence > maxConfidence) {
         recommendation = 'test';
-        maxConfidence = significanceByGroup[groupId];
+        maxConfidence = groupConfidence;
         bestGroupId = groupId;
       }
     });
 
     // Check if control is better
     const controlMeetsCriteria =
-      control.successRate >= test.successCriteria.minSuccessRate &&
-      control.averageProcessingTime <= test.successCriteria.maxProcessingTime &&
-      control.averageConfidence >= test.successCriteria.minConfidence;
+      controlStats.successRate >= test.successCriteria.minSuccessRate &&
+      controlStats.averageProcessingTime <= test.successCriteria.maxProcessingTime &&
+      controlStats.averageConfidence >= test.successCriteria.minConfidence;
 
     if (controlMeetsCriteria && maxConfidence < 0.1) {
       recommendation = 'control';
@@ -640,14 +642,14 @@ export class ABTestingFramework {
 
     const reasoning = this.generateReasoning(
       test,
-      control,
+      controlStats,
       testGroups,
       recommendation,
       bestGroupId,
     );
 
     return {
-      control,
+      control: controlStats,
       test: Object.fromEntries(testGroups),
       significance: {
         successRate: sigCount ? sigAcc.successRate / sigCount : 0,
