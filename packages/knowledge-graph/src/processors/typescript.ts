@@ -3,7 +3,13 @@ import type { NodePath } from '@babel/traverse';
 import { ExtractedData, Import, ProcessingContext } from '../types/index.js';
 
 const traverseModulePromise = import('@babel/traverse');
-type TraverseFn = typeof import('@babel/traverse');
+type TraverseFn = (
+  node: unknown,
+  opts?: Record<string, unknown>,
+  scope?: unknown,
+  state?: unknown,
+  parentPath?: unknown,
+) => void;
 
 export class TypeScriptProcessor {
   async process(content: string, context: ProcessingContext): Promise<ExtractedData> {
@@ -28,119 +34,9 @@ export class TypeScriptProcessor {
 
       const imports: Import[] = [];
       const traverseModule = await traverseModulePromise;
-      const traverseFn =
-        (traverseModule as unknown as { default?: TraverseFn }).default ??
-        (traverseModule as unknown as TraverseFn);
+      const traverseFn: TraverseFn = (
+        (traverseModule as unknown as { default?: TraverseFn }).default ?? traverseModule
+      ) as TraverseFn;
 
-      const handleImportDeclaration = (path: NodePath<any>) => {
-        const node = path.node as any;
-        if (
-          !node?.source ||
-          node.source.type !== 'StringLiteral' ||
-          typeof node.source.value !== 'string'
-        ) {
-          return;
-        }
-
-        const specifiers = (node.specifiers ?? [])
-          .map((spec: any) => {
-            if (spec.type === 'ImportDefaultSpecifier') {
-              return spec.local?.name;
-            }
-            if (spec.type === 'ImportSpecifier') {
-              if (spec.imported && typeof spec.imported === 'object') {
-                return spec.imported.name || spec.local?.name;
-              }
-              return spec.local?.name;
-            }
-            if (spec.type === 'ImportNamespaceSpecifier') {
-              return `*${spec.local?.name}`;
-            }
-            return spec.local?.name;
-          })
-          .filter((name: unknown): name is string => typeof name === 'string' && name.length > 0);
-
-        const importInfo: Import = {
-          source: node.source.value,
-          specifiers,
-          type: this.getImportType(node.specifiers ?? []),
-          isTypeOnly: this.isTypeOnlyImport(node),
-          lineNumber: node.loc?.start.line,
-        };
-
-        imports.push(importInfo);
-      };
-
-      const handleDynamicImport = (path: NodePath<any>) => {
-        const callExpression = path.node as any;
-        if (callExpression.callee?.type !== 'Import') {
-          return;
-        }
-
-        const [firstArg] = callExpression.arguments ?? [];
-        if (!firstArg || firstArg.type !== 'StringLiteral') {
-          return;
-        }
-
-        const importInfo: Import = {
-          source: firstArg.value,
-          specifiers: ['dynamic'],
-          type: 'default',
-          isTypeOnly: false,
-          lineNumber: callExpression.loc?.start.line,
-        };
-
-        imports.push(importInfo);
-      };
-
-      traverseFn(ast, {
-        ImportDeclaration: handleImportDeclaration,
-        CallExpression: handleDynamicImport,
-      });
-
-      return {
-        links: [],
-        imports,
-        dependencies: [],
-        metadata: {
-          processingContext: context,
-          processedAt: new Date().toISOString(),
-          language: 'typescript',
-        },
-      };
-    } catch (error) {
-      return {
-        links: [],
-        imports: [],
-        dependencies: [],
-        metadata: {
-          processingContext: context,
-          processedAt: new Date().toISOString(),
-          language: 'typescript',
-          error: error instanceof Error ? error.message : 'Unknown error',
-        },
-      };
-    }
-  }
-
-  private getImportType(specifiers: readonly any[]): 'default' | 'named' | 'namespace' {
-    if (specifiers.length === 0) return 'named';
-
-    const hasDefault = specifiers.some((s) => s.type === 'ImportDefaultSpecifier');
-    const hasNamespace = specifiers.some((s) => s.type === 'ImportNamespaceSpecifier');
-    const hasNamed = specifiers.some((s) => s.type === 'ImportSpecifier');
-
-    if (hasNamespace) return 'namespace';
-    if (hasDefault && !hasNamed) return 'default';
-    return 'named';
-  }
-
-  private isTypeOnlyImport(node: any): boolean {
-    return (
-      node.importKind === 'type' ||
-      (node.specifiers &&
-        node.specifiers.length > 0 &&
-        node.specifiers.every((s: any) => s.importKind === 'type'))
-    );
   }
 }
