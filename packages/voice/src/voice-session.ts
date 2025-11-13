@@ -1,5 +1,5 @@
-import { randomUUID, UUID } from "crypto";
-import { EventEmitter } from "node:events";
+import { randomUUID, UUID } from 'crypto';
+import { EventEmitter } from 'node:events';
 
 import {
   AudioPlayer,
@@ -13,15 +13,15 @@ import {
   createAudioResource,
   getVoiceConnection,
   joinVoiceChannel,
-} from "@discordjs/voice";
-import * as discord from "discord.js";
-import { createLogger } from "@promethean-os/utils";
+} from '@discordjs/voice';
+import * as discord from 'discord.js';
+import { getLogger } from '@promethean-os/logger';
 
-import { Speaker } from "./speaker.js";
+import { Speaker } from './speaker.js';
 // import {Transcript} from "./transcript"
-import { Transcriber } from "./transcriber.js";
-import { VoiceRecorder } from "./voice-recorder.js";
-import { VoiceSynth } from "./voice-synth.js";
+import { Transcriber } from './transcriber.js';
+import { VoiceRecorder } from './voice-recorder.js';
+import { VoiceSynth } from './voice-synth.js';
 
 /**
    Handles all things voice. Emits an event when a user begins speaking, and when they stop speaking
@@ -48,7 +48,7 @@ export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
   transcriber: Transcriber;
   recorder: VoiceRecorder;
   voiceSynth: VoiceSynth;
-  #log = createLogger({ service: "voice:session" });
+  #log = createLogger({ service: 'voice:session' });
   constructor(options: VoiceSessionOptions) {
     super();
     this.id = randomUUID();
@@ -69,7 +69,7 @@ export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
     const existingConnection = getVoiceConnection(this.guild.id);
     if (existingConnection) {
       throw new Error(
-        "Cannot start new voice session with an existing connection. Bot must leave current voice  session to start a new one.",
+        'Cannot start new voice session with an existing connection. Bot must leave current voice  session to start a new one.',
       );
     }
     this.connection = joinVoiceChannel({
@@ -82,33 +82,33 @@ export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
     try {
       this.registerSpeakingListener();
     } catch (err) {
-      this.#log.error("failed to register speaking listener", { err });
-      throw new Error("Something went wrong starting the voice session");
+      this.#log.error('failed to register speaking listener', { err });
+      throw new Error('Something went wrong starting the voice session');
     }
   }
 
   private registerSpeakingListener(): void {
-    this.connection!.receiver.speaking.on("start", (userId) => {
+    this.connection!.receiver.speaking.on('start', (userId) => {
       const speaker = this.speakers.get(userId);
       if (speaker) {
         speaker.isSpeaking = true;
         if (speaker.stream) return;
         if (!speaker.stream) speaker.stream = this.getOpusStreamForUser(userId);
         if (speaker.stream) {
-          speaker.stream.on("end", () => {
+          speaker.stream.on('end', () => {
             try {
               speaker.stream?.destroy();
             } catch (e) {
-              this.#log.warn("failed to destroy stream cleanly", { err: e });
+              this.#log.warn('failed to destroy stream cleanly', { err: e });
             }
           });
 
-          speaker.stream.on("error", (err: unknown) => {
-            this.#log.warn("stream error", { userId, err });
+          speaker.stream.on('error', (err: unknown) => {
+            this.#log.warn('stream error', { userId, err });
           });
 
-          speaker.stream.on("close", () => {
-            this.#log.info("stream closed", { userId });
+          speaker.stream.on('close', () => {
+            this.#log.info('stream closed', { userId });
             speaker.stream = null;
           });
 
@@ -151,10 +151,7 @@ export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
       speaker.isRecording = true;
     }
   }
-  async startSpeakerTranscribe(
-    user: discord.User,
-    log: boolean = false,
-  ): Promise<void> {
+  async startSpeakerTranscribe(user: discord.User, log: boolean = false): Promise<void> {
     const speaker = this.speakers.get(user.id);
     if (speaker) {
       speaker.isTranscribing = true;
@@ -171,23 +168,22 @@ export class VoiceSession extends EventEmitter<VoiceSessionEvents> {
   }
   playVoice(text: string): Promise<VoiceSession> {
     return new Promise(async (resolve, _reject) => {
-      if (!this.connection) throw new Error("No connection");
+      if (!this.connection) throw new Error('No connection');
       const player = createAudioPlayer();
-      const { stream, cleanup } =
-        await this.voiceSynth.generateAndUpsampleVoice(text);
+      const { stream, cleanup } = await this.voiceSynth.generateAndUpsampleVoice(text);
 
       const resource = createAudioResource(stream, {
         inputType: StreamType.Raw,
       });
       player.play(resource);
 
-      this.emit("audioPlayerStart", player);
+      this.emit('audioPlayerStart', player);
 
       this.connection.subscribe(player);
 
       player.on(AudioPlayerStatus.Idle, () => {
         cleanup(); // ensure subprocesses are cleaned up
-        this.emit("audioPlayerStop", player);
+        this.emit('audioPlayerStop', player);
         resolve(this);
       });
 

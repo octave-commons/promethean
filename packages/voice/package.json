@@ -13,6 +13,7 @@
   "dependencies": {
     "@discordjs/opus": "^0.10.0",
     "@discordjs/voice": "^0.18.0",
+    "@promethean-os/logger": "workspace:*",
     "@types/wav": "^1.0.4",
     "discord.js": "^14.17.3",
     "express": "^4.19.2",

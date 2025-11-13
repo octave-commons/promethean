@@ -5663,6 +5663,9 @@ importers:
       '@discordjs/voice':
         specifier: ^0.18.0
         version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
+      '@promethean-os/logger':
+        specifier: workspace:*
+        version: link:../logger
       '@types/wav':
         specifier: ^1.0.4
         version: 1.0.4
@@ -23559,6 +23562,7 @@ snapshots:
     dependencies:
       '@discordjs/opus': 0.10.0(encoding@0.1.13)
       '@discordjs/voice': 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
+      '@promethean-os/logger': link:packages/logger
       '@types/wav': 1.0.4
       discord.js: 14.22.1
       express: 4.19.2
