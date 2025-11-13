@@ -27,51 +27,68 @@ export class TypeScriptProcessor {
       });
 
       const imports: Import[] = [];
+      const { default: traverse } = await traverseModulePromise;
+
+      const handleImportDeclaration = (path: NodePath<any>) => {
+        const node = path.node as any;
+        if (!node?.source || node.source.type !== 'StringLiteral') {
+          return;
+        }
+
+        const specifiers = (node.specifiers ?? [])
+          .map((spec: any) => {
+            if (spec.type === 'ImportDefaultSpecifier') {
+              return spec.local?.name;
+            }
+            if (spec.type === 'ImportSpecifier') {
+              if (spec.imported && typeof spec.imported === 'object') {
+                return spec.imported.name || spec.local?.name;
+              }
+              return spec.local?.name;
+            }
+            if (spec.type === 'ImportNamespaceSpecifier') {
+              return `*${spec.local?.name}`;
+            }
+            return spec.local?.name;
+          })
+          .filter((name: unknown): name is string => typeof name === 'string' && name.length > 0);
+
+        const importInfo: Import = {
+          source: node.source.value,
+          specifiers,
+          type: this.getImportType(node.specifiers ?? []),
+          isTypeOnly: this.isTypeOnlyImport(node),
+          lineNumber: node.loc?.start.line,
+        };
+
+        imports.push(importInfo);
+      };
+
+      const handleDynamicImport = (path: NodePath<any>) => {
+        const callExpression = path.node as any;
+        if (callExpression.callee?.type !== 'Import') {
+          return;
+        }
+
+        const [firstArg] = callExpression.arguments ?? [];
+        if (!firstArg || firstArg.type !== 'StringLiteral') {
+          return;
+        }
+
+        const importInfo: Import = {
+          source: firstArg.value,
+          specifiers: ['dynamic'],
+          type: 'default',
+          isTypeOnly: false,
+          lineNumber: callExpression.loc?.start.line,
+        };
+
+        imports.push(importInfo);
+      };
 
       traverse(ast, {
-        ImportDeclaration(path) {
-          const node = path.node;
-          if (node.source && node.specifiers) {
-            const specifiers = node.specifiers
-              .map((spec) => {
-                if (spec.type === 'ImportDefaultSpecifier') {
-                  return spec.local.name;
-                } else if (spec.type === 'ImportSpecifier') {
-                  return spec.imported?.name || spec.local.name;
-                } else if (spec.type === 'ImportNamespaceSpecifier') {
-                  return `*${spec.local.name}`;
-                }
-                return spec.local.name;
-              })
-              .filter(Boolean);
-
-            const importInfo: Import = {
-              source: node.source.value,
-              specifiers,
-              type: this.getImportType(node.specifiers),
-              isTypeOnly: this.isTypeOnlyImport(node),
-              lineNumber: node.loc?.start.line,
-            };
-
-            imports.push(importInfo);
-          }
-        },
-
-        CallExpression(path) {
-          if (path.node.callee.type === 'Import') {
-            const args = path.node.arguments;
-            if (args.length > 0 && args[0].type === 'StringLiteral') {
-              const importInfo: Import = {
-                source: args[0].value,
-                specifiers: ['dynamic'],
-                type: 'default',
-                isTypeOnly: false,
-                lineNumber: path.node.loc?.start.line,
-              };
-              imports.push(importInfo);
-            }
-          }
-        },
+        ImportDeclaration: handleImportDeclaration,
+        CallExpression: handleDynamicImport,
       });
 
       return {
