@@ -23,6 +23,7 @@ export {
   getDataStoreManager,
   resetGlobalDataStoreManager,
 } from './data-store-manager.js';
+export type { ContextStoreFactory } from './data-store-manager.js';
 
 // Re-export ContextStore for advanced usage
 export { ContextStore } from '@promethean-os/persistence';

@@ -9,6 +9,11 @@ import {
 } from './types.js';
 import { STORE_CONFIGS, ALL_STORES } from './store-configs.js';
 
+export type ContextStoreFactory = (
+  formatTime?: (epochMs: number) => string,
+  assistantName?: string,
+) => ContextStore;
+
 /**
  * Internal state for the data store manager
  */
@@ -23,6 +28,8 @@ interface DataStoreState {
 export const createDataStoreManager = (
   formatTime?: (epochMs: number) => string,
   assistantName?: string,
+  contextStoreFactory: ContextStoreFactory = (formatter, assistant) =>
+    new ContextStore(formatter, assistant),
 ): IDataStoreManager => {
   let state: DataStoreState | null = null;
 
@@ -38,7 +45,7 @@ export const createDataStoreManager = (
       return; // Already initialized
     }
 
-    const contextStore = new ContextStore(formatTime, assistantName);
+    const contextStore = contextStoreFactory(formatTime, assistantName);
     const initializedStores = new Set<StoreNames>();
 
     // Initialize all stores
@@ -218,9 +225,10 @@ let globalDataStoreManager: IDataStoreManager | null = null;
 export const getDataStoreManager = (
   formatTime?: (epochMs: number) => string,
   assistantName?: string,
+  contextStoreFactory?: ContextStoreFactory,
 ): IDataStoreManager => {
   if (!globalDataStoreManager) {
-    globalDataStoreManager = createDataStoreManager(formatTime, assistantName);
+    globalDataStoreManager = createDataStoreManager(formatTime, assistantName, contextStoreFactory);
   }
   return globalDataStoreManager;
 };

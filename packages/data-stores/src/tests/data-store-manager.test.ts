@@ -6,8 +6,8 @@ import {
   StoreNames,
   OPENCODE_STORES,
   FILE_SYSTEM_STORES,
+  type ContextStoreFactory,
 } from '../index.js';
-import { ContextStore, __setContextStoreDualFactoryForTests } from '@promethean-os/persistence';
 import type { DualStoreEntry, DualStoreManager } from '@promethean-os/persistence';
 
 type QueryOptions = { limit?: number };
@@ -43,7 +43,9 @@ class StubDualStore {
     const text = typeof rawText === 'string' ? rawText : '';
     const rawTimestamp = entry[this.timeStampKey as keyof typeof entry];
     const timestamp =
-      rawTimestamp !== undefined ? rawTimestamp : (entry.timestamp as unknown as number | Date | string | undefined);
+      rawTimestamp !== undefined
+        ? rawTimestamp
+        : (entry.timestamp as unknown as number | Date | string | undefined);
     const metadata = (entry.metadata as Record<string, unknown>) ?? {};
     const id = entry.id ?? `stub-${Date.now()}-${Math.random()}`;
 
@@ -83,7 +85,10 @@ class StubDualStore {
     const matcher = (entry: StoredEntry): boolean =>
       queries.some((query) => entry.text.toLowerCase().includes(query.toLowerCase()));
 
-    return this.docs.filter(matcher).slice(0, limit).map((doc) => ({ ...doc }));
+    return this.docs
+      .filter(matcher)
+      .slice(0, limit)
+      .map((doc) => ({ ...doc }));
   }
 
   async get(id: string): Promise<StoredEntry | null> {
@@ -253,7 +258,9 @@ test.serial('search in specific stores', async (t) => {
     },
   });
 
-  const sessionResults = await manager.searchInStores([StoreNames.SESSION], ['specific'], { limit: 10 } as QueryOptions);
+  const sessionResults = await manager.searchInStores([StoreNames.SESSION], ['specific'], {
+    limit: 10,
+  } as QueryOptions);
 
   t.true(sessionResults.length >= 1, 'Should find session results');
   const firstSessionResult = sessionResults[0];
@@ -261,7 +268,9 @@ test.serial('search in specific stores', async (t) => {
     t.is(firstSessionResult.storeName, StoreNames.SESSION, 'Should only return session results');
   }
 
-  const messageResults = await manager.searchInStores([StoreNames.MESSAGE], ['specific'], { limit: 10 } as QueryOptions);
+  const messageResults = await manager.searchInStores([StoreNames.MESSAGE], ['specific'], {
+    limit: 10,
+  } as QueryOptions);
 
   t.true(messageResults.length >= 1, 'Should find message results');
   const firstMessageResult = messageResults[0];
