@@ -2,7 +2,7 @@
 
 - **Date:** 2025-11-13
 - **Owner:** Codex (via OpenCode)
-- **Goal:** Remove the placeholder tokens that currently break `tsc` in `packages/docs-system/src/server/routes/index.ts` and properly compose the feature routers so that `pnpm --filter @promethean-os/docs-system typecheck` succeeds again.
+- **Goal:** Remove the placeholder tokens that currently break `tsc` in `packages/docs-system/src/server/routes/index.ts`, add the missing router wiring, and tighten the route/middleware typings (unused params, router annotations, MongoDB filter types) so that `pnpm --filter @promethean-os/docs-system typecheck` succeeds again.
 
 ## Related Tests / Failures
 
@@ -11,7 +11,10 @@
 ## Code Hotspots (with line refs)
 
 1. `packages/docs-system/src/server/routes/index.ts:5-33` – Route aggregator file still contains literal `...` placeholders after `authRoutes` import and router creation, so TypeScript parses invalid tokens before any `router.use` wiring.
-2. `packages/docs-system/src/server/index.ts:16,142` – `setupRoutes` from the broken module is mounted under `/api/v1`, so the entire API layer is currently unusable until its export compiles.
+2. `packages/docs-system/src/server/routes/auth.ts:5-208` – The route-level `Router` instance lacks a type annotation, the `logger` constant is unused, and the majority of handlers declare `req` parameters that are never read, triggering `noUnusedParameters` errors.
+3. `packages/docs-system/src/server/routes/{documents,queries,ollama,users}.ts:5-80` – Each module exports a `Router` without an explicit type annotation and leaves placeholder `req` parameters unused.
+4. `packages/docs-system/src/server/middleware/auth.ts:80-210` – `optionalAuth` never touches its `res` parameter, and `validateUser` queries Mongo by `_id` using a plain string instead of an `ObjectId`, so the MongoDB driver typings reject the filter.
+5. `packages/docs-system/src/server/index.ts:16,142` – `setupRoutes` from the broken module is mounted under `/api/v1`, so the entire API layer is currently unusable until its export compiles.
 
 ## Existing Issues / PRs
 
