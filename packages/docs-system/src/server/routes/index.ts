@@ -4,11 +4,14 @@
 
 import { Router } from 'express';
 import { authRoutes } from './auth.js';
-...
-const router: Router = Router();
-...
-router.get('/', (_req, res) => {
+import { documentRoutes } from './documents.js';
+import { queryRoutes } from './queries.js';
+import { ollamaRoutes } from './ollama.js';
+import { userRoutes } from './users.js';
 
+const router: Router = Router();
+
+router.get('/', (_req, res) => {
   res.json({
     success: true,
     data: {
@@ -28,5 +31,11 @@ router.get('/', (_req, res) => {
     },
   });
 });
+
+router.use('/auth', authRoutes);
+router.use('/documents', documentRoutes);
+router.use('/queries', queryRoutes);
+router.use('/ollama', ollamaRoutes);
+router.use('/users', userRoutes);
 
 export { router as setupRoutes };
