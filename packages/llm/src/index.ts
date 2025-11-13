@@ -89,8 +89,8 @@ export function setBroker(b: Readonly<Broker>): void {
 
 export async function handleTask(task: Readonly<BrokerTask>): Promise<void> {
     const payload = task.payload ?? ({} as TaskPayload);
-    const { prompt, context = [], format = null, tools = [], replyTopic } = payload;
-    const reply = await generate({ prompt, context, format, tools });
+    const { prompt, context = [], format = null, replyTopic } = payload;
+    const reply = await generate({ prompt, context, format });
     log.info('handling llm task', { task });
     const b = brokerState.get();
     if (replyTopic && b) {
