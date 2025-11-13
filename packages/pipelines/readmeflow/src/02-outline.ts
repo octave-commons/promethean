@@ -59,6 +59,20 @@ export function buildPrompts(pkg: Readonly<PkgInfo>): Prompts {
   return { sys, user };
 }
 
+let OPENAI_OK: boolean | null = null;
+async function isOpenAIAvailable(baseURL: string, timeoutMs = 1000): Promise<boolean> {
+  try {
+    const controller = new AbortController();
+    const t = setTimeout(() => controller.abort(), timeoutMs);
+    const url = baseURL.replace(/\/$/, "") + "/models";
+    const res = await fetch(url, { method: "GET", signal: controller.signal } as any);
+    clearTimeout(t);
+    return res.ok;
+  } catch {
+    return false;
+  }
+}
+
 export async function fetchOutline(
   pkg: Readonly<PkgInfo>,
   model = "gpt-oss:20b-cloud",
@@ -67,30 +81,37 @@ export async function fetchOutline(
   const baseURL = process.env.OPENAI_BASE_URL || process.env.OLLAMA_URL || "http://localhost:11434/v1";
   const apiKey = process.env.OPENAI_API_KEY || "ollama";
 
-  const llm = makeOpenAIAdapter({
-    apiKey,
-    baseURL,
-    defaultModel: model,
-    timeout: 8000,
-    retryConfig: { maxRetries: 1, baseDelay: 500 },
-  });
+  if (OPENAI_OK === null) {
+    OPENAI_OK = await isOpenAIAvailable(baseURL, 800);
+  }
 
-  const obj = await llm
-    .complete(
-      [
-        { role: "system", content: sys },
-        { role: "user", content: user },
-      ],
-      { model },
-    )
-    .then((m) => {
-      try {
-        return JSON.parse(m.content as string);
-      } catch {
-        return null;
-      }
-    })
-    .catch(() => null);
+  let obj: any = null;
+  if (OPENAI_OK) {
+    const llm = makeOpenAIAdapter({
+      apiKey,
+      baseURL,
+      defaultModel: model,
+      timeout: 8000,
+      retryConfig: { maxRetries: 1, baseDelay: 500 },
+    });
+
+    obj = await llm
+      .complete(
+        [
+          { role: "system", content: sys },
+          { role: "user", content: user },
+        ],
+        { model },
+      )
+      .then((m) => {
+        try {
+          return JSON.parse(m.content as string);
+        } catch {
+          return null;
+        }
+      })
+      .catch(() => null);
+  }
 
   const outlineRaw = obj && OutlineSchema.safeParse(obj).success
     ? (OutlineSchema.parse(obj) as any)
