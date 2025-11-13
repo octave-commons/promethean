@@ -4382,6 +4382,9 @@ importers:
       '@promethean-os/level-cache':
         specifier: workspace:*
         version: link:../../level-cache
+      '@promethean-os/logger':
+        specifier: workspace:*
+        version: link:../../logger
       '@promethean-os/markdown':
         specifier: workspace:*
         version: link:../../markdown
