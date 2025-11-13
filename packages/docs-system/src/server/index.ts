@@ -6,7 +6,6 @@ import express from 'express';
 import cors from 'cors';
 import helmet from 'helmet';
 import compression from 'compression';
-import morgan from 'morgan';
 import { createServer } from 'http';
 import { Server as SocketIOServer } from 'socket.io';
 import swaggerJsdoc from 'swagger-jsdoc';
@@ -25,7 +24,7 @@ const config = ConfigManager.getInstance();
 const logger = Logger.getInstance();
 
 // Create Express app
-const app = express();
+const app: express.Express = express();
 const server = createServer(app);
 
 // Create Socket.IO server
@@ -73,7 +72,7 @@ app.use(express.urlencoded({ extended: true, limit: '10mb' }));
 app.use(rateLimitMiddleware);
 
 // Request logging
-app.use((req, res, next) => {
+app.use((req, _res, next) => {
   logger.info(`${req.method} ${req.path}`, {
     ip: req.ip,
     userAgent: req.get('User-Agent'),

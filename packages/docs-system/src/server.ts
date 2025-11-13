@@ -4,7 +4,7 @@
 
 import { app } from './server/index.js';
 
-const PORT = process.env.PORT || 3001;
+const PORT = Number(process.env.PORT) || 3001;
 const HOST = process.env.HOST || 'localhost';
 
 app.listen(PORT, HOST, () => {

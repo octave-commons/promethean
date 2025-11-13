@@ -3,20 +3,8 @@
  */
 
 import React, { useState } from 'react';
-import {
-  Card,
-  Typography,
-  Input,
-  Button,
-  Select,
-  Space,
-  List,
-  Tag,
-  Collapse,
-  Spin,
-  Alert,
-} from 'antd';
-import { SearchOutlined, PlusOutlined, HistoryOutlined } from '@ant-design/icons';
+import { Card, Typography, Input, Button, Select, Space, List, Tag, Collapse, Alert } from 'antd';
+import { SearchOutlined, HistoryOutlined } from '@ant-design/icons';
 
 const { Title, Paragraph, Text } = Typography;
 const { TextArea } = Input;
@@ -57,10 +45,10 @@ export function Queries(): React.ReactElement {
     try {
       // TODO: Implement actual query submission
       console.log('Submitting query:', { text: queryText, type: queryType });
-      
+
       // Simulate API call
-      await new Promise(resolve => setTimeout(resolve, 1000));
-      
+      await new Promise((resolve) => setTimeout(resolve, 1000));
+
       // Clear form on success
       setQueryText('');
     } catch (error) {
@@ -108,13 +96,11 @@ export function Queries(): React.ReactElement {
               onChange={setQueryType}
               style={{ width: '100%', marginTop: 8 }}
             >
-              {queryTypes.map(type => (
+              {queryTypes.map((type) => (
                 <Option key={type.value} value={type.value}>
                   <div>
                     <strong>{type.label}</strong>
-                    <div style={{ fontSize: '12px', color: '#666' }}>
-                      {type.description}
-                    </div>
+                    <div style={{ fontSize: '12px', color: '#666' }}>{type.description}</div>
                   </div>
                 </Option>
               ))}
@@ -127,15 +113,15 @@ export function Queries(): React.ReactElement {
               value={queryText}
               onChange={(e) => setQueryText(e.target.value)}
               placeholder={
-                queryType === 'search' 
+                queryType === 'search'
                   ? 'Enter your search terms...'
                   : queryType === 'qa'
-                  ? 'Ask a question about your documents...'
-                  : queryType === 'summarization'
-                  ? 'Paste content to summarize...'
-                  : queryType === 'analysis'
-                  ? 'Describe what you want to analyze...'
-                  : 'Describe what recommendations you need...'
+                    ? 'Ask a question about your documents...'
+                    : queryType === 'summarization'
+                      ? 'Paste content to summarize...'
+                      : queryType === 'analysis'
+                        ? 'Describe what you want to analyze...'
+                        : 'Describe what recommendations you need...'
               }
               rows={4}
               style={{ marginTop: 8 }}
@@ -157,11 +143,11 @@ export function Queries(): React.ReactElement {
 
       <div style={{ display: 'flex', gap: 24 }}>
         <div style={{ flex: 2 }}>
-          <Card 
-            title="Recent Queries" 
+          <Card
+            title="Recent Queries"
             extra={
-              <Button 
-                type="text" 
+              <Button
+                type="text"
                 icon={<HistoryOutlined />}
                 onClick={() => console.log('View all query history')}
               >
@@ -185,12 +171,8 @@ export function Queries(): React.ReactElement {
                       title={
                         <Space>
                           <Text>{query.text}</Text>
-                          <Tag color={getTypeColor(query.type)}>
-                            {query.type}
-                          </Tag>
-                          <Tag color={getStatusColor(query.status)}>
-                            {query.status}
-                          </Tag>
+                          <Tag color={getTypeColor(query.type)}>{query.type}</Tag>
+                          <Tag color={getStatusColor(query.status)}>{query.status}</Tag>
                         </Space>
                       }
                       description={
@@ -202,13 +184,15 @@ export function Queries(): React.ReactElement {
                             <div style={{ marginTop: 8 }}>
                               <Collapse ghost>
                                 <Panel header="View Result" key="result">
-                                  <pre style={{ 
-                                    background: '#f5f5f5', 
-                                    padding: 8, 
-                                    borderRadius: 4,
-                                    fontSize: '12px',
-                                    overflow: 'auto'
-                                  }}>
+                                  <pre
+                                    style={{
+                                      background: '#f5f5f5',
+                                      padding: 8,
+                                      borderRadius: 4,
+                                      fontSize: '12px',
+                                      overflow: 'auto',
+                                    }}
+                                  >
                                     {JSON.stringify(query.result, null, 2)}
                                   </pre>
                                 </Panel>

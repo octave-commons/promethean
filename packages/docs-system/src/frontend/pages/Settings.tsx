@@ -92,10 +92,7 @@ export function Settings(): React.ReactElement {
             <Input placeholder="Enter site name" />
           </Form.Item>
 
-          <Form.Item
-            name="siteDescription"
-            label="Site Description"
-          >
+          <Form.Item name="siteDescription" label="Site Description">
             <TextArea rows={3} placeholder="Enter site description" />
           </Form.Item>
 
@@ -104,17 +101,14 @@ export function Settings(): React.ReactElement {
             label="Contact Email"
             rules={[
               { required: true, message: 'Please enter contact email' },
-              { type: 'email', message: 'Please enter a valid email' }
+              { type: 'email', message: 'Please enter a valid email' },
             ]}
           >
             <Input placeholder="contact@example.com" />
           </Form.Item>
 
           <Space size="large">
-            <Form.Item
-              name="defaultLanguage"
-              label="Default Language"
-            >
+            <Form.Item name="defaultLanguage" label="Default Language">
               <Select style={{ width: 150 }}>
                 <Option value="en">English</Option>
                 <Option value="es">Spanish</Option>
@@ -124,10 +118,7 @@ export function Settings(): React.ReactElement {
               </Select>
             </Form.Item>
 
-            <Form.Item
-              name="timezone"
-              label="Timezone"
-            >
+            <Form.Item name="timezone" label="Timezone">
               <Select style={{ width: 200 }}>
                 <Option value="UTC">UTC</Option>
                 <Option value="America/New_York">Eastern Time</Option>
@@ -141,26 +132,16 @@ export function Settings(): React.ReactElement {
 
         {/* Search Settings */}
         <Card title="Search Settings" style={{ marginBottom: 24 }}>
-          <Form.Item
-            name="defaultResultsPerPage"
-            label="Default Results Per Page"
-          >
+          <Form.Item name="defaultResultsPerPage" label="Default Results Per Page">
             <InputNumber min={5} max={100} />
           </Form.Item>
 
-          <Form.Item
-            name="maxResultsPerPage"
-            label="Max Results Per Page"
-          >
+          <Form.Item name="maxResultsPerPage" label="Max Results Per Page">
             <InputNumber min={10} max={200} />
           </Form.Item>
 
           <Space size="large">
-            <Form.Item
-              name="enableFuzzySearch"
-              label="Enable Fuzzy Search"
-              valuePropName="checked"
-            >
+            <Form.Item name="enableFuzzySearch" label="Enable Fuzzy Search" valuePropName="checked">
               <Switch />
             </Form.Item>
 
@@ -173,10 +154,7 @@ export function Settings(): React.ReactElement {
             </Form.Item>
           </Space>
 
-          <Form.Item
-            name="searchTimeout"
-            label="Search Timeout (seconds)"
-          >
+          <Form.Item name="searchTimeout" label="Search Timeout (seconds)">
             <InputNumber min={5} max={300} />
           </Form.Item>
         </Card>
@@ -199,10 +177,7 @@ export function Settings(): React.ReactElement {
             <Input placeholder="http://localhost:11434" />
           </Form.Item>
 
-          <Form.Item
-            name="defaultModel"
-            label="Default Model"
-          >
+          <Form.Item name="defaultModel" label="Default Model">
             <Select placeholder="Select default model">
               <Option value="llama2">Llama 2</Option>
               <Option value="codellama">Code Llama</Option>
@@ -212,53 +187,30 @@ export function Settings(): React.ReactElement {
           </Form.Item>
 
           <Space size="large">
-            <Form.Item
-              name="maxTokens"
-              label="Max Tokens"
-            >
+            <Form.Item name="maxTokens" label="Max Tokens">
               <InputNumber min={128} max={8192} />
             </Form.Item>
 
-            <Form.Item
-              name="temperature"
-              label="Temperature"
-              step={0.1}
-              min={0}
-              max={2}
-            >
-              <InputNumber />
+            <Form.Item name="temperature" label="Temperature">
+              <InputNumber step={0.1} min={0} max={2} />
             </Form.Item>
           </Space>
 
           <Space size="large">
-            <Form.Item
-              name="enableStreaming"
-              label="Enable Streaming"
-              valuePropName="checked"
-            >
+            <Form.Item name="enableStreaming" label="Enable Streaming" valuePropName="checked">
               <Switch />
             </Form.Item>
 
-            <Form.Item
-              name="cacheResults"
-              label="Cache Results"
-              valuePropName="checked"
-            >
+            <Form.Item name="cacheResults" label="Cache Results" valuePropName="checked">
               <Switch />
             </Form.Item>
           </Space>
 
-          <Form.Item
-            name="cacheExpiration"
-            label="Cache Expiration (seconds)"
-          >
+          <Form.Item name="cacheExpiration" label="Cache Expiration (seconds)">
             <InputNumber min={300} max={86400} />
           </Form.Item>
 
-          <Button
-            type="dashed"
-            onClick={() => handleTestConnection('ollama')}
-          >
+          <Button type="dashed" onClick={() => handleTestConnection('ollama')}>
             Test Ollama Connection
           </Button>
         </Card>
@@ -266,43 +218,26 @@ export function Settings(): React.ReactElement {
         {/* Security Settings */}
         <Card title="Security Settings" style={{ marginBottom: 24 }}>
           <Space size="large">
-            <Form.Item
-              name="enableRateLimit"
-              label="Enable Rate Limiting"
-              valuePropName="checked"
-            >
+            <Form.Item name="enableRateLimit" label="Enable Rate Limiting" valuePropName="checked">
               <Switch />
             </Form.Item>
 
-            <Form.Item
-              name="enableAuditLog"
-              label="Enable Audit Log"
-              valuePropName="checked"
-            >
+            <Form.Item name="enableAuditLog" label="Enable Audit Log" valuePropName="checked">
               <Switch />
             </Form.Item>
           </Space>
 
           <Space size="large">
-            <Form.Item
-              name="rateLimitWindow"
-              label="Rate Limit Window (seconds)"
-            >
+            <Form.Item name="rateLimitWindow" label="Rate Limit Window (seconds)">
               <InputNumber min={60} max={3600} />
             </Form.Item>
 
-            <Form.Item
-              name="rateLimitMax"
-              label="Rate Limit Max Requests"
-            >
+            <Form.Item name="rateLimitMax" label="Rate Limit Max Requests">
               <InputNumber min={10} max={1000} />
             </Form.Item>
           </Space>
 
-          <Form.Item
-            name="sessionTimeout"
-            label="Session Timeout (seconds)"
-          >
+          <Form.Item name="sessionTimeout" label="Session Timeout (seconds)">
             <InputNumber min={300} max={86400} />
           </Form.Item>
         </Card>
@@ -310,43 +245,26 @@ export function Settings(): React.ReactElement {
         {/* Performance Settings */}
         <Card title="Performance Settings" style={{ marginBottom: 24 }}>
           <Space size="large">
-            <Form.Item
-              name="enableCaching"
-              label="Enable Caching"
-              valuePropName="checked"
-            >
+            <Form.Item name="enableCaching" label="Enable Caching" valuePropName="checked">
               <Switch />
             </Form.Item>
 
-            <Form.Item
-              name="enableCompression"
-              label="Enable Compression"
-              valuePropName="checked"
-            >
+            <Form.Item name="enableCompression" label="Enable Compression" valuePropName="checked">
               <Switch />
             </Form.Item>
           </Space>
 
           <Space size="large">
-            <Form.Item
-              name="cacheExpiration2"
-              label="Cache Expiration (seconds)"
-            >
+            <Form.Item name="cacheExpiration2" label="Cache Expiration (seconds)">
               <InputNumber min={300} max={86400} />
             </Form.Item>
 
-            <Form.Item
-              name="maxUploadSize"
-              label="Max Upload Size (MB)"
-            >
+            <Form.Item name="maxUploadSize" label="Max Upload Size (MB)">
               <InputNumber min={1} max={100} />
             </Form.Item>
           </Space>
 
-          <Form.Item
-            name="concurrentJobs"
-            label="Concurrent Jobs"
-          >
+          <Form.Item name="concurrentJobs" label="Concurrent Jobs">
             <InputNumber min={1} max={20} />
           </Form.Item>
         </Card>
@@ -354,17 +272,10 @@ export function Settings(): React.ReactElement {
         <Divider />
 
         <Space>
-          <Button
-            type="primary"
-            htmlType="submit"
-            icon={<SaveOutlined />}
-          >
+          <Button type="primary" htmlType="submit" icon={<SaveOutlined />}>
             Save Settings
           </Button>
-          <Button
-            onClick={handleResetSettings}
-            icon={<ReloadOutlined />}
-          >
+          <Button onClick={handleResetSettings} icon={<ReloadOutlined />}>
             Reset to Defaults
           </Button>
         </Space>

@@ -17,7 +17,12 @@ import {
   Form,
   message,
 } from 'antd';
-import { PlusOutlined, PlayCircleOutlined, PauseCircleOutlined, StopOutlined } from '@ant-design/icons';
+import {
+  PlusOutlined,
+  PlayCircleOutlined,
+  PauseCircleOutlined,
+  StopOutlined,
+} from '@ant-design/icons';
 import type { ColumnsType } from 'antd/es/table';
 
 const { Title, Paragraph, Text } = Typography;
@@ -83,14 +88,15 @@ export function OllamaJobs(): React.ReactElement {
       dataIndex: 'type',
       key: 'type',
       render: (type: string) => {
-        const color = {
-          generate: 'blue',
-          chat: 'green',
-          embedding: 'purple',
-          summarization: 'orange',
-          analysis: 'cyan',
-          classification: 'magenta',
-        }[type] || 'default';
+        const color =
+          {
+            generate: 'blue',
+            chat: 'green',
+            embedding: 'purple',
+            summarization: 'orange',
+            analysis: 'cyan',
+            classification: 'magenta',
+          }[type] || 'default';
         return <Tag color={color}>{type}</Tag>;
       },
     },
@@ -99,14 +105,15 @@ export function OllamaJobs(): React.ReactElement {
       dataIndex: 'status',
       key: 'status',
       render: (status: string) => {
-        const color = {
-          queued: 'orange',
-          running: 'blue',
-          completed: 'green',
-          failed: 'red',
-          cancelled: 'gray',
-          timeout: 'volcano',
-        }[status] || 'default';
+        const color =
+          {
+            queued: 'orange',
+            running: 'blue',
+            completed: 'green',
+            failed: 'red',
+            cancelled: 'gray',
+            timeout: 'volcano',
+          }[status] || 'default';
         return <Tag color={color}>{status}</Tag>;
       },
     },
@@ -115,12 +122,13 @@ export function OllamaJobs(): React.ReactElement {
       dataIndex: 'priority',
       key: 'priority',
       render: (priority: string) => {
-        const color = {
-          low: 'default',
-          medium: 'blue',
-          high: 'orange',
-          urgent: 'red',
-        }[priority] || 'default';
+        const color =
+          {
+            low: 'default',
+            medium: 'blue',
+            high: 'orange',
+            urgent: 'red',
+          }[priority] || 'default';
         return <Tag color={color}>{priority}</Tag>;
       },
     },
@@ -202,27 +210,23 @@ export function OllamaJobs(): React.ReactElement {
     }
   };
 
-  const handleJobAction = (jobId: string, action: string) => {
-    console.log(`Job ${action}:`, jobId);
-    // TODO: Implement job actions
-  };
-
   return (
     <div>
-      <div style={{ display: 'flex', justifyContent: 'space-between', alignItems: 'center', marginBottom: 24 }}>
+      <div
+        style={{
+          display: 'flex',
+          justifyContent: 'space-between',
+          alignItems: 'center',
+          marginBottom: 24,
+        }}
+      >
         <Title level={2}>Ollama Jobs</Title>
-        <Button
-          type="primary"
-          icon={<PlusOutlined />}
-          onClick={() => setIsModalVisible(true)}
-        >
+        <Button type="primary" icon={<PlusOutlined />} onClick={() => setIsModalVisible(true)}>
           Create Job
         </Button>
       </div>
 
-      <Paragraph>
-        Manage and monitor AI processing jobs running on Ollama models.
-      </Paragraph>
+      <Paragraph>Manage and monitor AI processing jobs running on Ollama models.</Paragraph>
 
       <Card>
         <Table
@@ -234,8 +238,7 @@ export function OllamaJobs(): React.ReactElement {
             pageSize: 10,
             showSizeChanger: true,
             showQuickJumper: true,
-            showTotal: (total, range) =>
-              `${range[0]}-${range[1]} of ${total} jobs`,
+            showTotal: (total, range) => `${range[0]}-${range[1]} of ${total} jobs`,
           }}
           locale={{
             emptyText: 'No jobs found. Create your first job to get started.',
@@ -250,18 +253,14 @@ export function OllamaJobs(): React.ReactElement {
         footer={null}
         width={600}
       >
-        <Form
-          form={form}
-          layout="vertical"
-          onFinish={handleCreateJob}
-        >
+        <Form form={form} layout="vertical" onFinish={handleCreateJob}>
           <Form.Item
             name="type"
             label="Job Type"
             rules={[{ required: true, message: 'Please select a job type' }]}
           >
             <Select placeholder="Select job type">
-              {jobTypes.map(type => (
+              {jobTypes.map((type) => (
                 <Option key={type.value} value={type.value}>
                   {type.label}
                 </Option>
@@ -275,7 +274,7 @@ export function OllamaJobs(): React.ReactElement {
             rules={[{ required: true, message: 'Please select a model' }]}
           >
             <Select placeholder="Select model">
-              {models.map(model => (
+              {models.map((model) => (
                 <Option key={model.value} value={model.value}>
                   {model.label}
                 </Option>
@@ -289,7 +288,7 @@ export function OllamaJobs(): React.ReactElement {
             rules={[{ required: true, message: 'Please select a priority' }]}
           >
             <Select placeholder="Select priority">
-              {priorities.map(priority => (
+              {priorities.map((priority) => (
                 <Option key={priority.value} value={priority.value}>
                   {priority.label}
                 </Option>
@@ -302,10 +301,7 @@ export function OllamaJobs(): React.ReactElement {
             label="Prompt"
             rules={[{ required: true, message: 'Please enter a prompt' }]}
           >
-            <TextArea
-              rows={4}
-              placeholder="Enter the prompt or input for the job..."
-            />
+            <TextArea rows={4} placeholder="Enter the prompt or input for the job..." />
           </Form.Item>
 
           <Form.Item>
@@ -313,9 +309,7 @@ export function OllamaJobs(): React.ReactElement {
               <Button type="primary" htmlType="submit">
                 Create Job
               </Button>
-              <Button onClick={() => setIsModalVisible(false)}>
-                Cancel
-              </Button>
+              <Button onClick={() => setIsModalVisible(false)}>Cancel</Button>
             </Space>
           </Form.Item>
         </Form>
