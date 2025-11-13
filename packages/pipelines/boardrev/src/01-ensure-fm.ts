@@ -1,14 +1,8 @@
 import * as path from 'path';
 import { fileURLToPath } from 'url';
 
-import {
-  readMaybe,
-  writeText,
-  parseArgs,
-  createLogger,
-  slug,
-  randomUUID,
-} from '@promethean-os/utils';
+import { readMaybe, writeText, parseArgs, slug, randomUUID } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 import {
   ensureBaselineFrontmatter,
   parseFrontmatter,
@@ -19,7 +13,7 @@ import { listTaskFiles, normStatus } from './utils.js';
 import type { TaskFM } from './types.js';
 import { Priority } from './types.js';
 
-const logger = createLogger({ service: 'boardrev' });
+const logger = getLogger('boardrev');
 
 export async function ensureFM({
   dir,
