@@ -23,7 +23,7 @@ export type WriteOpts = {
 const START = '<!-- SONARFLOW:BEGIN -->';
 const END = '<!-- SONARFLOW:END -->';
 
-const log = createLogger({ service: 'sonarflow' });
+const log = getLogger('sonarflow');
 
 function stripGenerated(text: string) {
   const si = text.indexOf(START),
