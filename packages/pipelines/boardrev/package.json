@@ -38,6 +38,7 @@
   "dependencies": {
     "@promethean-os/kanban": "workspace:*",
     "@promethean-os/level-cache": "workspace:*",
+    "@promethean-os/logger": "workspace:*",
     "@promethean-os/markdown": "workspace:*",
     "@promethean-os/utils": "workspace:*",
     "chokidar": "^3.6.0",

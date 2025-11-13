@@ -4,7 +4,8 @@ import { promises as fs } from 'fs';
 
 import matter from 'gray-matter';
 import { z } from 'zod';
-import { parseArgs, ollamaJSON, writeText, createLogger } from '@promethean-os/utils';
+import { parseArgs, ollamaJSON, writeText } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 
 import { normStatus } from './utils.js';
 import type { PromptChunk, TaskContext, EvalItem, TaskFM } from './types.js';
@@ -35,7 +36,7 @@ interface EnhancedTaskContext extends TaskContext {
   }>;
 }
 
-const logger = createLogger({ service: 'boardrev' });
+const logger = getLogger('boardrev');
 
 const EvalSchema = z.object({
   inferred_status: z.string().min(1),
