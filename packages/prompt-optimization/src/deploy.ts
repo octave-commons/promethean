@@ -109,6 +109,10 @@ async function runSimulatedTraffic() {
 
   for (let i = 0; i < testPrompts.length; i++) {
     const prompt = testPrompts[i];
+    if (!prompt) {
+      continue;
+    }
+
     console.log(`   📝 Processing: ${prompt.substring(0, 40)}...`);
 
     try {
