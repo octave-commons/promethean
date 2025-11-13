@@ -63,7 +63,7 @@ export default [
       ],
       'no-var': 'error',
       'prefer-const': 'error',
-      "import/no-dynamic-require": "error",
+      'import/no-dynamic-require': 'error',
       'no-restricted-syntax': [
         'error',
         {
@@ -81,6 +81,17 @@ export default [
         {
           selector: 'ClassExpression',
           message: 'Class expressions are not allowed.',
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@promethean/persistence'] > ImportSpecifier[imported.name='ContextStore']",
+          message: 'Use makeContextStore (functional) instead of class ContextStore.',
+        },
+        {
+          selector:
+            "ImportDeclaration[source.value='@promethean/agents/agent-context'] > ImportSpecifier[imported.name=/^(DefaultContextManager|ContextManager)$/]",
+          message:
+            'This is agent state, not LLM conversation. Import makeAgentStateManager (or LegacyAgentStateManager alias) instead.',
         },
       ],
       // FP: immutability & purity
@@ -119,19 +130,13 @@ export default [
         },
       ],
       'no-restricted-imports': [
-        'error',
+        'warn',
         {
-          paths: [
+          patterns: [
             {
-              name: '@promethean/persistence',
-              importNames: ['ContextStore'],
-              message: 'Use makeContextStore (functional) instead of class ContextStore.',
-            },
-            {
-              name: '@promethean/agents/agent-context',
-              importNames: ['DefaultContextManager', 'ContextManager'],
+              group: ['fastify', 'fastify/*', '@fastify/*'],
               message:
-                'This is agent state, not LLM conversation. Import makeAgentStateManager (or LegacyAgentStateManager alias) instead.',
+                'Fastify HTTP stack is deprecated. Prefer Express transports/middleware instead.',
             },
           ],
         },
