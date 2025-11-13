@@ -414,7 +414,7 @@ export class AdaptiveRoutingSystem {
    */
   private analyzeComplexity(prompt: string): ComplexityAnalysis {
     const normalizedPrompt = prompt.toLowerCase();
-    const indicators: Record<ComplexityLevel, number> = {} as any;
+    const indicators: Record<ComplexityLevel, number> = {} as Record<ComplexityLevel, number>;
 
     // Count indicators for each complexity level
     Object.entries(COMPLEXITY_INDICATORS).forEach(([level, config]) => {
@@ -430,9 +430,9 @@ export class AdaptiveRoutingSystem {
     });
 
     // Determine primary complexity
-    const primary = Object.entries(indicators).sort(
-      ([, a], [, b]) => b - a,
-    )[0][0] as ComplexityLevel;
+    const sortedIndicators = Object.entries(indicators).sort(([, a], [, b]) => b - a);
+    const [primaryEntry] = sortedIndicators;
+    const primary = (primaryEntry?.[0] as ComplexityLevel) ?? 'SIMPLE';
 
     // Calculate confidence based on score distribution
     const totalScore = Object.values(indicators).reduce((sum, score) => sum + score, 0);
@@ -513,8 +513,19 @@ export class AdaptiveRoutingSystem {
    * Handle fallback scenario
    */
   private handleFallback(prompt: string, fallbackHistory: TemplateType[]): RoutingResult {
-    const lastFailedTemplate = fallbackHistory[fallbackHistory.length - 1];
-    const fallbackChain = FALLBACK_CHAINS[lastFailedTemplate];
+    const lastFailedTemplate = fallbackHistory.at(-1);
+    if (!lastFailedTemplate) {
+      return {
+        template: 'T12-FALLBACK',
+        confidence: 0.95,
+        reasoning: 'No previous template available; using ultimate fallback',
+        fallbackChain: [],
+        estimatedTokens: 400,
+        estimatedTime: 1.2,
+      };
+    }
+
+    const fallbackChain = FALLBACK_CHAINS[lastFailedTemplate] ?? [];
 
     if (fallbackChain.length === 0) {
       // Ultimate fallback
@@ -528,20 +539,35 @@ export class AdaptiveRoutingSystem {
       };
     }
 
-    const nextTemplate = fallbackChain[0];
-    const config = COMPLEXITY_LEVELS[nextTemplate] || {
-      expectedSuccess: 0.9,
+    const [nextTemplate, ...remainingChain] = fallbackChain;
+    if (!nextTemplate) {
+      return {
+        template: 'T12-FALLBACK',
+        confidence: 0.95,
+        reasoning: 'Fallback chain exhausted; using ultimate fallback',
+        fallbackChain: [],
+        estimatedTokens: 400,
+        estimatedTime: 1.2,
+      };
+    }
+
+    const templateConfig = Object.values(COMPLEXITY_LEVELS).find(
+      (entry) => entry.template === nextTemplate,
+    ) ?? {
+      template: nextTemplate,
       maxTokens: 600,
+      expectedSuccess: 0.9,
       processingTime: 2.0,
+      description: 'Fallback default configuration',
     };
 
     return {
       template: nextTemplate,
       confidence: 0.85, // Lower confidence in fallback scenarios
       reasoning: `Fallback from ${lastFailedTemplate} to ${nextTemplate}`,
-      fallbackChain: fallbackChain.slice(1),
-      estimatedTokens: config.maxTokens,
-      estimatedTime: config.processingTime,
+      fallbackChain: remainingChain,
+      estimatedTokens: templateConfig.maxTokens,
+      estimatedTime: templateConfig.processingTime,
     };
   }
 
@@ -584,9 +610,10 @@ export class AdaptiveRoutingSystem {
     // Add indicator details
     const topIndicators = Object.entries(analysis.indicators)
       .sort(([, a], [, b]) => b - a)
-      .slice(0, 3);
+      .slice(0, 3)
+      .filter(([, score]) => score > 0);
 
-    if (topIndicators.length > 0 && topIndicators[0][1] > 0) {
+    if (topIndicators.length > 0) {
       reasoning += `. Key indicators: ${topIndicators
         .map(([level, score]) => `${level} (${Math.round(score)})`)
         .join(', ')}`;
