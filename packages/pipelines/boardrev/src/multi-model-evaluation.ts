@@ -1,4 +1,5 @@
-import { ollamaJSON, createLogger, parseArgs } from '@promethean-os/utils';
+import { ollamaJSON, parseArgs } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 import { fileURLToPath } from 'url';
 import { z } from 'zod';
 
