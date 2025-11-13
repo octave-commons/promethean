@@ -61,6 +61,8 @@ class StubContextStore {
   }
 }
 
+const createStubContextStoreFactory = (): ContextStoreFactory => () => new StubContextStore();
+
 class StubDualStore {
   readonly name: string;
   private readonly textKey: string;
@@ -156,8 +158,9 @@ type StubEnvironment = {
 const createStubEnvironment = (
   formatTime: (epochMs: number) => string = (ms) => new Date(ms).toISOString(),
   assistantName: string = 'Duck',
+  factory: ContextStoreFactory = createStubContextStoreFactory(),
 ): StubEnvironment => {
-  const manager = createDataStoreManager(formatTime, assistantName);
+  const manager = createDataStoreManager(formatTime, assistantName, factory);
 
   return { manager };
 };
@@ -317,16 +320,14 @@ test.serial('search in specific stores', async (t) => {
 test.serial('ContextStore constructor arguments are forwarded', async (t) => {
   const calls: { formatTime: string; assistantName: string }[] = [];
 
-  const manager = createDataStoreManager(
-    (ms) => `t-${ms}`,
-    'Assistant',
-    (formatTime, assistantName) => {
-      const resolvedFormatTime = formatTime ?? ((value) => new Date(value).toISOString());
-      const resolvedAssistant = assistantName ?? 'Duck';
-      calls.push({ formatTime: resolvedFormatTime(0), assistantName: resolvedAssistant });
-      return new ContextStore(formatTime, assistantName);
-    },
-  );
+  const factory: ContextStoreFactory = (formatTime, assistantName) => {
+    const resolvedFormatTime = formatTime ?? ((value: number) => new Date(value).toISOString());
+    const resolvedAssistant = assistantName ?? 'Duck';
+    calls.push({ formatTime: resolvedFormatTime(0), assistantName: resolvedAssistant });
+    return new StubContextStore();
+  };
+
+  const manager = createDataStoreManager((ms) => `t-${ms}`, 'Assistant', factory);
 
   await manager.initialize();
 
