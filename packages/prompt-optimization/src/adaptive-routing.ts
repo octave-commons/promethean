@@ -632,9 +632,11 @@ export class AdaptiveRoutingSystem {
     }
 
     // Use weighted average (recent performance more important)
-    const weights = history.map((_, index) => (index + 1) / history.length);
-    const weightedSum = history.reduce((sum, success, index) => sum + success * weights[index], 0);
-    const totalWeight = weights.reduce((sum, weight) => sum + weight, 0);
+    const weightedSum = history.reduce(
+      (sum, success, index) => sum + success * ((index + 1) / history.length),
+      0,
+    );
+    const totalWeight = (history.length + 1) / 2;
 
     return weightedSum / totalWeight;
   }
@@ -671,16 +673,16 @@ export class AdaptiveRoutingSystem {
     totalRoutings: number;
   } {
     const templatePerformance: Record<TemplateType, { successRate: number; usage: number }> =
-      {} as any;
+      {} as Record<TemplateType, { successRate: number; usage: number }>;
 
-    Object.keys(COMPLEXITY_LEVELS).forEach((template) => {
-      const history = this.performanceHistory.get(template as TemplateType) || [];
+    Object.values(COMPLEXITY_LEVELS).forEach((config) => {
+      const history = this.performanceHistory.get(config.template) || [];
       const successRate =
         history.length > 0
           ? history.reduce((sum, success) => sum + success, 0) / history.length
           : 0;
 
-      templatePerformance[template as TemplateType] = {
+      templatePerformance[config.template] = {
         successRate: Math.round(successRate * 100) / 100,
         usage: history.length,
       };
