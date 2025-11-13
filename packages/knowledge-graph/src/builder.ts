@@ -183,7 +183,6 @@ export class KnowledgeGraphBuilder {
   private async processDependency(
     dependency: ExtractedData['dependencies'][0],
     sourceNode: GraphNode,
-    context: ProcessingContext,
   ): Promise<void> {
     const targetNode = this.createPackageNode(dependency);
     this.repository.createNode(targetNode);
