@@ -114,27 +114,23 @@ export class MarkdownProcessor {
   }
 
   private extractWikilinks(text: string): Array<{ link: string; text: string }> {
-    const wikilinkRegex = /\[\[([^\]]+)\]\]/g
-    const matches: Array<{ link: string; text: string }> = []
+    const wikilinkRegex = /\[\[([^\]]+)\]\]/g;
+    const matches: Array<{ link: string; text: string }> = [];
 
-    let match: RegExpExecArray | null
+    let match: RegExpExecArray | null;
     while ((match = wikilinkRegex.exec(text)) !== null) {
-      const rawContent = match[1]
+      const rawContent = match[1];
       if (!rawContent) {
-        continue
+        continue;
       }
-      const [link, displayText] = rawContent.split('|').map(segment => segment.trim())
-      const resolvedLink = link || rawContent
-      const resolvedText = displayText || link || rawContent
+      const [link, displayText] = rawContent.split('|').map((segment) => segment.trim());
+      const resolvedLink = link || rawContent;
+      const resolvedText = displayText || link || rawContent;
       matches.push({
         link: resolvedLink,
-        text: resolvedText
-      })
+        text: resolvedText,
+      });
     }
-
-    return matches
-  }
-
 
     return matches;
   }
