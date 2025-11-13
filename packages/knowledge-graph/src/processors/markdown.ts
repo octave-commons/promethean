@@ -17,11 +17,12 @@ type MarkdownNode = {
 interface LinkNode extends MarkdownNode {
   type: 'link';
   url: string;
-  children: Node[];
-  position?: {
-    start: { line: number; column: number };
-    end: { line: number; column: number };
-  };
+  children: MarkdownNode[];
+}
+
+interface WikilinkNode extends MarkdownNode {
+  type: 'text';
+  value: string;
 }
 
 interface WikilinkNode extends Node {
@@ -40,8 +41,13 @@ export class MarkdownProcessor {
     const tree = this.processor.parse(content);
     const links: Link[] = [];
     const wikilinks: Link[] = [];
+    const visitTree = visit as unknown as (
+      tree: unknown,
+      test: string,
+      visitor: (node: MarkdownNode) => void,
+    ) => void;
 
-    visit(tree, 'link', (node: LinkNode) => {
+    visitTree(tree, 'link', (node: LinkNode) => {
       if (node.url && node.position) {
         const link: Link = {
           url: node.url,
@@ -53,7 +59,10 @@ export class MarkdownProcessor {
       }
     });
 
-    visit(tree, 'text', (node: WikilinkNode) => {
+    visitTree(tree, 'text', (node: WikilinkNode) => {
+      if (!node.value) {
+        return;
+      }
       const wikilinkMatches = this.extractWikilinks(node.value);
       for (const match of wikilinkMatches) {
         if (node.position) {
