@@ -295,7 +295,16 @@ export class ABTestingFramework {
       testType = 'control';
     } else {
       // Select test group (for now, use first test group)
-      const testGroup = test.testGroups[0];
+      const testGroup = test.testGroups.at(0);
+      if (!testGroup) {
+        throw new Error(`Test ${testId} has no configured test groups`);
+      }
+
+      const defaultTemplate = testGroup.templates.at(0);
+      if (!defaultTemplate) {
+        throw new Error(`Test group ${testGroup.name} does not define any templates`);
+      }
+
       groupId = testGroup.name;
       testType = 'test';
 
@@ -305,7 +314,7 @@ export class ABTestingFramework {
         template = routingResult.template;
       } else {
         // Static routing - use first template
-        template = testGroup.templates[0];
+        template = defaultTemplate;
       }
     }
 
@@ -566,7 +575,7 @@ export class ABTestingFramework {
       throw new Error(`Test ${testId} not found`);
     }
 
-    const statistics = this.testStatistics.get(testId) || {};
+    const statistics: Record<string, TestStatistics> = this.testStatistics.get(testId) ?? {};
     const control = statistics['control'];
     const testGroups = Object.entries(statistics).filter(([key]) => key !== 'control');
 
