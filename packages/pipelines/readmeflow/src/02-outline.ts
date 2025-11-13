@@ -4,7 +4,9 @@ import { fileURLToPath } from "node:url";
 import { z } from "zod";
 import { openLevelCache } from "@promethean-os/level-cache";
 import { parseArgs } from "@promethean-os/utils";
-import { makeOpenAIAdapter } from "@promethean-os/pantheon-llm-openai";
+// Prefer workspace package; fallback to local dist
+// eslint-disable-next-line import/no-relative-packages
+import { makeOpenAIAdapter } from "../../../pantheon/llm-openai/dist/index.js";
 
 import type { ScanOut, Outline, OutlinesFile, PkgInfo } from "./types.js";
 

@@ -8,14 +8,12 @@ import { WebSocketServer } from 'ws';
 import { retry, createLogger } from '@promethean-os/utils';
 
 import { loadDriver, LLMDriver } from './drivers/index.js';
-import type { Tool } from './tools.js';
 
 type ContextItem = { readonly role: string; readonly content: string };
 type GenerateArgs = {
     readonly prompt: string;
     readonly context?: readonly ContextItem[];
     readonly format?: unknown;
-    readonly tools?: Tool[];
 };
 
 type TaskPayload = GenerateArgs & {
