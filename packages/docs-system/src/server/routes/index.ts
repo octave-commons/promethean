@@ -4,22 +4,11 @@
 
 import { Router } from 'express';
 import { authRoutes } from './auth.js';
-import { documentRoutes } from './documents.js';
-import { queryRoutes } from './queries.js';
-import { ollamaRoutes } from './ollama.js';
-import { userRoutes } from './users.js';
+...
+const router: Router = Router();
+...
+router.get('/', (_req, res) => {
 
-const router = Router();
-
-// Mount route modules
-router.use('/auth', authRoutes);
-router.use('/documents', documentRoutes);
-router.use('/queries', queryRoutes);
-router.use('/ollama', ollamaRoutes);
-router.use('/users', userRoutes);
-
-// API info endpoint
-router.get('/', (req, res) => {
   res.json({
     success: true,
     data: {

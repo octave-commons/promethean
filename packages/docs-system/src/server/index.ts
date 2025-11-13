@@ -125,7 +125,7 @@ app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerSpec));
 // Health Check
 // ============================================================================
 
-app.get('/health', (req, res) => {
+app.get('/health', (_req, res) => {
   res.json({
     status: 'ok',
     timestamp: new Date().toISOString(),
@@ -139,7 +139,7 @@ app.get('/health', (req, res) => {
 // ============================================================================
 
 // Setup API routes
-app.use('/api/v1', authMiddleware, setupRoutes());
+app.use('/api/v1', authMiddleware, setupRoutes);
 
 // ============================================================================
 // WebSocket Setup
