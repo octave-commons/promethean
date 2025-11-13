@@ -1,5 +1,6 @@
 import * as path from "path";
 import { fileURLToPath } from "node:url";
+import fs from "node:fs";
 
 import matter from "gray-matter";
 import { openLevelCache } from "@promethean-os/level-cache";
@@ -17,7 +18,47 @@ function stripGenerated(text: string) {
   return text.trimEnd();
 }
 
-function makeReadme(_pkg: unknown, outline: Outline, mermaid?: string) {
+function buildPrometheanRemoteLinks(gitmodulesPath: string | undefined) {
+  try {
+    if (!gitmodulesPath) return "";
+    const raw = fs.readFileSync(gitmodulesPath, "utf-8") as unknown as string; // sync read ok during generation
+    const lines = raw.split(/\r?\n/);
+    const repos: string[] = [];
+    for (let i = 0; i < lines.length; i++) {
+      const line = lines[i].trim();
+      if (line.startsWith("url = ")) {
+        const url = line.slice("url = ".length).trim();
+        const m =
+          /github\.com[:/](?:riatzukiza)\/([A-Za-z0-9._-]+)(?:\.git)?$/i.exec(url);
+        if (m && m[1]) repos.push(m[1].replace(/\.git$/i, ""));
+      }
+    }
+    if (repos.length === 0) return "";
+    const bullets = repos
+      .sort((a, b) => a.localeCompare(b))
+      .map((r) => `- [riatzukiza/${r}](https://github.com/riatzukiza/${r}#readme)`) 
+      .join("\n");
+    return [
+      "## Promethean Packages (Remote READMEs)",
+      "",
+      "- Back to [riatzukiza/promethean](https://github.com/riatzukiza/promethean#readme)",
+      "",
+      "<!-- BEGIN: PROMETHEAN-PACKAGES-READMES -->",
+      bullets,
+      "<!-- END: PROMETHEAN-PACKAGES-READMES -->",
+      "",
+    ].join("\n");
+  } catch {
+    return "";
+  }
+}
+
+function makeReadme(
+  _pkg: unknown,
+  outline: Outline,
+  mermaid?: string,
+  remoteLinks?: string,
+) {
   const toc = outline.includeTOC ? "[TOC]\n\n" : "";
   const sec = outline.sections
     .map((s) => `## ${s.heading}\n\n${s.body}\n`)
@@ -26,6 +67,7 @@ function makeReadme(_pkg: unknown, outline: Outline, mermaid?: string) {
   const diag = mermaid
     ? `\n### Package graph\n\n\`\`\`mermaid\n${mermaid}\n\`\`\`\n`
     : "";
+  const links = remoteLinks ? `\n${remoteLinks}\n` : "";
 
   return [
     START,
@@ -35,6 +77,7 @@ function makeReadme(_pkg: unknown, outline: Outline, mermaid?: string) {
     toc,
     sec,
     diag,
+    links,
     END,
     "",
   ].join("\n");
@@ -49,6 +92,13 @@ export async function writeReadmes(
   const scan = (await cache.get("scan")) as ScanOut;
   const outlines = (await cache.get("outlines")) as OutlinesFile;
 
+  // Derive repo root from first package dir and locate .gitmodules there
+  const first = scan.packages[0];
+  const packagesDir = path.dirname(first.dir); // .../promethean/packages
+  const repoRoot = path.dirname(packagesDir); // .../promethean
+  const gitmodulesPath = path.join(repoRoot, ".gitmodules");
+  const remoteLinks = buildPrometheanRemoteLinks(gitmodulesPath);
+
   for (const pkg of scan.packages) {
     const out = outlines.outlines[pkg.name];
     if (!out) continue;
@@ -62,7 +112,12 @@ export async function writeReadmes(
     const stripped = stripGenerated(gm.content);
     const content =
       (stripped ? `${stripped}\n\n` : "") +
-      makeReadme(pkg, out, options.mermaid ? scan.graphMermaid : undefined);
+      makeReadme(
+        pkg,
+        out,
+        options.mermaid ? scan.graphMermaid : undefined,
+        remoteLinks,
+      );
 
     const fm = { ...gm.data };
     const final = matter.stringify(content, fm, { language: "yaml" });
