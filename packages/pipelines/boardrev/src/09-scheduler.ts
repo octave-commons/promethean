@@ -4,7 +4,7 @@
  */
 
 import { EventEmitter } from 'node:events';
-import { createLogger } from '@promethean-os/utils';
+import { getLogger } from '@promethean-os/logger';
 import { setInterval, clearInterval, setTimeout } from 'node:timers';
 
 export interface ScheduleConfig {
@@ -54,7 +54,7 @@ export interface JobStats {
 
 export class Scheduler extends EventEmitter {
   private config: ScheduleConfig;
-  private logger: ReturnType<typeof createLogger>;
+  private logger: import('@promethean-os/logger').Logger;
   private jobs: Map<string, JobDefinition> = new Map();
   private schedules: Map<string, any> = new Map();
   private executions: Map<string, JobExecution> = new Map();
@@ -73,7 +73,7 @@ export class Scheduler extends EventEmitter {
       ...config,
     };
 
-    this.logger = createLogger({ service: 'boardrev-scheduler' });
+    this.logger = getLogger('boardrev-scheduler');
   }
 
   addJob(job: JobDefinition): void {
