@@ -33,6 +33,7 @@
   "module": "dist/index.js",
   "dependencies": {
     "@promethean-os/utils": "workspace:*",
+    "@promethean-os/pantheon": "workspace:*",
     "ollama": "^0.5.17",
     "openai": "^5.23.2",
     "zod": "^3.23.8",

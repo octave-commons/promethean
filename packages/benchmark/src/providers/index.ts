@@ -3,6 +3,7 @@ export { OllamaProvider } from './ollama.js';
 export { VLLMProvider } from './vllm.js';
 export { OpenAIProvider } from './openai.js';
 export { BuildFixProvider } from './buildfix.js';
+export { AgentsProvider } from './agents.js';
 
 import { BaseProvider } from './base.js';
 import { OllamaProvider } from './ollama.js';
@@ -21,6 +22,8 @@ export function createProvider(config: ProviderConfig): BaseProvider {
       return new OpenAIProvider(config);
     case 'buildfix':
       return new BuildFixProvider(config);
+    case 'agents':
+      return new AgentsProvider(config);
     default:
       throw new Error(`Unsupported provider type: ${config.type}`);
   }
