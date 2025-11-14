@@ -178,14 +178,12 @@
       "command-palette:Open command palette": false,
       "bases:Create new base": false,
       "obsidian-kanban:Create new board": false,
-      "smart-connections:Open: Smart Chat": false,
-      "smart-connections:Smart Connections: Open connections view": false,
-      "smart-connections:Smart Connections: Open random connection": true,
       "homepage:Open homepage": false
     }
   },
   "active": "e7a7b303c61786dc",
   "lastOpenFiles": [
+    "docs/HOME.md",
     "src/tests/create-task-hanging-test.mjs",
     "src/tests",
     "src",
@@ -203,7 +201,6 @@
     "pseudo/test-git-tracking.js",
     "pseudo/test-file-write.mjs",
     "pseudo/test-chatgpt-oauth.js",
-    "pseudo",
     "packages/opencode-hub/README.md",
     "packages/knowledge-graph/test-docs/README.md",
     "packages/knowledge-graph/SECURITY_FIXES_COMPLETE.md",
