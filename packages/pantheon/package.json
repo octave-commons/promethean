@@ -67,6 +67,7 @@
     "clean": "rm -rf dist",
     "dev": "tsc --watch",
     "typecheck": "tsc --noEmit",
+    "pretest": "pnpm run build",
     "test": "ava",
     "coverage": "c8 --config ./c8.config.json ava",
     "coverage:check": "c8 --config ./c8.config.json --check-coverage ava",
