@@ -101,6 +101,6 @@ Create HTTP client implementations for each target platform with unified interfa
 ## 🔗 Related Links
 
 - [[Phase 1 - Core Protocol Definitions - Cross-Platform Compatibility]]
-- [[Phase 2 - File I/O Abstraction - Cross-Platform Compatibility]]
+- [[O Abstraction - Cross-Platform Compatibility]]
 - [[Phase 2 - Environment Variable Access - Cross-Platform Compatibility]]
 - Cross-platform compatibility layer design

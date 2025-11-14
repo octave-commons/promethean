@@ -13,12 +13,12 @@
             "state": {
               "type": "markdown",
               "state": {
-                "file": "docs/HOME.md",
+                "file": "docs/agile/reports/kanban-process-enforcement-summary-2025-10-17.md",
                 "mode": "source",
                 "source": false
               },
               "icon": "lucide-file",
-              "title": "HOME"
+              "title": "kanban-process-enforcement-summary-2025-10-17"
             }
           }
         ]
@@ -183,7 +183,15 @@
   },
   "active": "e7a7b303c61786dc",
   "lastOpenFiles": [
+    "docs/agile/tasks/O Abstraction - Cross-Platform Compatibility.md",
+    "docs/agile/reports/pantheon-code-review-findings-2025-10-26.md",
+    "docs/agile/reports/testing-status-review-2025-01-10.md",
+    "docs/agile/reports/wip-violations-manual.md",
+    "docs/agile/boards/kanban.md",
+    "docs/agile/boards/kanban-filtered-kanban.md",
+    "docs/agile/boards/kanban-review-summary.md",
     "docs/HOME.md",
+    "docs/agile/boards/test.md",
     "src/tests/create-task-hanging-test.mjs",
     "src/tests",
     "src",
@@ -210,14 +218,6 @@
     "docs/inbox/pantheon-shadow-conf-integration-guide.md",
     "docs/inbox/2025.11.09.11.35.38.md",
     "docs/inbox/2025.10.31.09.48.47.md",
-    "docs/inbox/2025.10.31.08.26.58.md",
-    "docs/inbox/2025.10.29.12.29.50.md",
-    "docs/api-standards.md",
-    "docs/api-architecture.md",
-    "docs/agile/tasks/test-malformed-yaml-detection.md",
-    "docs/agile/tasks/task.md",
-    "docs/agile/tasks/task-wip-limit-enforcement-p1.md",
-    "docs/agile/tasks/task-process-healing-implementation-p1.md",
-    "docs/agile/tasks/task-compliance-monitoring-implementation-p1.md"
+    "docs/inbox/2025.10.31.08.26.58.md"
   ]
 }
