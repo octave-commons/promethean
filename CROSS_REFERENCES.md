@@ -21,9 +21,9 @@ This document provides comprehensive cross-references to all related repositorie
   - **Integration**: Leverage Clojure REPL patterns for Promethean agent development
 
 #### **Authentication & Security**
-- **[opencode-openai-codex-auth](https://github.com/numman-ali/opencode-openai-codex-auth)** - OpenAI Codex OAuth authentication plugin
-  - [AGENTS.md](https://github.com/numman-ali/opencode-openai-codex-auth/blob/main/AGENTS.md)
-  - [README.md](https://github.com/numman-ali/opencode-openai-codex-auth/blob/main/README.md)
+- **[open-hax/codex](https://github.com/open-hax/codex)** - OpenAI Codex OAuth authentication plugin
+  - [AGENTS.md](https://github.com/open-hax/codex/blob/main/AGENTS.md)
+  - [README.md](https://github.com/open-hax/codex/blob/main/README.md)
   - **Integration**: Authentication patterns for cloud LLM integration
 
 ### 🔧 Tooling & SDK Dependencies
@@ -68,7 +68,7 @@ This document provides comprehensive cross-references to all related repositorie
 
 ### **Agent Development Workflow**
 1. **Prototype**: Use [agent-shell](https://github.com/riatzukiza/agent-shell) for rapid agent prototyping
-2. **Authenticate**: Integrate [opencode-openai-codex-auth](https://github.com/numman-ali/opencode-openai-codex-auth) for cloud LLM access
+2. **Authenticate**: Integrate [open-hax/codex](https://github.com/open-hax/codex) for cloud LLM access
 3. **Scale**: Deploy with [moofone/codex-ts-sdk](https://github.com/moofone/codex-ts-sdk) for production TypeScript environments
 4. **Optimize**: Use [openai/codex](https://github.com/openai/codex) for performance-critical Rust components
 
@@ -104,7 +104,7 @@ cd ../riatzukiza/openhax && pnpm install
 ### **Authentication Setup**
 ```bash
 # OpenAI Codex Auth
-cd ../opencode-openai-codex-auth
+cd ../open-hax/codex
 pnpm install && pnpm build
 ```
 
