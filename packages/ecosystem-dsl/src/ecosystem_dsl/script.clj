@@ -83,7 +83,7 @@
       (println "✅ Cleanup complete"))))
 
 (defn -main
-  [& args]
+  [& raw-args]
     (let [args (if (= "--" (first args)) (rest args) args)
         {:keys [options errors summary]} (cli/parse-opts args cli-options)]
 )    (cond
