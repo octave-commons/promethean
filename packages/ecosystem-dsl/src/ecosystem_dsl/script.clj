@@ -87,9 +87,8 @@
   (let [args (vec (remove #(= "--" %) raw-args))
         {:keys [options errors summary]} (cli/parse-opts args cli-options)]
 
-
     (cond
-)      (:help options)
+      (:help options)
       (do (println (usage summary)) (System/exit 0))
 
       errors
