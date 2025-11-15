@@ -84,9 +84,9 @@
 
 (defn -main
   [& raw-args]
-  (let [args (if (= "--" (first raw-args)) (rest raw-args) raw-args)
+  (let [args (vec (remove #(= "--" %) raw-args))
         {:keys [options errors summary]} (cli/parse-opts args cli-options)]
-
+)
     (cond
       (:help options)
       (do (println (usage summary)) (System/exit 0))
