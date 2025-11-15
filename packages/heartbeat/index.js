@@ -66,7 +66,7 @@ function resolveConfigPath() {
     return process.env.ECOSYSTEM_CONFIG;
   }
   const moduleDir = path.dirname(fileURLToPath(import.meta.url));
-  return path.resolve(moduleDir, "../../system/daemons/ecosystem.config.js");
+  return path.resolve(moduleDir, "../../../../../system/daemons/ecosystem.config.js");
 }
 
 async function loadConfig() {
