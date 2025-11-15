@@ -10,9 +10,9 @@
     "lint": "clj-kondo --lint src",
     "typecheck": "clojure -M:check",
     "clean": "rm -rf target classes",
-    "generate": "clojure -M -m ecosystem-dsl.core",
-    "generate:watch": "clojure -M -m ecosystem-dsl.core --watch",
-    "validate": "clojure -M -m ecosystem-dsl.core --validate-only"
+    "generate": "clojure -M -m ecosystem-dsl.script",
+    "generate:watch": "clojure -M -m ecosystem-dsl.script --watch",
+    "validate": "clojure -M -m ecosystem-dsl.script --validate-only"
   },
   "keywords": [
     "clojure",

@@ -84,9 +84,9 @@
 
 (defn -main
   [& args]
-  (let [{:keys [options errors summary]} (cli/parse-opts args cli-options)]
-
-    (cond
+    (let [args (if (= "--" (first args)) (rest args) args)
+        {:keys [options errors summary]} (cli/parse-opts args cli-options)]
+)    (cond
       (:help options)
       (do (println (usage summary)) (System/exit 0))
 
