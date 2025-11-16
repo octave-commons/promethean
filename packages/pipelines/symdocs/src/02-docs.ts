@@ -1,13 +1,14 @@
 /* eslint-disable */
-import * as path from "path";
-import { fileURLToPath } from "url";
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
-import { z } from "zod";
-import { ollamaJSON } from "@promethean-os/utils";
-import { openLevelCache, type Cache } from "@promethean-os/level-cache";
+import { z } from 'zod';
+import { ollamaJSON } from '@promethean-os/utils';
+import { openLevelCache, type Cache } from '@promethean-os/level-cache';
+import { createPipelineProgram } from '@promethean-os/pipeline-core';
 
-import { parseArgs, sha1 } from "./utils.js";
-import type { DocDraft, SymbolInfo } from "./types.js";
+import { sha1 } from './utils.js';
+import type { DocDraft, SymbolInfo } from './types.js';
 
 export type DocsOptions = {
   cache?: string;
@@ -56,24 +57,24 @@ type GenerateCtx = {
 
 function buildPrompt(s: SymbolInfo): string {
   const sys = [
-    "You are a senior library author generating concise, practical docs.",
-    "Return ONLY JSON with keys: title, summary, usage?, details?, pitfalls?, tags?, mermaid?",
-    "summary: 1-2 sentences tops. usage: one code fence. pitfalls: 0-5 bullets. tags: 3-10.",
-    "mermaid (optional): small diagram if helpful (class/sequence/flow); omit if unsure.",
-  ].join("\n");
+    'You are a senior library author generating concise, practical docs.',
+    'Return ONLY JSON with keys: title, summary, usage?, details?, pitfalls?, tags?, mermaid?',
+    'summary: 1-2 sentences tops. usage: one code fence. pitfalls: 0-5 bullets. tags: 3-10.',
+    'mermaid (optional): small diagram if helpful (class/sequence/flow); omit if unsure.',
+  ].join('\n');
 
   const user = [
     `SYMBOL`,
     `- name: ${s.name}`,
     `- kind: ${s.kind}`,
     `- exported: ${s.exported}`,
-    s.signature ? `- signature: ${s.signature}` : "",
+    s.signature ? `- signature: ${s.signature}` : '',
     `- file: ${s.fileRel}:${s.startLine}-${s.endLine}`,
-    s.jsdoc ? `- jsdoc:\n${s.jsdoc}` : "- jsdoc: (none)",
+    s.jsdoc ? `- jsdoc:\n${s.jsdoc}` : '- jsdoc: (none)',
     `- snippet:\n${s.snippet}`,
   ]
     .filter(Boolean)
-    .join("\n");
+    .join('\n');
 
   return `SYSTEM:\n${sys}\n\nUSER:\n${user}`;
 }
@@ -83,7 +84,7 @@ function fallbackDraft(s: SymbolInfo): z.infer<typeof DraftSchema> {
     title: `${s.name} (${s.kind})`,
     summary: s.signature ? s.signature : `Auto-doc for ${s.kind} ${s.name}`,
     usage:
-      s.kind === "function"
+      s.kind === 'function'
         ? `\n\`\`\`${s.lang}\n// Example\n${s.name}(...args)\n\`\`\`\n`
         : undefined,
     pitfalls: [],
@@ -91,8 +92,7 @@ function fallbackDraft(s: SymbolInfo): z.infer<typeof DraftSchema> {
 }
 
 async function generateDoc(s: SymbolInfo, ctx: GenerateCtx): Promise<void> {
-  const cacheKey =
-    s.id + "::" + sha1([s.signature ?? "", s.jsdoc ?? "", s.snippet].join("|"));
+  const cacheKey = s.id + '::' + sha1([s.signature ?? '', s.jsdoc ?? '', s.snippet].join('|'));
   if (!ctx.force && ctx.next[s.id]?._cacheKey === cacheKey) {
     ctx.done.value++;
     return;
@@ -102,9 +102,7 @@ async function generateDoc(s: SymbolInfo, ctx: GenerateCtx): Promise<void> {
     const prompt = buildPrompt(s);
     const raw = await ollamaJSON(ctx.model, prompt);
     const parsed = DraftSchema.safeParse(raw);
-    const obj: z.infer<typeof DraftSchema> = parsed.success
-      ? parsed.data
-      : fallbackDraft(s);
+    const obj: z.infer<typeof DraftSchema> = parsed.success ? parsed.data : fallbackDraft(s);
 
     const draft: DraftWithCache = {
       id: s.id,
@@ -121,22 +119,21 @@ async function generateDoc(s: SymbolInfo, ctx: GenerateCtx): Promise<void> {
     };
     ctx.next[s.id] = draft;
     ctx.done.value++;
-    if (ctx.done.value % 20 === 0)
-      console.log(`generated ${ctx.done.value}/${ctx.total}…`);
+    if (ctx.done.value % 20 === 0) console.log(`generated ${ctx.done.value}/${ctx.total}…`);
   } finally {
     ctx.sem.release();
   }
 }
 
 export async function runDocs(opts: DocsOptions = {}): Promise<void> {
-  const cachePath = path.resolve(opts.cache ?? ".cache/symdocs.level");
-  const model = String(opts.model ?? "qwen3:4b");
+  const cachePath = path.resolve(opts.cache ?? '.cache/symdocs.level');
+  const model = String(opts.model ?? 'qwen3:4b');
   const force = Boolean(opts.force ?? false);
   const conc = Math.max(1, opts.concurrency ?? 4);
 
   const db: Cache<unknown> = await openLevelCache({ path: cachePath });
-  const symCache = db.withNamespace("symbols") as Cache<SymbolInfo>;
-  const docCache = db.withNamespace("docs") as Cache<DraftWithCache>;
+  const symCache = db.withNamespace('symbols') as Cache<SymbolInfo>;
+  const docCache = db.withNamespace('docs') as Cache<DraftWithCache>;
 
   const symbols: SymbolInfo[] = [];
   for await (const [, sym] of symCache.entries()) symbols.push(sym);
@@ -151,14 +148,10 @@ export async function runDocs(opts: DocsOptions = {}): Promise<void> {
   const done = { value: 0 };
 
   await Promise.all(
-    symbols.map((s) =>
-      generateDoc(s, { model, force, next, sem, done, total: symbols.length }),
-    ),
+    symbols.map((s) => generateDoc(s, { model, force, next, sem, done, total: symbols.length })),
   );
 
-  await Promise.all(
-    Object.entries(next).map(([id, draft]) => docCache.set(id, draft)),
-  );
+  await Promise.all(Object.entries(next).map(([id, draft]) => docCache.set(id, draft)));
   await db.close();
   console.log(
     `Docs generated for ${Object.keys(next).length} symbols → ${path.relative(
@@ -170,16 +163,16 @@ export async function runDocs(opts: DocsOptions = {}): Promise<void> {
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
-    "--cache": ".cache/symdocs.level",
-    "--model": "qwen3:4b",
-    "--force": "false",
-    "--concurrency": "4",
+    '--cache': '.cache/symdocs.level',
+    '--model': 'qwen3:4b',
+    '--force': 'false',
+    '--concurrency': '4',
   });
   runDocs({
-    cache: String(args["--cache"]),
-    model: String(args["--model"]),
-    force: String(args["--force"]) === "true",
-    concurrency: parseInt(String(args["--concurrency"]), 10) || 4,
+    cache: String(args['--cache']),
+    model: String(args['--model']),
+    force: String(args['--force']) === 'true',
+    concurrency: parseInt(String(args['--concurrency']), 10) || 4,
   }).catch((e: unknown) => {
     console.error(e);
     process.exit(1);
