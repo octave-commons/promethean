@@ -616,11 +616,11 @@ async function runCli() {
     .option('--root <path>', 'Packages root', 'packages')
     .option('--out <path>', 'Output directory', 'docs/packages')
     .option('--ext <list>', 'Extensions to scan', '.ts,.tsx,.js,.jsx')
-    .option('--include-imports', 'Analyze import edges')
-    .option('--respect-manifest', 'Include package.json dependencies')
-    .option('--render-domain-graphs', 'Render per-domain diagrams')
+    .option('--no-include-imports', 'Skip analyzing import edges')
+    .option('--no-respect-manifest', 'Ignore package.json dependencies')
+    .option('--no-render-domain-graphs', 'Skip per-domain diagrams')
     .option('--domain-depth <value>', 'Domain grouping depth', (value) => value, '1')
-    .option('--rdeps-table', 'Include reverse dependency table')
+    .option('--no-rdeps-table', 'Omit reverse dependency table')
     .option('--max-rdeps-list <value>', 'Max dependents listed', (value) => value, '12')
     .option('--cache <path>', 'Cache path', '.cache/symdocs.level')
     .action(async (options) => {
@@ -628,11 +628,11 @@ async function runCli() {
         '--root': options.root,
         '--out': options.out,
         '--ext': options.ext,
-        '--include-imports': options.includeImports ? 'true' : 'false',
-        '--respect-manifest': options.respectManifest ? 'true' : 'false',
-        '--render-domain-graphs': options.renderDomainGraphs ? 'true' : 'false',
+        '--include-imports': options.includeImports === false ? 'false' : 'true',
+        '--respect-manifest': options.respectManifest === false ? 'false' : 'true',
+        '--render-domain-graphs': options.renderDomainGraphs === false ? 'false' : 'true',
         '--domain-depth': options.domainDepth ?? '1',
-        '--rdeps-table': options.rdepsTable ? 'true' : 'false',
+        '--rdeps-table': options.rdepsTable === false ? 'false' : 'true',
         '--max-rdeps-list': options.maxRdepsList ?? '12',
         '--cache': options.cache,
       });
