@@ -59,20 +59,14 @@ async function runCli() {
     .option('--sim-threshold <value>', 'Similarity threshold', (value) => Number(value), 0.84)
     .option('--k <value>', 'Top-k neighbors', (value) => Number(value), 10)
     .option('--min-size <value>', 'Minimum cluster size', (value) => Number(value), 2)
-    .action(async (options: Record<string, unknown>) => {
+    .action(async (options: ClusterArgs & { simThreshold: number; k: number; minSize: number }) => {
       await cluster({
-        scan: options.scan as string | undefined,
-        embeds: options.embeds as string | undefined,
-        out: options.out as string | undefined,
-        simThreshold:
-          typeof options.simThreshold === 'number'
-            ? (options.simThreshold as number)
-            : Number(options.simThreshold ?? 0.84),
-        k: typeof options.k === 'number' ? (options.k as number) : Number(options.k ?? 10),
-        minSize:
-          typeof options.minSize === 'number'
-            ? (options.minSize as number)
-            : Number(options.minSize ?? 2),
+        scan: options.scan,
+        embeds: options.embeds,
+        out: options.out,
+        simThreshold: options.simThreshold,
+        k: options.k,
+        minSize: options.minSize,
       });
     });
   await program.parseAsync(process.argv);
