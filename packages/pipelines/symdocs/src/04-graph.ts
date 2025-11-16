@@ -283,19 +283,6 @@ async function main() {
 
 /* ---------------- helpers ---------------- */
 
-function parseArgs(defaults: Record<string, string>) {
-  const out = { ...defaults };
-  const a = process.argv.slice(2);
-  for (let i = 0; i < a.length; i++) {
-    const k = a[i] ?? '';
-    if (!k.startsWith('--')) continue;
-    const next = a[i + 1] ?? '';
-    const v = next && !next.startsWith('--') ? (a[++i] ?? 'true') : 'true';
-    out[k] = v;
-  }
-  return out;
-}
-
 async function listDirs(p: string): Promise<string[]> {
   const ents = await fs.readdir(p, { withFileTypes: true });
   return ents.filter((e) => e.isDirectory()).map((e) => path.join(p, e.name));
