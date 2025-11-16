@@ -151,19 +151,26 @@ function hasExport(node: ts.Node): boolean {
   return (m & ts.ModifierFlags.Export) !== 0 || (m & ts.ModifierFlags.Default) !== 0;
 }
 
+async function runCli() {
+  const program = createPipelineProgram('symdocs-scan', 'Scan packages for symbols');
+  program
+    .option('--root <path>', 'Root directory to scan', 'packages')
+    .option('--tsconfig <path>', 'Optional tsconfig path', '')
+    .option('--ext <list>', 'Comma-separated extensions', '.ts,.tsx,.js,.jsx')
+    .option('--cache <path>', 'Cache directory', '.cache/symdocs.level')
+    .action(async (options: { root: string; tsconfig?: string; ext: string; cache: string }) => {
+      await runScan({
+        root: options.root,
+        tsconfig: options.tsconfig || undefined,
+        ext: options.ext,
+        cache: options.cache,
+      });
+    });
+  await program.parseAsync(process.argv);
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const args = parseArgs({
-    '--root': 'packages',
-    '--tsconfig': '',
-    '--ext': '.ts,.tsx,.js,.jsx',
-    '--cache': '.cache/symdocs.level',
-  });
-  runScan({
-    root: String(args['--root']),
-    tsconfig: args['--tsconfig'] || undefined,
-    ext: String(args['--ext']),
-    cache: String(args['--cache']),
-  }).catch((e: unknown) => {
+  runCli().catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });
