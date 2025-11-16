@@ -4,7 +4,7 @@ import { pathToFileURL } from 'url';
 import { openLevelCache } from '@promethean-os/level-cache';
 import { clusterEmbeddings, createPipelineProgram } from '@promethean-os/pipeline-core';
 
-import type { CodeBlock, EmbeddingMap, Cluster } from './types.js';
+import type { CodeBlock, Cluster } from './types.js';
 
 export type ClusterOptions = {
   blocks?: string;
