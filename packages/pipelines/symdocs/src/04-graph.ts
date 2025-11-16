@@ -617,21 +617,46 @@ function hash(s: string) {
   return h;
 }
 
-export async function runGraph(args: Record<string, string> = {}) {
-  // Update args with command line arguments
-  const parsedArgs = parseArgs(args);
-
-  // Update global variables with new args by merging them
-  for (const [key, value] of Object.entries(parsedArgs)) {
-    args[key] = value;
-  }
-
+export async function runGraph(overrides: Record<string, string> = {}) {
+  Object.assign(args, overrides);
+  refreshGraphConfig();
   await main();
 }
 
-// Only run main if called directly
+async function runCli() {
+  const program = createPipelineProgram('symdocs-graph', 'Generate package dependency graphs');
+  program
+    .option('--root <path>', 'Packages root', 'packages')
+    .option('--out <path>', 'Output directory', 'docs/packages')
+    .option('--ext <list>', 'Extensions to scan', '.ts,.tsx,.js,.jsx')
+    .option('--include-imports', 'Analyze import edges')
+    .option('--respect-manifest', 'Include package.json dependencies')
+    .option('--render-domain-graphs', 'Render per-domain diagrams')
+    .option('--domain-depth <value>', 'Domain grouping depth', (value) => value, '1')
+    .option('--rdeps-table', 'Include reverse dependency table')
+    .option('--max-rdeps-list <value>', 'Max dependents listed', (value) => value, '12')
+    .option('--cache <path>', 'Cache path', '.cache/symdocs.level')
+    .action(async (options) => {
+      Object.assign(args, {
+        '--root': options.root,
+        '--out': options.out,
+        '--ext': options.ext,
+        '--include-imports': options.includeImports ? 'true' : 'false',
+        '--respect-manifest': options.respectManifest ? 'true' : 'false',
+        '--render-domain-graphs': options.renderDomainGraphs ? 'true' : 'false',
+        '--domain-depth': options.domainDepth ?? '1',
+        '--rdeps-table': options.rdepsTable ? 'true' : 'false',
+        '--max-rdeps-list': options.maxRdepsList ?? '12',
+        '--cache': options.cache,
+      });
+      refreshGraphConfig();
+      await main();
+    });
+  await program.parseAsync(process.argv);
+}
+
 if (import.meta.url === `file://${process.argv[1]}`) {
-  main().catch((e: unknown) => {
+  runCli().catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });
