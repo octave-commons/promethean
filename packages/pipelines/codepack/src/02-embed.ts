@@ -1,60 +1,65 @@
-// src/02-embed.ts
-import * as path from "path";
+import * as path from 'path';
 
-import { ollamaEmbed } from "@promethean-os/utils";
-import { openLevelCache } from "@promethean-os/level-cache";
+import { openLevelCache } from '@promethean-os/level-cache';
+import { embedEntities, createPipelineProgram } from '@promethean-os/pipeline-core';
 
-import { parseArgs } from "./utils.js";
-import type { CodeBlock } from "./types.js";
+import type { CodeBlock } from './types.js';
 
-const args = parseArgs({
-  "--blocks": ".cache/codepack/blocks",
-  "--cache": ".cache/codepack/embeds",
-  "--embed-model": "nomic-embed-text:latest",
-  "--mix-context": "true", // include before/after in embedding
-});
+export type EmbedOptions = {
+  blocks?: string;
+  cache?: string;
+  embedModel?: string;
+  mixContext?: boolean;
+};
 
-async function main() {
-  const blocksPath = path.resolve(args["--blocks"] ?? ".cache/codepack/blocks");
-  const cachePath = path.resolve(args["--cache"] ?? ".cache/codepack/embeds");
-  const model = args["--embed-model"] ?? "nomic-embed-text:latest";
-  const mix = (args["--mix-context"] ?? "true") === "true";
+export async function embedBlocks(options: EmbedOptions = {}): Promise<void> {
+  const blocksPath = path.resolve(options.blocks ?? '.cache/codepack/blocks');
+  const cachePath = path.resolve(options.cache ?? '.cache/codepack/embeds');
+  const model = options.embedModel ?? 'nomic-embed-text:latest';
+  const mix = options.mixContext ?? true;
 
-  const blockCache = await openLevelCache<CodeBlock>({
-    path: blocksPath,
-    namespace: "blocks",
-  });
+  const blockCache = await openLevelCache<CodeBlock>({ path: blocksPath, namespace: 'blocks' });
   const blocks: CodeBlock[] = [];
-  for await (const [, b] of blockCache.entries()) blocks.push(b);
+  for await (const [, block] of blockCache.entries()) blocks.push(block);
   await blockCache.close();
 
-  const cache = await openLevelCache<number[]>({
-    path: cachePath,
-    namespace: "embeds",
+  const wrote = await embedEntities({
+    entities: blocks,
+    getId: (block) => block.id,
+    cachePath,
+    namespace: 'embeds',
+    model,
+    formatter: (block) =>
+      mix
+        ? `FILE:${block.hintedName ?? ''}\nPATH:${block.relPath}\nLANG:${block.lang ?? ''}\nCONTEXT_BEFORE:\n${block.contextBefore}\nCODE:\n${block.code}\nCONTEXT_AFTER:\n${block.contextAfter}`
+        : block.code,
   });
 
-  const wrote = await Promise.all(
-    blocks.map(async (b) => {
-      if (await cache.has(b.id)) return false;
-      const text = mix
-        ? `FILE:${b.hintedName ?? ""}\nPATH:${b.relPath}\nLANG:${
-            b.lang ?? ""
-          }\nCONTEXT_BEFORE:\n${b.contextBefore}\nCODE:\n${
-            b.code
-          }\nCONTEXT_AFTER:\n${b.contextAfter}`
-        : b.code;
-      await cache.set(b.id, await ollamaEmbed(model, text));
-      return true;
-    }),
-  );
-
-  await cache.close();
-  const count = wrote.filter(Boolean).length;
-  console.log(
-    `embedded ${count} blocks -> ${path.relative(process.cwd(), cachePath)}`,
-  );
+  console.log(`codepack: embedded ${wrote} blocks -> ${path.relative(process.cwd(), cachePath)}`);
 }
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+
+async function runCli() {
+  const program = createPipelineProgram('codepack-embed', 'Embed extracted code blocks');
+  program
+    .option('--blocks <path>', 'Source block cache path', '.cache/codepack/blocks')
+    .option('--cache <path>', 'Embedding cache path', '.cache/codepack/embeds')
+    .option('--embed-model <name>', 'Embedding model', 'nomic-embed-text:latest')
+    .option('--no-mix-context', 'Embed using raw code only')
+    .action(async (options: EmbedOptions & { mixContext?: boolean }) => {
+      await embedBlocks({
+        blocks: options.blocks,
+        cache: options.cache,
+        embedModel: options.embedModel,
+        mixContext: options.mixContext ?? true,
+      });
+    });
+  await program.parseAsync(process.argv);
+}
+
+if (import.meta.url === new URL(import.meta.url).href) {
+  // new URL because pathToFileURL requires file path; simpler to compare hrefs
+  runCli().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
