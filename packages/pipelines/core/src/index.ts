@@ -99,8 +99,8 @@ export async function embedEntities<T>(options: {
 export type Cluster = {
   id: string;
   memberIds: string[];
-  maxSim?: number;
-  avgSim?: number;
+  maxSim: number;
+  avgSim: number;
 };
 
 export function clusterEmbeddings(options: {
@@ -157,7 +157,12 @@ export function clusterEmbeddings(options: {
   let index = 0;
   for (const members of groups.values()) {
     if (members.length < MIN) continue;
-    const cluster: Cluster = { id: `cluster-${++index}`, memberIds: members.slice() };
+    const cluster: Cluster = {
+      id: `cluster-${++index}`,
+      memberIds: members.slice(),
+      maxSim: 0,
+      avgSim: 0,
+    };
     if (options.includeStats) {
       const sims: number[] = [];
       for (let i = 0; i < members.length; i++) {
