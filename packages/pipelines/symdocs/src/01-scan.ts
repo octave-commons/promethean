@@ -20,15 +20,7 @@ export type ScanOptions = {
 };
 
 export async function collectSourceFiles(root: string, exts: Set<string>): Promise<string[]> {
-  const resolvedRoot = path.resolve(root);
-  const result = await scanFiles({
-    root: resolvedRoot,
-    exts,
-    collect: true,
-  });
-  return (result.files ?? []).map((file) =>
-    path.isAbsolute(file.path) ? path.resolve(file.path) : path.resolve(resolvedRoot, file.path),
-  );
+  return collectAbsolutePaths({ root, extensions: Array.from(exts), scanner: scanFiles });
 }
 
 export async function runScan(opts: ScanOptions = {}) {
