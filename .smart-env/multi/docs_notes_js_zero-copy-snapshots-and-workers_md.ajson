@@ -1,2 +1,0 @@
-
-"smart_sources:docs/notes/js/zero-copy-snapshots-and-workers.md": {"path":"docs/notes/js/zero-copy-snapshots-and-workers.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1401x1i","at":1762869273582},"class_name":"SmartSource","last_import":{"mtime":1762546647579,"size":490,"at":1762869273663,"hash":"1401x1i"},"blocks":{"#":[1,9],"##{1}":[4,4],"##{2}":[5,5],"##{3}":[6,9],"#tags: #js #workers #zerocopy #soa":[10,12]},"outlinks":[],"metadata":{"tags":["#tags","#js","#workers","#zerocopy","#soa"]},"task_lines":[]},

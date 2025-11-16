@@ -1,2 +1,0 @@
-
-"smart_sources:docs.github/packages/stt/whisper-npu-py/audio.md": {"path":"docs.github/packages/stt/whisper-npu-py/audio.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1d1sryj","at":1762869283314},"class_name":"SmartSource","last_import":{"mtime":1762546647518,"size":262,"at":1762869283358,"hash":"1d1sryj"},"blocks":{"#audio.py":[1,13],"#audio.py#{1}":[3,6],"#audio.py#Dependencies":[7,9],"#audio.py#Dependencies#{1}":[8,9],"#audio.py#Dependents":[10,13],"#audio.py#Dependents#{1}":[11,13]},"outlinks":[],"task_lines":[]},

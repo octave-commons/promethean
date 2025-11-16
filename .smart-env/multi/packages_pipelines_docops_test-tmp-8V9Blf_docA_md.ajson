@@ -1,2 +1,0 @@
-
-"smart_sources:packages/pipelines/docops/test-tmp-8V9Blf/docA.md": {"path":"packages/pipelines/docops/test-tmp-8V9Blf/docA.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"kix22c","at":1762869283743},"class_name":"SmartSource","last_import":{"mtime":1762546647849,"size":111,"at":1762869283743,"hash":"kix22c"},"blocks":{"#---frontmatter---":[1,9],"#":[10,10]},"outlinks":[],"metadata":{"uuid":"uuid-a","related_to_uuid":["uuid-b"],"references":[{"uuid":"uuid-b","line":1,"col":0}]},"task_lines":[]},

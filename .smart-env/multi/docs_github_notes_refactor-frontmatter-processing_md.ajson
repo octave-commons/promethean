@@ -1,2 +1,0 @@
-
-"smart_sources:docs.github/notes/refactor-frontmatter-processing.md": {"path":"docs.github/notes/refactor-frontmatter-processing.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1fc62zm","at":1762869263735},"class_name":"SmartSource","last_import":{"mtime":1762546647507,"size":10135,"at":1762869264414,"hash":"1fc62zm"},"blocks":{"#---frontmatter---":[1,113],"#":[114,265],"##{1}":[116,116],"##{2}":[117,129],"##{3}":[130,265]},"outlinks":[{"title":"SentenceProcessing","target":"sentenceprocessing.md","line":233}],"task_lines":[]},

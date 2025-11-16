@@ -1,2 +1,0 @@
-
-"smart_sources:docs.github/notes/js/zero-copy-snapshots-and-workers.md": {"path":"docs.github/notes/js/zero-copy-snapshots-and-workers.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"1401x1i","at":1762869280945},"class_name":"SmartSource","last_import":{"mtime":1762546647497,"size":490,"at":1762869281272,"hash":"1401x1i"},"blocks":{"#":[1,9],"##{1}":[4,4],"##{2}":[5,5],"##{3}":[6,9],"#tags: #js #workers #zerocopy #soa":[10,12]},"outlinks":[],"metadata":{"tags":["#tags","#js","#workers","#zerocopy","#soa"]},"task_lines":[]},

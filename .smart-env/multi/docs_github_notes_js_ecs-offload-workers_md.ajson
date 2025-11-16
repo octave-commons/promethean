@@ -1,2 +1,0 @@
-
-"smart_sources:docs.github/notes/js/ecs-offload-workers.md": {"path":"docs.github/notes/js/ecs-offload-workers.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"vlhqev","at":1762869280945},"class_name":"SmartSource","last_import":{"mtime":1762546647497,"size":510,"at":1762869281272,"hash":"vlhqev"},"blocks":{"#":[1,9],"##{1}":[4,4],"##{2}":[5,5],"##{3}":[6,9],"#tags: #js #workers #ecs #parallel":[10,12]},"outlinks":[],"metadata":{"tags":["#tags","#js","#workers","#ecs","#parallel"]},"task_lines":[]},

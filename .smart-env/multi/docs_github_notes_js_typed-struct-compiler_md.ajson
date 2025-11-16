@@ -1,2 +1,0 @@
-
-"smart_sources:docs.github/notes/js/typed-struct-compiler.md": {"path":"docs.github/notes/js/typed-struct-compiler.md","last_embed":{"hash":null},"embeddings":{},"last_read":{"hash":"7z0rfv","at":1762869280945},"class_name":"SmartSource","last_import":{"mtime":1762546647497,"size":1088,"at":1762869281272,"hash":"7z0rfv"},"blocks":{"#":[1,31],"##{1}":[5,5],"##{2}":[6,6],"##{3}":[7,7],"##{4}":[8,8],"##{5}":[9,31],"#tags: #js #binary #workers #soa":[32,33]},"outlinks":[],"metadata":{"tags":["#tags","#js","#binary","#workers","#soa"]},"task_lines":[]},
