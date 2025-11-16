@@ -5,6 +5,7 @@ import { fileURLToPath } from 'url';
 import * as ts from 'typescript';
 import { getJsDocText, getNodeText, posToLine, relFromRepo } from '@promethean-os/utils';
 import { scanFiles } from '@promethean-os/file-indexer';
+import { collectAbsolutePaths, createPipelineProgram } from '@promethean-os/pipeline-core';
 
 import { makeProgram, sha1, getLangFromExt, signatureForFunction, typeToString } from './utils.js';
 import type { SymKind, SymbolInfo } from './types.js';
