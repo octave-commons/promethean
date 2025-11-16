@@ -92,7 +92,7 @@ export async function assignNames(options: NameOptions = {}): Promise<void> {
           filename: `file-${index + 1}.txt`,
         })),
         readme: `# ${c.id}\n\nAuto grouped.\n`,
-      } satisfies NamedGroup;
+      } satisfies GroupPayload;
     }
 
     const fallbackGroup: GroupPayload = {
