@@ -59,15 +59,15 @@ function escapeMd(s: string) {
 }
 
 export async function writeTasks(args: WriteArgs) {
-  const SCAN = path.resolve(args['--scan'] ?? '.cache/simtasks/functions');
-  const CLS = path.resolve(args['--clusters'] ?? '.cache/simtasks/clusters.json');
-  const PLANS = path.resolve(args['--plans'] ?? '.cache/simtasks/plans.json');
-  const OUT = path.resolve(args['--out'] ?? 'docs/agile/tasks');
-  const priority = args['--priority'] ?? 'P2';
-  const status = args['--status'] ?? 'todo';
-  const labels = (args['--label'] ?? 'duplication,refactor,consolidation')
+  const SCAN = path.resolve(args.scan ?? '.cache/simtasks/functions');
+  const CLS = path.resolve(args.clusters ?? '.cache/simtasks/clusters.json');
+  const PLANS = path.resolve(args.plans ?? '.cache/simtasks/plans.json');
+  const OUT = path.resolve(args.out ?? 'docs/agile/tasks');
+  const priority = args.priority ?? 'P2';
+  const status = args.status ?? 'todo';
+  const labels = (args.label ?? 'duplication,refactor,consolidation')
     .split(',')
-    .map((s) => s.trim())
+    .map((label: string) => label.trim())
     .filter(Boolean);
 
   const fnCache = await openLevelCache<FunctionInfo[]>({ path: SCAN });
