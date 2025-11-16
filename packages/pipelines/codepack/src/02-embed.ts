@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { pathToFileURL } from 'url';
 
 import { openLevelCache } from '@promethean-os/level-cache';
 import { embedEntities, createPipelineProgram } from '@promethean-os/pipeline-core';
