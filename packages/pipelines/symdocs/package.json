@@ -20,6 +20,8 @@
   "dependencies": {
     "@promethean-os/level-cache": "workspace:*",
     "@promethean-os/utils": "workspace:*",
+    "@promethean-os/pipeline-core": "workspace:*",
+    "commander": "^12.1.0",
     "gray-matter": "^4.0.3",
     "yaml": "^2.5.0",
     "zod": "^3.23.8",
