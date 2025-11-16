@@ -85,21 +85,25 @@ export async function extractAndCache(options: CacheOptions): Promise<number> {
 
 const isDirect = !!process.argv[1] && pathToFileURL(process.argv[1]).href === import.meta.url;
 
-if (isDirect) {
-  const args = parseArgs({
-    '--dir': 'docs/unique',
-    '--ext': '.md,.mdx,.txt',
-    '--cache': '.cache/codepack/blocks',
-  });
-  const root = path.resolve(args['--dir'] ?? 'docs/unique');
-  const exts = (args['--ext'] ?? '.md,.mdx,.txt').split(',');
-  const cachePath = path.resolve(args['--cache'] ?? '.cache/codepack/blocks');
-  extractAndCache({ root, exts, cachePath })
-    .then((count) => {
+async function runCli() {
+  const program = createPipelineProgram('codepack-extract', 'Extract markdown code blocks');
+  program
+    .option('--dir <path>', 'Directory to scan', 'docs/unique')
+    .option('--ext <list>', 'Comma-separated extensions', '.md,.mdx,.txt')
+    .option('--cache <path>', 'Cache directory', '.cache/codepack/blocks')
+    .action(async (options: { dir: string; ext: string; cache: string }) => {
+      const root = path.resolve(options.dir);
+      const exts = options.ext.split(',').map((ext) => ext.trim());
+      const cachePath = path.resolve(options.cache);
+      const count = await extractAndCache({ root, exts, cachePath });
       console.log(`extracted ${count} code blocks -> ${path.relative(process.cwd(), cachePath)}`);
-    })
-    .catch((e) => {
-      console.error(e);
-      process.exit(1);
     });
+  await program.parseAsync(process.argv);
+}
+
+if (isDirect) {
+  runCli().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
 }
