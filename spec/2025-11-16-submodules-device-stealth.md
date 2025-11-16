@@ -41,3 +41,9 @@ Checked that `device/stealth` fully contains commits from the previously tracked
 - `packages/naming` vs `origin/promethean/dev`: `9 0`
 - `packages/persistence` vs `origin/promethean/dev`: `10 0`
 - `packages/utils` vs `origin/promethean/dev`: `7 0`
+
+## Workflow / guardrails
+
+- Added `.github/workflows/submodule-branch-guard.yml` to enforce that every submodule tracks the same branch name as the parent branch (e.g., `device/*`, `main`, `promethean/*`).
+- The workflow fails fast when `.gitmodules` entries do not match the current branch and runs `git submodule sync --recursive` for configuration consistency.
+- When merging into a target branch, `.gitmodules` must be updated to that branch name; the workflow enforces this so merges cannot proceed with stale device branch references.
