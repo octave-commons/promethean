@@ -6,17 +6,9 @@ We need every submodule to track the `device/stealth` branch. Current configurat
 
 ## Current state (key references)
 
-- `.gitmodules` line 1: `packages/apply-patch` uses `branch = main`.
-- `.gitmodules` line 5: `packages/autocommit` uses `branch = main`.
-- `.gitmodules` line 9: `packages/auth-service` uses `branch = main`.
-- `.gitmodules` line 13: `packages/kanban` uses `branch = promethean/dev`.
-- `.gitmodules` line 17: `packages/logger` uses `branch = main`.
-- `.gitmodules` line 21: `packages/mcp` uses `branch = promethean/dev`.
-- `.gitmodules` line 25: `packages/naming` uses `branch = promethean/dev`.
-- `.gitmodules` line 29: `packages/persistence` uses `branch = promethean/dev`.
-- `.gitmodules` line 33: `packages/utils` uses `branch = promethean/dev`.
-- `.gitmodules` line 37 onward: remaining submodules currently lack explicit `branch` entries; git reports they are checked out at `heads/device/stealth`.
-- `git submodule status --recursive` shows all submodules at `heads/device/stealth` commits, so only .gitmodules needs alignment.
+- `.gitmodules` now sets `branch = device/stealth` for every submodule entry (lines 1-140).
+- `git submodule status --recursive` shows all submodules at `heads/device/stealth` commits.
+- Submodule branch alignment is enforced in CI (see Workflow / guardrails).
 
 ## Existing issues/PRs
 
