@@ -1,4 +1,5 @@
 import * as path from 'path';
+import { pathToFileURL } from 'url';
 
 import { z } from 'zod';
 import { openLevelCache } from '@promethean-os/level-cache';
@@ -92,15 +93,14 @@ export async function assignNames(options: NameOptions = {}): Promise<void> {
       } satisfies NamedGroup;
     }
 
+    const fallbackGroup: Omit<NamedGroup, 'clusterId'> = {
+      dir: `${baseDir}/group-${c.id}`,
+      files: c.memberIds.map((id, index) => ({ id, filename: `file-${index + 1}.txt` })),
+      readme: `# ${c.id}\n\nAuto grouped.\n`,
+    };
     const parsed = GroupSchema.safeParse(obj);
-    const group = parsed.success
-      ? (({ dir, files, readme }) => ({ dir, files, readme }))(parsed.data)
-      : {
-          dir: `${baseDir}/group-${c.id}`,
-          files: c.memberIds.map((id, index) => ({ id, filename: `file-${index + 1}.txt` })),
-          readme: `# ${c.id}\n\nAuto grouped.\n`,
-        };
-    groups.push({ clusterId: c.id, ...group });
+    const normalized = parsed.success ? parsed.data : fallbackGroup;
+    groups.push({ clusterId: c.id, ...normalized });
   }
 
   const nameCache = await openLevelCache<NamedGroup>({ path: outPath, namespace: 'names' });
