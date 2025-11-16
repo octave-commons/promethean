@@ -1,26 +1,14 @@
 /* eslint-disable */
-import * as path from "path";
-import { fileURLToPath } from "url";
+import * as path from 'path';
+import { fileURLToPath } from 'url';
 
-import * as ts from "typescript";
-import {
-  getJsDocText,
-  getNodeText,
-  posToLine,
-  relFromRepo,
-} from "@promethean-os/utils";
-import { scanFiles } from "@promethean-os/file-indexer";
+import * as ts from 'typescript';
+import { getJsDocText, getNodeText, posToLine, relFromRepo } from '@promethean-os/utils';
+import { scanFiles } from '@promethean-os/file-indexer';
 
-import {
-  parseArgs,
-  makeProgram,
-  sha1,
-  getLangFromExt,
-  signatureForFunction,
-  typeToString,
-} from "./utils.js";
-import type { SymKind, SymbolInfo } from "./types.js";
-import { openLevelCache } from "@promethean-os/level-cache";
+import { makeProgram, sha1, getLangFromExt, signatureForFunction, typeToString } from './utils.js';
+import type { SymKind, SymbolInfo } from './types.js';
+import { openLevelCache } from '@promethean-os/level-cache';
 
 export type ScanOptions = {
   root?: string;
@@ -30,10 +18,7 @@ export type ScanOptions = {
   files?: readonly string[];
 };
 
-export async function collectSourceFiles(
-  root: string,
-  exts: Set<string>,
-): Promise<string[]> {
+export async function collectSourceFiles(root: string, exts: Set<string>): Promise<string[]> {
   const resolvedRoot = path.resolve(root);
   const result = await scanFiles({
     root: resolvedRoot,
@@ -41,20 +26,16 @@ export async function collectSourceFiles(
     collect: true,
   });
   return (result.files ?? []).map((file) =>
-    path.isAbsolute(file.path)
-      ? path.resolve(file.path)
-      : path.resolve(resolvedRoot, file.path),
+    path.isAbsolute(file.path) ? path.resolve(file.path) : path.resolve(resolvedRoot, file.path),
   );
 }
 
 export async function runScan(opts: ScanOptions = {}) {
-  const ROOT = path.resolve(opts.root ?? "packages");
+  const ROOT = path.resolve(opts.root ?? 'packages');
   const EXTS = new Set(
-    (opts.ext ?? ".ts,.tsx,.js,.jsx")
-      .split(",")
-      .map((s) => s.trim().toLowerCase()),
+    (opts.ext ?? '.ts,.tsx,.js,.jsx').split(',').map((s) => s.trim().toLowerCase()),
   );
-  const CACHE_PATH = path.resolve(opts.cache ?? ".cache/symdocs.level");
+  const CACHE_PATH = path.resolve(opts.cache ?? '.cache/symdocs.level');
   const repoRoot = process.cwd();
 
   const files =
@@ -62,7 +43,7 @@ export async function runScan(opts: ScanOptions = {}) {
       ? opts.files.map((f) => path.resolve(f))
       : await collectSourceFiles(ROOT, EXTS);
   if (files.length === 0) {
-    console.log("No files found.");
+    console.log('No files found.');
     return;
   }
 
@@ -77,10 +58,10 @@ export async function runScan(opts: ScanOptions = {}) {
     const src = sf.getFullText();
 
     const rel = relFromRepo(fileAbs);
-    const bits = rel.split("/"); // packages/<pkg>/...
-    if (bits[0] !== "packages" || bits.length < 2) continue;
-    const pkg = bits[1] ?? "";
-    const moduleRel = bits.slice(2).join("/");
+    const bits = rel.split('/'); // packages/<pkg>/...
+    if (bits[0] !== 'packages' || bits.length < 2) continue;
+    const pkg = bits[1] ?? '';
+    const moduleRel = bits.slice(2).join('/');
 
     function pushSymbol(
       kind: SymKind,
@@ -94,11 +75,7 @@ export async function runScan(opts: ScanOptions = {}) {
       const snippet = getNodeText(src, node);
       const lang = getLangFromExt(fileAbs);
       const jsdoc = getJsDocText(node);
-      const id = sha1(
-        [pkg, moduleRel, kind, name, signature ?? "", startLine, endLine].join(
-          "|",
-        ),
-      );
+      const id = sha1([pkg, moduleRel, kind, name, signature ?? '', startLine, endLine].join('|'));
 
       symbols.push({
         id,
@@ -123,45 +100,31 @@ export async function runScan(opts: ScanOptions = {}) {
       if (ts.isFunctionDeclaration(node) && node.name) {
         const exported = hasExport(node);
         const sig = signatureForFunction(checker, node);
-        pushSymbol("function", node.name.text, node, exported, sig);
+        pushSymbol('function', node.name.text, node, exported, sig);
       }
 
       // Class declarations
       if (ts.isClassDeclaration(node) && node.name) {
         const exported = hasExport(node);
-        pushSymbol(
-          "class",
-          node.name.text,
-          node,
-          exported,
-          `class ${node.name.text}`,
-        );
+        pushSymbol('class', node.name.text, node, exported, `class ${node.name.text}`);
       }
 
       // Type aliases
       if (ts.isTypeAliasDeclaration(node)) {
         const exported = hasExport(node);
         pushSymbol(
-          "type",
+          'type',
           node.name.text,
           node,
           exported,
-          `type ${node.name.text} = ${
-            typeToString(checker, node.type) ?? "..."
-          }`,
+          `type ${node.name.text} = ${typeToString(checker, node.type) ?? '...'}`,
         );
       }
 
       // Interfaces (treat as 'type')
       if (ts.isInterfaceDeclaration(node)) {
         const exported = hasExport(node);
-        pushSymbol(
-          "type",
-          node.name.text,
-          node,
-          exported,
-          `interface ${node.name.text}`,
-        );
+        pushSymbol('type', node.name.text, node, exported, `interface ${node.name.text}`);
       }
 
       // Variables
@@ -169,13 +132,7 @@ export async function runScan(opts: ScanOptions = {}) {
         const exported = hasExport(node);
         for (const decl of node.declarationList.declarations) {
           const name = decl.name.getText();
-          pushSymbol(
-            "variable",
-            name,
-            decl,
-            exported,
-            typeToString(checker, decl) ?? undefined,
-          );
+          pushSymbol('variable', name, decl, exported, typeToString(checker, decl) ?? undefined);
         }
       }
 
@@ -187,39 +144,32 @@ export async function runScan(opts: ScanOptions = {}) {
 
   const cache = await openLevelCache<SymbolInfo>({
     path: CACHE_PATH,
-    namespace: "symbols",
+    namespace: 'symbols',
   });
   for (const s of symbols) {
     await cache.set(s.id, s);
   }
   await cache.close();
-  console.log(
-    `Scanned ${symbols.length} symbols → ${path.relative(
-      repoRoot,
-      CACHE_PATH,
-    )}`,
-  );
+  console.log(`Scanned ${symbols.length} symbols → ${path.relative(repoRoot, CACHE_PATH)}`);
 }
 
 function hasExport(node: ts.Node): boolean {
   const m = ts.getCombinedModifierFlags(node as any);
-  return (
-    (m & ts.ModifierFlags.Export) !== 0 || (m & ts.ModifierFlags.Default) !== 0
-  );
+  return (m & ts.ModifierFlags.Export) !== 0 || (m & ts.ModifierFlags.Default) !== 0;
 }
 
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const args = parseArgs({
-    "--root": "packages",
-    "--tsconfig": "",
-    "--ext": ".ts,.tsx,.js,.jsx",
-    "--cache": ".cache/symdocs.level",
+    '--root': 'packages',
+    '--tsconfig': '',
+    '--ext': '.ts,.tsx,.js,.jsx',
+    '--cache': '.cache/symdocs.level',
   });
   runScan({
-    root: String(args["--root"]),
-    tsconfig: args["--tsconfig"] || undefined,
-    ext: String(args["--ext"]),
-    cache: String(args["--cache"]),
+    root: String(args['--root']),
+    tsconfig: args['--tsconfig'] || undefined,
+    ext: String(args['--ext']),
+    cache: String(args['--cache']),
   }).catch((e: unknown) => {
     console.error(e);
     process.exit(1);
