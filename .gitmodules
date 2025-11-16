@@ -37,78 +37,104 @@
 [submodule "packages/agent-os-protocol"]
 	path = packages/agent-os-protocol
 	url = git@github.com:riatzukiza/agent-os-protocol.git
+	branch = device/stealth
 [submodule "packages/ai-learning"]
 	path = packages/ai-learning
 	url = git@github.com:riatzukiza/ai-learning.git
+	branch = device/stealth
 [submodule "packages/cli"]
 	path = packages/cli
 	url = git@github.com:riatzukiza/cli.git
+	branch = device/stealth
 [submodule "packages/eidolon-field"]
 	path = packages/eidolon-field
 	url = git@github.com:riatzukiza/eidolon-field.git
+	branch = device/stealth
 [submodule "packages/math-utils"]
 	path = packages/math-utils
 	url = git@github.com:riatzukiza/math-utils.git
+	branch = device/stealth
 [submodule "packages/migrations"]
 	path = packages/migrations
 	url = git@github.com:riatzukiza/migrations.git
+	branch = device/stealth
 [submodule "packages/opencode-hub"]
 	path = packages/opencode-hub
 	url = git@github.com:riatzukiza/opencode-hub.git
+	branch = device/stealth
 [submodule "packages/platform"]
 	path = packages/platform
 	url = git@github.com:riatzukiza/platform.git
+	branch = device/stealth
 [submodule "packages/test-classifier"]
 	path = packages/test-classifier
 	url = git@github.com:riatzukiza/test-classifier.git
+	branch = device/stealth
 [submodule "packages/clj-hacks"]
 	path = packages/clj-hacks
 	url = git@github.com:riatzukiza/clj-hacks-tools.git
+	branch = device/stealth
 [submodule "packages/http"]
 	path = packages/http
 	url = git@github.com:riatzukiza/http.git
+	branch = device/stealth
 [submodule "packages/shadow-conf"]
 	path = packages/shadow-conf
 	url = git@github.com:riatzukiza/shadow-conf.git
+	branch = device/stealth
 [submodule "packages/test-utils"]
 	path = packages/test-utils
 	url = git@github.com:riatzukiza/test-utils.git
+	branch = device/stealth
 [submodule "packages/build-monitoring"]
 	path = packages/build-monitoring
 	url = git@github.com:riatzukiza/build-monitoring.git
+	branch = device/stealth
 [submodule "packages/compliance-monitor"]
 	path = packages/compliance-monitor
 	url = git@github.com:riatzukiza/compliance-monitor.git
+	branch = device/stealth
 [submodule "packages/dlq"]
 	path = packages/dlq
 	url = git@github.com:riatzukiza/dlq.git
+	branch = device/stealth
 [submodule "packages/enso-agent-communication"]
 	path = packages/enso-agent-communication
 	url = git@github.com:riatzukiza/enso-agent-communication.git
+	branch = device/stealth
 [submodule "packages/mcp-dev-ui-frontend"]
 	path = packages/mcp-dev-ui-frontend
 	url = git@github.com:riatzukiza/mcp-dev-ui-frontend.git
+	branch = device/stealth
 [submodule "packages/obsidian-export"]
 	path = packages/obsidian-export
 	url = git@github.com:riatzukiza/obsidian-export.git
+	branch = device/stealth
 [submodule "packages/plugin-hooks"]
 	path = packages/plugin-hooks
 	url = git@github.com:riatzukiza/plugin-hooks.git
+	branch = device/stealth
 [submodule "packages/report-forge"]
 	path = packages/report-forge
 	url = git@github.com:riatzukiza/report-forge.git
+	branch = device/stealth
 [submodule "packages/snapshots"]
 	path = packages/snapshots
 	url = git@github.com:riatzukiza/snapshots.git
+	branch = device/stealth
 [submodule "packages/worker"]
 	path = packages/worker
 	url = git@github.com:riatzukiza/worker.git
+	branch = device/stealth
 [submodule "packages/ds"]
 	path = packages/ds
 	url = git@github.com:riatzukiza/ds.git
+	branch = device/stealth
 [submodule "packages/omni-tools"]
 	path = packages/omni-tools
 	url = git@github.com:riatzukiza/omni-tools.git
+	branch = device/stealth
 [submodule "packages/security"]
 	path = packages/security
 	url = git@github.com:riatzukiza/security.git
+	branch = device/stealth
