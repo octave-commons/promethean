@@ -5,28 +5,21 @@ import { pathToFileURL } from 'url';
 import ts from 'typescript';
 import { openLevelCache } from '@promethean-os/level-cache';
 import { scanFiles } from '@promethean-os/file-indexer-service';
-import { posToLine, getJsDocText, getNodeText, relFromRepo, parseArgs } from '@promethean-os/utils';
+import { posToLine, getJsDocText, getNodeText, relFromRepo } from '@promethean-os/utils';
+import { collectAbsolutePaths, createPipelineProgram } from '@promethean-os/pipeline-core';
 
 import { makeProgram, sha1 } from './utils.js';
 import type { FunctionInfo, FnKind } from './types.js';
 
 export type ScanArgs = {
-  '--root'?: string;
-  '--ext'?: string;
-  '--tsconfig'?: string;
-  '--out'?: string;
+  root?: string;
+  ext?: string;
+  tsconfig?: string;
+  out?: string;
 };
 
 export async function collectSourceFiles(root: string, exts: Set<string>): Promise<string[]> {
-  const resolvedRoot = path.resolve(root);
-  const result = await scanFiles({
-    root: resolvedRoot,
-    exts,
-    collect: true,
-  });
-  return (result.files ?? []).map((file) =>
-    path.isAbsolute(file.path) ? path.resolve(file.path) : path.resolve(resolvedRoot, file.path),
-  );
+  return collectAbsolutePaths({ root, extensions: Array.from(exts), scanner: scanFiles });
 }
 
 type PackageMeta = {
@@ -88,14 +81,13 @@ export async function writeResults(outPath: string, functions: FunctionInfo[]): 
 }
 
 export async function scan(args: ScanArgs): Promise<void> {
-  const ROOT = path.resolve(args['--root'] ?? 'packages');
-  const EXTS = new Set(
-    (args['--ext'] ?? '.ts,.tsx,.js,.jsx').split(',').map((s) => s.trim().toLowerCase()),
-  );
-  const OUT = path.resolve(args['--out'] ?? '.cache/simtasks/functions');
+  const ROOT = path.resolve(args.root ?? 'packages');
+  const EXTENSIONS = (args.ext ?? '.ts,.tsx,.js,.jsx').split(',').map((s) => s.trim());
+  const EXTS = new Set(EXTENSIONS.filter(Boolean).map((s) => (s.startsWith('.') ? s : `.${s}`)));
+  const OUT = path.resolve(args.out ?? '.cache/simtasks/functions');
 
   const files = await collectSourceFiles(ROOT, EXTS);
-  const program = makeProgram(files, args['--tsconfig'] || undefined);
+  const program = makeProgram(files, args.tsconfig || undefined);
   const functions = await gatherFunctionInfo(program);
   await writeResults(OUT, functions);
   console.log(
@@ -301,14 +293,26 @@ function hasExport(node: ts.Node): boolean {
   return (m & ts.ModifierFlags.Export) !== 0 || (m & ts.ModifierFlags.Default) !== 0;
 }
 
+async function runCli() {
+  const program = createPipelineProgram('simtasks-scan', 'Scan packages for exported functions');
+  program
+    .option('--root <dir>', 'Root directory to scan', 'packages')
+    .option('--ext <list>', 'Comma-separated extensions', '.ts,.tsx,.js,.jsx')
+    .option('--tsconfig <path>', 'Optional tsconfig path')
+    .option('--out <path>', 'Level cache directory', '.cache/simtasks/functions')
+    .action(async (options: Record<string, string>) => {
+      await scan({
+        root: options.root,
+        ext: options.ext,
+        tsconfig: options.tsconfig,
+        out: options.out,
+      });
+    });
+  await program.parseAsync(process.argv);
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
-  const args = parseArgs({
-    '--root': 'packages',
-    '--ext': '.ts,.tsx,.js,.jsx',
-    '--tsconfig': '',
-    '--out': '.cache/simtasks/functions',
-  });
-  scan(args).catch((e) => {
+  runCli().catch((e) => {
     console.error(e);
     process.exit(1);
   });
