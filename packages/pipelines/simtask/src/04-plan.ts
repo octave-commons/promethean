@@ -10,12 +10,12 @@ import { parseArgs } from './utils.js';
 import type { FunctionInfo, Cluster, Plan } from './types.js';
 
 export type PlanArgs = {
-  '--scan'?: string;
-  '--clusters'?: string;
-  '--out'?: string;
-  '--model'?: string;
-  '--base-dir'?: string;
-  '--force'?: string;
+  scan?: string;
+  clusters?: string;
+  out?: string;
+  model?: string;
+  baseDir?: string;
+  force?: boolean;
 };
 
 const PlanSchema = z.object({
@@ -30,12 +30,12 @@ const PlanSchema = z.object({
 });
 
 export async function plan(args: PlanArgs): Promise<void> {
-  const SCAN = path.resolve(args['--scan'] ?? '.cache/simtasks/functions');
-  const CLS = path.resolve(args['--clusters'] ?? '.cache/simtasks/clusters.json');
-  const OUT = path.resolve(args['--out'] ?? '.cache/simtasks/plans.json');
-  const model = args['--model'] ?? 'qwen3:4b';
-  const baseDir = args['--base-dir'] ?? 'packages';
-  const force = args['--force'] === 'true';
+  const SCAN = path.resolve(args.scan ?? '.cache/simtasks/functions');
+  const CLS = path.resolve(args.clusters ?? '.cache/simtasks/clusters.json');
+  const OUT = path.resolve(args.out ?? '.cache/simtasks/plans.json');
+  const model = args.model ?? 'qwen3:4b';
+  const baseDir = args.baseDir ?? 'packages';
+  const force = args.force ?? false;
 
   const fnCache = await openLevelCache<FunctionInfo[]>({ path: SCAN });
   const functions = (await fnCache.get('functions')) ?? [];

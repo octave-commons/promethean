@@ -9,7 +9,7 @@ To rebuild the dataset locally:
 
 ```bash
 cd orgs/riatzukiza/promethean/packages/pipelines/buildfix
-pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 1000
+pnpm --filter @promethean-os/buildfix exec tsx src/benchmark/massive-fixture-generator.ts --target-errors 1000 --output-dir ./massive-fixture-generation-2
 ```
 
 The generator will recreate the `fixture-*` subdirectories with fresh
