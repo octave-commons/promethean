@@ -29,6 +29,8 @@ const GroupSchema = z.object({
   readme: z.string().min(1),
 });
 
+type GroupPayload = z.infer<typeof GroupSchema>;
+
 export async function assignNames(options: NameOptions = {}): Promise<void> {
   const blocksPath = path.resolve(options.blocks ?? '.cache/codepack/blocks');
   const clustersPath = path.resolve(options.clusters ?? '.cache/codepack/clusters');
