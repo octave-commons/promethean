@@ -6,28 +6,23 @@ repos:
         types_or: [javascript, ts, tsx, json, yaml]
         exclude: ^legacy/
         args: [--ignore-path=.prettierignore]
-  # - repo: local
-  #   hooks:
-  #     - id: piper-build
-  #       name: Ensure Piper build Succeeds
-  #       entry: pnpm --filter @promethean/piper build
-  #       language: system
-  #       pass_filenames: false
-  # - id: gen-ecosystem
-  #   name: Generate ecosystem config
-  #   entry: pnpm gen:ecosystem
-  #   language: system
-  #   pass_filenames: false
-  # # - id: generate-layer-images
-  # #   name: Generate missing layer images
-  # #   entry: bash -lc 'pnpm --filter @promethean/image-link-generator run build && pnpm tsx scripts/generate-layer-images.ts'
-  # #   language: system
-  # #   pass_filenames: false
-  # - id: eslint-diff
-  #   name: ESLint on diff from main
-  #   entry: pnpm exec eslint --cache --pass-on-no-patterns
-  #   language: system
-  # - id: eslint-diff
-  #   name: ESLint on diff from main
-  #   entry: pnpm --cache lint
-  #   language: system
+  - repo: local
+    hooks:
+      - id: submodule-branch-sync-commit
+        name: Align submodule branches on commit (special branches)
+        entry: bash scripts/git-hooks/submodule-branch-sync.sh commit
+        language: system
+        pass_filenames: false
+        stages: [commit]
+      - id: submodule-branch-sync-post-checkout
+        name: Sync submodules after checkout (special branches)
+        entry: bash scripts/git-hooks/submodule-branch-sync.sh post-checkout
+        language: system
+        pass_filenames: false
+        stages: [post-checkout]
+      - id: submodule-branch-sync-push
+        name: Guard submodule state before push (special branches)
+        entry: bash scripts/git-hooks/submodule-branch-sync.sh push
+        language: system
+        pass_filenames: false
+        stages: [push]
