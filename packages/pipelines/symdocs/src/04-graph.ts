@@ -1,10 +1,10 @@
 /* eslint-disable */
-import { promises as fs } from "fs";
-import * as path from "path";
+import { promises as fs } from 'fs';
+import * as path from 'path';
 
-import { listFilesRec } from "@promethean-os/utils";
-import { openLevelCache } from "@promethean-os/level-cache";
-import type { SymbolInfo } from "./types.js";
+import { listFilesRec } from '@promethean-os/utils';
+import { openLevelCache } from '@promethean-os/level-cache';
+import type { SymbolInfo } from './types.js';
 
 type Pkg = {
   name: string; // npm name, e.g. @promethean-os/foo
@@ -16,59 +16,74 @@ type Pkg = {
   domain: string; // computed domain (e.g., "apps" for apps/web; "_root" for top-level)
 };
 
-const args = parseArgs({
-  "--root": "packages",
-  "--out": "docs/packages",
-  "--ext": ".ts,.tsx,.js,.jsx",
-  "--include-imports": "true", // analyze imports in source files
-  "--respect-manifest": "true", // include package.json deps as edges
-  "--render-domain-graphs": "true",
-  "--domain-depth": "1", // how many path segments under packages/ define a domain
-  "--rdeps-table": "true",
-  "--max-rdeps-list": "12", // show up to N dependents in the table cells
-  "--cache": ".cache/symdocs.level",
-});
+const defaultArgs = {
+  '--root': 'packages',
+  '--out': 'docs/packages',
+  '--ext': '.ts,.tsx,.js,.jsx',
+  '--include-imports': 'true',
+  '--respect-manifest': 'true',
+  '--render-domain-graphs': 'true',
+  '--domain-depth': '1',
+  '--rdeps-table': 'true',
+  '--max-rdeps-list': '12',
+  '--cache': '.cache/symdocs.level',
+};
 
-const ROOT = path.resolve(String(args["--root"]));
-const OUT_ROOT = path.resolve(String(args["--out"]));
-const EXTS = new Set(
-  String(args["--ext"])
-    .split(",")
+const args: Record<string, string> = { ...defaultArgs };
+
+let ROOT = path.resolve(String(args['--root']));
+let OUT_ROOT = path.resolve(String(args['--out']));
+let EXTS = new Set(
+  String(args['--ext'])
+    .split(',')
     .map((s) => s.trim().toLowerCase()),
 );
-const INCLUDE_IMPORTS = String(args["--include-imports"]) === "true";
-const RESPECT_MANIFEST = String(args["--respect-manifest"]) === "true";
-const RENDER_DOMAIN_GRAPHS = String(args["--render-domain-graphs"]) === "true";
-const DOMAIN_DEPTH = Math.max(
-  1,
-  parseInt(String(args["--domain-depth"]), 10) || 1,
-);
-const RDEPS_TABLE = String(args["--rdeps-table"]) === "true";
-const MAX_RDEPS_LIST = Math.max(
-  0,
-  parseInt(String(args["--max-rdeps-list"]), 10) || 0,
-);
-const CACHE_PATH = path.resolve(String(args["--cache"]));
+let INCLUDE_IMPORTS = String(args['--include-imports']) === 'true';
+let RESPECT_MANIFEST = String(args['--respect-manifest']) === 'true';
+let RENDER_DOMAIN_GRAPHS = String(args['--render-domain-graphs']) === 'true';
+let DOMAIN_DEPTH = Math.max(1, parseInt(String(args['--domain-depth']), 10) || 1);
+let RDEPS_TABLE = String(args['--rdeps-table']) === 'true';
+let MAX_RDEPS_LIST = Math.max(0, parseInt(String(args['--max-rdeps-list']), 10) || 0);
+let CACHE_PATH = path.resolve(String(args['--cache']));
 
-const GLOBAL_START = "<!-- SYMPKG:BEGIN -->";
-const GLOBAL_END = "<!-- SYMPKG:END -->";
-const PKG_START = "<!-- SYMPKG:PKG:BEGIN -->";
-const PKG_END = "<!-- SYMPKG:PKG:END -->";
+function refreshGraphConfig(): void {
+  ROOT = path.resolve(String(args['--root']));
+  OUT_ROOT = path.resolve(String(args['--out']));
+  EXTS = new Set(
+    String(args['--ext'])
+      .split(',')
+      .map((s) => s.trim().toLowerCase()),
+  );
+  INCLUDE_IMPORTS = String(args['--include-imports']) === 'true';
+  RESPECT_MANIFEST = String(args['--respect-manifest']) === 'true';
+  RENDER_DOMAIN_GRAPHS = String(args['--render-domain-graphs']) === 'true';
+  DOMAIN_DEPTH = Math.max(1, parseInt(String(args['--domain-depth']), 10) || 1);
+  RDEPS_TABLE = String(args['--rdeps-table']) === 'true';
+  MAX_RDEPS_LIST = Math.max(0, parseInt(String(args['--max-rdeps-list']), 10) || 0);
+  CACHE_PATH = path.resolve(String(args['--cache']));
+}
+
+refreshGraphConfig();
+
+const GLOBAL_START = '<!-- SYMPKG:BEGIN -->';
+const GLOBAL_END = '<!-- SYMPKG:END -->';
+const PKG_START = '<!-- SYMPKG:PKG:BEGIN -->';
+const PKG_END = '<!-- SYMPKG:PKG:END -->';
 
 async function main() {
   const symDb = await openLevelCache<SymbolInfo>({
     path: CACHE_PATH,
-    namespace: "symbols",
+    namespace: 'symbols',
   });
   const symbolPkgs = new Set<string>();
   for await (const [, sym] of symDb.entries()) symbolPkgs.add(sym.pkg);
   await symDb.close();
 
   const pkgs = (await findWorkspacePackages(ROOT, DOMAIN_DEPTH)).filter((p) =>
-    symbolPkgs.has(p.folder.replace(/\\/g, "/")),
+    symbolPkgs.has(p.folder.replace(/\\/g, '/')),
   );
   if (pkgs.length === 0) {
-    console.log("No packages found under", ROOT);
+    console.log('No packages found under', ROOT);
     return;
   }
 
@@ -83,7 +98,7 @@ async function main() {
         const files = await listFilesRec(p.dir, EXTS);
         const specs = new Set<string>();
         for (const f of files) {
-          const src = await fs.readFile(f, "utf-8");
+          const src = await fs.readFile(f, 'utf-8');
           for (const spec of extractImportSpecifiers(src)) {
             const top = topLevelPackageName(spec);
             if (top && internalNames.has(top) && top !== p.name) specs.add(top);
@@ -95,20 +110,20 @@ async function main() {
   }
 
   // Build edges
-  type Edge = { from: string; to: string; kind: "manifest" | "import" };
+  type Edge = { from: string; to: string; kind: 'manifest' | 'import' };
   const edges: Edge[] = [];
 
   for (const p of pkgs) {
     if (RESPECT_MANIFEST) {
       for (const to of p.declaredDeps) {
         if (internalNames.has(to) && to !== p.name)
-          edges.push({ from: p.name, to, kind: "manifest" });
+          edges.push({ from: p.name, to, kind: 'manifest' });
       }
     }
     if (INCLUDE_IMPORTS) {
       for (const to of p.importDeps) {
         if (internalNames.has(to) && to !== p.name)
-          edges.push({ from: p.name, to, kind: "import" });
+          edges.push({ from: p.name, to, kind: 'import' });
       }
     }
   }
@@ -119,7 +134,7 @@ async function main() {
     const k = `${e.from}::${e.to}`;
     const prev = uniq.get(k);
     if (!prev) uniq.set(k, e);
-    else if (prev.kind !== "manifest" && e.kind === "manifest") uniq.set(k, e);
+    else if (prev.kind !== 'manifest' && e.kind === 'manifest') uniq.set(k, e);
   }
   const edgeList = Array.from(uniq.values());
 
@@ -138,24 +153,20 @@ async function main() {
   await fs.mkdir(OUT_ROOT, { recursive: true });
 
   // 1) Global README with big graph + index + (optional) reverse-dep table + (optional) domain graphs
-  const globalReadme = path.join(OUT_ROOT, "README.md");
+  const globalReadme = path.join(OUT_ROOT, 'README.md');
   const existingGlobal = await readMaybe(globalReadme);
-  const preservedTop = stripBetween(
-    existingGlobal ?? "",
-    GLOBAL_START,
-    GLOBAL_END,
-  );
+  const preservedTop = stripBetween(existingGlobal ?? '', GLOBAL_START, GLOBAL_END);
 
   const nodeIds = new Map<string, string>(); // npm name -> mermaid id
   pkgs.forEach((p, i) => nodeIds.set(p.name, `n${i + 1}`));
 
   const globalGraph = buildMermaidGlobal(pkgs, edgeList, nodeIds, (name) =>
-    path.join("./", byName.get(name)!.folder, "README.md").replace(/\\/g, "/"),
+    path.join('./', byName.get(name)!.folder, 'README.md').replace(/\\/g, '/'),
   );
 
   const indexLines: string[] = [
-    "## Packages",
-    "",
+    '## Packages',
+    '',
     ...pkgs
       .sort((a, b) => a.name.localeCompare(b.name))
       .map((p) => {
@@ -168,53 +179,53 @@ async function main() {
 
   const rdepsTable = RDEPS_TABLE
     ? renderReverseDepTable(pkgs, rdeps, (name) =>
-        `./${byName.get(name)!.folder}/README.md`.replace(/\\/g, "/"),
+        `./${byName.get(name)!.folder}/README.md`.replace(/\\/g, '/'),
       )
-    : "";
+    : '';
 
   const domainSection = RENDER_DOMAIN_GRAPHS
     ? renderDomainGraphs(pkgs, edgeList, byName, (name, fromFolder) =>
         path
           .relative(
             path.join(OUT_ROOT, fromFolder),
-            path.join(OUT_ROOT, byName.get(name)!.folder, "README.md"),
+            path.join(OUT_ROOT, byName.get(name)!.folder, 'README.md'),
           )
-          .replace(/\\/g, "/"),
+          .replace(/\\/g, '/'),
       )
-    : "";
+    : '';
 
   const globalBody = [
     preservedTop.trimEnd(),
-    "",
+    '',
     GLOBAL_START,
-    "# Workspace Package Graph",
-    "",
-    "> _Auto-generated. Do not edit between markers._",
-    "",
-    "```mermaid",
+    '# Workspace Package Graph',
+    '',
+    '> _Auto-generated. Do not edit between markers._',
+    '',
+    '```mermaid',
     globalGraph.trim(),
-    "```",
-    "",
+    '```',
+    '',
     ...indexLines,
-    "",
-    rdepsTable ? "## Reverse dependency table" : "",
-    rdepsTable ? rdepsTable : "",
-    domainSection ? "## Domain graphs" : "",
-    domainSection ? domainSection : "",
+    '',
+    rdepsTable ? '## Reverse dependency table' : '',
+    rdepsTable ? rdepsTable : '',
+    domainSection ? '## Domain graphs' : '',
+    domainSection ? domainSection : '',
     GLOBAL_END,
-    "",
+    '',
   ]
     .filter(Boolean)
-    .join("\n");
+    .join('\n');
 
-  await fs.writeFile(globalReadme, globalBody, "utf-8");
+  await fs.writeFile(globalReadme, globalBody, 'utf-8');
 
   // 2) Per-package README with local graph + lists
   for (const p of pkgs) {
-    const pkgReadme = path.join(OUT_ROOT, p.folder, "README.md");
+    const pkgReadme = path.join(OUT_ROOT, p.folder, 'README.md');
     await fs.mkdir(path.dirname(pkgReadme), { recursive: true });
     const existing = await readMaybe(pkgReadme);
-    const preserved = stripBetween(existing ?? "", PKG_START, PKG_END);
+    const preserved = stripBetween(existing ?? '', PKG_START, PKG_END);
 
     const ds = Array.from(deps.get(p.name)!).sort();
     const rs = Array.from(rdeps.get(p.name)!).sort();
@@ -223,64 +234,50 @@ async function main() {
       path
         .relative(
           path.dirname(pkgReadme),
-          path.join(OUT_ROOT, byName.get(name)!.folder, "README.md"),
+          path.join(OUT_ROOT, byName.get(name)!.folder, 'README.md'),
         )
-        .replace(/\\/g, "/"),
+        .replace(/\\/g, '/'),
     );
 
     const body = [
       preserved.trimEnd(),
-      "",
+      '',
       PKG_START,
       `# ${p.name}`,
-      "",
+      '',
       `**Folder:** \`packages/${p.folder}\`  `,
-      `**Version:** \`${p.manifest.version ?? "0.0.0"}\`  `,
+      `**Version:** \`${p.manifest.version ?? '0.0.0'}\`  `,
       `**Domain:** \`${p.domain}\``,
-      "",
-      "```mermaid",
+      '',
+      '```mermaid',
       localGraph.trim(),
-      "```",
-      "",
-      "## Dependencies",
-      "",
+      '```',
+      '',
+      '## Dependencies',
+      '',
       ds.length
         ? ds
-            .map(
-              (n) =>
-                `- [${n}](${relativeToPkgReadmeLink(
-                  p.folder,
-                  byName.get(n)!.folder,
-                )})`,
-            )
-            .join("\n")
-        : "- _None_",
-      "",
-      "## Dependents",
-      "",
+            .map((n) => `- [${n}](${relativeToPkgReadmeLink(p.folder, byName.get(n)!.folder)})`)
+            .join('\n')
+        : '- _None_',
+      '',
+      '## Dependents',
+      '',
       rs.length
         ? rs
-            .map(
-              (n) =>
-                `- [${n}](${relativeToPkgReadmeLink(
-                  p.folder,
-                  byName.get(n)!.folder,
-                )})`,
-            )
-            .join("\n")
-        : "- _None_",
+            .map((n) => `- [${n}](${relativeToPkgReadmeLink(p.folder, byName.get(n)!.folder)})`)
+            .join('\n')
+        : '- _None_',
       PKG_END,
-      "",
+      '',
     ]
       .filter(Boolean)
-      .join("\n");
+      .join('\n');
 
-    await fs.writeFile(pkgReadme, body, "utf-8");
+    await fs.writeFile(pkgReadme, body, 'utf-8');
   }
 
-  console.log(
-    `Wrote package graphs to ${path.relative(process.cwd(), OUT_ROOT)}`,
-  );
+  console.log(`Wrote package graphs to ${path.relative(process.cwd(), OUT_ROOT)}`);
 }
 
 /* ---------------- helpers ---------------- */
@@ -289,10 +286,10 @@ function parseArgs(defaults: Record<string, string>) {
   const out = { ...defaults };
   const a = process.argv.slice(2);
   for (let i = 0; i < a.length; i++) {
-    const k = a[i] ?? "";
-    if (!k.startsWith("--")) continue;
-    const next = a[i + 1] ?? "";
-    const v = next && !next.startsWith("--") ? a[++i] ?? "true" : "true";
+    const k = a[i] ?? '';
+    if (!k.startsWith('--')) continue;
+    const next = a[i + 1] ?? '';
+    const v = next && !next.startsWith('--') ? (a[++i] ?? 'true') : 'true';
     out[k] = v;
   }
   return out;
@@ -303,17 +300,14 @@ async function listDirs(p: string): Promise<string[]> {
   return ents.filter((e) => e.isDirectory()).map((e) => path.join(p, e.name));
 }
 
-async function findWorkspacePackages(
-  root: string,
-  domainDepth: number,
-): Promise<Pkg[]> {
+async function findWorkspacePackages(root: string, domainDepth: number): Promise<Pkg[]> {
   const dirs = await listDirs(root);
   const out: Pkg[] = [];
 
   async function pushIfPkg(dir: string) {
-    const pkgJson = path.join(dir, "package.json");
+    const pkgJson = path.join(dir, 'package.json');
     try {
-      const raw = await fs.readFile(pkgJson, "utf-8");
+      const raw = await fs.readFile(pkgJson, 'utf-8');
       const manifest = JSON.parse(raw);
       if (manifest.name) {
         const folder = dir
@@ -347,20 +341,20 @@ async function findWorkspacePackages(
 function inferDomain(folder: string, depth: number): string {
   const parts = folder.split(/[\\/]/).filter(Boolean);
   // If only 1 segment (top-level like packages/foo), put into _root domain.
-  if (parts.length < 2) return "_root";
+  if (parts.length < 2) return '_root';
   return parts
     .slice(0, Math.min(depth, parts.length - 0))
     .slice(0, depth)
-    .join("/");
+    .join('/');
 }
 
 function collectDeclaredDeps(pkg: any): Set<string> {
   const names = new Set<string>();
   for (const key of [
-    "dependencies",
-    "devDependencies",
-    "peerDependencies",
-    "optionalDependencies",
+    'dependencies',
+    'devDependencies',
+    'peerDependencies',
+    'optionalDependencies',
   ]) {
     const o = pkg[key] || {};
     for (const k of Object.keys(o)) names.add(k);
@@ -382,7 +376,7 @@ function extractImportSpecifiers(src: string): string[] {
     let m;
     while ((m = re.exec(src)) !== null) {
       const s = m[1];
-      if (!s || s.startsWith(".") || s.startsWith("/")) continue; // ignore relative
+      if (!s || s.startsWith('.') || s.startsWith('/')) continue; // ignore relative
       specs.push(s);
     }
   }
@@ -391,27 +385,27 @@ function extractImportSpecifiers(src: string): string[] {
 
 function topLevelPackageName(spec: string): string | null {
   if (!spec) return null;
-  if (spec.startsWith("@")) {
-    const parts = spec.split("/");
-    if (parts.length >= 2) return parts.slice(0, 2).join("/");
+  if (spec.startsWith('@')) {
+    const parts = spec.split('/');
+    if (parts.length >= 2) return parts.slice(0, 2).join('/');
     return null;
   } else {
-    const parts = spec.split("/");
+    const parts = spec.split('/');
     return parts[0] || null;
   }
 }
 
 function stripBetween(text: string, start: string, end: string) {
-  if (!text) return "";
+  if (!text) return '';
   const si = text.indexOf(start);
   const ei = text.indexOf(end);
-  if (si >= 0 && ei > si) return (text.slice(0, si).trimEnd() + "\n").trimEnd();
+  if (si >= 0 && ei > si) return (text.slice(0, si).trimEnd() + '\n').trimEnd();
   return text.trimEnd();
 }
 
 async function readMaybe(p: string) {
   try {
-    return await fs.readFile(p, "utf-8");
+    return await fs.readFile(p, 'utf-8');
   } catch {
     return undefined;
   }
@@ -419,52 +413,44 @@ async function readMaybe(p: string) {
 
 function relativeToPkgReadmeLink(fromFolder: string, toFolder: string) {
   return path
-    .relative(
-      path.join(OUT_ROOT, fromFolder),
-      path.join(OUT_ROOT, toFolder, "README.md"),
-    )
-    .replace(/\\/g, "/");
+    .relative(path.join(OUT_ROOT, fromFolder), path.join(OUT_ROOT, toFolder, 'README.md'))
+    .replace(/\\/g, '/');
 }
 
 /* ---------- Mermaid builders ---------- */
 
 function esc(s: string) {
-  return s.replace(/\\/g, "\\\\").replace(/"/g, '\\"');
+  return s.replace(/\\/g, '\\\\').replace(/"/g, '\\"');
 }
 
 function buildMermaidGlobal(
   pkgs: Pkg[],
-  edges: Array<{ from: string; to: string; kind: "manifest" | "import" }>,
+  edges: Array<{ from: string; to: string; kind: 'manifest' | 'import' }>,
   idOf: Map<string, string>,
   hrefOf: (name: string) => string,
 ) {
-  const nodeLines = pkgs
-    .map((p) => `${idOf.get(p.name)}["${esc(p.name)}"]`)
-    .join("\n  ");
+  const nodeLines = pkgs.map((p) => `${idOf.get(p.name)}["${esc(p.name)}"]`).join('\n  ');
 
   const edgeLines = edges
     .map((e) => {
       const a = idOf.get(e.from)!;
       const b = idOf.get(e.to)!;
-      return e.kind === "manifest" ? `${a} --> ${b}` : `${a} -.-> ${b}`;
+      return e.kind === 'manifest' ? `${a} --> ${b}` : `${a} -.-> ${b}`;
     })
-    .join("\n  ");
+    .join('\n  ');
 
   const clickLines = pkgs
-    .map(
-      (p) =>
-        `click ${idOf.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`,
-    )
-    .join("\n  ");
+    .map((p) => `click ${idOf.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`)
+    .join('\n  ');
 
   return [
-    "graph LR",
+    'graph LR',
     `  ${nodeLines}`,
-    edgeLines ? `  ${edgeLines}` : "",
-    clickLines ? `  ${clickLines}` : "",
+    edgeLines ? `  ${edgeLines}` : '',
+    clickLines ? `  ${clickLines}` : '',
   ]
     .filter(Boolean)
-    .join("\n");
+    .join('\n');
 }
 
 function buildMermaidLocal(
@@ -473,7 +459,7 @@ function buildMermaidLocal(
   rdeps: string[],
   hrefOf: (name: string) => string,
 ) {
-  const center = "A";
+  const center = 'A';
   const nodes = [`${center}["${esc(name)}"]`];
 
   const depNodes = deps.map((n, i) => `D${i + 1}["${esc(n)}"]`);
@@ -484,42 +470,33 @@ function buildMermaidLocal(
   rdepNodes.forEach((r) => edges.push(`${r} --> ${center}`));
 
   const clicks: string[] = [];
-  deps.forEach((n, i) =>
-    clicks.push(`click D${i + 1} "${hrefOf(n)}" "${esc(n)}"`),
-  );
-  rdeps.forEach((n, i) =>
-    clicks.push(`click R${i + 1} "${hrefOf(n)}" "${esc(n)}"`),
-  );
+  deps.forEach((n, i) => clicks.push(`click D${i + 1} "${hrefOf(n)}" "${esc(n)}"`));
+  rdeps.forEach((n, i) => clicks.push(`click R${i + 1} "${hrefOf(n)}" "${esc(n)}"`));
 
   return [
-    "graph LR",
-    `  ${nodes.join("\n  ")}`,
-    depNodes.length ? `  ${depNodes.join("\n  ")}` : "",
-    rdepNodes.length ? `  ${rdepNodes.join("\n  ")}` : "",
-    edges.length ? `  ${edges.join("\n  ")}` : "",
-    clicks.length ? `  ${clicks.join("\n  ")}` : "",
+    'graph LR',
+    `  ${nodes.join('\n  ')}`,
+    depNodes.length ? `  ${depNodes.join('\n  ')}` : '',
+    rdepNodes.length ? `  ${rdepNodes.join('\n  ')}` : '',
+    edges.length ? `  ${edges.join('\n  ')}` : '',
+    clicks.length ? `  ${clicks.join('\n  ')}` : '',
   ]
     .filter(Boolean)
-    .join("\n");
+    .join('\n');
 }
 
 function buildMermaidDomain(
   domain: string,
   pkgs: Pkg[],
-  edges: Array<{ from: string; to: string; kind: "manifest" | "import" }>,
+  edges: Array<{ from: string; to: string; kind: 'manifest' | 'import' }>,
   hrefOf: (name: string) => string,
 ) {
   const ids = new Map<string, string>();
   pkgs.forEach((p, i) =>
-    ids.set(
-      p.name,
-      `d${Math.abs(hash(domain + p.name)).toString(36)}_${i + 1}`,
-    ),
+    ids.set(p.name, `d${Math.abs(hash(domain + p.name)).toString(36)}_${i + 1}`),
   );
 
-  const nodeLines = pkgs
-    .map((p) => `${ids.get(p.name)}["${esc(p.name)}"]`)
-    .join("\n  ");
+  const nodeLines = pkgs.map((p) => `${ids.get(p.name)}["${esc(p.name)}"]`).join('\n  ');
   const names = new Set(pkgs.map((p) => p.name));
 
   const edgeLines = edges
@@ -527,26 +504,23 @@ function buildMermaidDomain(
     .map((e) => {
       const a = ids.get(e.from)!;
       const b = ids.get(e.to)!;
-      return e.kind === "manifest" ? `${a} --> ${b}` : `${a} -.-> ${b}`;
+      return e.kind === 'manifest' ? `${a} --> ${b}` : `${a} -.-> ${b}`;
     })
-    .join("\n  ");
+    .join('\n  ');
 
   const clickLines = pkgs
-    .map(
-      (p) =>
-        `click ${ids.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`,
-    )
-    .join("\n  ");
+    .map((p) => `click ${ids.get(p.name)} "${hrefOf(p.name)}" "${esc(p.name)} docs"`)
+    .join('\n  ');
 
   return [
-    "graph LR",
+    'graph LR',
     `  %% domain: ${domain}`,
     `  ${nodeLines}`,
-    edgeLines ? `  ${edgeLines}` : "",
-    clickLines ? `  ${clickLines}` : "",
+    edgeLines ? `  ${edgeLines}` : '',
+    clickLines ? `  ${clickLines}` : '',
   ]
     .filter(Boolean)
-    .join("\n");
+    .join('\n');
 }
 
 /* ---------- Renderers ---------- */
@@ -564,44 +538,36 @@ function renderReverseDepTable(
     .sort((a, b) => b.deps.size - a.deps.size);
 
   const lines: string[] = [];
-  lines.push("| Package | Dependents | Top dependents |");
-  lines.push("|---|---:|---|");
+  lines.push('| Package | Dependents | Top dependents |');
+  lines.push('|---|---:|---|');
   for (const r of rows) {
     const list = Array.from(r.deps).sort();
     const shown = MAX_RDEPS_LIST > 0 ? list.slice(0, MAX_RDEPS_LIST) : list;
     const extra =
       MAX_RDEPS_LIST > 0 && list.length > MAX_RDEPS_LIST
         ? `, +${list.length - MAX_RDEPS_LIST} more`
-        : "";
-    const links =
-      shown.map((n) => `[${n}](${hrefOf(n)})`).join(", ") +
-      (extra ? extra : "");
-    lines.push(
-      `| [${r.name}](${hrefOf(r.name)}) | ${list.length} | ${
-        links || "_None_"
-      } |`,
-    );
+        : '';
+    const links = shown.map((n) => `[${n}](${hrefOf(n)})`).join(', ') + (extra ? extra : '');
+    lines.push(`| [${r.name}](${hrefOf(r.name)}) | ${list.length} | ${links || '_None_'} |`);
   }
-  return lines.join("\n");
+  return lines.join('\n');
 }
 
 function renderDomainGraphs(
   pkgs: Pkg[],
-  edges: Array<{ from: string; to: string; kind: "manifest" | "import" }>,
+  edges: Array<{ from: string; to: string; kind: 'manifest' | 'import' }>,
   _byName: Map<string, Pkg>,
   hrefOfRelTo: (name: string, fromFolder: string) => string,
 ): string {
   const byDomain = new Map<string, Pkg[]>();
   for (const p of pkgs)
-    (byDomain.get(p.domain) ?? byDomain.set(p.domain, []).get(p.domain)!).push(
-      p,
-    );
+    (byDomain.get(p.domain) ?? byDomain.set(p.domain, []).get(p.domain)!).push(p);
 
   const sections: string[] = [];
   for (const [domain, list] of Array.from(byDomain.entries()).sort((a, b) =>
     a[0].localeCompare(b[0]),
   )) {
-    const baseFolder = list[0]?.folder ?? "";
+    const baseFolder = list[0]?.folder ?? '';
     const mermaid = buildMermaidDomain(domain, list, edges, (name) =>
       hrefOfRelTo(name, baseFolder),
     );
@@ -612,17 +578,17 @@ function renderDomainGraphs(
     );
 
     sections.push(
-      `### ${domain === "_root" ? "root (packages/*)" : domain}`,
-      "",
-      "```mermaid",
+      `### ${domain === '_root' ? 'root (packages/*)' : domain}`,
+      '',
+      '```mermaid',
       mermaid.trim(),
-      "```",
-      cross.length ? "**Cross-domain edges touching this domain:**" : "",
-      cross.length ? cross.map((c) => `- ${c}`).join("\n") : "",
-      "",
+      '```',
+      cross.length ? '**Cross-domain edges touching this domain:**' : '',
+      cross.length ? cross.map((c) => `- ${c}`).join('\n') : '',
+      '',
     );
   }
-  return sections.filter(Boolean).join("\n");
+  return sections.filter(Boolean).join('\n');
 }
 
 function crossDomainEdges(
