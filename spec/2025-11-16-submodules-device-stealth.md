@@ -6,9 +6,9 @@ We need every submodule to track the `device/stealth` branch. Current configurat
 
 ## Current state (key references)
 
-- `.gitmodules` now sets `branch = device/stealth` for every submodule entry (lines 1-140).
-- `git submodule status --recursive` shows all submodules at `heads/device/stealth` commits.
-- Submodule branch alignment is enforced in CI (see Workflow / guardrails).
+- `.gitmodules` currently sets `branch = device/stealth` for every submodule entry (lines 1-140); automation rewrites these entries to the active special branch (device/_, dev/_, main, release).
+- `git submodule status --recursive` shows all submodules at `heads/device/stealth` commits for this branch.
+- Submodule branch alignment is enforced via local hooks (pre-commit stages) and CI (see Workflow / guardrails).
 
 ## Existing issues/PRs
 
@@ -36,6 +36,7 @@ Checked that `device/stealth` fully contains commits from the previously tracked
 
 ## Workflow / guardrails
 
-- Added `.github/workflows/submodule-branch-guard.yml` to enforce that every submodule tracks the same branch name as the parent branch (e.g., `device/*`, `main`, `promethean/*`).
-- The workflow fails fast when `.gitmodules` entries do not match the current branch and runs `git submodule sync --recursive` for configuration consistency.
-- When merging into a target branch, `.gitmodules` must be updated to that branch name; the workflow enforces this so merges cannot proceed with stale device branch references.
+- Local hooks (via `.pre-commit-config.yaml`) call `scripts/git-hooks/submodule-branch-sync.sh` on commit, push, and post-checkout to align `.gitmodules` to the current special branch, block pushes for dirty/detached/rebasing submodules, and sync submodules after checkout.
+- CI workflow `.github/workflows/submodule-branch-guard.yml`:
+  - On PRs to special branches (`device/*`, `dev/*`, `main`, `release`), checks mergeability of matching submodule branches; creates missing base branches from `main` and opens submodule PRs on conflicts.
+  - On pushes to those branches, updates `.gitmodules` to the branch and auto-pushes the alignment commit if needed.
