@@ -5,8 +5,8 @@ import { pathToFileURL } from 'url';
 
 import matter from 'gray-matter';
 import { openLevelCache } from '@promethean-os/level-cache';
+import { createPipelineProgram } from '@promethean-os/pipeline-core';
 
-import { parseArgs } from './utils.js';
 import type { Cluster, Plan, FunctionInfo } from './types.js';
 
 export type WriteArgs = {
@@ -191,17 +191,24 @@ async function readMaybe(p: string) {
   }
 }
 
+async function runCli() {
+  const program = createPipelineProgram('simtasks-write', 'Materialize consolidation tasks');
+  program
+    .option('--scan <path>', 'Path to scan cache', '.cache/simtasks/functions')
+    .option('--clusters <path>', 'Path to clusters JSON', '.cache/simtasks/clusters.json')
+    .option('--plans <path>', 'Path to plans JSON', '.cache/simtasks/plans.json')
+    .option('--out <path>', 'Directory for generated tasks', 'docs/agile/tasks')
+    .option('--priority <value>', 'Default task priority', 'P2')
+    .option('--status <value>', 'Default task status', 'todo')
+    .option('--label <values>', 'Comma-separated labels', 'duplication,refactor,consolidation')
+    .action(async (options: WriteArgs) => {
+      await writeTasks(options);
+    });
+  await program.parseAsync(process.argv);
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
-  const args = parseArgs({
-    '--scan': '.cache/simtasks/functions',
-    '--clusters': '.cache/simtasks/clusters.json',
-    '--plans': '.cache/simtasks/plans.json',
-    '--out': 'docs/agile/tasks',
-    '--priority': 'P2',
-    '--status': 'todo',
-    '--label': 'duplication,refactor,consolidation',
-  });
-  writeTasks(args).catch((e) => {
+  runCli().catch((e) => {
     console.error(e);
     process.exit(1);
   });
