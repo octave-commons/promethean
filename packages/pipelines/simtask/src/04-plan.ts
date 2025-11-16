@@ -6,7 +6,7 @@ import { z } from 'zod';
 import { openLevelCache } from '@promethean-os/level-cache';
 import { ollamaJSON } from '@promethean-os/utils';
 
-import { parseArgs } from './utils.js';
+import { createPipelineProgram } from '@promethean-os/pipeline-core';
 import type { FunctionInfo, Cluster, Plan } from './types.js';
 
 export type PlanArgs = {

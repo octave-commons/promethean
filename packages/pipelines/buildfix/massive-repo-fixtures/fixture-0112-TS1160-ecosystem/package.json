@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0112-TS1160-ecosystem",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}
