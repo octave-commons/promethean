@@ -16,6 +16,8 @@ export type NameOptions = {
   baseDir?: string;
 };
 
+type GroupPayload = z.infer<typeof GroupSchema>;
+
 const GroupSchema = z.object({
   dir: z.string().min(1),
   files: z
@@ -93,13 +95,13 @@ export async function assignNames(options: NameOptions = {}): Promise<void> {
       } satisfies NamedGroup;
     }
 
-    const fallbackGroup: Omit<NamedGroup, 'clusterId'> = {
+    const fallbackGroup: GroupPayload = {
       dir: `${baseDir}/group-${c.id}`,
       files: c.memberIds.map((id, index) => ({ id, filename: `file-${index + 1}.txt` })),
       readme: `# ${c.id}\n\nAuto grouped.\n`,
     };
     const parsed = GroupSchema.safeParse(obj);
-    const normalized = parsed.success ? parsed.data : fallbackGroup;
+    const normalized: GroupPayload = parsed.success ? parsed.data : fallbackGroup;
     groups.push({ clusterId: c.id, ...normalized });
   }
 
