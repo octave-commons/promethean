@@ -52,3 +52,11 @@
 - Shared utilities must preserve per-pipeline configuration knobs (e.g., Codepack's `--mix-context`, Simtask's `--include-jsdoc`, Symdocs's caching namespaces). Defaulting logic should be injectable rather than hardcoded.
 - Introduce regression tests (unit or snapshot) around shared helpers before refactors, especially for Level cache access patterns, to guarantee deterministic key computation.
 - Consider creating a migration checklist per stage (Scan → Embed → Cluster → Plan) so packages can adopt the shared helpers incrementally instead of a "big bang" rewrite.
+
+## Implementation Progress — 2025-11-16
+
+- Introduced `@promethean-os/pipeline-core` (`packages/pipelines/core`) with reusable helpers for extension normalization, Level cache fan-in/out (`withCache`, `loadCacheValues`, `batchPut`), embedding orchestration (`embedEntities`), cosine clustering (`clusterEmbeddings`), and commander scaffolding (`createPipelineProgram`).
+- Refactored `@promethean-os/simtasks` stages to consume the shared helpers: `collectSourceFiles` now delegates to `collectAbsolutePaths`, embedding uses `embedEntities`, and clustering uses `clusterEmbeddings`. Every stage (`01`–`05`) now exposes a commander-driven CLI instead of bespoke `parseArgs` handling.
+- Migrated `@promethean-os/codepack` to the shared abstractions: embedding and clustering reuse the helpers, CLI entry-points rely on `createPipelineProgram`, and the materialization/name stages expose declarative commander commands.
+- Updated `@promethean-os/symdocs` to align with the new CLI contract (`01-scan`, `02-docs`, `03-write`, `04-graph`) and centralized file collection logic. The graph generator now refreshes its derived config before execution, enabling overrides via the new CLI and programmatic `runGraph` API.
+- Added build verification for `pipeline-core`, `simtasks`, `codepack`, and `symdocs` to ensure TypeScript projects compile with the new dependencies.
