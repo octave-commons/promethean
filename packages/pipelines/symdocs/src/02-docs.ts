@@ -161,19 +161,33 @@ export async function runDocs(opts: DocsOptions = {}): Promise<void> {
   );
 }
 
+async function runCli() {
+  const program = createPipelineProgram('symdocs-docs', 'Generate documentation drafts');
+  program
+    .option('--cache <path>', 'Cache directory', '.cache/symdocs.level')
+    .option('--model <name>', 'Model to use', 'qwen3:4b')
+    .option('--force', 'Regenerate drafts even if cached')
+    .option(
+      '--concurrency <value>',
+      'Concurrent generations',
+      (value) => parseInt(String(value), 10),
+      4,
+    )
+    .action(
+      async (options: { cache: string; model: string; force?: boolean; concurrency: number }) => {
+        await runDocs({
+          cache: options.cache,
+          model: options.model,
+          force: options.force ?? false,
+          concurrency: Number.isFinite(options.concurrency) ? options.concurrency : 4,
+        });
+      },
+    );
+  await program.parseAsync(process.argv);
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const args = parseArgs({
-    '--cache': '.cache/symdocs.level',
-    '--model': 'qwen3:4b',
-    '--force': 'false',
-    '--concurrency': '4',
-  });
-  runDocs({
-    cache: String(args['--cache']),
-    model: String(args['--model']),
-    force: String(args['--force']) === 'true',
-    concurrency: parseInt(String(args['--concurrency']), 10) || 4,
-  }).catch((e: unknown) => {
+  runCli().catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });
