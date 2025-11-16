@@ -182,17 +182,24 @@ function stripBetween(text: string, start: string, end: string) {
   return text.trimEnd();
 }
 
+async function runCli() {
+  const program = createPipelineProgram('symdocs-write', 'Materialize generated docs');
+  program
+    .option('--cache <path>', 'Cache directory', '.cache/symdocs.level')
+    .option('--out <path>', 'Output directory', 'docs/packages')
+    .option('--granularity <mode>', 'module or symbol', 'module')
+    .action(async (options: { cache: string; out: string; granularity: string }) => {
+      await runWrite({
+        cache: options.cache,
+        out: options.out,
+        granularity: options.granularity === 'symbol' ? 'symbol' : 'module',
+      });
+    });
+  await program.parseAsync(process.argv);
+}
+
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
-  const args = parseArgs({
-    '--cache': '.cache/symdocs.level',
-    '--out': 'docs/packages',
-    '--granularity': 'module',
-  });
-  runWrite({
-    cache: String(args['--cache']),
-    out: String(args['--out']),
-    granularity: String(args['--granularity']) as 'module' | 'symbol',
-  }).catch((e: unknown) => {
+  runCli().catch((e: unknown) => {
     console.error(e);
     process.exit(1);
   });
