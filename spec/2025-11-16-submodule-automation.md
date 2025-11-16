@@ -8,7 +8,6 @@
 
 ## Files to change
 
-- `.pre-commit-config.yaml` (add local hooks to run branch alignment/guard logic).
 - `scripts/git-hooks/submodule-branch-sync.sh` (new hook/CI script implementing special-branch logic).
 - `.github/workflows/submodule-branch-guard.yml` (CI for mergeability + post-merge sync).
 - `spec/2025-11-16-submodules-device-stealth.md` (document guardrails and verification state).
@@ -16,7 +15,7 @@
 
 ## Requirements
 
-- Special branches always align submodule branches to the parent branch on commit/checkout.
+- Special branches always align submodule branches to the parent branch when hooks run (commit/push/checkout entrypoints you wire to the script).
 - Push is blocked if any submodule is detached, mid-merge/rebase, dirty, or on a different branch; attempt auto-align once.
 - Checkout on special branches blocks when submodules are dirty and syncs submodules after ensuring `.gitmodules` matches the branch.
 - CI: on PRs to special branches, fail if submodule branches cannot merge; auto-open submodule PRs for conflicts; create missing base branches from `main`.

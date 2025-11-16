@@ -8,7 +8,7 @@ We need every submodule to track the `device/stealth` branch. Current configurat
 
 - `.gitmodules` currently sets `branch = device/stealth` for every submodule entry (lines 1-140); automation rewrites these entries to the active special branch (device/_, dev/_, main, release).
 - `git submodule status --recursive` shows all submodules at `heads/device/stealth` commits for this branch.
-- Submodule branch alignment is enforced via local hooks (pre-commit stages) and CI (see Workflow / guardrails).
+- Submodule branch alignment is enforced via local hooks (callable script you can wire into existing hooks) and CI (see Workflow / guardrails).
 
 ## Existing issues/PRs
 
@@ -36,7 +36,7 @@ Checked that `device/stealth` fully contains commits from the previously tracked
 
 ## Workflow / guardrails
 
-- Local hooks (via `.pre-commit-config.yaml`) call `scripts/git-hooks/submodule-branch-sync.sh` on commit, push, and post-checkout to align `.gitmodules` to the current special branch, block pushes for dirty/detached/rebasing submodules, and sync submodules after checkout.
+- Local automation script `scripts/git-hooks/submodule-branch-sync.sh` can be called from your existing commit/push/checkout hooks; it aligns `.gitmodules` to the current special branch, blocks pushes for dirty/detached/rebasing submodules, and syncs submodules after checkout on special branches.
 - CI workflow `.github/workflows/submodule-branch-guard.yml`:
   - On PRs to special branches (`device/*`, `dev/*`, `main`, `release`), checks mergeability of matching submodule branches; creates missing base branches from `main` and opens submodule PRs on conflicts.
   - On pushes to those branches, updates `.gitmodules` to the branch and auto-pushes the alignment commit if needed.
