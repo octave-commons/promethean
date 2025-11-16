@@ -1,20 +1,22 @@
-// src/05-materialize.ts
-import { promises as fs } from "fs";
-import * as path from "path";
-import { openLevelCache } from "@promethean-os/level-cache";
-import { parseArgs, ensureDir } from "./utils.js";
-import type { CodeBlock, NamedGroup } from "./types.js";
+import { promises as fs } from 'fs';
+import * as path from 'path';
 
-const args = parseArgs({
-  "--blocks": ".cache/codepack/blocks",
-  "--names": ".cache/codepack/names",
-  "--out": "out/code_groups",
-  "--dry-run": "false",
-});
+import { openLevelCache } from '@promethean-os/level-cache';
+import { createPipelineProgram } from '@promethean-os/pipeline-core';
+
+import { ensureDir } from './utils.js';
+import type { CodeBlock, NamedGroup } from './types.js';
+
+export type MaterializeOptions = {
+  blocks?: string;
+  names?: string;
+  out?: string;
+  dryRun?: boolean;
+};
 
 function safeJoin(...parts: string[]) {
-  const p = path.join(...parts).replace(/\\/g, "/");
-  if (p.includes("..")) throw new Error("refusing to write paths with ..");
+  const p = path.join(...parts).replace(/\\/g, '/');
+  if (p.includes('..')) throw new Error('refusing to write paths with ..');
   return p;
 }
 
@@ -27,83 +29,73 @@ async function exists(p: string) {
   }
 }
 
-async function main() {
-  const blocksPath = path.resolve(args["--blocks"] ?? ".cache/codepack/blocks");
-  const namesPath = path.resolve(args["--names"] ?? ".cache/codepack/names");
-  const outRoot = path.resolve(args["--out"] ?? "out/code_groups");
-  const dry = (args["--dry-run"] ?? "false") === "true";
+export async function materialize(options: MaterializeOptions = {}): Promise<void> {
+  const blocksPath = path.resolve(options.blocks ?? '.cache/codepack/blocks');
+  const namesPath = path.resolve(options.names ?? '.cache/codepack/names');
+  const outRoot = path.resolve(options.out ?? 'out/code_groups');
+  const dry = options.dryRun ?? false;
 
-  const blockCache = await openLevelCache<CodeBlock>({
-    path: blocksPath,
-    namespace: "blocks",
-  });
+  const blockCache = await openLevelCache<CodeBlock>({ path: blocksPath, namespace: 'blocks' });
   const byId = new Map<string, CodeBlock>();
-  for await (const [id, b] of blockCache.entries()) {
-    byId.set(id, b);
+  for await (const [id, block] of blockCache.entries()) {
+    byId.set(id, block);
   }
   await blockCache.close();
 
-  const nameCache = await openLevelCache<NamedGroup>({
-    path: namesPath,
-    namespace: "names",
-  });
+  const nameCache = await openLevelCache<NamedGroup>({ path: namesPath, namespace: 'names' });
   const groups: NamedGroup[] = [];
-  for await (const [, g] of nameCache.entries()) groups.push(g);
+  for await (const [, group] of nameCache.entries()) groups.push(group);
   await nameCache.close();
 
   for (const group of groups) {
     const dirAbs = safeJoin(outRoot, group.dir);
     if (!dry) await ensureDir(dirAbs);
 
-    // write README
-    const readmeAbs = path.join(dirAbs, "README.md");
-    if (!dry) await fs.writeFile(readmeAbs, group.readme, "utf-8");
+    const readmeAbs = path.join(dirAbs, 'README.md');
+    if (!dry) await fs.writeFile(readmeAbs, group.readme, 'utf-8');
 
-    // write files
-    const perFile = group.files.reduce<Record<string, string[]>>((acc, f) => {
-      (acc[f.filename] ||= []).push(f.id);
-      return acc;
-    }, {});
-
-    for (const [filename, ids] of Object.entries(perFile)) {
-      const target = path.join(dirAbs, filename);
-
-      // if multiple ids to same filename, concatenate with clear separators
-      const parts = ids
-        .map((id) => {
-          const b = byId.get(id);
-          if (!b) return undefined;
-          const header = [
-            `/* source: ${b.relPath}:${b.startLine}-${b.endLine} */`,
-            b.hintedName ? `/* hinted: ${b.hintedName} */` : "",
-          ]
-            .filter(Boolean)
-            .join("\n");
-          return `${header}\n${b.code.trim()}\n`;
-        })
-        .filter((p): p is string => Boolean(p));
-      const content = parts.join("\n/* --- next-part --- */\n\n");
-
-      // avoid clobbering existing files: append -1, -2,...
-      let outPath = target;
-      if (await exists(outPath)) {
-        const ext = path.extname(target);
-        const base = path.basename(target, ext);
-        const dir = path.dirname(target);
-        let i = 1;
-        while (await exists(path.join(dir, `${base}-${i}${ext}`))) i++;
-        outPath = path.join(dir, `${base}-${i}${ext}`);
+    for (const file of group.files) {
+      const block = byId.get(file.id);
+      if (!block) {
+        console.warn(`codepack: missing block ${file.id}`);
+        continue;
       }
-
-      if (dry)
-        console.log(`[dry] write ${path.relative(process.cwd(), outPath)}`);
-      else await fs.writeFile(outPath, content, "utf-8");
+      const fileAbs = path.join(dirAbs, file.filename);
+      if (!dry) await ensureDir(path.dirname(fileAbs));
+      const header = `<!-- Source: ${block.relPath}:${block.startLine}-${block.endLine} -->\n`;
+      const content = `${header}\n${block.code}`;
+      if (!dry) await fs.writeFile(fileAbs, content, 'utf-8');
     }
   }
 
-  console.log(`materialized -> ${path.relative(process.cwd(), outRoot)}`);
+  console.log(
+    dry
+      ? `codepack: dry-run materialization -> ${path.relative(process.cwd(), outRoot)}`
+      : `codepack: materialized ${groups.length} groups -> ${path.relative(process.cwd(), outRoot)}`,
+  );
 }
-main().catch((e) => {
-  console.error(e);
-  process.exit(1);
-});
+
+async function runCli() {
+  const program = createPipelineProgram('codepack-materialize', 'Write named groups to disk');
+  program
+    .option('--blocks <path>', 'Block cache path', '.cache/codepack/blocks')
+    .option('--names <path>', 'Names cache path', '.cache/codepack/names')
+    .option('--out <path>', 'Output directory', 'out/code_groups')
+    .option('--dry-run', 'Preview without writing files')
+    .action(async (options: MaterializeOptions) => {
+      await materialize({
+        blocks: options.blocks,
+        names: options.names,
+        out: options.out,
+        dryRun: options.dryRun ?? false,
+      });
+    });
+  await program.parseAsync(process.argv);
+}
+
+if (import.meta.url === new URL(import.meta.url).href) {
+  runCli().catch((error) => {
+    console.error(error);
+    process.exit(1);
+  });
+}
