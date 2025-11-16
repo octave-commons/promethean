@@ -121,16 +121,39 @@ async function readJSON(p: string): Promise<unknown | undefined> {
   }
 }
 
+async function runCli() {
+  const program = createPipelineProgram('simtasks-plan', 'Generate refactor plans for clusters');
+  program
+    .option('--scan <path>', 'Path to scan cache', '.cache/simtasks/functions')
+    .option('--clusters <path>', 'Path to clusters JSON', '.cache/simtasks/clusters.json')
+    .option('--out <path>', 'Output plan JSON', '.cache/simtasks/plans.json')
+    .option('--model <name>', 'LLM model for planning', 'qwen3:4b')
+    .option('--base-dir <path>', 'Base directory for canonical paths', 'packages')
+    .option('--force', 'Regenerate even if plan exists')
+    .action(
+      async (options: {
+        scan: string;
+        clusters: string;
+        out: string;
+        model: string;
+        baseDir: string;
+        force?: boolean;
+      }) => {
+        await plan({
+          scan: options.scan,
+          clusters: options.clusters,
+          out: options.out,
+          model: options.model,
+          baseDir: options.baseDir,
+          force: options.force ?? false,
+        });
+      },
+    );
+  await program.parseAsync(process.argv);
+}
+
 if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
-  const args = parseArgs({
-    '--scan': '.cache/simtasks/functions',
-    '--clusters': '.cache/simtasks/clusters.json',
-    '--out': '.cache/simtasks/plans.json',
-    '--model': 'qwen3:4b',
-    '--base-dir': 'packages',
-    '--force': 'false',
-  });
-  plan(args).catch((e) => {
+  runCli().catch((e) => {
     console.error(e);
     process.exit(1);
   });
