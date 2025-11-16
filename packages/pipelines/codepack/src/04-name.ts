@@ -16,8 +16,6 @@ export type NameOptions = {
   baseDir?: string;
 };
 
-type GroupPayload = z.infer<typeof GroupSchema>;
-
 const GroupSchema = z.object({
   dir: z.string().min(1),
   files: z
