@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0356-TS1228-ai",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

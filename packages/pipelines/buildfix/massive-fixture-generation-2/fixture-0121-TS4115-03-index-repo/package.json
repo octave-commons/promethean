@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0121-TS4115-03-index-repo",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

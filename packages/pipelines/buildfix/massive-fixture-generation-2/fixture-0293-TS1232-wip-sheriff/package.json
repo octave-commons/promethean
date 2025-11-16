@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0293-TS1232-wip-sheriff",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}
