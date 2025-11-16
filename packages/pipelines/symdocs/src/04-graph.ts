@@ -4,6 +4,7 @@ import * as path from 'path';
 
 import { listFilesRec } from '@promethean-os/utils';
 import { openLevelCache } from '@promethean-os/level-cache';
+import { createPipelineProgram } from '@promethean-os/pipeline-core';
 import type { SymbolInfo } from './types.js';
 
 type Pkg = {
