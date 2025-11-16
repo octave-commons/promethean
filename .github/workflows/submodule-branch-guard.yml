@@ -1,54 +1,64 @@
-name: Ensure submodule branches follow parent branch
+name: Submodule branch sync guard
 
 on:
-  push:
-    branches:
-      - device/**
-      - main
-      - promethean/**
   pull_request:
     branches:
       - device/**
+      - dev/**
       - main
-      - promethean/**
+      - release
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches:
+      - device/**
+      - dev/**
+      - main
+      - release
 
 permissions:
-  contents: read
+  contents: write
+  pull-requests: write
 
 jobs:
-  verify:
+  pr-mergeability:
+    if: github.event_name == 'pull_request'
     runs-on: ubuntu-latest
     steps:
-      - name: Checkout repository (no submodules)
+      - name: Checkout with submodules
         uses: actions/checkout@v4
         with:
           fetch-depth: 0
-          submodules: false
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Enforce .gitmodules branch alignment
-        shell: bash
+      - name: Trust workspace for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Verify submodule mergeability and branch alignment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
-          set -euo pipefail
-          BRANCH="${GITHUB_HEAD_REF:-${GITHUB_REF_NAME:-}}"
-          if [ -z "$BRANCH" ]; then
-            echo "::error::Unable to determine branch name from GitHub context"
-            exit 1
-          fi
-          echo "Expected branch for submodules: $BRANCH"
-          mismatches=0
-          while read -r key path; do
-            name=${key#submodule.}
-            name=${name%.path}
-            configured=$(git config -f .gitmodules "submodule.${name}.branch" || true)
-            if [ "$configured" != "$BRANCH" ]; then
-              echo "::error file=.gitmodules::Submodule '${path}' branch '${configured:-<none>}' does not match '${BRANCH}'"
-              mismatches=1
-            fi
-          done < <(git config -f .gitmodules --get-regexp '^submodule\\..*\\.path')
+          base_ref="${{ github.event.pull_request.base.ref }}"
+          head_ref="${{ github.event.pull_request.head.ref }}"
+          pr_url="${{ github.event.pull_request.html_url }}"
+          bash scripts/git-hooks/submodule-branch-sync.sh ci-merge-check "$base_ref" "$head_ref" "$pr_url"
 
-          if [ "$mismatches" -ne 0 ]; then
-            exit 1
-          fi
+  post-merge-sync:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
 
-      - name: Sync submodule configuration
-        run: git submodule sync --recursive
+      - name: Trust workspace for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Align .gitmodules to branch after merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="${GITHUB_REF_NAME}"
+          bash scripts/git-hooks/submodule-branch-sync.sh ci-post-merge "$branch"
