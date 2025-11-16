@@ -1,5 +1,6 @@
 import { promises as fs } from 'fs';
 import * as path from 'path';
+import { pathToFileURL } from 'url';
 
 import { openLevelCache } from '@promethean-os/level-cache';
 import { createPipelineProgram } from '@promethean-os/pipeline-core';
@@ -18,15 +19,6 @@ function safeJoin(...parts: string[]) {
   const p = path.join(...parts).replace(/\\/g, '/');
   if (p.includes('..')) throw new Error('refusing to write paths with ..');
   return p;
-}
-
-async function exists(p: string) {
-  try {
-    await fs.stat(p);
-    return true;
-  } catch {
-    return false;
-  }
 }
 
 export async function materialize(options: MaterializeOptions = {}): Promise<void> {
