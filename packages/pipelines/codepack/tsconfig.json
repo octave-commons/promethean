@@ -8,5 +8,5 @@
     "declarationMap": true
   },
   "include": ["src/**/*"],
-  "references": []
+  "references": [{ "path": "../core" }]
 }

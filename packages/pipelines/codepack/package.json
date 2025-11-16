@@ -18,6 +18,8 @@
     "@promethean-os/fs": "workspace:*",
     "@promethean-os/utils": "workspace:*",
     "@promethean-os/level-cache": "workspace:*",
+    "@promethean-os/pipeline-core": "workspace:*",
+    "commander": "^12.1.0",
     "gray-matter": "4.0.3",
     "remark-parse": "11.0.0",
     "unified": "11.0.4",
