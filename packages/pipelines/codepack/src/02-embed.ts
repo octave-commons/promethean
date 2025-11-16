@@ -57,8 +57,7 @@ async function runCli() {
   await program.parseAsync(process.argv);
 }
 
-if (import.meta.url === new URL(import.meta.url).href) {
-  // new URL because pathToFileURL requires file path; simpler to compare hrefs
+if (import.meta.url === pathToFileURL(process.argv[1] ?? '').href) {
   runCli().catch((error) => {
     console.error(error);
     process.exit(1);
