@@ -27,3 +27,17 @@ We need every submodule to track the `device/stealth` branch. Current configurat
 - `.gitmodules` lists every submodule with `branch = device/stealth`.
 - Submodule status reflects tracking of `device/stealth` (configuration updated and status verified).
 - Documentation (this spec) updated if scope changes.
+
+## Verification (2025-11-16)
+
+Checked that `device/stealth` fully contains commits from the previously tracked branches:
+
+- `packages/apply-patch` vs `origin/main`: `10 0` (device/stealth ahead, no missing commits)
+- `packages/autocommit` vs `origin/main`: `8 0`
+- `packages/auth-service` vs `origin/main`: `7 0`
+- `packages/kanban` vs `origin/promethean/dev`: `27 0`
+- `packages/logger` vs `origin/main`: `7 0`
+- `packages/mcp` vs `origin/promethean/dev`: `14 0`
+- `packages/naming` vs `origin/promethean/dev`: `9 0`
+- `packages/persistence` vs `origin/promethean/dev`: `10 0`
+- `packages/utils` vs `origin/promethean/dev`: `7 0`
