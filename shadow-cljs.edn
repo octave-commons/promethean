@@ -1,16 +1,8 @@
-{:source-paths ["packages/promethean-cli/src"
+{:source-paths ["cli/promethean/src"
                 "packages/shadow-ui/src"
                  "packages/frontends/kanban-frontend/src/cljs"
                  "packages/duck/duck-utils/src/cljs"
-                "packages/opencode-unified/src/clojurescript"
-                "packages/frontend-service/src/cljs"
-                "packages/frontends/docops-frontend/src/cljs"
-                "packages/frontends/health-dashboard-frontend/src/cljs"
-                "packages/frontends/llm-chat-frontend/src/cljs"
-                "packages/frontends/markdown-graph-frontend/src/cljs"
-                "packages/frontends/portfolio-frontend/src/cljs"
-                "packages/frontends/smart-chat-frontend/src/cljs"
-                "packages/frontends/smartgpt-dashboard-frontend/src/cljs"]
+                ]
  :dependencies [[binaryage/devtools "1.0.7"]
                 [nrepl "1.3.1"]]
  :nrepl {:port 9000
@@ -19,7 +11,7 @@
  {:promethean-cli
   {:target :node-script
    :main promethean.cli.core/-main
-   :output-to "packages/promethean-cli/dist/promethean_cli.cjs"
+   :output-to "cli/promethean/dist/promethean_cli.cjs"
    :compiler-options {:infer-externs :auto
                       :source-map true}}
 
@@ -35,54 +27,6 @@
     :entries [promethean.duck-utils.flags]
     :compiler-options {:output-feature-set :es-next}}
 
-  :docops-frontend
-  {:target :browser
-   :output-dir "packages/frontends/docops-frontend/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [promethean.frontends.docops.app]}}
-   :devtools {:watch-dir "packages/frontends/docops-frontend/static"}}
-
-  :health-dashboard-frontend
-  {:target :browser
-   :output-dir "packages/frontends/health-dashboard-frontend/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [promethean.frontends.health_dashboard.app]}}
-   :devtools {:watch-dir "packages/frontends/health-dashboard-frontend/static"}}
-
-  :llm-chat-frontend
-  {:target :browser
-   :output-dir "packages/frontends/llm-chat-frontend/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [promethean.frontends.llm_chat.app]}}
-   :devtools {:watch-dir "packages/frontends/llm-chat-frontend/static"}}
-
-  :markdown-graph-frontend
-  {:target :browser
-   :output-dir "packages/frontends/markdown-graph-frontend/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [promethean.frontends.markdown_graph.app]}}
-   :devtools {:watch-dir "packages/frontends/markdown-graph-frontend/static"}}
-
-  :portfolio-frontend
-  {:target :browser
-   :output-dir "packages/frontends/portfolio-frontend/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [promethean.frontends.portfolio.app]}}
-   :devtools {:watch-dir "packages/frontends/portfolio-frontend/static"}}
-
-  :smart-chat-frontend
-  {:target :browser
-   :output-dir "packages/frontends/smart-chat-frontend/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [promethean.frontends.smart_chat.app]}}
-   :devtools {:watch-dir "packages/frontends/smart-chat-frontend/static"}}
-
-  :smartgpt-dashboard-frontend
-  {:target :browser
-   :output-dir "packages/frontends/smartgpt-dashboard-frontend/dist/frontend"
-   :asset-path "/frontend"
-   :modules {:main {:entries [promethean.frontends.smartgpt_dashboard.app]}}
-   :devtools {:watch-dir "packages/frontends/smartgpt-dashboard-frontend/static"}}
 
    :kanban-frontend
     {:target :browser
@@ -92,20 +36,4 @@
      :devtools {:watch-dir "packages/frontends/kanban-frontend/static"
                 :compiler-options {:output-feature-set :es-next}}}
 
-   :frontend-service
-   {:target :node-script
-    :main promethean.frontend-service.core/-main
-    :output-to "packages/frontend-service/dist/frontend_service.cjs"
-    :compiler-options {:infer-externs :auto
-                       :source-map true
-                       :output-feature-set :es-next}
-    :devtools {:watch-dir "packages/frontend-service/static"}}
-
-   :frontend-service-test
-   {:target :node-test
-    :main promethean.frontend-service.test.dsl-test
-    :output-to "packages/frontend-service/dist/test.cjs"
-    :compiler-options {:infer-externs :auto
-                       :source-map true
-                       :output-feature-set :es-next}
-     :ns-regexp ".*-test"}}}}
+   }}

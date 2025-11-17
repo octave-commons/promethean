@@ -22,6 +22,10 @@ pm2 start ecosystem.config.enhanced.mjs
 
 # Or start with specific environment
 pm2 start ecosystem.config.enhanced.mjs --env development
+
+# Ensure Nx automation stays online in PM2
+pm2 start system/daemons/devops/nx-daemon/dist/ecosystem.config.mjs
+pm2 start system/daemons/devops/nx-watcher/dist/ecosystem.config.mjs
 ```
 
 ### 3. Monitor the System
@@ -55,8 +59,17 @@ node scripts/log-monitor.mjs
   - Batched operations (5s delay)
   - Affected project detection using Nx dependency graph
   - Concurrent operation control (max 3 concurrent)
+  - Exposes PM2 actions (`build-affected`, `test-affected`, `lint-affected`, `typecheck-affected`, `generate-report`, `cleanup`)
 
-#### 2. Development Servers (`dev-*`)
+#### 2. Nx Daemon (`nx-daemon`)
+
+- **Purpose**: Runs `node_modules/nx/src/daemon/server/start.js` under PM2 so the Nx background server is visible in `pm2 status` and never respawns as an unmanaged process.
+- **Features**:
+  - Restarts automatically on crash, just like every other daemon
+  - Shares the same `pm2 start system/daemons/devops/nx-daemon/dist/ecosystem.config.mjs` workflow as the watcher
+  - Keeps Nx CLI calls (including the watcher above) warm so rebuilds/test runs stay fast
+
+#### 3. Development Servers (`dev-*`)
 
 - **Purpose**: Hot-reloading development servers for frontend projects
 - **Includes**: All frontend projects from `packages/frontends/`
@@ -65,20 +78,20 @@ node scripts/log-monitor.mjs
   - File watching with hot reload
   - Development-specific environment variables
 
-#### 3. Background Services
+#### 4. Background Services
 
 - **Autocommit**: Automatic commit service with AI-generated messages
 - **Promethean MCP Dev**: MCP development server
 - **OpenCode Unified**: OpenCode development environment
 - **Playwright MCP**: Browser automation server
 
-#### 4. Monitoring Services
+#### 5. Monitoring Services
 
 - **Health Monitor**: System health monitoring
 - **Heartbeat**: Process heartbeat monitoring
 - **Message Broker**: Inter-service communication
 
-#### 5. Automation Tasks
+#### 6. Automation Tasks
 
 - **Periodic Build**: Full workspace build every 6 hours
 - **Periodic Test**: Full test suite daily at 2 AM
@@ -182,17 +195,31 @@ node scripts/log-monitor.mjs
 ### Custom Actions
 
 ```bash
-# Trigger build for affected projects
-pm2 trigger build-affected
+# Nx watcher automation
+pm2 trigger nx-watcher build-affected
+pm2 trigger nx-watcher test-affected
+pm2 trigger nx-watcher lint-affected
+pm2 trigger nx-watcher typecheck-affected
+pm2 trigger nx-watcher generate-report
+pm2 trigger nx-watcher cleanup
 
-# Trigger tests for affected projects
-pm2 trigger test-affected
+# Health snapshots
+pm2 trigger health emit-report
+pm2 trigger health reset-heartbeats
 
-# Generate comprehensive status report
-pm2 trigger generate-report
+# Heartbeat controls
+pm2 trigger heartbeat scan-now
+pm2 trigger heartbeat reload-config
+pm2 trigger heartbeat shutdown
 
-# Clean up old logs and cache
-pm2 trigger cleanup
+# Autocommit controls
+pm2 trigger autocommit pause
+pm2 trigger autocommit resume
+pm2 trigger autocommit sync-now
+
+# Serena updater controls
+pm2 trigger serena-updater check-now
+pm2 trigger serena-updater restart-serena
 ```
 
 ### Nx Operations

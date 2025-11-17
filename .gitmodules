@@ -1,25 +1,25 @@
-[submodule "packages/apply-patch"]
-	path = packages/apply-patch
+[submodule "cli/apply-patch"]
+	path = cli/apply-patch
 	url = git@github.com:riatzukiza/apply-patch.git
 	branch = device/stealth
-[submodule "packages/autocommit"]
-	path = packages/autocommit
+[submodule "services/autocommit"]
+	path = services/autocommit
 	url = git@github.com:riatzukiza/autocommit.git
 	branch = device/stealth
-[submodule "packages/auth-service"]
-	path = packages/auth-service
+[submodule "services/auth-service"]
+	path = services/auth-service
 	url = git@github.com:riatzukiza/auth-service.git
 	branch = device/stealth
-[submodule "packages/kanban"]
-	path = packages/kanban
+[submodule "cli/kanban"]
+	path = cli/kanban
 	url = https://github.com/riatzukiza/kanban.git
 	branch = device/stealth
 [submodule "packages/logger"]
 	path = packages/logger
 	url = git@github.com:riatzukiza/logger.git
 	branch = device/stealth
-[submodule "packages/mcp"]
-	path = packages/mcp
+[submodule "services/mcp"]
+	path = services/mcp
 	url = https://github.com/riatzukiza/mcp.git
 	branch = device/stealth
 [submodule "packages/naming"]
@@ -46,8 +46,8 @@
 	path = packages/cli
 	url = git@github.com:riatzukiza/cli.git
 	branch = device/stealth
-[submodule "packages/eidolon-field"]
-	path = packages/eidolon-field
+[submodule "services/eidolon-field"]
+	path = services/eidolon-field
 	url = git@github.com:riatzukiza/eidolon-field.git
 	branch = device/stealth
 [submodule "packages/math-utils"]
@@ -78,8 +78,8 @@
 	path = packages/http
 	url = git@github.com:riatzukiza/http.git
 	branch = device/stealth
-[submodule "packages/shadow-conf"]
-	path = packages/shadow-conf
+[submodule "cli/shadow-conf"]
+	path = cli/shadow-conf
 	url = git@github.com:riatzukiza/shadow-conf.git
 	branch = device/stealth
 [submodule "packages/test-utils"]
@@ -90,8 +90,8 @@
 	path = packages/build-monitoring
 	url = git@github.com:riatzukiza/build-monitoring.git
 	branch = device/stealth
-[submodule "packages/compliance-monitor"]
-	path = packages/compliance-monitor
+[submodule "services/compliance-monitor"]
+	path = services/compliance-monitor
 	url = git@github.com:riatzukiza/compliance-monitor.git
 	branch = device/stealth
 [submodule "packages/dlq"]
@@ -102,12 +102,12 @@
 	path = packages/enso-agent-communication
 	url = git@github.com:riatzukiza/enso-agent-communication.git
 	branch = device/stealth
-[submodule "packages/mcp-dev-ui-frontend"]
-	path = packages/mcp-dev-ui-frontend
+[submodule "services/mcp-dev-ui-frontend"]
+	path = services/mcp-dev-ui-frontend
 	url = git@github.com:riatzukiza/mcp-dev-ui-frontend.git
 	branch = device/stealth
-[submodule "packages/obsidian-export"]
-	path = packages/obsidian-export
+[submodule "cli/obsidian-export"]
+	path = cli/obsidian-export
 	url = git@github.com:riatzukiza/obsidian-export.git
 	branch = device/stealth
 [submodule "packages/plugin-hooks"]

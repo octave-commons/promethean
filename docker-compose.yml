@@ -1,4 +1,14 @@
 services:
+  rabbitmq:
+    # profiles: ["messaging"]
+    image: rabbitmq:3.13-management
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    ports:
+      - "5672:5672"
+      - "15672:15672"
+    networks: [prom-net]
+    restart: unless-stopped
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
     gpus: all
@@ -293,6 +303,7 @@ volumes:
   sonarqube_extensions:
   mongo-data:
   open-webui:
+  rabbitmq_data:
 
 networks:
   prom-net:
