@@ -17,8 +17,9 @@ Scaffold only. The entrypoint is compiled with `shadow-cljs` (`:sentinel` build)
 
 - Default config path: `.sentinel.edn` at the chosen root (override with `SENTINEL_CONFIG`).
 - Shape: `{:watchers {<path-keyword> {:synthetic [...] :actions [...] :children {...}}}
-        :packs ["@promethean-os/autocommit" "@promethean-os/autosubmodule"]
-        :use   ["@promethean-os/another-pack"]}`.
+      :packs ["@promethean-os/autocommit" "@promethean-os/autosubmodule"]
+      :use   ["@promethean-os/another-pack"]}`.
 - Path keywords can be nested like `:foo/bar/baz`. See `config.example.edn` for a starter.
 - Packs: Sentinel will try to resolve `<pack>/sentinel.edn` via Node resolution and merge its watchers.
 - Anchors: Sentinel watches for build anchors (`shadow-cljs.edn`, `bb.edn`, `nbb.edn`, `deps.edn`, `package.json`). When found, it will look for `sentinel.edn` and `sentinel.<anchor>.edn` next to them and load/unload packs accordingly, emitting `sentinel.detected` logs.
+- Messaging: publishes `sentinel.detected` / `sentinel.pack.unloaded` and synthetic events (`sentinel.synthetic.<id>`). RPC queues: `sentinel.pack.add`, `sentinel.pack.remove`, `sentinel.pack.reload` (payload `{path}` or `{pack}`).
