@@ -47,7 +47,7 @@
 
    :sentinel-test
    {:target :node-test
-    :output-to "services/sentinel/dist/sentinel-tests.js"
+    :output-to "services/sentinel/dist/sentinel-tests.cjs"
     :autorun true}
 
    }}

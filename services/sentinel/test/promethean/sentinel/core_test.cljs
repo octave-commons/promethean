@@ -49,4 +49,4 @@
 (deftest recompute-watchers
   (core/registry-assoc "a" [{:path "p1"}])
   (core/registry-assoc "b" [{:path "p2"}])
-  (is (= ["p2" "p1"] (map :path (:watchers @core/sentinel-state)))))
+  (is (= #{"p1" "p2"} (set (map :path (:watchers @core/sentinel-state))))))

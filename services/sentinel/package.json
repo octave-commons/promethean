@@ -12,5 +12,14 @@
     "test": "shadow-cljs compile sentinel-test",
     "clean": "rimraf dist"
   },
+  "dependencies": {
+    "@promethean-os/fs": "workspace:*",
+    "@promethean-os/logger": "workspace:*",
+    "@promethean-os/messaging": "workspace:*",
+    "chokidar": "^3.6.0",
+    "fb-watchman": "^2.0.2",
+    "minimatch": "^9.0.4",
+    "nodegit": "^0.28.0"
+  },
   "license": "GPL-3.0-only"
 }

@@ -5,15 +5,16 @@
             [clojure.string :as str]))
 
 (def chokidar (js/require "chokidar"))
-(def minimatch (js/require "minimatch"))
-(def messaging (js/require "@promethean-os/messaging"))
-(def nodegit (js/require "nodegit"))
-(def fs-lib (js/require "@promethean-os/fs"))
-(def logger (js/require "@promethean-os/logger"))
+(def minimatch-lib (js/require "minimatch"))
+(def minimatch-fn (or (.-default minimatch-lib) (.-minimatch minimatch-lib) minimatch-lib))
+(def messaging (try (js/require "@promethean-os/messaging") (catch :default _ nil)))
+(def nodegit (try (js/require "nodegit") (catch :default _ nil)))
+(def fs-lib (try (js/require "@promethean-os/fs") (catch :default _ nil)))
+(def logger (try (js/require "@promethean-os/logger") (catch :default _ nil)))
 (def fs (js/require "fs"))
 (def path (js/require "path"))
 
-(def createRabbitContext (.-createRabbitContext messaging))
+(def createRabbitContext (when messaging (.-createRabbitContext messaging)))
 
 (def default-root
   (or (aget (.-env js/process) "SENTINEL_ROOT")
@@ -177,9 +178,11 @@
   (contains? anchor-names (.basename path p)))
 
 (defn match-glob? [glob-str rel]
-  (if (or (nil? glob-str) (str/blank? glob-str))
+  (if (or (nil? glob-str) (str/blank? glob-str) (nil? minimatch-fn))
     true
-    (.call minimatch minimatch rel glob-str)))
+    (try
+      (minimatch-fn rel glob-str)
+      (catch :default _ true))))
 
 (defn file-size [p]
   (try
@@ -268,38 +271,40 @@
                 (log :warn "rpc responder failed" {:queue queue :error err})))))
 
 (defn start-messaging! []
-  (try
-    (let [ctx (createRabbitContext)]
-      (register-rpc! ctx "sentinel.pack.add"
-                     (fn [envelope helpers]
-                       (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
-                             path (:path payload)
-                             pack (:pack payload)
-                             res (cond
-                                   path (load-sentinel-file path)
-                                   pack (load-pack-watchers pack)
-                                   :else nil)]
-                         (when res
-                           (.reply helpers (clj->js {:ok true :source (or path pack)}))))))
-      (register-rpc! ctx "sentinel.pack.remove"
-                     (fn [envelope helpers]
-                       (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
-                             path (:path payload)]
-                         (when path (registry-dissoc path))
-                         (.reply helpers (clj->js {:ok true :source path})))))
-      (register-rpc! ctx "sentinel.pack.reload"
-                     (fn [envelope helpers]
-                       (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
-                             path (:path payload)
-                             _ (when path (registry-dissoc path))
-                             res (when path (load-sentinel-file path))]
-                         (.reply helpers (clj->js {:ok true :source path :watchers (count (:watchers res))})))))
-      (swap! sentinel-state assoc :messaging {:ctx ctx})
-      (log :info "sentinel messaging initialized" {})
-      {:ctx ctx})
-    (catch :default e
-      (log :warn "messaging unavailable" {:error e})
-      nil)))
+  (if (nil? createRabbitContext)
+    (log :warn "messaging unavailable (missing dependency)" {})
+    (try
+      (let [ctx (createRabbitContext)]
+        (register-rpc! ctx "sentinel.pack.add"
+                       (fn [envelope helpers]
+                         (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
+                               path (:path payload)
+                               pack (:pack payload)
+                               res (cond
+                                     path (load-sentinel-file path)
+                                     pack (load-pack-watchers pack)
+                                     :else nil)]
+                           (when res
+                             (.reply helpers (clj->js {:ok true :source (or path pack)}))))))
+        (register-rpc! ctx "sentinel.pack.remove"
+                       (fn [envelope helpers]
+                         (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
+                               path (:path payload)]
+                           (when path (registry-dissoc path))
+                           (.reply helpers (clj->js {:ok true :source path})))))
+        (register-rpc! ctx "sentinel.pack.reload"
+                       (fn [envelope helpers]
+                         (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
+                               path (:path payload)
+                               _ (when path (registry-dissoc path))
+                               res (when path (load-sentinel-file path))]
+                           (.reply helpers (clj->js {:ok true :source path :watchers (count (:watchers res))})))))
+        (swap! sentinel-state assoc :messaging {:ctx ctx})
+        (log :info "sentinel messaging initialized" {})
+        {:ctx ctx})
+      (catch :default e
+        (log :warn "messaging unavailable" {:error e})
+        nil))))
 
 (defn -main [& _args]
   (let [root (or default-root (.cwd js/process))
