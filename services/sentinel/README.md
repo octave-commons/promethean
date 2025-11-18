@@ -6,7 +6,6 @@ Unified file-event spine for Promethean. Sentinel watches large trees (home- or 
 
 - Single watcher to minimize file handles and duplicated work across services.
 - Publish raw and synthetic events via `@promethean-os/messaging` topics.
-- Prefer Watchman (`fb-watchman`) with `chokidar` fallback.
 - Submodule-aware workflows use `nodegit` (no shelling out to git).
 
 ## Status

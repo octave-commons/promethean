@@ -14,107 +14,32 @@
 (def fs (js/require "fs"))
 (def path (js/require "path"))
 
-(def createRabbitContext (.-createRabbitContext messaging))
+(declare sentinel-state)
+(declare log)
+(declare normalize-watch-node)
+(declare sentinel-pack-names)
+(declare load-pack-watchers)
+(declare sentinel-filename)
+(declare recompute-watchers!)
+(declare anchor-names)
+(declare ignored-patterns)
+(declare normalize-path)
+(declare sentinel-files-for-anchor)
+(declare load-sentinel-file)
+(declare registry-dissoc)
+(declare read-edn-file)
+(declare default-root)
 
-(def default-root
-  (or (aget (.-env js/process) "SENTINEL_ROOT")
-      (.-HOME (.-env js/process))
-      (.cwd js/process)))
-
-(def default-config-path
-  (or (aget (.-env js/process) "SENTINEL_CONFIG")
-      (path.join default-root ".sentinel.edn")))
-
-(def anchor-names
-  #{"shadow-cljs.edn" "bb.edn" "nbb.edn" "deps.edn" "package.json"})
-
-(def sentinel-filename "sentinel.edn")
-
-(def ignored-patterns
-  ["**/node_modules/**" "**/.git/**" "**/.cache/**"
-   "**/.turbo/**" "**/dist/**" "**/build/**"])
-
-(defonce sentinel-state
-  (atom {:root default-root
-         :watcher nil
-         :anchor-watcher nil
-         :backend :uninitialized
-         :watchers []
-         :registry {}
-         :config-path default-config-path
-         :debounce-cache {}
-         :messaging nil
-         :rpc-closers []}))
-
-(defn log [level message & [data]]
-  (let [payload (cond-> {:level level
-                          :service "sentinel"
-                          :message message}
-                   data (assoc :data data))]
-    ;; placeholder until logger wiring is finalized; keeps output visible
-    (.log js/console (clj->js payload))))
-
-(defn keyword->path [k]
-  (when (keyword? k)
-    (let [base (str (or (namespace k) "")
-                    (when (namespace k) "/")
-                    (name k))]
-      (-> base
-          (str/replace #"^/+|/+$" "")
-          (str/replace #"//+" "/")))))
-
-(defn normalize-path [p]
-  (when p
-    (.resolve path p)))
-
-(defn read-edn-file [p]
-  (when (.existsSync fs p)
-    (try
-      (edn/read-string (.readFileSync fs p "utf8"))
-      (catch :default e
-        (log :error "failed to read sentinel edn config" {:path p :error e})
-        nil))))
-
-(defn normalize-watch-node [base k v]
-  (let [path-str (keyword->path k)
-        abs-path (.resolve path base path-str)]
-    {:key k
-     :path path-str
-     :abs-path abs-path
-     :synthetic (:synthetic v)
-     :actions (:actions v)
-     :children (:children v)
-     :raw v}))
-
-(defn sentinel-pack-names [config]
-  (when (map? config)
-    (vec (concat (:packs config) (:use config)))))
-
-(defn load-pack-watchers [pack-name]
-  (try
-    (let [resolved (.resolve js/require (str pack-name "/" sentinel-filename))
-          pack-edn (read-edn-file resolved)
-          base-dir (.dirname path resolved)
-          watchers (when (map? pack-edn)
-                     (->> (:watchers pack-edn)
-                          (map (fn [[k v]] (normalize-watch-node base-dir k v)))
-                          (vec)))]
-      (when watchers
-        (log :info "loaded sentinel pack" {:pack pack-name
-                                            :resolved resolved
-                                            :watchers (map :path watchers)}))
-      watchers)
-    (catch :default e
-      (log :error "failed to load sentinel pack" {:pack pack-name :error e})
-      nil)))
+(def createRabbitContext (when messaging (.-createRabbitContext messaging)))
 
 (defn publish-event! [topic payload]
   (let [{:keys [messaging]} @sentinel-state
         ctx (:ctx messaging)]
     (when ctx
-      (-> (.publish ctx topic (clj->js payload))
+      (-> ^js (.publish ctx topic (clj->js payload))
           (.catch (fn [err]
                     (log :warn "failed to publish event" {:topic topic :error err})))))))
+
 
 (defn recompute-watchers! []
   (let [all (->> (:registry @sentinel-state)
@@ -275,7 +200,7 @@
     (let [ctx (createRabbitContext)]
       (register-rpc! ctx "sentinel.pack.add"
                      (fn [envelope helpers]
-                       (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
+                       (let [payload (js->clj (.-payload ^js envelope) :keywordize-keys true)
                              path (:path payload)
                              pack (:pack payload)
                              res (cond
@@ -283,20 +208,20 @@
                                    pack (load-pack-watchers pack)
                                    :else nil)]
                          (when res
-                           (.reply helpers (clj->js {:ok true :source (or path pack)}))))))
+                           (.reply ^js helpers (clj->js {:ok true :source (or path pack)}))))))
       (register-rpc! ctx "sentinel.pack.remove"
                      (fn [envelope helpers]
-                       (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
+                       (let [payload (js->clj (.-payload ^js envelope) :keywordize-keys true)
                              path (:path payload)]
                          (when path (registry-dissoc path))
-                         (.reply helpers (clj->js {:ok true :source path})))))
+                         (.reply ^js helpers (clj->js {:ok true :source path})))))
       (register-rpc! ctx "sentinel.pack.reload"
                      (fn [envelope helpers]
-                       (let [payload (js->clj (.-payload envelope) :keywordize-keys true)
+                       (let [payload (js->clj (.-payload ^js envelope) :keywordize-keys true)
                              path (:path payload)
                              _ (when path (registry-dissoc path))
                              res (when path (load-sentinel-file path))]
-                         (.reply helpers (clj->js {:ok true :source path :watchers (count (:watchers res))})))))
+                         (.reply ^js helpers (clj->js {:ok true :source path :watchers (count (:watchers res))})))))
       (swap! sentinel-state assoc :messaging {:ctx ctx})
       (log :info "sentinel messaging initialized" {})
       {:ctx ctx})
