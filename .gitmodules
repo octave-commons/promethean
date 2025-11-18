@@ -34,10 +34,6 @@
 	path = packages/utils
 	url = git@github.com:riatzukiza/utils.git
 	branch = device/stealth
-[submodule "packages/agent-os-protocol"]
-	path = packages/agent-os-protocol
-	url = git@github.com:riatzukiza/agent-os-protocol.git
-	branch = device/stealth
 [submodule "packages/ai-learning"]
 	path = experimental/ai-learning
 	url = git@github.com:riatzukiza/ai-learning.git
@@ -137,4 +133,8 @@
 [submodule "packages/security"]
 	path = packages/security
 	url = git@github.com:riatzukiza/security.git
+	branch = device/stealth
+[submodule "experimental/agent-os-protocol"]
+	path = experimental/agent-os-protocol
+	url = git@github.com:riatzukiza/agent-os-protocol.git
 	branch = device/stealth
