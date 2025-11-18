@@ -1,7 +1,6 @@
 import { ObjectId } from 'mongodb';
-import { AGENT_NAME } from '@promethean-os/legacy/env.js';
-import { HeartbeatClient } from '@promethean-os/legacy/heartbeat/index.js';
 import { ContextStore, getMongoClient } from '@promethean-os/persistence';
+const AGENT_NAME = process.env.AGENT_NAME || 'promethean';
 
 // Schema for raw discord messages awaiting embedding
 type DiscordMessage = {
@@ -21,15 +20,11 @@ const EMBEDDING_FUNCTION = process.env.EMBEDDING_FUNCTION || 'nomic-embed-text';
 const EMBED_DIMS = Number(process.env.EMBED_DIMS || 768);
 
 (async () => {
-  const hb = new HeartbeatClient();
-  await hb.sendOnce().catch(() => process.exit(1));
-  hb.start();
-
   const mongoClient = await getMongoClient();
   const db = mongoClient.db('database');
 
   const family = `${AGENT_NAME}_discord_messages`;
-    // Avoid cross-version mongodb type conflicts by relaxing the type here
+  // Avoid cross-version mongodb type conflicts by relaxing the type here
   const discordMessagesCollection = db.collection(family) as any;
 
   // dual store + context manager

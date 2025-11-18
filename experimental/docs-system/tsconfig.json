@@ -38,13 +38,13 @@
   "exclude": ["node_modules", "dist", "coverage", "test", "tests", "**/*.test.ts", "**/*.spec.ts"],
   "references": [
     {
-      "path": "../kanban"
+      "path": "../../cli/kanban"
     },
     {
-      "path": "../utils"
+      "path": "../../packages/utils"
     },
     {
-      "path": "../markdown"
+      "path": "../../packages/markdown"
     }
   ]
 }

@@ -27,7 +27,6 @@
     "coverage": "pnpm run build && c8 ava --config ../../config/ava.config.mjs"
   },
   "dependencies": {
-    "@promethean-os/event": "workspace:*",
     "amqplib": "^0.10.4"
   },
   "devDependencies": {

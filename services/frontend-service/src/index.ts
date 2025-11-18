@@ -1,14 +1,31 @@
-import fs from "node:fs";
-import path from "node:path";
-import { fileURLToPath } from "node:url";
+import fs from 'node:fs';
+import path from 'node:path';
+import { fileURLToPath } from 'node:url';
 
-import Fastify, { type FastifyInstance } from "fastify";
-import fastifyStatic from "@fastify/static";
-import {
-  registerDiagnosticsRoute,
-  registerHealthRoute,
-} from "@promethean-os/web-utils";
-import type { ReadonlyDeep } from "type-fest";
+import Fastify, { type FastifyInstance } from 'fastify';
+import fastifyStatic from '@fastify/static';
+import type { ReadonlyDeep } from 'type-fest';
+
+const registerHealthRoute = async (
+  app: FastifyInstance,
+  identity: ReadonlyDeep<{ serviceName?: string }>,
+): Promise<void> => {
+  app.get('/health', async (_req, reply) =>
+    reply.send({ status: 'ok', service: identity.serviceName }),
+  );
+};
+
+const registerDiagnosticsRoute = async (
+  app: FastifyInstance,
+  identity: ReadonlyDeep<{ serviceName?: string }>,
+): Promise<void> => {
+  app.get('/diagnostics', async (_req, reply) =>
+    reply.send({
+      service: identity.serviceName,
+      uptime_ms: Math.round(process.uptime() * 1000),
+    }),
+  );
+};
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = path.dirname(__filename);
@@ -18,34 +35,30 @@ const __dirname = path.dirname(__filename);
 const fileExists = (p: string): boolean => fs.existsSync(p);
 
 const readJson = <T>(p: string): T | undefined =>
-  fileExists(p) ? (JSON.parse(fs.readFileSync(p, "utf8")) as T) : undefined;
+  fileExists(p) ? (JSON.parse(fs.readFileSync(p, 'utf8')) as T) : undefined;
 
 type PackageDirInfo = Readonly<{ pkgDir: string; fallback: string }>;
 
 const packageNameForDir = ({ pkgDir, fallback }: PackageDirInfo): string => {
-  const pkgJsonPath = path.join(pkgDir, "package.json");
+  const pkgJsonPath = path.join(pkgDir, 'package.json');
   if (!fileExists(pkgJsonPath)) return fallback;
   const raw = readJson<{ name?: unknown }>(pkgJsonPath);
   const name =
-    raw && typeof raw === "object" && typeof raw.name === "string"
-      ? raw.name
-      : undefined;
+    raw && typeof raw === 'object' && typeof raw.name === 'string' ? raw.name : undefined;
   return name ?? fallback;
 };
 
 type PackageNameInfo = Readonly<{ name: string }>;
 
 const urlPrefixFromPkgName = ({ name }: PackageNameInfo): string =>
-  name.startsWith("@promethean-os/") ? name.split("/")[1] ?? name : name;
+  name.startsWith('@promethean-os/') ? (name.split('/')[1] ?? name) : name;
 
 type PackageMount = Readonly<{
   pkgPath: string;
   prefix: string;
 }>;
 
-const discoverPackageMounts = (
-  packagesDir: string,
-): ReadonlyArray<PackageMount> => {
+const discoverPackageMounts = (packagesDir: string): ReadonlyArray<PackageMount> => {
   if (!fileExists(packagesDir)) {
     return [];
   }
@@ -81,13 +94,13 @@ export async function createServer(
   const immutableApp = app as ReadonlyDeep<FastifyInstance>;
 
   const resolvedOptions = options ?? ({} as CreateServerOptions);
-  const repoRoot = path.resolve(__dirname, "..", "..", "..");
-  const defaultPackagesDir = path.join(repoRoot, "packages");
+  const repoRoot = path.resolve(__dirname, '..', '..', '..');
+  const defaultPackagesDir = path.join(repoRoot, 'packages');
   const packagesDir = resolvedOptions.packagesDir ?? defaultPackagesDir;
 
   discoverPackageMounts(packagesDir).forEach(({ pkgPath, prefix }) => {
-    const distFrontend = path.join(pkgPath, "dist", "frontend");
-    const staticDir = path.join(pkgPath, "static");
+    const distFrontend = path.join(pkgPath, 'dist', 'frontend');
+    const staticDir = path.join(pkgPath, 'static');
 
     if (fileExists(distFrontend)) {
       immutableApp.register(fastifyStatic, {
@@ -107,15 +120,13 @@ export async function createServer(
   });
 
   const serviceIdentity: ReadonlyDeep<{ serviceName?: string }> = {
-    serviceName: "frontend-service",
+    serviceName: 'frontend-service',
   } as const;
 
   await registerHealthRoute(app, serviceIdentity);
   await registerDiagnosticsRoute(app, serviceIdentity);
 
-  immutableApp.get("/version", async (_req, reply) =>
-    reply.send({ version: "1.0.0" }),
-  );
+  immutableApp.get('/version', async (_req, reply) => reply.send({ version: '1.0.0' }));
 
   await immutableApp.ready();
   return immutableApp;
@@ -126,7 +137,7 @@ export async function createServer(
 if (process.argv[1] === fileURLToPath(import.meta.url)) {
   const port = Number(process.env.PORT ?? 4500);
   const server = await createServer();
-  server.listen({ port, host: "0.0.0.0" }).catch((err) => {
+  server.listen({ port, host: '0.0.0.0' }).catch((err) => {
     console.error(err);
     process.exit(1);
   });

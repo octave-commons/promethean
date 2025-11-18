@@ -7,7 +7,7 @@
 	url = git@github.com:riatzukiza/autocommit.git
 	branch = device/stealth
 [submodule "services/auth-service"]
-	path = services/auth-service
+	path = experimental/auth-service
 	url = git@github.com:riatzukiza/auth-service.git
 	branch = device/stealth
 [submodule "cli/kanban"]
@@ -39,7 +39,7 @@
 	url = git@github.com:riatzukiza/agent-os-protocol.git
 	branch = device/stealth
 [submodule "packages/ai-learning"]
-	path = packages/ai-learning
+	path = experimental/ai-learning
 	url = git@github.com:riatzukiza/ai-learning.git
 	branch = device/stealth
 [submodule "packages/cli"]
@@ -47,7 +47,7 @@
 	url = git@github.com:riatzukiza/cli.git
 	branch = device/stealth
 [submodule "services/eidolon-field"]
-	path = services/eidolon-field
+	path = experimental/eidolon-field
 	url = git@github.com:riatzukiza/eidolon-field.git
 	branch = device/stealth
 [submodule "packages/math-utils"]
@@ -91,7 +91,7 @@
 	url = git@github.com:riatzukiza/build-monitoring.git
 	branch = device/stealth
 [submodule "services/compliance-monitor"]
-	path = services/compliance-monitor
+	path = experimental/compliance-monitor
 	url = git@github.com:riatzukiza/compliance-monitor.git
 	branch = device/stealth
 [submodule "packages/dlq"]
@@ -99,7 +99,7 @@
 	url = git@github.com:riatzukiza/dlq.git
 	branch = device/stealth
 [submodule "packages/enso-agent-communication"]
-	path = packages/enso-agent-communication
+	path = experimental/enso-agent-communication
 	url = git@github.com:riatzukiza/enso-agent-communication.git
 	branch = device/stealth
 [submodule "services/mcp-dev-ui-frontend"]
@@ -111,7 +111,7 @@
 	url = git@github.com:riatzukiza/obsidian-export.git
 	branch = device/stealth
 [submodule "packages/plugin-hooks"]
-	path = packages/plugin-hooks
+	path = experimental/plugin-hooks
 	url = git@github.com:riatzukiza/plugin-hooks.git
 	branch = device/stealth
 [submodule "packages/report-forge"]
@@ -131,7 +131,7 @@
 	url = git@github.com:riatzukiza/ds.git
 	branch = device/stealth
 [submodule "packages/omni-tools"]
-	path = packages/omni-tools
+	path = experimental/omni-tools
 	url = git@github.com:riatzukiza/omni-tools.git
 	branch = device/stealth
 [submodule "packages/security"]

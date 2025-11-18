@@ -1,10 +1,33 @@
-import type { Channel, ConfirmChannel, ConsumeMessage, Options } from "amqplib";
-import type { EventRecord, PublishOptions } from "@promethean-os/event";
-import type { MessagingInstrumentation } from "./instrumentation.js";
+import type { Channel, ConfirmChannel, ConsumeMessage, Options } from 'amqplib';
+import type { MessagingInstrumentation } from './instrumentation.js';
+
+export type EventRecord<T = unknown> = {
+  id: string;
+  sid?: string;
+  ts: number;
+  topic: string;
+  key?: string;
+  partition?: number;
+  headers?: Record<string, unknown>;
+  payload: T;
+  caused_by?: string[];
+  tags?: string[];
+};
+
+export type PublishOptions = {
+  readonly id?: string;
+  readonly ts?: number;
+  readonly headers?: Record<string, unknown>;
+  readonly key?: string;
+  readonly tags?: string[];
+  readonly caused_by?: string[];
+  readonly sid?: string;
+  readonly partition?: number;
+};
 
 export type RabbitExchangeConfig = {
   readonly name: string;
-  readonly type?: "topic" | "direct" | "fanout" | "headers";
+  readonly type?: 'topic' | 'direct' | 'fanout' | 'headers';
   readonly durable?: boolean;
   readonly autoDelete?: boolean;
   readonly internal?: boolean;
@@ -20,7 +43,7 @@ export type RabbitQueueConfig = {
   readonly messageTtl?: number;
   readonly expires?: number;
   readonly maxPriority?: number;
-  readonly arguments?: Options.AssertQueue["arguments"];
+  readonly arguments?: Options.AssertQueue['arguments'];
 };
 
 export type RabbitReconnectConfig = {
@@ -63,7 +86,7 @@ export type RabbitPublishOptions = PublishOptions & {
 export type RabbitSubscription = {
   readonly queue?: string;
   readonly exchange?: string;
-  readonly exchangeType?: "topic" | "direct" | "fanout" | "headers";
+  readonly exchangeType?: 'topic' | 'direct' | 'fanout' | 'headers';
   readonly routingKeys?: readonly string[];
   readonly durable?: boolean;
   readonly deadLetterExchange?: string;
@@ -79,7 +102,7 @@ export type RabbitEnvelope<T = unknown> = {
   readonly topic: string;
   readonly payload: T;
   readonly headers: Record<string, unknown>;
-  readonly properties: ConsumeMessage["properties"];
+  readonly properties: ConsumeMessage['properties'];
   readonly raw: ConsumeMessage;
 };
 
@@ -115,8 +138,15 @@ export type RpcResponder<TReq = unknown, TRes = unknown> = (
 
 export type RabbitContext = {
   publish<T>(topic: string, payload: T, opts?: RabbitPublishOptions): Promise<EventRecord<T>>;
-  subscribe(binding: RabbitSubscription, handler: RabbitDeliveryHandler): Promise<() => Promise<void>>;
-  request<TRequest, TResponse>(queue: string, payload: TRequest, opts?: RpcRequestOptions): Promise<TResponse>;
+  subscribe(
+    binding: RabbitSubscription,
+    handler: RabbitDeliveryHandler,
+  ): Promise<() => Promise<void>>;
+  request<TRequest, TResponse>(
+    queue: string,
+    payload: TRequest,
+    opts?: RpcRequestOptions,
+  ): Promise<TResponse>;
   respond<TRequest, TResponse>(
     queue: string,
     handler: RpcResponder<TRequest, TResponse>,

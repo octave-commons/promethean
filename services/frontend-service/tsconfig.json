@@ -7,9 +7,5 @@
     "declaration": true
   },
   "include": ["src/**/*"],
-  "references": [
-    {
-      "path": "../web-utils"
-    }
-  ]
+  "references": []
 }
