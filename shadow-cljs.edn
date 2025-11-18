@@ -1,7 +1,8 @@
 {:source-paths ["cli/promethean/src"
                 "packages/shadow-ui/src"
-                 "packages/frontends/kanban-frontend/src/cljs"
-                 "packages/duck/duck-utils/src/cljs"
+                "packages/frontends/kanban-frontend/src/cljs"
+                "packages/duck/duck-utils/src/cljs"
+                "services/sentinel/src"
                 ]
  :dependencies [[binaryage/devtools "1.0.7"]
                 [nrepl "1.3.1"]]
@@ -36,4 +37,12 @@
      :devtools {:watch-dir "packages/frontends/kanban-frontend/static"
                 :compiler-options {:output-feature-set :es-next}}}
 
+   :sentinel
+   {:target :node-script
+    :main promethean.sentinel.core/-main
+    :output-to "services/sentinel/dist/sentinel.cjs"
+    :compiler-options {:infer-externs :auto
+                       :source-map true}}
+
    }}
+

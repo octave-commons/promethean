@@ -1,0 +1,24 @@
+{
+  "name": "@promethean-os/sentinel",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "shadow-cljs release sentinel",
+    "watch": "shadow-cljs watch sentinel",
+    "clean": "rimraf dist"
+  ],
+  "dependencies": {
+    "@promethean-os/fs": "workspace:*",
+    "@promethean-os/logger": "workspace:*",
+    "@promethean-os/messaging": "workspace:*",
+    "chokidar": "^3.6.0",
+    "fb-watchman": "^2.0.2",
+    "nodegit": "^0.28.0"
+  },
+
+  "license": "GPL-3.0-only"
+}
