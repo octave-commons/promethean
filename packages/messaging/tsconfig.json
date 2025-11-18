@@ -5,7 +5,9 @@
     "outDir": "dist",
     "composite": true,
     "declaration": true,
-    "types": ["node", "ava"]
+    "types": ["node", "ava"],
+    "moduleResolution": "node",
+    "module": "esnext"
   },
   "include": ["src/**/*"],
   "references": []
