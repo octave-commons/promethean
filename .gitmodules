@@ -198,3 +198,6 @@
 [submodule "services/file-indexer-service"]
 	path = services/file-indexer-service
 	url = git@github.com:octave-commons/file-indexer-service.git
+[submodule "services/mcp-express-server"]
+	path = services/mcp-express-server
+	url = git@github.com:octave-commons/mcp-express-server.git
