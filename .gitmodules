@@ -228,3 +228,6 @@
 [submodule "pipelines/readmeflow"]
 	path = pipelines/readmeflow
 	url = git@github.com:octave-commons/readmeflow.git
+[submodule "pipelines/piper"]
+	path = pipelines/piper
+	url = git@github.com:octave-commons/piper.git
