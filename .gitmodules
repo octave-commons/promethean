@@ -150,3 +150,6 @@
 [submodule "packages/lmdb-cache"]
 	path = packages/lmdb-cache
 	url = git@github.com:octave-commons/lmdb-cache.git
+[submodule "packages/file-indexer"]
+	path = packages/file-indexer
+	url = git@github.com:octave-commons/file-indexer.git
