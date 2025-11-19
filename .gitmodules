@@ -183,3 +183,6 @@
 [submodule "packages/embedding"]
 	path = packages/embedding
 	url = git@github.com:octave-commons/embedding.git
+[submodule "packages/github-sync"]
+	path = packages/github-sync
+	url = git@github.com:octave-commons/github-sync.git
