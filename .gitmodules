@@ -195,3 +195,6 @@
 [submodule "tools"]
 	path = tools
 	url = git@github.com:octave-commons/tools.git
+[submodule "services/file-indexer-service"]
+	path = services/file-indexer-service
+	url = git@github.com:octave-commons/file-indexer-service.git
