@@ -207,3 +207,6 @@
 [submodule "services/knowledge-graph"]
 	path = services/knowledge-graph
 	url = git@github.com:octave-commons/knowledge-graph.git
+[submodule "services/sentinel"]
+	path = services/sentinel
+	url = git@github.com:octave-commons/sentinel.git
