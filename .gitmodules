@@ -156,3 +156,6 @@
 [submodule "packages/fsm"]
 	path = packages/fsm
 	url = git@github.com:octave-commons/fsm.git
+[submodule "packages/fs"]
+	path = packages/fs
+	url = git@github.com:octave-commons/fs.git
