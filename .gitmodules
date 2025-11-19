@@ -237,3 +237,6 @@
 [submodule "pipelines/symdocs"]
 	path = pipelines/symdocs
 	url = git@github.com:octave-commons/symdocs.git
+[submodule "pipelines/sonarflow"]
+	path = pipelines/sonarflow
+	url = git@github.com:octave-commons/sonarflow.git
