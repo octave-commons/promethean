@@ -222,3 +222,6 @@
 [submodule "pipelines/core"]
 	path = pipelines/core
 	url = git@github.com:octave-commons/core.git
+[submodule "pipelines/semverguard"]
+	path = pipelines/semverguard
+	url = git@github.com:octave-commons/semverguard.git
