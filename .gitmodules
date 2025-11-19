@@ -189,3 +189,6 @@
 [submodule "packages/discord"]
 	path = packages/discord
 	url = git@github.com:octave-commons/discord.git
+[submodule "packages/effects"]
+	path = packages/effects
+	url = git@github.com:octave-commons/effects.git
