@@ -79,5 +79,5 @@
     }
   },
 
-  "instructions": ["./docs/agents/platforms/opencode/AGENTS.md"]
+  "instructions": ["./docs/agents/platforms/opencode/AGENTS.md","./packages/*/AGENTS.md"]
 }

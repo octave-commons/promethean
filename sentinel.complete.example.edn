@@ -1,0 +1,95 @@
+{
+ :services
+ {:rabbitmq {:image "rabbitmq:3.13-management"
+             :ports ["5672:5672" "15672:15672"]
+             :volumes ["./.data/rabbitmq:/var/lib/rabbitmq"]}
+  :chromadb {:image "chromadb/chroma:1.0.21.dev56"
+             :ports ["127.0.0.1:8000:8000"]
+             :volumes ["./data/chroma:/index_data"]
+             :restart :always}
+  :ollama   {:image "ollama/ollama:0.12.3"
+             :ports ["0.0.0.0:11434:11434"]
+             :volumes ["/usr/share/ollama/.ollama/:/root/.ollama/"]
+             :env {:OLLAMA_KV_CACHE_TYPE "q4_0"
+                   :OLLAMA_FLASH_ATTENTION "1"
+                   :OLLAMA_HOST "0.0.0.0"
+                   :OLLAMA_DEBUG "INFO"
+                   :CUDA_VISIBLE_DEVICES "0"
+                   :NVIDIA_VISIBLE_DEVICES "all"
+                   :NVIDIA_DRIVER_CAPABILITIES "all"
+                   :OLLAMA_CONTEXT_LENGTH "32000"}
+             :health {:cmd ["sh" "-c" "curl -fsS http://0.0.0.0:11434/api/tags >/dev/null && nvidia-smi >/dev/null 2>&1"]
+                      :interval "10s" :timeout "5s" :retries 6}
+             :restart :always}
+  :redis    {:image "redis:6.2-alpine"
+             :ports ["127.0.0.1:6379:6379"]
+             :command ["redis-server" "--save" "60" "1" "--loglevel" "warning"]
+             :volumes ["./.data/redis:/data"]
+             :health {:cmd ["redis-cli" "ping"] :interval "10s" :timeout "5s" :retries 5}}
+  :mongodb  {:image "mongo:6-jammy"
+             :ports ["127.0.0.1:27017:27017"]
+             :volumes ["./.data/mongo:/data/db"]
+             :restart :always}
+  :openwebui {:image "ghcr.io/open-webui/open-webui:main"
+              :ports ["3000:8080"]
+              :volumes ["./.data/open-webui:/app/backend/data"]}}
+ :apps
+ {:lein-repl {:script "lein" :args ["repl" ":headless" ":port" "7888"]
+              :env {:LEIN_REPL_PORT "7888" :JAVA_OPTS "-Xmx2g -XX:+UseG1GC"}}
+  :opencode-indexer {:script "pnpm" :args ["opencode-client" "indexer" "start"]
+                     :env {:PM2_PROCESS_NAME "opencode-indexer"}}
+  :opencode {:script "opencode" :args ["serve" "--port" 4096]
+             :env {:PM2_PROCESS_NAME "opencode-test"}}
+  :opencode-web {:script "bunx" :args ["opencode-web@latest" "--external-server" "http://localhost:4096" "--host" "0.0.0.0" "--port" "7799"]
+                 :env {:PM2_PROCESS_NAME "opencode"}}
+  :playwright-mcp {:script "npx" :args ["@playwright/mcp@latest" "--port" "8931"]
+                   :env {:PM2_PROCESS_NAME "playwright-mcp"}}
+  :promethean-mcp-dev {:script "pnpm" :args ["--filter" "@promethean-os/mcp" "dev"]
+                       :env {:PM2_PROCESS_NAME "promethean-mcp-dev" :MCP_USRER_ROLE "developer" :ENABLE_OAUTH "true"}}
+  :serena {:script "uvx"
+           :args ["--from" "git+https://github.com/oraios/serena" "serena" "start-mcp-server" "--transport" "streamable-http" "--port" "9121"]}
+  :autocommit {:script "pnpm"
+               :args ["autocommit" "--path" "../" "-r" "--handle-subrepos" "--subrepo-strategy" "separate" "--debounce-ms" "10000" "--model" "error/qwen3:4b-instruct-100k" "--base-url" "http://localhost:11434"]
+               :env {:OPENAI_BASE_URL "http://localhost:11434" :AUTOCOMMIT_MODEL "error/qwen3:4b-instruct-100k" :NODE_ENV "production"}
+               :time true
+               :kill-timeout 5000 :restart-delay 5000 :max-restarts 10 :min-uptime 10000}
+  :unified-indexer {:script "node"
+                    :args ["packages/unified-indexer/dist/index.js" "--config" "config/production.json" "--daemon"]
+                    :env {:NODE_ENV "production"
+                          :PM2_PROCESS_NAME "unified-indexer"
+                          :LOG_LEVEL "info"
+                          :AGENT_NAME "promethean"
+                          :MONGODB_URL "${MONGODB_URL}"
+                          :CHROMA_DB_URL "${CHROMA_DB_URL}"
+                          :REDIS_URL "${REDIS_URL}"
+                          :EMBEDDING_API_KEY "${EMBEDDING_API_KEY}"
+                          :EMBEDDING_FUNCTION "${EMBEDDING_FUNCTION}"
+                          :EMBEDDING_DIMENSIONS "${EMBEDDING_DIMENSIONS}"
+                          :CONFIG_PATH "config/production.json"
+                          :PID_FILE "./var/run/unified-indexer.pid"
+                          :LOG_FILE "./logs/unified-indexer/daemon.log"}}}
+ :git-hooks
+ {:pre-commit {:actions [{:type :shell :cmd ["pnpm" "lint" "--filter" "@promethean-os/sentinel"] :timeout "20s"}
+                         {:type :invoke :handler "hooks/pre_commit.cljs" :fn hooks/run}]}
+  :commit-msg {:actions [{:type :invoke :handler "hooks/commit_msg.cljs" :fn commit-msg/validate}]}
+  :pre-push {:actions [{:type :shell :cmd ["pnpm" "test:unit"] :timeout "300s"}]}}
+ :github-actions
+ {:on-push [{:branch "main"
+             :actions [{:type :status :context "sentinel/checks" :state :success :description "ci ok"}
+                       {:type :comment :match {:pr true} :body "CI checks passed."}]}]
+  :on-tag [{:pattern "v*" :actions [{:type :release :draft? false :notes-file "CHANGELOG.md"}]}]
+  :cron [{:spec "0 9 * * 1" :actions [{:type :issue :title "Weekly report" :body "Autogenerated."}]}]}
+ :watchers
+ {:workspace {:path "."
+              :synthetic [{:id :workspace-change
+                           :on :any
+                           :glob "**/*"
+                           :actions [{:type :process/restart :app :autocommit}
+                                     {:type :process/restart :app :opencode-indexer}]}]
+              :actions [{:type :publish :topic "sentinel.watch.loaded"}]}
+  :sentinel-config {:path "."
+                    :synthetic [{:id :sentinel-config-change
+                                 :on :change
+                                 :glob "sentinel*.edn"
+                                 :actions [{:type :process/restart :app :autocommit}]}]}}
+}

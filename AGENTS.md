@@ -25,7 +25,6 @@
 
 - `pnpm --filter @promethean-os/<pkg> exec ava path/to/test.test.js`
 
-
 ## Testing
 
 - Ava (tests live in `src/tests`).
@@ -42,8 +41,6 @@
   - containers for realistic integration.
   - The principle is well-established: mock _your_ interfaces, not vendor clients.
 - `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive "test hook" exports.
-
-
 
 ---
 
@@ -63,8 +60,6 @@ pseudo/    # throwaway scripts, pseudocode, retained for transparency
 
 ---
 
-
-
 ## 🧱 Local Package Commands
 
 MUST ALWAYS USE **locally scoped commands**:
@@ -77,8 +72,21 @@ pnpm --filter @promethean-os/<pkg> typecheck
 pnpm --filter @promethean-os/<pkg> start
 pnpm --filter @promethean-os/<pkg> exec node ./dist/index.ts
 ```
+
 ---
 
+## Sentinel code structure (planned)
+
+- Entry/config: `services/sentinel/src/promethean/sentinel/{core,config,defaults,events}.cljs`
+- Actions: `actions/{embedded,handler_nb,runner}.cljs`
+- Watchers: `watchers/engine.cljs`
+- Apps/PM2: `apps/{model,pm2_bridge}.cljs`
+- Services/Docker: `services/{model,docker_bridge}.cljs`
+- Git: `git/{hooks_runner,nbb_hooks}.cljs`
+- GitHub: `gh/{client,runner,model}.cljs`
+- Nx: `nx/{model,runner}.cljs`
+- Client: `client/node.cljs`
+- Utilities: `util/io.cljs`
 
 ### Docs
 
@@ -103,6 +111,7 @@ The documentation must be completely traversable .
 - **[CROSS_REFERENCES.md](./CROSS_REFERENCES.md)** - Complete cross-references to all related repositories
 - **[Workspace AGENTS.md](../AGENTS.md)** - Main workspace documentation
 - **[Repository Index](../REPOSITORY_INDEX.md)** - Complete repository overview
+
 ---
 
 ## ⚖️ License

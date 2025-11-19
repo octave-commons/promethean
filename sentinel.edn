@@ -1,0 +1,4 @@
+{:packs ["services/autocommit"]
+ :watchers {:workspace {:path "."
+                        :ignored ["**/node_modules/**" "**/.git/**" "**/dist/**" "**/.shadow-cljs/**"]
+                        :synthetic [{:id :workspace-change :on :any :glob "**/*"}]}}}
