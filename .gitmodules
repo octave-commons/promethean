@@ -159,3 +159,6 @@
 [submodule "packages/fs"]
 	path = packages/fs
 	url = git@github.com:octave-commons/fs.git
+[submodule "packages/messaging"]
+	path = packages/messaging
+	url = git@github.com:octave-commons/messaging.git
