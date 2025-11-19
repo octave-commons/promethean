@@ -174,3 +174,6 @@
 [submodule "packages/trello"]
 	path = packages/trello
 	url = git@github.com:octave-commons/trello.git
+[submodule "packages/benchmark"]
+	path = packages/benchmark
+	url = git@github.com:octave-commons/benchmark.git
