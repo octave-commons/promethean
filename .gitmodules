@@ -1,140 +1,143 @@
 [submodule "cli/apply-patch"]
 	path = cli/apply-patch
-	url = git@github.com:riatzukiza/apply-patch.git
+	url = git@github.com:octave-commons/apply-patch.git
 	branch = device/stealth
 [submodule "services/autocommit"]
 	path = services/autocommit
-	url = git@github.com:riatzukiza/autocommit.git
+	url = git@github.com:octave-commons/autocommit.git
 	branch = device/stealth
 [submodule "services/auth-service"]
 	path = experimental/auth-service
-	url = git@github.com:riatzukiza/auth-service.git
+	url = git@github.com:octave-commons/auth-service.git
 	branch = device/stealth
 [submodule "cli/kanban"]
 	path = cli/kanban
-	url = https://github.com/riatzukiza/kanban.git
+	url = git@github.com:octave-commons/kanban.git
 	branch = device/stealth
 [submodule "packages/logger"]
 	path = packages/logger
-	url = git@github.com:riatzukiza/logger.git
+	url = git@github.com:octave-commons/logger.git
 	branch = device/stealth
 [submodule "services/mcp"]
 	path = services/mcp
-	url = https://github.com/riatzukiza/mcp.git
+	url = git@github.com:octave-commons/mcp.git
 	branch = device/stealth
 [submodule "packages/naming"]
 	path = packages/naming
-	url = git@github.com:riatzukiza/naming.git
+	url = git@github.com:octave-commons/naming.git
 	branch = device/stealth
 [submodule "packages/persistence"]
 	path = packages/persistence
-	url = https://github.com/riatzukiza/persistence.git
+	url = git@github.com:octave-commons/persistence.git
 	branch = device/stealth
 [submodule "packages/utils"]
 	path = packages/utils
-	url = git@github.com:riatzukiza/utils.git
+	url = git@github.com:octave-commons/utils.git
 	branch = device/stealth
 [submodule "packages/ai-learning"]
 	path = experimental/ai-learning
-	url = git@github.com:riatzukiza/ai-learning.git
+	url = git@github.com:octave-commons/ai-learning.git
 	branch = device/stealth
 [submodule "packages/cli"]
 	path = packages/cli
-	url = git@github.com:riatzukiza/cli.git
+	url = git@github.com:octave-commons/cli.git
 	branch = device/stealth
 [submodule "services/eidolon-field"]
 	path = experimental/eidolon-field
-	url = git@github.com:riatzukiza/eidolon-field.git
+	url = git@github.com:octave-commons/eidolon-field.git
 	branch = device/stealth
 [submodule "packages/math-utils"]
 	path = packages/math-utils
-	url = git@github.com:riatzukiza/math-utils.git
+	url = git@github.com:octave-commons/math-utils.git
 	branch = device/stealth
 [submodule "packages/migrations"]
 	path = packages/migrations
-	url = git@github.com:riatzukiza/migrations.git
+	url = git@github.com:octave-commons/migrations.git
 	branch = device/stealth
 [submodule "packages/opencode-hub"]
 	path = packages/opencode-hub
-	url = git@github.com:riatzukiza/opencode-hub.git
+	url = git@github.com:octave-commons/opencode-hub.git
 	branch = device/stealth
 [submodule "packages/platform"]
 	path = packages/platform
-	url = git@github.com:riatzukiza/platform.git
+	url = git@github.com:octave-commons/platform.git
 	branch = device/stealth
 [submodule "packages/test-classifier"]
 	path = packages/test-classifier
-	url = git@github.com:riatzukiza/test-classifier.git
+	url = git@github.com:octave-commons/test-classifier.git
 	branch = device/stealth
 [submodule "packages/clj-hacks"]
 	path = packages/clj-hacks
-	url = git@github.com:riatzukiza/clj-hacks-tools.git
+	url = git@github.com:octave-commons/clj-hacks-tools.git
 	branch = device/stealth
 [submodule "packages/http"]
 	path = packages/http
-	url = git@github.com:riatzukiza/http.git
+	url = git@github.com:octave-commons/http.git
 	branch = device/stealth
 [submodule "cli/shadow-conf"]
 	path = cli/shadow-conf
-	url = git@github.com:riatzukiza/shadow-conf.git
+	url = git@github.com:octave-commons/shadow-conf.git
 	branch = device/stealth
 [submodule "packages/test-utils"]
 	path = packages/test-utils
-	url = git@github.com:riatzukiza/test-utils.git
+	url = git@github.com:octave-commons/test-utils.git
 	branch = device/stealth
 [submodule "packages/build-monitoring"]
 	path = packages/build-monitoring
-	url = git@github.com:riatzukiza/build-monitoring.git
+	url = git@github.com:octave-commons/build-monitoring.git
 	branch = device/stealth
 [submodule "services/compliance-monitor"]
 	path = experimental/compliance-monitor
-	url = git@github.com:riatzukiza/compliance-monitor.git
+	url = git@github.com:octave-commons/compliance-monitor.git
 	branch = device/stealth
 [submodule "packages/dlq"]
 	path = packages/dlq
-	url = git@github.com:riatzukiza/dlq.git
+	url = git@github.com:octave-commons/dlq.git
 	branch = device/stealth
 [submodule "packages/enso-agent-communication"]
 	path = experimental/enso-agent-communication
-	url = git@github.com:riatzukiza/enso-agent-communication.git
+	url = git@github.com:octave-commons/enso-agent-communication.git
 	branch = device/stealth
 [submodule "services/mcp-dev-ui-frontend"]
 	path = services/mcp-dev-ui-frontend
-	url = git@github.com:riatzukiza/mcp-dev-ui-frontend.git
+	url = git@github.com:octave-commons/mcp-dev-ui-frontend.git
 	branch = device/stealth
 [submodule "cli/obsidian-export"]
 	path = cli/obsidian-export
-	url = git@github.com:riatzukiza/obsidian-export.git
+	url = git@github.com:octave-commons/obsidian-export.git
 	branch = device/stealth
 [submodule "packages/plugin-hooks"]
 	path = experimental/plugin-hooks
-	url = git@github.com:riatzukiza/plugin-hooks.git
+	url = git@github.com:octave-commons/plugin-hooks.git
 	branch = device/stealth
 [submodule "packages/report-forge"]
 	path = packages/report-forge
-	url = git@github.com:riatzukiza/report-forge.git
+	url = git@github.com:octave-commons/report-forge.git
 	branch = device/stealth
 [submodule "packages/snapshots"]
 	path = packages/snapshots
-	url = git@github.com:riatzukiza/snapshots.git
+	url = git@github.com:octave-commons/snapshots.git
 	branch = device/stealth
 [submodule "packages/worker"]
 	path = packages/worker
-	url = git@github.com:riatzukiza/worker.git
+	url = git@github.com:octave-commons/worker.git
 	branch = device/stealth
 [submodule "packages/ds"]
 	path = packages/ds
-	url = git@github.com:riatzukiza/ds.git
+	url = git@github.com:octave-commons/ds.git
 	branch = device/stealth
 [submodule "packages/omni-tools"]
 	path = experimental/omni-tools
-	url = git@github.com:riatzukiza/omni-tools.git
+	url = git@github.com:octave-commons/omni-tools.git
 	branch = device/stealth
 [submodule "packages/security"]
 	path = packages/security
-	url = git@github.com:riatzukiza/security.git
+	url = git@github.com:octave-commons/security.git
 	branch = device/stealth
 [submodule "experimental/agent-os-protocol"]
 	path = experimental/agent-os-protocol
-	url = git@github.com:riatzukiza/agent-os-protocol.git
+	url = git@github.com:octave-commons/agent-os-protocol.git
 	branch = device/stealth
+[submodule "cli/promethean"]
+	path = cli/promethean
+	url = git@github.com:octave-commons/promethean.git
