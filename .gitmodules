@@ -177,3 +177,6 @@
 [submodule "packages/benchmark"]
 	path = packages/benchmark
 	url = git@github.com:octave-commons/benchmark.git
+[submodule "packages/providers"]
+	path = packages/providers
+	url = git@github.com:octave-commons/providers.git
