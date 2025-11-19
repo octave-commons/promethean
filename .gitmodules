@@ -204,3 +204,6 @@
 [submodule "services/frontend-service"]
 	path = services/frontend-service
 	url = git@github.com:octave-commons/frontend-service.git
+[submodule "services/knowledge-graph"]
+	path = services/knowledge-graph
+	url = git@github.com:octave-commons/knowledge-graph.git
