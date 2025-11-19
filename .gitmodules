@@ -162,3 +162,6 @@
 [submodule "packages/messaging"]
 	path = packages/messaging
 	url = git@github.com:octave-commons/messaging.git
+[submodule "packages/markdown"]
+	path = packages/markdown
+	url = git@github.com:octave-commons/markdown.git
