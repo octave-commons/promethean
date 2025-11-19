@@ -252,3 +252,6 @@
 [submodule "pipelines/codemods"]
 	path = pipelines/codemods
 	url = git@github.com:octave-commons/codemods.git
+[submodule "pipelines/lint-taskgen"]
+	path = pipelines/lint-taskgen
+	url = git@github.com:octave-commons/lint-taskgen.git
