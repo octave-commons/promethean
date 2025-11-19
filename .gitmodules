@@ -168,3 +168,6 @@
 [submodule "packages/frontend"]
 	path = packages/frontend
 	url = git@github.com:octave-commons/frontend.git
+[submodule "packages/level-cache"]
+	path = packages/level-cache
+	url = git@github.com:octave-commons/level-cache.git
