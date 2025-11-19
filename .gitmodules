@@ -243,3 +243,6 @@
 [submodule "pipelines/docops"]
 	path = pipelines/docops
 	url = git@github.com:octave-commons/docops.git
+[submodule "pipelines/testgap"]
+	path = pipelines/testgap
+	url = git@github.com:octave-commons/testgap.git
