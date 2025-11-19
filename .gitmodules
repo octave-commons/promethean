@@ -153,3 +153,6 @@
 [submodule "packages/file-indexer"]
 	path = packages/file-indexer
 	url = git@github.com:octave-commons/file-indexer.git
+[submodule "packages/fsm"]
+	path = packages/fsm
+	url = git@github.com:octave-commons/fsm.git
