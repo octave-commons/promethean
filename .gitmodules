@@ -144,3 +144,6 @@
 [submodule "cli/compiler"]
 	path = cli/compiler
 	url = git@github.com:octave-commons/compiler.git
+[submodule "cli/ecosystem-dsl"]
+	path = cli/ecosystem-dsl
+	url = git@github.com:octave-commons/ecosystem-dsl.git
