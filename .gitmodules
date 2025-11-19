@@ -213,3 +213,6 @@
 [submodule "services/mcp-kanban-bridge"]
 	path = services/mcp-kanban-bridge
 	url = git@github.com:octave-commons/mcp-kanban-bridge.git
+[submodule "services/openai-server"]
+	path = services/openai-server
+	url = git@github.com:octave-commons/openai-server.git
