@@ -171,3 +171,6 @@
 [submodule "packages/level-cache"]
 	path = packages/level-cache
 	url = git@github.com:octave-commons/level-cache.git
+[submodule "packages/trello"]
+	path = packages/trello
+	url = git@github.com:octave-commons/trello.git
