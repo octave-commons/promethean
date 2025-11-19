@@ -216,3 +216,6 @@
 [submodule "services/openai-server"]
 	path = services/openai-server
 	url = git@github.com:octave-commons/openai-server.git
+[submodule "pipelines/boardrev"]
+	path = pipelines/boardrev
+	url = git@github.com:octave-commons/boardrev.git
