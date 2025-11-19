@@ -234,3 +234,6 @@
 [submodule "pipelines/buildfix"]
 	path = pipelines/buildfix
 	url = git@github.com:octave-commons/buildfix.git
+[submodule "pipelines/symdocs"]
+	path = pipelines/symdocs
+	url = git@github.com:octave-commons/symdocs.git
