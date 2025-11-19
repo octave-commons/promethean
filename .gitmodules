@@ -246,3 +246,6 @@
 [submodule "pipelines/testgap"]
 	path = pipelines/testgap
 	url = git@github.com:octave-commons/testgap.git
+[submodule "pipelines/cookbookflow"]
+	path = pipelines/cookbookflow
+	url = git@github.com:octave-commons/cookbookflow.git
