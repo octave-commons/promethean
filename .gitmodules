@@ -192,3 +192,6 @@
 [submodule "packages/effects"]
 	path = packages/effects
 	url = git@github.com:octave-commons/effects.git
+[submodule "tools"]
+	path = tools
+	url = git@github.com:octave-commons/tools.git
