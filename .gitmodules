@@ -225,3 +225,6 @@
 [submodule "pipelines/semverguard"]
 	path = pipelines/semverguard
 	url = git@github.com:octave-commons/semverguard.git
+[submodule "pipelines/readmeflow"]
+	path = pipelines/readmeflow
+	url = git@github.com:octave-commons/readmeflow.git
