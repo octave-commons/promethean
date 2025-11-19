@@ -1,9 +1,0 @@
-{
-  "name": "missing-import",
-  "description": "Using a type without importing it",
-  "errorPattern": [
-    "TS2304",
-    "User",
-    "find"
-  ]
-}
