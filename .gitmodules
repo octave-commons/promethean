@@ -219,3 +219,6 @@
 [submodule "pipelines/boardrev"]
 	path = pipelines/boardrev
 	url = git@github.com:octave-commons/boardrev.git
+[submodule "pipelines/core"]
+	path = pipelines/core
+	url = git@github.com:octave-commons/core.git
