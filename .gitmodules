@@ -249,3 +249,6 @@
 [submodule "pipelines/cookbookflow"]
 	path = pipelines/cookbookflow
 	url = git@github.com:octave-commons/cookbookflow.git
+[submodule "pipelines/codemods"]
+	path = pipelines/codemods
+	url = git@github.com:octave-commons/codemods.git
