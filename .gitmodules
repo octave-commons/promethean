@@ -255,3 +255,6 @@
 [submodule "pipelines/lint-taskgen"]
 	path = pipelines/lint-taskgen
 	url = git@github.com:octave-commons/lint-taskgen.git
+[submodule "pipelines/codepack"]
+	path = pipelines/codepack
+	url = git@github.com:octave-commons/codepack.git
