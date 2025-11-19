@@ -210,3 +210,6 @@
 [submodule "services/sentinel"]
 	path = services/sentinel
 	url = git@github.com:octave-commons/sentinel.git
+[submodule "services/mcp-kanban-bridge"]
+	path = services/mcp-kanban-bridge
+	url = git@github.com:octave-commons/mcp-kanban-bridge.git
