@@ -141,123 +141,164 @@
 [submodule "cli/promethean"]
 	path = cli/promethean
 	url = git@github.com:octave-commons/promethean.git
+	branch = device/stealth
 [submodule "cli/compiler"]
 	path = cli/compiler
 	url = git@github.com:octave-commons/compiler.git
+	branch = device/stealth
 [submodule "cli/ecosystem-dsl"]
 	path = cli/ecosystem-dsl
 	url = git@github.com:octave-commons/ecosystem-dsl.git
+	branch = device/stealth
 [submodule "packages/lmdb-cache"]
 	path = packages/lmdb-cache
 	url = git@github.com:octave-commons/lmdb-cache.git
+	branch = device/stealth
 [submodule "packages/file-indexer"]
 	path = packages/file-indexer
 	url = git@github.com:octave-commons/file-indexer.git
+	branch = device/stealth
 [submodule "packages/fsm"]
 	path = packages/fsm
 	url = git@github.com:octave-commons/fsm.git
+	branch = device/stealth
 [submodule "packages/fs"]
 	path = packages/fs
 	url = git@github.com:octave-commons/fs.git
+	branch = device/stealth
 [submodule "packages/messaging"]
 	path = packages/messaging
 	url = git@github.com:octave-commons/messaging.git
+	branch = device/stealth
 [submodule "packages/markdown"]
 	path = packages/markdown
 	url = git@github.com:octave-commons/markdown.git
+	branch = device/stealth
 [submodule "packages/frontend"]
 	path = packages/frontend
 	url = git@github.com:octave-commons/frontend.git
+	branch = device/stealth
 [submodule "packages/level-cache"]
 	path = packages/level-cache
 	url = git@github.com:octave-commons/level-cache.git
+	branch = device/stealth
 [submodule "packages/trello"]
 	path = packages/trello
 	url = git@github.com:octave-commons/trello.git
+	branch = device/stealth
 [submodule "packages/benchmark"]
 	path = packages/benchmark
 	url = git@github.com:octave-commons/benchmark.git
+	branch = device/stealth
 [submodule "packages/providers"]
 	path = packages/providers
 	url = git@github.com:octave-commons/providers.git
+	branch = device/stealth
 [submodule "packages/embedding"]
 	path = packages/embedding
 	url = git@github.com:octave-commons/embedding.git
+	branch = device/stealth
 [submodule "packages/github-sync"]
 	path = packages/github-sync
 	url = git@github.com:octave-commons/github-sync.git
+	branch = device/stealth
 [submodule "packages/discord"]
 	path = packages/discord
 	url = git@github.com:octave-commons/discord.git
+	branch = device/stealth
 [submodule "packages/effects"]
 	path = packages/effects
 	url = git@github.com:octave-commons/effects.git
+	branch = device/stealth
 [submodule "tools"]
 	path = tools
 	url = git@github.com:octave-commons/tools.git
+	branch = device/stealth
 [submodule "services/file-indexer-service"]
 	path = services/file-indexer-service
 	url = git@github.com:octave-commons/file-indexer-service.git
+	branch = device/stealth
 [submodule "services/mcp-express-server"]
 	path = services/mcp-express-server
 	url = git@github.com:octave-commons/mcp-express-server.git
+	branch = device/stealth
 [submodule "services/frontend-service"]
 	path = services/frontend-service
 	url = git@github.com:octave-commons/frontend-service.git
+	branch = device/stealth
 [submodule "services/knowledge-graph"]
 	path = services/knowledge-graph
 	url = git@github.com:octave-commons/knowledge-graph.git
+	branch = device/stealth
 [submodule "services/sentinel"]
 	path = services/sentinel
 	url = git@github.com:octave-commons/sentinel.git
+	branch = device/stealth
 [submodule "services/mcp-kanban-bridge"]
 	path = services/mcp-kanban-bridge
 	url = git@github.com:octave-commons/mcp-kanban-bridge.git
+	branch = device/stealth
 [submodule "services/openai-server"]
 	path = services/openai-server
 	url = git@github.com:octave-commons/openai-server.git
+	branch = device/stealth
 [submodule "pipelines/boardrev"]
 	path = pipelines/boardrev
 	url = git@github.com:octave-commons/boardrev.git
+	branch = device/stealth
 [submodule "pipelines/core"]
 	path = pipelines/core
 	url = git@github.com:octave-commons/core.git
+	branch = device/stealth
 [submodule "pipelines/semverguard"]
 	path = pipelines/semverguard
 	url = git@github.com:octave-commons/semverguard.git
+	branch = device/stealth
 [submodule "pipelines/readmeflow"]
 	path = pipelines/readmeflow
 	url = git@github.com:octave-commons/readmeflow.git
+	branch = device/stealth
 [submodule "pipelines/piper"]
 	path = pipelines/piper
 	url = git@github.com:octave-commons/piper.git
+	branch = device/stealth
 [submodule "pipelines/buildfix"]
 	path = pipelines/buildfix
 	url = git@github.com:octave-commons/buildfix.git
+	branch = device/stealth
 [submodule "pipelines/symdocs"]
 	path = pipelines/symdocs
 	url = git@github.com:octave-commons/symdocs.git
+	branch = device/stealth
 [submodule "pipelines/sonarflow"]
 	path = pipelines/sonarflow
 	url = git@github.com:octave-commons/sonarflow.git
+	branch = device/stealth
 [submodule "pipelines/docops"]
 	path = pipelines/docops
 	url = git@github.com:octave-commons/docops.git
+	branch = device/stealth
 [submodule "pipelines/testgap"]
 	path = pipelines/testgap
 	url = git@github.com:octave-commons/testgap.git
+	branch = device/stealth
 [submodule "pipelines/cookbookflow"]
 	path = pipelines/cookbookflow
 	url = git@github.com:octave-commons/cookbookflow.git
+	branch = device/stealth
 [submodule "pipelines/codemods"]
 	path = pipelines/codemods
 	url = git@github.com:octave-commons/codemods.git
+	branch = device/stealth
 [submodule "pipelines/lint-taskgen"]
 	path = pipelines/lint-taskgen
 	url = git@github.com:octave-commons/lint-taskgen.git
+	branch = device/stealth
 [submodule "pipelines/codepack"]
 	path = pipelines/codepack
 	url = git@github.com:octave-commons/codepack.git
+	branch = device/stealth
 [submodule "pipelines/simtask"]
 	path = pipelines/simtask
 	url = git@github.com:octave-commons/simtask.git
+	branch = device/stealth
