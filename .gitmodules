@@ -201,3 +201,6 @@
 [submodule "services/mcp-express-server"]
 	path = services/mcp-express-server
 	url = git@github.com:octave-commons/mcp-express-server.git
+[submodule "services/frontend-service"]
+	path = services/frontend-service
+	url = git@github.com:octave-commons/frontend-service.git
