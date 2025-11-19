@@ -147,3 +147,6 @@
 [submodule "cli/ecosystem-dsl"]
 	path = cli/ecosystem-dsl
 	url = git@github.com:octave-commons/ecosystem-dsl.git
+[submodule "packages/lmdb-cache"]
+	path = packages/lmdb-cache
+	url = git@github.com:octave-commons/lmdb-cache.git
