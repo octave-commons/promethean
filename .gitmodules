@@ -231,3 +231,6 @@
 [submodule "pipelines/piper"]
 	path = pipelines/piper
 	url = git@github.com:octave-commons/piper.git
+[submodule "pipelines/buildfix"]
+	path = pipelines/buildfix
+	url = git@github.com:octave-commons/buildfix.git
