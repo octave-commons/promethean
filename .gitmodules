@@ -141,3 +141,6 @@
 [submodule "cli/promethean"]
 	path = cli/promethean
 	url = git@github.com:octave-commons/promethean.git
+[submodule "cli/compiler"]
+	path = cli/compiler
+	url = git@github.com:octave-commons/compiler.git
