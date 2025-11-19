@@ -180,3 +180,6 @@
 [submodule "packages/providers"]
 	path = packages/providers
 	url = git@github.com:octave-commons/providers.git
+[submodule "packages/embedding"]
+	path = packages/embedding
+	url = git@github.com:octave-commons/embedding.git
