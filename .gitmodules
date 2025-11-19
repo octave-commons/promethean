@@ -165,3 +165,6 @@
 [submodule "packages/markdown"]
 	path = packages/markdown
 	url = git@github.com:octave-commons/markdown.git
+[submodule "packages/frontend"]
+	path = packages/frontend
+	url = git@github.com:octave-commons/frontend.git
