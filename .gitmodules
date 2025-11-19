@@ -240,3 +240,6 @@
 [submodule "pipelines/sonarflow"]
 	path = pipelines/sonarflow
 	url = git@github.com:octave-commons/sonarflow.git
+[submodule "pipelines/docops"]
+	path = pipelines/docops
+	url = git@github.com:octave-commons/docops.git
