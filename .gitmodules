@@ -186,3 +186,6 @@
 [submodule "packages/github-sync"]
 	path = packages/github-sync
 	url = git@github.com:octave-commons/github-sync.git
+[submodule "packages/discord"]
+	path = packages/discord
+	url = git@github.com:octave-commons/discord.git
