@@ -258,3 +258,6 @@
 [submodule "pipelines/codepack"]
 	path = pipelines/codepack
 	url = git@github.com:octave-commons/codepack.git
+[submodule "pipelines/simtask"]
+	path = pipelines/simtask
+	url = git@github.com:octave-commons/simtask.git
