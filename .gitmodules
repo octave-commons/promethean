@@ -261,3 +261,17 @@
 [submodule "pipelines/simtask"]
 	path = pipelines/simtask
 	url = git@github.com:octave-commons/simtask.git
+[submodule "experimental/ai-learning"]
+	url = git@github.com:octave-commons/ai-learning.git
+[submodule "experimental/auth-service"]
+	url = git@github.com:octave-commons/auth-service.git
+[submodule "experimental/compliance-monitor"]
+	url = git@github.com:octave-commons/compliance-monitor.git
+[submodule "experimental/eidolon-field"]
+	url = git@github.com:octave-commons/eidolon-field.git
+[submodule "experimental/enso-agent-communication"]
+	url = git@github.com:octave-commons/enso-agent-communication.git
+[submodule "experimental/omni-tools"]
+	url = git@github.com:octave-commons/omni-tools.git
+[submodule "experimental/plugin-hooks"]
+	url = git@github.com:octave-commons/plugin-hooks.git
