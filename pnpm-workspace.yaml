@@ -9,9 +9,11 @@ packages:
   - cli/*
   - tools/
   - experimental/*
+  - experimental/*/packages/*
 
 auditConfig:
   ignoreCves:
+
     - packages/buildfix/benchmark-fixtures
     - packages/buildfix/simple-benchmark-temp
     - packages/buildfix/large-benchmark-temp

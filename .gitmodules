@@ -298,3 +298,6 @@
 	path = pipelines/simtask
 	url = git@github.com:octave-commons/simtask.git
 	branch = device/stealth
+[submodule "experimental/pantheon"]
+	path = experimental/pantheon
+	url = git@github.com:octave-commons/pantheon
