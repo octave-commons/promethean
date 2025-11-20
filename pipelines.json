@@ -501,12 +501,12 @@
             "module": "pipelines/readmeflow/dist/01-scan.js",
             "export": "scan",
             "args": {
-              "root": "packages",
+              "workspace": "pnpm-workspace.yaml",
               "cache": ".cache/readmes"
             },
             "isolate": "worker"
           },
-          "inputs": ["packages/**/package.json", "packages/**/tsconfig.json"],
+          "inputs": ["pnpm-workspace.yaml", "**/package.json", "**/tsconfig.json"],
           "outputs": [".cache/readmes"],
           "inputSchema": "pipelines/readmeflow/schemas/io.schema.json",
           "outputSchema": "pipelines/readmeflow/schemas/io.schema.json"
@@ -544,7 +544,7 @@
             "isolate": "worker"
           },
           "inputs": [".cache/readmes"],
-          "outputs": ["packages/**/README.md"],
+          "outputs": ["**/README.md"],
           "inputSchema": "pipelines/readmeflow/schemas/io.schema.json",
           "outputSchema": "pipelines/readmeflow/schemas/io.schema.json"
         },
@@ -555,13 +555,13 @@
             "module": "pipelines/readmeflow/dist/04-verify.js",
             "export": "verify",
             "args": {
-              "root": "packages",
+              "root": ".",
               "out": "docs/agile/reports/readmes",
               "max": 200
             },
             "isolate": "worker"
           },
-          "inputs": [".cache/readmes", "packages/**/README.md"],
+          "inputs": [".cache/readmes", "**/README.md"],
           "outputs": ["docs/agile/reports/readmes/*.md"],
           "inputSchema": "pipelines/readmeflow/schemas/io.schema.json",
           "outputSchema": "pipelines/readmeflow/schemas/io.schema.json"
