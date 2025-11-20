@@ -1,169 +1,42 @@
-**/node_modules/**
-node_modules/
-packages/**/package-lock.json
-data/*
-!data/README.md
+# Build artifacts
 dist/
-!shared/ts/prom-lib/dist/intention/
-!shared/ts/prom-lib/dist/intention/**
-data/
-!docs/data/
-!docs/data/**
-public/
-# keep .env ignored; provide non-secret sample for image pinning
-# copy .env.example -> .env locally
-.env
-.nx
-!.env.example
-agents/duck/chroma_data/
-
-.obsidian/
-!vault-config/.obsidian/
-
-.vscode/
-
-/node_modules/__pycache__/
-**/__pycache__/
-**/.venv/
-
-/node_modules/
-agents/duck/.tokens
-
-*.log
-
-.smart-env/
-
-services/discord-embedder/voice-examples
-
-services/py/discord_indexer/coverage.xml
-
-services/py/stt/coverage.xml
-
-services/py/stt_ws/coverage.xml
-
-services/py/whisper_stream_ws/coverage.xml
-
-
-*.xml
-
-shared/py/.coverage
-
-
-.infio_json_db/
-**/.chromadb/
-**/chromadb/
-
-**/chroma/
-chroma/
-patch.sh
-
-frames/
-
-**/*.mp4
-
-# Ignore Smart Environment folder
-.smart-env
-
-coverage/
-
-catalog.org
-
-.scratch/
-**/hack.*
-.volta/
-
-.envrc
-
-*.snap
-services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean/bootstrap.json
-
-.cache/
-
-services/ts/smartgpt-bridge/logs/agents/
-
-services/ts/smartgpt-bridge/logs/indexer/_home_err_devel_promethean_services_ts_smartgpt-bridge_services_ts_smartgpt-bridge_tests_tmp_inc1/bootstrap.json
-
-/.cache/
-docs/.makemd/
-
-docs/.space/
-context.mdb
-packages/smartgpt-bridge/logs/
-
-packages/smartgpt-bridge/services/ts/smartgpt-bridge/tests/tmp/
-
-packages/codex-context/docs/codex-context/
-
+build/
+lib/
 *.tsbuildinfo
 
-build-errors.txt
-
-test-errors.txt
-
-.eslintcache
-
-error-groups/
-
-*.mdb
-
-**/*.tsbuildinfo
-**/tsconfig.tsbuildinfo
-v8-compile-cache-0/
-packages/piper/test-tmp/
-
-packages/buildfix/test-tmp/
-
-packages/docops/test-tmp/
-# codex artifacts
-docs/reports/codex_cloud/describe/
-docs/reports/codex_cloud/runs/
-docs/reports/codex_cloud/latest
-docs/reports/codex_cloud/INDEX.md
-
-test-tmp/
-
-docs/codex-context/requests/
-
-packages/report-forge/.shadow-cljs/
-
+# ClojureScript/Clojure build artifacts
 .shadow-cljs/
+.cpcache/
 
-packages/clj-hacks/target/
+# Test coverage
+coverage/
+.nyc_output/
 
-packages/clj-hacks/.cpcache/
+# Cache directories
+.cache/
+*.cache
 
-tmp-docops-test/
-# Personal home directory artifacts should be ignored via a global gitignore.
-.cpcache
+# Dependencies 
+node_modules/
+*.log
+*.pid
+*.seed
+*.pid.lock
 
-scripts/.piper/
-tree.txt
-.aider*
+# Environment files
+.env
+.env.local
+.env.development.local
+.env.test.local
+.env.production.local
 
-# Benchmark fixtures
-benchmark-fixtures/
-
-# Generated kanban board files (should be regenerated, not committed)
-docs/agile/boards/generated.md
-
-# Temporary kanban test directories
-packages/kanban/kanban-test-*/
-
-# Temporary test directories
-**/kanban-test-*/
-**/test-tmp/
-
-# stryker temp files
-.stryker-tmp
-indexer-state.json
-test-data/test-git/
-
-packages/kanban/test-git-workflow-temp
-# Local caches and tooling
-.lsp/
-.scannerwork/
-.clj-kondo/
-
-# Test fixtures and temp
-simple-test-temp/
-**/test.txt
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+*~
+.obsidian
+.shadow-cljs/
+.smart-env/
+.cpcache/

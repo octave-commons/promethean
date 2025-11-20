@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0005-TS1109-multi-model-evaluation",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

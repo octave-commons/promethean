@@ -1,0 +1,13 @@
+{
+  "extends": "../../config/tsconfig.service.json",
+  "compilerOptions": {
+    "outDir": "dist",
+    "rootDir": "src"
+  },
+  "include": ["src/**/*.ts", "tests/**/*.ts"],
+  "references": [
+    {
+      "path": "../logger"
+    }
+  ]
+}

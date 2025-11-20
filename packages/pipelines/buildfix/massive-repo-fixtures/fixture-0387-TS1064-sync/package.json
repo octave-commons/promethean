@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0387-TS1064-sync",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

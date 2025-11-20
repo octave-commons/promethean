@@ -1,0 +1,64 @@
+name: Submodule branch sync guard
+
+on:
+  pull_request:
+    branches:
+      - device/**
+      - dev/**
+      - main
+      - release
+    types: [opened, synchronize, reopened, ready_for_review]
+  push:
+    branches:
+      - device/**
+      - dev/**
+      - main
+      - release
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  pr-mergeability:
+    if: github.event_name == 'pull_request'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout with submodules
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trust workspace for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Verify submodule mergeability and branch alignment
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          base_ref="${{ github.event.pull_request.base.ref }}"
+          head_ref="${{ github.event.pull_request.head.ref }}"
+          pr_url="${{ github.event.pull_request.html_url }}"
+          bash scripts/git-hooks/submodule-branch-sync.sh ci-merge-check "$base_ref" "$head_ref" "$pr_url"
+
+  post-merge-sync:
+    if: github.event_name == 'push'
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          token: ${{ secrets.GITHUB_TOKEN }}
+
+      - name: Trust workspace for git
+        run: git config --global --add safe.directory "$GITHUB_WORKSPACE"
+
+      - name: Align .gitmodules to branch after merge
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          branch="${GITHUB_REF_NAME}"
+          bash scripts/git-hooks/submodule-branch-sync.sh ci-post-merge "$branch"

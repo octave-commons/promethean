@@ -1,11 +1,17 @@
 ---
-uuid: "07b10989-e06c-4c6b-87b9-80ce169b7660"
-title: "Create MCP-Kanban Bridge API"
-slug: "Create MCP-Kanban Bridge API"
-status: "testing"
-priority: "P0"
-labels: ["mcp", "kanban", "api", "bridge", "synchronization", "critical"]
-created_at: "2025-10-13T18:48:33.321Z"
+uuid: 07b10989-e06c-4c6b-87b9-80ce169b7660
+title: Create MCP-Kanban Bridge API
+slug: Create MCP-Kanban Bridge API
+status: ready
+priority: P0
+labels:
+  - mcp
+  - kanban
+  - api
+  - bridge
+  - synchronization
+  - critical
+created_at: 2025-10-13T18:48:33.321Z
 estimates:
   complexity: ""
   scale: ""

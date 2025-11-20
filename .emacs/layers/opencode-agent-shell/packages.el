@@ -42,7 +42,7 @@
 
 (defconst opencode-agent-shell-packages
   '(
-     (shell-maker :location (repo :fetcher github
+     (shell-maker :location (recipe :fetcher github
                               :repo "xenodium/shell-maker"))
      (acp :location (recipe :fetcher github
                       :repo "xenodium/acp.el"

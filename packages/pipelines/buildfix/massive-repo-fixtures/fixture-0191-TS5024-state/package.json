@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0191-TS5024-state",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

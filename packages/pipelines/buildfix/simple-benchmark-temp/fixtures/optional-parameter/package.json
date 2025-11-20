@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-fixture-optional-parameter",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

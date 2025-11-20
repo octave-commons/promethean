@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0119-TS2584-lints",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

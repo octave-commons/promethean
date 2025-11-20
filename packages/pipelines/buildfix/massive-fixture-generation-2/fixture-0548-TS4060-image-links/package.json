@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0548-TS4060-image-links",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

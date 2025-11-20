@@ -1,6 +1,0 @@
-export {
-  <%= className %>Component,
-  define<%= className %>Component,
-  mount<%= className %>Component,
-  type <%= className %>ComponentOptions,
-} from "./component.js";

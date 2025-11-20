@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0470-TS2307-lifecycle",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

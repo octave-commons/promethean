@@ -1,9 +1,0 @@
-{
-  "name": "stub-function-missing",
-  "description": "Missing function implementation",
-  "errorPattern": [
-    "TS2420",
-    "process",
-    "missing"
-  ]
-}

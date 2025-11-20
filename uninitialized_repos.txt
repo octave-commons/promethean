@@ -1,0 +1,18 @@
+.                                        |  WARN  Unsupported engine: wanted: {"node":"22.20.0"} (current: {"node":"v22.18.0","pnpm":"10.16.1"})
+/home/err/devel/orgs/riatzukiza/promethean/cli/apply-patch
+/home/err/devel/orgs/riatzukiza/promethean/cli/obsidian-export
+/home/err/devel/orgs/riatzukiza/promethean/packages/ds
+/home/err/devel/orgs/riatzukiza/promethean/packages/http
+/home/err/devel/orgs/riatzukiza/promethean/packages/logger
+/home/err/devel/orgs/riatzukiza/promethean/packages/math-utils
+/home/err/devel/orgs/riatzukiza/promethean/packages/report-forge
+/home/err/devel/orgs/riatzukiza/promethean/packages/utils
+/home/err/devel/orgs/riatzukiza/promethean/packages/platform
+/home/err/devel/orgs/riatzukiza/promethean/services/autocommit
+/home/err/devel/orgs/riatzukiza/promethean/packages/security
+/home/err/devel/orgs/riatzukiza/promethean/packages/persistence
+/home/err/devel/orgs/riatzukiza/promethean/packages/migrations
+/home/err/devel/orgs/riatzukiza/promethean/packages/test-utils
+/home/err/devel/orgs/riatzukiza/promethean/cli/kanban
+/home/err/devel/orgs/riatzukiza/promethean/services/mcp
+/home/err/devel/orgs/riatzukiza/promethean/services/mcp-dev-ui-frontend

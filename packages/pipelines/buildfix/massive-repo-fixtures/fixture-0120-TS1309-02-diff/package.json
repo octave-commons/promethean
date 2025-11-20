@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0120-TS1309-02-diff",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

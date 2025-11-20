@@ -1,8 +1,0 @@
-{
-  "name": "buildfix-massive-fixture-fixture-0455-TS1095-shadow-conf",
-  "version": "1.0.0",
-  "type": "module",
-  "dependencies": {
-    "ts-morph": "^23.0.0"
-  }
-}

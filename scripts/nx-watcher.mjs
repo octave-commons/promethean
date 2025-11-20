@@ -16,14 +16,32 @@
  */
 
 import { execSync } from 'node:child_process';
-import { existsSync, watchFile, statSync } from 'node:fs';
-import { relative, resolve } from 'node:path';
+import { existsSync, mkdirSync, statSync, watchFile, writeFileSync } from 'node:fs';
+import { dirname, join, relative, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { dirname } from 'node:path';
+import ioPkg from '@pm2/io';
 
 const __filename = fileURLToPath(import.meta.url);
 const __dirname = dirname(__filename);
 const PROJECT_ROOT = resolve(__dirname, '..');
+const pm2Io = ioPkg?.default ?? ioPkg;
+const pm2ActionBus = typeof pm2Io?.action === 'function' ? pm2Io : null;
+const LOG_DIR = join(PROJECT_ROOT, 'logs');
+
+const registerPm2Action = (name, handler) => {
+  if (!pm2ActionBus) {
+    return;
+  }
+
+  pm2ActionBus.action(name, async (reply) => {
+    try {
+      const payload = await handler();
+      reply({ success: true, ...(payload ?? {}) });
+    } catch (error) {
+      reply({ success: false, error: error?.message ?? String(error) });
+    }
+  });
+};
 
 // Parse command line arguments
 const args = process.argv.slice(2);
@@ -202,6 +220,43 @@ function executeNxCommand(command, args = []) {
     };
   }
 }
+
+function runAffectedNxOperation(operation, extraArgs = []) {
+  const result = executeNxCommand(operation, ['--affected', ...extraArgs]);
+
+  if (!result.success) {
+    throw new Error(result.error || `${operation} failed`);
+  }
+
+  return { duration: result.duration ?? 0 };
+}
+
+registerPm2Action('build-affected', () => runAffectedNxOperation('build'));
+registerPm2Action('test-affected', () => runAffectedNxOperation('test'));
+registerPm2Action('lint-affected', () => runAffectedNxOperation('lint'));
+registerPm2Action('typecheck-affected', () => runAffectedNxOperation('typecheck'));
+registerPm2Action('generate-report', () => {
+  const result = executeNxCommand('graph', ['--affected', '--watch=false']);
+
+  if (!result.success) {
+    throw new Error(result.error || 'graph failed');
+  }
+
+  mkdirSync(LOG_DIR, { recursive: true });
+  const reportPath = join(LOG_DIR, 'nx-watcher-report.json');
+  const payload = (result.output || '').trim();
+  writeFileSync(reportPath, payload, 'utf8');
+  return { path: reportPath, bytes: payload.length };
+});
+registerPm2Action('cleanup', () => {
+  const result = executeNxCommand('reset');
+
+  if (!result.success) {
+    throw new Error(result.error || 'reset failed');
+  }
+
+  return { duration: result.duration ?? 0 };
+});
 
 // Get affected projects for a list of files
 function getAffectedProjects(files) {

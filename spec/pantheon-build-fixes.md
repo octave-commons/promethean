@@ -3,11 +3,13 @@
 ## Context
 
 - `pnpm --filter @promethean-os/pantheon-*/ build` currently fails for coordination, core, protocol, and ui packages with TypeScript errors (captured 2025-11-09).
-- No existing GitHub issues or PRs mention these failures (`gh issue list --search "pantheon build"`, `gh pr list --search "pantheon build"`).
+- No existing GitHub issues or PRs mention these failures (`gh issue list --search "pantheon build"`, `gh pr list --search "pantheon build"**).
 
 ## Discovered Issues
 
 ### @promethean-os/pantheon-coordination
+
+**DONE**
 
 - Wildcard re-exports in `packages/pantheon/coordination/src/types/index.ts:8-15` pull in overlapping symbols from several modules, triggering TS2308 duplicate export errors and referencing non-existent modules (`performance.js`, `learning.js`, `security.js`).
 - Unused imports flagged by tsc in:
@@ -17,10 +19,12 @@
 
 ### @promethean-os/pantheon-core
 
+**DONE**
 - `packages/pantheon/core/src/core/context.ts:20-28` dynamically imports `@promethean-os/persistence` and destructures `makeContextStore`, but that symbol is not exported by the persistence package, producing TS2339.
 
 ### @promethean-os/pantheon-protocol
 
+**DONE**
 - `packages/pantheon/protocol/src/adapters/protocol-adapter.ts` contains numerous unused variables/imports and implicit `any` parameters (see diagnostics around lines 9, 66, 211, 373, 487, 633, 675). These violate the strict compiler settings and block emit.
 
 ### @promethean-os/pantheon-ui

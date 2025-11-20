@@ -1,3 +1,0 @@
-llm:
-    driver: ollama
-    model: gemma3:latest
