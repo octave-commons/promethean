@@ -35,6 +35,8 @@
       "@shared/ts/*": ["../shared/ts/dist/*"],
       "@promethean/test-utils/*": ["../packages/test-utils/dist/*"],
       "@promethean/legacy/*": ["../packages/legacy/*"],
+      "@promethean-os/pantheon-core": ["../packages/pantheon/packages/core/dist/index.d.ts"],
+      "@promethean-os/pantheon-core/*": ["../packages/pantheon/packages/core/dist/*"],
       "@promethean-os/pipeline-core": ["../packages/pipelines/core/src/index.ts"],
       "@promethean-os/pipeline-core/*": ["../packages/pipelines/core/src/*"]
     },

@@ -53,6 +53,10 @@
       "options": {
         "forwardAllArgs": false
       }
+    },
+    "nx-release-publish": {
+      "dependsOn": ["build"],
+      "cache": false
     }
   },
   "projects": {

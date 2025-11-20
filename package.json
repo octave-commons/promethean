@@ -2,7 +2,7 @@
   "type": "module",
   "name": "promethean",
   "license": "GPL-3.0-only",
-  "version": "0.0.1",
+  "version": "0.1.0",
   "scripts": {
     "build": "pnpm nx run-many -t build --all",
     "test": "pnpm nx run-many -t test --all",
@@ -12,6 +12,7 @@
     "affected:test": "pnpm nx affected -t test",
     "affected:lint": "pnpm nx affected -t lint",
     "affected:typecheck": "pnpm nx affected -t typecheck",
+    "publish:affected": "pnpm nx affected -t nx-release-publish",
     "build:cross-platform": "node ./scripts/cross-platform-build.js all",
     "docker:build": "bash ./scripts/docker-build-cross-platform.sh",
     "docker:build:push": "bash ./scripts/docker-build-cross-platform.sh --push",

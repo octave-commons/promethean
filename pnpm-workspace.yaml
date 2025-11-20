@@ -3,6 +3,7 @@ packages:
   - services/*
   - pipelines/*
   - packages/*/*
+  - packages/*/packages/*
   - .opencode/*
   - scripts/*/*
   - cli/*

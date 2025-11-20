@@ -7,7 +7,7 @@
   "include": ["src/**/*.ts", "tests/**/*.ts"],
   "references": [
     {
-      "path": "../logger"
+      "path": "../../packages/logger"
     }
   ]
 }
