@@ -333,10 +333,10 @@ importers:
         version: link:../../packages/markdown
       '@promethean-os/pantheon':
         specifier: workspace:*
-        version: link:../../packages/pantheon
+        version: link:../../experimental/pantheon
       '@promethean-os/pantheon-core':
         specifier: workspace:*
-        version: link:../../packages/pantheon/packages/core
+        version: link:../../experimental/pantheon/packages/core
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -702,7 +702,7 @@ importers:
         version: link:../../packages/ollama-queue
       '@promethean-os/pantheon-workflow':
         specifier: workspace:*
-        version: link:../../packages/pantheon/packages/workflow
+        version: link:../pantheon/packages/workflow
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -963,7 +963,7 @@ importers:
         version: link:../enso-protocol
       '@promethean-os/pantheon-orchestrator':
         specifier: workspace:*
-        version: link:../../packages/pantheon/packages/orchestrator
+        version: link:../pantheon/packages/orchestrator
       uuid:
         specifier: ^9.0.1
         version: 9.0.1
@@ -1189,6 +1189,404 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  experimental/pantheon:
+    dependencies:
+      '@promethean-os/persistence':
+        specifier: workspace:*
+        version: link:../../packages/persistence
+      commander:
+        specifier: ^11.1.0
+        version: 11.1.0
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/jsonwebtoken':
+        specifier: ^9.0.5
+        version: 9.0.10
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/coordination:
+    dependencies:
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../state
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/core:
+    dependencies:
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../state
+      '@promethean-os/persistence':
+        specifier: workspace:*
+        version: link:../../../../packages/persistence
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/ecs:
+    dependencies:
+      '@promethean-os/ds':
+        specifier: workspace:*
+        version: link:../../../../packages/ds
+      '@types/javascript-time-ago':
+        specifier: ^2.5.0
+        version: 2.5.0
+      '@types/unist':
+        specifier: ^3.0.3
+        version: 3.0.3
+      body-parser:
+        specifier: ^1.20.2
+        version: 1.20.3
+      chromadb:
+        specifier: ^3.0.14
+        version: 3.0.17
+      duckduckgo-search:
+        specifier: ^1.0.7
+        version: 1.0.7
+      express:
+        specifier: ^4.19.2
+        version: 4.19.2
+      gray-matter:
+        specifier: ^4.0.3
+        version: 4.0.3
+      javascript-time-ago:
+        specifier: ^2.5.11
+        version: 2.5.11
+      mongodb:
+        specifier: ^6.18.0
+        version: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      ollama:
+        specifier: ^0.5.17
+        version: 0.5.18
+      prom-client:
+        specifier: ^15.1.0
+        version: 15.1.3
+      remark-gfm:
+        specifier: ^4.0.1
+        version: 4.0.1
+      remark-parse:
+        specifier: ^11.0.0
+        version: 11.0.0
+      remark-stringify:
+        specifier: ^11.0.0
+        version: 11.0.0
+      sucrase:
+        specifier: ^3.35.0
+        version: 3.35.0
+      unified:
+        specifier: ^11.0.5
+        version: 11.0.5
+      unist:
+        specifier: ^0.0.1
+        version: 0.0.1
+      unist-util-to-string-with-nodes:
+        specifier: ^0.1.1
+        version: 0.1.1
+      unist-util-visit:
+        specifier: ^5.0.0
+        version: 5.0.0
+      uuid:
+        specifier: ^11.1.0
+        version: 11.1.0
+      ws:
+        specifier: ^8.18.0
+        version: 8.18.3
+      yaml:
+        specifier: ^2.5.1
+        version: 2.8.1
+      zod:
+        specifier: ^3.23.8
+        version: 3.25.76
+    devDependencies:
+      '@promethean-os/test-utils':
+        specifier: workspace:*
+        version: link:../../../../packages/test-utils
+      '@types/body-parser':
+        specifier: ^1.19.5
+        version: 1.19.5
+      '@types/estree':
+        specifier: ^1.0.5
+        version: 1.0.8
+      '@types/express':
+        specifier: ^4.17.21
+        version: 4.17.21
+      '@types/ws':
+        specifier: ^8.5.9
+        version: 8.18.1
+
+  experimental/pantheon/packages/generator:
+    dependencies:
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      shadow-cljs:
+        specifier: ^2.25.8
+        version: 2.28.23
+
+  experimental/pantheon/packages/llm-claude:
+    dependencies:
+      '@anthropic-ai/sdk':
+        specifier: ^0.24.3
+        version: 0.24.3(encoding@0.1.13)
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/llm-openai:
+    dependencies:
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../core
+      openai:
+        specifier: ^4.20.1
+        version: 4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/mcp:
+    dependencies:
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.0.0
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.0.0
+        version: 5.9.3
+
+  experimental/pantheon/packages/orchestrator:
+    dependencies:
+      '@promethean-os/pantheon-protocol':
+        specifier: workspace:*
+        version: link:../protocol
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../state
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.8
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/persistence:
+    dependencies:
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../core
+      '@promethean-os/persistence':
+        specifier: workspace:*
+        version: link:../../../../packages/persistence
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/protocol:
+    dependencies:
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../state
+      amqplib:
+        specifier: ^0.10.3
+        version: 0.10.9
+      crypto:
+        specifier: ^1.0.1
+        version: 1.0.1
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      ws:
+        specifier: ^8.14.2
+        version: 8.18.3
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/amqplib':
+        specifier: ^0.10.5
+        version: 0.10.8
+      '@types/uuid':
+        specifier: ^9.0.7
+        version: 9.0.8
+      '@types/ws':
+        specifier: ^8.5.10
+        version: 8.18.1
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/state:
+    dependencies:
+      '@promethean-os/level-cache':
+        specifier: workspace:*
+        version: link:../../../../packages/level-cache
+      bcryptjs:
+        specifier: ^2.4.3
+        version: 2.4.3
+      jsonwebtoken:
+        specifier: ^9.0.2
+        version: 9.0.2
+      uuid:
+        specifier: ^9.0.1
+        version: 9.0.1
+      zod:
+        specifier: ^3.22.4
+        version: 3.25.76
+    devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
+      '@types/jsonwebtoken':
+        specifier: ^9.0.10
+        version: 9.0.10
+      '@types/uuid':
+        specifier: ^9.0.8
+        version: 9.0.8
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      ts-node:
+        specifier: ^10.9.2
+        version: 10.9.2(@types/node@24.9.1)(typescript@5.9.3)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/ui:
+    dependencies:
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:../state
+      lit:
+        specifier: ^3.1.2
+        version: 3.3.1
+      luxon:
+        specifier: ^3.4.4
+        version: 3.7.2
+      react:
+        specifier: ^18.2.0
+        version: 18.3.1
+      react-dom:
+        specifier: ^18.2.0
+        version: 18.3.1(react@18.3.1)
+      rxjs:
+        specifier: ^7.8.1
+        version: 7.8.2
+    devDependencies:
+      '@types/react':
+        specifier: ^18.2.0
+        version: 18.3.26
+      '@types/react-dom':
+        specifier: ^18.2.0
+        version: 18.3.7(@types/react@18.3.26)
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/workflow:
+    dependencies:
+      '@openai/agents':
+        specifier: ^0.1.9
+        version: 0.1.11(ws@8.18.3)(zod@3.25.76)
+      ollama:
+        specifier: ^0.5.17
+        version: 0.5.18
+      remark-parse:
+        specifier: 11.0.0
+        version: 11.0.0
+      unified:
+        specifier: 11.0.5
+        version: 11.0.5
+      unist-util-visit:
+        specifier: 5.0.0
+        version: 5.0.0
+      zod:
+        specifier: ^3.25.0
+        version: 3.25.76
+    devDependencies:
+      '@promethean-os/test-utils':
+        specifier: workspace:*
+        version: link:../../../../packages/test-utils
+
   experimental/pipeline-automation:
     dependencies:
       '@promethean-os/buildfix':
@@ -1403,7 +1801,7 @@ importers:
         version: link:../migrations
       '@promethean-os/pantheon':
         specifier: workspace:*
-        version: link:../pantheon
+        version: link:../../experimental/pantheon
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../persistence
@@ -2393,8 +2791,6 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
-  packages/pantheon: {}
-
   packages/pantheon-ecs:
     dependencies:
       '@promethean-os/utils':
@@ -2426,42 +2822,14 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
-  packages/pantheon/packages/coordination: {}
-
-  packages/pantheon/packages/core: {}
-
-  packages/pantheon/packages/ecs: {}
-
-  packages/pantheon/packages/generator: {}
-
-  packages/pantheon/packages/llm-claude: {}
-
-  packages/pantheon/packages/llm-openai: {}
-
-  packages/pantheon/packages/llm-opencode: {}
-
-  packages/pantheon/packages/mcp: {}
-
-  packages/pantheon/packages/orchestrator: {}
-
-  packages/pantheon/packages/persistence: {}
-
-  packages/pantheon/packages/protocol: {}
-
-  packages/pantheon/packages/state: {}
-
-  packages/pantheon/packages/ui: {}
-
-  packages/pantheon/packages/workflow: {}
-
   packages/persistence:
     dependencies:
       '@promethean-os/embedding':
         specifier: workspace:*
         version: link:../embedding
       '@promethean-os/logger':
-        specifier: workspace:*
-        version: link:../logger
+        specifier: ^0.2.0
+        version: 0.2.0
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3232,7 +3600,7 @@ importers:
         version: link:../../packages/level-cache
       '@promethean-os/pantheon-llm-openai':
         specifier: workspace:*
-        version: link:../../packages/pantheon/packages/llm-openai
+        version: link:../../experimental/pantheon/packages/llm-openai
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -3685,10 +4053,10 @@ importers:
         version: link:../../cli/kanban
       '@promethean-os/pantheon-protocol':
         specifier: workspace:*
-        version: link:../../packages/pantheon/packages/protocol
+        version: link:../../experimental/pantheon/packages/protocol
       '@promethean-os/pantheon-state':
         specifier: workspace:*
-        version: link:../../packages/pantheon/packages/state
+        version: link:../../experimental/pantheon/packages/state
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../../packages/utils
@@ -3832,6 +4200,9 @@ packages:
     resolution: {integrity: sha512-EzlvzE6xQUBrZuuhSAFTdsr4P2bBBHGZwKFemEfq8gIGyIQCxalYfZW/T2ORbtQx5rU69o+WycP3exY/7T1hGA==}
     peerDependencies:
       react: '>=16.9.0'
+
+  '@anthropic-ai/sdk@0.24.3':
+    resolution: {integrity: sha512-916wJXO6T6k8R6BAAcLhLPv/pnLGy7YSEBZXZ1XTFbLcTZE8oTy3oDW9WJf9KKZwMvVcePIfoTSvzXHRcGxkQQ==}
 
   '@ava/typescript@4.1.0':
     resolution: {integrity: sha512-1iWZQ/nr9iflhLK9VN8H+1oDZqe93qxNnyYUz+jTzkYPAHc5fdZXBrqmNIgIfFhWYXK5OaQ5YtC7OmLeTNhVEg==}
@@ -6020,6 +6391,12 @@ packages:
   '@kwsites/promise-deferred@1.1.1':
     resolution: {integrity: sha512-GaHYm+c0O9MjZRu0ongGBRbinu8gVAMd2UZjji6jVmqKtZluZnptXGWhz1E8j8D2HJ3f/yMxKAUC0b+57wncIw==}
 
+  '@lit-labs/ssr-dom-shim@1.4.0':
+    resolution: {integrity: sha512-ficsEARKnmmW5njugNYKipTm4SFnbik7CXtoencDZzmzo/dQ+2Q0bgkzJuoJP20Aj0F+izzJjOqsnkd6F/o1bw==}
+
+  '@lit/reactive-element@2.1.1':
+    resolution: {integrity: sha512-N+dm5PAYdQ8e6UlywyyrgI2t++wFGXfHx+dSJ1oBrg6FAxUj40jId++EaRm80MKX5JnlH1sBsyZ5h0bcZKemCg==}
+
   '@lmdb/lmdb-darwin-arm64@3.4.4':
     resolution: {integrity: sha512-XaKL705gDWd6XVls3ATDj13ZdML/LqSIxwgnYpG8xTzH2ifArx8fMMDdvqGE/Emd+W6R90W2fveZcJ0AyS8Y0w==}
     cpu: [arm64]
@@ -6494,6 +6871,29 @@ packages:
   '@open-draft/until@2.1.0':
     resolution: {integrity: sha512-U69T3ItWHvLwGg5eJ0n3I62nWuE6ilHlmz7zM0npLBRvPRd7e6NYmg54vvRtP5mZG7kZqZCFVdsTWo7BPtBujg==}
 
+  '@openai/agents-core@0.1.11':
+    resolution: {integrity: sha512-ye8VIAO2wPIg1zClldIj8We/1R55VmdgnMyn0g4YGbp6RD5Wpv9yfH5kPNWxmHvw8ji+XehyggGoklY4FGQoBQ==}
+    peerDependencies:
+      zod: ^3.25.40
+    peerDependenciesMeta:
+      zod:
+        optional: true
+
+  '@openai/agents-openai@0.1.11':
+    resolution: {integrity: sha512-TYYbY7o1cNxtOIO4F1a20qkqDT1Iwr9ZEi0MO2sEaeioK8rGB/Ux54iFvsA3IblUYyK+5fD25vr4vXFasvg2Kg==}
+    peerDependencies:
+      zod: ^3.25.40
+
+  '@openai/agents-realtime@0.1.11':
+    resolution: {integrity: sha512-8jaNuYU1acra28i7bYrZIPubI6s2ziY2ZudqAVK2ad+giopXcrNSiJTuZ2S3z+ESnIejwMiYLfnY2Le8W0SJ7A==}
+    peerDependencies:
+      zod: ^3.25.40
+
+  '@openai/agents@0.1.11':
+    resolution: {integrity: sha512-jnaFt54iP71vYDXvpG3EGX2kVRYIU2xBdCT3uFqdXm4KqFAP9JQFNGiKKBEeE5rbXARpqAQpKH+5HfoANndpcQ==}
+    peerDependencies:
+      zod: ^3.25.40
+
   '@opencode-ai/plugin@1.0.80':
     resolution: {integrity: sha512-MUFcNd2G0efdVaDSe4q+qI/3yuHJ6W4m870dWhEg/pnE0jt04UkP1E5RNHJO07yMUeNcEOIsohPo5uzIEZ1M2A==}
 
@@ -6555,6 +6955,9 @@ packages:
 
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
+
+  '@promethean-os/logger@0.2.0':
+    resolution: {integrity: sha512-6YHpPd/zIHOlv2ciE9+Get3WN/efPiLdBexqQX5JDZIobjRKreCte1ZoRgZk+jbLjk/Ub74JwEaHJ3p57/kBGQ==}
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -7891,6 +8294,10 @@ packages:
     resolution: {integrity: sha512-MnA+YT8fwfJPgBx3m60MNqakm30XOkyIoH1y6huTQvC0PwZG7ki8NacLBcrPbNoo8vEZy7Jpuk7+jMO+CUovTQ==}
     engines: {node: '>= 14'}
 
+  agentkeepalive@4.6.0:
+    resolution: {integrity: sha512-kja8j7PjmncONqaTsB8fQ+wE2mSU2DJ9D4XKoJ5PFWIdRMa6SLSN1ff4mOr4jCbfRSsxR4keIiySJU0N9T5hIQ==}
+    engines: {node: '>= 8.0.0'}
+
   aggregate-error@4.0.1:
     resolution: {integrity: sha512-0poP0T7el6Vq3rstR8Mn4V/IQrpBLO6POkUSrN7RhyY+GF/InCFShQzsQ39T25gkHhLgSLByyAz+Kjb+c2L98w==}
     engines: {node: '>=12'}
@@ -9146,6 +9553,10 @@ packages:
     resolution: {integrity: sha512-x8dy3RnvYdlUcPOjkEHqozhiwzKNSq7GcPuXFbnyMOCHxX8V3OgIg/pYuabl2sbUPfIJaeAQB7PMOK8DFIdoRA==}
     engines: {node: '>=12'}
 
+  crypto@1.0.1:
+    resolution: {integrity: sha512-VxBKmeNcqQdiUQUW2Tzq0t377b54N2bMtXO/qiLa+6eRRmmC4qT3D4OnTGoT/U6O9aklQ/jTwbOtRMTTY8G0Ig==}
+    deprecated: This package is no longer supported. It's now a built-in Node module. If you've depended on crypto, you should switch to the one that's built-in.
+
   css-box-model@1.2.1:
     resolution: {integrity: sha512-a7Vr4Q/kd/aw96bnJG332W9V9LkJO69JRcaCYDUqjp6/z0w6VcZjgAcTbgFxEPfBgdnAwlh3iwu+hLopa+flJw==}
 
@@ -10388,6 +10799,9 @@ packages:
   forever-agent@0.6.1:
     resolution: {integrity: sha512-j0KLYPhm6zeac4lz3oJ3o65qvgQCcPubiyotZrXqEaG4hNagNYO8qdlUrX5vwqv9ohqeT/Z3j6+yW067yWWdUw==}
 
+  form-data-encoder@1.7.2:
+    resolution: {integrity: sha512-qfqtYan3rxrnCk1VYaA4H+Ms9xdpPqvLZa6xmMgFvhO32x7/3J/ExcTd6qpxM0vH2GdMI+poehyBZvqfMTto8A==}
+
   form-data@2.3.3:
     resolution: {integrity: sha512-1lLKB2Mu3aGP1Q/2eCOx0fNbRMe7XdwktwOruhfqqd0rIJWwN4Dh+E3hrPSlDCXnSR7UtZ1N38rVXm+6+MEhJQ==}
     engines: {node: '>= 0.12'}
@@ -10399,6 +10813,10 @@ packages:
   format@0.2.2:
     resolution: {integrity: sha512-wzsgA6WOq+09wrU1tsJ09udeR/YZRaeArL9e1wPbFg3GG2yDnC2ldKpxs4xunpFF9DgqCqOIra3bc1HWrJ37Ww==}
     engines: {node: '>=0.4.x'}
+
+  formdata-node@4.4.1:
+    resolution: {integrity: sha512-0iirZp3uVDjVGt9p49aTaqjk84TrglENEDuqfdlZQ1roC9CWlPk6Avf8EEnZNcAqPonwkG35x4n3ww/1THYAeQ==}
+    engines: {node: '>= 12.20'}
 
   formdata-polyfill@4.0.10:
     resolution: {integrity: sha512-buewHzMvYL29jdeQTVILecSaZKnt/RJWjoZCF5OW60Z67/GmSLBkOFM7qh1PI3zFNtJbaZL5eQu1vLfazOwj4g==}
@@ -10811,6 +11229,9 @@ packages:
   human-signals@8.0.1:
     resolution: {integrity: sha512-eKCa6bwnJhvxj14kZk5NCPc6Hb6BdsU9DZcOnmQKSnO1VKrfV0zCvtttPZUsBvjmNDn8rpcJfpwSYnHBjc95MQ==}
     engines: {node: '>=18.18.0'}
+
+  humanize-ms@1.2.1:
+    resolution: {integrity: sha512-Fl70vYtsAFb/C06PTS9dZBo7ihau+Tu/DNCk/OyHhea07S+aeMWpFFkUaXRa8fI+ScZbEI8dfSxwY7gxZ9SAVQ==}
 
   hyperid@3.3.0:
     resolution: {integrity: sha512-7qhCVT4MJIoEsNcbhglhdmBKb09QtcmJNiIQGq7js/Khf5FtQQ9bzcAuloeqBeee7XD7JqDeve9KNlQya5tSGQ==}
@@ -11574,6 +11995,15 @@ packages:
 
   linkify-it@5.0.0:
     resolution: {integrity: sha512-5aHCbzQRADcdP+ATqnDuhhJ/MRIqDkZX5pyjFHRRysS8vZ5AbqGEoFIb6pYHPZ+L/OC2Lc+xT8uHVVR5CAK/wQ==}
+
+  lit-element@4.2.1:
+    resolution: {integrity: sha512-WGAWRGzirAgyphK2urmYOV72tlvnxw7YfyLDgQ+OZnM9vQQBQnumQ7jUJe6unEzwGU3ahFOjuz1iz1jjrpCPuw==}
+
+  lit-html@3.3.1:
+    resolution: {integrity: sha512-S9hbyDu/vs1qNrithiNyeyv64c9yqiW9l+DBgI18fL+MTvOtWoFR0FWiyq1TxaYef5wNlpEmzlXoBlZEO+WjoA==}
+
+  lit@3.3.1:
+    resolution: {integrity: sha512-Ksr/8L3PTapbdXJCk+EJVB78jDodUMaP54gD24W186zGRARvwrsPfS60wae/SSCTCNZVPd1chXqio1qHQmu4NA==}
 
   lmdb@3.4.4:
     resolution: {integrity: sha512-+Y2DqovevLkb6DrSQ6SXTYLEd6kvlRbhsxzgJrk7BUfOVA/mt21ak6pFDZDKxiAczHMWxrb02kXBTSTIA0O94A==}
@@ -12596,6 +13026,18 @@ packages:
   open@8.4.2:
     resolution: {integrity: sha512-7x81NCL719oNbsq/3mh+hVrAWmFuEYUqrq/Iw3kUzH8ReypT9QQ0BLoJS7/G9k6N81XjW4qHWtjWwe/9eLy1EQ==}
     engines: {node: '>=12'}
+
+  openai@4.104.0:
+    resolution: {integrity: sha512-p99EFNsA/yX6UhVO93f5kJsDRLAg+CTA2RBqdHK4RtK8u5IJw32Hyb2dTGKbnnFmnuoBv5r7Z2CURI9sGZpSuA==}
+    hasBin: true
+    peerDependencies:
+      ws: ^8.18.0
+      zod: ^3.23.8
+    peerDependenciesMeta:
+      ws:
+        optional: true
+      zod:
+        optional: true
 
   openai@5.23.2:
     resolution: {integrity: sha512-MQBzmTulj+MM5O8SKEk/gL8a7s5mktS9zUtAkU257WjvobGc9nKcBuVwjyEEcb9SI8a8Y2G/mzn3vm9n1Jlleg==}
@@ -15354,6 +15796,10 @@ packages:
     resolution: {integrity: sha512-d2JWLCivmZYTSIoge9MsgFCZrt571BikcWGYkjC1khllbTeDlGqZ2D8vD8E/lJa8WGWbb7Plm8/XJYV7IJHZZw==}
     engines: {node: '>= 8'}
 
+  web-streams-polyfill@4.0.0-beta.3:
+    resolution: {integrity: sha512-QW95TCTaHmsYfHDybGMwO5IJIM93I/6vTRk+daHTWFPhwh+C8Cg7j7XyKrwrj8Ib6vYXe0ocYNrmzY4xAAN6ug==}
+    engines: {node: '>= 14'}
+
   webidl-conversions@3.0.1:
     resolution: {integrity: sha512-2JAn3z8AR6rjK8Sm8orRC0h/bcl/DqL7tRPdGZ4I1CjdF+EaMLmYxBHyXuKL849eucPFhvBoxMsflfOb8kxaeQ==}
 
@@ -15686,6 +16132,19 @@ snapshots:
       react: 18.3.1
       resize-observer-polyfill: 1.5.1
       throttle-debounce: 5.0.2
+
+  '@anthropic-ai/sdk@0.24.3(encoding@0.1.13)':
+    dependencies:
+      '@types/node': 18.19.130
+      '@types/node-fetch': 2.6.13
+      abort-controller: 3.0.0
+      agentkeepalive: 4.6.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0(encoding@0.1.13)
+      web-streams-polyfill: 3.3.3
+    transitivePeerDependencies:
+      - encoding
 
   '@ava/typescript@4.1.0':
     dependencies:
@@ -18569,6 +19028,12 @@ snapshots:
 
   '@kwsites/promise-deferred@1.1.1': {}
 
+  '@lit-labs/ssr-dom-shim@1.4.0': {}
+
+  '@lit/reactive-element@2.1.1':
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.4.0
+
   '@lmdb/lmdb-darwin-arm64@3.4.4':
     optional: true
 
@@ -19234,6 +19699,53 @@ snapshots:
 
   '@open-draft/until@2.1.0': {}
 
+  '@openai/agents-core@0.1.11(ws@8.18.3)(zod@3.25.76)':
+    dependencies:
+      debug: 4.4.3(supports-color@5.5.0)
+      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
+    optionalDependencies:
+      '@modelcontextprotocol/sdk': 1.17.5
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - supports-color
+      - ws
+
+  '@openai/agents-openai@0.1.11(ws@8.18.3)(zod@3.25.76)':
+    dependencies:
+      '@openai/agents-core': 0.1.11(ws@8.18.3)(zod@3.25.76)
+      debug: 4.4.3(supports-color@5.5.0)
+      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - supports-color
+      - ws
+
+  '@openai/agents-realtime@0.1.11(zod@3.25.76)':
+    dependencies:
+      '@openai/agents-core': 0.1.11(ws@8.18.3)(zod@3.25.76)
+      '@types/ws': 8.18.1
+      debug: 4.4.3(supports-color@5.5.0)
+      ws: 8.18.3
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+
+  '@openai/agents@0.1.11(ws@8.18.3)(zod@3.25.76)':
+    dependencies:
+      '@openai/agents-core': 0.1.11(ws@8.18.3)(zod@3.25.76)
+      '@openai/agents-openai': 0.1.11(ws@8.18.3)(zod@3.25.76)
+      '@openai/agents-realtime': 0.1.11(zod@3.25.76)
+      debug: 4.4.3(supports-color@5.5.0)
+      openai: 5.23.2(ws@8.18.3)(zod@3.25.76)
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+      - ws
+
   '@opencode-ai/plugin@1.0.80':
     dependencies:
       '@opencode-ai/sdk': 1.0.80
@@ -19362,6 +19874,11 @@ snapshots:
       - supports-color
 
   '@popperjs/core@2.11.8': {}
+
+  '@promethean-os/logger@0.2.0':
+    dependencies:
+      winston: 3.18.3
+      winston-daily-rotate-file: 4.7.1(winston@3.18.3)
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -20493,7 +21010,6 @@ snapshots:
   '@types/node@24.9.1':
     dependencies:
       undici-types: 7.16.0
-    optional: true
 
   '@types/parse-json@4.0.2': {}
 
@@ -20571,8 +21087,7 @@ snapshots:
 
   '@types/triple-beam@1.3.5': {}
 
-  '@types/trusted-types@2.0.7':
-    optional: true
+  '@types/trusted-types@2.0.7': {}
 
   '@types/unist@2.0.11': {}
 
@@ -21081,6 +21596,10 @@ snapshots:
       - supports-color
 
   agent-base@7.1.4: {}
+
+  agentkeepalive@4.6.0:
+    dependencies:
+      humanize-ms: 1.2.1
 
   aggregate-error@4.0.1:
     dependencies:
@@ -22616,6 +23135,8 @@ snapshots:
   crypto-random-string@4.0.0:
     dependencies:
       type-fest: 1.4.0
+
+  crypto@1.0.1: {}
 
   css-box-model@1.2.1:
     dependencies:
@@ -24383,6 +24904,8 @@ snapshots:
 
   forever-agent@0.6.1: {}
 
+  form-data-encoder@1.7.2: {}
+
   form-data@2.3.3:
     dependencies:
       asynckit: 0.4.0
@@ -24398,6 +24921,11 @@ snapshots:
       mime-types: 2.1.35
 
   format@0.2.2: {}
+
+  formdata-node@4.4.1:
+    dependencies:
+      node-domexception: 1.0.0
+      web-streams-polyfill: 4.0.0-beta.3
 
   formdata-polyfill@4.0.10:
     dependencies:
@@ -24869,6 +25397,10 @@ snapshots:
   human-signals@5.0.0: {}
 
   human-signals@8.0.1: {}
+
+  humanize-ms@1.2.1:
+    dependencies:
+      ms: 2.1.3
 
   hyperid@3.3.0:
     dependencies:
@@ -25773,6 +26305,22 @@ snapshots:
     dependencies:
       uc.micro: 2.1.0
 
+  lit-element@4.2.1:
+    dependencies:
+      '@lit-labs/ssr-dom-shim': 1.4.0
+      '@lit/reactive-element': 2.1.1
+      lit-html: 3.3.1
+
+  lit-html@3.3.1:
+    dependencies:
+      '@types/trusted-types': 2.0.7
+
+  lit@3.3.1:
+    dependencies:
+      '@lit/reactive-element': 2.1.1
+      lit-element: 4.2.1
+      lit-html: 3.3.1
+
   lmdb@3.4.4:
     dependencies:
       msgpackr: 1.11.5
@@ -25900,8 +26448,7 @@ snapshots:
 
   lunr@2.3.9: {}
 
-  luxon@3.7.2:
-    optional: true
+  luxon@3.7.2: {}
 
   lz-string@1.5.0: {}
 
@@ -27195,6 +27742,21 @@ snapshots:
       define-lazy-prop: 2.0.0
       is-docker: 2.2.1
       is-wsl: 2.2.0
+
+  openai@4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76):
+    dependencies:
+      '@types/node': 18.19.130
+      '@types/node-fetch': 2.6.13
+      abort-controller: 3.0.0
+      agentkeepalive: 4.6.0
+      form-data-encoder: 1.7.2
+      formdata-node: 4.4.1
+      node-fetch: 2.7.0(encoding@0.1.13)
+    optionalDependencies:
+      ws: 8.18.3
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - encoding
 
   openai@5.23.2(ws@8.18.3)(zod@3.25.76):
     optionalDependencies:
@@ -30005,6 +30567,24 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
+  ts-node@10.9.2(@types/node@24.9.1)(typescript@5.9.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 24.9.1
+      acorn: 8.15.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.9.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -30272,8 +30852,7 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.16.0:
-    optional: true
+  undici-types@7.16.0: {}
 
   undici@5.29.0:
     dependencies:
@@ -30699,6 +31278,8 @@ snapshots:
   weapon-regex@1.3.3: {}
 
   web-streams-polyfill@3.3.3: {}
+
+  web-streams-polyfill@4.0.0-beta.3: {}
 
   webidl-conversions@3.0.1: {}
 
