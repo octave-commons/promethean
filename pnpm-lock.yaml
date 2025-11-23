@@ -1191,6 +1191,30 @@ importers:
 
   experimental/pantheon:
     dependencies:
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:packages/core
+      '@promethean-os/pantheon-ecs':
+        specifier: workspace:*
+        version: link:../../packages/pantheon-ecs
+      '@promethean-os/pantheon-mcp':
+        specifier: workspace:*
+        version: link:packages/mcp
+      '@promethean-os/pantheon-orchestrator':
+        specifier: workspace:*
+        version: link:packages/orchestrator
+      '@promethean-os/pantheon-persistence':
+        specifier: workspace:*
+        version: link:packages/persistence
+      '@promethean-os/pantheon-protocol':
+        specifier: workspace:*
+        version: link:packages/protocol
+      '@promethean-os/pantheon-state':
+        specifier: workspace:*
+        version: link:packages/state
+      '@promethean-os/pantheon-workflow':
+        specifier: workspace:*
+        version: link:packages/workflow
       '@promethean-os/persistence':
         specifier: workspace:*
         version: link:../../packages/persistence
@@ -1523,7 +1547,7 @@ importers:
         version: 5.3.1(@ava/typescript@4.1.0)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@24.9.1)(typescript@5.9.3)
+        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -3909,7 +3933,7 @@ importers:
         version: 9.0.8
       bun-types:
         specifier: latest
-        version: 1.3.2(@types/react@18.3.26)
+        version: 1.3.3
       eslint:
         specifier: ^8.50.0
         version: 8.57.1
@@ -4130,6 +4154,16 @@ importers:
       sanitize-html:
         specifier: ^2.11.0
         version: 2.17.0
+    devDependencies:
+      '@types/bcryptjs':
+        specifier: ^2.4.6
+        version: 2.4.6
+      '@types/jsonwebtoken':
+        specifier: ^9.0.5
+        version: 9.0.10
+      '@types/sanitize-html':
+        specifier: ^2.11.0
+        version: 2.16.0
 
   services/sentinel:
     dependencies:
@@ -7831,6 +7865,9 @@ packages:
   '@types/react@18.3.26':
     resolution: {integrity: sha512-RFA/bURkcKzx/X9oumPG9Vp3D3JUgus/d0b67KB0t5S/raciymilkOa66olh78MUI92QLbEJevO7rvqU/kjwKA==}
 
+  '@types/sanitize-html@2.16.0':
+    resolution: {integrity: sha512-l6rX1MUXje5ztPT0cAFtUayXF06DqPhRyfVXareEN5gGCFaP/iwsxIyKODr9XDhfxPpN6vXUFNfo5kZMXCxBtw==}
+
   '@types/sbd@1.0.5':
     resolution: {integrity: sha512-60PxBBWhg0C3yb5bTP+wwWYGTKMcuB0S6mTEa1sedMC79tYY0Ei7YjU4qsWzGn++lWscLQde16SnElJrf5/aTw==}
 
@@ -8897,10 +8934,8 @@ packages:
   builtin-status-codes@3.0.0:
     resolution: {integrity: sha512-HpGFw18DgFWlncDfjTa2rcQ4W88O1mC8e8yZ2AvQY5KDaktSTwo+KRf6nHK6FRI5FyRyb/5T6+TSxfP7QyGsmQ==}
 
-  bun-types@1.3.2:
-    resolution: {integrity: sha512-i/Gln4tbzKNuxP70OWhJRZz1MRfvqExowP7U6JKoI8cntFrtxg7RJK3jvz7wQW54UuvNC8tbKHHri5fy74FVqg==}
-    peerDependencies:
-      '@types/react': ^19
+  bun-types@1.3.3:
+    resolution: {integrity: sha512-z3Xwlg7j2l9JY27x5Qn3Wlyos8YAp0kKRlrePAOjgjMGS5IG6E7Jnlx736vH9UVI4wUICwwhC9anYL++XeOgTQ==}
 
   bundle-require@5.1.0:
     resolution: {integrity: sha512-3WrrOuZiyaaZPWiEt4G3+IffISVC9HYlWueJEBWED4ZH4aIAC2PnkdnuRrR94M+w6yGWn4AglWtJtBI8YqvgoA==}
@@ -21010,6 +21045,7 @@ snapshots:
   '@types/node@24.9.1':
     dependencies:
       undici-types: 7.16.0
+    optional: true
 
   '@types/parse-json@4.0.2': {}
 
@@ -21044,6 +21080,10 @@ snapshots:
     dependencies:
       '@types/prop-types': 15.7.15
       csstype: 3.1.3
+
+  '@types/sanitize-html@2.16.0':
+    dependencies:
+      htmlparser2: 8.0.2
 
   '@types/sbd@1.0.5': {}
 
@@ -22462,10 +22502,9 @@ snapshots:
 
   builtin-status-codes@3.0.0: {}
 
-  bun-types@1.3.2(@types/react@18.3.26):
+  bun-types@1.3.3:
     dependencies:
       '@types/node': 20.19.22
-      '@types/react': 18.3.26
 
   bundle-require@5.1.0(esbuild@0.27.0):
     dependencies:
@@ -30567,24 +30606,6 @@ snapshots:
       v8-compile-cache-lib: 3.0.1
       yn: 3.1.1
 
-  ts-node@10.9.2(@types/node@24.9.1)(typescript@5.9.3):
-    dependencies:
-      '@cspotcode/source-map-support': 0.8.1
-      '@tsconfig/node10': 1.0.11
-      '@tsconfig/node12': 1.0.11
-      '@tsconfig/node14': 1.0.3
-      '@tsconfig/node16': 1.0.4
-      '@types/node': 24.9.1
-      acorn: 8.15.0
-      acorn-walk: 8.3.4
-      arg: 4.1.3
-      create-require: 1.1.1
-      diff: 4.0.2
-      make-error: 1.3.6
-      typescript: 5.9.3
-      v8-compile-cache-lib: 3.0.1
-      yn: 3.1.1
-
   tsconfig-paths@3.15.0:
     dependencies:
       '@types/json5': 0.0.29
@@ -30852,7 +30873,8 @@ snapshots:
 
   undici-types@6.21.0: {}
 
-  undici-types@7.16.0: {}
+  undici-types@7.16.0:
+    optional: true
 
   undici@5.29.0:
     dependencies:
