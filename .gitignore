@@ -40,3 +40,4 @@ node_modules/
 .shadow-cljs/
 .smart-env/
 .cpcache/
+experimental/scar/.scars/
