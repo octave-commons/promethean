@@ -322,6 +322,15 @@ importers:
 
   cli/kanban:
     dependencies:
+      '@promethean-os/kanban-plugin-content':
+        specifier: workspace:*
+        version: link:../../packages/kanban-plugin-content
+      '@promethean-os/kanban-sdk':
+        specifier: workspace:*
+        version: link:../../packages/kanban-sdk
+      '@promethean-os/kanban-transition-rules':
+        specifier: workspace:*
+        version: link:../../packages/kanban-transition-rules
       '@promethean-os/lmdb-cache':
         specifier: workspace:*
         version: link:../../packages/lmdb-cache
@@ -2455,6 +2464,88 @@ importers:
       esmock:
         specifier: 2.5.0
         version: 2.5.0
+
+  packages/kanban-plugin-content:
+    dependencies:
+      '@promethean-os/kanban-sdk':
+        specifier: workspace:*
+        version: link:../kanban-sdk
+      '@promethean-os/kanban-transition-rules':
+        specifier: workspace:*
+        version: link:../kanban-transition-rules
+      '@promethean-os/markdown':
+        specifier: workspace:*
+        version: link:../markdown
+      yaml:
+        specifier: ^2.5.0
+        version: 2.8.1
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.22
+
+  packages/kanban-plugin-git-index:
+    dependencies:
+      '@promethean-os/kanban-sdk':
+        specifier: workspace:*
+        version: link:../kanban-sdk
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.22
+
+  packages/kanban-plugin-heal:
+    dependencies:
+      '@promethean-os/kanban-sdk':
+        specifier: workspace:*
+        version: link:../kanban-sdk
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.22
+
+  packages/kanban-sdk:
+    devDependencies:
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.22
+
+  packages/kanban-transition-rules:
+    dependencies:
+      '@promethean-os/kanban-sdk':
+        specifier: workspace:*
+        version: link:../kanban-sdk
+      '@promethean-os/pantheon':
+        specifier: workspace:*
+        version: link:../../experimental/pantheon
+      '@promethean-os/pantheon-core':
+        specifier: workspace:*
+        version: link:../../experimental/pantheon/packages/core
+      js-yaml:
+        specifier: ^4.0.3
+        version: 4.1.0
+      nbb:
+        specifier: ^1.3.204
+        version: 1.3.204
+      xml2js:
+        specifier: ^0.6.2
+        version: 0.6.2
+      yaml:
+        specifier: ^2.5.0
+        version: 2.8.1
+    devDependencies:
+      '@types/js-yaml':
+        specifier: ^4.0.9
+        version: 4.0.9
+      '@types/node':
+        specifier: ^20.11.0
+        version: 20.19.22
+      '@types/xml2js':
+        specifier: ^0.4.14
+        version: 0.4.14
+      esmock:
+        specifier: ^2.6.0
+        version: 2.7.3
 
   packages/legacy:
     dependencies:
