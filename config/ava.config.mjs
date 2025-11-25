@@ -282,6 +282,8 @@ const projectFileGlobs = [
   projectGlob('dist/test/**/*.js'),
   projectGlob('dist/**/*.test.js'),
   projectGlob('dist/**/*.spec.js'),
+  `!${projectGlob('dist/tests/test-helpers.js')}`,
+  `!${projectGlob('dist/tests/test-helpers.cjs')}`,
 ];
 
 export default {
