@@ -1,0 +1,38 @@
+{
+  "name": "@promethean-os/kanban-plugin-content",
+  "version": "0.1.0",
+  "description": "Content parsing/rendering plugin for Promethean Kanban",
+  "type": "module",
+  "main": "dist/src/index.cjs",
+  "module": "dist/src/index.js",
+  "types": "dist/src/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/src/index.d.ts",
+      "import": "./dist/src/index.js",
+      "require": "./dist/src/index.cjs"
+    },
+    "./task-content/*": {
+      "types": "./dist/src/task-content/*.d.ts",
+      "import": "./dist/src/task-content/*.js"
+    }
+  },
+  "files": [
+    "dist"
+  ],
+  "scripts": {
+    "build": "pnpm run clean && tsc -b tsconfig.json --force",
+    "clean": "rimraf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && ava --config ./ava.config.mjs"
+  },
+  "dependencies": {
+    "@promethean-os/kanban-sdk": "workspace:*",
+    "@promethean-os/kanban-transition-rules": "workspace:*",
+    "@promethean-os/markdown": "workspace:*",
+    "yaml": "^2.5.0"
+  },
+  "devDependencies": {
+    "@types/node": "^20.11.0"
+  }
+}

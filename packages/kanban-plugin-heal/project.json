@@ -1,0 +1,21 @@
+{
+  "$schema": "../../node_modules/nx/schemas/project-schema.json",
+  "name": "kanban-plugin-heal",
+  "projectType": "library",
+  "sourceRoot": "packages/kanban-plugin-heal/src",
+  "targets": {
+    "build": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter @promethean-os/kanban-plugin-heal run build"
+      },
+      "outputs": ["{projectRoot}/dist"]
+    },
+    "typecheck": {
+      "executor": "nx:run-commands",
+      "options": {
+        "command": "pnpm --filter @promethean-os/kanban-plugin-heal run typecheck"
+      }
+    }
+  }
+}
