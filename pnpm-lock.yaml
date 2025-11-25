@@ -324,16 +324,16 @@ importers:
     dependencies:
       '@promethean-os/kanban-plugin-content':
         specifier: workspace:*
-        version: link:../../packages/kanban-plugin-content
+        version: link:../../cli/kanban/packages/kanban-plugin-content
       '@promethean-os/kanban-plugin-heal':
         specifier: workspace:*
-        version: link:../../packages/kanban-plugin-heal
+        version: link:../../cli/kanban/packages/kanban-plugin-heal
       '@promethean-os/kanban-sdk':
         specifier: workspace:*
-        version: link:../../packages/kanban-sdk
+        version: link:../../cli/kanban/packages/kanban-sdk
       '@promethean-os/kanban-transition-rules':
         specifier: workspace:*
-        version: link:../../packages/kanban-transition-rules
+        version: link:../../cli/kanban/packages/kanban-transition-rules
       '@promethean-os/lmdb-cache':
         specifier: workspace:*
         version: link:../../packages/lmdb-cache
@@ -2468,7 +2468,7 @@ importers:
         specifier: 2.5.0
         version: 2.5.0
 
-  packages/kanban-plugin-content:
+  cli/kanban/packages/kanban-plugin-content:
     dependencies:
       '@promethean-os/kanban-sdk':
         specifier: workspace:*
@@ -2487,7 +2487,7 @@ importers:
         specifier: ^20.11.0
         version: 20.19.22
 
-  packages/kanban-plugin-git-index:
+  cli/kanban/packages/kanban-plugin-git-index:
     dependencies:
       '@promethean-os/kanban-sdk':
         specifier: workspace:*
@@ -2497,7 +2497,7 @@ importers:
         specifier: ^20.11.0
         version: 20.19.22
 
-  packages/kanban-plugin-heal:
+  cli/kanban/packages/kanban-plugin-heal:
     dependencies:
       '@promethean-os/kanban-sdk':
         specifier: workspace:*
@@ -2507,13 +2507,13 @@ importers:
         specifier: ^20.11.0
         version: 20.19.22
 
-  packages/kanban-sdk:
+  cli/kanban/packages/kanban-sdk:
     devDependencies:
       '@types/node':
         specifier: ^20.11.0
         version: 20.19.22
 
-  packages/kanban-transition-rules:
+  cli/kanban/packages/kanban-transition-rules:
     dependencies:
       '@promethean-os/kanban-sdk':
         specifier: workspace:*

@@ -144,7 +144,7 @@
       "path": "./packages/intention"
     },
     {
-      "path": "./packages/kanban"
+      "path": "./cli/kanban"
     },
     {
       "path": "./packages/kanban-processor"

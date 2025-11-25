@@ -233,7 +233,7 @@ The workspace contains 70+ specialized packages organized by category:
 - **Workspace structure** - All packages use `@promethean-os/<package>*` via "workspace:\*"
 - **No relative imports** outside package roots
 
-> **Submodule packages:** The following packages now live in their own `github.com/riatzukiza/<name>` repositories and are mounted into this workspace as git submodules: `packages/apply-patch`, `packages/autocommit`, `packages/auth-service`, `packages/kanban`, `packages/logger`, `packages/mcp`, `packages/naming`, `packages/persistence`, and `packages/utils`. Run `git submodule update --init packages/<name>` after cloning to fetch their content, and use the upstream repo for issue tracking or standalone development.
+> **Submodule packages:** The following packages now live in their own `github.com/riatzukiza/<name>` repositories and are mounted into this workspace as git submodules: `packages/apply-patch`, `packages/autocommit`, `packages/auth-service`, `cli/kanban`, `packages/logger`, `packages/mcp`, `packages/naming`, `packages/persistence`, and `packages/utils`. Run `git submodule update --init packages/<name>` after cloning to fetch their content, and use the upstream repo for issue tracking or standalone development.
 
 ### Testing
 
@@ -306,6 +306,7 @@ Complex workflows are defined in `pipelines.json`. Key pipelines:
 ## 🔗 Promethean Remote READMEs
 
 <!-- BEGIN: PROMETHEAN-PACKAGES-READMES -->
+
 - [riatzukiza/agent-os-protocol](https://github.com/riatzukiza/agent-os-protocol#readme)
 - [riatzukiza/ai-learning](https://github.com/riatzukiza/ai-learning#readme)
 - [riatzukiza/apply-patch](https://github.com/riatzukiza/apply-patch#readme)
@@ -364,7 +365,7 @@ Promethean Framework is released under the [GNU General Public License v3](LICEN
 ## Internal Dependencies
 
 - [@promethean-os/autocommit](packages/autocommit/README.md) — `orgs/riatzukiza/promethean/packages/autocommit`
-- [@promethean-os/kanban](packages/kanban/README.md) — `orgs/riatzukiza/promethean/packages/kanban`
+- [@promethean-os/kanban](cli/kanban/README.md) — `orgs/riatzukiza/promethean/cli/kanban`
 - [@promethean-os/persistence](packages/persistence/README.md) — `orgs/riatzukiza/promethean/packages/persistence`
 - [@promethean-os/shadow-conf](packages/shadow-conf/README.md) — `orgs/riatzukiza/promethean/packages/shadow-conf`
 - [@promethean-os/test-utils](packages/test-utils/README.md) — `orgs/riatzukiza/promethean/packages/test-utils`

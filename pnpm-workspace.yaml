@@ -7,13 +7,13 @@ packages:
   - .opencode/*
   - scripts/*/*
   - cli/*
+  - cli/kanban/packages/*
   - tools/
   - experimental/*
   - experimental/*/packages/*
 
 auditConfig:
   ignoreCves:
-
     - packages/buildfix/benchmark-fixtures
     - packages/buildfix/simple-benchmark-temp
     - packages/buildfix/large-benchmark-temp

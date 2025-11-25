@@ -67,11 +67,11 @@
     "portfolio-frontend": "packages/frontends/portfolio-frontend",
     "smart-chat-frontend": "packages/frontends/smart-chat-frontend",
     "smartgpt-dashboard-frontend": "packages/frontends/smartgpt-dashboard-frontend",
-    "kanban-sdk": "packages/kanban-sdk",
-    "kanban-transition-rules": "packages/kanban-transition-rules",
-    "kanban-plugin-content": "packages/kanban-plugin-content",
-    "kanban-plugin-heal": "packages/kanban-plugin-heal",
-    "kanban-plugin-git-index": "packages/kanban-plugin-git-index",
+    "kanban-sdk": "cli/kanban/packages/kanban-sdk",
+    "kanban-transition-rules": "cli/kanban/packages/kanban-transition-rules",
+    "kanban-plugin-content": "cli/kanban/packages/kanban-plugin-content",
+    "kanban-plugin-heal": "cli/kanban/packages/kanban-plugin-heal",
+    "kanban-plugin-git-index": "cli/kanban/packages/kanban-plugin-git-index",
     "kanban-cli": "cli/kanban"
   }
 }

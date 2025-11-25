@@ -183,6 +183,8 @@
   "workspaces": [
     "packages/*",
     "packages/*/*",
+    "cli/*",
+    "cli/kanban/packages/*",
     ".opencode/*",
     "scripts/*/*",
     "tools/"
