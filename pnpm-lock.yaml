@@ -325,6 +325,9 @@ importers:
       '@promethean-os/kanban-plugin-content':
         specifier: workspace:*
         version: link:../../packages/kanban-plugin-content
+      '@promethean-os/kanban-plugin-heal':
+        specifier: workspace:*
+        version: link:../../packages/kanban-plugin-heal
       '@promethean-os/kanban-sdk':
         specifier: workspace:*
         version: link:../../packages/kanban-sdk

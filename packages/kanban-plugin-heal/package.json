@@ -19,10 +19,12 @@
   "scripts": {
     "build": "pnpm run clean && tsc -p tsconfig.json",
     "clean": "rimraf dist",
-    "typecheck": "tsc -p tsconfig.json --noEmit"
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "pnpm run build && node --test dist/tests/git-tag-manager.test.js"
   },
   "dependencies": {
-    "@promethean-os/kanban-sdk": "workspace:*"
+    "@promethean-os/kanban-sdk": "workspace:*",
+    "commander": "^12.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.11.0"
