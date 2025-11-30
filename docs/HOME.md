@@ -63,6 +63,35 @@ SORT file.mtime DESC
 LIMIT 10
 ```
 
+- Agile tasks by status (frontmatter `status`)
+
+```dataview
+TABLE status AS "Status", length(rows) AS "Count"
+FROM "docs/agile/tasks"
+WHERE status
+GROUP BY status
+SORT status
+```
+
+- P0/P1 tasks with priority + created_at
+
+```dataview
+TABLE title AS "Task", priority AS "Priority", status AS "Status", created_at AS "Created"
+FROM "docs/agile/tasks"
+WHERE priority =~ "(?i)p0|p1"
+SORT priority ASC, created_at DESC
+```
+
+- Tasks by priority
+
+```dataview
+TABLE priority AS "Priority", length(rows) AS "Count"
+FROM "docs/agile/tasks"
+WHERE priority
+GROUP BY priority
+SORT priority
+```
+
 Everything you thought you knew about operating systems is over.
 
 In promethean, AI is not an after thought
