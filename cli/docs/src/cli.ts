@@ -169,68 +169,114 @@ export async function commandSearch(
   if (mode === 'semantic') {
     const esUrl = opts.esUrl ?? process.env.DOCS_ES_URL;
     const chromaPath = opts.chromaPath ?? process.env.DOCS_CHROMA_PATH;
+    const chromaCollection = opts.chromaCollection ?? process.env.DOCS_CHROMA_COLLECTION;
+    const ollamaUrl = opts.ollamaUrl ?? process.env.DOCS_OLLAMA_URL;
+    const ollamaModel = opts.ollamaModel ?? process.env.DOCS_OLLAMA_MODEL;
 
-    if (!esUrl && chromaPath) {
-      console.log(
-        'Chroma backend not wired yet (needs embeddings + collection); set DOCS_ES_URL for Elasticsearch in the meantime.',
-      );
-      return;
-    }
+    if (esUrl) {
+      const esFieldsEnv = process.env.DOCS_ES_FIELDS
+        ? process.env.DOCS_ES_FIELDS.split(',')
+            .map((f) => f.trim())
+            .filter(Boolean)
+        : undefined;
+      const esConfig: ElasticSearchConfig = {
+        url: esUrl,
+        index: opts.esIndex ?? process.env.DOCS_ES_INDEX ?? 'docs',
+        apiKey: opts.esApiKey ?? process.env.DOCS_ES_API_KEY,
+        username: opts.esUser ?? process.env.DOCS_ES_USER,
+        password: opts.esPassword ?? process.env.DOCS_ES_PASSWORD,
+        caPath: opts.esCa ?? process.env.DOCS_ES_CA,
+        fields: opts.esField && opts.esField.length ? opts.esField : esFieldsEnv,
+        size: opts.limit,
+        sourceFields: ['path', 'title', 'frontmatter'],
+      };
 
-    if (!esUrl) {
-      console.log('Semantic search requires Elasticsearch; provide --es-url or DOCS_ES_URL.');
-      return;
-    }
+      try {
+        const semanticHits = await semanticSearchElastic(query, esConfig);
+        if (format === 'json') {
+          console.log(
+            JSON.stringify(
+              semanticHits.map((h) => ({
+                path: h.path,
+                title: h.title ?? '',
+                frontmatter: h.frontmatter ?? {},
+                score: h.score ?? undefined,
+                highlights: h.highlights ?? [],
+              })),
+              null,
+              2,
+            ),
+          );
+          return;
+        }
+        if (!semanticHits.length) {
+          console.log('No matches.');
+          return;
+        }
 
-    const esFieldsEnv = process.env.DOCS_ES_FIELDS
-      ? process.env.DOCS_ES_FIELDS.split(',')
-          .map((f) => f.trim())
-          .filter(Boolean)
-      : undefined;
-    const esConfig: ElasticSearchConfig = {
-      url: esUrl,
-      index: opts.esIndex ?? process.env.DOCS_ES_INDEX ?? 'docs',
-      apiKey: opts.esApiKey ?? process.env.DOCS_ES_API_KEY,
-      username: opts.esUser ?? process.env.DOCS_ES_USER,
-      password: opts.esPassword ?? process.env.DOCS_ES_PASSWORD,
-      caPath: opts.esCa ?? process.env.DOCS_ES_CA,
-      fields: opts.esField && opts.esField.length ? opts.esField : esFieldsEnv,
-      size: opts.limit,
-      sourceFields: ['path', 'title', 'frontmatter'],
-    };
-
-    try {
-      const semanticHits = await semanticSearchElastic(query, esConfig);
-      if (format === 'json') {
-        console.log(
-          JSON.stringify(
-            semanticHits.map((h) => ({
-              path: h.path,
-              title: h.title ?? '',
-              frontmatter: h.frontmatter ?? {},
-              score: h.score ?? undefined,
-              highlights: h.highlights ?? [],
-            })),
-            null,
-            2,
-          ),
+        printTable(
+          ['Path', 'Title', 'Score', 'Highlight'],
+          semanticHits.map((h) => [h.path, h.title ?? '', h.score ?? '', h.highlights?.[0] ?? '']),
         );
         return;
+      } catch (err) {
+        console.error('Semantic search failed:', err instanceof Error ? err.message : String(err));
+        throw err instanceof Error ? err : new Error(String(err));
       }
-      if (!semanticHits.length) {
-        console.log('No matches.');
-        return;
-      }
+    }
 
-      printTable(
-        ['Path', 'Title', 'Score', 'Highlight'],
-        semanticHits.map((h) => [h.path, h.title ?? '', h.score ?? '', h.highlights?.[0] ?? '']),
+    if (ollamaUrl) {
+      const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
+      const docs = await loadDocsForEmbedding(files, cwd, 4000);
+      try {
+        const hits = await semanticSearchOllama(
+          query,
+          docs,
+          { url: ollamaUrl, model: ollamaModel },
+          opts.limit,
+        );
+        if (format === 'json') {
+          console.log(
+            JSON.stringify(
+              hits.map((h) => ({
+                path: h.path,
+                title: h.title ?? '',
+                frontmatter: h.frontmatter ?? {},
+                score: h.score ?? undefined,
+              })),
+              null,
+              2,
+            ),
+          );
+          return;
+        }
+        if (!hits.length) {
+          console.log('No matches.');
+          return;
+        }
+        printTable(
+          ['Path', 'Title', 'Score'],
+          hits.map((h) => [h.path, h.title ?? '', h.score ?? '']),
+        );
+        return;
+      } catch (err) {
+        console.error(
+          'Semantic search failed (ollama):',
+          err instanceof Error ? err.message : String(err),
+        );
+        throw err instanceof Error ? err : new Error(String(err));
+      }
+    }
+
+    if (chromaPath || chromaCollection) {
+      console.log(
+        'Chroma backend not wired yet (needs embeddings + collection); set DOCS_ES_URL or DOCS_OLLAMA_URL for now.',
       );
       return;
-    } catch (err) {
-      console.error('Semantic search failed:', err instanceof Error ? err.message : String(err));
-      throw err instanceof Error ? err : new Error(String(err));
     }
+
+    console.log('Semantic search requires --es-url/DOCS_ES_URL or --ollama-url/DOCS_OLLAMA_URL.');
+    return;
   }
 
   const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
