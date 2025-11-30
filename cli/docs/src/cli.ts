@@ -1,9 +1,10 @@
 // GPL-3.0-only
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
-import { Command } from 'commander';
+import { Argument, Command, InvalidArgumentError, Option, OptionValues } from 'commander';
 import fg from 'fast-glob';
 import matter from 'gray-matter';
+import { pathToFileURL } from 'node:url';
 
 // Types
 
@@ -21,6 +22,16 @@ type FileHit = {
   title?: string;
   frontmatter?: Record<string, unknown>;
 };
+
+type Format = 'markdown' | 'json';
+
+type IoConfig = {
+  stdout?: (str: string) => void;
+  stderr?: (str: string) => void;
+  exitOverride?: boolean;
+};
+
+const programVersion = '0.1.0';
 
 // Default categories; later we can load from config
 const categories: Category[] = [
@@ -51,8 +62,37 @@ const categories: Category[] = [
 ];
 
 const byId = new Map(categories.map((c) => [c.id, c]));
+const searchModes: SearchMode[] = ['semantic', 'keyword', 'fuzzy', 'regex'];
+const formats: Format[] = ['markdown', 'json'];
 
 // Helpers
+
+function normalizeDir(input: string): string {
+  const resolved = path.resolve(input);
+  if (!resolved) throw new InvalidArgumentError('cwd must resolve to a path');
+  return resolved;
+}
+
+function mustExist(file: string): string {
+  const resolved = path.resolve(file);
+  return resolved;
+}
+
+function parseMode(input: string): SearchMode {
+  const mode = input.toLowerCase() as SearchMode;
+  if (!searchModes.includes(mode)) {
+    throw new InvalidArgumentError(`mode must be one of: ${searchModes.join(', ')}`);
+  }
+  return mode;
+}
+
+function parseFormat(input: string): Format {
+  const fmt = input.toLowerCase() as Format;
+  if (!formats.includes(fmt)) {
+    throw new InvalidArgumentError(`format must be one of: ${formats.join(', ')}`);
+  }
+  return fmt;
+}
 
 async function collectFiles(opts: {
   category?: string;
@@ -80,15 +120,27 @@ function printTable(headers: string[], rows: Array<Array<string | number>>): voi
   }
 }
 
-export async function commandView(file: string): Promise<void> {
-  const content = await fs.readFile(file, 'utf8');
+export async function commandView(
+  file: string,
+  opts: { encoding?: BufferEncoding; cwd?: string },
+): Promise<void> {
+  const cwd = opts.cwd ?? process.cwd();
+  const target = path.isAbsolute(file) ? file : path.join(cwd, file);
+  const content = await fs.readFile(target, opts.encoding ?? 'utf8');
   console.log(content);
 }
 
 export async function commandSearch(
   mode: SearchMode,
   query: string,
-  opts: { category?: string; path?: string; format?: string; cwd?: string },
+  opts: {
+    category?: string;
+    path?: string;
+    format?: Format;
+    cwd?: string;
+    absolute?: boolean;
+    limit?: number;
+  },
 ): Promise<void> {
   const category = opts.category;
   const pathGlob = opts.path;
@@ -96,8 +148,7 @@ export async function commandSearch(
   const cwd = opts.cwd ?? process.cwd();
 
   if (!query) {
-    console.error('search requires a query string');
-    return;
+    throw new InvalidArgumentError('search requires a query string');
   }
 
   const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
@@ -107,8 +158,7 @@ export async function commandSearch(
     try {
       regex = new RegExp(query, 'i');
     } catch (err) {
-      console.error('Invalid regex:', err);
-      return;
+      throw new InvalidArgumentError(`Invalid regex: ${String(err)}`);
     }
   }
 
@@ -120,7 +170,7 @@ export async function commandSearch(
     const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
     const title = titleFromFm || heading;
 
-    const rel = path.relative(cwd, file);
+    const rel = opts.absolute ? file : path.relative(cwd, file);
 
     switch (mode) {
       case 'keyword': {
@@ -135,23 +185,17 @@ export async function commandSearch(
         break;
       }
       case 'fuzzy': {
-        // placeholder: basic substring until fuzzy lib is wired
         if (!lower.includes(query.toLowerCase())) continue;
         hits.push({ path: rel, title, frontmatter: parsed.data, matched: 'fuzzy-substring' });
         break;
       }
       case 'semantic': {
-        // placeholder: semantic not implemented yet
-        continue;
+        console.log('Semantic search not wired yet (needs embedding + ES backend).');
+        return;
       }
       default:
-        continue;
+        throw new InvalidArgumentError(`Unsupported search mode: ${mode}`);
     }
-  }
-
-  if (mode === 'semantic') {
-    console.log('Semantic search not wired yet (needs embedding + ES backend).');
-    return;
   }
 
   if (format === 'json') {
@@ -181,7 +225,12 @@ export async function commandSearch(
   );
 }
 
-export async function commandTasksSummary(opts: { format?: string; cwd?: string }): Promise<void> {
+export async function commandTasksSummary(opts: {
+  format?: Format;
+  cwd?: string;
+  status?: string[];
+  priority?: string[];
+}): Promise<void> {
   const format = opts.format ?? 'markdown';
   const cwd = opts.cwd ?? process.cwd();
   const files = await fg('docs/agile/tasks/**/*.md', {
@@ -204,12 +253,17 @@ export async function commandTasksSummary(opts: { format?: string; cwd?: string 
     const titleFromFm = parsed.data.title as string | undefined;
     const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
     const rel = path.relative(cwd, file);
+    const status = parsed.data.status as string | undefined;
+    const priority = parsed.data.priority as string | undefined;
+    const createdAt = parsed.data.created_at as string | undefined;
+    if (opts.status && status && !opts.status.includes(status)) continue;
+    if (opts.priority && priority && !opts.priority.includes(priority)) continue;
     tasks.push({
       path: rel,
       title: titleFromFm || heading || path.basename(file),
-      status: parsed.data.status as string | undefined,
-      priority: parsed.data.priority as string | undefined,
-      created_at: parsed.data.created_at as string | undefined,
+      status,
+      priority,
+      created_at: createdAt,
     });
   }
 
@@ -265,55 +319,157 @@ export async function commandTasksSummary(opts: { format?: string; cwd?: string 
   );
 }
 
-// Commander wiring
-const program = new Command();
-program
-  .name('promethean docs')
-  .description('Docs search/view CLI (semantic stubbed)')
-  .version('0.1.0');
+function buildOutput(io?: IoConfig) {
+  return {
+    writeOut: io?.stdout ?? ((str: string) => process.stdout.write(str)),
+    writeErr: io?.stderr ?? ((str: string) => process.stderr.write(str)),
+    outputError: (str: string, write: (data: string) => void) => write(str),
+  };
+}
 
-program
-  .command('view')
-  .argument('<path>', 'path to markdown/json file')
-  .action(async (file: string) => {
-    await commandView(file);
+export function createDocsProgram(io?: IoConfig): Command {
+  const program = new Command();
+  if (io?.exitOverride) {
+    program.exitOverride();
+  }
+
+  program
+    .name('promethean-docs')
+    .summary('Docs search/view CLI (semantic stubbed)')
+    .description('Search, view, and summarize agile tasks with Commander-forward UX.')
+    .usage('<command> [options]')
+    .version(programVersion, '-V, --version', 'show CLI version')
+    .showHelpAfterError('(add --help for additional information)')
+    .configureHelp({ sortOptions: true, sortSubcommands: true, showGlobalOptions: true })
+    .helpOption('-h, --help', 'display help for command')
+    .helpCommand('help [command]', 'display help for command')
+    .configureOutput(buildOutput(io));
+
+  program
+    .addHelpText('beforeAll', 'Promethean Docs CLI — search, view, summarize')
+    .addHelpText(
+      'afterAll',
+      `Examples:\n  $ promethean-docs search keyword kanban -c docs\n  $ promethean-docs view docs/HOME.md\n  $ promethean-docs tasks summary --format json`,
+    );
+
+  program
+    .option('-C, --cwd <dir>', 'working directory (env:DOCS_CWD)', normalizeDir, process.cwd())
+    .option('-t, --trace', 'display trace statements for commands');
+
+  program.hook('preAction', (_thisCommand, actionCommand) => {
+    const opts = actionCommand.optsWithGlobals() as OptionValues & { trace?: boolean };
+    if (opts.trace) {
+      console.log(
+        `About to execute ${actionCommand.name()} with args=${JSON.stringify(
+          actionCommand.args,
+        )} opts=${JSON.stringify(actionCommand.optsWithGlobals())}`,
+      );
+    }
   });
 
-program
-  .command('search')
-  .argument('<mode>', 'semantic|keyword|fuzzy|regex')
-  .argument('<query>', 'search query')
-  .option('-c, --category <id>', 'category id')
-  .option('-p, --path <glob>', 'override glob')
-  .option('-f, --format <format>', 'markdown|json', 'markdown')
-  .action(
-    async (
-      mode: SearchMode,
-      query: string,
-      opts: { category?: string; path?: string; format?: string },
-    ) => {
-      await commandSearch(mode, query, opts);
-    },
-  );
-
-program
-  .command('tasks')
-  .description('Tasks utilities')
-  .command('summary')
-  .option('-f, --format <format>', 'markdown|json', 'markdown')
-  .action(async (opts: { format?: string }) => {
-    await commandTasksSummary(opts);
+  program.hook('postAction', (_thisCommand, actionCommand) => {
+    const opts = actionCommand.optsWithGlobals() as OptionValues & { trace?: boolean };
+    if (opts.trace) {
+      console.log(`Completed ${actionCommand.name()}`);
+    }
   });
 
-import { pathToFileURL } from 'node:url';
+  const searchCommand = new Command('search')
+    .alias('s')
+    .summary('Search docs')
+    .description('Run semantic/keyword/fuzzy/regex searches (semantic stubbed)')
+    .addArgument(new Argument('<mode>', 'semantic|keyword|fuzzy|regex').argParser(parseMode))
+    .addArgument(new Argument('<query>', 'search query string'))
+    .addOption(
+      new Option('-c, --category <id>', 'category id')
+        .choices(categories.map((c) => c.id))
+        .env('DOCS_CATEGORY'),
+    )
+    .addOption(new Option('-p, --path <glob>', 'override glob').env('DOCS_PATH'))
+    .addOption(
+      new Option('-f, --format <format>', 'markdown|json')
+        .choices(formats)
+        .default('markdown')
+        .env('DOCS_FORMAT')
+        .argParser(parseFormat),
+    )
+    .addOption(new Option('--absolute', 'emit absolute paths instead of relative'))
+    .addOption(
+      new Option('--limit <count>', 'limit returned rows').argParser((val) => {
+        const num = Number(val);
+        if (Number.isNaN(num) || num <= 0) {
+          throw new InvalidArgumentError('limit must be a positive number');
+        }
+        return num;
+      }),
+    )
+    .action(async (mode: SearchMode, query: string, options: OptionValues, command: Command) => {
+      const globals = command.optsWithGlobals() as { cwd?: string };
+      await commandSearch(mode, query, {
+        category: options.category as string | undefined,
+        path: options.path as string | undefined,
+        format: options.format as Format,
+        cwd: globals.cwd,
+        absolute: options.absolute as boolean | undefined,
+        limit: options.limit as number | undefined,
+      });
+    });
+
+  const viewCommand = new Command('view')
+    .alias('cat')
+    .summary('View a file preserving dataview blocks')
+    .argument('<path>', 'path to markdown/json file', mustExist)
+    .addOption(new Option('-e, --encoding <encoding>', 'file encoding').default('utf8'))
+    .description('Print file contents without altering Dataview blocks')
+    .action(async (file: string, options: OptionValues, command: Command) => {
+      const globals = command.optsWithGlobals() as { cwd?: string };
+      await commandView(file, { encoding: options.encoding, cwd: globals.cwd });
+    });
+
+  const tasksSummaryCommand = new Command('summary')
+    .alias('sum')
+    .summary('Summarize agile tasks')
+    .description('Emit task counts by status/priority and list P0/P1 tasks')
+    .addOption(
+      new Option('-f, --format <format>', 'markdown|json')
+        .choices(formats)
+        .default('markdown')
+        .argParser(parseFormat),
+    )
+    .addOption(new Option('--status <status...>', 'filter by status (variadic)'))
+    .addOption(new Option('--priority <priority...>', 'filter by priority (variadic)'))
+    .action(async (options: OptionValues, command: Command) => {
+      const globals = command.optsWithGlobals() as { cwd?: string };
+      await commandTasksSummary({
+        format: options.format as Format,
+        cwd: globals.cwd,
+        status: options.status as string[] | undefined,
+        priority: options.priority as string[] | undefined,
+      });
+    });
+
+  const tasksCommand = new Command('tasks')
+    .alias('t')
+    .description('Tasks utilities')
+    .addCommand(tasksSummaryCommand)
+    .addHelpText('after', 'Use summary to emit tables or JSON for agile tasks.');
+
+  program.addCommand(searchCommand);
+  program.addCommand(viewCommand);
+  program.addCommand(tasksCommand);
+
+  return program;
+}
 
 const isCliEntry = import.meta.url === pathToFileURL(process.argv[1] ?? '').href;
 
 if (isCliEntry) {
-  program.parseAsync(process.argv).catch((err: unknown) => {
-    console.error(err);
-    process.exit(1);
-  });
+  createDocsProgram()
+    .parseAsync(process.argv)
+    .catch((err: unknown) => {
+      console.error(err);
+      process.exit(1);
+    });
 }
 
-export { categories, program };
+export { categories, programVersion as version };
