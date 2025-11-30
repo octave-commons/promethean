@@ -367,6 +367,25 @@ export async function commandSearch(
       return;
     }
 
+    if (transformersModel) {
+      try {
+        const embedder = await buildTransformersEmbedder({
+          model: transformersModel,
+          cacheDir: transformersCache,
+          device: transformersDevice,
+        });
+        const backendId = `transformers:${transformersModel}`;
+        await computeAndEmit(backendId, embedder);
+        return;
+      } catch (err) {
+        console.error(
+          'Semantic search failed (transformers):',
+          err instanceof Error ? err.message : String(err),
+        );
+        throw err instanceof Error ? err : new Error(String(err));
+      }
+    }
+
     if (chromaPath || chromaCollection) {
       console.log(
         'Chroma backend not wired yet (needs embeddings + collection); set DOCS_ES_URL or DOCS_OLLAMA_URL for now.',
