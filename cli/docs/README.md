@@ -1,42 +1,53 @@
-# @promethean/docs-cli (scaffold)
+# @promethean/docs-cli
 
-Minimal CLI to search/view docs and emit Dataview-like tables for agile tasks. Semantic search is stubbed; keyword/regex run locally.
+Commander-forward CLI to search/view docs and summarize agile tasks. Semantic search is stubbed; keyword/regex/fuzzy run locally.
 
-## Usage
-
-Build once (optional):
+## Install/build
 
 ```bash
 pnpm --filter @promethean/docs-cli run build
 ```
 
-Search (keyword):
+## Global options
 
-```bash
-node cli/docs/dist/cli.js search keyword "kanban" --category docs
-```
+- `-C, --cwd <dir>`: working directory (env: `DOCS_CWD`)
+- `-t, --trace`: log commander lifecycle hooks
+- `-V, --version`: show CLI version
+- `-h, --help`: show help
 
-Regex search:
+## Commands
 
-```bash
-node cli/docs/dist/cli.js search regex "kanban" --path "docs/agile/**/*.md"
-```
+### search (alias: s)
 
-View a file (keeps Dataview blocks intact):
+- Arguments: `<mode>` (semantic|keyword|fuzzy|regex), `<query>`
+- Options:
+  - `-c, --category <id>`: category id (choices: docs, packages, agile, adr; env: `DOCS_CATEGORY`)
+  - `-p, --path <glob>`: override glob (env: `DOCS_PATH`)
+  - `-f, --format <format>`: markdown|json (env: `DOCS_FORMAT`; default markdown)
+  - `--absolute`: emit absolute paths
+  - `--limit <count>`: limit returned rows (positive number)
+- Examples:
+  - `promethean-docs search keyword kanban -c docs`
+  - `promethean-docs s regex "kanban" --path "docs/agile/**/*.md" --format json`
 
-```bash
-node cli/docs/dist/cli.js view docs/HOME.md
-```
+### view (alias: cat)
 
-Agile tasks summaries (frontmatter-driven):
+- Arguments: `<path>`: markdown/json path (relative to `--cwd`)
+- Options: `-e, --encoding <encoding>` (default utf8)
+- Example: `promethean-docs view docs/HOME.md`
 
-```bash
-node cli/docs/dist/cli.js tasks summary           # markdown tables
-node cli/docs/dist/cli.js tasks summary --format json
-```
+### tasks (alias: t)
 
-Planned:
+- Subcommand: `summary` (alias: sum)
+- Options:
+  - `-f, --format <format>`: markdown|json (default markdown)
+  - `--status <status...>`: filter by status (variadic)
+  - `--priority <priority...>`: filter by priority (variadic)
+- Examples:
+  - `promethean-docs tasks summary`
+  - `promethean-docs t sum --format json --priority P0 P1`
 
-- `search semantic` will route to ES+embeddings once wired.
-- `docs config` will source categories/actors from a shared config file.
-- `template run` and `index` actions to be added next.
+## Notes
+
+- Semantic mode currently emits a stub message; embeddings/ES backend to be wired later.
+- Help is grouped/sorted with examples; `--trace` shows pre/post action hooks and merged options.
