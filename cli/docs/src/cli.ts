@@ -206,6 +206,9 @@ export async function commandSearch(
     lmdbPath?: string;
     localEmbedDim?: number;
     localEmbedModel?: string;
+    transformersModel?: string;
+    transformersCache?: string;
+    transformersDevice?: string;
   },
 ): Promise<void> {
   const category = opts.category;
