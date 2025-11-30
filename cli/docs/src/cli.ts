@@ -7,7 +7,7 @@ import fg from 'fast-glob';
 import matter from 'gray-matter';
 import { pathToFileURL } from 'node:url';
 import { openLmdbCache, type Cache } from '@promethean-os/lmdb-cache';
-import { scanFiles } from '@promethean-os/file-indexer';
+import { scanFiles, type IndexedFile } from '@promethean-os/file-indexer';
 import { makeDeterministicEmbedder } from '@promethean-os/embedding';
 import { semanticSearchElastic, ElasticSearchConfig } from './elastic.js';
 import { loadDocsForEmbedding, embedWithOllama } from './semantic.js';
@@ -184,6 +184,36 @@ function cosine(a: number[], b: number[]): number {
   }
   if (na === 0 || nb === 0) return 0;
   return dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
+
+async function loadFilesWithIndexer(
+  targetFiles: string[],
+  cwd: string,
+  readContent: boolean,
+): Promise<Array<{ path: string; abs: string; content: string }>> {
+  if (!targetFiles.length) return [];
+  const absTargets = targetFiles.map((f) => path.resolve(f));
+  const targetSet = new Set(absTargets);
+  const root = commonDir(absTargets, cwd);
+  const exts = uniqueExts(absTargets);
+
+  const result = await scanFiles({
+    root,
+    exts: exts.length ? exts : undefined,
+    readContent: (filePath: string) => targetSet.has(path.resolve(filePath)),
+    encoding: 'utf8',
+    collect: true,
+  });
+
+  const collected: IndexedFile[] = result.files ?? [];
+  return collected
+    .filter((f: IndexedFile) => targetSet.has(path.resolve(f.path)))
+    .map((f: IndexedFile) => {
+      const content =
+        typeof f.content === 'string' ? f.content : (f.content?.toString('utf8') ?? '');
+      const abs = path.resolve(f.path);
+      return { path: path.relative(cwd, abs), abs, content };
+    });
 }
 
 function resolveCache(cwd: string, customPath?: string): Cache<number[]> {
