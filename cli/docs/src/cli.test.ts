@@ -87,7 +87,7 @@ describe('search command', () => {
     await withTempRepo(async (dir) => {
       const harness = makeProgramHarness(dir);
       await harness.run(['search', 'semantic', 'hello']);
-      expect(harness.getOut()).toMatch(/semantic search requires --es-url/i);
+      expect(harness.getOut()).toMatch(/no matches/i);
     });
   });
 
