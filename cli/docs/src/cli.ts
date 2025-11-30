@@ -73,9 +73,11 @@ function normalizeDir(input: string): string {
   return resolved;
 }
 
-function mustExist(file: string): string {
-  const resolved = path.resolve(file);
-  return resolved;
+function passthroughPath(file: string): string {
+  if (!file) {
+    throw new InvalidArgumentError('path is required');
+  }
+  return file;
 }
 
 function parseMode(input: string): SearchMode {
@@ -418,7 +420,7 @@ export function createDocsProgram(io?: IoConfig): Command {
   const viewCommand = new Command('view')
     .alias('cat')
     .summary('View a file preserving dataview blocks')
-    .argument('<path>', 'path to markdown/json file', mustExist)
+    .argument('<path>', 'path to markdown/json file', passthroughPath)
     .addOption(new Option('-e, --encoding <encoding>', 'file encoding').default('utf8'))
     .description('Print file contents without altering Dataview blocks')
     .action(async (file: string, options: OptionValues, command: Command) => {
