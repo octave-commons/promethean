@@ -1,4 +1,3 @@
-
 # AGENTS.md
 
 ## 🧱 Overview
@@ -6,6 +5,8 @@
 This repo defines the **Promethean Framework**, a modular cognitive architecture
 for running AI agents with embodied reasoning, perception-action loops, and
 emotionally mediated decision structures.
+
+See [[docs/AGENTS|Docs & Navigation Guide]] for how this documentation set is organized.
 
 ---
 
@@ -55,7 +56,6 @@ Prefer local, well scoped commands to workspace scripts.
 `pnpm --filter @promethean-os/<packge-name> start`
 `pnpm --filter @promethean-os/<packge-name> exec node ./psudo/temp-script.js`
 
-
 ---
 
 # Stack
@@ -93,7 +93,6 @@ Prefer local, well scoped commands to workspace scripts.
 ## 📋 Kanban Task Management
 
 All agents must use the kanban system for task tracking and work management. The kanban board lives at `docs/agile/boards/generated.md` and is managed via the `@promethean-os/kanban` package.
-
 
 ### 📍 Working with Kanban
 
@@ -134,8 +133,9 @@ All agents must use the kanban system for task tracking and work management. The
 ---
 
 ### Notes
+
 - It is a large repo, and your bash command doesn't remember when you use
-`cd` you're commands are *always* ran from the package root.
+  `cd` you're commands are _always_ ran from the package root.
 - put temporary scripts in a `pseudo/` folder, retain them so the steps you take can be validated
   - psuedo is never to be referenced inside of a package
   - pseudo is pseudocode, I don't know if it works, but it communciated an intent
