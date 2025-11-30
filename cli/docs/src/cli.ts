@@ -220,12 +220,12 @@ export async function commandSearch(
     const chromaCollection = opts.chromaCollection ?? process.env.DOCS_CHROMA_COLLECTION;
     const ollamaUrl = opts.ollamaUrl ?? process.env.DOCS_OLLAMA_URL;
     const ollamaModel = opts.ollamaModel ?? process.env.DOCS_OLLAMA_MODEL;
+    const localEmbedModel = opts.localEmbedModel ?? process.env.DOCS_LOCAL_EMBED_MODEL ?? 'local-hash';
+    const localEmbedDim = opts.localEmbedDim ?? Number(process.env.DOCS_LOCAL_EMBED_DIM ?? '') || DEFAULT_LOCAL_DIM;
 
     if (esUrl) {
       const esFieldsEnv = process.env.DOCS_ES_FIELDS
-        ? process.env.DOCS_ES_FIELDS.split(',')
-            .map((f) => f.trim())
-            .filter(Boolean)
+        ? process.env.DOCS_ES_FIELDS.split(',').map((f) => f.trim()).filter(Boolean)
         : undefined;
       const esConfig: ElasticSearchConfig = {
         url: esUrl,
@@ -273,8 +273,80 @@ export async function commandSearch(
       }
     }
 
+    const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
+    const docs = await loadDocsForEmbedding(files, cwd, DEFAULT_TRUNCATE_CHARS);
+    const cache = resolveCache(cwd, opts.lmdbPath);
+
+    const computeAndEmit = async (
+      backendId: string,
+      embedFn: (text: string) => Promise<number[]>,
+    ): Promise<void> => {
+      const queryKey = `query:${backendId}:${hashText(query)}`;
+      const queryEmbedding = await embedWithCache(cache, queryKey, () => embedFn(query));
+
+      const hits = await Promise.all(
+        docs.map(async (doc) => {
+          const docText = `${doc.title ?? ''}\n\n${doc.content}`.trim();
+          const docKey = `doc:${backendId}:${doc.hash}`;
+          const embedding = await embedWithCache(cache, docKey, () => embedFn(docText));
+          const score = cosine(queryEmbedding, embedding);
+          return { path: doc.path, title: doc.title, frontmatter: doc.frontmatter, score };
+        }),
+      );
+
+      hits.sort((a, b) => (b.score ?? 0) - (a.score ?? 0));
+      if (opts.limit && hits.length > opts.limit) {
+        hits.splice(opts.limit);
+      }
+
+      if (format === 'json') {
+        console.log(
+          JSON.stringify(
+            hits.map((h) => ({
+              path: h.path,
+              title: h.title ?? '',
+              frontmatter: h.frontmatter ?? {},
+              score: h.score ?? undefined,
+            })),
+            null,
+            2,
+          ),
+        );
+        return;
+      }
+
+      if (!hits.length) {
+        console.log('No matches.');
+        return;
+      }
+
+      printTable(
+        ['Path', 'Title', 'Score'],
+        hits.map((hit) => [hit.path, hit.title ?? '', hit.score ?? '']),
+      );
+    };
+
     if (ollamaUrl) {
-      const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
+      const ollamaBackendId = `ollama:${ollamaModel ?? 'nomic-embed-text'}`;
+      await computeAndEmit(ollamaBackendId, (text) => embedWithOllama(text, { url: ollamaUrl, model: ollamaModel }));
+      return;
+    }
+
+    if (chromaPath || chromaCollection) {
+      console.log(
+        'Chroma backend not wired yet (needs embeddings + collection); set DOCS_ES_URL or DOCS_OLLAMA_URL for now.',
+      );
+      return;
+    }
+
+    const embedder = makeDeterministicEmbedder({ modelId: localEmbedModel, dim: localEmbedDim });
+    const localBackendId = `local:${localEmbedModel}:${localEmbedDim}`;
+    await computeAndEmit(localBackendId, (text) => embedder.embedOne(text));
+    return;
+  }
+
+  const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
+
       const docs = await loadDocsForEmbedding(files, cwd, 4000);
       try {
         const hits = await semanticSearchOllama(
