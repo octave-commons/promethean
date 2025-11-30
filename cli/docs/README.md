@@ -33,6 +33,9 @@ pnpm --filter @promethean/docs-cli run build
     - `--es-user <user>` / `--es-password <password>` (env: `DOCS_ES_USER` / `DOCS_ES_PASSWORD`)
     - `--es-ca <path>` (env: `DOCS_ES_CA`)
     - `--es-field <field...>`: override searched fields (env: `DOCS_ES_FIELDS`, comma or space separated)
+  - Semantic/Ollama (local, no external deps):
+    - `--ollama-url <url>` (env: `DOCS_OLLAMA_URL`)
+    - `--ollama-model <model>` (env: `DOCS_OLLAMA_MODEL`, default `nomic-embed-text`)
   - Semantic/Chroma placeholders (for future local vector store):
     - `--chroma-path <path>` (env: `DOCS_CHROMA_PATH`)
     - `--chroma-collection <name>` (env: `DOCS_CHROMA_COLLECTION`)
@@ -40,6 +43,7 @@ pnpm --filter @promethean/docs-cli run build
   - `promethean-docs search keyword kanban -c docs`
   - `promethean-docs s regex "kanban" --path "docs/agile/**/*.md" --format json`
   - `promethean-docs search semantic "project vision" --es-url http://localhost:9200 --es-index docs`
+  - `promethean-docs search semantic "project vision" --ollama-url http://localhost:11434 --ollama-model nomic-embed-text`
 
 ### view (alias: cat)
 
@@ -60,5 +64,5 @@ pnpm --filter @promethean/docs-cli run build
 
 ## Notes
 
-- Semantic mode queries Elasticsearch when `--es-url` (or env) is provided; otherwise it logs a reminder and exits without error. Returned markdown output includes score and first highlight. Chroma flags are placeholders until embeddings + collection wiring is added.
+- Semantic mode queries Elasticsearch when `--es-url` (or env) is provided; when `--ollama-url` (or env) is set it uses local Ollama embeddings with cosine ranking and no extra services; otherwise it logs a reminder and exits without error. Returned markdown output includes score and first highlight (ES) or score (Ollama). Chroma flags are placeholders until embeddings + collection wiring is added.
 - Help is grouped/sorted with examples; `--trace` shows pre/post action hooks and merged options.

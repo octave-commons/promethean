@@ -537,16 +537,6 @@ export function createDocsProgram(io?: IoConfig): Command {
       new Option('--es-url <url>', 'Elasticsearch endpoint for semantic mode').env('DOCS_ES_URL'),
     )
     .addOption(
-      new Option('--chroma-path <path>', 'Chroma persistence path (semantic placeholder)').env(
-        'DOCS_CHROMA_PATH',
-      ),
-    )
-    .addOption(
-      new Option('--chroma-collection <name>', 'Chroma collection name (semantic placeholder)').env(
-        'DOCS_CHROMA_COLLECTION',
-      ),
-    )
-    .addOption(
       new Option('--es-index <name>', 'Elasticsearch index for semantic mode')
         .env('DOCS_ES_INDEX')
         .default('docs'),
