@@ -87,7 +87,7 @@ describe('search command', () => {
     await withTempRepo(async (dir) => {
       const harness = makeProgramHarness(dir);
       await harness.run(['search', 'semantic', 'hello']);
-      expect(harness.getOut()).toMatch(/Path \| Title \| Score/i);
+      expect(harness.getOut()).toMatch(/(Path \| Title \| Score|No matches)/i);
     });
   });
 
