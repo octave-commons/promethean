@@ -6,6 +6,7 @@ import fg from 'fast-glob';
 import matter from 'gray-matter';
 import { pathToFileURL } from 'node:url';
 import { semanticSearchElastic, ElasticSearchConfig } from './elastic.js';
+import { semanticSearchOllama, loadDocsForEmbedding } from './semantic.js';
 
 // Types
 
@@ -152,6 +153,8 @@ export async function commandSearch(
     esField?: string[];
     chromaPath?: string;
     chromaCollection?: string;
+    ollamaUrl?: string;
+    ollamaModel?: string;
   },
 ): Promise<void> {
   const category = opts.category;
