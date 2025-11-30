@@ -161,6 +161,64 @@ export async function commandSearch(
     throw new InvalidArgumentError('search requires a query string');
   }
 
+  if (mode === 'semantic') {
+    const esUrl = opts.esUrl ?? process.env.DOCS_ES_URL;
+    if (!esUrl) {
+      console.log('Semantic search requires Elasticsearch; provide --es-url or DOCS_ES_URL.');
+      return;
+    }
+
+    const esFieldsEnv = process.env.DOCS_ES_FIELDS
+      ? process.env.DOCS_ES_FIELDS.split(',')
+          .map((f) => f.trim())
+          .filter(Boolean)
+      : undefined;
+    const esConfig: ElasticSearchConfig = {
+      url: esUrl,
+      index: opts.esIndex ?? process.env.DOCS_ES_INDEX ?? 'docs',
+      apiKey: opts.esApiKey ?? process.env.DOCS_ES_API_KEY,
+      username: opts.esUser ?? process.env.DOCS_ES_USER,
+      password: opts.esPassword ?? process.env.DOCS_ES_PASSWORD,
+      caPath: opts.esCa ?? process.env.DOCS_ES_CA,
+      fields: opts.esField && opts.esField.length ? opts.esField : esFieldsEnv,
+      size: opts.limit,
+      sourceFields: ['path', 'title', 'frontmatter'],
+    };
+
+    try {
+      const semanticHits = await semanticSearchElastic(query, esConfig);
+      if (format === 'json') {
+        console.log(
+          JSON.stringify(
+            semanticHits.map((h) => ({
+              path: h.path,
+              title: h.title ?? '',
+              frontmatter: h.frontmatter ?? {},
+              score: h.score ?? undefined,
+              highlights: h.highlights ?? [],
+            })),
+            null,
+            2,
+          ),
+        );
+        return;
+      }
+      if (!semanticHits.length) {
+        console.log('No matches.');
+        return;
+      }
+
+      printTable(
+        ['Path', 'Title', 'Score', 'Highlight'],
+        semanticHits.map((h) => [h.path, h.title ?? '', h.score ?? '', h.highlights?.[0] ?? '']),
+      );
+      return;
+    } catch (err) {
+      console.error('Semantic search failed:', err instanceof Error ? err.message : String(err));
+      throw err instanceof Error ? err : new Error(String(err));
+    }
+  }
+
   const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
   const hits: Array<FileHit & { matched?: string; rel?: string }> = [];
   let regex: RegExp | null = null;
@@ -198,10 +256,6 @@ export async function commandSearch(
         if (!lower.includes(query.toLowerCase())) continue;
         hits.push({ path: rel, title, frontmatter: parsed.data, matched: 'fuzzy-substring' });
         break;
-      }
-      case 'semantic': {
-        console.log('Semantic search not wired yet (needs embedding + ES backend).');
-        return;
       }
       default:
         throw new InvalidArgumentError(`Unsupported search mode: ${mode}`);
