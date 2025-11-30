@@ -159,6 +159,26 @@ function resolveCache(cwd: string, customPath?: string): Cache<number[]> {
   });
 }
 
+async function buildTransformersEmbedder(opts: {
+  model: string;
+  cacheDir?: string;
+  device?: string;
+}): Promise<(text: string) => Promise<number[]>> {
+  // Lazy import to avoid heavy startup
+  const { pipeline, env } = await import('@xenova/transformers');
+  if (opts.cacheDir) {
+    env.cacheDir = path.resolve(opts.cacheDir);
+  }
+  const extractor = await pipeline('feature-extraction', opts.model, {
+    quantized: true,
+  });
+  return async (text: string): Promise<number[]> => {
+    const output = await extractor(text, { pooling: 'mean', normalize: true });
+    const dataArray = Array.from((output.data as Float32Array) ?? []);
+    return dataArray;
+  };
+}
+
 async function embedWithCache(
   cache: Cache<number[]> | undefined,
   key: string,
@@ -226,6 +246,9 @@ export async function commandSearch(
     const chromaCollection = opts.chromaCollection ?? process.env.DOCS_CHROMA_COLLECTION;
     const ollamaUrl = opts.ollamaUrl ?? process.env.DOCS_OLLAMA_URL;
     const ollamaModel = opts.ollamaModel ?? process.env.DOCS_OLLAMA_MODEL;
+    const transformersModel = opts.transformersModel ?? process.env.DOCS_TRANSFORMERS_MODEL;
+    const transformersCache = opts.transformersCache ?? process.env.DOCS_TRANSFORMERS_CACHE;
+    const transformersDevice = opts.transformersDevice ?? process.env.DOCS_TRANSFORMERS_DEVICE;
     const localEmbedModel =
       opts.localEmbedModel ?? process.env.DOCS_LOCAL_EMBED_MODEL ?? 'local-hash';
     const localEmbedDim =
