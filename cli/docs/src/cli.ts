@@ -165,15 +165,22 @@ export async function commandSearch(
 
   if (mode === 'semantic') {
     const esUrl = opts.esUrl ?? process.env.DOCS_ES_URL;
+    const chromaPath = opts.chromaPath ?? process.env.DOCS_CHROMA_PATH;
+
+    if (!esUrl && chromaPath) {
+      console.log(
+        'Chroma backend not wired yet (needs embeddings + collection); set DOCS_ES_URL for Elasticsearch in the meantime.',
+      );
+      return;
+    }
+
     if (!esUrl) {
       console.log('Semantic search requires Elasticsearch; provide --es-url or DOCS_ES_URL.');
       return;
     }
 
     const esFieldsEnv = process.env.DOCS_ES_FIELDS
-      ? process.env.DOCS_ES_FIELDS.split(',')
-          .map((f) => f.trim())
-          .filter(Boolean)
+      ? process.env.DOCS_ES_FIELDS.split(',').map((f) => f.trim()).filter(Boolean)
       : undefined;
     const esConfig: ElasticSearchConfig = {
       url: esUrl,
@@ -219,6 +226,9 @@ export async function commandSearch(
       console.error('Semantic search failed:', err instanceof Error ? err.message : String(err));
       throw err instanceof Error ? err : new Error(String(err));
     }
+  }
+
+
   }
 
   const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
