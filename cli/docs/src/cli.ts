@@ -150,6 +150,8 @@ export async function commandSearch(
     esPassword?: string;
     esCa?: string;
     esField?: string[];
+    chromaPath?: string;
+    chromaCollection?: string;
   },
 ): Promise<void> {
   const category = opts.category;
