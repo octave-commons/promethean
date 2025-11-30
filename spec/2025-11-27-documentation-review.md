@@ -31,3 +31,14 @@
 - Respect docs policy: package changes require docs updates in docs/packages/<slug>/.
 - Keep documentation graph traversable; prefer linking into existing index docs.
 - New docs should go to docs/inbox/ if placement unclear.
+
+## Findings
+
+- README referenced missing docs for environment variables and Nx workspace; added stubs to remove dead links.
+- README architecture pointer now targets `docs/architecture/index.md` (existing hub).
+- `docs/inbox/README.md` (opencode-client) was orphaned; surfaced via README Key Documentation.
+
+## Change Log
+
+- Added `docs/environment-variables.md` and `docs/nx-workspace.md` to satisfy README links.
+- Updated `README.md` Key Documentation section to include architecture index, env/Nx docs, and opencode-client inbox doc.
