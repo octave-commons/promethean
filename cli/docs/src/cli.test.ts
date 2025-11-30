@@ -90,6 +90,14 @@ describe('search command', () => {
       expect(harness.getOut()).toMatch(/semantic search requires elasticsearch/i);
     });
   });
+
+  it('acknowledges chroma placeholder when provided without ES', async () => {
+    await withTempRepo(async (dir) => {
+      const harness = makeProgramHarness(dir);
+      await harness.run(['search', 'semantic', 'hello', '--chroma-path', '/tmp/chroma']);
+      expect(harness.getOut()).toMatch(/chroma backend not wired yet/i);
+    });
+  });
 });
 
 describe('view command', () => {
