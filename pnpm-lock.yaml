@@ -312,6 +312,12 @@ importers:
       '@elastic/elasticsearch':
         specifier: ^9.2.0
         version: 9.2.0
+      '@promethean-os/embedding':
+        specifier: workspace:*
+        version: link:../../packages/embedding
+      '@promethean-os/lmdb-cache':
+        specifier: workspace:*
+        version: link:../../packages/lmdb-cache
       '@vitest/coverage-v8':
         specifier: ^1.6.0
         version: 1.6.1(vitest@1.6.1(@types/node@22.18.12)(happy-dom@18.0.1))
