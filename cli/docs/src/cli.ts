@@ -5,6 +5,7 @@ import { Argument, Command, InvalidArgumentError, Option, OptionValues } from 'c
 import fg from 'fast-glob';
 import matter from 'gray-matter';
 import { pathToFileURL } from 'node:url';
+import { semanticSearchElastic, ElasticSearchConfig, SemanticHit } from './elastic.js';
 
 // Types
 
@@ -142,6 +143,13 @@ export async function commandSearch(
     cwd?: string;
     absolute?: boolean;
     limit?: number;
+    esUrl?: string;
+    esIndex?: string;
+    esApiKey?: string;
+    esUser?: string;
+    esPassword?: string;
+    esCa?: string;
+    esField?: string[];
   },
 ): Promise<void> {
   const category = opts.category;
