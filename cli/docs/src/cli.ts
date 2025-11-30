@@ -36,6 +36,10 @@ type IoConfig = {
   exitOverride?: boolean;
 };
 
+type DocsCommandOptions = {
+  asSubcommand?: boolean;
+};
+
 const programVersion = '0.1.0';
 
 // Default categories; later we can load from config
