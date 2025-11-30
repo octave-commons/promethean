@@ -1,5 +1,6 @@
 // GPL-3.0-only
 import { promises as fs } from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import matter from 'gray-matter';
 
@@ -15,6 +16,7 @@ export type SemanticDoc = {
   title?: string;
   frontmatter?: Record<string, unknown>;
   content: string;
+  hash: string;
 };
 
 export type SemanticLocalHit = {
@@ -24,7 +26,7 @@ export type SemanticLocalHit = {
   score: number;
 };
 
-async function embedWithOllama(text: string, config: OllamaConfig): Promise<number[]> {
+export async function embedWithOllama(text: string, config: OllamaConfig): Promise<number[]> {
   const url = config.url ?? 'http://localhost:11434';
   const model = config.model ?? 'nomic-embed-text';
   const controller = new AbortController();
@@ -78,11 +80,14 @@ export async function loadDocsForEmbedding(
     const raw = await fs.readFile(file, 'utf8');
     const parsed = matter(raw);
     const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
+    const content = truncateContent(parsed.content, truncateChars);
+    const hash = createHash('sha256').update(content).digest('hex');
     docs.push({
       path: path.relative(cwd, file),
       title: (parsed.data.title as string | undefined) ?? heading,
       frontmatter: parsed.data,
-      content: truncateContent(parsed.content, truncateChars),
+      content,
+      hash,
     });
   }
   return docs;
