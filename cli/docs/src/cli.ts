@@ -302,6 +302,12 @@ export async function commandSearch(
   const pathGlob = opts.path;
   const format = opts.format ?? 'markdown';
   const cwd = opts.cwd ?? process.cwd();
+  const { files: targetFiles } = await resolveTargetFiles({
+    category,
+    pathGlob,
+    cwd,
+    absolute: true,
+  });
 
   if (!query) {
     throw new InvalidArgumentError('search requires a query string');
@@ -373,8 +379,12 @@ export async function commandSearch(
       }
     }
 
-    const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
-    const docs = await loadDocsForEmbedding(files, cwd, DEFAULT_TRUNCATE_CHARS);
+    const docs = await loadDocsForEmbedding(
+      targetFiles,
+      cwd,
+      DEFAULT_TRUNCATE_CHARS,
+      Boolean(opts.absolute),
+    );
     const cache = resolveCache(cwd, opts.lmdbPath);
 
     const computeAndEmit = async (
@@ -466,8 +476,7 @@ export async function commandSearch(
     return;
   }
 
-  const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
-  const hits: Array<FileHit & { matched?: string; rel?: string }> = [];
+  const hits: Array<FileHit & { matched?: string; rel?: string; score?: number }> = [];
   let regex: RegExp | null = null;
   if (mode === 'regex') {
     try {
@@ -477,19 +486,26 @@ export async function commandSearch(
     }
   }
 
-  for (const file of files) {
-    const raw = await fs.readFile(file, 'utf8');
+  const indexed = await loadFilesWithIndexer(targetFiles, cwd, true);
+  if (!indexed.length) {
+    console.log('No matches.');
+    return;
+  }
+
+  const qLower = query.toLowerCase();
+  for (const file of indexed) {
+    const raw = file.content;
     const lower = raw.toLowerCase();
     const parsed = matter(raw);
     const titleFromFm = parsed.data.title as string | undefined;
     const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
     const title = titleFromFm || heading;
 
-    const rel = opts.absolute ? file : path.relative(cwd, file);
+    const rel = opts.absolute ? file.abs : file.path;
 
     switch (mode) {
       case 'keyword': {
-        if (!lower.includes(query.toLowerCase())) continue;
+        if (!lower.includes(qLower)) continue;
         hits.push({ path: rel, title, frontmatter: parsed.data });
         break;
       }
@@ -500,8 +516,15 @@ export async function commandSearch(
         break;
       }
       case 'fuzzy': {
-        if (!lower.includes(query.toLowerCase())) continue;
-        hits.push({ path: rel, title, frontmatter: parsed.data, matched: 'fuzzy-substring' });
+        const tokenMatch = fuzzyMatch(qLower, lower);
+        if (!tokenMatch.matched) continue;
+        hits.push({
+          path: rel,
+          title,
+          frontmatter: parsed.data,
+          matched: tokenMatch.token,
+          score: tokenMatch.score,
+        });
         break;
       }
       default:
@@ -516,7 +539,12 @@ export async function commandSearch(
   if (format === 'json') {
     console.log(
       JSON.stringify(
-        hits.map((h) => ({ path: h.path, title: h.title ?? '', frontmatter: h.frontmatter ?? {} })),
+        hits.map((h) => ({
+          path: h.path,
+          title: h.title ?? '',
+          frontmatter: h.frontmatter ?? {},
+          ...(typeof h.score === 'number' ? { score: h.score } : {}),
+        })),
         null,
         2,
       ),
@@ -530,12 +558,13 @@ export async function commandSearch(
   }
 
   printTable(
-    ['Path', 'Title', 'Status', 'Priority'],
+    ['Path', 'Title', 'Status', 'Priority', ...(mode === 'fuzzy' ? ['Score'] : [])],
     hits.map((h) => [
       h.path,
       h.title ?? '',
       (h.frontmatter?.status as string) ?? '',
       (h.frontmatter?.priority as string) ?? '',
+      ...(mode === 'fuzzy' ? [h.score ?? ''] : []),
     ]),
   );
 }
