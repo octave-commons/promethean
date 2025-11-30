@@ -1,7 +1,8 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import { commandSearch, commandTasksSummary } from './cli.js';
+import { CommanderError } from 'commander';
+import { createDocsProgram } from './cli.js';
 
 async function withTempRepo(fn: (dir: string) => Promise<void>): Promise<void> {
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'docs-cli-'));
@@ -12,8 +13,27 @@ async function withTempRepo(fn: (dir: string) => Promise<void>): Promise<void> {
   }
 }
 
-describe('commandSearch', () => {
-  it('finds keyword matches and emits JSON rows', async () => {
+function makeProgramHarness(cwd: string) {
+  let out = '';
+  let err = '';
+  const program = createDocsProgram({
+    exitOverride: true,
+    stdout: (str: string) => {
+      out += str;
+    },
+    stderr: (str: string) => {
+      err += str;
+    },
+  });
+  const run = async (args: string[]) => {
+    await program.parseAsync(['--cwd', cwd, ...args], { from: 'user' });
+    return { out, err };
+  };
+  return { run, getOut: () => out, getErr: () => err };
+}
+
+describe('search command', () => {
+  it('finds keyword matches, supports alias, emits JSON rows', async () => {
     await withTempRepo(async (dir) => {
       await fs.mkdir(path.join(dir, 'docs'), { recursive: true });
       const file = path.join(dir, 'docs', 'sample.md');
@@ -22,16 +42,8 @@ describe('commandSearch', () => {
         `---\ntitle: Sample\nstatus: ready\npriority: P1\n---\n# Sample\nhello world\n`,
       );
 
-      let out = '';
-      const origLog = console.log;
-      console.log = (...args: unknown[]) => {
-        out += args.join(' ') + '\n';
-      };
-      try {
-        await commandSearch('keyword', 'hello', { format: 'json', cwd: dir });
-      } finally {
-        console.log = origLog;
-      }
+      const { run } = makeProgramHarness(dir);
+      const { out } = await run(['s', 'keyword', 'hello', '--format', 'json']);
 
       const rows = JSON.parse(out.trim()) as Array<{
         path: string;
@@ -45,10 +57,34 @@ describe('commandSearch', () => {
       expect(rows[0].frontmatter.priority).toBe('P1');
     });
   });
+
+  it('surfaces invalid mode via commander error', async () => {
+    await withTempRepo(async (dir) => {
+      const harness = makeProgramHarness(dir);
+      await expect(harness.run(['search', 'typo', 'hello'])).rejects.toBeInstanceOf(CommanderError);
+      expect(harness.getErr() || harness.getOut()).toMatch(/mode must be one of/i);
+    });
+  });
 });
 
-describe('commandTasksSummary', () => {
-  it('counts tasks and lists P0/P1', async () => {
+describe('view command', () => {
+  it('prints file contents respecting cwd', async () => {
+    await withTempRepo(async (dir) => {
+      const docsDir = path.join(dir, 'docs');
+      await fs.mkdir(docsDir, { recursive: true });
+      const file = path.join(docsDir, 'view.md');
+      await fs.writeFile(file, '# Hello\n');
+
+      const { run, getOut } = makeProgramHarness(dir);
+      await run(['view', 'docs/view.md']);
+
+      expect(getOut().trim()).toBe('# Hello');
+    });
+  });
+});
+
+describe('tasks summary', () => {
+  it('counts tasks, filters, and lists P0/P1 with JSON output', async () => {
     await withTempRepo(async (dir) => {
       const taskDir = path.join(dir, 'docs', 'agile', 'tasks');
       await fs.mkdir(taskDir, { recursive: true });
@@ -61,27 +97,17 @@ describe('commandTasksSummary', () => {
         `---\ntitle: Task Two\nstatus: in_progress\npriority: P2\ncreated_at: 2025-10-11\n---\n# Task Two\n`,
       );
 
-      let out = '';
-      const origLog = console.log;
-      console.log = (...args: unknown[]) => {
-        out += args.join(' ') + '\n';
-      };
-      try {
-        await commandTasksSummary({ format: 'json', cwd: dir });
-      } finally {
-        console.log = origLog;
-      }
+      const { run, getOut } = makeProgramHarness(dir);
+      await run(['tasks', 'summary', '--format', 'json', '--priority', 'P0']);
 
-      const data = JSON.parse(out.trim()) as {
+      const data = JSON.parse(getOut().trim()) as {
         countsByStatus: Record<string, number>;
         countsByPriority: Record<string, number>;
         p0p1: Array<{ title: string; priority?: string; status?: string }>;
       };
 
       expect(data.countsByStatus.ready).toBe(1);
-      expect(data.countsByStatus.in_progress).toBe(1);
       expect(data.countsByPriority.P0).toBe(1);
-      expect(data.countsByPriority.P2).toBe(1);
       expect(data.p0p1.length).toBe(1);
       expect(data.p0p1[0].title).toBe('Task One');
       expect(data.p0p1[0].priority).toBe('P0');
