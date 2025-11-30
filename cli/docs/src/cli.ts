@@ -200,7 +200,7 @@ async function loadFilesWithIndexer(
   const result = await scanFiles({
     root,
     exts: exts.length ? exts : undefined,
-    readContent: (filePath: string) => targetSet.has(path.resolve(filePath)),
+    readContent: (filePath: string) => targetSet.has(path.resolve(filePath)) && readContent,
     encoding: 'utf8',
     collect: true,
   });
@@ -214,6 +214,44 @@ async function loadFilesWithIndexer(
       const abs = path.resolve(f.path);
       return { path: path.relative(cwd, abs), abs, content };
     });
+}
+
+function levenshtein(a: string, b: string): number {
+  const dp: number[][] = Array.from({ length: a.length + 1 }, () =>
+    Array.from({ length: b.length + 1 }, () => 0),
+  );
+  for (let i = 0; i <= a.length; i++) dp[i]![0] = i;
+  for (let j = 0; j <= b.length; j++) dp[0]![j] = j;
+  for (let i = 1; i <= a.length; i++) {
+    for (let j = 1; j <= b.length; j++) {
+      if (a[i - 1] === b[j - 1]) {
+        dp[i]![j] = dp[i - 1]![j - 1]!;
+      } else {
+        dp[i]![j] = Math.min(dp[i - 1]![j]!, dp[i]![j - 1]!, dp[i - 1]![j - 1]!) + 1;
+      }
+    }
+  }
+  return dp[a.length]![b.length]!;
+}
+
+function fuzzyMatch(
+  queryLower: string,
+  textLower: string,
+): { matched: boolean; token?: string; score?: number } {
+  const tokens = textLower.split(/\W+/).filter(Boolean);
+  if (!tokens.length) return { matched: false };
+  let bestScore = Number.POSITIVE_INFINITY;
+  let bestToken: string | undefined;
+  for (const token of tokens) {
+    const dist = levenshtein(token, queryLower);
+    if (dist < bestScore) {
+      bestScore = dist;
+      bestToken = token;
+      if (dist === 0) break;
+    }
+  }
+  const threshold = Math.max(1, Math.floor(queryLower.length * 0.4));
+  return { matched: bestScore <= threshold, token: bestToken, score: bestScore };
 }
 
 function resolveCache(cwd: string, customPath?: string): Cache<number[]> {
