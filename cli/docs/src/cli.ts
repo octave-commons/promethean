@@ -203,6 +203,9 @@ export async function commandSearch(
     chromaCollection?: string;
     ollamaUrl?: string;
     ollamaModel?: string;
+    lmdbPath?: string;
+    localEmbedDim?: number;
+    localEmbedModel?: string;
   },
 ): Promise<void> {
   const category = opts.category;
@@ -220,12 +223,16 @@ export async function commandSearch(
     const chromaCollection = opts.chromaCollection ?? process.env.DOCS_CHROMA_COLLECTION;
     const ollamaUrl = opts.ollamaUrl ?? process.env.DOCS_OLLAMA_URL;
     const ollamaModel = opts.ollamaModel ?? process.env.DOCS_OLLAMA_MODEL;
-    const localEmbedModel = opts.localEmbedModel ?? process.env.DOCS_LOCAL_EMBED_MODEL ?? 'local-hash';
-    const localEmbedDim = opts.localEmbedDim ?? Number(process.env.DOCS_LOCAL_EMBED_DIM ?? '') || DEFAULT_LOCAL_DIM;
+    const localEmbedModel =
+      opts.localEmbedModel ?? process.env.DOCS_LOCAL_EMBED_MODEL ?? 'local-hash';
+    const localEmbedDim =
+      opts.localEmbedDim ?? (Number(process.env.DOCS_LOCAL_EMBED_DIM ?? '') || DEFAULT_LOCAL_DIM);
 
     if (esUrl) {
       const esFieldsEnv = process.env.DOCS_ES_FIELDS
-        ? process.env.DOCS_ES_FIELDS.split(',').map((f) => f.trim()).filter(Boolean)
+        ? process.env.DOCS_ES_FIELDS.split(',')
+            .map((f) => f.trim())
+            .filter(Boolean)
         : undefined;
       const esConfig: ElasticSearchConfig = {
         url: esUrl,
@@ -328,7 +335,9 @@ export async function commandSearch(
 
     if (ollamaUrl) {
       const ollamaBackendId = `ollama:${ollamaModel ?? 'nomic-embed-text'}`;
-      await computeAndEmit(ollamaBackendId, (text) => embedWithOllama(text, { url: ollamaUrl, model: ollamaModel }));
+      await computeAndEmit(ollamaBackendId, (text) =>
+        embedWithOllama(text, { url: ollamaUrl, model: ollamaModel }),
+      );
       return;
     }
 
@@ -342,60 +351,6 @@ export async function commandSearch(
     const embedder = makeDeterministicEmbedder({ modelId: localEmbedModel, dim: localEmbedDim });
     const localBackendId = `local:${localEmbedModel}:${localEmbedDim}`;
     await computeAndEmit(localBackendId, (text) => embedder.embedOne(text));
-    return;
-  }
-
-  const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
-
-      const docs = await loadDocsForEmbedding(files, cwd, 4000);
-      try {
-        const hits = await semanticSearchOllama(
-          query,
-          docs,
-          { url: ollamaUrl, model: ollamaModel },
-          opts.limit,
-        );
-        if (format === 'json') {
-          console.log(
-            JSON.stringify(
-              hits.map((h) => ({
-                path: h.path,
-                title: h.title ?? '',
-                frontmatter: h.frontmatter ?? {},
-                score: h.score ?? undefined,
-              })),
-              null,
-              2,
-            ),
-          );
-          return;
-        }
-        if (!hits.length) {
-          console.log('No matches.');
-          return;
-        }
-        printTable(
-          ['Path', 'Title', 'Score'],
-          hits.map((h) => [h.path, h.title ?? '', h.score ?? '']),
-        );
-        return;
-      } catch (err) {
-        console.error(
-          'Semantic search failed (ollama):',
-          err instanceof Error ? err.message : String(err),
-        );
-        throw err instanceof Error ? err : new Error(String(err));
-      }
-    }
-
-    if (chromaPath || chromaCollection) {
-      console.log(
-        'Chroma backend not wired yet (needs embeddings + collection); set DOCS_ES_URL or DOCS_OLLAMA_URL for now.',
-      );
-      return;
-    }
-
-    console.log('Semantic search requires --es-url/DOCS_ES_URL or --ollama-url/DOCS_OLLAMA_URL.');
     return;
   }
 
@@ -691,6 +646,25 @@ export function createDocsProgram(io?: IoConfig): Command {
       new Option('--ollama-model <model>', 'Ollama embedding model').env('DOCS_OLLAMA_MODEL'),
     )
     .addOption(
+      new Option('--lmdb-path <path>', 'LMDB cache path for embeddings').env('DOCS_CACHE_PATH'),
+    )
+    .addOption(
+      new Option('--local-embed-dim <dim>', 'Local deterministic embed dimension')
+        .env('DOCS_LOCAL_EMBED_DIM')
+        .argParser((val) => {
+          const num = Number(val);
+          if (Number.isNaN(num) || num <= 0) {
+            throw new InvalidArgumentError('local embed dim must be a positive number');
+          }
+          return num;
+        }),
+    )
+    .addOption(
+      new Option('--local-embed-model <id>', 'Local deterministic embed model id').env(
+        'DOCS_LOCAL_EMBED_MODEL',
+      ),
+    )
+    .addOption(
       new Option('--chroma-path <path>', 'Chroma persistence path (semantic placeholder)').env(
         'DOCS_CHROMA_PATH',
       ),
@@ -720,6 +694,9 @@ export function createDocsProgram(io?: IoConfig): Command {
         chromaCollection: options.chromaCollection as string | undefined,
         ollamaUrl: options.ollamaUrl as string | undefined,
         ollamaModel: options.ollamaModel as string | undefined,
+        lmdbPath: options.lmdbPath as string | undefined,
+        localEmbedDim: options.localEmbedDim as number | undefined,
+        localEmbedModel: options.localEmbedModel as string | undefined,
       });
     });
 
