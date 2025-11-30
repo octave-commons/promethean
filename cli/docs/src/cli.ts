@@ -572,6 +572,24 @@ export function createDocsProgram(io?: IoConfig): Command {
           return [...prev, ...parts];
         }),
     )
+    .addOption(
+      new Option('--ollama-url <url>', 'Ollama endpoint for local embeddings').env(
+        'DOCS_OLLAMA_URL',
+      ),
+    )
+    .addOption(
+      new Option('--ollama-model <model>', 'Ollama embedding model').env('DOCS_OLLAMA_MODEL'),
+    )
+    .addOption(
+      new Option('--chroma-path <path>', 'Chroma persistence path (semantic placeholder)').env(
+        'DOCS_CHROMA_PATH',
+      ),
+    )
+    .addOption(
+      new Option('--chroma-collection <name>', 'Chroma collection name (semantic placeholder)').env(
+        'DOCS_CHROMA_COLLECTION',
+      ),
+    )
     .action(async (mode: SearchMode, query: string, options: OptionValues, command: Command) => {
       const globals = command.optsWithGlobals() as { cwd?: string };
       await commandSearch(mode, query, {
@@ -590,6 +608,8 @@ export function createDocsProgram(io?: IoConfig): Command {
         esField: options.esField as string[] | undefined,
         chromaPath: options.chromaPath as string | undefined,
         chromaCollection: options.chromaCollection as string | undefined,
+        ollamaUrl: options.ollamaUrl as string | undefined,
+        ollamaModel: options.ollamaModel as string | undefined,
       });
     });
 
