@@ -579,17 +579,16 @@ function buildOutput(io?: IoConfig) {
   };
 }
 
-export function createDocsProgram(io?: IoConfig): Command {
-  const program = new Command();
-  if (io?.exitOverride) {
+export function buildDocsCommand(io?: IoConfig, options: DocsCommandOptions = {}): Command {
+  const program = new Command(options.asSubcommand ? 'docs' : 'promethean-docs');
+  if (!options.asSubcommand && io?.exitOverride) {
     program.exitOverride();
   }
 
   program
-    .name('promethean-docs')
     .summary('Docs search/view CLI (semantic via Elasticsearch when configured)')
     .description(
-      'Search, view, and summarize agile tasks with Commander-forward UX and Elastic-backed semantic mode.',
+      'Search, view, and summarize agile tasks with Commander-forward UX and pluggable semantic backends.',
     )
     .usage('<command> [options]')
     .version(programVersion, '-V, --version', 'show CLI version')
@@ -603,7 +602,7 @@ export function createDocsProgram(io?: IoConfig): Command {
     .addHelpText('beforeAll', 'Promethean Docs CLI — search, view, summarize')
     .addHelpText(
       'afterAll',
-      `Examples:\n  $ promethean-docs search keyword kanban -c docs\n  $ promethean-docs view docs/HOME.md\n  $ promethean-docs tasks summary --format json`,
+      `Examples:\n  $ ${options.asSubcommand ? 'promethean docs' : 'promethean-docs'} search keyword kanban -c docs\n  $ ${options.asSubcommand ? 'promethean docs' : 'promethean-docs'} view docs/HOME.md\n  $ ${options.asSubcommand ? 'promethean docs' : 'promethean-docs'} tasks summary --format json`,
     );
 
   program
@@ -811,6 +810,10 @@ export function createDocsProgram(io?: IoConfig): Command {
   program.addCommand(tasksCommand);
 
   return program;
+}
+
+export function createDocsProgram(io?: IoConfig): Command {
+  return buildDocsCommand(io, { asSubcommand: false });
 }
 
 const isCliEntry = import.meta.url === pathToFileURL(process.argv[1] ?? '').href;
