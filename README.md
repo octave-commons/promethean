@@ -278,10 +278,11 @@ cp -r docs/vault-config/.obsidian docs/.obsidian
 
 ### Key Documentation
 
-- **Architecture**: `docs/architecture/` - System design and roadmaps
+- **Architecture**: `docs/architecture/index.md` - Graphs, roadmaps, and initiatives
 - **Process**: `docs/agile/process.md` - Workflow and methodology
-- **Environment**: `docs/environment-variables.md` - Configuration options
-- **Nx Workspace**: `docs/nx-workspace.md` - Build tooling commands
+- **Environment**: `docs/environment-variables.md` - Core configuration variables
+- **Nx Workspace**: `docs/nx-workspace.md` - Nx targets and graph tooling
+- **Opencode Client**: `docs/inbox/README.md` - Package doc entrypoint
 
 ## 🤖 For AI Agents
 
