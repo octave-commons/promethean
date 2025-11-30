@@ -15,6 +15,7 @@
   "dependencies": {
     "@elastic/elasticsearch": "^9.2.0",
     "@promethean-os/embedding": "workspace:*",
+    "@promethean-os/file-indexer": "workspace:*",
     "@promethean-os/lmdb-cache": "workspace:*",
     "@vitest/coverage-v8": "^1.6.0",
     "commander": "^12.1.0",

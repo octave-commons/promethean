@@ -615,12 +615,7 @@ export async function commandTasksSummary(opts: {
 }): Promise<void> {
   const format = opts.format ?? 'markdown';
   const cwd = opts.cwd ?? process.cwd();
-  const files = await fg('docs/agile/tasks/**/*.md', {
-    dot: false,
-    onlyFiles: true,
-    cwd,
-    absolute: true,
-  });
+  const tasksRoot = path.join(cwd, 'docs', 'agile', 'tasks');
   const tasks: Array<{
     path: string;
     title: string;
@@ -629,24 +624,38 @@ export async function commandTasksSummary(opts: {
     created_at?: string;
   }> = [];
 
-  for (const file of files) {
-    const raw = await fs.readFile(file, 'utf8');
-    const parsed = matter(raw);
-    const titleFromFm = parsed.data.title as string | undefined;
-    const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
-    const rel = path.relative(cwd, file);
-    const status = parsed.data.status as string | undefined;
-    const priority = parsed.data.priority as string | undefined;
-    const createdAt = parsed.data.created_at as string | undefined;
-    if (opts.status && status && !opts.status.includes(status)) continue;
-    if (opts.priority && priority && !opts.priority.includes(priority)) continue;
-    tasks.push({
-      path: rel,
-      title: titleFromFm || heading || path.basename(file),
-      status,
-      priority,
-      created_at: createdAt,
+  try {
+    const scanResult = await scanFiles({
+      root: tasksRoot,
+      exts: ['.md'],
+      readContent: true,
+      encoding: 'utf8',
+      collect: true,
     });
+
+    for (const file of scanResult.files ?? []) {
+      const abs = path.resolve(file.path);
+      const raw =
+        typeof file.content === 'string' ? file.content : (file.content?.toString('utf8') ?? '');
+      const parsed = matter(raw);
+      const titleFromFm = parsed.data.title as string | undefined;
+      const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
+      const rel = path.relative(cwd, abs);
+      const status = parsed.data.status as string | undefined;
+      const priority = parsed.data.priority as string | undefined;
+      const createdAt = parsed.data.created_at as string | undefined;
+      if (opts.status && (!status || !opts.status.includes(status))) continue;
+      if (opts.priority && (!priority || !opts.priority.includes(priority))) continue;
+      tasks.push({
+        path: rel,
+        title: titleFromFm || heading || path.basename(abs),
+        status,
+        priority,
+        created_at: createdAt,
+      });
+    }
+  } catch (err) {
+    console.error('Failed to read tasks:', err instanceof Error ? err.message : String(err));
   }
 
   const byStatus = new Map<string, number>();
