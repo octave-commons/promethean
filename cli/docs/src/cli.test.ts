@@ -26,7 +26,20 @@ function makeProgramHarness(cwd: string) {
     },
   });
   const run = async (args: string[]) => {
-    await program.parseAsync(['--cwd', cwd, ...args], { from: 'user' });
+    const origLog = console.log;
+    const origErr = console.error;
+    console.log = (...args: unknown[]) => {
+      out += args.join(' ') + '\n';
+    };
+    console.error = (...args: unknown[]) => {
+      err += args.join(' ') + '\n';
+    };
+    try {
+      await program.parseAsync(['--cwd', cwd, ...args], { from: 'user' });
+    } finally {
+      console.log = origLog;
+      console.error = origErr;
+    }
     return { out, err };
   };
   return { run, getOut: () => out, getErr: () => err };
@@ -61,7 +74,9 @@ describe('search command', () => {
   it('surfaces invalid mode via commander error', async () => {
     await withTempRepo(async (dir) => {
       const harness = makeProgramHarness(dir);
-      await expect(harness.run(['search', 'typo', 'hello'])).rejects.toBeInstanceOf(CommanderError);
+      await expect(harness.run(['search', 'typo', 'hello'])).rejects.toThrow(
+        /mode must be one of/i,
+      );
       expect(harness.getErr() || harness.getOut()).toMatch(/mode must be one of/i);
     });
   });

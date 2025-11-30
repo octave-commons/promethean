@@ -200,6 +200,10 @@ export async function commandSearch(
     }
   }
 
+  if (opts.limit && hits.length > opts.limit) {
+    hits.splice(opts.limit);
+  }
+
   if (format === 'json') {
     console.log(
       JSON.stringify(
