@@ -691,6 +691,21 @@ export function createDocsProgram(io?: IoConfig): Command {
       new Option('--ollama-model <model>', 'Ollama embedding model').env('DOCS_OLLAMA_MODEL'),
     )
     .addOption(
+      new Option('--transformers-model <model>', 'Local transformers embedding model').env(
+        'DOCS_TRANSFORMERS_MODEL',
+      ),
+    )
+    .addOption(
+      new Option('--transformers-cache <path>', 'Transformers model cache directory').env(
+        'DOCS_TRANSFORMERS_CACHE',
+      ),
+    )
+    .addOption(
+      new Option('--transformers-device <device>', 'Transformers device id (e.g., cpu)').env(
+        'DOCS_TRANSFORMERS_DEVICE',
+      ),
+    )
+    .addOption(
       new Option('--lmdb-path <path>', 'LMDB cache path for embeddings').env('DOCS_CACHE_PATH'),
     )
     .addOption(
@@ -739,6 +754,9 @@ export function createDocsProgram(io?: IoConfig): Command {
         chromaCollection: options.chromaCollection as string | undefined,
         ollamaUrl: options.ollamaUrl as string | undefined,
         ollamaModel: options.ollamaModel as string | undefined,
+        transformersModel: options.transformersModel as string | undefined,
+        transformersCache: options.transformersCache as string | undefined,
+        transformersDevice: options.transformersDevice as string | undefined,
         lmdbPath: options.lmdbPath as string | undefined,
         localEmbedDim: options.localEmbedDim as number | undefined,
         localEmbedModel: options.localEmbedModel as string | undefined,
