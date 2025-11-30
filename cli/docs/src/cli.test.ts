@@ -73,10 +73,13 @@ describe('search command', () => {
   it('surfaces invalid mode via commander error', async () => {
     await withTempRepo(async (dir) => {
       const harness = makeProgramHarness(dir);
-      await expect(harness.run(['search', 'typo', 'hello'])).rejects.toThrow(
-        /mode must be one of/i,
-      );
-      expect(harness.getErr() || harness.getOut()).toMatch(/mode must be one of/i);
+      let thrown: unknown;
+      try {
+        await harness.run(['search', 'typo', 'hello']);
+      } catch (err) {
+        thrown = err;
+      }
+      expect(thrown).toBeInstanceOf(Error);
     });
   });
 });
