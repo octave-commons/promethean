@@ -1,12 +1,15 @@
 // GPL-3.0-only
 import { promises as fs } from 'node:fs';
+import { createHash } from 'node:crypto';
 import path from 'node:path';
 import { Argument, Command, InvalidArgumentError, Option, OptionValues } from 'commander';
 import fg from 'fast-glob';
 import matter from 'gray-matter';
 import { pathToFileURL } from 'node:url';
+import { openLmdbCache, type Cache } from '@promethean-os/lmdb-cache';
+import { makeDeterministicEmbedder } from '@promethean-os/embedding';
 import { semanticSearchElastic, ElasticSearchConfig } from './elastic.js';
-import { semanticSearchOllama, loadDocsForEmbedding } from './semantic.js';
+import { semanticSearchOllama, loadDocsForEmbedding, embedWithOllama } from './semantic.js';
 
 // Types
 
