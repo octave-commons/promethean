@@ -72,6 +72,14 @@ const formats: Format[] = ['markdown', 'json'];
 
 // Helpers
 
+const EMBED_CACHE_TTL = 7 * 24 * 60 * 60 * 1000;
+const DEFAULT_TRUNCATE_CHARS = 4000;
+const DEFAULT_LOCAL_DIM = 384;
+
+function hashText(text: string): string {
+  return createHash('sha256').update(text).digest('hex');
+}
+
 function normalizeDir(input: string): string {
   const resolved = path.resolve(input);
   if (!resolved) throw new InvalidArgumentError('cwd must resolve to a path');
@@ -125,6 +133,43 @@ function printTable(headers: string[], rows: Array<Array<string | number>>): voi
   for (const row of rows) {
     console.log(`| ${row.map((c) => String(c ?? '')).join(' | ')} |`);
   }
+}
+
+function cosine(a: number[], b: number[]): number {
+  if (a.length !== b.length) return 0;
+  let dot = 0;
+  let na = 0;
+  let nb = 0;
+  for (let i = 0; i < a.length; i++) {
+    dot += a[i]! * b[i]!;
+    na += a[i]! * a[i]!;
+    nb += b[i]! * b[i]!;
+  }
+  if (na === 0 || nb === 0) return 0;
+  return dot / (Math.sqrt(na) * Math.sqrt(nb));
+}
+
+function resolveCache(cwd: string, customPath?: string): Cache<number[]> {
+  const cachePath =
+    customPath ?? process.env.DOCS_CACHE_PATH ?? path.join(cwd, '.cache', 'docs-cli');
+  return openLmdbCache<number[]>({
+    path: cachePath,
+    namespace: 'semantic',
+    defaultTtlMs: EMBED_CACHE_TTL,
+  });
+}
+
+async function embedWithCache(
+  cache: Cache<number[]> | undefined,
+  key: string,
+  embedFn: () => Promise<number[]>,
+): Promise<number[]> {
+  if (!cache) return embedFn();
+  const cached = await cache.get(key);
+  if (cached) return cached;
+  const value = await embedFn();
+  await cache.set(key, value, { ttlMs: EMBED_CACHE_TTL });
+  return value;
 }
 
 export async function commandView(
