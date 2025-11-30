@@ -56,6 +56,26 @@ pnpm --filter @promethean/docs-cli run build
   - `promethean-docs search semantic "project vision" --transformers-model Xenova/all-MiniLM-L6-v2 --transformers-cache ~/.cache/transformers`
   - `promethean-docs search semantic "project vision" --local-embed-dim 256 --lmdb-path /tmp/docs-cache`
 
+## Quickstart: Local Transformers (offline)
+
+```bash
+# optional: set cache directory (defaults to ~/.cache/huggingface/transformers)
+export DOCS_TRANSFORMERS_CACHE="$HOME/.cache/transformers"
+# optional: choose model (MiniLM is small and fast)
+export DOCS_TRANSFORMERS_MODEL="Xenova/all-MiniLM-L6-v2"
+
+# run a semantic query without external services
+promethean-docs search semantic "project vision" --transformers-model "$DOCS_TRANSFORMERS_MODEL"
+```
+
+- First run downloads the model to the cache; subsequent runs are offline.
+- LMDB cache is enabled by default at `.cache/docs-cli` under `--cwd`; override with `--lmdb-path`.
+
+```bash
+promethean-docs search semantic "kanban" --transformers-model Xenova/all-MiniLM-L6-v2 --lmdb-path /tmp/docs-cache
+```
+
+```
 ### view (alias: cat)
 
 - Arguments: `<path>`: markdown/json path (relative to `--cwd`)
@@ -81,3 +101,4 @@ pnpm --filter @promethean/docs-cli run build
 - Truncation: docs are truncated to ~4000 chars before embedding to keep memory small.
 - Semantic output: ES returns score + first highlight; Ollama/Transformers/Local return score only. Chroma flags are placeholders until embeddings + collection wiring is added.
 - Help is grouped/sorted with examples; `--trace` shows pre/post action hooks and merged options.
+```
