@@ -33,6 +33,9 @@ pnpm --filter @promethean/docs-cli run build
     - `--es-user <user>` / `--es-password <password>` (env: `DOCS_ES_USER` / `DOCS_ES_PASSWORD`)
     - `--es-ca <path>` (env: `DOCS_ES_CA`)
     - `--es-field <field...>`: override searched fields (env: `DOCS_ES_FIELDS`, comma or space separated)
+  - Semantic/Chroma placeholders (for future local vector store):
+    - `--chroma-path <path>` (env: `DOCS_CHROMA_PATH`)
+    - `--chroma-collection <name>` (env: `DOCS_CHROMA_COLLECTION`)
 - Examples:
   - `promethean-docs search keyword kanban -c docs`
   - `promethean-docs s regex "kanban" --path "docs/agile/**/*.md" --format json`
@@ -57,5 +60,5 @@ pnpm --filter @promethean/docs-cli run build
 
 ## Notes
 
-- Semantic mode queries Elasticsearch when `--es-url` (or env) is provided; otherwise it logs a reminder and exits without error. Returned markdown output includes score and first highlight.
+- Semantic mode queries Elasticsearch when `--es-url` (or env) is provided; otherwise it logs a reminder and exits without error. Returned markdown output includes score and first highlight. Chroma flags are placeholders until embeddings + collection wiring is added.
 - Help is grouped/sorted with examples; `--trace` shows pre/post action hooks and merged options.
