@@ -54,14 +54,20 @@ const byId = new Map(categories.map((c) => [c.id, c]));
 
 // Helpers
 
-async function collectFiles(opts: { category?: string; pathGlob?: string }): Promise<string[]> {
+async function collectFiles(opts: {
+  category?: string;
+  pathGlob?: string;
+  cwd?: string;
+  absolute?: boolean;
+}): Promise<string[]> {
+  const { cwd, absolute } = opts;
   if (opts.pathGlob) {
-    return fg(opts.pathGlob, { dot: false, onlyFiles: true });
+    return fg(opts.pathGlob, { dot: false, onlyFiles: true, cwd, absolute });
   }
   const cat = opts.category ? byId.get(opts.category) : undefined;
   const fallback = byId.get('docs');
   const globs = cat?.globs ?? fallback?.globs ?? ['docs/**/*.md'];
-  return fg(globs, { dot: false, onlyFiles: true });
+  return fg(globs, { dot: false, onlyFiles: true, cwd, absolute });
 }
 
 function printTable(headers: string[], rows: Array<Array<string | number>>): void {
@@ -82,19 +88,20 @@ export async function commandView(file: string): Promise<void> {
 export async function commandSearch(
   mode: SearchMode,
   query: string,
-  opts: { category?: string; path?: string; format?: string },
+  opts: { category?: string; path?: string; format?: string; cwd?: string },
 ): Promise<void> {
   const category = opts.category;
   const pathGlob = opts.path;
   const format = opts.format ?? 'markdown';
+  const cwd = opts.cwd ?? process.cwd();
 
   if (!query) {
     console.error('search requires a query string');
     return;
   }
 
-  const files = await collectFiles({ category, pathGlob });
-  const hits: Array<FileHit & { matched?: string }> = [];
+  const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
+  const hits: Array<FileHit & { matched?: string; rel?: string }> = [];
   let regex: RegExp | null = null;
   if (mode === 'regex') {
     try {
@@ -113,22 +120,24 @@ export async function commandSearch(
     const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
     const title = titleFromFm || heading;
 
+    const rel = path.relative(cwd, file);
+
     switch (mode) {
       case 'keyword': {
         if (!lower.includes(query.toLowerCase())) continue;
-        hits.push({ path: file, title, frontmatter: parsed.data });
+        hits.push({ path: rel, title, frontmatter: parsed.data });
         break;
       }
       case 'regex': {
         if (!regex) continue;
         if (!regex.test(raw)) continue;
-        hits.push({ path: file, title, frontmatter: parsed.data });
+        hits.push({ path: rel, title, frontmatter: parsed.data });
         break;
       }
       case 'fuzzy': {
         // placeholder: basic substring until fuzzy lib is wired
         if (!lower.includes(query.toLowerCase())) continue;
-        hits.push({ path: file, title, frontmatter: parsed.data, matched: 'fuzzy-substring' });
+        hits.push({ path: rel, title, frontmatter: parsed.data, matched: 'fuzzy-substring' });
         break;
       }
       case 'semantic': {
@@ -172,9 +181,15 @@ export async function commandSearch(
   );
 }
 
-export async function commandTasksSummary(opts: { format?: string }): Promise<void> {
+export async function commandTasksSummary(opts: { format?: string; cwd?: string }): Promise<void> {
   const format = opts.format ?? 'markdown';
-  const files = await fg('docs/agile/tasks/**/*.md', { dot: false, onlyFiles: true });
+  const cwd = opts.cwd ?? process.cwd();
+  const files = await fg('docs/agile/tasks/**/*.md', {
+    dot: false,
+    onlyFiles: true,
+    cwd,
+    absolute: true,
+  });
   const tasks: Array<{
     path: string;
     title: string;
@@ -188,8 +203,9 @@ export async function commandTasksSummary(opts: { format?: string }): Promise<vo
     const parsed = matter(raw);
     const titleFromFm = parsed.data.title as string | undefined;
     const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
+    const rel = path.relative(cwd, file);
     tasks.push({
-      path: file,
+      path: rel,
       title: titleFromFm || heading || path.basename(file),
       status: parsed.data.status as string | undefined,
       priority: parsed.data.priority as string | undefined,

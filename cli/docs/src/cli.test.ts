@@ -4,13 +4,10 @@ import os from 'node:os';
 import { commandSearch, commandTasksSummary } from './cli.js';
 
 async function withTempRepo(fn: (dir: string) => Promise<void>): Promise<void> {
-  const orig = process.cwd();
   const dir = await fs.mkdtemp(path.join(os.tmpdir(), 'docs-cli-'));
   try {
-    process.chdir(dir);
     await fn(dir);
   } finally {
-    process.chdir(orig);
     await fs.rm(dir, { recursive: true, force: true });
   }
 }
@@ -31,7 +28,7 @@ describe('commandSearch', () => {
         out += args.join(' ') + '\n';
       };
       try {
-        await commandSearch('keyword', 'hello', { format: 'json' });
+        await commandSearch('keyword', 'hello', { format: 'json', cwd: dir });
       } finally {
         console.log = origLog;
       }
@@ -70,7 +67,7 @@ describe('commandTasksSummary', () => {
         out += args.join(' ') + '\n';
       };
       try {
-        await commandTasksSummary({ format: 'json' });
+        await commandTasksSummary({ format: 'json', cwd: dir });
       } finally {
         console.log = origLog;
       }
