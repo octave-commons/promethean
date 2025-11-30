@@ -1,48 +1,106 @@
 # Pantheon Documentation Index
 
-Canonical navigation for Pantheon docs. Use this to find the authoritative entry point for API usage, migrations, and build/typecheck remediation.
+## 📍 **Documentation Moved**
 
-## Entry points
+The Pantheon documentation has been consolidated and moved to a new location:
 
-- [Pantheon README](../experimental/pantheon/README.md)
-- [Pantheon API Reference](../experimental/pantheon/docs/API.md)
-- [Pantheon Graph Pattern](../experimental/pantheon/docs/graph-pattern.md)
+**📚 [New Pantheon Documentation Hub](./packages/pantheon/README.md)**
 
-## Migration suite
+---
 
-- [Functional Migration Guide](../experimental/pantheon/docs/functional-migration-guide.md)
-- [Dependency Mapping](../experimental/pantheon/docs/functional-migration/dependency-mapping.md)
-- [Quality Gates](../experimental/pantheon/docs/functional-migration/quality-gates.md)
-- [Work Breakdown Structure](../experimental/pantheon/docs/functional-migration/work-breakdown-structure.md)
+## Why the Move?
 
-## Engineering specs (active)
+The Pantheon documentation has been reorganized to provide:
+- **Better Structure**: Consolidated all pantheon docs in one location
+- **Improved Navigation**: Clear categorization and cross-references  
+- **Enhanced Search**: Easier to find specific information
+- **Comprehensive Coverage**: All topics from scattered docs now unified
 
-- [Pantheon Build Remediation Plan](../spec/pantheon-build-fixes.md)
-- [Pantheon UI Runtime & Typing Fixes](../spec/pantheon-ui-runtime-deps-and-types.md)
-- [Pantheon Core – makeContextStore Regression](../spec/pantheon-core-make-context-store.md)
-- [Pantheon Coordination Types Export Fix](../spec/pantheon-coordination-exports.md)
-- [Pantheon Protocol Adapter Cleanup](../spec/pantheon-protocol-adapter-cleanup.md)
-- [Pantheon TSConfig Circularity](../spec/2025-11-23-pantheon-tsconfig-circularity.md)
+## Quick Links to New Documentation
 
-## Engineering specs (archived / superseded)
+### 🚀 Getting Started
+- **[Main Hub](./packages/pantheon/README.md)** - Complete overview and quick start
+- **[Package Overview](./packages/pantheon/package-overview.md)** - All Pantheon packages
+- **[Architecture Overview](./packages/pantheon/architecture-overview.md)** - System design
 
-- [Build Fixes 2025-11-20](../spec/2025-11-20-build-fixes.md)
-- [2025-11-19 Typecheck Regressions](../spec/2025-11-19-typecheck-regressions.md)
-- [Typecheck remediation after package restructure](../spec/2025-11-18-typecheck-restructure.md)
+### 📚 Core Documentation  
+- **[API Reference](./packages/pantheon/api-reference.md)** - Complete API documentation
+- **[Type System](./packages/pantheon/type-system-reference.md)** - Type definitions
+- **[Implementation Guide](./packages/pantheon/implementation-guide.md)** - Development patterns
 
-## Package docs
+### 🛠️ Development Guides
+- **[Developer Guide](./packages/pantheon/developer-guide.md)** - Getting started guide
+- **[Local Development](./packages/pantheon/local-development-guide.md)** - Local-first patterns
+- **[Security Guide](./packages/pantheon/security-guide.md)** - Security best practices
 
-- [@promethean-os/pantheon-ecs](../packages/pantheon-ecs/README.md)
-- [Pantheon frontend app](../packages/frontend/README.md)
-- [Messaging adapter (Pantheon-compatible)](../packages/messaging/README.md)
+### 🔄 Migration & Operations
+- **[Migration Guide](./packages/pantheon/migration-guide.md)** - Migration procedures
+- **[Troubleshooting](./packages/pantheon/troubleshooting-comprehensive.md)** - Issue resolution
+- **[Contributing](./packages/pantheon/CONTRIBUTING.md)** - Contribution guidelines
 
-## CLI and integrations
+### 📦 Package-Specific Docs
+- **[Pantheon Core](./packages/pantheon/pantheon-core.md)** - Core framework
+- **[Pantheon MCP](./packages/pantheon/pantheon-mcp.md)** - Model Context Protocol
+- **[Pantheon State](./packages/pantheon/pantheon-state.md)** - State management
+- **[Pantheon Persistence](./packages/pantheon/pantheon-persistence.md)** - Data persistence
+- **[And more...](./packages/pantheon/)** - See full package list
 
-- [Kanban CLI – Pantheon integration](../cli/kanban/README.md)
-- [Kanban task content (Pantheon runtime)](../cli/kanban/docs/lib/task-content/README.md)
-- [Kanban AI runtime customization](../cli/kanban/docs/lib/task-content/ai-customization.md)
+## Legacy Documentation References
 
-## UI notes
+### Engineering Specs (Archived)
+These have been consolidated into the new documentation structure:
 
-- [Pantheon UI runtime deps and typings](../spec/pantheon-ui-runtime-deps-and-types.md)
-- [Frontend pantheon build targets](../packages/frontend/README.md)
+- ~~Pantheon Build Remediation Plan~~ → See [Implementation Guide](./packages/pantheon/implementation-guide.md)
+- ~~Pantheon UI Runtime & Typing Fixes~~ → See [Type System Reference](./packages/pantheon/type-system-reference.md)
+- ~~Pantheon Core Regression Issues~~ → See [Troubleshooting](./packages/pantheon/troubleshooting-comprehensive.md)
+
+### Migration Suite
+- ~~Functional Migration Guide~~ → See [Migration Guide](./packages/pantheon/migration-guide.md)
+- ~~Dependency Mapping~~ → See [Package Overview](./packages/pantheon/package-overview.md)
+
+### CLI and Integrations
+- ~~Kanban CLI Integration~~ → See [Developer Guide](./packages/pantheon/developer-guide.md)
+- ~~Frontend Pantheon Build Targets~~ → See [Frontend Guide](./packages/pantheon/frontend.md)
+
+## 🔍 Finding What You Need
+
+### For New Users
+Start with: **[Main Hub](./packages/pantheon/README.md)**
+
+### For Developers  
+Go to: **[Developer Guide](./packages/pantheon/developer-guide.md)**
+
+### For Security
+See: **[Security Guide](./packages/pantheon/security-guide.md)**
+
+### For Migration Issues
+Check: **[Migration Guide](./packages/pantheon/migration-guide.md)**
+
+### For Troubleshooting
+Visit: **[Troubleshooting](./packages/pantheon/troubleshooting-comprehensive.md)**
+
+## 🤝 Contributing to Documentation
+
+The new documentation structure welcomes contributions! See:
+- **[Contributing Guide](./packages/pantheon/CONTRIBUTING.md)** - How to contribute
+- **[Documentation Status](./packages/pantheon/DOCUMENTATION_STATUS.md)** - Current documentation state
+
+## 📬 Migration Timeline
+
+- **Phase 1** (Complete): New documentation structure created
+- **Phase 2** (Current): Old docs updated with redirects  
+- **Phase 3** (Future): Old docs archived, redirects removed
+
+---
+
+## 🎯 Next Steps
+
+1. **Bookmark the new location**: [packages/pantheon/README.md](./packages/pantheon/README.md)
+2. **Update your links**: Replace old documentation links with new ones
+3. **Explore the new structure**: Check out the improved organization
+
+**Thank you for your patience during this documentation improvement!** 🚀
+
+---
+
+*Last updated: November 2025*
