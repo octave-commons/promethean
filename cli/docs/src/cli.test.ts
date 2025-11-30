@@ -82,6 +82,14 @@ describe('search command', () => {
       expect(thrown).toBeInstanceOf(Error);
     });
   });
+
+  it('gracefully falls back when semantic config is missing', async () => {
+    await withTempRepo(async (dir) => {
+      const harness = makeProgramHarness(dir);
+      await harness.run(['search', 'semantic', 'hello']);
+      expect(harness.getOut()).toMatch(/semantic search requires elasticsearch/i);
+    });
+  });
 });
 
 describe('view command', () => {

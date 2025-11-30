@@ -5,7 +5,7 @@ import { Argument, Command, InvalidArgumentError, Option, OptionValues } from 'c
 import fg from 'fast-glob';
 import matter from 'gray-matter';
 import { pathToFileURL } from 'node:url';
-import { semanticSearchElastic, ElasticSearchConfig, SemanticHit } from './elastic.js';
+import { semanticSearchElastic, ElasticSearchConfig } from './elastic.js';
 
 // Types
 
@@ -403,8 +403,10 @@ export function createDocsProgram(io?: IoConfig): Command {
 
   program
     .name('promethean-docs')
-    .summary('Docs search/view CLI (semantic stubbed)')
-    .description('Search, view, and summarize agile tasks with Commander-forward UX.')
+    .summary('Docs search/view CLI (semantic via Elasticsearch when configured)')
+    .description(
+      'Search, view, and summarize agile tasks with Commander-forward UX and Elastic-backed semantic mode.',
+    )
     .usage('<command> [options]')
     .version(programVersion, '-V, --version', 'show CLI version')
     .showHelpAfterError('(add --help for additional information)')
@@ -445,7 +447,7 @@ export function createDocsProgram(io?: IoConfig): Command {
   const searchCommand = new Command('search')
     .alias('s')
     .summary('Search docs')
-    .description('Run semantic/keyword/fuzzy/regex searches (semantic stubbed)')
+    .description('Run semantic (Elasticsearch), keyword, fuzzy, or regex searches')
     .addArgument(new Argument('<mode>', 'semantic|keyword|fuzzy|regex').argParser(parseMode))
     .addArgument(new Argument('<query>', 'search query string'))
     .addOption(

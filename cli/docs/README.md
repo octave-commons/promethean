@@ -1,6 +1,6 @@
 # @promethean/docs-cli
 
-Commander-forward CLI to search/view docs and summarize agile tasks. Semantic search is stubbed; keyword/regex/fuzzy run locally.
+Commander-forward CLI to search/view docs and summarize agile tasks. Semantic search can hit Elasticsearch when configured; keyword/regex/fuzzy run locally.
 
 ## Install/build
 
@@ -26,9 +26,17 @@ pnpm --filter @promethean/docs-cli run build
   - `-f, --format <format>`: markdown|json (env: `DOCS_FORMAT`; default markdown)
   - `--absolute`: emit absolute paths
   - `--limit <count>`: limit returned rows (positive number)
+  - Semantic/Elasticsearch:
+    - `--es-url <url>` (env: `DOCS_ES_URL`)
+    - `--es-index <name>` (env: `DOCS_ES_INDEX`, default `docs`)
+    - `--es-api-key <key>` (env: `DOCS_ES_API_KEY`)
+    - `--es-user <user>` / `--es-password <password>` (env: `DOCS_ES_USER` / `DOCS_ES_PASSWORD`)
+    - `--es-ca <path>` (env: `DOCS_ES_CA`)
+    - `--es-field <field...>`: override searched fields (env: `DOCS_ES_FIELDS`, comma or space separated)
 - Examples:
   - `promethean-docs search keyword kanban -c docs`
   - `promethean-docs s regex "kanban" --path "docs/agile/**/*.md" --format json`
+  - `promethean-docs search semantic "project vision" --es-url http://localhost:9200 --es-index docs`
 
 ### view (alias: cat)
 
@@ -49,5 +57,5 @@ pnpm --filter @promethean/docs-cli run build
 
 ## Notes
 
-- Semantic mode currently emits a stub message; embeddings/ES backend to be wired later.
+- Semantic mode queries Elasticsearch when `--es-url` (or env) is provided; otherwise it logs a reminder and exits without error. Returned markdown output includes score and first highlight.
 - Help is grouped/sorted with examples; `--trace` shows pre/post action hooks and merged options.
