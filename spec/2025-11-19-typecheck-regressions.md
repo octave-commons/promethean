@@ -1,5 +1,7 @@
 # 2025-11-19 Typecheck Regressions
 
+> Archived – consolidated into `docs/pantheon-index.md` (Pantheon Build & Typecheck Ledger).
+
 ## Context
 
 - Pre-push hook (`pnpm nx affected -t typecheck`) fails for:

@@ -1,5 +1,7 @@
 # Build Fixes 2025-11-20
 
+> Archived – consolidated into `docs/pantheon-index.md` (Pantheon Build & Typecheck Ledger).
+
 ## Scope
 
 - Resolve failing targets from `pnpm build` on 2025-11-20.

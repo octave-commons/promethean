@@ -1,5 +1,7 @@
 # Typecheck remediation after package restructure
 
+> Archived – consolidated into `docs/pantheon-index.md` (Pantheon Build & Typecheck Ledger).
+
 ## Context
 
 - Repo reorganized: many packages moved under `@cli/`, `@services/`, `@pipelines/`; some removed entirely (often type-only deps).
