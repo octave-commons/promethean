@@ -289,9 +289,15 @@ program
     await commandTasksSummary(opts);
   });
 
-program.parseAsync(process.argv).catch((err: unknown) => {
-  console.error(err);
-  process.exit(1);
-});
+import { pathToFileURL } from 'node:url';
 
-export { categories };
+const isCliEntry = import.meta.url === pathToFileURL(process.argv[1] ?? '').href;
+
+if (isCliEntry) {
+  program.parseAsync(process.argv).catch((err: unknown) => {
+    console.error(err);
+    process.exit(1);
+  });
+}
+
+export { categories, program };
