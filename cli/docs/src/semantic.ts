@@ -74,6 +74,7 @@ export async function loadDocsForEmbedding(
   files: string[],
   cwd: string,
   truncateChars: number,
+  absolute = false,
 ): Promise<SemanticDoc[]> {
   const docs: SemanticDoc[] = [];
   for (const file of files) {
@@ -83,7 +84,7 @@ export async function loadDocsForEmbedding(
     const content = truncateContent(parsed.content, truncateChars);
     const hash = createHash('sha256').update(content).digest('hex');
     docs.push({
-      path: path.relative(cwd, file),
+      path: absolute ? file : path.relative(cwd, file),
       title: (parsed.data.title as string | undefined) ?? heading,
       frontmatter: parsed.data,
       content,

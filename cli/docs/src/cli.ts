@@ -7,6 +7,7 @@ import fg from 'fast-glob';
 import matter from 'gray-matter';
 import { pathToFileURL } from 'node:url';
 import { openLmdbCache, type Cache } from '@promethean-os/lmdb-cache';
+import { scanFiles } from '@promethean-os/file-indexer';
 import { makeDeterministicEmbedder } from '@promethean-os/embedding';
 import { semanticSearchElastic, ElasticSearchConfig } from './elastic.js';
 import { loadDocsForEmbedding, embedWithOllama } from './semantic.js';
@@ -113,20 +114,52 @@ function parseFormat(input: string): Format {
   return fmt;
 }
 
-async function collectFiles(opts: {
+function commonDir(paths: string[], fallback: string): string {
+  if (!paths.length) return fallback;
+  const normalized = paths.map((p) => path.resolve(path.dirname(p)));
+  const [first, ...rest] = normalized;
+  const firstParts = first.split(path.sep);
+  let end = firstParts.length;
+  for (const dir of rest) {
+    const parts = dir.split(path.sep);
+    const max = Math.min(end, parts.length);
+    let i = 0;
+    for (; i < max; i++) {
+      if (parts[i] !== firstParts[i]) break;
+    }
+    end = i;
+    if (end === 0) break;
+  }
+  return end === 0 ? fallback : firstParts.slice(0, end).join(path.sep) || path.sep;
+}
+
+function uniqueExts(paths: string[]): string[] {
+  const set = new Set(paths.map((p) => path.extname(p) || ''));
+  return Array.from(set).filter(Boolean);
+}
+
+async function resolveTargetFiles(opts: {
   category?: string;
   pathGlob?: string;
   cwd?: string;
   absolute?: boolean;
-}): Promise<string[]> {
+}): Promise<{ files: string[]; root: string }> {
   const { cwd, absolute } = opts;
+  let files: string[] = [];
   if (opts.pathGlob) {
-    return fg(opts.pathGlob, { dot: false, onlyFiles: true, cwd, absolute });
+    files = await fg(opts.pathGlob, { dot: false, onlyFiles: true, cwd, absolute });
+  } else {
+    const cat = opts.category ? byId.get(opts.category) : undefined;
+    const fallback = byId.get('docs');
+    const globs = cat?.globs ?? fallback?.globs ?? ['docs/**/*.md'];
+    files = await fg(globs, { dot: false, onlyFiles: true, cwd, absolute });
   }
-  const cat = opts.category ? byId.get(opts.category) : undefined;
-  const fallback = byId.get('docs');
-  const globs = cat?.globs ?? fallback?.globs ?? ['docs/**/*.md'];
-  return fg(globs, { dot: false, onlyFiles: true, cwd, absolute });
+  const unique = Array.from(new Set(files));
+  const root = commonDir(
+    unique.map((p) => path.resolve(p)),
+    opts.cwd ?? process.cwd(),
+  );
+  return { files: unique, root };
 }
 
 function printTable(headers: string[], rows: Array<Array<string | number>>): void {
