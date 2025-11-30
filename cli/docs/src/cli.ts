@@ -180,7 +180,9 @@ export async function commandSearch(
     }
 
     const esFieldsEnv = process.env.DOCS_ES_FIELDS
-      ? process.env.DOCS_ES_FIELDS.split(',').map((f) => f.trim()).filter(Boolean)
+      ? process.env.DOCS_ES_FIELDS.split(',')
+          .map((f) => f.trim())
+          .filter(Boolean)
       : undefined;
     const esConfig: ElasticSearchConfig = {
       url: esUrl,
@@ -226,9 +228,6 @@ export async function commandSearch(
       console.error('Semantic search failed:', err instanceof Error ? err.message : String(err));
       throw err instanceof Error ? err : new Error(String(err));
     }
-  }
-
-
   }
 
   const files = await collectFiles({ category, pathGlob, cwd, absolute: true });
@@ -489,6 +488,16 @@ export function createDocsProgram(io?: IoConfig): Command {
       new Option('--es-url <url>', 'Elasticsearch endpoint for semantic mode').env('DOCS_ES_URL'),
     )
     .addOption(
+      new Option('--chroma-path <path>', 'Chroma persistence path (semantic placeholder)').env(
+        'DOCS_CHROMA_PATH',
+      ),
+    )
+    .addOption(
+      new Option('--chroma-collection <name>', 'Chroma collection name (semantic placeholder)').env(
+        'DOCS_CHROMA_COLLECTION',
+      ),
+    )
+    .addOption(
       new Option('--es-index <name>', 'Elasticsearch index for semantic mode')
         .env('DOCS_ES_INDEX')
         .default('docs'),
@@ -530,6 +539,8 @@ export function createDocsProgram(io?: IoConfig): Command {
         esPassword: options.esPassword as string | undefined,
         esCa: options.esCa as string | undefined,
         esField: options.esField as string[] | undefined,
+        chromaPath: options.chromaPath as string | undefined,
+        chromaCollection: options.chromaCollection as string | undefined,
       });
     });
 
