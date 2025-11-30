@@ -9,6 +9,7 @@
     "cli": "node dist/cli.js"
   },
   "dependencies": {
+    "commander": "^12.1.0",
     "fast-glob": "^3.3.2",
     "gray-matter": "^4.0.3"
   },
