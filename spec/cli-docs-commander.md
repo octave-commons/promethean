@@ -27,6 +27,6 @@ New scope: wire semantic search through Elasticsearch (local docker-compose) wit
 - Strong error handling: invalid mode, invalid regex, missing files/args should surface clear commander-driven errors (non-zero exit when appropriate).
 - Improved UX: categorized help, global options, shared flags with inheritance, custom help text, examples banner.
 - Add tests covering new commander wiring (option parsing, aliases, help/showHelpAfterError hooks, error paths, markdown output tables) without removing existing functional coverage.
-- Semantic search uses Elasticsearch: configurable URL/index/auth/fields/limit, returns table/JSON with titles/paths/highlights. Optional Ollama local embeddings with `--ollama-url`/`DOCS_OLLAMA_URL` (no external deps). Deterministic local embeddings (no network) with LMDB cache fallback. Chroma placeholders remain. Handle errors cleanly.
+- Semantic search uses Elasticsearch: configurable URL/index/auth/fields/limit, returns table/JSON with titles/paths/highlights. Optional Ollama local embeddings with `--ollama-url`/`DOCS_OLLAMA_URL`. Optional on-device @xenova/transformers embeddings (`--transformers-model` + cache/device). Deterministic local embeddings (no network) with LMDB cache fallback. Chroma placeholders remain. Handle errors cleanly.
 - Documentation updated to reflect new flags/options/help usage and ES expectations/env vars.
 - CLI continues to run via `pnpm --filter @promethean/docs-cli ...` with commands succeeding; tests pass.

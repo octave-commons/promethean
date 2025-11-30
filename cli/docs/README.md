@@ -36,6 +36,10 @@ pnpm --filter @promethean/docs-cli run build
   - Semantic/Ollama (local, no external deps):
     - `--ollama-url <url>` (env: `DOCS_OLLAMA_URL`)
     - `--ollama-model <model>` (env: `DOCS_OLLAMA_MODEL`, default `nomic-embed-text`)
+  - Semantic/Transformers (local, on-device):
+    - `--transformers-model <model>` (env: `DOCS_TRANSFORMERS_MODEL`, e.g., `Xenova/all-MiniLM-L6-v2`)
+    - `--transformers-cache <path>` (env: `DOCS_TRANSFORMERS_CACHE`)
+    - `--transformers-device <device>` (env: `DOCS_TRANSFORMERS_DEVICE`, optional)
   - Semantic/Local deterministic fallback (no network):
     - `--local-embed-dim <dim>` (env: `DOCS_LOCAL_EMBED_DIM`, default 384)
     - `--local-embed-model <id>` (env: `DOCS_LOCAL_EMBED_MODEL`, default `local-hash`)
@@ -49,6 +53,7 @@ pnpm --filter @promethean/docs-cli run build
   - `promethean-docs s regex "kanban" --path "docs/agile/**/*.md" --format json`
   - `promethean-docs search semantic "project vision" --es-url http://localhost:9200 --es-index docs`
   - `promethean-docs search semantic "project vision" --ollama-url http://localhost:11434 --ollama-model nomic-embed-text`
+  - `promethean-docs search semantic "project vision" --transformers-model Xenova/all-MiniLM-L6-v2 --transformers-cache ~/.cache/transformers`
   - `promethean-docs search semantic "project vision" --local-embed-dim 256 --lmdb-path /tmp/docs-cache`
 
 ### view (alias: cat)
@@ -70,5 +75,5 @@ pnpm --filter @promethean/docs-cli run build
 
 ## Notes
 
-- Semantic mode prefers Elasticsearch; with `--ollama-url` it uses local Ollama embeddings; otherwise it falls back to deterministic local embeddings (no network) and caches embeddings via LMDB. Returned markdown output includes score and first highlight (ES) or score (Ollama/local). Chroma flags are placeholders until embeddings + collection wiring is added.
+- Semantic mode prefers Elasticsearch; with `--ollama-url` it uses local Ollama embeddings; with `--transformers-model` it uses on-device @xenova/transformers embeddings; otherwise it falls back to deterministic local embeddings (no network) and caches embeddings via LMDB. Returned markdown output includes score and first highlight (ES) or score (Ollama/transformers/local). Chroma flags are placeholders until embeddings + collection wiring is added.
 - Help is grouped/sorted with examples; `--trace` shows pre/post action hooks and merged options.
