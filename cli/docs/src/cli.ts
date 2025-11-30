@@ -74,12 +74,12 @@ function printTable(headers: string[], rows: Array<Array<string | number>>): voi
   }
 }
 
-async function commandView(file: string): Promise<void> {
+export async function commandView(file: string): Promise<void> {
   const content = await fs.readFile(file, 'utf8');
   console.log(content);
 }
 
-async function commandSearch(
+export async function commandSearch(
   mode: SearchMode,
   query: string,
   opts: { category?: string; path?: string; format?: string },
@@ -172,7 +172,7 @@ async function commandSearch(
   );
 }
 
-async function commandTasksSummary(opts: { format?: string }): Promise<void> {
+export async function commandTasksSummary(opts: { format?: string }): Promise<void> {
   const format = opts.format ?? 'markdown';
   const files = await fg('docs/agile/tasks/**/*.md', { dot: false, onlyFiles: true });
   const tasks: Array<{
@@ -293,3 +293,5 @@ program.parseAsync(process.argv).catch((err: unknown) => {
   console.error(err);
   process.exit(1);
 });
+
+export { categories };
