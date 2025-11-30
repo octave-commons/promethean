@@ -471,6 +471,35 @@ export function createDocsProgram(io?: IoConfig): Command {
         return num;
       }),
     )
+    .addOption(
+      new Option('--es-url <url>', 'Elasticsearch endpoint for semantic mode').env('DOCS_ES_URL'),
+    )
+    .addOption(
+      new Option('--es-index <name>', 'Elasticsearch index for semantic mode')
+        .env('DOCS_ES_INDEX')
+        .default('docs'),
+    )
+    .addOption(new Option('--es-api-key <key>', 'Elasticsearch API key').env('DOCS_ES_API_KEY'))
+    .addOption(
+      new Option('--es-user <user>', 'Elasticsearch basic auth username').env('DOCS_ES_USER'),
+    )
+    .addOption(
+      new Option('--es-password <password>', 'Elasticsearch basic auth password').env(
+        'DOCS_ES_PASSWORD',
+      ),
+    )
+    .addOption(new Option('--es-ca <path>', 'CA certificate for HTTPS clusters').env('DOCS_ES_CA'))
+    .addOption(
+      new Option('--es-field <field...>', 'Fields to search (variadic)')
+        .env('DOCS_ES_FIELDS')
+        .argParser((val, prev: string[] = []) => {
+          const parts = val
+            .split(',')
+            .map((s) => s.trim())
+            .filter(Boolean);
+          return [...prev, ...parts];
+        }),
+    )
     .action(async (mode: SearchMode, query: string, options: OptionValues, command: Command) => {
       const globals = command.optsWithGlobals() as { cwd?: string };
       await commandSearch(mode, query, {
@@ -480,6 +509,13 @@ export function createDocsProgram(io?: IoConfig): Command {
         cwd: globals.cwd,
         absolute: options.absolute as boolean | undefined,
         limit: options.limit as number | undefined,
+        esUrl: options.esUrl as string | undefined,
+        esIndex: options.esIndex as string | undefined,
+        esApiKey: options.esApiKey as string | undefined,
+        esUser: options.esUser as string | undefined,
+        esPassword: options.esPassword as string | undefined,
+        esCa: options.esCa as string | undefined,
+        esField: options.esField as string[] | undefined,
       });
     });
 
