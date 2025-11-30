@@ -9,7 +9,7 @@ import { pathToFileURL } from 'node:url';
 import { openLmdbCache, type Cache } from '@promethean-os/lmdb-cache';
 import { makeDeterministicEmbedder } from '@promethean-os/embedding';
 import { semanticSearchElastic, ElasticSearchConfig } from './elastic.js';
-import { semanticSearchOllama, loadDocsForEmbedding, embedWithOllama } from './semantic.js';
+import { loadDocsForEmbedding, embedWithOllama } from './semantic.js';
 
 // Types
 
