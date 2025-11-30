@@ -8,6 +8,7 @@
     "build": "tsc -p tsconfig.json",
     "cli": "node dist/cli.js",
     "test": "vitest run",
+    "test:cov": "vitest run --coverage",
     "test:watch": "vitest",
     "lint": "tsc -p tsconfig.json --noEmit"
   },
