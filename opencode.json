@@ -79,7 +79,7 @@
   },
 
   "instructions": [
-    "./docs/agents/platforms/opencode/AGENTS.md",
+    "./docs/**/*.md",
     "./packages/*/AGENTS.md",
     "./cli/AGENTS.md",
     "./services/AGENTS.md",

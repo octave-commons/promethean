@@ -10,6 +10,59 @@ An operating environment in the age of AI.
 [[kanban]]
 [[generated]]
 
+## Dataview quickviews
+
+- ADRs by date
+
+```dataview
+TABLE file.name AS "ADR", file.day AS "Date"
+FROM "docs/adr"
+SORT file.day DESC
+```
+
+- Recent agile pipelines
+
+```dataview
+LIST
+FROM "docs/agile/pipelines"
+SORT file.mtime DESC
+LIMIT 5
+```
+
+- Labeled notes by timestamp
+
+```dataview
+TABLE file.name AS "Note", file.mtime AS "Last Modified"
+FROM "docs/labeled"
+SORT file.name DESC
+```
+
+- Agents by type (platform/role/resident)
+
+```dataview
+TABLE file.link AS "Doc", choice(contains(file.path, "platforms"), "Platform", choice(contains(file.path, "roles"), "Role", choice(contains(file.path, "residents"), "Resident", "Other"))) AS "Type"
+FROM "docs/agents"
+WHERE file.name != "AGENTS"
+SORT Type, file.name
+```
+
+- Packages docs overview
+
+```dataview
+TABLE file.link AS "Doc", split(file.folder, "/")[2] AS "Package"
+FROM "docs/packages"
+SORT Package, file.name
+```
+
+- Recently touched docs
+
+```dataview
+LIST
+FROM "docs"
+SORT file.mtime DESC
+LIMIT 10
+```
+
 Everything you thought you knew about operating systems is over.
 
 In promethean, AI is not an after thought
