@@ -1,7 +1,6 @@
 import { promises as fs } from 'node:fs';
 import path from 'node:path';
 import os from 'node:os';
-import { CommanderError } from 'commander';
 import { createDocsProgram } from './cli.js';
 
 async function withTempRepo(fn: (dir: string) => Promise<void>): Promise<void> {
