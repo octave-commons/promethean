@@ -45,7 +45,7 @@ pnpm --filter @promethean/docs-cli run build
     - `--local-embed-model <id>` (env: `DOCS_LOCAL_EMBED_MODEL`, default `local-hash`)
   - Caching:
     - `--lmdb-path <path>`: LMDB cache for embeddings (env: `DOCS_CACHE_PATH`, default `.cache/docs-cli` under cwd)
-  - Semantic/Chroma placeholders (for future local vector store):
+  - Semantic/Chroma placeholders (future local vector store, not wired yet):
     - `--chroma-path <path>` (env: `DOCS_CHROMA_PATH`)
     - `--chroma-collection <name>` (env: `DOCS_CHROMA_COLLECTION`)
 - Examples:
@@ -75,5 +75,9 @@ pnpm --filter @promethean/docs-cli run build
 
 ## Notes
 
-- Semantic mode prefers Elasticsearch; with `--ollama-url` it uses local Ollama embeddings; with `--transformers-model` it uses on-device @xenova/transformers embeddings; otherwise it falls back to deterministic local embeddings (no network) and caches embeddings via LMDB. Returned markdown output includes score and first highlight (ES) or score (Ollama/transformers/local). Chroma flags are placeholders until embeddings + collection wiring is added.
+- Backend order: Elasticsearch → Ollama → Transformers → deterministic local (LMDB-cached). Set the flag/env for the backend you want; leave others unset to avoid conflicts.
+- Transformers: first run downloads models to cache (`~/.cache/huggingface/transformers` or `--transformers-cache`); pin a small model like `Xenova/all-MiniLM-L6-v2`. Node 22 should support WASM SIMD; older Nodes may need `NODE_OPTIONS=--experimental-wasm-simd`.
+- LMDB cache: defaults to `.cache/docs-cli` under `--cwd`; override with `--lmdb-path`. Ensure the directory is writable if pointing to system paths.
+- Truncation: docs are truncated to ~4000 chars before embedding to keep memory small.
+- Semantic output: ES returns score + first highlight; Ollama/Transformers/Local return score only. Chroma flags are placeholders until embeddings + collection wiring is added.
 - Help is grouped/sorted with examples; `--trace` shows pre/post action hooks and merged options.
