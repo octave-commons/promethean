@@ -14,15 +14,14 @@
         }
       }
     },
-    "opencode":{
-      "models":{
-      "big-pickle": {
-        "options": {
-          "reasoningEffort": "high"
+    "opencode": {
+      "models": {
+        "big-pickle": {
+          "options": {
+            "reasoningEffort": "high"
+          }
         }
       }
-    }
-
     },
     "zai-coding-plan": {
       "models": {
@@ -52,25 +51,25 @@
     }
   },
   "mcp": {
-    "promethean-github":{
-      "type":"remote",
-      "url":"http://localhost:4320/github",
+    "promethean-github": {
+      "type": "remote",
+      "url": "http://localhost:4320/github",
       "enabled": true
     },
-    "clojure-centralized":{
-      "type":"local",
-      "command":["../mcp-server.sh", "unified", "7890"],
-      "enabled": true,
+    "clojure-centralized": {
+      "type": "local",
+      "command": ["../mcp-server.sh", "unified", "7890"],
+      "enabled": true
     },
-    "clojure-promethean":{
-      "type":"local",
-      "command":["../mcp-server.sh", "jvm", "7891"],
-      "enabled": true,
+    "clojure-promethean": {
+      "type": "local",
+      "command": ["../mcp-server.sh", "jvm", "7891"],
+      "enabled": true
     },
-    "clojure-shadow":{
-      "type":"local",
-      "command":["../mcp-server.sh", "cljs", "7892"],
-      "enabled": true,
+    "clojure-shadow": {
+      "type": "local",
+      "command": ["../mcp-server.sh", "cljs", "7892"],
+      "enabled": true
     },
     "clj-kondo": {
       "type": "local",
@@ -79,5 +78,13 @@
     }
   },
 
-  "instructions": ["./docs/agents/platforms/opencode/AGENTS.md","./packages/*/AGENTS.md"]
+  "instructions": [
+    "./docs/agents/platforms/opencode/AGENTS.md",
+    "./packages/*/AGENTS.md",
+    "./cli/AGENTS.md",
+    "./services/AGENTS.md",
+    "./experimental/AGENTS.md",
+    "./tools/AGENTS.md",
+    "./scripts/AGENTS.md"
+  ]
 }
