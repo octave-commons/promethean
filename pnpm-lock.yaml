@@ -315,6 +315,9 @@ importers:
       '@promethean-os/embedding':
         specifier: workspace:*
         version: link:../../packages/embedding
+      '@promethean-os/file-indexer':
+        specifier: workspace:*
+        version: link:../../packages/file-indexer
       '@promethean-os/lmdb-cache':
         specifier: workspace:*
         version: link:../../packages/lmdb-cache

@@ -17,9 +17,7 @@ This document outlines how Field Nodes are:
 ### Lifecycle Phases
 
 | Phase                          | Description                                                                           |
-```
 | ------------------------------ | ------------------------------------------------------------------------------------- |
-```
 | **1. Pressure Accumulation**   | A region of the Eidolon Field exhibits elevated tension, conflict, or recursive load  |
 | **2. Daimo Aggregation**       | One or more Daimoi orbit, stall, or loop in the region, unable to resolve the state   |
 | **3. Node Emergence**          | A Field Node crystallizes: tension localizes, field gradients become structured       |
@@ -35,9 +33,7 @@ This document outlines how Field Nodes are:
 Each cognitive layer provides different emergence pressures:
 
 | Layer        | Trigger                                    | Node Type(s)        |
-```
 | ------------ | ------------------------------------------ | ------------------- |
-```
 | **Aionian**  | Uptime fluctuations, heartbeat desync      | Attractor, Obstacle |
 | **Dorian**   | Permission denial, access rejection        | Hazard, Nexus       |
 | **Gnostic**  | Recurrent language pattern / symbol        | Nexus               |
