@@ -23,6 +23,12 @@ Use this file as the map for everything in `docs/`. It explains where content li
 - `templates/` — reusable doc templates (tasks, service READMEs, text generators) including [[templates/readme]] and [[templates/service.readme.template]].
 - Root markdown ([[HOME]], [[SUBMODULE_INTEGRATION]], [[environment-variables]], [[nx-workspace]], [[spacekeys]], etc.) — cross-cutting references that should stay reachable from hubs above.
 
+## Recent additions
+
+- Pantheon architecture docs: [[packages/pantheon/lisp-dsl-specification]], [[packages/pantheon/multi-runtime-architecture]], [[packages/pantheon/session-management]]
+- Typecheck triage specs: [[spec/2025-12-01-typecheck-triage]], [[spec/2025-12-02-typecheck-kanban-docs]]
+- Kanban CLI coverage plan: [[spec/cli-kanban-plugin-loading-tests]]
+
 ## Linking and graph rules
 
 - Prefer `[[wikilinks]]` so Obsidian and docops graph stay intact; include paths when names collide (e.g., `[[agents/AGENTS]]` vs repo-root `AGENTS.md`).

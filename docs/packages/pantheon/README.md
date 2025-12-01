@@ -84,15 +84,18 @@ await orchestrator.tickActor(actor, { userMessage: 'Hello!' });
 
 ### Guides and Tutorials
 
-| Guide                    | Description                        |
-| ------------------------ | ---------------------------------- |
-| [[developer-guide]]      | Getting started and best practices |
-| [[actor-model-guide]]    | Actor model deep dive              |
-| [[context-engine-guide]] | Context compilation and management |
-| [[orchestrator-guide]]   | Agent orchestration patterns       |
-| [[ports-system-guide]]   | Adapter development                |
-| [[integration-guide]]    | Integration with existing systems  |
-| [[troubleshooting-faq]]  | Common issues and solutions        |
+| Guide                          | Description                                |
+| ------------------------------ | ------------------------------------------ |
+| [[developer-guide]]            | Getting started and best practices         |
+| [[actor-model-guide]]          | Actor model deep dive                      |
+| [[context-engine-guide]]       | Context compilation and management         |
+| [[orchestrator-guide]]         | Agent orchestration patterns               |
+| [[ports-system-guide]]         | Adapter development                        |
+| [[integration-guide]]          | Integration with existing systems          |
+| [[lisp-dsl-specification]]     | Lisp DSL syntax, examples, and roadmap     |
+| [[multi-runtime-architecture]] | Multi-runtime agent orchestration design   |
+| [[session-management]]         | Chat session lifecycle and storage details |
+| [[troubleshooting-faq]]        | Common issues and solutions                |
 
 ## 🏗 Package Architecture
 
