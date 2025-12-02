@@ -29,8 +29,6 @@ folder_input --> action --> folder_output
 Promethean optimizes it's machine learning models to for your exact use case
 It will learn how to do what you need it to do, better, faster, and more efficiently
 
-Accomplish the same work as a cloud model using a different approach to problem solving.
-
 It works in the background, slowly, constantly, not all at once.
 No flashy text streaming.
 No crashing web browsers

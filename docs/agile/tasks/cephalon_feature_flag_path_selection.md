@@ -1,11 +1,15 @@
 ---
-uuid: "1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269"
-title: "cephalon feature flag path selection"
-slug: "cephalon_feature_flag_path_selection"
-status: "in_review"
-priority: "P3"
-labels: ["cephalon", "feature", "flag", "path"]
-created_at: "2025-10-11T19:23:08.664Z"
+uuid: 1bb6f2f2-bcca-4365-aa6f-7cab3cdf8269
+title: cephalon feature flag path selection
+slug: cephalon_feature_flag_path_selection
+status: review
+priority: P3
+labels:
+  - cephalon
+  - feature
+  - flag
+  - path
+created_at: 2025-10-11T19:23:08.664Z
 estimates:
   complexity: ""
   scale: ""
