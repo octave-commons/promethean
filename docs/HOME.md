@@ -15,47 +15,6 @@ All actions idempotent
 [[kanban]]
 [[generated]]
 
-## Dataview quickviews
-
-- Recent agile pipelines
-
-```dataview
-LIST
-FROM "docs/agile/pipelines"
-SORT file.mtime DESC
-LIMIT 5
-```
-
-- Recently touched docs
-
-```dataview
-LIST
-FROM "docs"
-SORT file.mtime DESC
-LIMIT 10
-```
-
-- Agile tasks by status (frontmatter `status`)
-
-```dataview
-TABLE status AS "Status", length(rows) AS "Count"
-FROM "docs/agile/tasks"
-WHERE status
-GROUP BY status
-SORT status
-```
-
-- Tasks by priority
-
-```dataview
-TABLE priority AS "Priority", length(rows) AS "Count"
-FROM "docs/agile/tasks"
-WHERE priority
-GROUP BY priority
-SORT priority
-```
-
-
 ## Document oriented workflows
 
 Define workflows as flow charts with mermaid
@@ -105,6 +64,48 @@ The actions of every user of your system scrutinized
 ### Network
 
 ## Core features
+
+## Dataview quickviews
+
+- Recent agile pipelines
+
+```dataview
+LIST
+FROM "docs/agile/pipelines"
+SORT file.mtime DESC
+LIMIT 5
+```
+
+- Recently touched docs
+
+```dataview
+LIST
+FROM "docs"
+SORT file.mtime DESC
+LIMIT 10
+```
+
+- Agile tasks by status (frontmatter `status`)
+
+```dataview
+TABLE status AS "Status", length(rows) AS "Count"
+FROM "docs/agile/tasks"
+WHERE status
+GROUP BY status
+SORT status
+```
+
+- Tasks by priority
+
+```dataview
+TABLE priority AS "Priority", length(rows) AS "Count"
+FROM "docs/agile/tasks"
+WHERE priority
+GROUP BY priority
+SORT priority
+```
+
+
 
 ## Package Catalog
 
@@ -199,3 +200,4 @@ Need a subsystem or SDK? Browse the catalog to jump directly to each package REA
 | @promethean-os/ws                         | Coming soon.                                                                                   | See README. | [README](docs/dev/packages/ws/README.md)                   |
 
 <!-- PACKAGE_CATALOG_END -->
+
