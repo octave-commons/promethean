@@ -4,7 +4,7 @@
 
 - Pre-push hook runs `pnpm nx affected -t typecheck --base 725fbec8617ad58fd8bb42b2fe95b5cc0b9243a3 --head HEAD` and failed on three projects.
 
-Related: [[docs/AGENTS]] • [[packages/pantheon/README]]
+Related: [[docs/AGENTS]] • [[docs/dev/packages/pantheon/README]]
 
 ## Files / lines to touch
 

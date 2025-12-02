@@ -206,7 +206,7 @@ src/typescript/client/communication/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current sessions: `packages/opencode-client/src/sessions/`
 - Current messaging: `packages/opencode-client/src/messaging/`
 - Current events: `packages/opencode-client/src/events/`

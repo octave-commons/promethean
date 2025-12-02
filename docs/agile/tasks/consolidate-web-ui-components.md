@@ -196,7 +196,7 @@ src/typescript/web/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current web UI: `packages/opencode-cljs-electron/src/web/`
 - Web Components documentation: https://www.webcomponents.org/
 - Webpack documentation: https://webpack.js.org/

@@ -15,7 +15,7 @@
 1. Create `docs/AGENTS.md` that
    - Explains docs/ layout (agile/, adr/, agents/, research/, scripts/, setup/, templates/, packages/, labeled/, etc.)
    - Describes linking/traversability expectations (wikilinks, HOME as hub, inbox guidance) and how to keep docs connected.
-   - Points to key anchors: [[HOME]], [[agents/AGENTS]], [[agile/process]], [[agents/platforms/opencode/AGENTS]], [[CONTRIBUTOR-FRIENDLY-GITHUB-BOARDS]], etc.
+   - Points to key anchors: [[HOME]], [[docs/prompting/agents/AGENTS]], [[agile/process]], [[docs/prompting/agents/platforms/opencode/AGENTS]], [[CONTRIBUTOR-FRIENDLY-GITHUB-BOARDS]], etc.
 2. Update `opencode.json` instructions list to scan docs recursively (e.g., include `./docs/**/*.md` and the new `docs/AGENTS.md`).
 3. Add/adjust links so the new doc is reachable and existing hubs reference it (likely `docs/HOME.md` and/or `docs/agents/AGENTS.md`).
 

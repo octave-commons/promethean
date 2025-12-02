@@ -204,7 +204,7 @@ src/typescript/client/ollama/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current Ollama implementation: `packages/opencode-client/src/ollama/`
 - Ollama documentation: https://github.com/ollama/ollama
 - Queue management patterns: `docs/queue-patterns.md`

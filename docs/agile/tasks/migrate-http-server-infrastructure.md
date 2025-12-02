@@ -180,7 +180,7 @@ src/typescript/server/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current dualstore-http: `packages/dualstore-http/src/`
 - Fastify documentation: https://www.fastify.io/
 - API documentation: `docs/api-reference.md`

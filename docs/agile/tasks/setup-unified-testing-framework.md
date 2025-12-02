@@ -182,7 +182,7 @@ packages/opencode-unified/tests/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Testing documentation: `docs/testing-guide.md`
 - AVA documentation: https://avajs.dev/
 - cljs.test documentation: https://clojurescript.org/reference/testing

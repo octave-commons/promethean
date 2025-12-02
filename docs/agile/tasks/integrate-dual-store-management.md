@@ -170,7 +170,7 @@ src/typescript/server/dualstore/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current dualstore implementation: `packages/dualstore-http/src/dualstore/`
 - MongoDB documentation: https://docs.mongodb.com/
 - LevelDB documentation: https://github.com/google/leveldb

@@ -212,7 +212,7 @@ src/typescript/cli/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current CLI implementation: `packages/opencode-client/src/cli/`
 - Commander.js documentation: https://github.com/tj/commander.js
 - CLI best practices: `docs/cli-guidelines.md`

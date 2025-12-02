@@ -206,7 +206,7 @@ coverage-report: tests/coverage/lcov.info
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - [[docs/agile/clojure-package-structure-guide.md]]
 - Existing package structures: `packages/*/package.json`
 

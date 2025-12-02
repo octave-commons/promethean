@@ -368,7 +368,7 @@ Promethean Framework is released under the [GNU General Public License v3](LICEN
 - [@promethean-os/autocommit](packages/autocommit/README.md) — `orgs/riatzukiza/promethean/packages/autocommit`
 - [@promethean-os/kanban](cli/kanban/README.md) — `orgs/riatzukiza/promethean/cli/kanban`
 - [@promethean-os/persistence](packages/persistence/README.md) — `orgs/riatzukiza/promethean/packages/persistence`
-- [@promethean-os/shadow-conf](packages/shadow-conf/README.md) — `orgs/riatzukiza/promethean/packages/shadow-conf`
+- [@promethean-os/shadow-conf](docs/dev/packages/shadow-conf/README.md) — `orgs/riatzukiza/promethean/packages/shadow-conf`
 - [@promethean-os/test-utils](packages/test-utils/README.md) — `orgs/riatzukiza/promethean/packages/test-utils`
 - [@promethean-os/utils](packages/utils/README.md) — `orgs/riatzukiza/promethean/packages/utils`
 

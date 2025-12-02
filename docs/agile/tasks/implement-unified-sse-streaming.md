@@ -188,7 +188,7 @@ src/typescript/server/sse/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current SSE implementations: `packages/dualstore-http/src/sse/`
 - Fastify SSE documentation: https://github.com/fastify/fastify-sse-v2
 - MDN SSE documentation: https://developer.mozilla.org/en-US/docs/Web/API/Server-sent_events

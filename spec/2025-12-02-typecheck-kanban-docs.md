@@ -6,7 +6,7 @@
 - `kanban-plugin-git-index` tests import non-existent `../lib/*` paths and have implicit any callbacks
 - `@promethean-os/docs-system` missing swagger dependencies for server entry
 
-Related: [[docs/AGENTS]] • [[packages/kanban/README]]
+Related: [[docs/AGENTS]] • [[docs/dev/packages/kanban/README]]
 
 ## Code references
 

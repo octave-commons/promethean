@@ -540,10 +540,10 @@ kanban-plugin: board
 ## Archive
 
 - [ ] [[enhance-kanban-process-validation|Enhance kanban process validation with acceptance criteria and Fibonacci scoring]] #automation #enhancement #kanban #process #superseded #validation prio:P2 (uuid:287b9607-3a44-409a-8194-58a1ed3d3a3f)
-- [ ] [[kanban-fsm-2]] #docops #labeled #superseded prio:P3 (uuid:3db9844d-0805-40e4-b16c-9834b9cc639a)
-- [ ] [[kanban-fsm-3]] #docops #labeled #superseded prio:P3 (uuid:35edb5ca-2996-4ea2-bd45-949fe6238035)
-- [ ] [[kanban-fsm-4]] #docops #labeled #superseded prio:P3 (uuid:c7706a26-441d-4921-84ce-00cf3c8e2682)
-- [ ] [[kanban-fsm]] #docops #labeled #superseded prio:P3 (uuid:ffe11354-b4c3-4376-beb2-5aba8fc24f14)
+- [ ] [[docs/hacks/labeled/kanban-fsm-2]] #docops #labeled #superseded prio:P3 (uuid:3db9844d-0805-40e4-b16c-9834b9cc639a)
+- [ ] [[docs/hacks/labeled/kanban-fsm-3]] #docops #labeled #superseded prio:P3 (uuid:35edb5ca-2996-4ea2-bd45-949fe6238035)
+- [ ] [[docs/hacks/labeled/kanban-fsm-4]] #docops #labeled #superseded prio:P3 (uuid:c7706a26-441d-4921-84ce-00cf3c8e2682)
+- [ ] [[docs/hacks/labeled/kanban-fsm]] #docops #labeled #superseded prio:P3 (uuid:ffe11354-b4c3-4376-beb2-5aba8fc24f14)
 - [ ] [[resolve_biome_lint_errors_in_compiler|Resolve Biome lint errors in compiler package]] #biome #compiler #errors #lint prio:P3 (uuid:f758495c-717a-4455-9e08-8b3eae385e5e)
 - [ ] [[Resolve BuildFix Ollama resource limitations and OOM issues]] #buildfix #ollama #memory #high prio:P1 (uuid:5b15c395-fc63-457f-97cc-7d528c559e9b)
 

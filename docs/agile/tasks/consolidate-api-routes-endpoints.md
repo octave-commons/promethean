@@ -200,7 +200,7 @@ interface ApiResponse<T> {
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current API implementations: `packages/*/src/routes/`
 - OpenAPI specification: https://swagger.io/specification/
 - Fastify validation: https://www.fastify.io/docs/latest/Reference/Validation/

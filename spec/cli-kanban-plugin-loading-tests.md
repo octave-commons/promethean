@@ -4,7 +4,7 @@
 
 We need coverage for the Kanban CLI feature that dynamically loads CLI plugins. Tests should exercise multiple plugin fixtures that emulate the different layouts/configs the loader needs to handle, while treating each plugin as independent (SDK/contract-compliant) modules.
 
-Related: [[docs/AGENTS]] • [[packages/kanban/README]]
+Related: [[docs/AGENTS]] • [[docs/dev/packages/kanban/README]]
 
 ## Relevant code
 

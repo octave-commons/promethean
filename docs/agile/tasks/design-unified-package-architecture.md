@@ -126,7 +126,7 @@ Design the comprehensive architecture for consolidating `@promethean-os/opencode
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - [[docs/agile/epics/consolidation-epic.md]]
 
 ### 📊 Definition of Done

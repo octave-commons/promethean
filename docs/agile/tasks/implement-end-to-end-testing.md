@@ -205,7 +205,7 @@ tests/e2e/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Playwright documentation: https://playwright.dev/
 - E2E testing patterns: `docs/e2e-testing.md`
 - Performance testing: `docs/performance-testing.md`
