@@ -1,11 +1,15 @@
 ---
-uuid: "coord-status-$(date +%s)"
-title: "Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )"
-slug: "security-gates-monitoring-coordination-status"
-status: "in_progress"
-priority: "P0"
-labels: ["coordination", "security-gates", "monitoring", "integration-status"]
-created_at: "$(date -Iseconds)"
+uuid: coord-status-$(date +%s)
+title: Security Gates & Monitoring Integration - Coordination Status      )      )      )      )      )      )      )
+slug: security-gates-monitoring-coordination-status
+status: breakdown
+priority: P0
+labels:
+  - coordination
+  - security-gates
+  - monitoring
+  - integration-status
+created_at: $(date -Iseconds)
 estimates:
   complexity: ""
   scale: ""

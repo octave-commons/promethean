@@ -1,16 +1,22 @@
 ---
-uuid: '2cd46676-ae6f-4c8d-9b3a-4c5d6e7f8a9b'
-title: 'Implement P0 Security Task Validation Gate'
-slug: 'P0-Security-Task-Validation-Gate'
-status: 'in_progress'
-priority: 'P0'
+uuid: 2cd46676-ae6f-4c8d-9b3a-4c5d6e7f8a9b
+title: Implement P0 Security Task Validation Gate
+slug: P0-Security-Task-Validation-Gate
+status: breakdown
+priority: P0
 labels:
-  ['security', 'validation', 'gate', 'P0', 'critical', 'tool:security-validator', 'env:production']
-created_at: '2025-10-18T12:56:00.000Z'
+  - security
+  - validation
+  - gate
+  - P0
+  - critical
+  - tool:security-validator
+  - env:production
+created_at: 2025-10-18T12:56:00.000Z
 estimates:
-  complexity: ''
-  scale: ''
-  time_to_completion: ''
+  complexity: ""
+  scale: ""
+  time_to_completion: ""
 ---
 
 # Implement P0 Security Task Validation Gate

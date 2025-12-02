@@ -1,24 +1,21 @@
 # Gifting the knowledge of flame to man.
 
 Say goodbye to tedium and monotony.
+Welcome, to Promethean.
 
-It's about time I used this page for something eh?
-Welcome, to promethean.
-See [[docs/AGENTS|Docs & Navigation Guide]] for the docs map.
+Everything you thought you knew about operating systems is over.
 
-An operating environment in the age of AI.
+In Promethean, AI is not an after thought
+It is core design principals.
+
+It's a conversations with your system.
+Intelligent event scheduling
+All actions idempotent
+
 [[kanban]]
 [[generated]]
 
 ## Dataview quickviews
-
-- ADRs by date
-
-```dataview
-TABLE file.name AS "ADR", file.day AS "Date"
-FROM "docs/adr"
-SORT file.day DESC
-```
 
 - Recent agile pipelines
 
@@ -27,31 +24,6 @@ LIST
 FROM "docs/agile/pipelines"
 SORT file.mtime DESC
 LIMIT 5
-```
-
-- Labeled notes by timestamp
-
-```dataview
-TABLE file.name AS "Note", file.mtime AS "Last Modified"
-FROM "docs/labeled"
-SORT file.name DESC
-```
-
-- Agents by type (platform/role/resident)
-
-```dataview
-TABLE file.link AS "Doc", choice(contains(file.path, "platforms"), "Platform", choice(contains(file.path, "roles"), "Role", choice(contains(file.path, "residents"), "Resident", "Other"))) AS "Type"
-FROM "docs/agents"
-WHERE file.name != "AGENTS"
-SORT Type, file.name
-```
-
-- Packages docs overview
-
-```dataview
-TABLE file.link AS "Doc", split(file.folder, "/")[2] AS "Package"
-FROM "docs/packages"
-SORT Package, file.name
 ```
 
 - Recently touched docs
@@ -73,15 +45,6 @@ GROUP BY status
 SORT status
 ```
 
-- P0/P1 tasks with priority + created_at
-
-```dataview
-TABLE title AS "Task", priority AS "Priority", status AS "Status", created_at AS "Created"
-FROM "docs/agile/tasks"
-WHERE priority =~ "(?i)p0|p1"
-SORT priority ASC, created_at DESC
-```
-
 - Tasks by priority
 
 ```dataview
@@ -92,15 +55,6 @@ GROUP BY priority
 SORT priority
 ```
 
-Everything you thought you knew about operating systems is over.
-
-In promethean, AI is not an after thought
-It is core design principals.
-
-It's a conversations with your system.
-Inteligent event scheduling
-All actions idempotent
-No accidental destructive operations
 
 ## Document oriented workflows
 
