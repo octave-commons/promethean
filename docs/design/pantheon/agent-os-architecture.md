@@ -15,9 +15,12 @@ Agent OS is an AI-first operating system built around the concept of **agent ins
 
 ### 1. Agent Instance Management
 
+> Implementation note: the experimental runtime in `experimental/pantheon/src/core` currently exposes minimal actor structures (id, config, state, lastTick) and no status field. The richer registry shape and status set below are roadmap design; treat them as aspirational until implemented.
+
 #### Agent Registry (`packages/agent-registry`)
+
 - **Purpose**: Central registry for all agent instances
-- **Responsibilities**: 
+- **Responsibilities**:
   - Instance lifecycle management (create, read, update, delete)
   - Agent state tracking and persistence
   - Capability discovery and matching
@@ -25,20 +28,21 @@ Agent OS is an AI-first operating system built around the concept of **agent ins
 
 ```typescript
 interface AgentInstance {
-  id: string;                 // UUID for unique identification
-  agentType: string;          // References agent template
+  id: string; // UUID for unique identification
+  agentType: string; // References agent template
   status: 'active' | 'idle' | 'busy' | 'offline';
-  assignedTasks: string[];    // Task UUIDs from kanban board
-  capabilities: string[];     // Derived from agent template
-  permissions: Permission[];  // OS-level permissions
-  sessionContext: object;     // Current conversation/memory state
+  assignedTasks: string[]; // Task UUIDs from kanban board
+  capabilities: string[]; // Derived from agent template
+  permissions: Permission[]; // OS-level permissions
+  sessionContext: object; // Current conversation/memory state
   createdAt: Date;
   lastActive: Date;
-  owner: string;              // System user or orchestrator
+  owner: string; // System user or orchestrator
 }
 ```
 
 #### Agent User Management
+
 - **Integration**: Extends `packages/auth-service`
 - **Features**:
   - Agent user accounts with UID/GID management
@@ -49,6 +53,7 @@ interface AgentInstance {
 ### 2. Task Assignment & Orchestration
 
 #### Task Assignment Bridge
+
 - **Integration**: Extends kanban MCP tools
 - **Features**:
   - Automatic task assignment based on agent capabilities
@@ -57,6 +62,7 @@ interface AgentInstance {
   - Agent status integration with kanban columns
 
 #### Orchestration Service
+
 - **Integration**: Built on `packages/agent-ecs`
 - **Features**:
   - Agent scheduling and resource allocation
@@ -67,6 +73,7 @@ interface AgentInstance {
 ### 3. Communication & Collaboration
 
 #### Message Broker Integration
+
 - **Integration**: Extends `packages/broker`
 - **Features**:
   - Agent-to-agent messaging protocols
@@ -75,6 +82,7 @@ interface AgentInstance {
   - Message persistence and delivery guarantees
 
 #### Collaboration Framework
+
 - **Patterns**:
   - **Hierarchical Teams**: Lead agents with subordinate specialists
   - **Peer Networks**: Flat collaboration among equal agents
@@ -84,6 +92,7 @@ interface AgentInstance {
 ### 4. Security & Isolation
 
 #### Agent Sandboxing
+
 - **Isolation Levels**:
   - **Process Isolation**: Separate processes for each agent instance
   - **File System Isolation**: Restricted access to designated directories
@@ -91,6 +100,7 @@ interface AgentInstance {
   - **Resource Isolation**: CPU, memory, and I/O limits per agent
 
 #### Permission System
+
 - **Granular Permissions**:
   - File system access controls
   - API endpoint access restrictions
@@ -100,6 +110,7 @@ interface AgentInstance {
 ### 5. Monitoring & Analytics
 
 #### Performance Monitoring
+
 - **Metrics**:
   - Task completion rates and quality
   - Resource utilization patterns
@@ -107,6 +118,7 @@ interface AgentInstance {
   - Error rates and recovery patterns
 
 #### Analytics Dashboard
+
 - **Features**:
   - Real-time agent status visualization
   - Performance trend analysis
@@ -116,18 +128,21 @@ interface AgentInstance {
 ## Integration with Existing Systems
 
 ### Kanban System Integration
+
 - **Task Management**: Tasks remain the unit of work, now assignable to agent instances
 - **State Tracking**: Agent status reflected in kanban columns
 - **WIP Management**: Work-in-progress limits applied per agent instance
 - **Metrics Integration**: Agent performance data available in kanban analytics
 
 ### MCP Infrastructure Integration
+
 - **Service Discovery**: Agent instances register with MCP servers
 - **Tool Access**: Each agent gets curated tool access based on capabilities
 - **Context Management**: Agent-specific MCP contexts and sessions
 - **Communication**: Agent-to-agent communication via MCP message passing
 
 ### ECS Framework Integration
+
 - **Entity Model**: Agent instances as ECS entities with components
 - **System Architecture**: Agent behaviors implemented as ECS systems
 - **Resource Management**: ECS queries for efficient resource allocation
@@ -136,6 +151,7 @@ interface AgentInstance {
 ## Agent Lifecycle
 
 ### 1. Instance Creation
+
 ```
 User/Orchestrator → Agent Registry → Create Instance
                 → Auth Service → Create User Account
@@ -145,6 +161,7 @@ User/Orchestrator → Agent Registry → Create Instance
 ```
 
 ### 2. Task Assignment
+
 ```
 Kanban Board → Assignment Engine → Find Matching Agents
              → Load Balancer → Select Best Agent
@@ -153,6 +170,7 @@ Kanban Board → Assignment Engine → Find Matching Agents
 ```
 
 ### 3. Execution & Collaboration
+
 ```
 Agent → Tools → Work on Task
      → Communication → Collaborate with Other Agents
@@ -161,6 +179,7 @@ Agent → Tools → Work on Task
 ```
 
 ### 4. Completion & Cleanup
+
 ```
 Agent → Complete Task → Update Kanban
      → Release Resources → Free Capacity
@@ -171,12 +190,14 @@ Agent → Complete Task → Update Kanban
 ## Security Model
 
 ### Defense in Depth
+
 1. **Network Security**: Encrypted agent communication, authenticated connections
 2. **Application Security**: Sandboxed execution, restricted API access
 3. **Data Security**: Encrypted data storage, access controls, audit logging
 4. **Infrastructure Security**: Isolated environments, resource limits
 
 ### Compliance & Auditing
+
 - **Audit Trails**: Complete logging of all agent actions and decisions
 - **Compliance Reporting**: Automated generation of compliance reports
 - **Data Privacy**: Privacy-preserving agent operations and data handling
@@ -185,12 +206,14 @@ Agent → Complete Task → Update Kanban
 ## Performance Considerations
 
 ### Scalability
+
 - **Horizontal Scaling**: Multiple agent instances across distributed systems
 - **Load Balancing**: Intelligent task distribution based on agent capabilities
 - **Resource Optimization**: Dynamic resource allocation based on workload
 - **Caching**: Intelligent caching of agent contexts and frequently used data
 
 ### Reliability
+
 - **Fault Tolerance**: Graceful handling of agent failures and restarts
 - **High Availability**: Redundant agent instances and automatic failover
 - **Disaster Recovery**: Backup and recovery procedures for agent states
@@ -199,24 +222,28 @@ Agent → Complete Task → Update Kanban
 ## Future Roadmap
 
 ### Phase 1: Foundation (Current)
+
 - Agent instance registry and management
 - Basic task assignment and execution
 - Security sandboxing and isolation
 - Integration with existing kanban and MCP systems
 
 ### Phase 2: Intelligence
+
 - Agent learning and adaptation
 - Advanced collaboration patterns
 - Performance optimization and auto-tuning
 - Sophisticated monitoring and analytics
 
 ### Phase 3: Autonomy
+
 - Self-organizing agent teams
 - Automatic capability development
 - Predictive task assignment
 - Autonomous problem-solving and innovation
 
 ### Phase 4: Ecosystem
+
 - Agent marketplace and capabilities exchange
 - Cross-organization agent collaboration
 - Standardized agent protocols and interfaces

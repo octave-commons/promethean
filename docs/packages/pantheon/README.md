@@ -2,7 +2,18 @@
 
 ## Welcome to Pantheon
 
-Pantheon is a comprehensive framework for building and managing AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures. This documentation hub provides complete coverage of all Pantheon packages and their integration patterns.
+Pantheon is an agent language and runtime (think elisp for agents) for building and managing AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures. This hub keeps the ecosystem coherent and shows how the packages fit together.
+
+## Current implementation reality
+
+This repo contains the experimental Pantheon code under `experimental/pantheon`. The implemented packages today are:
+
+- `@promethean-os/pantheon` (framework skeleton; depends on other workspace packages)
+- `@promethean-os/pantheon-state`
+- `@promethean-os/pantheon-mcp`
+- `@promethean-os/pantheon-llm-claude`
+
+Packages referenced elsewhere (pantheon-core, pantheon-llm-openai, pantheon-llm-opencode, pantheon-persistence, pantheon-coordination, pantheon-workflow, pantheon-ecs, pantheon-ui, frontend) are **not present in this repository** and remain roadmap items. Installation snippets below are aspirational until those packages exist.
 
 ## 🚀 Quick Start
 
@@ -31,27 +42,75 @@ pnpm add @promethean-os/frontend
 import { makeOrchestrator, makeInMemoryContextAdapter } from '@promethean-os/pantheon';
 import { makeOpenAIAdapter } from '@promethean-os/pantheon-llm-openai';
 
-// Create adapters
-const contextAdapter = makeInMemoryContextAdapter();
-const llmAdapter = makeOpenAIAdapter({
-  apiKey: process.env.OPENAI_API_KEY!,
-});
+// Minimal no-op adapters for a single local actor
+const context = makeInMemoryContextAdapter();
+const llm = makeOpenAIAdapter({ apiKey: process.env.OPENAI_API_KEY! });
+const tools = { execute: async () => ({ result: 'noop' }) };
+const bus = { publish: async () => {}, subscribe: () => () => {} };
+const schedule = async (fn: () => Promise<unknown>) => fn();
+const state = {
+  load: async (id: string) => ({
+    actor: { id, script: { name: 'demo', behaviors: [] } },
+    version: 1,
+  }),
+  save: async () => {},
+};
 
-// Create orchestrator
 const orchestrator = makeOrchestrator({
   now: () => Date.now(),
   log: console.log,
-  context: contextAdapter,
-  tools: toolAdapter,
-  llm: llmAdapter,
-  bus: messageBus,
-  schedule: scheduler,
-  state: actorStateAdapter,
+  context,
+  tools,
+  llm,
+  bus,
+  schedule,
+  state,
 });
+const actor = { id: 'demo', script: { name: 'demo', behaviors: [] } };
 
-// Start using Pantheon
 await orchestrator.tickActor(actor, { userMessage: 'Hello!' });
 ```
+
+### OpenCode-compatible agent configs
+
+Pantheon agent files can mirror the OpenCode agent format so a single config works with the OpenCode harness or an OpenAI-compatible endpoint.
+
+```clojure
+;; OpenCode harness (default)
+(ask :query "questions"
+  :harness 'opencode
+  :instructions [ "./packages/*/AGENTS.md" ]
+  :cwd "."
+  :model 'opencode/big-pickle
+  :role 'opencode/agent-name
+  :tools [
+    'opencode/bash
+    'opencode/read
+    'opencode/write
+    'opencode/edit
+    'opencode/grep
+    'opencode/glob ])
+```
+
+```clojure
+;; OpenAI-compatible harness via OpenCode zen endpoint
+(ask :query "questions"
+  :harness 'openai
+  :instructions [ "./packages/*/AGENTS.md" ]
+  :cwd "."
+  :model 'opencode/big-pickle
+  :environment { :OPENAI_COMPATABLE_API "https://opencode.ai/zen/v1/responses" }
+  :role 'opencode/agent-name
+  :tools [
+    'opencode/bash
+    'opencode/read
+    'opencode/write
+    'opencode/edit
+    'opencode/grep
+    'opencode/glob ])
+```
+
+**Roles vs capabilities**: OpenCode roles are behavioral personas; Pantheon capabilities/permissions control what an agent can do. Map roles to Pantheon capabilities when defining agents so behavior intent and allowed actions stay aligned.
 
 ## 📚 Documentation Structure
 

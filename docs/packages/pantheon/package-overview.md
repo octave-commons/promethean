@@ -2,7 +2,14 @@
 
 ## Introduction
 
-The Pantheon ecosystem is a comprehensive framework for building and managing AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures. It consists of 15 specialized packages that work together to provide a complete agent management solution.
+The Pantheon ecosystem is an agent language and runtime (think elisp for agents) for building and managing AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures. The experimental code that exists today lives under `experimental/pantheon` and includes only:
+
+- `@promethean-os/pantheon`
+- `@promethean-os/pantheon-state`
+- `@promethean-os/pantheon-mcp`
+- `@promethean-os/pantheon-llm-claude`
+
+Other packages listed below (pantheon-core, pantheon-llm-openai, pantheon-llm-opencode, pantheon-persistence, pantheon-coordination, pantheon-workflow, pantheon-ecs, pantheon-ui, frontend, generator) are **not present in this repository** and are roadmap items.
 
 ## Package Architecture
 

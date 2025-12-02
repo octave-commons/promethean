@@ -37,8 +37,16 @@ const DEFAULT_SEARCH_ROOTS = [
   path.join(workspaceRoot, 'services'),
   path.join(workspaceRoot, 'shared'),
   path.join(workspaceRoot, 'tests'),
+  path.join(workspaceRoot, 'experimental'),
 ];
-const PACKAGE_SCOPE_DIRS = new Set(['packages', 'services', 'tests', 'sites', 'shared']);
+const PACKAGE_SCOPE_DIRS = new Set([
+  'packages',
+  'services',
+  'tests',
+  'sites',
+  'shared',
+  'experimental',
+]);
 const PROJECT_GRAPH_PATH = path.join(workspaceRoot, '.nx', 'workspace-data', 'project-graph.json');
 let projectGraphCache = undefined;
 
@@ -285,7 +293,6 @@ const projectFileGlobs = [
   projectGlob('!dist/tests/test-helpers.js'),
   projectGlob('!dist/tests/test-helpers.cjs'),
 ];
-
 
 export default {
   files: projectFileGlobs,
