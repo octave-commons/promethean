@@ -1,11 +1,16 @@
 ---
-uuid: "plugin-parity-001"
-title: "Event-Driven Plugin Hooks"
-slug: "plugin-parity-001-event-driven-hooks"
-status: "in_progress"
-priority: "P0"
-labels: ["plugin", "event-driven", "hooks", "architecture", "critical"]
-created_at: "2025-10-18T00:00:00.000Z"
+uuid: plugin-parity-001
+title: Event-Driven Plugin Hooks
+slug: plugin-parity-001-event-driven-hooks
+status: breakdown
+priority: P0
+labels:
+  - plugin
+  - event-driven
+  - hooks
+  - architecture
+  - critical
+created_at: 2025-10-18T00:00:00.000Z
 estimates:
   complexity: ""
   scale: ""

@@ -1,15 +1,20 @@
 ---
-uuid: '041284dd-55c5-4007-a28b-08563b29a4e0'
-title: 'Fix type safety violations in pantheon-persistence'
-slug: 'fix-type-safety-pantheon-persistence'
-status: 'in_progress'
-priority: 'critical'
+uuid: 041284dd-55c5-4007-a28b-08563b29a4e0
+title: Fix type safety violations in pantheon-persistence
+slug: fix-type-safety-pantheon-persistence
+status: ready
+priority: critical
 storyPoints: 3
-lastCommitSha: 'pending'
-labels: ['pantheon', 'persistence', 'typescript', 'type-safety', 'critical']
-created_at: '2025-10-26T17:30:00Z'
+lastCommitSha: pending
+labels:
+  - pantheon
+  - persistence
+  - typescript
+  - type-safety
+  - critical
+created_at: 2025-10-26T17:30:00Z
 estimates:
-  complexity: 'medium'
+  complexity: medium
 ---
 
 # Fix type safety violations in pantheon-persistence
