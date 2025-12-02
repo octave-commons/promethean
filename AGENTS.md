@@ -101,7 +101,7 @@ The documentation must be completely traversable .
 - [[operational-notes]]
 - [[HUMANS]]
 - [[HOME]]
-- [[STYLE]]
+- [[docs/dev/STYLE]]
 - [[BOARD_COMMANDS]]
 - [[TYPE_CLASS_PACKAGE_STRUCTURE_GUIDE]]
 - [[MANIFESTO]]

@@ -13,7 +13,7 @@ Use this file as the map for everything in `docs/`. It explains where content li
 ## Directory overview (docs/)
 
 - `agile/` — kanban artifacts, pipelines, and generated board views; see [[agile/process]] and [[agile/kanban]].
-- `adr/` — architectural decision records such as [[adr/2025-10-16-mcp-role-model-strict-mode-dangerous-operation-policy]].
+- `adr/` — architectural decision records such as [[2025-10-16-mcp-role-model-strict-mode-dangerous-operation-policy]].
 - `agents/` — platform, role, and resident instructions; start with [[docs/prompting/agents/AGENTS]] and [[docs/prompting/agents/platforms/opencode/AGENTS]].
 - `labeled/` — timestamped/curated notes and guides (e.g., [[docs/hacks/labeled/MCP_SECURITY_IMPLEMENTATION_SUMMARY]] and [[docs/hacks/labeled/ui-components]]).
 - `packages/` — package-specific docs and READMEs exported into docs (e.g., [[docs/dev/packages/llm/README]] and [[packages/discord/README]]).
