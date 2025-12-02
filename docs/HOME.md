@@ -33,9 +33,7 @@ Accomplish the same work as a cloud model using a different approach to problem 
 
 It works in the background, slowly, constantly, not all at once.
 No flashy text streaming.
-
 No crashing web browsers
-
 Only results.
 
 ## Productivity
@@ -46,24 +44,16 @@ And it also won't do anything you don't want it to do.
 
 You'll prioritize your tasks, you'll move it on through the board.
 If it is marked ready, it does it.
-
-## Privacy
-
-## Security
-
 ### Log analysis
 
 You're systems logs under persistent analysis by system inteligence.
 No longer hidden in some obscure part of your system
 If it matters to you, you'll know.
 
-### User management
+## Privacy
 
-The actions of every user of your system scrutinized
+## Security
 
-### Network
-
-## Core features
 
 ## Dataview quickviews
 
