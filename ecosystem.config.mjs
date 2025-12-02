@@ -36,48 +36,6 @@ export const apps =
     ]
   },
   {
-    "name": "opencode-indexer",
-    "script": "pnpm",
-    "args": [
-      "opencode-client",
-      "indexer",
-      "start"
-    ],
-    "interpreter": "/usr/bin/env",
-    "out_file": "./logs/opencode-indexer-out.log",
-    "error_file": "./logs/opencode-indexer-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "opencode-indexer"
-    },
-    "cwd": "."
-  },
-  {
-    "name": "opencode-test",
-    "script": "opencode",
-    "args": [
-      "serve",
-      "--port",
-      3434
-    ],
-    "interpreter": "/usr/bin/env",
-    "out_file": "./logs/opencode-out.log",
-    "error_file": "./logs/opencode-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "opencode"
-    },
-    "cwd": "./test-data/test-git"
-  },
-  {
     "name": "opencode-web",
     "script": "bunx",
     "args": [
@@ -120,27 +78,6 @@ export const apps =
     "kill_timeout": 10000,
     "env": {
       "PM2_PROCESS_NAME": "opencode-test"
-    },
-    "cwd": "."
-  },
-  {
-    "name": "playwright-mcp",
-    "script": "npx",
-    "args": [
-      "@playwright/mcp@latest",
-      "--port",
-      "8931"
-    ],
-    "interpreter": "/usr/bin/env",
-    "out_file": "./logs/playwright-mcp-out.log",
-    "error_file": "./logs/playwright-mcp-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "playwright-mcp"
     },
     "cwd": "."
   },
@@ -323,60 +260,6 @@ export const apps =
       "tmp",
       ".git"
     ]
-  },
-  {
-    "name": "unified-indexer",
-    "script": "node",
-    "args": [
-      "packages/unified-indexer/dist/index.js",
-      "--config",
-      "config/production.json",
-      "--daemon"
-    ],
-    "interpreter": "/usr/bin/env",
-    "out_file": "./logs/unified-indexer.log",
-    "error_file": "./logs/unified-indexer.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 15000,
-    "env_file": "./.env",
-    "kill_timeout": 10000,
-    "env": {
-      "NODE_ENV": "production",
-      "PM2_PROCESS_NAME": "unified-indexer",
-      "LOG_LEVEL": "info",
-      "AGENT_NAME": "promethean",
-      "MONGODB_URL": "${MONGODB_URL}",
-      "CHROMA_DB_URL": "${CHROMA_DB_URL}",
-      "REDIS_URL": "${REDIS_URL}",
-      "EMBEDDING_API_KEY": "${EMBEDDING_API_KEY}",
-      "EMBEDDING_FUNCTION": "${EMBEDDING_FUNCTION}",
-      "EMBEDDING_DIMENSIONS": "${EMBEDDING_DIMENSIONS}",
-      "CONFIG_PATH": "config/production.json",
-      "PID_FILE": "./var/run/unified-indexer.pid",
-      "LOG_FILE": "./logs/unified-indexer/daemon.log"
-    },
-    "cwd": ".",
-    "readiness_probe": {
-      "http_get": {
-        "url": "http://localhost:3000/ready",
-        "timeout": 10000
-      }
-    },
-    "liveness_probe": {
-      "http_get": {
-        "url": "http://localhost:3000/health",
-        "timeout": 5000
-      }
-    },
-    "startup_probe": {
-      "http_get": {
-        "url": "http://localhost:3000/health",
-        "timeout": 30000,
-        "retries": 3
-      }
-    }
   }
 ];
 
