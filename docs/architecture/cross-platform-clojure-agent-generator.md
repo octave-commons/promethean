@@ -4,7 +4,11 @@ tags:
 - architecture 
 - clojure  
 - ross-platform 
-- agent-generator, bb, nbb, jvm, shadow-cljs 
+- agent-generator
+- bb
+- nbbb
+- jvmb
+- shadow-cljs 
 ---
 
 # 🏗️ Cross-Platform Clojure Agent Generator Architecture
