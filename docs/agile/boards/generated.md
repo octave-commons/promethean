@@ -153,48 +153,46 @@ kanban-plugin: board
 - [ ] [[Resolve ESLint violations in @packages shadow-conf|Resolve ESLint violations in @packages/shadow-conf/]] #code-quality #eslint #shadow-conf #p1 #linting prio:P1 (uuid:c76a82e5-758e-4585-880d-bf72c316695e)
 
 
-## icebox
+## in_progress
 
-- [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
-- [ ] [[2025.10.08.15.30.00-fix-kanban-config-resolution|Task 2c7e9d46]] #bug #cli #config #kanban prio:P1 (uuid:2c7e9d46-09b2-4670-a3ac-381cb4f0c21e)
-- [ ] [[2025.10.08.16.05.00-implement-omni-auth-rbac|Task 1a148406]] #auth #omni #rbac #security #service prio:P2 (uuid:1a148406-56c1-4178-a282-6ebe180c20a2)
-- [ ] [[2025.10.08.16.25.00-fix-grep-error-handling|Task 0b41959d]] #error-handling #grep #ripgrep #smartgpt-bridge prio:P2 (uuid:0b41959d-cd50-4a9c-bd00-10eebac7257b)
-- [ ] [[2025.10.08.16.30.00-add-kanban-crud-commands|Task efbb8046]] #cli #crud #kanban #task-management prio:P2 (uuid:efbb8046-d29c-4275-a4d6-de2ed898578b)
-- [ ] [[2025.10.08.17.00.00-boardrev-vector-db-epic|Task dc8d973f]] #ai #automation #boardrev #evaluation #vector-database prio:P2 (uuid:dc8d973f-a659-4804-98f9-47db432b0b22)
-- [ ] [[Fix Type Safety Crisis in @promethean opencode-client|Foundation & Interface Alignment - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #foundation #interface-alignment #types #infrastructure prio:P0 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
-- [ ] [[2025.10.17.01.52.02-add-profiling-tools-and-utilities|Comprehensive Scoring System - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #scoring-system #quality-metrics #algorithms #assessment prio:P0 (uuid:b2c3d4e5-f6a7-8901-bcde-f23456789012)
-- [ ] [[2025.10.17.01.52.03-implement-observability-and-tracing|AI Integration & Advanced Analysis - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #ai-integration #agents-workflow #advanced-analysis #contextual-analysis prio:P0 (uuid:c3d4e5f6-a7b8-9012-cdef-345678901234)
-- [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
-- [ ] [[Add CLI with subcommands to file-indexer package]] #cli #subcommands #file #indexer prio:P1 (uuid:ff96d6cc-f436-40e2-a9ae-af69fd33e6d8)
-- [ ] [[Create ClojureScript Test Migration Framework]] #migration #testing #framework #clojurescript #test-automation prio:P1 (uuid:b460b1e8-e9c5-446e-b737-497594b5c57d)
-- [ ] [[Create Enhanced Test Utilities Library]] #refactoring #duplication #testing #test-utils #quality #medium prio:P2 (uuid:d1218f11-79bd-4f57-9ca2-4379483fec64)
-- [ ] [[Create MCP-Kanban Integration Tests & Documentation]] #mcp #kanban #testing #documentation #integration #critical prio:P1 (uuid:bedd20cd-34c0-46a1-962f-71eeb36a278f)
-- [ ] [[Create comprehensive test suite for adapter system]] #adapter #comprehensive #test #suite prio:P1 (uuid:7133028b-03ea-41b8-8de3-c7c35a80190d)
-- [ ] [[Develop Agent OS Protocol Testing & Validation Suite]] #agent-os #testing #validation #compliance #integration #critical prio:P1 (uuid:9475b327-4ce0-4d67-8fe5-259ad5a1c9ad)
-- [ ] [[Enhance Test Coverage for agents-workflow Package]] #tool:codex #cap:codegen #agents-workflow #testing #quality #p1 prio:P1 (uuid:de02df2d-04df-4c64-919d-3f8bc3e46213)
-- [ ] [[Ensure backward compatibility and migration path]] #backward #compatibility #migration #path prio:P0 (uuid:f9ad27bf-ad51-43fe-ac17-253e67f1eecb)
-- [ ] [[Epic Improve @promethean simtasks Package - Code Review Implementation|Epic: Improve @promethean-os/simtasks Package - Code Review Implementation]] #epic #simtasks #code-review #type-safety #testing #documentation prio:P0 (uuid:88854bc2-4df9-4320-85e2-761badef22d4)
-- [ ] [[Expand Test Coverage in @promethean simtasks|Expand Test Coverage in @promethean-os/simtasks]] #simtasks #testing #high-priority #coverage prio:P1 (uuid:26361940-0add-4120-9f9f-c0f8da73b465)
-- [ ] [[Fix Type Safety Crisis in @promethean opencode-client|Foundation & Interface Alignment - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #foundation #interface-alignment #types #infrastructure prio:P0 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
-- [ ] [[Implement Cross-Language Integration Tests]] #migration #testing #integration #cross-language #validation prio:P1 (uuid:d93eb870-7893-40b1-9716-5eda05474b66)
-- [ ] [[Test Task {1..10}]] #test #nothing #content #blocked (uuid:9cfda1c7-1e69-4c0c-bc39-41293079988b)
-- [ ] [[Test Virtual Scroll Task]] #virtual #scroll #test #nothing (uuid:0fe44df8-5829-43b6-b339-b7ebab45627a)
-- [ ] [[Test story points validation]] #story #test #points #validation prio:P2 (uuid:2ce6286f-82b7-4b87-92d0-72e98588b221)
-- [ ] [[Test task with invalid status]] #test #invalid #status #nothing prio:P3 (uuid:80ac1318-5927-49d6-84d4-28d3e6252803)
-- [ ] [[Test valid icebox task]] #test #valid #icebox #nothing (uuid:2cef5c59-2343-4614-bb5d-09ce9895f6c4)
-- [ ] [[Test valid incoming task]] #test #valid #incoming #nothing (uuid:a1715c38-b4e0-47b9-b014-e5104b639c46)
-- [ ] [[Test valid status task]] #test #valid #status #nothing (uuid:90e4fefb-30e6-4f28-8227-0b2897e31095)
-- [ ] [[Update CLI commands to use adapter pattern]] #update #use #cli #commands prio:P0 (uuid:71d30e75-0fae-433d-ab7c-0dab868bba2b)
-- [ ] [[boardrev-confidence-calibration|Add confidence calibration and historical accuracy tracking]] #accuracy #boardrev #enhancement #metrics prio:P2 (uuid:178a5194-ebe0-4438-8f52-d592494f87df)
-- [ ] [[boardrev-interactive-task-management|Add interactive task management and auto-updates to boardrev]] #automation #boardrev #enhancement #management prio:P2 (uuid:f80c21d2-c77c-45e3-952d-e9f439785924)
-- [ ] [[boardrev-multi-model-evaluation|Implement multi-model evaluation for boardrev]] #ai #boardrev #enhancement #evaluation prio:P2 (uuid:d4899ef6-37d5-41c8-b0e2-0040e2d31146)
-- [ ] [[boardrev-piper-integration|Integrate boardrev with piper pipeline system]] #boardrev #enhancement #infrastructure prio:P2 (uuid:23722f9b-803a-4bb2-b23e-4ccacd03c464)
-- [ ] [[design-agent-os-natural-language-management-protocol-os-language-inspired-communication|Design Agent OS Natural Language Management Protocol -os -language -inspired -communication]] #agent-os #async-communication #enso-inspired #natural-language #pipeline #protocol #tags prio:high (uuid:48c6e592-0628-4e1d-a757-bd6b367dee74)
-- [ ] [[fix-kanban-ui-mime-type-issue|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:0f1d191b-1326-48c2-a122-b37f8d1199fd)
-- [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes-fix-pipeline|Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -fix]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:9c4f98e7-ffbf-4fcc-80c6-ebb952230d4a)
-- [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
-- [ ] [[foobar is foobar]] #foobar #nothing #blocked #blocks (uuid:6948e490-e720-406d-9582-88e6683651fd)
-- [ ] [[report-generation-polish-testing-transition|Report Generation & Polish - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #report-generation #documentation #frontmatter #polish prio:P0 (uuid:d4e5f6a7-b8c9-0123-def4-456789012345)
+
+
+## todo
+
+- [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
+- [ ] [[2025.10.22.cross-platform-error-handling.md 2|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
+- [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
+- [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
+- [ ] [[Add BuildFix JSDoc comments and documentation]] #buildfix #documentation #medium #provider prio:P2 (uuid:e9bc3b09-b31e-468a-9e0e-5257db68bb72)
+- [ ] [[Add BuildFix input validation for fixture types]] #buildfix #validation #high #provider prio:P1 (uuid:7e8cd435-394a-45e1-b865-9e9ac854c47a)
+- [ ] [[Document kanban process improvements and lessons learned]] #kanban #process #improvements #lessons prio:P2 (uuid:de92d39f-eabb-4da3-ba02-4947f4a1f168)
+- [ ] [[Fix BuildFix type safety issues]] #buildfix #typescript #high #provider prio:P1 (uuid:a01e6108-4e1e-499c-bca4-7a54235638a1)
+- [ ] [[Fix kanban delete command adding extra whitespace to tasks]] #kanban #delete #command #extra prio:P2 (uuid:0cad93b8-211f-419b-bf48-e5186ab13df1)
+- [ ] [[Implement BuildFix model list caching]] #buildfix #performance #medium #provider prio:P2 (uuid:8c9f2127-c0e9-4075-aa0a-73739933fa50)
+- [ ] [[Implement parallel job execution]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:255818f5-cc36-467f-82b7-9978638fa321)
+- [ ] [[Improve BuildFix error message consistency]] #buildfix #error-handling #medium #provider prio:P2 (uuid:8633270e-f36e-4e31-a9d1-2e53977f1633)
+- [ ] [[Investigate kanban estimates parsing issue]] #estimates #parsing #kanban #investigate prio:P1 (uuid:63170945-c1e5-488e-886a-9a38624274b5)
+- [ ] [[Kanban Healing Epic - Coordination & Integration]] #epic #kanban #healing #coordination #integration #automation #monitoring #quality prio:P0 (uuid:ae67a6bb-1192-4439-a1ce-347824ce7eb7)
+- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
+- [ ] [[Optimize kanban board flow and WIP limits]] #flow #board #wip #optimize prio:P1 (uuid:39880f3a-3ddb-4346-828d-40393d747687)
+- [ ] [[add-test-suite-pantheon-persistence|Add comprehensive test suite for pantheon-persistence]] #pantheon #persistence #testing #coverage #medium-priority prio:medium (uuid:35a4ad51-c90f-407c-88e0-29b66b0ad75f)
+- [ ] [[fix-readmes-pipeline-timeout-issues-and-optimize-performance-optimization|Fix readmes pipeline timeout issues and optimize performance -optimization]] #ai-optimization #performance #piper #readmes #timeout prio:P2 (uuid:c8f82173-cf3b-4f0c-9fcf-fec5a1e8f237)
+- [ ] [[implement-performance-optimizations-pantheon-persistence|Implement performance optimizations for pantheon-persistence]] #pantheon #persistence #performance #caching #optimization #low-priority prio:low (uuid:e5f6a7b8-c9d0-1234-ef56-567890123456)
+- [ ] [[plugin-parity-002-multi-language-type-checker 2|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:d0fd5023-35f7-4e3b-aa65-e3a146ca31e4)
+- [ ] [[plugin-parity-002-multi-language-type-checker 3|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:9551a577-df60-4179-80a7-ee861d99459a)
+- [ ] [[plugin-parity-002-multi-language-type-checker|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:plugin-parity-002)
+- [ ] [[plugin-parity-004-security-interceptor 2|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:e7f53122-c7d5-46ba-af91-9ccb0fe1ac98)
+- [ ] [[plugin-parity-004-security-interceptor 3|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:9429f992-7217-47e3-a3e6-dab0b256c68f)
+- [ ] [[plugin-parity-004-security-interceptor|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:plugin-parity-004)
+- [ ] [[plugin-parity-005-enhanced-event-capture 2|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:72c2551f-3a3f-46d5-9ecf-5f73d44dfe06)
+- [ ] [[plugin-parity-005-enhanced-event-capture 3|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:724ddb30-21ca-47bf-b7e0-2f8b47ec53e9)
+- [ ] [[plugin-parity-005-enhanced-event-capture|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:plugin-parity-005)
+- [ ] [[TaskAIManager Compliance Fixes - P0 Priority]] #compliance #enforcement #critical #task-ai-manager #mock-implementation prio:p0 (uuid:task-ai-manager-compliance-fixes-p0)
+- [ ] [[Audit Trail Completeness and Validation - P1 Priority]] #compliance #enforcement #audit-trail #validation #monitoring prio:p1 (uuid:task-audit-trail-completeness-p1)
+- [ ] [[Board Synchronization Resolution - P0 Priority]] #compliance #enforcement #critical #board-sync #task-synchronization prio:p0 (uuid:task-board-synchronization-resolution-p0)
+- [ ] [[Compliance Monitoring Implementation - P1 Priority]] #compliance #enforcement #monitoring #automation #prevention prio:p1 (uuid:task-compliance-monitoring-implementation-p1)
+- [ ] [[Process Healing Implementation for 53 Missing Tasks - P1 Priority]] #compliance #enforcement #process-healing #missing-tasks #synchronization prio:p1 (uuid:task-process-healing-implementation-p1)
+- [ ] [[WIP Limit Enforcement for AI Operations - P1 Priority]] #compliance #enforcement #wip-limits #ai-operations #monitoring prio:p1 (uuid:task-wip-limit-enforcement-p1)
 
 
 ## incoming
@@ -416,85 +414,8 @@ kanban-plugin: board
 - [ ] [[unify-cli-tool-interfaces|Unify CLI and Tool Interfaces]] #cli #tools #interfaces #unification #epic3 prio:P1 (uuid:f3c311a0-de6a-44ba-90ac-ad8ab96f4699)
 
 
-## broken_links
-
-- [ ] [[--title Replace mock LLM integration with real @promethean llm package - llm package for production-ready LLM integration|--title Replace mock LLM integration with real @promethean llm package --description Replace current mock LLM implementations with the real @promethean-os/llm package for production-ready LLM integration]] #llm #integration #mock #promethean #package prio:P1 (uuid:3892d16c-33a1-4036-ac02-a3800e1c04f7)
-- [ ] [[--title Add Performance Metrics Collection Library --description Impleme s-clojure with JVM and application-level metrics|--title Add Performance Metrics Collection Library --description Implement core metrics collection using Prometheus client or metrics-clojure with JVM and application-level metrics]] #performance #metrics #collection prio:P1 (uuid:fc44e66b-4e94-46af-bbf8-72e02ca059a3)
-- [ ] [[Progress Update Scar Context Core Types and Interfaces (alternate read)|Progress Update: Scar Context Core Types and Interfaces (alternate read)]] #progress #kanban #scar-context prio:P1 (uuid:progress-Scar-Context-Types-Progress-20251025)
-- [ ] [[Implement Configuration Validation Framework (Phase 1)]] #pantheon #configuration #validation #framework #zod prio:P1 (uuid:config-validation-framework-001)
-- [ ] [[[[[5791f7ad] GitWorkflow implement core integration - GitWorkflow [5791f kflow implement core integration - GitWorkflow]]|[[[5791f7ad] GitWorkflow implement core integration - GitWorkflow|[5791f7ad] GitWorkflow: implement core integration - GitWorkflow]]]] #git-workflow #backend prio:P1 (uuid:66331ec1-3413-472d-858d-e78bde1bef4b)
-- [ ] [[Progress Update Implement Git Workflow Core Implementation|Progress Update: Implement Git Workflow Core Implementation]] #progress #kanban #git-workflow prio:P1 (uuid:progress-20251011235213)
-- [ ] [[Define Configuration Schemas for Pantheon Packages (Phase 2)]] #pantheon #configuration #schemas #zod #validation prio:P1 (uuid:config-validation-schemas-002)
-- [ ] [[Integrate Configuration Validation Across Pantheon Packages (Phase 3)]] #pantheon #configuration #integration #migration #validation prio:P1 (uuid:config-validation-integration-003)
-- [ ] [[replace-taskai-manager-hardcoded-ai-generators|Replace TaskAIManager Hardcoded AI Generators with Real AI Integration]] #ai-integration #hardcoded #real-ai #llm #pantheon prio:P1 (uuid:bac4e967-de4a-49bd-999a-fec4a60bf572)
-- [ ] [[Progress Update Implement Automated Compliance Monitoring System|Progress Update: Implement Automated Compliance Monitoring System]] #progress #kanban #compliance prio:P0 (uuid:progress-automated-compliance-20251025)
-- [ ] [[create-taskai-manager-comprehensive-documentation|Create TaskAIManager Comprehensive Documentation Suite]] #documentation #ai-integration #kanban #developer-experience prio:P1 (uuid:28c0e516-42f3-4ec3-a9f1-c36fd3807c12)
-- [ ] [[Add Test Coverage for pantheon-llm-claude Package]] #pantheon-llm-claude #testing #coverage #typescript #p1 prio:P1 (uuid:pantheon-llm-claude-test-coverage-001)
-- [ ] [[Add Test Coverage for pantheon-generator Package]] #pantheon-generator #testing #coverage #clojurescript #p1 prio:P1 (uuid:pantheon-generator-test-coverage-001)
-- [ ] [[Enhance Test Coverage for Additional Pantheon Packages]] #pantheon #testing #coverage #quality #p2 prio:P2 (uuid:pantheon-additional-test-coverage-001)
-- [ ] [[implement-taskai-manager-kanban-workflow-compliance|Implement TaskAIManager Kanban Workflow Compliance]] #critical #kanban #workflow #compliance #ai-integration prio:P0 (uuid:8c999b13-822a-460e-89e4-cc4dd1899f2b)
-- [ ] [[Progress Update Event-Driven Plugin Hooks|Progress Update: Event-Driven Plugin Hooks]] #progress #kanban #plugin-hooks prio:P0 (uuid:progress-plugin-hooks-001)
-- [ ] [[Progress Update Security Gates & Monitoring Coordination|Progress Update: Security Gates & Monitoring Coordination]] #progress #kanban #coordination prio:P0 (uuid:progress-security-coordination-20251025)
-- [ ] [[fix-taskai-manager-mock-cache|Fix TaskAIManager Mock Cache Implementation - Critical Production Issue]] #critical #bugfix #ai-integration #kanban #production-ready prio:P0 (uuid:6859f9a9-8c1e-452d-9309-f653d339a641)
-- [ ] [[fix-taskai-manager-environment-pollution|Fix TaskAIManager Environment Variable Pollution - Security Issue]] #critical #security #bugfix #ai-integration #environment prio:P0 (uuid:4c8575db-873a-4b28-839d-ac0ea609a8be)
-- [ ] [[Progress Update Implement Core Infrastructure and Runtime Detection (baseline)|Progress Update: Implement Core Infrastructure and Runtime Detection (baseline)]] #progress #kanban #infra prio:P0 (uuid:progress-cross-platform-core-infra-20251025)
-- [ ] [[Progress Update Design Agent OS Core Message Protocol|Progress Update: Design Agent OS Core Message Protocol]] #progress #kanban #agent-os prio:P0 (uuid:progress-Design-Agent-OS-Protocol-20251011)
-- [ ] [[Progress Update Implement Core Infrastructure and Runtime Detection|Progress Update: Implement Core Infrastructure and Runtime Detection]] #progress #kanban #platform-core prio:P0 (uuid:progress-cross-platform-core-20251025)
-- [ ] [[Progress Update Scar Context Core Types and Interfaces|Progress Update: Scar Context Core Types and Interfaces]] #progress #kanban #scar-context prio:P1 (uuid:progress-scar-context-20251025)
-
-
 ## blocked
 
-
-
-## in_progress
-
-
-
-## todo
-
-- [ ] [[2025.10.16.06.00.46-agent-workflow-enhancement-healing-integration|Agent Workflow Enhancement & Healing Integration]] #agents #workflow #healing #automation #monitoring #coordination #kanban #integration prio:P1 (uuid:39e0890b-e7bd-45eb-88ff-292157d0cf54)
-- [ ] [[2025.10.22.cross-platform-error-handling.md 2|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:46692f72-3986-42d7-a057-e9f4b65b3c08)
-- [ ] [[2025.10.22.cross-platform-error-handling.md|Implement Cross-Platform Error Handling Framework]] #architecture #implementation #cross-platform #error-handling prio:P0 (uuid:e5f6g7h8-i9j0-1234-efgh-i567890123456)
-- [ ] [[20251011235236|Extend Git Sync for Heal Operations]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #git-workflow #git-sync #phase-1 prio:P1 (uuid:4e88db40-884c-4aed-8412-3de9fd78bd02)
-- [ ] [[Add BuildFix JSDoc comments and documentation]] #buildfix #documentation #medium #provider prio:P2 (uuid:e9bc3b09-b31e-468a-9e0e-5257db68bb72)
-- [ ] [[Add BuildFix input validation for fixture types]] #buildfix #validation #high #provider prio:P1 (uuid:7e8cd435-394a-45e1-b865-9e9ac854c47a)
-- [ ] [[Document kanban process improvements and lessons learned]] #kanban #process #improvements #lessons prio:P2 (uuid:de92d39f-eabb-4da3-ba02-4947f4a1f168)
-- [ ] [[Fix BuildFix type safety issues]] #buildfix #typescript #high #provider prio:P1 (uuid:a01e6108-4e1e-499c-bca4-7a54235638a1)
-- [ ] [[Fix kanban delete command adding extra whitespace to tasks]] #kanban #delete #command #extra prio:P2 (uuid:0cad93b8-211f-419b-bf48-e5186ab13df1)
-- [ ] [[Implement BuildFix model list caching]] #buildfix #performance #medium #provider prio:P2 (uuid:8c9f2127-c0e9-4075-aa0a-73739933fa50)
-- [ ] [[Implement parallel job execution]] #automation #buildfix #pipeline #parallel prio:P1 (uuid:255818f5-cc36-467f-82b7-9978638fa321)
-- [ ] [[Improve BuildFix error message consistency]] #buildfix #error-handling #medium #provider prio:P2 (uuid:8633270e-f36e-4e31-a9d1-2e53977f1633)
-- [ ] [[Investigate kanban estimates parsing issue]] #estimates #parsing #kanban #investigate prio:P1 (uuid:63170945-c1e5-488e-886a-9a38624274b5)
-- [ ] [[Kanban Healing Epic - Coordination & Integration]] #epic #kanban #healing #coordination #integration #automation #monitoring #quality prio:P0 (uuid:ae67a6bb-1192-4439-a1ce-347824ce7eb7)
-- [ ] [[MCP-Kanban Integration Healing & Enhancement]] #mcp #kanban #security #critical #healing #authorization #automation #integration prio:P0 (uuid:44d293b0-6d6b-4e85-8453-ea03be231c83)
-- [ ] [[Optimize kanban board flow and WIP limits]] #flow #board #wip #optimize prio:P1 (uuid:39880f3a-3ddb-4346-828d-40393d747687)
-- [ ] [[add-test-suite-pantheon-persistence|Add comprehensive test suite for pantheon-persistence]] #pantheon #persistence #testing #coverage #medium-priority prio:medium (uuid:35a4ad51-c90f-407c-88e0-29b66b0ad75f)
-- [ ] [[fix-readmes-pipeline-timeout-issues-and-optimize-performance-optimization|Fix readmes pipeline timeout issues and optimize performance -optimization]] #ai-optimization #performance #piper #readmes #timeout prio:P2 (uuid:c8f82173-cf3b-4f0c-9fcf-fec5a1e8f237)
-- [ ] [[implement-performance-optimizations-pantheon-persistence|Implement performance optimizations for pantheon-persistence]] #pantheon #persistence #performance #caching #optimization #low-priority prio:low (uuid:e5f6a7b8-c9d0-1234-ef56-567890123456)
-- [ ] [[plugin-parity-002-multi-language-type-checker 2|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:d0fd5023-35f7-4e3b-aa65-e3a146ca31e4)
-- [ ] [[plugin-parity-002-multi-language-type-checker 3|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:9551a577-df60-4179-80a7-ee861d99459a)
-- [ ] [[plugin-parity-002-multi-language-type-checker|Multi-Language Type-Checking Plugin]] #plugin #type-checking #multi-language #typescript #clojure #critical prio:P0 (uuid:plugin-parity-002)
-- [ ] [[plugin-parity-004-security-interceptor 2|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:e7f53122-c7d5-46ba-af91-9ccb0fe1ac98)
-- [ ] [[plugin-parity-004-security-interceptor 3|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:9429f992-7217-47e3-a3e6-dab0b256c68f)
-- [ ] [[plugin-parity-004-security-interceptor|Security Interception System]] #plugin #security #interceptor #validation #critical prio:P0 (uuid:plugin-parity-004)
-- [ ] [[plugin-parity-005-enhanced-event-capture 2|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:72c2551f-3a3f-46d5-9ecf-5f73d44dfe06)
-- [ ] [[plugin-parity-005-enhanced-event-capture 3|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:724ddb30-21ca-47bf-b7e0-2f8b47ec53e9)
-- [ ] [[plugin-parity-005-enhanced-event-capture|Enhanced Event Capture with Semantic Search]] #plugin #event-capture #semantic-search #analytics #high prio:P1 (uuid:plugin-parity-005)
-- [ ] [[TaskAIManager Compliance Fixes - P0 Priority]] #compliance #enforcement #critical #task-ai-manager #mock-implementation prio:p0 (uuid:task-ai-manager-compliance-fixes-p0)
-- [ ] [[Audit Trail Completeness and Validation - P1 Priority]] #compliance #enforcement #audit-trail #validation #monitoring prio:p1 (uuid:task-audit-trail-completeness-p1)
-- [ ] [[Board Synchronization Resolution - P0 Priority]] #compliance #enforcement #critical #board-sync #task-synchronization prio:p0 (uuid:task-board-synchronization-resolution-p0)
-- [ ] [[Compliance Monitoring Implementation - P1 Priority]] #compliance #enforcement #monitoring #automation #prevention prio:p1 (uuid:task-compliance-monitoring-implementation-p1)
-- [ ] [[Process Healing Implementation for 53 Missing Tasks - P1 Priority]] #compliance #enforcement #process-healing #missing-tasks #synchronization prio:p1 (uuid:task-process-healing-implementation-p1)
-- [ ] [[WIP Limit Enforcement for AI Operations - P1 Priority]] #compliance #enforcement #wip-limits #ai-operations #monitoring prio:p1 (uuid:task-wip-limit-enforcement-p1)
-
-
-## testing
-
-- [ ] [[pipeline-buildfix-epic|Pipeline BuildFix & Automation Epic]] #automation #buildfix #epic #pipeline #timeout prio:P0 (uuid:dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd)
-- [ ] [[test-integration-task 2|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation #critical-gap prio:P0 (uuid:4ba0e94c-ba16-4fc4-a446-aee035d1f597)
-- [ ] [[test-integration-task 3|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:f350aee8-dc14-46d7-9ad2-69d16dedf36a)
-- [ ] [[test-integration-task|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:test-integration-123)
 
 
 ## done
@@ -527,11 +448,90 @@ kanban-plugin: board
 - [x] [[remove_commonjs_artifacts_repo_wide|Remove CommonJS artifacts from repository   -task -this   -task -this     -task -this         -task -this                 -task -this                                 -task -this]] #-task #-this #codex-task #doc-this prio:P2 (uuid:9c3d0d9f-6ac2-42ad-a999-b41c75b63969)
 
 
+## testing
+
+- [ ] [[pipeline-buildfix-epic|Pipeline BuildFix & Automation Epic]] #automation #buildfix #epic #pipeline #timeout prio:P0 (uuid:dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd)
+- [ ] [[test-integration-task 2|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation #critical-gap prio:P0 (uuid:4ba0e94c-ba16-4fc4-a446-aee035d1f597)
+- [ ] [[test-integration-task 3|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:f350aee8-dc14-46d7-9ad2-69d16dedf36a)
+- [ ] [[test-integration-task|Test Integration Task for Testing→Review Transition]] #testing #integration #coverage-validation prio:P0 (uuid:test-integration-123)
+
+
+## icebox
+
+- [ ] [[Coordinate Security Gates and Monitoring Integration]] #coordination #integration #security-gates #monitoring #project-management prio:P0 (uuid:89e4b7e6-feec-41c1-927c-c401ffa35f55)
+- [ ] [[2025.10.08.15.30.00-fix-kanban-config-resolution|Task 2c7e9d46]] #bug #cli #config #kanban prio:P1 (uuid:2c7e9d46-09b2-4670-a3ac-381cb4f0c21e)
+- [ ] [[2025.10.08.16.05.00-implement-omni-auth-rbac|Task 1a148406]] #auth #omni #rbac #security #service prio:P2 (uuid:1a148406-56c1-4178-a282-6ebe180c20a2)
+- [ ] [[2025.10.08.16.25.00-fix-grep-error-handling|Task 0b41959d]] #error-handling #grep #ripgrep #smartgpt-bridge prio:P2 (uuid:0b41959d-cd50-4a9c-bd00-10eebac7257b)
+- [ ] [[2025.10.08.16.30.00-add-kanban-crud-commands|Task efbb8046]] #cli #crud #kanban #task-management prio:P2 (uuid:efbb8046-d29c-4275-a4d6-de2ed898578b)
+- [ ] [[2025.10.08.17.00.00-boardrev-vector-db-epic|Task dc8d973f]] #ai #automation #boardrev #evaluation #vector-database prio:P2 (uuid:dc8d973f-a659-4804-98f9-47db432b0b22)
+- [ ] [[Fix Type Safety Crisis in @promethean opencode-client|Foundation & Interface Alignment - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #foundation #interface-alignment #types #infrastructure prio:P0 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
+- [ ] [[2025.10.17.01.52.02-add-profiling-tools-and-utilities|Comprehensive Scoring System - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #scoring-system #quality-metrics #algorithms #assessment prio:P0 (uuid:b2c3d4e5-f6a7-8901-bcde-f23456789012)
+- [ ] [[2025.10.17.01.52.03-implement-observability-and-tracing|AI Integration & Advanced Analysis - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #ai-integration #agents-workflow #advanced-analysis #contextual-analysis prio:P0 (uuid:c3d4e5f6-a7b8-9012-cdef-345678901234)
+- [ ] [[20251011235486|Phase 1 Integration and Testing - Core Infrastructure]] #tool:codex #cap:codegen #env:no-egress #role:engineer #enhancement #kanban #heal-command #integration #testing #phase-1 #milestone prio:P1 (uuid:020318e4-9934-4e5d-85d7-3bb4a55f6ee2)
+- [ ] [[Add CLI with subcommands to file-indexer package]] #cli #subcommands #file #indexer prio:P1 (uuid:ff96d6cc-f436-40e2-a9ae-af69fd33e6d8)
+- [ ] [[Create ClojureScript Test Migration Framework]] #migration #testing #framework #clojurescript #test-automation prio:P1 (uuid:b460b1e8-e9c5-446e-b737-497594b5c57d)
+- [ ] [[Create Enhanced Test Utilities Library]] #refactoring #duplication #testing #test-utils #quality #medium prio:P2 (uuid:d1218f11-79bd-4f57-9ca2-4379483fec64)
+- [ ] [[Create MCP-Kanban Integration Tests & Documentation]] #mcp #kanban #testing #documentation #integration #critical prio:P1 (uuid:bedd20cd-34c0-46a1-962f-71eeb36a278f)
+- [ ] [[Create comprehensive test suite for adapter system]] #adapter #comprehensive #test #suite prio:P1 (uuid:7133028b-03ea-41b8-8de3-c7c35a80190d)
+- [ ] [[Develop Agent OS Protocol Testing & Validation Suite]] #agent-os #testing #validation #compliance #integration #critical prio:P1 (uuid:9475b327-4ce0-4d67-8fe5-259ad5a1c9ad)
+- [ ] [[Enhance Test Coverage for agents-workflow Package]] #tool:codex #cap:codegen #agents-workflow #testing #quality #p1 prio:P1 (uuid:de02df2d-04df-4c64-919d-3f8bc3e46213)
+- [ ] [[Ensure backward compatibility and migration path]] #backward #compatibility #migration #path prio:P0 (uuid:f9ad27bf-ad51-43fe-ac17-253e67f1eecb)
+- [ ] [[Epic Improve @promethean simtasks Package - Code Review Implementation|Epic: Improve @promethean-os/simtasks Package - Code Review Implementation]] #epic #simtasks #code-review #type-safety #testing #documentation prio:P0 (uuid:88854bc2-4df9-4320-85e2-761badef22d4)
+- [ ] [[Expand Test Coverage in @promethean simtasks|Expand Test Coverage in @promethean-os/simtasks]] #simtasks #testing #high-priority #coverage prio:P1 (uuid:26361940-0add-4120-9f9f-c0f8da73b465)
+- [ ] [[Fix Type Safety Crisis in @promethean opencode-client|Foundation & Interface Alignment - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #foundation #interface-alignment #types #infrastructure prio:P0 (uuid:a1b2c3d4-e5f6-7890-abcd-ef1234567890)
+- [ ] [[Implement Cross-Language Integration Tests]] #migration #testing #integration #cross-language #validation prio:P1 (uuid:d93eb870-7893-40b1-9716-5eda05474b66)
+- [ ] [[Test Task {1..10}]] #test #nothing #content #blocked (uuid:9cfda1c7-1e69-4c0c-bc39-41293079988b)
+- [ ] [[Test Virtual Scroll Task]] #virtual #scroll #test #nothing (uuid:0fe44df8-5829-43b6-b339-b7ebab45627a)
+- [ ] [[Test story points validation]] #story #test #points #validation prio:P2 (uuid:2ce6286f-82b7-4b87-92d0-72e98588b221)
+- [ ] [[Test task with invalid status]] #test #invalid #status #nothing prio:P3 (uuid:80ac1318-5927-49d6-84d4-28d3e6252803)
+- [ ] [[Test valid icebox task]] #test #valid #icebox #nothing (uuid:2cef5c59-2343-4614-bb5d-09ce9895f6c4)
+- [ ] [[Test valid incoming task]] #test #valid #incoming #nothing (uuid:a1715c38-b4e0-47b9-b014-e5104b639c46)
+- [ ] [[Test valid status task]] #test #valid #status #nothing (uuid:90e4fefb-30e6-4f28-8227-0b2897e31095)
+- [ ] [[Update CLI commands to use adapter pattern]] #update #use #cli #commands prio:P0 (uuid:71d30e75-0fae-433d-ab7c-0dab868bba2b)
+- [ ] [[boardrev-confidence-calibration|Add confidence calibration and historical accuracy tracking]] #accuracy #boardrev #enhancement #metrics prio:P2 (uuid:178a5194-ebe0-4438-8f52-d592494f87df)
+- [ ] [[boardrev-interactive-task-management|Add interactive task management and auto-updates to boardrev]] #automation #boardrev #enhancement #management prio:P2 (uuid:f80c21d2-c77c-45e3-952d-e9f439785924)
+- [ ] [[boardrev-multi-model-evaluation|Implement multi-model evaluation for boardrev]] #ai #boardrev #enhancement #evaluation prio:P2 (uuid:d4899ef6-37d5-41c8-b0e2-0040e2d31146)
+- [ ] [[boardrev-piper-integration|Integrate boardrev with piper pipeline system]] #boardrev #enhancement #infrastructure prio:P2 (uuid:23722f9b-803a-4bb2-b23e-4ccacd03c464)
+- [ ] [[design-agent-os-natural-language-management-protocol-os-language-inspired-communication|Design Agent OS Natural Language Management Protocol -os -language -inspired -communication]] #agent-os #async-communication #enso-inspired #natural-language #pipeline #protocol #tags prio:high (uuid:48c6e592-0628-4e1d-a757-bd6b367dee74)
+- [ ] [[fix-kanban-ui-mime-type-issue|Fix Kanban UI MIME Type Issue for JavaScript Modules       )]] #bug #kanban #ui #mime-type #frontend prio:P1 (uuid:0f1d191b-1326-48c2-a122-b37f8d1199fd)
+- [ ] [[fix-test-failure-in-symdocs-pipeline-pipeline-test-timeout-after-2-minutes-fix-pipeline|Fix test failure in symdocs-pipeline: Pipeline timeout after 2 minutes -fix]] #automation #symdocs-pipeline #test-fix #testing prio:P1 (uuid:9c4f98e7-ffbf-4fcc-80c6-ebb952230d4a)
+- [ ] [[fix-test-gap-pipeline-timeout-configuration-for-tg-analysis-step-timeout-step-gap|Fix test-gap pipeline timeout configuration for tg-analysis step -gap]] #automation #pipeline #test-gap #timeout prio:P2 (uuid:89be3c4d-47d2-4815-aebf-adf7b7091403)
+- [ ] [[foobar is foobar]] #foobar #nothing #blocked #blocks (uuid:6948e490-e720-406d-9582-88e6683651fd)
+- [ ] [[report-generation-polish-testing-transition|Report Generation & Polish - Testing Transition Rule]] #kanban #transition-rules #testing-coverage #quality-gates #report-generation #documentation #frontmatter #polish prio:P0 (uuid:d4e5f6a7-b8c9-0123-def4-456789012345)
+
+
 ## rejected
 
 - [ ] [[0-why-these-building-blocks-quick-receipts|0) Why these building blocks (quick receipts)]] #docops #labeled prio:P3 (uuid:747260c6-3eb4-4fe8-b4e0-c576519c1df6)
 - [ ] [[design-agent-os-comprehensive-review-and-enhancement-5e6f7g8h|Agent OS Comprehensive Review and Enhancement]] #agent-os #comprehensive-review #enhancement #final-design #gaps-analysis prio:high (uuid:c0ab3f60-0a9c-4929-a1e6-f046db4aec06)
 - [ ] [[infrastructure-stability-cluster-build-system-type-safety-system|Infrastructure Stability Cluster - Build System & Type Safety -system]] #automation #build-system #cluster #infrastructure #typescript prio:P0 (uuid:b82a75e4-260b-4f20-ad06-94db01cd8eb2)
+
+
+## broken_links
+
+- [ ] [[--title Replace mock LLM integration with real @promethean llm package - llm package for production-ready LLM integration|--title Replace mock LLM integration with real @promethean llm package --description Replace current mock LLM implementations with the real @promethean-os/llm package for production-ready LLM integration]] #llm #integration #mock #promethean #package prio:P1 (uuid:3892d16c-33a1-4036-ac02-a3800e1c04f7)
+- [ ] [[--title Add Performance Metrics Collection Library --description Impleme s-clojure with JVM and application-level metrics|--title Add Performance Metrics Collection Library --description Implement core metrics collection using Prometheus client or metrics-clojure with JVM and application-level metrics]] #performance #metrics #collection prio:P1 (uuid:fc44e66b-4e94-46af-bbf8-72e02ca059a3)
+- [ ] [[Progress Update Scar Context Core Types and Interfaces (alternate read)|Progress Update: Scar Context Core Types and Interfaces (alternate read)]] #progress #kanban #scar-context prio:P1 (uuid:progress-Scar-Context-Types-Progress-20251025)
+- [ ] [[Implement Configuration Validation Framework (Phase 1)]] #pantheon #configuration #validation #framework #zod prio:P1 (uuid:config-validation-framework-001)
+- [ ] [[[[[5791f7ad] GitWorkflow implement core integration - GitWorkflow [5791f kflow implement core integration - GitWorkflow]]|[[[5791f7ad] GitWorkflow implement core integration - GitWorkflow|[5791f7ad] GitWorkflow: implement core integration - GitWorkflow]]]] #git-workflow #backend prio:P1 (uuid:66331ec1-3413-472d-858d-e78bde1bef4b)
+- [ ] [[Progress Update Implement Git Workflow Core Implementation|Progress Update: Implement Git Workflow Core Implementation]] #progress #kanban #git-workflow prio:P1 (uuid:progress-20251011235213)
+- [ ] [[Define Configuration Schemas for Pantheon Packages (Phase 2)]] #pantheon #configuration #schemas #zod #validation prio:P1 (uuid:config-validation-schemas-002)
+- [ ] [[Integrate Configuration Validation Across Pantheon Packages (Phase 3)]] #pantheon #configuration #integration #migration #validation prio:P1 (uuid:config-validation-integration-003)
+- [ ] [[replace-taskai-manager-hardcoded-ai-generators|Replace TaskAIManager Hardcoded AI Generators with Real AI Integration]] #ai-integration #hardcoded #real-ai #llm #pantheon prio:P1 (uuid:bac4e967-de4a-49bd-999a-fec4a60bf572)
+- [ ] [[Progress Update Implement Automated Compliance Monitoring System|Progress Update: Implement Automated Compliance Monitoring System]] #progress #kanban #compliance prio:P0 (uuid:progress-automated-compliance-20251025)
+- [ ] [[create-taskai-manager-comprehensive-documentation|Create TaskAIManager Comprehensive Documentation Suite]] #documentation #ai-integration #kanban #developer-experience prio:P1 (uuid:28c0e516-42f3-4ec3-a9f1-c36fd3807c12)
+- [ ] [[Add Test Coverage for pantheon-llm-claude Package]] #pantheon-llm-claude #testing #coverage #typescript #p1 prio:P1 (uuid:pantheon-llm-claude-test-coverage-001)
+- [ ] [[Add Test Coverage for pantheon-generator Package]] #pantheon-generator #testing #coverage #clojurescript #p1 prio:P1 (uuid:pantheon-generator-test-coverage-001)
+- [ ] [[Enhance Test Coverage for Additional Pantheon Packages]] #pantheon #testing #coverage #quality #p2 prio:P2 (uuid:pantheon-additional-test-coverage-001)
+- [ ] [[implement-taskai-manager-kanban-workflow-compliance|Implement TaskAIManager Kanban Workflow Compliance]] #critical #kanban #workflow #compliance #ai-integration prio:P0 (uuid:8c999b13-822a-460e-89e4-cc4dd1899f2b)
+- [ ] [[Progress Update Event-Driven Plugin Hooks|Progress Update: Event-Driven Plugin Hooks]] #progress #kanban #plugin-hooks prio:P0 (uuid:progress-plugin-hooks-001)
+- [ ] [[Progress Update Security Gates & Monitoring Coordination|Progress Update: Security Gates & Monitoring Coordination]] #progress #kanban #coordination prio:P0 (uuid:progress-security-coordination-20251025)
+- [ ] [[fix-taskai-manager-mock-cache|Fix TaskAIManager Mock Cache Implementation - Critical Production Issue]] #critical #bugfix #ai-integration #kanban #production-ready prio:P0 (uuid:6859f9a9-8c1e-452d-9309-f653d339a641)
+- [ ] [[fix-taskai-manager-environment-pollution|Fix TaskAIManager Environment Variable Pollution - Security Issue]] #critical #security #bugfix #ai-integration #environment prio:P0 (uuid:4c8575db-873a-4b28-839d-ac0ea609a8be)
+- [ ] [[Progress Update Implement Core Infrastructure and Runtime Detection (baseline)|Progress Update: Implement Core Infrastructure and Runtime Detection (baseline)]] #progress #kanban #infra prio:P0 (uuid:progress-cross-platform-core-infra-20251025)
+- [ ] [[Progress Update Design Agent OS Core Message Protocol|Progress Update: Design Agent OS Core Message Protocol]] #progress #kanban #agent-os prio:P0 (uuid:progress-Design-Agent-OS-Protocol-20251011)
+- [ ] [[Progress Update Implement Core Infrastructure and Runtime Detection|Progress Update: Implement Core Infrastructure and Runtime Detection]] #progress #kanban #platform-core prio:P0 (uuid:progress-cross-platform-core-20251025)
+- [ ] [[Progress Update Scar Context Core Types and Interfaces|Progress Update: Scar Context Core Types and Interfaces]] #progress #kanban #scar-context prio:P1 (uuid:progress-scar-context-20251025)
 
 
 ***
