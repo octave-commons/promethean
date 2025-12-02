@@ -1,6 +1,10 @@
 ---
 project: Promethean
-hashtags: [#architecture, #clojure, #cross-platform, #agent-generator, #bb, #nbb, #jvm, #shadow-cljs]
+tags: 
+- architecture 
+- clojure  
+- ross-platform 
+- agent-generator, bb, nbb, jvm, shadow-cljs 
 ---
 
 # 🏗️ Cross-Platform Clojure Agent Generator Architecture
