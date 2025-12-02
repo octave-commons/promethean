@@ -301,3 +301,4 @@
 [submodule "experimental/pantheon"]
 	path = experimental/pantheon
 	url = git@github.com:octave-commons/pantheon
+	branch = device/stealth
