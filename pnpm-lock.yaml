@@ -4086,6 +4086,9 @@ importers:
       '@types/uuid':
         specifier: ^9.0.0
         version: 9.0.8
+      '@vitest/coverage-v8':
+        specifier: ^1.6.0
+        version: 1.6.1(vitest@1.6.1(@types/node@20.19.22)(happy-dom@18.0.1))
       bun-types:
         specifier: latest
         version: 1.3.3
@@ -21895,6 +21898,25 @@ snapshots:
       '@types/babel__core': 7.20.5
       react-refresh: 0.17.0
       vite: 5.4.20(@types/node@20.19.22)
+    transitivePeerDependencies:
+      - supports-color
+
+  '@vitest/coverage-v8@1.6.1(vitest@1.6.1(@types/node@20.19.22)(happy-dom@18.0.1))':
+    dependencies:
+      '@ampproject/remapping': 2.3.0
+      '@bcoe/v8-coverage': 0.2.3
+      debug: 4.4.3(supports-color@5.5.0)
+      istanbul-lib-coverage: 3.2.2
+      istanbul-lib-report: 3.0.1
+      istanbul-lib-source-maps: 5.0.6
+      istanbul-reports: 3.2.0
+      magic-string: 0.30.19
+      magicast: 0.3.5
+      picocolors: 1.1.1
+      std-env: 3.10.0
+      strip-literal: 2.1.1
+      test-exclude: 6.0.0
+      vitest: 1.6.1(@types/node@20.19.22)(happy-dom@18.0.1)
     transitivePeerDependencies:
       - supports-color
 
