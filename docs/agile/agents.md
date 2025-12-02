@@ -40,15 +40,13 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 ## 🧠 Tags and Their Meanings
 
-| Tag             | Meaning |
-```
-|------------------|--------|
-```
-| `#codex-task`    | Work Codex can handle (refactors, tests, scripts) |
-| `#agent-mode`    | Tasks that require discussion or system-level thought |
-| `#framework-core`| Related to core architecture of Promethean |
-| `#doc-this`      | Task must produce markdown documentation |
-| `#rewrite-later` | Placeholder, needs deeper refinement |
+| Tag               | Meaning                                               |
+| ----------------- | ----------------------------------------------------- |
+| `#codex-task`     | Work Codex can handle (refactors, tests, scripts)     |
+| `#agent-mode`     | Tasks that require discussion or system-level thought |
+| `#framework-core` | Related to core architecture of Promethean            |
+| `#doc-this`       | Task must produce markdown documentation              |
+| `#rewrite-later`  | Placeholder, needs deeper refinement                  |
 
 ---
 
@@ -56,16 +54,14 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 The board columns are derived from these hashtags in each task file:
 
-| Hashtag        | Column |
-```
-|----------------|--------|
-```
-| `#IceBox`      | Ice Box |
-| `#Accepted`    | Accepted |
-| `#Ready`       | Ready |
-| `#Todo`        | 🟢 To Do |
-| `#InProgress`  | 🟡 In Progress |
-| `#Done`        | 🔵 Done |
+| Hashtag       | Column         |
+| ------------- | -------------- |
+| `#IceBox`     | Ice Box        |
+| `#Accepted`   | Accepted       |
+| `#Ready`      | Ready          |
+| `#Todo`       | 🟢 To Do       |
+| `#InProgress` | 🟡 In Progress |
+| `#Done`       | 🔵 Done        |
 
 
 ## 🛠️ Required Behaviors
