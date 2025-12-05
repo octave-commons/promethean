@@ -17,7 +17,7 @@ Promethean is a comprehensive framework for building AI agents and orchestration
 ## 🚀 Quick Start
 
 ```bash
-git clone https://github.com/PrometheanAI/promethean.git
+git clone https://github.com/octave-commons/promethean.git
 cd promethean
 
 # Enable pnpm 9 via Corepack (required)
@@ -32,28 +32,6 @@ For containerized development:
 
 ```bash
 docker compose up
-```
-
-## 🏗️ Architecture Overview
-
-```
-┌─────────────────┐    ┌─────────────────┐    ┌─────────────────┐
-│   Discord UI   │    │   Web Frontend │    │   CLI Tools     │
-└─────────┬───────┘    └─────────┬───────┘    └─────────┬───────┘
-          │                      │                      │
-          ▼                      ▼                      ▼
-┌─────────────────────────────────────────────────────────────────────┐
-│                    Message Broker Service                        │
-│              (WebSocket pub/sub + task queues)                │
-└─────────────────────┬───────────────────────────────────────────┘
-                      │
-          ┌─────────┴─────────┐
-          │                   │
-          ▼                   ▼
-┌─────────────────┐    ┌─────────────────┐
-│   LLM Service  │    │   MCP Server   │
-│  (text gen)    │    │ (tools & auth) │
-└─────────────────┘    └─────────────────┘
 ```
 
 ## 🔧 Core Components
@@ -80,50 +58,6 @@ pnpm kanban ui
 ```
 
 **Features:** CRUD operations, process automation, web UI, AI-friendly commands
-
-### 📡 Message Broker
-
-**Package:** `broker-service`
-
-WebSocket-based pub/sub communication backbone with task queue support.
-
-```javascript
-// Subscribe to topics
-ws.send(
-  JSON.stringify({
-    action: 'subscribe',
-    topic: 'agent.events',
-  }),
-);
-
-// Publish messages
-ws.send(
-  JSON.stringify({
-    action: 'publish',
-    message: { type: 'user.input', payload: 'Hello' },
-  }),
-);
-```
-
-**Features:** Topic routing, Redis persistence, task queues, normalized events
-
-### 🤖 LLM Service
-
-**Package:** `@promethean-os/llm`
-
-Text generation service with pluggable providers (Ollama, HuggingFace).
-
-```bash
-# Start service
-./run.sh
-
-# Generate text
-curl -X POST http://localhost:3000/generate \
-  -H "Content-Type: application/json" \
-  -d '{"prompt":"Explain quantum computing","context":"physics"}'
-```
-
-**Features:** Multiple providers, HTTP/WebSocket endpoints, streaming support
 
 ### 🛠️ MCP Server
 
@@ -190,50 +124,14 @@ pnpm exec prom llm start
 
 The workspace contains 70+ specialized packages organized by category:
 
-### 🏗️ Core Infrastructure
-
-- `@promethean-os/broker` - Message pub/sub and task queues
-- `@promethean-os/persistence` - Data storage and caching layers
-- `@promethean-os/security` - Authentication and authorization
-- `@promethean-os/monitoring` - Health checks and metrics
-
-### 🤖 AI & Agents
-
-- `@promethean-os/agent` - Agent framework and ECS
-- `@promethean-os/llm` - Text generation service
-- `@promethean-os/embedding` - Vector embeddings and similarity
-- `@promethean-os/intention` - Goal planning and execution
-
-### 🛠️ Development Tools
-
-- `@promethean-os/compiler` - TypeScript compilation pipeline
-- `@promethean-os/test-utils` - Testing utilities and fixtures
-- `@promethean-os/codemods` - Automated code transformations
-- `@promethean-os/buildfix` - Iterative build error resolution
-
-### 📊 Data & Processing
-
-- `@promethean-os/markdown` - Document processing and parsing
-- `@promethean-os/stream` - Reactive data streams
-- `@promethean-os/fs` - File system operations
-- `@promethean-os/event` - Event sourcing and handling
-
-### 🌐 Web & Frontend
-
-- `@promethean-os/http` - HTTP server and client utilities
-- `@promethean-os/ws` - WebSocket connections
-- `@promethean-os/frontend-service` - Static asset serving
-- `@promethean-os/ui-components` - Reusable web components
-
-[View complete package catalog →](packages/)
-
 ### Package Management
 
 - **pnpm required** - npm is blocked and will fail with clear error messages
 - **Workspace structure** - All packages use `@promethean-os/<package>*` via "workspace:\*"
+- **Directory layout** - Active packages now live under `cli/`, `services/`, or `experimental/` (legacy `packages/` paths are being phased out)
 - **No relative imports** outside package roots
 
-> **Submodule packages:** The following packages now live in their own `github.com/riatzukiza/<name>` repositories and are mounted into this workspace as git submodules: `packages/apply-patch`, `packages/autocommit`, `packages/auth-service`, `cli/kanban`, `packages/logger`, `packages/mcp`, `packages/naming`, `packages/persistence`, and `packages/utils`. Run `git submodule update --init packages/<name>` after cloning to fetch their content, and use the upstream repo for issue tracking or standalone development.
+> **Submodule packages:** Many packages now live in their own `github.com/octave-commons/<name>` repositories and are mounted as git submodules under their target areas (for example: `cli/apply-patch`, `cli/kanban`, `services/autocommit`, `services/mcp`, `experimental/auth-service`). Run `git submodule update --init <path>` after cloning (or `git submodule update --init --recursive` to fetch all) and use the upstream repo for issue tracking or standalone development.
 
 ### Testing
 
@@ -250,23 +148,6 @@ pnpm test:e2e         # End-to-end tests
 pnpm lint:diff        # Only changed files (development)
 pnpm lint            # Full repository (CI/pre-commit)
 ```
-
-## 🏃 Service Management
-
-Start shared infrastructure with PM2:
-
-```bash
-# Start core services
-pm2 start system/daemons/ecosystem.config.js
-
-# Regenerate config after adding/removing services
-pnpm gen:ecosystem
-
-# Start individual agents
-pm2 start agents/duck/ecosystem.config.js
-```
-
-Install PM2 globally: `pnpm add -g pm2`
 
 ## 📚 Documentation
 
@@ -308,41 +189,41 @@ Complex workflows are defined in `pipelines.json`. Key pipelines:
 
 <!-- BEGIN: PROMETHEAN-PACKAGES-READMES -->
 
-- [riatzukiza/agent-os-protocol](https://github.com/riatzukiza/agent-os-protocol#readme)
-- [riatzukiza/ai-learning](https://github.com/riatzukiza/ai-learning#readme)
-- [riatzukiza/apply-patch](https://github.com/riatzukiza/apply-patch#readme)
-- [riatzukiza/auth-service](https://github.com/riatzukiza/auth-service#readme)
-- [riatzukiza/autocommit](https://github.com/riatzukiza/autocommit#readme)
-- [riatzukiza/build-monitoring](https://github.com/riatzukiza/build-monitoring#readme)
-- [riatzukiza/cli](https://github.com/riatzukiza/cli#readme)
-- [riatzukiza/clj-hacks-tools](https://github.com/riatzukiza/clj-hacks-tools#readme)
-- [riatzukiza/compliance-monitor](https://github.com/riatzukiza/compliance-monitor#readme)
-- [riatzukiza/dlq](https://github.com/riatzukiza/dlq#readme)
-- [riatzukiza/ds](https://github.com/riatzukiza/ds#readme)
-- [riatzukiza/eidolon-field](https://github.com/riatzukiza/eidolon-field#readme)
-- [riatzukiza/enso-agent-communication](https://github.com/riatzukiza/enso-agent-communication#readme)
-- [riatzukiza/http](https://github.com/riatzukiza/http#readme)
-- [riatzukiza/kanban](https://github.com/riatzukiza/kanban#readme)
-- [riatzukiza/logger](https://github.com/riatzukiza/logger#readme)
-- [riatzukiza/math-utils](https://github.com/riatzukiza/math-utils#readme)
-- [riatzukiza/mcp](https://github.com/riatzukiza/mcp#readme)
-- [riatzukiza/mcp-dev-ui-frontend](https://github.com/riatzukiza/mcp-dev-ui-frontend#readme)
-- [riatzukiza/migrations](https://github.com/riatzukiza/migrations#readme)
-- [riatzukiza/naming](https://github.com/riatzukiza/naming#readme)
-- [riatzukiza/obsidian-export](https://github.com/riatzukiza/obsidian-export#readme)
-- [riatzukiza/omni-tools](https://github.com/riatzukiza/omni-tools#readme)
-- [riatzukiza/opencode-hub](https://github.com/riatzukiza/opencode-hub#readme)
-- [riatzukiza/persistence](https://github.com/riatzukiza/persistence#readme)
-- [riatzukiza/platform](https://github.com/riatzukiza/platform#readme)
-- [riatzukiza/plugin-hooks](https://github.com/riatzukiza/plugin-hooks#readme)
-- [riatzukiza/report-forge](https://github.com/riatzukiza/report-forge#readme)
-- [riatzukiza/security](https://github.com/riatzukiza/security#readme)
-- [riatzukiza/shadow-conf](https://github.com/riatzukiza/shadow-conf#readme)
-- [riatzukiza/snapshots](https://github.com/riatzukiza/snapshots#readme)
-- [riatzukiza/test-classifier](https://github.com/riatzukiza/test-classifier#readme)
-- [riatzukiza/test-utils](https://github.com/riatzukiza/test-utils#readme)
-- [riatzukiza/utils](https://github.com/riatzukiza/utils#readme)
-- [riatzukiza/worker](https://github.com/riatzukiza/worker#readme)
+- [octave-commons/agent-os-protocol](https://github.com/octave-commons/agent-os-protocol#readme)
+- [octave-commons/ai-learning](https://github.com/octave-commons/ai-learning#readme)
+- [octave-commons/apply-patch](https://github.com/octave-commons/apply-patch#readme)
+- [octave-commons/auth-service](https://github.com/octave-commons/auth-service#readme)
+- [octave-commons/autocommit](https://github.com/octave-commons/autocommit#readme)
+- [octave-commons/build-monitoring](https://github.com/octave-commons/build-monitoring#readme)
+- [octave-commons/cli](https://github.com/octave-commons/cli#readme)
+- [octave-commons/clj-hacks-tools](https://github.com/octave-commons/clj-hacks-tools#readme)
+- [octave-commons/compliance-monitor](https://github.com/octave-commons/compliance-monitor#readme)
+- [octave-commons/dlq](https://github.com/octave-commons/dlq#readme)
+- [octave-commons/ds](https://github.com/octave-commons/ds#readme)
+- [octave-commons/eidolon-field](https://github.com/octave-commons/eidolon-field#readme)
+- [octave-commons/enso-agent-communication](https://github.com/octave-commons/enso-agent-communication#readme)
+- [octave-commons/http](https://github.com/octave-commons/http#readme)
+- [octave-commons/kanban](https://github.com/octave-commons/kanban#readme)
+- [octave-commons/logger](https://github.com/octave-commons/logger#readme)
+- [octave-commons/math-utils](https://github.com/octave-commons/math-utils#readme)
+- [octave-commons/mcp](https://github.com/octave-commons/mcp#readme)
+- [octave-commons/mcp-dev-ui-frontend](https://github.com/octave-commons/mcp-dev-ui-frontend#readme)
+- [octave-commons/migrations](https://github.com/octave-commons/migrations#readme)
+- [octave-commons/naming](https://github.com/octave-commons/naming#readme)
+- [octave-commons/obsidian-export](https://github.com/octave-commons/obsidian-export#readme)
+- [octave-commons/omni-tools](https://github.com/octave-commons/omni-tools#readme)
+- [octave-commons/opencode-hub](https://github.com/octave-commons/opencode-hub#readme)
+- [octave-commons/persistence](https://github.com/octave-commons/persistence#readme)
+- [octave-commons/platform](https://github.com/octave-commons/platform#readme)
+- [octave-commons/plugin-hooks](https://github.com/octave-commons/plugin-hooks#readme)
+- [octave-commons/report-forge](https://github.com/octave-commons/report-forge#readme)
+- [octave-commons/security](https://github.com/octave-commons/security#readme)
+- [octave-commons/shadow-conf](https://github.com/octave-commons/shadow-conf#readme)
+- [octave-commons/snapshots](https://github.com/octave-commons/snapshots#readme)
+- [octave-commons/test-classifier](https://github.com/octave-commons/test-classifier#readme)
+- [octave-commons/test-utils](https://github.com/octave-commons/test-utils#readme)
+- [octave-commons/utils](https://github.com/octave-commons/utils#readme)
+- [octave-commons/worker](https://github.com/octave-commons/worker#readme)
 <!-- END: PROMETHEAN-PACKAGES-READMES -->
 
 ## 📄 License
@@ -365,12 +246,12 @@ Promethean Framework is released under the [GNU General Public License v3](LICEN
 
 ## Internal Dependencies
 
-- [@promethean-os/autocommit](packages/autocommit/README.md) — `orgs/riatzukiza/promethean/packages/autocommit`
-- [@promethean-os/kanban](cli/kanban/README.md) — `orgs/riatzukiza/promethean/cli/kanban`
-- [@promethean-os/persistence](packages/persistence/README.md) — `orgs/riatzukiza/promethean/packages/persistence`
-- [@promethean-os/shadow-conf](docs/dev/packages/shadow-conf/README.md) — `orgs/riatzukiza/promethean/packages/shadow-conf`
-- [@promethean-os/test-utils](packages/test-utils/README.md) — `orgs/riatzukiza/promethean/packages/test-utils`
-- [@promethean-os/utils](packages/utils/README.md) — `orgs/riatzukiza/promethean/packages/utils`
+- [@promethean-os/autocommit](packages/autocommit/README.md) — `orgs/octave-commons/promethean/packages/autocommit`
+- [@promethean-os/kanban](cli/kanban/README.md) — `orgs/octave-commons/promethean/cli/kanban`
+- [@promethean-os/persistence](packages/persistence/README.md) — `orgs/octave-commons/promethean/packages/persistence`
+- [@promethean-os/shadow-conf](docs/dev/packages/shadow-conf/README.md) — `orgs/octave-commons/promethean/packages/shadow-conf`
+- [@promethean-os/test-utils](packages/test-utils/README.md) — `orgs/octave-commons/promethean/packages/test-utils`
+- [@promethean-os/utils](packages/utils/README.md) — `orgs/octave-commons/promethean/packages/utils`
 
 ## Internal Dependents
 
