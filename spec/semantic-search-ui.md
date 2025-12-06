@@ -41,3 +41,4 @@
 - 2025-12-06: Added GraphQL `semanticSearch` query using ANN embeddings (`related-embeddings`) with scoring, minScore filter, and code/documentation node restriction.
 - 2025-12-06: Updated UI filters to call semantic search, gate nodes by hits (optionally neighbors), and display scores; keeps NDJSON streaming as default data source.
 - 2025-12-06: Tests: `pnpm --filter @promethean-os/knowledge-graph test -- --runInBand` (pass).
+- 2025-12-06: Switched GraphQL server to Apollo standalone (no express middleware) and restarted via PM2 (`knowledge-graph-graphql`); endpoint at http://localhost:4000/graphql now responds.
