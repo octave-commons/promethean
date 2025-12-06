@@ -32,4 +32,3 @@ git@github.com:riatzukiza/worker.git
 git@github.com:riatzukiza/ds.git
 git@github.com:riatzukiza/omni-tools.git
 git@github.com:riatzukiza/security.git
-git@github.com:riatzukiza/agent-os-protocol.git
