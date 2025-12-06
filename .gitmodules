@@ -134,10 +134,6 @@
 	path = packages/security
 	url = git@github.com:octave-commons/security.git
 	branch = device/stealth
-[submodule "experimental/agent-os-protocol"]
-	path = experimental/agent-os-protocol
-	url = git@github.com:octave-commons/agent-os-protocol.git
-	branch = device/stealth
 [submodule "cli/compiler"]
 	path = cli/compiler
 	url = git@github.com:octave-commons/compiler.git
