@@ -35,3 +35,9 @@
 - UI has a semantic search input/action that limits rendered graph to the returned hits (with option to include neighbors) and shows loading/error state.
 - ANN embeddings are reused (cache) and do not crash on invalid links.
 - Rebuild/export still works; relevant tests updated/run.
+
+## Progress Log
+
+- 2025-12-06: Added GraphQL `semanticSearch` query using ANN embeddings (`related-embeddings`) with scoring, minScore filter, and code/documentation node restriction.
+- 2025-12-06: Updated UI filters to call semantic search, gate nodes by hits (optionally neighbors), and display scores; keeps NDJSON streaming as default data source.
+- 2025-12-06: Tests: `pnpm --filter @promethean-os/knowledge-graph test -- --runInBand` (pass).
