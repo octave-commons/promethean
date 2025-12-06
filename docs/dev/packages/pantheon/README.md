@@ -2,6 +2,8 @@
 
 ## Welcome to Pantheon
 
+> Naming: Pantheon is the single name for the platform; older documents may say "Agent OS"—treat those references as Pantheon.
+
 Pantheon is an agent language and runtime (think elisp for agents) for building and managing AI agents with embodied reasoning, perception-action loops, and emotionally mediated decision structures. This hub keeps the ecosystem coherent and shows how the packages fit together.
 
 ## Current implementation reality
@@ -143,18 +145,18 @@ Pantheon agent files can mirror the OpenCode agent format so a single config wor
 
 ### Guides and Tutorials
 
-| Guide                          | Description                                |
-| ------------------------------ | ------------------------------------------ |
-| [[docs/dev/packages/pantheon/developer-guide]]            | Getting started and best practices         |
-| [[actor-model-guide]]          | Actor model deep dive                      |
-| [[context-engine-guide]]       | Context compilation and management         |
-| [[orchestrator-guide]]         | Agent orchestration patterns               |
-| [[ports-system-guide]]         | Adapter development                        |
-| [[integration-guide]]          | Integration with existing systems          |
-| [[lisp-dsl-specification]]     | Lisp DSL syntax, examples, and roadmap     |
-| [[multi-runtime-architecture]] | Multi-runtime agent orchestration design   |
-| [[session-management]]         | Chat session lifecycle and storage details |
-| [[troubleshooting-faq]]        | Common issues and solutions                |
+| Guide                                          | Description                                |
+| ---------------------------------------------- | ------------------------------------------ |
+| [[docs/dev/packages/pantheon/developer-guide]] | Getting started and best practices         |
+| [[actor-model-guide]]                          | Actor model deep dive                      |
+| [[context-engine-guide]]                       | Context compilation and management         |
+| [[orchestrator-guide]]                         | Agent orchestration patterns               |
+| [[ports-system-guide]]                         | Adapter development                        |
+| [[integration-guide]]                          | Integration with existing systems          |
+| [[lisp-dsl-specification]]                     | Lisp DSL syntax, examples, and roadmap     |
+| [[multi-runtime-architecture]]                 | Multi-runtime agent orchestration design   |
+| [[session-management]]                         | Chat session lifecycle and storage details |
+| [[troubleshooting-faq]]                        | Common issues and solutions                |
 
 ## 🏗 Package Architecture
 

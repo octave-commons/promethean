@@ -30,7 +30,7 @@ Implement a new kanban transition rule for the `review → document` transition 
 ### Technical Requirements
 - [ ] **Workflow Definition**: Create markdown-based agent workflow for code review using existing agents-workflow infrastructure
 - [ ] **Transition Rule Configuration**: Add new rule to `promethean.kanban.json` with appropriate check function
-- [ ] **Clojure DSL Integration**: Implement check function in `docs/agile/rules/kanban-transitions.clj`
+- [ ] **Clojure DSL Integration**: Implement check function in `docs/agile/rules/kanban_transitions.clj`
 - [ ] **Error Handling**: Graceful failure handling with informative error messages
 - [ ] **Performance**: Workflow execution should complete within reasonable time limits (≤ 2 minutes)
 
@@ -85,7 +85,7 @@ Update `promethean.kanban.json`:
 
 ### 3. Clojure DSL Implementation
 
-Add to `docs/agile/rules/kanban-transitions.clj`:
+Add to `docs/agile/rules/kanban_transitions.clj`:
 
 ```clojure
 (defn automated-code-review-complete?

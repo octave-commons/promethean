@@ -111,7 +111,7 @@ flowchart LR
 
 ```bash
 # Fix safety hook name and regenerate
-sed -i 's/"inprogress"/"in_progress"/' docs/agile/rules/kanban-transitions.clj
+sed -i 's/"inprogress"/"in_progress"/' docs/agile/rules/kanban_transitions.clj
 pnpm kanban regenerate
 pnpm kanban enforce-wip-limits --report
 

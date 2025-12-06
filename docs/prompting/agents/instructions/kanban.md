@@ -39,4 +39,4 @@ via the `@promethean-os/kanban` package.
 
 - **Complete Kanban CLI Reference**: `docs/agile/kanban-cli-reference.md`
 - **Process Documentation**: `docs/agile/process.md`
-- **FSM Rules**: `docs/agile/rules/kanban-transitions.clj`
+- **FSM Rules**: `docs/agile/rules/kanban_transitions.clj`

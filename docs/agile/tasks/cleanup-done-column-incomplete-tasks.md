@@ -62,7 +62,7 @@ Audit of done column revealed **93 tasks** with only ~25% actually complete:
 ## Files to Change
 
 - `docs/agile/tasks/` - Move incomplete tasks to icebox
-- `docs/agile/rules/kanban-transitions.clj` - Add done→review transition
+- `docs/agile/rules/kanban_transitions.clj` - Add done→review transition
 - `packages/kanban/src/lib/kanban.ts` - Add completion verification
 - `promethean.kanban.json` - Add quality validation rules
 

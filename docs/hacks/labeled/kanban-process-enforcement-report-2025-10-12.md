@@ -6,7 +6,7 @@
 
 ## Executive Summary
 
-Conducted comprehensive audit of kanban board focusing on P0 (critical) and P1 (high) priority tasks. Identified workflow compliance issues and initiated corrective actions following the FSM transition rules defined in `docs/agile/rules/kanban-transitions.clj`.
+Conducted comprehensive audit of kanban board focusing on P0 (critical) and P1 (high) priority tasks. Identified workflow compliance issues and initiated corrective actions following the FSM transition rules defined in `docs/agile/rules/kanban_transitions.clj`.
 
 ## Current Board State Analysis
 
@@ -147,7 +147,7 @@ To accommodate remaining P1 tasks, recommend moving these lower priority tasks t
 
 ### ✅ Compliant Behaviors
 
-1. **FSM Transition Rules:** All moves followed valid transitions per `kanban-transitions.clj`
+1. **FSM Transition Rules:** All moves followed valid transitions per `kanban_transitions.clj`
 2. **WIP Limits:** No violations detected during enforcement
 3. **Priority Ordering:** P0 tasks prioritized above all others
 4. **Tool/Env Tags:** Critical tasks have proper tool: and env: tags
@@ -266,7 +266,7 @@ To accommodate remaining P1 tasks, recommend moving these lower priority tasks t
 
 ### ✅ Fully Compliant Behaviors
 
-1. **FSM Transition Rules:** All moves followed valid transitions per `kanban-transitions.clj`
+1. **FSM Transition Rules:** All moves followed valid transitions per `kanban_transitions.clj`
 2. **WIP Limits:** Zero violations throughout enforcement process
 3. **Priority Ordering:** P0 tasks prioritized first, then P1 tasks
 4. **Tool/Env Tags:** Critical tasks have proper tool: and env: tags

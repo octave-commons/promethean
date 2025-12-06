@@ -16,6 +16,11 @@ coverage/
 .cache/
 *.cache
 
+# Test/analysis temp
+.stryker-tmp/
+stryker-tmp/
+reports/
+
 # Dependencies 
 node_modules/
 *.log
@@ -41,3 +46,16 @@ node_modules/
 .smart-env/
 .cpcache/
 experimental/scar/.scars/
+
+# Knowledge-graph build artifacts
+services/knowledge-graph/graph.md
+services/knowledge-graph/graph.mmd
+services/knowledge-graph/knowledge-graph.db*
+services/knowledge-graph/dist/
+services/knowledge-graph/coverage/
+services/knowledge-graph/.space/
+services/knowledge-graph/packages/**/graph.ndjson
+services/knowledge-graph/packages/**/graph.json
+services/knowledge-graph/packages/**/dist/
+services/knowledge-graph/packages/**/coverage/
+services/knowledge-graph/packages/**/.space/

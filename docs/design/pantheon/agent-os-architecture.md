@@ -1,8 +1,10 @@
-# Agent OS Architecture: AI-First Operating System
+# Pantheon Architecture: AI-First Operating System
+
+> Naming: Pantheon is the OS; earlier drafts called it "Agent OS." Any remaining references are legacy and refer to Pantheon.
 
 ## Overview
 
-Agent OS is an AI-first operating system built around the concept of **agent instances as first-class citizens**. Unlike traditional operating systems that manage processes, Agent OS manages intelligent agents that can be assigned tasks, collaborate with each other, and operate autonomously within a governed framework.
+Pantheon is an AI-first operating system built around the concept of **agent instances as first-class citizens**. Unlike traditional operating systems that manage processes, Pantheon manages intelligent agents that can be assigned tasks, collaborate with each other, and operate autonomously within a governed framework.
 
 ## Core Philosophy
 
@@ -251,6 +253,6 @@ Agent → Complete Task → Update Kanban
 
 ## Conclusion
 
-Agent OS represents a fundamental shift in operating system design, from process management to intelligent agent orchestration. By treating agents as first-class citizens and providing robust tools for their management, collaboration, and governance, we create a platform where human and artificial intelligence can work together seamlessly to achieve complex goals.
+Pantheon (formerly referred to as Agent OS) represents a fundamental shift in operating system design, from process management to intelligent agent orchestration. By treating agents as first-class citizens and providing robust tools for their management, collaboration, and governance, we create a platform where human and artificial intelligence can work together seamlessly to achieve complex goals.
 
-The architecture leverages existing Promethean infrastructure while introducing novel concepts for agent instance management, task assignment, and collaborative intelligence. This creates a solid foundation for building increasingly sophisticated AI-driven systems that can scale from individual assistants to large-scale autonomous organizations.
+This architecture leverages existing Promethean infrastructure while introducing novel concepts for agent instance management, task assignment, and collaborative intelligence. This creates a solid foundation for building increasingly sophisticated AI-driven systems that can scale from individual assistants to large-scale autonomous organizations.

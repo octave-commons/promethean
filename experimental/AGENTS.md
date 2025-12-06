@@ -17,3 +17,5 @@ Notes
 
 - Clearly mark stability and expected consumers in each experiment README.
 - When an experiment stabilizes, plan migration into the appropriate folder.
+- Current experiments: `cephalon/`, `enso/`, `enso-protocol/`, `llm/`, `scar/`; keep READMEs reflecting status and ownership.
+- If a directory is a git submodule, make changes upstream rather than directly here.

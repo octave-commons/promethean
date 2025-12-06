@@ -1,6 +1,7 @@
 packages:
   - packages/*
   - services/*
+  - services/*/packages/*
   - pipelines/*
   - packages/*/*
   - packages/*/packages/*

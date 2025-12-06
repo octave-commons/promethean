@@ -128,7 +128,7 @@ All agents must use the kanban system for task tracking and work management. The
 
 - **Complete Kanban CLI Reference**: `docs/agile/kanban-cli-reference.md`
 - **Process Documentation**: `docs/agile/process.md`
-- **FSM Rules**: `docs/agile/rules/kanban-transitions.clj`
+- **FSM Rules**: `docs/agile/rules/kanban_transitions.clj`
 
 ---
 

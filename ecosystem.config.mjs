@@ -1,67 +1,77 @@
-import dotenv from "dotenv";
+import dotenv from 'dotenv';
 
 dotenv.config();
 
-export const apps =
-[
+export const apps = [
   {
-    "name": "mcp-dev",
-    "script": "pnpm",
-    "args": [
-      "--filter",
-      "@promethean-os/mcp",
-      "dev"
-    ],
-    "interpreter": "/usr/bin/env",
-    "out_file": "./logs/promethean-mcp-dev-out.log",
-    "error_file": "./logs/promthean-mcp-dev-err.log",
-    "merge_logs": true,
-    "instances": 1,
-    "autorestart": true,
-    "restart_delay": 10000,
-    "env_file": "./.env",
-    "kill_timeout": 10000,
-    "env": {
-      "PM2_PROCESS_NAME": "promethean-mcp-dev",
-      "MCP_USRER_ROLE": "developer",
-      "ENABLE_OAUTH": "true"
+    name: 'mcp-dev',
+    script: 'pnpm',
+    args: ['--filter', '@promethean-os/mcp', 'dev'],
+    interpreter: '/usr/bin/env',
+    out_file: './logs/promethean-mcp-dev-out.log',
+    error_file: './logs/promthean-mcp-dev-err.log',
+    merge_logs: true,
+    instances: 1,
+    autorestart: true,
+    restart_delay: 10000,
+    env_file: './.env',
+    kill_timeout: 10000,
+    env: {
+      PM2_PROCESS_NAME: 'promethean-mcp-dev',
+      MCP_USRER_ROLE: 'developer',
+      ENABLE_OAUTH: 'true',
     },
-    "cwd": "."
+    cwd: '.',
   },
   {
-    "name": "autocommit",
-    "script": "pnpm",
-    "cwd": ".",
-    "args": [
-      "autocommit",
-      "--path",
-      "../",
-      "-r",
-      "--debounce-ms",
-      "10000",
-      "--model",
-      "error/qwen3:4b-instruct-100k",
-      "--base-url",
-      "http://localhost:11434"
+    name: 'autocommit',
+    script: 'pnpm',
+    cwd: '.',
+    args: [
+      'autocommit',
+      '--path',
+      '../',
+      '--debounce-ms',
+      '10000',
+      '--model',
+      'error/qwen3:4b-instruct-100k',
+      '--base-url',
+      'http://localhost:11434',
     ],
-    "env": {
-      "OPENAI_BASE_URL": "http://localhost:11434",
-      "AUTOCOMMIT_MODEL": "error/qwen3:4b-instruct-100k",
-      "NODE_ENV": "production"
+    env: {
+      OPENAI_BASE_URL: 'http://localhost:11434',
+      AUTOCOMMIT_MODEL: 'error/qwen3:4b-instruct-100k',
+      NODE_ENV: 'production',
     },
-    "instances": 1,
-    "interpreter": "/usr/bin/env",
-    "autorestart": true,
-    "watch": [
-      "./packages/autocommit/dist"
-    ],
-    "error_file": "/home/err/devel/promethean/logs/autocommit-error.log",
-    "out_file": "/home/err/devel/promethean/logs/autocommit-out.log",
-    "log_file": "/home/err/devel/promethean/logs/autocommit.log",
-    "time": true,
-    "kill_timeout": 5000,
-    "restart_delay": 5000,
-    "max_restarts": 10,
-    "min_uptime": 10000
+    instances: 1,
+    interpreter: '/usr/bin/env',
+    autorestart: true,
+    watch: ['./packages/autocommit/dist'],
+    error_file: '/home/err/devel/promethean/logs/autocommit-error.log',
+    out_file: '/home/err/devel/promethean/logs/autocommit-out.log',
+    log_file: '/home/err/devel/promethean/logs/autocommit.log',
+    time: true,
+    kill_timeout: 5000,
+    restart_delay: 5000,
+    max_restarts: 10,
+    min_uptime: 10000,
+  },
+  {
+    name: 'knowledge-graph-ui',
+    script: 'pnpm',
+    cwd: '.',
+    args: ['--filter', '@promethean-os/knowledge-graph-ui', 'dev'],
+    env: {
+      NODE_ENV: 'development',
+    },
+    instances: 1,
+    interpreter: '/usr/bin/env',
+    autorestart: true,
+    watch: false,
+    out_file: './logs/knowledge-graph-ui-out.log',
+    error_file: './logs/knowledge-graph-ui-err.log',
+    merge_logs: true,
+    kill_timeout: 10000,
+    restart_delay: 5000,
   },
 ];

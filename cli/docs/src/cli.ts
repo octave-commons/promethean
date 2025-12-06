@@ -11,6 +11,11 @@ import { scanFiles, type IndexedFile } from '@promethean-os/file-indexer';
 import { makeDeterministicEmbedder } from '@promethean-os/embedding';
 import { semanticSearchElastic, ElasticSearchConfig } from './elastic.js';
 import { loadDocsForEmbedding, embedWithOllama } from './semantic.js';
+import {
+  Database as KnowledgeGraphDatabase,
+  GraphRepository as KnowledgeGraphRepository,
+  exportGraph as exportKnowledgeGraph,
+} from '@promethean-os/knowledge-graph';
 
 // Types
 
@@ -138,6 +143,19 @@ function uniqueExts(paths: string[]): string[] {
   return Array.from(set).filter(Boolean);
 }
 
+function toUtf8(content: unknown): string {
+  if (typeof content === 'string') return content;
+  if (content instanceof Uint8Array) return Buffer.from(content).toString('utf8');
+  if (content && typeof (content as { toString?: unknown }).toString === 'function') {
+    try {
+      return (content as { toString(): string }).toString();
+    } catch {
+      return '';
+    }
+  }
+  return '';
+}
+
 async function resolveTargetFiles(opts: {
   category?: string;
   pathGlob?: string;
@@ -205,12 +223,11 @@ async function loadFilesWithIndexer(
     collect: true,
   });
 
-  const collected: IndexedFile[] = result.files ?? [];
+  const collected = (result.files ?? []) as readonly IndexedFile[];
   return collected
     .filter((f: IndexedFile) => targetSet.has(path.resolve(f.path)))
     .map((f: IndexedFile) => {
-      const content =
-        typeof f.content === 'string' ? f.content : (f.content?.toString('utf8') ?? '');
+      const content = toUtf8(f.content);
       const abs = path.resolve(f.path);
       return { path: path.relative(cwd, abs), abs, content };
     });
@@ -635,8 +652,7 @@ export async function commandTasksSummary(opts: {
 
     for (const file of scanResult.files ?? []) {
       const abs = path.resolve(file.path);
-      const raw =
-        typeof file.content === 'string' ? file.content : (file.content?.toString('utf8') ?? '');
+      const raw = toUtf8(file.content);
       const parsed = matter(raw);
       const titleFromFm = parsed.data.title as string | undefined;
       const heading = parsed.content.match(/^#\s+(.+)$/m)?.[1];
@@ -708,6 +724,35 @@ export async function commandTasksSummary(opts: {
     ['Task', 'Priority', 'Status', 'Created', 'Path'],
     p0p1.map((t) => [t.title, t.priority ?? '', t.status ?? '', t.created_at ?? '', t.path]),
   );
+}
+
+export async function commandGraph(opts: {
+  format?: Format;
+  cwd?: string;
+  dbPath?: string;
+}): Promise<void> {
+  const format = opts.format ?? 'markdown';
+  const cwd = opts.cwd ?? process.cwd();
+  const dbPath = opts.dbPath
+    ? path.isAbsolute(opts.dbPath)
+      ? opts.dbPath
+      : path.join(cwd, opts.dbPath)
+    : path.join(cwd, 'knowledge-graph.db');
+
+  try {
+    await fs.access(dbPath);
+  } catch {
+    throw new InvalidArgumentError(`knowledge graph database not found at ${dbPath}`);
+  }
+
+  const db = new KnowledgeGraphDatabase({ path: dbPath, readonly: true } as any);
+  try {
+    const repo = new KnowledgeGraphRepository(db as any);
+    const output = exportKnowledgeGraph(repo, { format });
+    console.log(output);
+  } finally {
+    db.close();
+  }
 }
 
 function buildOutput(io?: IoConfig) {
@@ -916,6 +961,27 @@ export function buildDocsCommand(io?: IoConfig, options: DocsCommandOptions = {}
       await commandView(file, { encoding: options.encoding, cwd: globals.cwd });
     });
 
+  const graphCommand = new Command('graph')
+    .summary('View knowledge graph export as Markdown/JSON')
+    .description('Read knowledge-graph.db and emit nodes/edges as text')
+    .addOption(
+      new Option('-f, --format <format>', 'markdown|json')
+        .choices(formats)
+        .default('markdown')
+        .argParser(parseFormat),
+    )
+    .addOption(
+      new Option('--db <path>', 'path to knowledge-graph.db (default: <cwd>/knowledge-graph.db)'),
+    )
+    .action(async (options: OptionValues, command: Command) => {
+      const globals = command.optsWithGlobals() as { cwd?: string };
+      await commandGraph({
+        format: options.format as Format,
+        cwd: globals.cwd,
+        dbPath: options.db as string | undefined,
+      });
+    });
+
   const tasksSummaryCommand = new Command('summary')
     .alias('sum')
     .summary('Summarize agile tasks')
@@ -946,6 +1012,7 @@ export function buildDocsCommand(io?: IoConfig, options: DocsCommandOptions = {}
 
   program.addCommand(searchCommand);
   program.addCommand(viewCommand);
+  program.addCommand(graphCommand);
   program.addCommand(tasksCommand);
 
   return program;

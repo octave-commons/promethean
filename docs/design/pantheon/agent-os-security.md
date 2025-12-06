@@ -1,6 +1,8 @@
-# Agent OS Security Model
+# Pantheon Security Model
 
-This document defines the comprehensive security architecture for Agent OS, ensuring agent instances operate in a secure, isolated, and controlled environment.
+> Naming: Pantheon is the operating system; earlier drafts used "Agent OS." Any remaining references map directly to Pantheon.
+
+This document defines the comprehensive security architecture for Pantheon, ensuring agent instances operate in a secure, isolated, and controlled environment.
 
 ## Table of Contents
 
@@ -18,16 +20,19 @@ This document defines the comprehensive security architecture for Agent OS, ensu
 ## Security Principles
 
 ### 1. Zero Trust Architecture
+
 - **Never trust, always verify**: All agent interactions require authentication and authorization
 - **Principle of least privilege**: Agents receive only the permissions necessary for their tasks
 - **Micro-segmentation**: Each agent instance operates in an isolated security domain
 
 ### 2. Defense in Depth
+
 - **Multiple security layers**: Network, application, container, and process-level protections
 - **Fail-safe defaults**: Secure configurations that require explicit permission to relax
 - **Reduced attack surface**: Minimal exposure of agent capabilities and system resources
 
 ### 3. Transparency & Auditability
+
 - **Complete traceability**: All agent actions are logged and auditable
 - **Immutable audit trails**: Tamper-evident logging of all security-relevant events
 - **Real-time monitoring**: Continuous security monitoring and alerting
@@ -37,11 +42,14 @@ This document defines the comprehensive security architecture for Agent OS, ensu
 ### Attack Vectors
 
 #### External Threats
+
 1. **Malicious Task Injection**
+
    - Attacker submits tasks designed to compromise agents
    - Mitigation: Task validation, sandboxing, and capability restrictions
 
 2. **Agent Impersonation**
+
    - Attacker attempts to spoof legitimate agent instances
    - Mitigation: Strong authentication, certificate-based identity
 
@@ -50,11 +58,14 @@ This document defines the comprehensive security architecture for Agent OS, ensu
    - Mitigation: Resource quotas, rate limiting, and monitoring
 
 #### Internal Threats
+
 1. **Privileged Agent Compromise**
+
    - An agent instance is compromised and attempts lateral movement
    - Mitigation: Container isolation, network segmentation, minimal privileges
 
 2. **Data Exfiltration**
+
    - Compromised agent attempts to access unauthorized data
    - Mitigation: Data access controls, encryption, audit logging
 
@@ -64,19 +75,20 @@ This document defines the comprehensive security architecture for Agent OS, ensu
 
 ### Risk Assessment
 
-| Risk Category | Likelihood | Impact | Mitigation |
-|---------------|------------|--------|------------|
-| Task Injection | Medium | High | Task validation, sandboxing |
-| Agent Compromise | Low | Critical | Container isolation, monitoring |
-| Data Leakage | Low | High | Access controls, encryption |
-| Resource Abuse | Medium | Medium | Quotas, rate limiting |
-| Privilege Escalation | Low | Critical | Minimal privileges, auditing |
+| Risk Category        | Likelihood | Impact   | Mitigation                      |
+| -------------------- | ---------- | -------- | ------------------------------- |
+| Task Injection       | Medium     | High     | Task validation, sandboxing     |
+| Agent Compromise     | Low        | Critical | Container isolation, monitoring |
+| Data Leakage         | Low        | High     | Access controls, encryption     |
+| Resource Abuse       | Medium     | Medium   | Quotas, rate limiting           |
+| Privilege Escalation | Low        | Critical | Minimal privileges, auditing    |
 
 ## Agent Isolation & Sandboxing
 
 ### Container Security
 
 #### Multi-Level Isolation
+
 ```yaml
 # Agent Container Security Profile
 agent_security_profile:
@@ -110,6 +122,7 @@ agent_security_profile:
 ```
 
 #### Container Security Configuration
+
 ```dockerfile
 # Agent Runtime Container
 FROM scratch
@@ -135,6 +148,7 @@ ENTRYPOINT ["/agent-runtime", "execute"]
 ### Runtime Sandboxing
 
 #### Capability Restrictions
+
 ```typescript
 interface AgentSandboxPolicy {
   // Allowed system calls
@@ -172,8 +186,16 @@ interface AgentSandboxPolicy {
 // Example: Code Review Agent Policy
 const codeReviewerPolicy: AgentSandboxPolicy = {
   allowedSyscalls: [
-    'read', 'write', 'open', 'close', 'stat', 'fstat',
-    'mmap', 'munmap', 'brk', 'rt_sigaction'
+    'read',
+    'write',
+    'open',
+    'close',
+    'stat',
+    'fstat',
+    'mmap',
+    'munmap',
+    'brk',
+    'rt_sigaction',
   ],
   fileAccess: {
     readonly: [
@@ -181,40 +203,31 @@ const codeReviewerPolicy: AgentSandboxPolicy = {
       '/workspace/**/*.js',
       '/workspace/**/*.json',
       '/usr/lib/**',
-      '/etc/ssl/**'
+      '/etc/ssl/**',
     ],
-    readwrite: [
-      '/tmp/**',
-      '/workspace/.agent-workspace/**'
-    ],
-    forbidden: [
-      '/etc/**',
-      '/root/**',
-      '/home/**',
-      '/var/**',
-      '/sys/**',
-      '/proc/**'
-    ]
+    readwrite: ['/tmp/**', '/workspace/.agent-workspace/**'],
+    forbidden: ['/etc/**', '/root/**', '/home/**', '/var/**', '/sys/**', '/proc/**'],
   },
   networkRules: {
     allowedHosts: ['api.github.com', 'registry.npmjs.org'],
     allowedPorts: [443, 80],
-    protocols: ['https', 'http']
+    protocols: ['https', 'http'],
   },
   resourceLimits: {
     maxMemory: 1024 * 1024 * 1024, // 1GB
-    maxCpuTime: 30 * 60 * 1000,    // 30 minutes
+    maxCpuTime: 30 * 60 * 1000, // 30 minutes
     maxFileSize: 100 * 1024 * 1024, // 100MB
-    maxProcesses: 10
+    maxProcesses: 10,
   },
   capabilities: {
     allowed: ['read_files', 'write_files', 'network_access'],
-    forbidden: ['system_admin', 'file_system_admin', 'network_admin']
-  }
+    forbidden: ['system_admin', 'file_system_admin', 'network_admin'],
+  },
 };
 ```
 
 #### Dynamic Capability Enforcement
+
 ```typescript
 class AgentCapabilityGuard {
   private policy: AgentSandboxPolicy;
@@ -228,7 +241,7 @@ class AgentCapabilityGuard {
   async enforceCapabilityAttempt(
     capability: string,
     resource: string,
-    context: any
+    context: any,
   ): Promise<boolean> {
     // Check if capability is allowed
     if (!this.isCapabilityAllowed(capability)) {
@@ -236,7 +249,7 @@ class AgentCapabilityGuard {
         type: 'capability_denied',
         capability,
         resource,
-        reason: 'capability_not_in_policy'
+        reason: 'capability_not_in_policy',
       });
       return false;
     }
@@ -247,7 +260,7 @@ class AgentCapabilityGuard {
         type: 'resource_access_denied',
         capability,
         resource,
-        reason: 'resource_not_permitted'
+        reason: 'resource_not_permitted',
       });
       return false;
     }
@@ -257,15 +270,17 @@ class AgentCapabilityGuard {
       type: 'capability_used',
       capability,
       resource,
-      context
+      context,
     });
 
     return true;
   }
 
   private isCapabilityAllowed(capability: string): boolean {
-    return this.policy.capabilities.allowed.includes(capability) &&
-           !this.policy.capabilities.forbidden.includes(capability);
+    return (
+      this.policy.capabilities.allowed.includes(capability) &&
+      !this.policy.capabilities.forbidden.includes(capability)
+    );
   }
 
   private isResourceAccessAllowed(capability: string, resource: string): boolean {
@@ -289,13 +304,14 @@ class AgentCapabilityGuard {
 ### Agent Identity Management
 
 #### Cryptographic Identity
+
 ```typescript
 interface AgentIdentity {
   // Cryptographic identifiers
-  instanceId: string;           // UUID v4
-  publicKey: string;           // PEM-encoded public key
-  certificate: string;         // X.509 certificate
-  certificateChain: string[];  // CA chain
+  instanceId: string; // UUID v4
+  publicKey: string; // PEM-encoded public key
+  certificate: string; // X.509 certificate
+  certificateChain: string[]; // CA chain
 
   // Identity metadata
   agentType: string;
@@ -304,9 +320,9 @@ interface AgentIdentity {
   expiresAt: string;
 
   // Trust anchors
-  issuer: string;              // Certificate issuer
-  subject: string;             // Certificate subject
-  fingerprint: string;         // SHA-256 fingerprint
+  issuer: string; // Certificate issuer
+  subject: string; // Certificate subject
+  fingerprint: string; // SHA-256 fingerprint
 }
 
 // Agent Certificate Structure
@@ -336,6 +352,7 @@ interface AgentCertificate {
 ```
 
 #### Mutual Authentication
+
 ```typescript
 class AgentAuthenticator {
   private caStore: CertificateAuthority;
@@ -344,7 +361,7 @@ class AgentAuthenticator {
   async authenticateAgent(
     clientCertificate: string,
     clientSignature: string,
-    challenge: string
+    challenge: string,
   ): Promise<AgentIdentity | null> {
     try {
       // 1. Validate certificate chain
@@ -358,11 +375,7 @@ class AgentAuthenticator {
 
       // 3. Verify signature against challenge
       const publicKey = await this.extractPublicKey(cert);
-      const isValidSignature = await this.verifySignature(
-        publicKey,
-        challenge,
-        clientSignature
-      );
+      const isValidSignature = await this.verifySignature(publicKey, challenge, clientSignature);
 
       if (!isValidSignature) return null;
 
@@ -393,6 +406,7 @@ class AgentAuthenticator {
 ### Permission System
 
 #### Role-Based Access Control (RBAC)
+
 ```typescript
 interface AgentRole {
   name: string;
@@ -402,16 +416,16 @@ interface AgentRole {
 }
 
 interface Permission {
-  resource: string;           // Resource type (e.g., 'file', 'network', 'task')
-  action: string;            // Action (e.g., 'read', 'write', 'execute')
-  effect: 'allow' | 'deny';  // Allow or deny
-  conditions?: Condition[];  // Conditions for permission
+  resource: string; // Resource type (e.g., 'file', 'network', 'task')
+  action: string; // Action (e.g., 'read', 'write', 'execute')
+  effect: 'allow' | 'deny'; // Allow or deny
+  conditions?: Condition[]; // Conditions for permission
 }
 
 interface Condition {
-  field: string;             // Field to check
+  field: string; // Field to check
   operator: 'eq' | 'ne' | 'in' | 'contains';
-  value: any;                // Expected value
+  value: any; // Expected value
 }
 
 // Predefined Agent Roles
@@ -424,28 +438,26 @@ const AGENT_ROLES: Record<string, AgentRole> = {
         resource: 'file',
         action: 'read',
         effect: 'allow',
-        conditions: [
-          { field: 'extension', operator: 'in', value: ['.ts', '.js', '.jsx', '.tsx'] }
-        ]
+        conditions: [{ field: 'extension', operator: 'in', value: ['.ts', '.js', '.jsx', '.tsx'] }],
       },
       {
         resource: 'network',
         action: 'connect',
         effect: 'allow',
         conditions: [
-          { field: 'host', operator: 'in', value: ['api.github.com', 'registry.npmjs.org'] }
-        ]
+          { field: 'host', operator: 'in', value: ['api.github.com', 'registry.npmjs.org'] },
+        ],
       },
       {
         resource: 'system',
         action: 'execute',
-        effect: 'deny'
-      }
+        effect: 'deny',
+      },
     ],
     constraints: [
-      { type: 'time_limit', value: 3600000 },  // 1 hour
-      { type: 'memory_limit', value: 1024 * 1024 * 1024 }  // 1GB
-    ]
+      { type: 'time_limit', value: 3600000 }, // 1 hour
+      { type: 'memory_limit', value: 1024 * 1024 * 1024 }, // 1GB
+    ],
   },
 
   'task-orchestrator': {
@@ -455,27 +467,26 @@ const AGENT_ROLES: Record<string, AgentRole> = {
       {
         resource: 'agent',
         action: 'read',
-        effect: 'allow'
+        effect: 'allow',
       },
       {
         resource: 'task',
         action: 'assign',
-        effect: 'allow'
+        effect: 'allow',
       },
       {
         resource: 'system',
         action: 'monitor',
-        effect: 'allow'
-      }
+        effect: 'allow',
+      },
     ],
-    constraints: [
-      { type: 'max_concurrent_tasks', value: 10 }
-    ]
-  }
+    constraints: [{ type: 'max_concurrent_tasks', value: 10 }],
+  },
 };
 ```
 
 #### Attribute-Based Access Control (ABAC)
+
 ```typescript
 interface AccessPolicy {
   id: string;
@@ -508,7 +519,7 @@ class PolicyEngine {
     subject: AgentIdentity,
     resource: any,
     action: string,
-    context: any
+    context: any,
   ): Promise<{ allowed: boolean; reason: string }> {
     // Resolve attributes
     const subjectAttrs = await this.attributeResolver.resolveSubject(subject);
@@ -519,25 +530,22 @@ class PolicyEngine {
     const sortedPolicies = this.policies.sort((a, b) => b.priority - a.priority);
 
     for (const policy of sortedPolicies) {
-      const targetMatch = await this.evaluateTarget(
-        policy.target,
-        subjectAttrs,
-        resourceAttrs,
-        { action }
-      );
+      const targetMatch = await this.evaluateTarget(policy.target, subjectAttrs, resourceAttrs, {
+        action,
+      });
 
       if (targetMatch) {
         const conditionMatch = await this.evaluateCondition(
           policy.condition,
           subjectAttrs,
           resourceAttrs,
-          contextAttrs
+          contextAttrs,
         );
 
         if (conditionMatch) {
           return {
             allowed: policy.effect === 'allow',
-            reason: `Policy ${policy.id} (${policy.effect})`
+            reason: `Policy ${policy.id} (${policy.effect})`,
           };
         }
       }
@@ -551,22 +559,13 @@ class PolicyEngine {
     target: TargetExpression,
     subject: any,
     resource: any,
-    actionContext: any
+    actionContext: any,
   ): Promise<boolean> {
-    const resourceMatch = await this.evaluateExpression(
-      target.resource,
-      resource
-    );
+    const resourceMatch = await this.evaluateExpression(target.resource, resource);
 
-    const actionMatch = await this.evaluateExpression(
-      target.action,
-      actionContext
-    );
+    const actionMatch = await this.evaluateExpression(target.action, actionContext);
 
-    const subjectMatch = await this.evaluateExpression(
-      target.subject,
-      subject
-    );
+    const subjectMatch = await this.evaluateExpression(target.subject, subject);
 
     return resourceMatch && actionMatch && subjectMatch;
   }
@@ -578,6 +577,7 @@ class PolicyEngine {
 ### Data Protection
 
 #### Encryption-at-Rest
+
 ```typescript
 class AgentDataProtector {
   private encryptionKey: CryptoKey;
@@ -600,10 +600,10 @@ class AgentDataProtector {
     const encryptedBuffer = await crypto.subtle.encrypt(
       {
         name: 'AES-GCM',
-        iv: iv
+        iv: iv,
       },
       this.encryptionKey,
-      dataBuffer
+      dataBuffer,
     );
 
     return {
@@ -611,7 +611,7 @@ class AgentDataProtector {
       algorithm: 'AES-GCM',
       iv: Array.from(iv),
       ciphertext: Array.from(new Uint8Array(encryptedBuffer)),
-      timestamp: new Date().toISOString()
+      timestamp: new Date().toISOString(),
     };
   }
 
@@ -622,10 +622,10 @@ class AgentDataProtector {
     const decryptedBuffer = await crypto.subtle.decrypt(
       {
         name: 'AES-GCM',
-        iv: iv
+        iv: iv,
       },
       this.encryptionKey,
-      ciphertext
+      ciphertext,
     );
 
     const decoder = new TextDecoder();
@@ -637,6 +637,7 @@ class AgentDataProtector {
 ```
 
 #### Data Access Controls
+
 ```typescript
 interface DataAccessPolicy {
   // Data classification
@@ -651,7 +652,7 @@ interface DataAccessPolicy {
 
   // Retention policies
   retention: {
-    retentionPeriod: number;  // milliseconds
+    retentionPeriod: number; // milliseconds
     autoDelete: boolean;
   };
 
@@ -672,7 +673,7 @@ class DataAccessGuard {
     agentId: string,
     dataId: string,
     operation: 'read' | 'write' | 'delete',
-    context: any
+    context: any,
   ): Promise<boolean> {
     const policy = this.policies.get(dataId);
     if (!policy) {
@@ -681,7 +682,7 @@ class DataAccessGuard {
         agentId,
         dataId,
         operation,
-        reason: 'no_policy_found'
+        reason: 'no_policy_found',
       });
       return false;
     }
@@ -689,7 +690,7 @@ class DataAccessGuard {
     const agentRoles = await this.getAgentRoles(agentId);
     const requiredRoles = this.getRequiredRoles(policy, operation);
 
-    const hasPermission = requiredRoles.some(role => agentRoles.includes(role));
+    const hasPermission = requiredRoles.some((role) => agentRoles.includes(role));
 
     if (!hasPermission) {
       await this.auditLogger.logSecurityEvent({
@@ -699,7 +700,7 @@ class DataAccessGuard {
         operation,
         reason: 'insufficient_permissions',
         agentRoles,
-        requiredRoles
+        requiredRoles,
       });
       return false;
     }
@@ -711,7 +712,7 @@ class DataAccessGuard {
         dataId,
         operation,
         timestamp: new Date().toISOString(),
-        context
+        context,
       });
     }
 
@@ -726,30 +727,30 @@ class DataAccessGuard {
 interface ResourceQuota {
   // CPU quotas
   cpuQuota: {
-    shares: number;           // CPU shares (relative weight)
-    quota: number;            // CPU time in microseconds
-    period: number;           // Period in microseconds
+    shares: number; // CPU shares (relative weight)
+    quota: number; // CPU time in microseconds
+    period: number; // Period in microseconds
   };
 
   // Memory limits
   memoryLimits: {
-    limit: number;            // Memory limit in bytes
-    swapLimit: number;        // Swap limit in bytes
-    reservation: number;      // Memory reservation
+    limit: number; // Memory limit in bytes
+    swapLimit: number; // Swap limit in bytes
+    reservation: number; // Memory reservation
   };
 
   // Storage quotas
   storageQuotas: {
-    diskQuota: number;        // Disk quota in bytes
-    maxFiles: number;         // Maximum number of files
-    maxFileSize: number;      // Maximum file size
+    diskQuota: number; // Disk quota in bytes
+    maxFiles: number; // Maximum number of files
+    maxFileSize: number; // Maximum file size
   };
 
   // Network limits
   networkLimits: {
-    bandwidthLimit: number;   // Bandwidth limit in bytes per second
-    connectionLimit: number;  // Maximum concurrent connections
-    packetRateLimit: number;  // Packets per second
+    bandwidthLimit: number; // Bandwidth limit in bytes per second
+    connectionLimit: number; // Maximum concurrent connections
+    packetRateLimit: number; // Packets per second
   };
 }
 
@@ -795,6 +796,7 @@ class ResourceQuotaEnforcer {
 ### Secure Agent Communication
 
 #### Message Authentication & Integrity
+
 ```typescript
 interface SecureMessage {
   header: {
@@ -809,9 +811,9 @@ interface SecureMessage {
   payload: any;
 
   security: {
-    signature: string;        // Digital signature
-    encryptionKey?: string;   // Encrypted symmetric key
-    mac: string;             // Message authentication code
+    signature: string; // Digital signature
+    encryptionKey?: string; // Encrypted symmetric key
+    mac: string; // Message authentication code
   };
 }
 
@@ -827,43 +829,37 @@ class SecureMessageHandler {
     const signature = await crypto.subtle.sign(
       { name: 'ECDSA', hash: { name: 'SHA-256' } },
       this.privateKey,
-      messageBuffer
+      messageBuffer,
     );
 
     return Array.from(new Uint8Array(signature)).join(',');
   }
 
-  async verifyMessage(
-    message: SecureMessage,
-    senderPublicKey: CryptoKey
-  ): Promise<boolean> {
+  async verifyMessage(message: SecureMessage, senderPublicKey: CryptoKey): Promise<boolean> {
     const messageString = JSON.stringify({
       header: message.header,
-      payload: message.payload
+      payload: message.payload,
     });
 
     const encoder = new TextEncoder();
     const messageBuffer = encoder.encode(messageString);
 
-    const signature = new Uint8Array(
-      message.security.signature.split(',').map(Number)
-    );
+    const signature = new Uint8Array(message.security.signature.split(',').map(Number));
 
     return await crypto.subtle.verify(
       { name: 'ECDSA', hash: { name: 'SHA-256' } },
       senderPublicKey,
       signature,
-      messageBuffer
+      messageBuffer,
     );
   }
 
   async encryptMessage(message: any, recipientPublicKey: CryptoKey): Promise<EncryptedMessage> {
     // Generate ephemeral symmetric key
-    const symmetricKey = await crypto.subtle.generateKey(
-      { name: 'AES-GCM', length: 256 },
-      true,
-      ['encrypt', 'decrypt']
-    );
+    const symmetricKey = await crypto.subtle.generateKey({ name: 'AES-GCM', length: 256 }, true, [
+      'encrypt',
+      'decrypt',
+    ]);
 
     // Encrypt message with symmetric key
     const messageString = JSON.stringify(message);
@@ -874,7 +870,7 @@ class SecureMessageHandler {
     const encryptedBuffer = await crypto.subtle.encrypt(
       { name: 'AES-GCM', iv },
       symmetricKey,
-      messageBuffer
+      messageBuffer,
     );
 
     // Encrypt symmetric key with recipient's public key
@@ -882,19 +878,20 @@ class SecureMessageHandler {
     const encryptedKey = await crypto.subtle.encrypt(
       { name: 'RSA-OAEP' },
       recipientPublicKey,
-      symmetricKeyBuffer
+      symmetricKeyBuffer,
     );
 
     return {
       encryptedData: Array.from(new Uint8Array(encryptedBuffer)),
       encryptedKey: Array.from(new Uint8Array(encryptedKey)),
-      iv: Array.from(iv)
+      iv: Array.from(iv),
     };
   }
 }
 ```
 
 #### Secure Channel Establishment
+
 ```typescript
 class AgentSecureChannel {
   private localKeyPair: CryptoKeyPair;
@@ -907,7 +904,7 @@ class AgentSecureChannel {
     const ephemeralKeyPair = await crypto.subtle.generateKey(
       { name: 'ECDH', namedCurve: 'P-256' },
       true,
-      ['deriveKey']
+      ['deriveKey'],
     );
 
     // Create handshake message
@@ -917,7 +914,7 @@ class AgentSecureChannel {
       recipientId: remoteAgentId,
       timestamp: new Date().toISOString(),
       ephemeralPublicKey: await this.exportPublicKey(ephemeralKeyPair.publicKey),
-      signature: await this.signHandshake(ephemeralKeyPair.publicKey)
+      signature: await this.signHandshake(ephemeralKeyPair.publicKey),
     };
 
     this.ephemeralKeyPair = ephemeralKeyPair;
@@ -934,7 +931,7 @@ class AgentSecureChannel {
 
       // Import remote ephemeral public key
       const remoteEphemeralPublicKey = await this.importPublicKey(
-        handshakeMessage.ephemeralPublicKey
+        handshakeMessage.ephemeralPublicKey,
       );
 
       // Derive shared secret
@@ -943,7 +940,7 @@ class AgentSecureChannel {
         this.ephemeralKeyPair!.privateKey,
         { name: 'AES-GCM', length: 256 },
         true,
-        ['encrypt', 'decrypt']
+        ['encrypt', 'decrypt'],
       );
 
       this.sessionKey = sharedSecret;
@@ -971,7 +968,7 @@ class AgentSecureChannel {
     const encryptedBuffer = await crypto.subtle.encrypt(
       { name: 'AES-GCM', iv },
       this.sessionKey,
-      messageBuffer
+      messageBuffer,
     );
 
     // Create secure message
@@ -982,15 +979,15 @@ class AgentSecureChannel {
         senderId: this.localAgentId,
         recipientId: this.remoteAgentId!,
         timestamp: new Date().toISOString(),
-        messageId: crypto.randomUUID()
+        messageId: crypto.randomUUID(),
       },
       payload: {
         encryptedData: Array.from(new Uint8Array(encryptedBuffer)),
-        iv: Array.from(iv)
+        iv: Array.from(iv),
       },
       security: {
-        mac: await this.calculateMAC(encryptedBuffer)
-      }
+        mac: await this.calculateMAC(encryptedBuffer),
+      },
     };
 
     return secureMessage;
@@ -1028,25 +1025,34 @@ interface SecurityEvent {
 }
 
 type SecurityEventType =
-  | 'authentication_success' | 'authentication_failure'
-  | 'authorization_granted' | 'authorization_denied'
-  | 'capability_used' | 'capability_denied'
-  | 'resource_access_granted' | 'resource_access_denied'
-  | 'policy_violation' | 'security_alert'
-  | 'data_access' | 'data_modification'
-  | 'agent_spawn' | 'agent_terminate'
+  | 'authentication_success'
+  | 'authentication_failure'
+  | 'authorization_granted'
+  | 'authorization_denied'
+  | 'capability_used'
+  | 'capability_denied'
+  | 'resource_access_granted'
+  | 'resource_access_denied'
+  | 'policy_violation'
+  | 'security_alert'
+  | 'data_access'
+  | 'data_modification'
+  | 'agent_spawn'
+  | 'agent_terminate'
   | 'system_anomaly';
 
 class SecurityAuditLogger {
   private logStore: AuditLogStore;
   private alertManager: SecurityAlertManager;
 
-  async logSecurityEvent(event: Omit<SecurityEvent, 'id' | 'timestamp' | 'checksum'>): Promise<void> {
+  async logSecurityEvent(
+    event: Omit<SecurityEvent, 'id' | 'timestamp' | 'checksum'>,
+  ): Promise<void> {
     const securityEvent: SecurityEvent = {
       ...event,
       id: crypto.randomUUID(),
       timestamp: new Date().toISOString(),
-      checksum: ''
+      checksum: '',
     };
 
     // Calculate checksum for integrity
@@ -1067,7 +1073,7 @@ class SecurityAuditLogger {
     if (event.eventType === 'authentication_failure') {
       const recentFailures = await this.logStore.getRecentFailures(
         event.agentId,
-        5 * 60 * 1000  // 5 minutes
+        5 * 60 * 1000, // 5 minutes
       );
 
       if (recentFailures.length >= 5) {
@@ -1077,8 +1083,8 @@ class SecurityAuditLogger {
           agentId: event.agentId,
           details: {
             failureCount: recentFailures.length,
-            timeWindow: '5 minutes'
-          }
+            timeWindow: '5 minutes',
+          },
         });
       }
     }
@@ -1090,7 +1096,7 @@ class SecurityAuditLogger {
         severity: event.severity === 'critical' ? 'critical' : 'high',
         agentId: event.agentId,
         resource: event.resource,
-        details: event.details
+        details: event.details,
       });
     }
 
@@ -1099,7 +1105,7 @@ class SecurityAuditLogger {
       const recentDenials = await this.logStore.getRecentResourceDenials(
         event.agentId,
         event.resource!,
-        60 * 60 * 1000  // 1 hour
+        60 * 60 * 1000, // 1 hour
       );
 
       if (recentDenials.length >= 10) {
@@ -1110,8 +1116,8 @@ class SecurityAuditLogger {
           resource: event.resource,
           details: {
             denialCount: recentDenials.length,
-            timeWindow: '1 hour'
-          }
+            timeWindow: '1 hour',
+          },
         });
       }
     }
@@ -1177,7 +1183,7 @@ class SecurityMonitor {
       type: 'agent_compromise_suspected',
       agentId,
       severity: 'critical',
-      details: anomaly
+      details: anomaly,
     });
 
     // Preserve forensic evidence
@@ -1255,7 +1261,7 @@ const SECURITY_POLICIES: SecurityPolicy[] = [
     description: 'Agents must only communicate through approved channels',
     version: '1.0',
     scope: {
-      agentTypes: ['code-reviewer', 'task-orchestrator']
+      agentTypes: ['code-reviewer', 'task-orchestrator'],
     },
     rules: [
       {
@@ -1264,25 +1270,25 @@ const SECURITY_POLICIES: SecurityPolicy[] = [
         description: 'Prevent agents from accessing external networks directly',
         condition: {
           when: { eventType: 'network_connection_attempt' },
-          where: { destination: { notIn: ['api.github.com', 'registry.npmjs.org'] } }
+          where: { destination: { notIn: ['api.github.com', 'registry.npmjs.org'] } },
         },
         action: {
           type: 'deny',
-          parameters: { reason: 'External network access not permitted' }
+          parameters: { reason: 'External network access not permitted' },
         },
         severity: 'high',
         category: 'network_security',
-        tags: ['network', 'isolation']
-      }
+        tags: ['network', 'isolation'],
+      },
     ],
     enforcement: {
       mode: 'enforcing',
-      exceptions: []
+      exceptions: [],
     },
     metadata: {
       createdBy: 'security-admin',
-      createdAt: '2025-01-15T10:00:00Z'
-    }
+      createdAt: '2025-01-15T10:00:00Z',
+    },
   },
 
   {
@@ -1291,7 +1297,7 @@ const SECURITY_POLICIES: SecurityPolicy[] = [
     description: 'Enforce data classification-based access controls',
     version: '1.0',
     scope: {
-      dataClassifications: ['confidential', 'restricted']
+      dataClassifications: ['confidential', 'restricted'],
     },
     rules: [
       {
@@ -1300,26 +1306,26 @@ const SECURITY_POLICIES: SecurityPolicy[] = [
         description: 'Multi-factor authentication required for restricted data access',
         condition: {
           when: { eventType: 'data_access_attempt' },
-          where: { dataClassification: 'restricted', mfaVerified: false }
+          where: { dataClassification: 'restricted', mfaVerified: false },
         },
         action: {
           type: 'deny',
-          parameters: { reason: 'MFA required for restricted data access' }
+          parameters: { reason: 'MFA required for restricted data access' },
         },
         severity: 'critical',
         category: 'data_security',
-        tags: ['data', 'authentication', 'mfa']
-      }
+        tags: ['data', 'authentication', 'mfa'],
+      },
     ],
     enforcement: {
       mode: 'blocking',
-      exceptions: []
+      exceptions: [],
     },
     metadata: {
       createdBy: 'security-admin',
-      createdAt: '2025-01-15T10:00:00Z'
-    }
-  }
+      createdAt: '2025-01-15T10:00:00Z',
+    },
+  },
 ];
 ```
 
@@ -1367,45 +1373,45 @@ const GDPR_COMPLIANCE: ComplianceFramework = {
           name: 'Data Encryption',
           description: 'Encrypt personal data at rest and in transit',
           implementation: 'aes-256-encryption',
-          automated: true
+          automated: true,
         },
         {
           id: 'control-access-logs',
           name: 'Access Logging',
           description: 'Log all access to personal data',
           implementation: 'comprehensive-audit-logging',
-          automated: true
-        }
+          automated: true,
+        },
       ],
       evidence: [
         {
           type: 'technical_documentation',
           description: 'Encryption implementation documentation',
-          automated: true
+          automated: true,
         },
         {
           type: 'audit_logs',
           description: 'Sample of access logs covering 6 months',
-          automated: true
-        }
+          automated: true,
+        },
       ],
       monitoring: [
         {
           type: 'continuous',
           description: 'Monitor encryption key rotation',
-          frequency: 'daily'
+          frequency: 'daily',
         },
         {
           type: 'periodic',
           description: 'Review access log integrity',
-          frequency: 'monthly'
-        }
+          frequency: 'monthly',
+        },
       ],
       status: 'compliant',
       lastAssessment: '2025-01-01T00:00:00Z',
-      nextAssessment: '2025-07-01T00:00:00Z'
-    }
-  ]
+      nextAssessment: '2025-07-01T00:00:00Z',
+    },
+  ],
 };
 
 class ComplianceManager {
@@ -1422,7 +1428,7 @@ class ComplianceManager {
       frameworkId,
       frameworkName: framework.name,
       assessedAt: new Date().toISOString(),
-      requirements: []
+      requirements: [],
     };
 
     for (const requirement of framework.requirements) {
@@ -1440,7 +1446,7 @@ class ComplianceManager {
   }
 
   private async assessRequirement(
-    requirement: ComplianceRequirement
+    requirement: ComplianceRequirement,
   ): Promise<RequirementAssessment> {
     const assessment: RequirementAssessment = {
       requirementId: requirement.id,
@@ -1448,7 +1454,7 @@ class ComplianceManager {
       status: 'not_assessed',
       controls: [],
       evidence: [],
-      risks: []
+      risks: [],
     };
 
     // Assess each control
@@ -1471,4 +1477,4 @@ class ComplianceManager {
 }
 ```
 
-This comprehensive security model ensures that Agent OS provides a secure, compliant, and auditable environment for AI agent operations while maintaining the flexibility needed for dynamic task execution and collaboration.
+This comprehensive security model ensures that Pantheon (previously labeled "Agent OS") provides a secure, compliant, and auditable environment for AI agent operations while maintaining the flexibility needed for dynamic task execution and collaboration.

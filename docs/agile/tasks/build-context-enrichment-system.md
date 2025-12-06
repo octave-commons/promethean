@@ -170,7 +170,7 @@ const testingReqs = await agentsWorkflow.getWorkflowTestingRequirements();
 📁 File Impact:
 ├── Configuration Files (3)
 │   ├── promethean.kanban.json ⚡ High Impact
-│   ├── docs/agile/rules/kanban-transitions.clj ⚡ High Impact
+│   ├── docs/agile/rules/kanban_transitions.clj ⚡ High Impact
 │   └── docs/agile/process.md 📝 Medium Impact
 ├── Task Files (47)
 │   └── docs/agile/tasks/*.md 🔄 Automated Migration
@@ -179,8 +179,8 @@ const testingReqs = await agentsWorkflow.getWorkflowTestingRequirements();
     └── packages/agents-workflow/src/*.ts 🔧 Manual Review Required
 
 🔗 Dependencies:
-- kanban-transitions.clj → promethean.kanban.json
-- process.md → kanban-transitions.clj
+- kanban_transitions.clj → promethean.kanban.json
+- process.md → kanban_transitions.clj
 - agents-workflow → kanban configuration
 
 🤖 Workflow Impact:

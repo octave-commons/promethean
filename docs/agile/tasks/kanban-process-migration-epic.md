@@ -39,7 +39,7 @@ Create a comprehensive kanban process update and migration system that enables s
 
 - [ ] Updates `docs/agile/process.md` with new FSM rules
 - [ ] Updates `promethean.kanban.json` with new status values and transitions
-- [ ] Updates `docs/agile/rules/kanban-transitions.clj` with new transition logic
+- [ ] Updates `docs/agile/rules/kanban_transitions.clj` with new transition logic
 - [ ] Uses `packages/file-indexer/` for file context and impact analysis
 - [ ] Uses `packages/agents-workflow/` for workflow system integration
 
@@ -186,7 +186,7 @@ Based on the conflict analysis, these column names need updates:
 **Status:** incoming
 **Acceptance Criteria:**
 
-- [ ] Update kanban-transitions.clj with new status names
+- [ ] Update kanban_transitions.clj with new status names
 - [ ] Modify transition functions and predicates
 - [ ] Update column-key normalization
 - [ ] Maintain existing rule logic

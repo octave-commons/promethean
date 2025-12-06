@@ -1,5 +1,7 @@
 # Agent Instance Model: Core Abstractions
 
+> Naming: Pantheon is the operating system; previous drafts called it "Agent OS." Any legacy references map directly to Pantheon.
+
 ## Overview
 
 The Agent Instance Model defines the fundamental abstractions for treating AI agents as first-class operating system citizens. This model bridges the gap between traditional process management and intelligent agent orchestration.

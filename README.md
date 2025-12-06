@@ -10,7 +10,7 @@ Promethean is a comprehensive framework for building AI agents and orchestration
 
 - **🧠 Modular Architecture** - Independent services that communicate via message brokers
 - **⚡ Functional Programming** - Immutable data, pure functions, no side effects
-- **🔧 TypeScript Monorepo** - 70+ packages managed with Nx, AVA testing, and ESM modules
+- **🔧 Multi-language workspace** - TypeScript and Clojure packages across `cli/`, `services/`, and `experimental/`, many vendored as git submodules
 - **📋 Document-Driven Development** - All work tracked through kanban tasks
 - **🤖 AI-First Design** - Built from the ground up for AI agent development
 
@@ -122,13 +122,13 @@ pnpm exec prom llm start
 
 ## 📦 Package Ecosystem
 
-The workspace contains 70+ specialized packages organized by category:
+The workspace spans CLI tools, services, experimental spikes, and legacy packages/ modules (many vendored as git submodules):
 
 ### Package Management
 
 - **pnpm required** - npm is blocked and will fail with clear error messages
 - **Workspace structure** - All packages use `@promethean-os/<package>*` via "workspace:\*"
-- **Directory layout** - Active packages now live under `cli/`, `services/`, or `experimental/` (legacy `packages/` paths are being phased out)
+- **Directory layout** - Active code lives under `cli/`, `services/`, and `experimental/`, with a few shared libraries still in `packages/` during migration
 - **No relative imports** outside package roots
 
 > **Submodule packages:** Many packages now live in their own `github.com/octave-commons/<name>` repositories and are mounted as git submodules under their target areas (for example: `cli/apply-patch`, `cli/kanban`, `services/autocommit`, `services/mcp`, `experimental/auth-service`). Run `git submodule update --init <path>` after cloning (or `git submodule update --init --recursive` to fetch all) and use the upstream repo for issue tracking or standalone development.

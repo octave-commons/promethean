@@ -53,7 +53,7 @@ Recent runs of `pnpm --filter @promethean-os/kanban test` (2025-11-10) surfaced 
 ## Existing Issues / References
 
 - Failing CI log captured locally (2025-11-10) – no linked GitHub issue yet.
-- Relevant docs: `docs/agile/process.md`, `docs/agile/rules/kanban-transitions.clj` for workflow semantics.
+- Relevant docs: `docs/agile/process.md`, `docs/agile/rules/kanban_transitions.clj` for workflow semantics.
 
 ## Risks & Mitigations
 

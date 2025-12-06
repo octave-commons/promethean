@@ -1,6 +1,8 @@
-# Agent OS Monitoring & Analytics
+# Pantheon Monitoring & Analytics
 
-This document defines the comprehensive monitoring, observability, and analytics framework for Agent OS, providing insights into agent performance, system health, and operational efficiency.
+> Naming: Pantheon is the operating system; older drafts called it "Agent OS." Any remaining mentions refer to Pantheon.
+
+This document defines the comprehensive monitoring, observability, and analytics framework for Pantheon, providing insights into agent performance, system health, and operational efficiency.
 
 ## Table of Contents
 
@@ -48,6 +50,7 @@ graph TB
 ### Core Components
 
 #### 1. Metrics Collection System
+
 ```typescript
 interface MetricsCollector {
   // Agent metrics
@@ -126,6 +129,7 @@ interface CapabilityMetric {
 ```
 
 #### 2. Distributed Tracing
+
 ```typescript
 interface TraceContext {
   traceId: string;
@@ -161,11 +165,11 @@ class DistributedTracer {
   async startSpan(
     operationName: string,
     parentContext?: TraceContext,
-    tags?: Record<string, any>
+    tags?: Record<string, any>,
   ): Promise<Span> {
     const span = await this.tracer.startSpan(operationName, {
       childOf: parentContext,
-      tags
+      tags,
     });
 
     return span;
@@ -174,11 +178,11 @@ class DistributedTracer {
   async traceAgentOperation(
     agentId: string,
     operation: string,
-    fn: () => Promise<any>
+    fn: () => Promise<any>,
   ): Promise<any> {
     const span = await this.startSpan(`agent.${operation}`, undefined, {
       'agent.id': agentId,
-      'agent.operation': operation
+      'agent.operation': operation,
     });
 
     try {
@@ -202,12 +206,12 @@ class DistributedTracer {
     taskId: string,
     agentId: string,
     taskType: string,
-    fn: () => Promise<any>
+    fn: () => Promise<any>,
   ): Promise<any> {
     const span = await this.startSpan('task.execution', undefined, {
       'task.id': taskId,
       'task.agent_id': agentId,
-      'task.type': taskType
+      'task.type': taskType,
     });
 
     const startTime = Date.now();
@@ -223,7 +227,7 @@ class DistributedTracer {
       await this.recordTaskMetrics(taskId, agentId, {
         duration: Date.now() - startTime,
         success: true,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       return result;
@@ -238,7 +242,7 @@ class DistributedTracer {
         duration: Date.now() - startTime,
         success: false,
         error: error.message,
-        timestamp: new Date().toISOString()
+        timestamp: new Date().toISOString(),
       });
 
       throw error;
@@ -252,6 +256,7 @@ class DistributedTracer {
 ### Core Metrics Types
 
 #### 1. System Metrics
+
 ```typescript
 interface SystemMetrics {
   timestamp: string;
@@ -310,7 +315,7 @@ interface SystemMetrics {
     };
   };
 
-  // Agent OS metrics
+  // Pantheon metrics
   platform: {
     totalAgents: number;
     activeAgents: number;
@@ -337,6 +342,7 @@ interface NetworkInterface {
 ```
 
 #### 2. Business Metrics
+
 ```typescript
 interface BusinessMetrics {
   timestamp: string;
@@ -351,18 +357,24 @@ interface BusinessMetrics {
     taskCompletionRate: number;
 
     // Breakdown by task type
-    byTaskType: Record<string, {
-      count: number;
-      successRate: number;
-      averageDuration: number;
-    }>;
+    byTaskType: Record<
+      string,
+      {
+        count: number;
+        successRate: number;
+        averageDuration: number;
+      }
+    >;
 
     // Breakdown by agent type
-    byAgentType: Record<string, {
-      count: number;
-      successRate: number;
-      averageDuration: number;
-    }>;
+    byAgentType: Record<
+      string,
+      {
+        count: number;
+        successRate: number;
+        averageDuration: number;
+      }
+    >;
   };
 
   // Agent performance metrics
@@ -400,6 +412,7 @@ interface BusinessMetrics {
 ```
 
 #### 3. Real-time Metrics Collection
+
 ```typescript
 class MetricsCollector {
   private collectors: Map<string, MetricCollector>;
@@ -456,16 +469,11 @@ class MetricsCollector {
     const agent = await this.getAgentInstance(agentId);
     const resourceMonitor = this.getResourceMonitor(agentId);
 
-    const [
-      resourceUsage,
-      taskMetrics,
-      capabilityMetrics,
-      stateMetrics
-    ] = await Promise.all([
+    const [resourceUsage, taskMetrics, capabilityMetrics, stateMetrics] = await Promise.all([
       resourceMonitor.getCurrentUsage(),
       this.getAgentTaskMetrics(agentId),
       this.getAgentCapabilityMetrics(agentId),
-      this.getAgentStateMetrics(agentId)
+      this.getAgentStateMetrics(agentId),
     ]);
 
     return {
@@ -475,11 +483,11 @@ class MetricsCollector {
         cpuUtilization: resourceUsage.cpu,
         memoryUsage: resourceUsage.memory,
         diskIO: resourceUsage.diskIO,
-        networkIO: resourceUsage.networkIO
+        networkIO: resourceUsage.networkIO,
       },
       tasks: taskMetrics,
       capabilities: capabilityMetrics,
-      state: stateMetrics
+      state: stateMetrics,
     };
   }
 }
@@ -552,10 +560,7 @@ class PerformanceAnalyticsEngine {
   private mlModels: Map<string, MLModel>;
   private baselines: Map<string, PerformanceBaseline>;
 
-  async analyzeAgentPerformance(
-    agentId: string,
-    period: TimeRange
-  ): Promise<PerformanceAnalysis> {
+  async analyzeAgentPerformance(agentId: string, period: TimeRange): Promise<PerformanceAnalysis> {
     // Collect historical metrics
     const metrics = await this.metricsStore.getAgentMetrics(agentId, period);
 
@@ -581,12 +586,12 @@ class PerformanceAnalyticsEngine {
       trends,
       comparison,
       recommendations,
-      anomalies
+      anomalies,
     };
   }
 
   private async calculateOverallPerformance(
-    metrics: AgentMetrics[]
+    metrics: AgentMetrics[],
   ): Promise<PerformanceAnalysis['overall']> {
     // Performance score calculation
     const cpuScore = this.calculateResourceScore(metrics, 'cpu', 0.7, false);
@@ -594,12 +599,8 @@ class PerformanceAnalyticsEngine {
     const taskScore = this.calculateTaskPerformanceScore(metrics);
     const reliabilityScore = this.calculateReliabilityScore(metrics);
 
-    const performanceScore = (
-      cpuScore * 0.25 +
-      memoryScore * 0.25 +
-      taskScore * 0.35 +
-      reliabilityScore * 0.15
-    ) * 100;
+    const performanceScore =
+      (cpuScore * 0.25 + memoryScore * 0.25 + taskScore * 0.35 + reliabilityScore * 0.15) * 100;
 
     // Calculate utilization
     const utilization = this.calculateAverageUtilization(metrics);
@@ -614,20 +615,18 @@ class PerformanceAnalyticsEngine {
       performanceScore,
       utilization,
       efficiency,
-      reliability
+      reliability,
     };
   }
 
-  private async analyzeTrends(
-    metrics: AgentMetrics[]
-  ): Promise<PerformanceAnalysis['trends']> {
+  private async analyzeTrends(metrics: AgentMetrics[]): Promise<PerformanceAnalysis['trends']> {
     const timeSeries = this.convertToTimeSeries(metrics);
 
     return {
       cpuTrend: await this.analyzeTrend(timeSeries.cpu),
       memoryTrend: await this.analyzeTrend(timeSeries.memory),
       taskCompletionTrend: await this.analyzeTrend(timeSeries.taskCompletion),
-      errorRateTrend: await this.analyzeTrend(timeSeries.errorRate)
+      errorRateTrend: await this.analyzeTrend(timeSeries.errorRate),
     };
   }
 
@@ -637,7 +636,7 @@ class PerformanceAnalyticsEngine {
         direction: 'stable',
         slope: 0,
         confidence: 0,
-        significance: 0
+        significance: 0,
       };
     }
 
@@ -648,8 +647,8 @@ class PerformanceAnalyticsEngine {
     const significance = this.calculateSignificance(data, regression);
 
     // Determine direction
-    const direction = regression.slope > 0.01 ? 'improving' :
-                     regression.slope < -0.01 ? 'degrading' : 'stable';
+    const direction =
+      regression.slope > 0.01 ? 'improving' : regression.slope < -0.01 ? 'degrading' : 'stable';
 
     // Confidence based on R-squared and significance
     const confidence = Math.abs(regression.rSquared) * significance;
@@ -658,14 +657,14 @@ class PerformanceAnalyticsEngine {
       direction,
       slope: regression.slope,
       confidence,
-      significance
+      significance,
     };
   }
 
   private async generateRecommendations(
     agentId: string,
     metrics: AgentMetrics[],
-    overall: PerformanceAnalysis['overall']
+    overall: PerformanceAnalysis['overall'],
   ): Promise<PerformanceRecommendation[]> {
     const recommendations: PerformanceRecommendation[] = [];
 
@@ -678,17 +677,13 @@ class PerformanceAnalyticsEngine {
         description: `Agent is running at ${(overall.utilization * 100).toFixed(1)}% utilization`,
         expectedImpact: {
           performanceGain: 25,
-          resourceSavings: 10
+          resourceSavings: 10,
         },
         implementation: {
           effort: 'medium',
           risk: 'low',
-          steps: [
-            'Scale agent resources',
-            'Optimize task scheduling',
-            'Implement resource limits'
-          ]
-        }
+          steps: ['Scale agent resources', 'Optimize task scheduling', 'Implement resource limits'],
+        },
       });
     }
 
@@ -701,17 +696,13 @@ class PerformanceAnalyticsEngine {
         description: `Current performance score is ${overall.performanceScore.toFixed(1)}`,
         expectedImpact: {
           performanceGain: 20,
-          resourceSavings: 5
+          resourceSavings: 5,
         },
         implementation: {
           effort: 'high',
           risk: 'medium',
-          steps: [
-            'Profile agent execution',
-            'Identify bottlenecks',
-            'Optimize critical paths'
-          ]
-        }
+          steps: ['Profile agent execution', 'Identify bottlenecks', 'Optimize critical paths'],
+        },
       });
     }
 
@@ -724,17 +715,13 @@ class PerformanceAnalyticsEngine {
         description: `Success rate is ${(overall.reliability * 100).toFixed(1)}%`,
         expectedImpact: {
           performanceGain: 15,
-          resourceSavings: 0
+          resourceSavings: 0,
         },
         implementation: {
           effort: 'medium',
           risk: 'low',
-          steps: [
-            'Review error logs',
-            'Implement retry mechanisms',
-            'Add health checks'
-          ]
-        }
+          steps: ['Review error logs', 'Implement retry mechanisms', 'Add health checks'],
+        },
       });
     }
 
@@ -814,9 +801,7 @@ class HealthMonitor {
       const memoryHealthy = systemMetrics.memory.used / systemMetrics.memory.total < 0.9;
       const diskHealthy = systemMetrics.disk.utilizationPercent < 85;
 
-      const overallStatus = cpuHealthy && memoryHealthy && diskHealthy
-        ? 'healthy'
-        : 'degraded';
+      const overallStatus = cpuHealthy && memoryHealthy && diskHealthy ? 'healthy' : 'degraded';
 
       return {
         name: 'system',
@@ -824,21 +809,22 @@ class HealthMonitor {
         timestamp: new Date().toISOString(),
         duration: Date.now() - startTime,
         details: {
-          message: `CPU: ${systemMetrics.cpu.usagePercent.toFixed(1)}%, ` +
-                   `Memory: ${((systemMetrics.memory.used / systemMetrics.memory.total) * 100).toFixed(1)}%, ` +
-                   `Disk: ${systemMetrics.disk.utilizationPercent.toFixed(1)}%`,
+          message:
+            `CPU: ${systemMetrics.cpu.usagePercent.toFixed(1)}%, ` +
+            `Memory: ${((systemMetrics.memory.used / systemMetrics.memory.total) * 100).toFixed(1)}%, ` +
+            `Disk: ${systemMetrics.disk.utilizationPercent.toFixed(1)}%`,
           metrics: {
             cpu: systemMetrics.cpu.usagePercent,
             memory: (systemMetrics.memory.used / systemMetrics.memory.total) * 100,
-            disk: systemMetrics.disk.utilizationPercent
+            disk: systemMetrics.disk.utilizationPercent,
           },
           thresholds: {
             cpu: 90,
             memory: 90,
-            disk: 85
-          }
+            disk: 85,
+          },
         },
-        dependencies: []
+        dependencies: [],
       };
     } catch (error) {
       return {
@@ -847,9 +833,9 @@ class HealthMonitor {
         timestamp: new Date().toISOString(),
         duration: Date.now() - startTime,
         details: {
-          message: `Health check failed: ${error.message}`
+          message: `Health check failed: ${error.message}`,
         },
-        dependencies: []
+        dependencies: [],
       };
     }
   }
@@ -881,8 +867,8 @@ class HealthMonitor {
       // Evaluate health criteria
       const heartbeatHealthy = timeSinceHeartbeat < 60000; // 1 minute
       const statusHealthy = agentStatus.status !== 'error' && agentStatus.status !== 'terminated';
-      const resourceHealthy = agentMetrics.performance.cpuUtilization < 95 &&
-                              agentMetrics.performance.memoryUsage < 0.95;
+      const resourceHealthy =
+        agentMetrics.performance.cpuUtilization < 95 && agentMetrics.performance.memoryUsage < 0.95;
 
       let status: 'healthy' | 'degraded' | 'unhealthy';
       if (!heartbeatHealthy || !statusHealthy) {
@@ -902,18 +888,19 @@ class HealthMonitor {
         timestamp: new Date().toISOString(),
         duration: Date.now() - startTime,
         details: {
-          message: `Status: ${agentStatus.status}, ` +
-                   `Last heartbeat: ${lastHeartbeat.toISOString()}, ` +
-                   `CPU: ${agentMetrics.performance.cpuUtilization.toFixed(1)}%`,
+          message:
+            `Status: ${agentStatus.status}, ` +
+            `Last heartbeat: ${lastHeartbeat.toISOString()}, ` +
+            `CPU: ${agentMetrics.performance.cpuUtilization.toFixed(1)}%`,
           metrics: {
             status: agentStatus.status === 'healthy' ? 1 : 0,
             heartbeatFreshness: timeSinceHeartbeat,
             cpu: agentMetrics.performance.cpuUtilization,
             memory: agentMetrics.performance.memoryUsage * 100,
-            activeTasks: agentMetrics.tasks.activeTasks
-          }
+            activeTasks: agentMetrics.tasks.activeTasks,
+          },
         },
-        dependencies
+        dependencies,
       };
     } catch (error) {
       return {
@@ -922,22 +909,23 @@ class HealthMonitor {
         timestamp: new Date().toISOString(),
         duration: Date.now() - startTime,
         details: {
-          message: `Health check failed: ${error.message}`
+          message: `Health check failed: ${error.message}`,
         },
-        dependencies: []
+        dependencies: [],
       };
     }
   }
 
   private evaluateOverallHealth(componentHealthChecks: HealthCheck[]): HealthCheck {
-    const unhealthyCount = componentHealthChecks.filter(c => c.status === 'unhealthy').length;
-    const degradedCount = componentHealthChecks.filter(c => c.status === 'degraded').length;
+    const unhealthyCount = componentHealthChecks.filter((c) => c.status === 'unhealthy').length;
+    const degradedCount = componentHealthChecks.filter((c) => c.status === 'degraded').length;
     const totalChecks = componentHealthChecks.length;
 
     let overallStatus: 'healthy' | 'degraded' | 'unhealthy';
     if (unhealthyCount > 0) {
       overallStatus = 'unhealthy';
-    } else if (degradedCount > totalChecks * 0.3) { // More than 30% degraded
+    } else if (degradedCount > totalChecks * 0.3) {
+      // More than 30% degraded
       overallStatus = 'degraded';
     } else {
       overallStatus = 'healthy';
@@ -949,22 +937,23 @@ class HealthMonitor {
       timestamp: new Date().toISOString(),
       duration: 0,
       details: {
-        message: `${totalChecks} components checked: ` +
-                 `${unhealthyCount} unhealthy, ${degradedCount} degraded`,
+        message:
+          `${totalChecks} components checked: ` +
+          `${unhealthyCount} unhealthy, ${degradedCount} degraded`,
         metrics: {
           total: totalChecks,
           healthy: totalChecks - unhealthyCount - degradedCount,
           degraded: degradedCount,
-          unhealthy: unhealthyCount
-        }
+          unhealthy: unhealthyCount,
+        },
       },
-      dependencies: componentHealthChecks.map(c => ({
+      dependencies: componentHealthChecks.map((c) => ({
         name: c.name,
         type: 'service' as const,
         status: c.status,
         responseTime: c.duration,
-        lastCheck: c.timestamp
-      }))
+        lastCheck: c.timestamp,
+      })),
     };
   }
 }
@@ -1081,7 +1070,7 @@ class AlertManager {
     const aggregatedValue = await this.applyAggregation(
       rule.condition.metric,
       rule.condition.aggregation,
-      rule.condition.timeWindow
+      rule.condition.timeWindow,
     );
 
     const valueToCheck = aggregatedValue !== undefined ? aggregatedValue : metricValue;
@@ -1090,7 +1079,7 @@ class AlertManager {
     const conditionMet = this.evaluateCondition(
       valueToCheck,
       rule.condition.operator,
-      rule.condition.value
+      rule.condition.value,
     );
 
     if (conditionMet) {
@@ -1148,11 +1137,11 @@ class AlertManager {
         metric: rule.condition.metric,
         threshold: rule.condition.value,
         currentValue,
-        condition: `${rule.condition.metric} ${rule.condition.operator} ${rule.condition.value}`
+        condition: `${rule.condition.metric} ${rule.condition.operator} ${rule.condition.value}`,
       },
       status: 'open',
       actions: [],
-      relatedAlerts: []
+      relatedAlerts: [],
     };
 
     return alert;
@@ -1167,7 +1156,7 @@ class AlertManager {
         type: actionDef.type,
         name: actionDef.name,
         description: actionDef.description,
-        status: 'pending'
+        status: 'pending',
       };
 
       try {
@@ -1201,7 +1190,7 @@ class AlertManager {
 
   private async executeNotificationAction(
     actionDef: AlertActionDefinition,
-    alert: Alert
+    alert: Alert,
   ): Promise<void> {
     const channel = this.notificationChannels.get(actionDef.channel);
     if (!channel) {
@@ -1214,7 +1203,7 @@ class AlertManager {
 
   private async executeAutomationAction(
     actionDef: AlertActionDefinition,
-    alert: Alert
+    alert: Alert,
   ): Promise<void> {
     switch (actionDef.automation) {
       case 'scale_agent':
@@ -1316,8 +1305,8 @@ interface DashboardPanel {
 const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
   {
     id: 'agent-overview',
-    name: 'Agent OS Overview',
-    description: 'High-level overview of Agent OS system health and performance',
+    name: 'Pantheon Overview',
+    description: 'High-level overview of Pantheon system health and performance',
     category: 'overview',
     layout: {
       rows: 4,
@@ -1330,11 +1319,11 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 0, y: 0, width: 2, height: 2 },
           dataSource: {
             type: 'metrics',
-            query: 'system_health_status'
+            query: 'system_health_status',
           },
           visualization: {
-            colors: ['#22c55e', '#eab308', '#ef4444']
-          }
+            colors: ['#22c55e', '#eab308', '#ef4444'],
+          },
         },
         {
           id: 'active-agents',
@@ -1343,16 +1332,16 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 2, y: 0, width: 2, height: 2 },
           dataSource: {
             type: 'metrics',
-            query: 'active_agents_count'
+            query: 'active_agents_count',
           },
           visualization: {
             thresholds: [
               { value: 10, color: '#22c55e' },
               { value: 20, color: '#eab308' },
-              { value: 30, color: '#ef4444' }
+              { value: 30, color: '#ef4444' },
             ],
-            units: 'agents'
-          }
+            units: 'agents',
+          },
         },
         {
           id: 'task-completion-rate',
@@ -1361,7 +1350,7 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 0, y: 2, width: 2, height: 1 },
           dataSource: {
             type: 'metrics',
-            query: 'task_completion_rate'
+            query: 'task_completion_rate',
           },
           visualization: {
             units: '%',
@@ -1369,9 +1358,9 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
             thresholds: [
               { value: 95, color: '#22c55e' },
               { value: 90, color: '#eab308' },
-              { value: 85, color: '#ef4444' }
-            ]
-          }
+              { value: 85, color: '#ef4444' },
+            ],
+          },
         },
         {
           id: 'system-load',
@@ -1380,30 +1369,30 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 2, y: 2, width: 2, height: 2 },
           dataSource: {
             type: 'metrics',
-            query: 'system_load_avg'
+            query: 'system_load_avg',
           },
           visualization: {
             chartType: 'line',
             axes: {
               x: { type: 'time', label: 'Time' },
-              y: { type: 'numeric', label: 'Load Average' }
+              y: { type: 'numeric', label: 'Load Average' },
             },
-            colors: ['#3b82f6']
-          }
-        }
-      ]
+            colors: ['#3b82f6'],
+          },
+        },
+      ],
     },
     settings: {
       refreshInterval: 30,
       timeRange: { start: 'now-1h', end: 'now' },
-      filters: []
+      filters: [],
     },
     metadata: {
       createdBy: 'system',
       createdAt: '2025-01-15T10:00:00Z',
       tags: ['overview', 'system', 'health'],
-      isPublic: true
-    }
+      isPublic: true,
+    },
   },
 
   {
@@ -1422,11 +1411,11 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 0, y: 0, width: 4, height: 2 },
           dataSource: {
             type: 'metrics',
-            query: 'agent_performance_scores'
+            query: 'agent_performance_scores',
           },
           visualization: {
-            colors: ['#ef4444', '#eab308', '#22c55e']
-          }
+            colors: ['#ef4444', '#eab308', '#22c55e'],
+          },
         },
         {
           id: 'task-duration-distribution',
@@ -1435,16 +1424,16 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 0, y: 2, width: 2, height: 2 },
           dataSource: {
             type: 'metrics',
-            query: 'task_duration_distribution'
+            query: 'task_duration_distribution',
           },
           visualization: {
             chartType: 'bar',
             axes: {
               x: { type: 'categorical', label: 'Duration Range' },
-              y: { type: 'numeric', label: 'Task Count' }
+              y: { type: 'numeric', label: 'Task Count' },
             },
-            colors: ['#3b82f6']
-          }
+            colors: ['#3b82f6'],
+          },
         },
         {
           id: 'error-rate-trend',
@@ -1453,16 +1442,16 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 2, y: 2, width: 2, height: 2 },
           dataSource: {
             type: 'metrics',
-            query: 'agent_error_rate_trend'
+            query: 'agent_error_rate_trend',
           },
           visualization: {
             chartType: 'line',
             axes: {
               x: { type: 'time', label: 'Time' },
-              y: { type: 'numeric', label: 'Error Rate (%)' }
+              y: { type: 'numeric', label: 'Error Rate (%)' },
             },
-            colors: ['#ef4444']
-          }
+            colors: ['#ef4444'],
+          },
         },
         {
           id: 'top-performers',
@@ -1471,18 +1460,18 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           position: { x: 0, y: 4, width: 4, height: 2 },
           dataSource: {
             type: 'metrics',
-            query: 'top_performing_agents'
+            query: 'top_performing_agents',
           },
           visualization: {
             columns: [
               { name: 'Agent ID', field: 'agentId' },
               { name: 'Performance Score', field: 'score' },
               { name: 'Tasks Completed', field: 'tasksCompleted' },
-              { name: 'Success Rate', field: 'successRate' }
-            ]
-          }
-        }
-      ]
+              { name: 'Success Rate', field: 'successRate' },
+            ],
+          },
+        },
+      ],
     },
     settings: {
       refreshInterval: 60,
@@ -1492,18 +1481,18 @@ const DASHBOARD_CONFIGURATIONS: Dashboard[] = [
           name: 'Agent Type',
           field: 'agentType',
           type: 'select',
-          options: ['all', 'code-reviewer', 'task-orchestrator', 'meta-agent']
-        }
-      ]
+          options: ['all', 'code-reviewer', 'task-orchestrator', 'meta-agent'],
+        },
+      ],
     },
     metadata: {
       createdBy: 'system',
       createdAt: '2025-01-15T10:00:00Z',
       tags: ['performance', 'agents', 'analysis'],
-      isPublic: true
-    }
-  }
+      isPublic: true,
+    },
+  },
 ];
 ```
 
-This comprehensive monitoring and analytics framework provides deep insights into Agent OS operations, enabling proactive management, performance optimization, and reliable service delivery.
+This comprehensive monitoring and analytics framework provides deep insights into Pantheon operations (formerly labeled "Agent OS"), enabling proactive management, performance optimization, and reliable service delivery.

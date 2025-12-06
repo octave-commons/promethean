@@ -18,3 +18,5 @@ Notes
 
 - Document service env vars and ports in each service README.
 - Prefer adapters/ports pattern; keep business logic in packages/ where possible.
+- Several services are git submodules (e.g., `openai-server/`, `frontend-service/`); push changes to their upstream repos when present.
+- Current services in repo: `autocommit/`, `frontend-service/`, `knowledge-graph/`, `openai-server/`.

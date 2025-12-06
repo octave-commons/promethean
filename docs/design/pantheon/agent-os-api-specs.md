@@ -1,6 +1,6 @@
-# Agent OS API Specifications
+# Pantheon API Specifications
 
-This document defines the REST APIs and message schemas for the core Agent OS services.
+This document defines the REST APIs and message schemas for the core Pantheon services (previously referred to as Agent OS; any legacy mentions should be read as Pantheon).
 
 ## Table of Contents
 
@@ -14,6 +14,7 @@ This document defines the REST APIs and message schemas for the core Agent OS se
 ## Agent Registry API
 
 ### Base URL
+
 ```
 http://localhost:3000/api/v1/agent-registry
 ```
@@ -21,6 +22,7 @@ http://localhost:3000/api/v1/agent-registry
 ### Endpoints
 
 #### Register Agent Instance
+
 ```http
 POST /agents
 Content-Type: application/json
@@ -44,6 +46,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -66,11 +69,13 @@ Content-Type: application/json
 ```
 
 #### Get Agent Instance
+
 ```http
 GET /agents/{instanceId}
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -94,11 +99,13 @@ GET /agents/{instanceId}
 ```
 
 #### List Agents
+
 ```http
 GET /agents?status=available&capability=code-review&limit=10&offset=0
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -115,6 +122,7 @@ GET /agents?status=available&capability=code-review&limit=10&offset=0
 ```
 
 #### Update Agent Configuration
+
 ```http
 PATCH /agents/{instanceId}
 Content-Type: application/json
@@ -130,6 +138,7 @@ Content-Type: application/json
 ```
 
 #### Update Agent Status
+
 ```http
 PUT /agents/{instanceId}/status
 Content-Type: application/json
@@ -143,6 +152,7 @@ Content-Type: application/json
 ```
 
 #### Delete Agent Instance
+
 ```http
 DELETE /agents/{instanceId}
 ```
@@ -150,6 +160,7 @@ DELETE /agents/{instanceId}
 ## Task Assignment API
 
 ### Base URL
+
 ```
 http://localhost:3000/api/v1/task-assignment
 ```
@@ -157,6 +168,7 @@ http://localhost:3000/api/v1/task-assignment
 ### Endpoints
 
 #### Submit Task for Assignment
+
 ```http
 POST /tasks/submit
 Content-Type: application/json
@@ -193,6 +205,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -206,11 +219,13 @@ Content-Type: application/json
 ```
 
 #### Get Task Assignment Status
+
 ```http
 GET /tasks/{assignmentId}
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -233,11 +248,13 @@ GET /tasks/{assignmentId}
 ```
 
 #### Cancel Task Assignment
+
 ```http
 DELETE /tasks/{assignmentId}
 ```
 
 #### Reassign Task
+
 ```http
 POST /tasks/{assignmentId}/reassign
 Content-Type: application/json
@@ -254,6 +271,7 @@ Content-Type: application/json
 ## Agent Lifecycle API
 
 ### Base URL
+
 ```
 http://localhost:3000/api/v1/agent-lifecycle
 ```
@@ -261,6 +279,7 @@ http://localhost:3000/api/v1/agent-lifecycle
 ### Endpoints
 
 #### Spawn Agent Instance
+
 ```http
 POST /agents/spawn
 Content-Type: application/json
@@ -279,6 +298,7 @@ Content-Type: application/json
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -292,6 +312,7 @@ Content-Type: application/json
 ```
 
 #### Terminate Agent Instance
+
 ```http
 POST /agents/{instanceId}/terminate
 Content-Type: application/json
@@ -304,11 +325,13 @@ Content-Type: application/json
 ```
 
 #### Get Agent Health
+
 ```http
 GET /agents/{instanceId}/health
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -329,6 +352,7 @@ GET /agents/{instanceId}/health
 ```
 
 #### Get Agent Logs
+
 ```http
 GET /agents/{instanceId}/logs?level=info&limit=50&since=2025-01-15T12:00:00Z
 ```
@@ -336,6 +360,7 @@ GET /agents/{instanceId}/logs?level=info&limit=50&since=2025-01-15T12:00:00Z
 ## Monitoring API
 
 ### Base URL
+
 ```
 http://localhost:3000/api/v1/monitoring
 ```
@@ -343,11 +368,13 @@ http://localhost:3000/api/v1/monitoring
 ### Endpoints
 
 #### Get System Overview
+
 ```http
 GET /system/overview
 ```
 
 **Response:**
+
 ```json
 {
   "success": true,
@@ -367,16 +394,19 @@ GET /system/overview
 ```
 
 #### Get Agent Performance Metrics
+
 ```http
 GET /agents/{instanceId}/metrics?period=24h
 ```
 
 #### Get Task Analytics
+
 ```http
 GET /analytics/tasks?period=7d&groupBy=agentType
 ```
 
 #### Get Capability Utilization
+
 ```http
 GET /analytics/capabilities?period=24h
 ```
@@ -458,7 +488,9 @@ interface AgentHeartbeatMessage {
 ## Authentication & Authorization
 
 ### API Key Authentication
+
 All API requests must include an API key in the header:
+
 ```http
 Authorization: Bearer <api_key>
 X-API-Key: <api_key>
@@ -510,6 +542,7 @@ X-API-Key: <api_key>
 ## WebSocket Events
 
 ### Connection Endpoint
+
 ```
 ws://localhost:3000/ws/agent-os
 ```
@@ -517,6 +550,7 @@ ws://localhost:3000/ws/agent-os
 ### Event Types
 
 #### Agent Status Changed
+
 ```json
 {
   "type": "agent_status_changed",
@@ -530,6 +564,7 @@ ws://localhost:3000/ws/agent-os
 ```
 
 #### Task Assigned
+
 ```json
 {
   "type": "task_assigned",
@@ -543,6 +578,7 @@ ws://localhost:3000/ws/agent-os
 ```
 
 #### Task Completed
+
 ```json
 {
   "type": "task_completed",
@@ -566,7 +602,7 @@ import { AgentOSClient } from '@promethean-os/agent-os-sdk';
 
 const client = new AgentOSClient({
   baseUrl: 'http://localhost:3000',
-  apiKey: process.env.AGENT_OS_API_KEY
+  apiKey: process.env.AGENT_OS_API_KEY,
 });
 
 // Register an agent
@@ -574,8 +610,8 @@ const agent = await client.agents.register({
   agentType: 'code-reviewer',
   configuration: {
     model: 'claude-3.5-sonnet',
-    maxConcurrentTasks: 3
-  }
+    maxConcurrentTasks: 3,
+  },
 });
 
 // Submit a task
@@ -583,10 +619,8 @@ const assignment = await client.tasks.submit({
   taskId: 'kanban_task_xyz789',
   taskData: {
     title: 'Review auth module',
-    requirements: [
-      { capability: 'code-review', level: 0.8 }
-    ]
-  }
+    requirements: [{ capability: 'code-review', level: 0.8 }],
+  },
 });
 
 // Monitor task progress
@@ -624,4 +658,4 @@ result = client.tasks.wait_for_completion(assignment.id)
 print(f"Task completed by {result.agent_instance_id}")
 ```
 
-This API specification provides the foundation for building Agent OS clients and integrations across different platforms and programming languages.
+This API specification provides the foundation for building Pantheon clients and integrations across different platforms and programming languages ("Agent OS" in earlier drafts).

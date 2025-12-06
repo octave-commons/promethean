@@ -9,7 +9,10 @@
     "rootDir": "src",
     "skipLibCheck": true,
     "forceConsistentCasingInFileNames": true,
-    "types": ["vitest/globals", "node"]
+    "types": ["vitest/globals", "node"],
+    "paths": {
+      "@promethean-os/knowledge-graph": ["../../services/knowledge-graph/dist/index.d.ts"]
+    }
   },
   "include": ["src/**/*.ts", "src/**/*.test.ts"],
   "exclude": ["dist"]

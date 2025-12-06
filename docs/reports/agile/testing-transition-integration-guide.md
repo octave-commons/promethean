@@ -87,7 +87,7 @@ Add the testing→review transition rule to `promethean.kanban.json`:
 
 #### 2. Clojure DSL Integration
 
-Update the Clojure DSL file `docs/agile/rules/kanban-transitions.clj`:
+Update the Clojure DSL file `docs/agile/rules/kanban_transitions.clj`:
 
 ```clojure
 (defn comprehensive-testing-validation?

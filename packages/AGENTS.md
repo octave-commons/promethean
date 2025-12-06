@@ -1,6 +1,6 @@
 # AGENTS.md
 
-Folder purpose: reusable @promethean-os/\* libraries consumed by services, CLIs, and experiments. Keep domain logic, adapters, and utilities here with docs under docs/packages/<slug>/.
+Folder purpose: reusable @promethean-os/\* libraries consumed by services, CLIs, and experiments. Most new work now lives under `cli/`, `services/`, or `experimental/`; this folder holds shared/legacy libraries still in-repo with docs under `docs/packages/<slug>/`.
 
 ## Module Resolution
 
@@ -10,6 +10,8 @@ Folder purpose: reusable @promethean-os/\* libraries consumed by services, CLIs,
 - node version is pinned by package.json
 
 ## Package scaffolding
+
+Many libraries here are vendored submodules; prefer updating their upstream repos when `.git` or `.gitrepo` is present. Add new packages here only when they cannot live under `cli/`, `services/`, or `experimental/`.
 
 - Use Nx to create new workspace packages:
   - Libraries: `nx g tools:package <name> --preset library`

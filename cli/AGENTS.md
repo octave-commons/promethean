@@ -18,3 +18,5 @@ Notes
 
 - Prefer @promethean-os package dependencies; avoid duplicating logic from packages/.
 - Keep UX docs in each CLI’s README; link to package docs where logic lives.
+- Many CLIs here are git submodules (e.g., `compiler/`, `obsidian-export/`); push changes to upstream repos when present.
+- Current in-repo CLIs include `compiler/`, `docs/`, `ecosystem-dsl/`, and `obsidian-export/`; keep each README aligned with its entrypoint.

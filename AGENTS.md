@@ -49,13 +49,16 @@
 ## 📂 Repository Structure
 
 ```
-scripts/   # deprecated build/test/deploy
-packages/  # JS/TS modules
-tests/     # unit & integration tests
-docs/      # system-level markdown docs
-sites/     # deprecated UIs/dashboards
-configs/   # base configuration
-pseudo/    # throwaway scripts, pseudocode, retained for transparency
+cli/         # CLI packages and entrypoints (several vendored as submodules)
+services/    # Deployable runtimes and daemons
+experimental/ # Prototypes and spikes before graduation
+packages/    # Shared/legacy libraries still in-repo while migrations finish
+scripts/     # deprecated build/test/deploy
+tests/       # unit & integration tests
+docs/        # system-level markdown docs
+sites/       # deprecated UIs/dashboards
+configs/     # base configuration
+pseudo/      # throwaway scripts, pseudocode, retained for transparency
 ```
 
 ---
@@ -97,7 +100,7 @@ The documentation must be completely traversable .
 
 - [[docs/agile/kanban-cli-reference.md]]
 - [[docs/agile/process.md]]
-- [[docs/agile/rules/kanban-transitions.clj]]
+- [[docs/agile/rules/kanban_transitions.clj]]
 - [[operational-notes]]
 - [[HUMANS]]
 - [[HOME]]

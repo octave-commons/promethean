@@ -1,18 +1,18 @@
-# @promethean/docs-cli
+# @promethean-os/docs-cli
 
 Commander-forward CLI to search/view docs and summarize agile tasks. Semantic search can hit Elasticsearch when configured; keyword/regex/fuzzy run locally.
 
 ## Install/build
 
 ```bash
-pnpm --filter @promethean/docs-cli run build
+pnpm --filter @promethean-os/docs-cli run build
 ```
 
 ## Embed as subcommand in promethean CLI
 
 ```ts
 import { Command } from 'commander';
-import { buildDocsCommand } from '@promethean/docs-cli';
+import { buildDocsCommand } from '@promethean-os/docs-cli';
 
 const program = new Command('promethean');
 program.addCommand(buildDocsCommand(undefined, { asSubcommand: true }));
@@ -37,6 +37,18 @@ promethean-docs search semantic "project vision" --transformers-model "$DOCS_TRA
 ```bash
 promethean-docs search semantic "kanban" --transformers-model Xenova/all-MiniLM-L6-v2 --lmdb-path /tmp/docs-cache
 ```
+
+## Knowledge graph view (text-only)
+
+```bash
+# build the knowledge graph first
+pnpm --filter @promethean-os/knowledge-graph run cli -- build .
+# emit Markdown tables (or JSON with --format json)
+pnpm --filter @promethean-os/docs-cli cli graph --db knowledge-graph.db
+```
+
+- Default DB path is `<cwd>/knowledge-graph.db`; override with `--db`.
+- Output is Markdown tables for nodes/edges; use `--format json` for machine-readable output.
 
 ```
 ### view (alias: cat)
