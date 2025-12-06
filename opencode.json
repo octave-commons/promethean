@@ -37,19 +37,6 @@
       }
     }
   },
-  "mcp": {
-    "promethean-github": {
-      "type": "remote",
-      "url": "http://localhost:4320/github",
-      "enabled": true
-    },
-    "clj-kondo": {
-      "type": "local",
-      "command": ["npx", "clj-kondo-mcp"],
-      "enabled": true
-    }
-  },
-
   "instructions": [
     "./packages/*/AGENTS.md",
     "./cli/AGENTS.md",
