@@ -1,4 +1,26 @@
 services:
+  nginx:
+    image: nginx:1.27
+    depends_on:
+      - sentinel
+      - openwebui
+    volumes:
+      - ./configs/nginx/frontends.conf:/etc/nginx/conf.d/frontends.conf:ro
+    ports:
+      - '8080:80'
+    networks: [prom-net]
+
+  sentinel:
+    build:
+      context: .
+      dockerfile: services/sentinel/Dockerfile
+    environment:
+      SENTINEL_UI_PORT: 8787
+      SENTINEL_CONFIG: /app/sentinel.edn
+    networks: [prom-net]
+    expose:
+      - '8787'
+
   rabbitmq:
     # profiles: ["messaging"]
     image: rabbitmq:3.13-management
@@ -13,10 +35,9 @@ services:
     image: ghcr.io/open-webui/open-webui:main
     gpus: all
     # profiles: ["ai","rag","ollama","mcp"]
-    ports:
-      - '3000:8080'
     volumes:
       - open-webui:/app/backend/data
+    networks: [prom-net]
 
   chromadb:
     image: ${CHROMA_IMAGE:-chromadb/chroma:1.0.21.dev56}

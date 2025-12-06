@@ -31,3 +31,9 @@
 - CLI `build` completes successfully for the repository path (database regenerated/updated).
 - Mermaid export regenerated and written to repo root (graph.md) with default or configured options.
 - Observed logs/errors summarized for the user; no additional code changes introduced.
+
+## Progress Log
+
+- 2025-12-06: Ran `KG_RELATED_ENABLED=false pnpm --filter @promethean-os/knowledge-graph run cli -- build /home/err/devel/orgs/riatzukiza/promethean` (cwd: services/knowledge-graph); completed with successCount=2720, errorCount=1 (AGENTS.md path traversal validation error).
+- 2025-12-06: Exported Mermaid to `/home/err/devel/orgs/riatzukiza/promethean/graph.md` via `KG_RELATED_ENABLED=false pnpm --filter @promethean-os/knowledge-graph run cli -- mermaid /home/err/devel/orgs/riatzukiza/promethean/graph.md LR`; database location `/home/err/devel/orgs/riatzukiza/promethean/services/knowledge-graph/knowledge-graph.db`.
+- 2025-12-06: Exported frontend assets via `KG_RELATED_ENABLED=false pnpm --filter @promethean-os/knowledge-graph run cli -- export:ndjson /home/err/devel/orgs/riatzukiza/promethean/services/knowledge-graph/packages/knowledge-graph-ui/public/graph.ndjson`; wrote NDJSON and JSON.
