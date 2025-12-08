@@ -4139,6 +4139,9 @@ importers:
       '@apollo/client':
         specifier: ^4.0.9
         version: 4.0.9(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
+      '@solidjs/router':
+        specifier: ^0.14.10
+        version: 0.14.10(solid-js@1.9.10)
       '@timohausmann/quadtree-ts':
         specifier: ^2.3.0
         version: 2.3.0
@@ -4163,7 +4166,7 @@ importers:
     devDependencies:
       '@solidjs/testing-library':
         specifier: ^0.8.10
-        version: 0.8.10(solid-js@1.9.10)
+        version: 0.8.10(@solidjs/router@0.14.10(solid-js@1.9.10))(solid-js@1.9.10)
       '@stryker-mutator/core':
         specifier: ^9.4.0
         version: 9.4.0(@types/node@22.18.12)
@@ -8056,6 +8059,11 @@ packages:
 
   '@socket.io/component-emitter@3.1.2':
     resolution: {integrity: sha512-9BCxFwvbGg/RsZK9tjXd8s4UcwR0MWeFQ1XEKIQVVvAGJyINdrqKMcTRyLoK8Rse1GjzLV9cwjWV1olXRWEXVA==}
+
+  '@solidjs/router@0.14.10':
+    resolution: {integrity: sha512-5B8LVgvvXijfXyXWPVLUm7RQ05BhjIpAyRkYVDZtrR3OaSvftXobWc6qSEwk4ICLoGi/IE9CUp2LUdCBIs9AXg==}
+    peerDependencies:
+      solid-js: ^1.8.6
 
   '@solidjs/testing-library@0.8.10':
     resolution: {integrity: sha512-qdeuIerwyq7oQTIrrKvV0aL9aFeuwTd86VYD3afdq5HYEwoox1OBTJy4y8A3TFZr8oAR0nujYgCzY/8wgHGfeQ==}
@@ -22145,10 +22153,16 @@ snapshots:
 
   '@socket.io/component-emitter@3.1.2': {}
 
-  '@solidjs/testing-library@0.8.10(solid-js@1.9.10)':
+  '@solidjs/router@0.14.10(solid-js@1.9.10)':
+    dependencies:
+      solid-js: 1.9.10
+
+  '@solidjs/testing-library@0.8.10(@solidjs/router@0.14.10(solid-js@1.9.10))(solid-js@1.9.10)':
     dependencies:
       '@testing-library/dom': 10.4.1
       solid-js: 1.9.10
+    optionalDependencies:
+      '@solidjs/router': 0.14.10(solid-js@1.9.10)
 
   '@stryker-mutator/api@8.7.1':
     dependencies:
