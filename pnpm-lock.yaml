@@ -4054,6 +4054,9 @@ importers:
       gray-matter:
         specifier: ^4.0.3
         version: 4.0.3
+      ioredis:
+        specifier: ^5.4.1
+        version: 5.8.1
       madge:
         specifier: ^6.1.0
         version: 6.1.0(typescript@5.9.3)
