@@ -2664,12 +2664,12 @@ importers:
 
   packages/level-cache:
     dependencies:
+      '@promethean-os/persistence':
+        specifier: workspace:*
+        version: link:../persistence
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
-      level:
-        specifier: ^9.0.0
-        version: 9.0.0
     devDependencies:
       '@promethean-os/test-utils':
         specifier: workspace:*
@@ -2677,12 +2677,12 @@ importers:
 
   packages/lmdb-cache:
     dependencies:
+      '@promethean-os/persistence':
+        specifier: workspace:*
+        version: link:../persistence
       '@promethean-os/utils':
         specifier: workspace:*
         version: link:../utils
-      lmdb:
-        specifier: ^3.4.4
-        version: 3.4.4
     devDependencies:
       '@promethean-os/test-utils':
         specifier: workspace:*
@@ -4186,6 +4186,9 @@ importers:
       '@apollo/client':
         specifier: ^4.0.9
         version: 4.0.9(graphql@16.12.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)(rxjs@7.8.2)
+      '@promethean-os/fsm':
+        specifier: workspace:*
+        version: link:../../../../packages/fsm
       '@solidjs/router':
         specifier: ^0.14.10
         version: 0.14.10(solid-js@1.9.10)
@@ -9074,10 +9077,6 @@ packages:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
 
-  abstract-level@2.0.2:
-    resolution: {integrity: sha512-pPJixmXk/kTKLB2sSue7o4Uj6TlLD2XfaP2gWZomHVCC6cuUGX/VslQqKG1yZHfXwBb/3lS6oSTMPGzh1P1iig==}
-    engines: {node: '>=16'}
-
   abstract-level@3.1.0:
     resolution: {integrity: sha512-j2e+TsAxy7Ri+0h7dJqwasymgt0zHBWX4+nMk3XatyuqgHfdstBJ9wsMfbiGwE1O+QovRyPcVAqcViMYdyPaaw==}
     engines: {node: '>=18'}
@@ -9683,9 +9682,6 @@ packages:
   brorand@1.1.0:
     resolution: {integrity: sha512-cKV8tMCEpQs4hK/ik71d6LrPOnpkpGBR0wzxqr68g2m/LB2GxVYQroAjMJZRVM1Y4BCjCKc3vAamxSzOY2RP+w==}
 
-  browser-level@2.0.0:
-    resolution: {integrity: sha512-RuYSCHG/jwFCrK+KWA3dLSUNLKHEgIYhO5ORPjJMjCt7T3e+RzpIDmYKWRHxq2pfKGXjlRuEff7y7RESAAgzew==}
-
   browser-level@3.0.0:
     resolution: {integrity: sha512-kGXtLh29jMwqKaskz5xeDLtCtN1KBz/DbQSqmvH7QdJiyGRC7RAM8PPg6gvUiNMa+wVnaxS9eSmEtP/f5ajOVw==}
 
@@ -10085,10 +10081,6 @@ packages:
 
   class-variance-authority@0.7.1:
     resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
-
-  classic-level@2.0.0:
-    resolution: {integrity: sha512-ftiMvKgCQK+OppXcvMieDoYlYLYWhScK6yZRFBrrlHQRbm4k6Gr+yDgu/wt3V0k1/jtNbuiXAsRmuAFcD0Tx5Q==}
-    engines: {node: '>=18'}
 
   classic-level@3.0.0:
     resolution: {integrity: sha512-yGy8j8LjPbN0Bh3+ygmyYvrmskVita92pD/zCoalfcC9XxZj6iDtZTAnz+ot7GG8p9KLTG+MZ84tSA4AhkgVZQ==}
@@ -12987,10 +12979,6 @@ packages:
 
   level@10.0.0:
     resolution: {integrity: sha512-aZJvdfRr/f0VBbSRF5C81FHON47ZsC2TkGxbBezXpGGXAUEL/s6+GP73nnhAYRSCIqUNsmJjfeOF4lzRDKbUig==}
-    engines: {node: '>=18'}
-
-  level@9.0.0:
-    resolution: {integrity: sha512-n+mVuf63mUEkd8NUx7gwxY+QF5vtkibv6fXTGUgtHWLPDaA5/XZjLcI/Q1nQ8k6OttHT6Ezt+7nSEXsRUfHtOQ==}
     engines: {node: '>=18'}
 
   leven@3.1.0:
@@ -23579,15 +23567,6 @@ snapshots:
     dependencies:
       event-target-shim: 5.0.1
 
-  abstract-level@2.0.2:
-    dependencies:
-      buffer: 6.0.3
-      is-buffer: 2.0.5
-      level-supports: 6.2.0
-      level-transcoder: 1.0.1
-      maybe-combine-errors: 1.0.0
-      module-error: 1.0.2
-
   abstract-level@3.1.0:
     dependencies:
       buffer: 6.0.3
@@ -24456,10 +24435,6 @@ snapshots:
 
   brorand@1.1.0: {}
 
-  browser-level@2.0.0:
-    dependencies:
-      abstract-level: 2.0.2
-
   browser-level@3.0.0:
     dependencies:
       abstract-level: 3.1.0
@@ -24888,13 +24863,6 @@ snapshots:
   class-variance-authority@0.7.1:
     dependencies:
       clsx: 2.1.1
-
-  classic-level@2.0.0:
-    dependencies:
-      abstract-level: 2.0.2
-      module-error: 1.0.2
-      napi-macros: 2.2.2
-      node-gyp-build: 4.8.4
 
   classic-level@3.0.0:
     dependencies:
@@ -28561,12 +28529,6 @@ snapshots:
       abstract-level: 3.1.0
       browser-level: 3.0.0
       classic-level: 3.0.0
-
-  level@9.0.0:
-    dependencies:
-      abstract-level: 2.0.2
-      browser-level: 2.0.0
-      classic-level: 2.0.0
 
   leven@3.1.0: {}
 
