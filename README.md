@@ -77,31 +77,6 @@ Model Context Protocol server with composable tools and enterprise-grade securit
 
 **Features:** RBAC security, tool composition, HTTP/stdio transports, GitHub integration
 
-### 🎭 Cephalon
-
-**Package:** `@promethean-os/cephalon`
-
-Production Discord agent runner with ENSO chat agents and evaluation guardrails.
-
-```typescript
-import { createEnsoChatAgent } from '@promethean-os/cephalon';
-
-const agent = createEnsoChatAgent({ room: 'duck:smoke' });
-await agent.connect();
-
-// Send chat message
-await agent.sendText('human', 'Check system status');
-
-// Call tools with guardrails
-await agent.callTool({
-  provider: 'native',
-  name: 'duck.ping',
-  args: { echo: 'health-check' },
-});
-```
-
-**Features:** Discord integration, voice capture, evaluation guardrails, ENSO protocol
-
 ### ⌨️ CLI Tools
 
 **Package:** `@promethean-os/promethean-cli`
