@@ -65,3 +65,4 @@ services/knowledge-graph/packages/**/graph.json
 services/knowledge-graph/packages/**/dist/
 services/knowledge-graph/packages/**/coverage/
 services/knowledge-graph/packages/**/.space/
+.clj-kondo/.cache/
