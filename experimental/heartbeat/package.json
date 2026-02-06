@@ -10,8 +10,8 @@
     "lint": "eslint -c ../eslint.config.js ."
   },
   "dependencies": {
-    "@promethean-os/legacy": "0.2.0",
-    "@promethean-os/persistence": "0.1.0",
+    "@promethean-os/legacy": "workspace:*",
+    "@promethean-os/persistence": "workspace:*",
     "mongodb": "^6.8.0",
     "pidusage": "^3.0.2",
     "ws": "^8.18.0"
