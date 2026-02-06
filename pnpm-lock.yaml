@@ -810,20 +810,20 @@ importers:
         specifier: ^4.6.0
         version: 4.7.0(monaco-editor@0.54.0)(react-dom@18.3.1(react@18.3.1))(react@18.3.1)
       '@promethean-os/kanban':
-        specifier: workspace:*
-        version: link:../../cli/kanban
+        specifier: 0.2.0
+        version: 0.2.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
       '@promethean-os/markdown':
-        specifier: workspace:*
-        version: link:../../packages/markdown
+        specifier: 0.0.1
+        version: 0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
       '@promethean-os/ollama-queue':
-        specifier: workspace:*
-        version: link:../../packages/ollama-queue
+        specifier: 1.0.0
+        version: 1.0.0
       '@promethean-os/pantheon-workflow':
         specifier: workspace:*
         version: link:../pantheon/packages/workflow
       '@promethean-os/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
+        specifier: 0.0.1
+        version: 0.0.1
       '@tanstack/react-query':
         specifier: ^5.0.0
         version: 5.90.3(react@18.3.1)
@@ -1079,8 +1079,8 @@ importers:
   experimental/embedding-cache:
     dependencies:
       '@promethean-os/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
+        specifier: 0.0.1
+        version: 0.0.1
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -1129,8 +1129,8 @@ importers:
   experimental/enso-browser-gateway:
     dependencies:
       '@promethean-os/enso-protocol':
-        specifier: workspace:*
-        version: link:../enso-protocol
+        specifier: 1.0.0
+        version: 1.0.0
       wrtc:
         specifier: ^0.4.7
         version: 0.4.7
@@ -1185,8 +1185,8 @@ importers:
         specifier: ^4.7.1
         version: 4.13.3
       '@promethean-os/utils':
-        specifier: workspace:*
-        version: link:../../packages/utils
+        specifier: 0.0.1
+        version: 0.0.1
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -1319,6 +1319,8 @@ importers:
         specifier: ^5.0.0
         version: 5.9.3
 
+  experimental/opencode-client: {}
+
   experimental/pantheon:
     dependencies:
       '@openai/agents':
@@ -1421,8 +1423,8 @@ importers:
   experimental/pantheon/packages/ecs:
     dependencies:
       '@promethean-os/ds':
-        specifier: workspace:*
-        version: link:../../../../packages/ds
+        specifier: 0.0.1
+        version: 0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -1512,8 +1514,8 @@ importers:
   experimental/pantheon/packages/generator:
     dependencies:
       '@promethean-os/pantheon-core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0
+        version: 1.0.0(@promethean-os/agent-state@1.0.0)(@promethean-os/persistence@packages+persistence)
     devDependencies:
       shadow-cljs:
         specifier: ^2.25.8
@@ -1525,8 +1527,8 @@ importers:
         specifier: ^0.24.3
         version: 0.24.3(encoding@0.1.13)
       '@promethean-os/pantheon-core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0
+        version: 1.0.0(@promethean-os/agent-state@1.0.0)(@promethean-os/persistence@packages+persistence)
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -1541,8 +1543,8 @@ importers:
   experimental/pantheon/packages/llm-openai:
     dependencies:
       '@promethean-os/pantheon-core':
-        specifier: workspace:*
-        version: link:../core
+        specifier: 1.0.0
+        version: 1.0.0(@promethean-os/agent-state@1.0.0)(@promethean-os/persistence@packages+persistence)
       openai:
         specifier: ^4.20.1
         version: 4.104.0(encoding@0.1.13)(ws@8.18.3)(zod@3.25.76)
@@ -1557,11 +1559,30 @@ importers:
         specifier: ^5.3.3
         version: 5.9.3
 
-  experimental/pantheon/packages/mcp:
+  experimental/pantheon/packages/llm-opencode:
     dependencies:
+      '@promethean-os/opencode-client':
+        specifier: workspace:*
+        version: link:../../../opencode-client
       '@promethean-os/pantheon-core':
         specifier: workspace:*
         version: link:../core
+    devDependencies:
+      '@types/node':
+        specifier: ^20.0.0
+        version: 20.19.22
+      ava:
+        specifier: ^5.3.1
+        version: 5.3.1(@ava/typescript@4.1.0)
+      typescript:
+        specifier: ^5.3.3
+        version: 5.9.3
+
+  experimental/pantheon/packages/mcp:
+    dependencies:
+      '@promethean-os/pantheon-core':
+        specifier: 1.0.0
+        version: 1.0.0(@promethean-os/agent-state@1.0.0)(@promethean-os/persistence@packages+persistence)
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -1686,7 +1707,7 @@ importers:
         version: 5.3.1(@ava/typescript@4.1.0)
       ts-node:
         specifier: ^10.9.2
-        version: 10.9.2(@types/node@20.19.11)(typescript@5.9.3)
+        version: 10.9.2(@types/node@24.9.1)(typescript@5.9.3)
       typescript:
         specifier: ^5.3.3
         version: 5.9.3
@@ -1756,8 +1777,8 @@ importers:
         specifier: workspace:*
         version: link:../../pipelines/buildfix
       '@promethean-os/ollama-queue':
-        specifier: workspace:*
-        version: link:../../packages/ollama-queue
+        specifier: 1.0.0
+        version: 1.0.0
     devDependencies:
       '@types/node':
         specifier: ^20.0.0
@@ -1849,8 +1870,8 @@ importers:
         specifier: ^0.18.0
         version: 0.18.0(@discordjs/opus@0.10.0(encoding@0.1.13))(opusscript@0.0.8)
       '@promethean-os/logger':
-        specifier: workspace:*
-        version: link:../../packages/logger
+        specifier: 0.2.0
+        version: 0.2.0
       '@types/wav':
         specifier: ^1.0.4
         version: 1.0.4
@@ -2991,8 +3012,8 @@ importers:
         specifier: workspace:*
         version: link:../embedding
       '@promethean-os/logger':
-        specifier: ^0.2.0
-        version: 0.2.0
+        specifier: workspace:*
+        version: link:../logger
       '@types/javascript-time-ago':
         specifier: ^2.5.0
         version: 2.5.0
@@ -3895,7 +3916,7 @@ importers:
         specifier: ^4.0.3
         version: 4.0.3
       typescript:
-        specifier: ^5.4.5
+        specifier: ^5.9.3
         version: 5.9.3
       yaml:
         specifier: ^2.5.0
@@ -4268,9 +4289,6 @@ importers:
       '@modelcontextprotocol/sdk':
         specifier: ^1.17.5
         version: 1.17.5
-      '@promethean-os/discord':
-        specifier: workspace:*
-        version: link:../../packages/discord
       '@promethean-os/kanban':
         specifier: workspace:*
         version: link:../../cli/kanban
@@ -7617,8 +7635,52 @@ packages:
   '@popperjs/core@2.11.8':
     resolution: {integrity: sha512-P1st0aksCrn9sGZhp8GMYwBnQsbvAWsZAX44oXNNvLHGqAOcoVxmjZiohstwQ7SqKnbR47akdNi+uleWD8+g6A==}
 
+  '@promethean-os/agent-state@1.0.0':
+    resolution: {integrity: sha512-ME02tUe06K/Jl8zVXcYbSAW3fdlI6QFnR1Gm2X4yEaOJO949Gr7lQTcrh928fodnvdwr25r/fpAR5Xx6pWcsAw==}
+
+  '@promethean-os/agents-workflow@0.0.0':
+    resolution: {integrity: sha512-BmZgpbgTdLMJzLja1Va6t8vxCUpQRSmBXjy+Oo1J7k/DT8qY9/qAV+SxHK2Rfa6tmRcgQdkjef8CtfrmEIgAGw==}
+
+  '@promethean-os/ds@0.0.1':
+    resolution: {integrity: sha512-QnzdNLV9Ztxqvj1cBsMEBXXhenWG1E2XbiTR/P/bERUVm4UjVrSI/2u79T//Vm97YqjhXYUOEsiamKLAUcN/YQ==}
+
+  '@promethean-os/enso-protocol@1.0.0':
+    resolution: {integrity: sha512-gVZc9/LgusTD5w247qOtu2vUzEWdD6rC+mTPCypeN2UgJ7cQDj1P9Uvw7mEJpl9rxesfGfDaj0OyW9AdqWQPGQ==}
+
+  '@promethean-os/fs@0.0.1':
+    resolution: {integrity: sha512-sE+5gl6ZzsEhNFS1hh7xKFXYcDoPYCScF1DtAKRZkgUVEr5o9V2dGxkFzsZT36A6DpEA0TnxLxtXb+r+FZDpIA==}
+
+  '@promethean-os/kanban@0.2.0':
+    resolution: {integrity: sha512-tXzRQKAZ6bvGYOpHDCmDy+XruYnN9Up/k8L8wUupWpgt/ieoxYl8grPY6nsaTQ51NPwMBz+L+BNsfwOKIJOHng==}
+    hasBin: true
+
+  '@promethean-os/level-cache@0.1.0':
+    resolution: {integrity: sha512-97k5kCu2zt98wKSJ5cWWVtLG1B55U0ZgtoGw+z5TIrhT6uvQktL+TIBfIyOop97/n9uegkOl7ug8oP3Jmhg42Q==}
+
+  '@promethean-os/lmdb-cache@0.1.0':
+    resolution: {integrity: sha512-FG8oFMuDJ9nFR+fURzhMwKC6OEjGp0oyLLGbfzVTE8cnBO83dpJVFSiPIFUUyjMCGBoPe59eLeJIOj3gCOTR2Q==}
+
   '@promethean-os/logger@0.2.0':
     resolution: {integrity: sha512-6YHpPd/zIHOlv2ciE9+Get3WN/efPiLdBexqQX5JDZIobjRKreCte1ZoRgZk+jbLjk/Ub74JwEaHJ3p57/kBGQ==}
+
+  '@promethean-os/markdown@0.0.1':
+    resolution: {integrity: sha512-cM4EzYFnqMBlYXt6hh/PX9WxtDTgG8t3hN+aQtwXmJHZF5MCz8ES1POqIw3T0kyk+2tdO61anzNmXDGb864l3Q==}
+
+  '@promethean-os/ollama-queue@1.0.0':
+    resolution: {integrity: sha512-gMHCSTv6aexO5U3ji73JLx/DMenzI076AyPg2o25bdg/evhDa1ocj/cvhd56+QgmXpQi72Lq0Own4M94iupn9w==}
+
+  '@promethean-os/pantheon-core@1.0.0':
+    resolution: {integrity: sha512-8vILSajX7S00BPRUMhl4bH20gyi2z/gM8HFC17cS7RaAqxngcXRNcHd34s5kaCarSKF8R1W+akEMyassEAZ2ag==}
+    engines: {node: '>=22.0.0'}
+    peerDependencies:
+      '@promethean-os/agent-state': 1.0.0
+      '@promethean-os/persistence': 0.0.1
+
+  '@promethean-os/stream@0.0.1':
+    resolution: {integrity: sha512-TkImZSCoHSmygXaexfP3+wkMwCMBvTNKkNFKjuLz5/ccPHKs/pZB8nD8HKDzU72yWZy5zHow9OxKOFD2Q3eISw==}
+
+  '@promethean-os/utils@0.0.1':
+    resolution: {integrity: sha512-gLyK37uFccWXYwMVYN1gxKOi0wXzsOFqdwIGY3lHOsTCowrLzHG6IJSdc/O8N6u1eraEozvs/7oJVvOw9n2Ilw==}
 
   '@protobufjs/aspromise@1.1.2':
     resolution: {integrity: sha512-j+gKExEuLmKwvz3OgROXtrJ2UG2x8Ch2YZUxahh+s1F2HZ+wAceUNLkvy6zKCPVRkU++ZWQrdxsUeQXmcg4uoQ==}
@@ -9077,6 +9139,10 @@ packages:
     resolution: {integrity: sha512-h8lQ8tacZYnR3vNQTgibj+tODHI5/+l06Au2Pcriv/Gmet0eaj4TwWH41sO9wnHDiQsEj19q0drzdWdeAHtweg==}
     engines: {node: '>=6.5'}
 
+  abstract-level@2.0.2:
+    resolution: {integrity: sha512-pPJixmXk/kTKLB2sSue7o4Uj6TlLD2XfaP2gWZomHVCC6cuUGX/VslQqKG1yZHfXwBb/3lS6oSTMPGzh1P1iig==}
+    engines: {node: '>=16'}
+
   abstract-level@3.1.0:
     resolution: {integrity: sha512-j2e+TsAxy7Ri+0h7dJqwasymgt0zHBWX4+nMk3XatyuqgHfdstBJ9wsMfbiGwE1O+QovRyPcVAqcViMYdyPaaw==}
     engines: {node: '>=18'}
@@ -9682,6 +9748,9 @@ packages:
   brorand@1.1.0:
     resolution: {integrity: sha512-cKV8tMCEpQs4hK/ik71d6LrPOnpkpGBR0wzxqr68g2m/LB2GxVYQroAjMJZRVM1Y4BCjCKc3vAamxSzOY2RP+w==}
 
+  browser-level@2.0.0:
+    resolution: {integrity: sha512-RuYSCHG/jwFCrK+KWA3dLSUNLKHEgIYhO5ORPjJMjCt7T3e+RzpIDmYKWRHxq2pfKGXjlRuEff7y7RESAAgzew==}
+
   browser-level@3.0.0:
     resolution: {integrity: sha512-kGXtLh29jMwqKaskz5xeDLtCtN1KBz/DbQSqmvH7QdJiyGRC7RAM8PPg6gvUiNMa+wVnaxS9eSmEtP/f5ajOVw==}
 
@@ -10082,6 +10151,10 @@ packages:
   class-variance-authority@0.7.1:
     resolution: {integrity: sha512-Ka+9Trutv7G8M6WT6SeiRWz792K5qEqIGEGzXKhAE6xOWAY6pPH8U+9IY3oCMv6kqTmLsv7Xh/2w2RigkePMsg==}
 
+  classic-level@2.0.0:
+    resolution: {integrity: sha512-ftiMvKgCQK+OppXcvMieDoYlYLYWhScK6yZRFBrrlHQRbm4k6Gr+yDgu/wt3V0k1/jtNbuiXAsRmuAFcD0Tx5Q==}
+    engines: {node: '>=18'}
+
   classic-level@3.0.0:
     resolution: {integrity: sha512-yGy8j8LjPbN0Bh3+ygmyYvrmskVita92pD/zCoalfcC9XxZj6iDtZTAnz+ot7GG8p9KLTG+MZ84tSA4AhkgVZQ==}
     engines: {node: '>=18'}
@@ -10241,6 +10314,10 @@ packages:
 
   commander@14.0.2:
     resolution: {integrity: sha512-TywoWNNRbhoD0BXs1P3ZEScW8W5iKrnbithIl0YH+uCmBd0QpPOA8yc82DS3BIE5Ma6FnBVUsJ7wVUDz4dvOWQ==}
+    engines: {node: '>=20'}
+
+  commander@14.0.3:
+    resolution: {integrity: sha512-H+y0Jo/T1RZ9qPP4Eh1pkcQcLRglraJaSLoyOtHxu6AapkjWVCy2Sit1QQ4x3Dng8qDlSsZEet7g5Pq06MvTgw==}
     engines: {node: '>=20'}
 
   commander@2.15.1:
@@ -12979,6 +13056,10 @@ packages:
 
   level@10.0.0:
     resolution: {integrity: sha512-aZJvdfRr/f0VBbSRF5C81FHON47ZsC2TkGxbBezXpGGXAUEL/s6+GP73nnhAYRSCIqUNsmJjfeOF4lzRDKbUig==}
+    engines: {node: '>=18'}
+
+  level@9.0.0:
+    resolution: {integrity: sha512-n+mVuf63mUEkd8NUx7gwxY+QF5vtkibv6fXTGUgtHWLPDaA5/XZjLcI/Q1nQ8k6OttHT6Ezt+7nSEXsRUfHtOQ==}
     engines: {node: '>=18'}
 
   leven@3.1.0:
@@ -21589,10 +21670,249 @@ snapshots:
 
   '@popperjs/core@2.11.8': {}
 
+  '@promethean-os/agent-state@1.0.0':
+    dependencies:
+      '@promethean-os/level-cache': 0.1.0
+      bcryptjs: 2.4.3
+      jsonwebtoken: 9.0.2
+      uuid: 9.0.1
+      zod: 3.25.76
+
+  '@promethean-os/agents-workflow@0.0.0(ws@8.18.3)':
+    dependencies:
+      '@openai/agents': 0.1.11(ws@8.18.3)(zod@3.25.76)
+      ollama: 0.5.18
+      remark-parse: 11.0.0
+      unified: 11.0.5
+      unist-util-visit: 5.0.0
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - bufferutil
+      - supports-color
+      - utf-8-validate
+      - ws
+
+  '@promethean-os/ds@0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)':
+    dependencies:
+      '@types/javascript-time-ago': 2.5.0
+      '@types/unist': 3.0.3
+      body-parser: 1.20.3
+      chromadb: 3.0.17
+      duckduckgo-search: 1.0.7
+      express: 4.19.2
+      gray-matter: 4.0.3
+      javascript-time-ago: 2.5.11
+      mongodb: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      ollama: 0.5.18
+      prom-client: 15.1.3
+      remark-gfm: 4.0.1
+      remark-parse: 11.0.0
+      remark-stringify: 11.0.0
+      sucrase: 3.35.0
+      unified: 11.0.5
+      unist: 0.0.1
+      unist-util-to-string-with-nodes: 0.1.1
+      unist-util-visit: 5.0.0
+      uuid: 11.1.0
+      ws: 8.18.3
+      yaml: 2.8.1
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - bufferutil
+      - debug
+      - gcp-metadata
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+
+  '@promethean-os/enso-protocol@1.0.0':
+    dependencies:
+      ws: 8.18.3
+    transitivePeerDependencies:
+      - bufferutil
+      - utf-8-validate
+
+  '@promethean-os/fs@0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)':
+    dependencies:
+      '@promethean-os/ds': 0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      '@promethean-os/stream': 0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      '@types/javascript-time-ago': 2.5.0
+      '@types/unist': 3.0.3
+      body-parser: 1.20.3
+      chromadb: 3.0.17
+      duckduckgo-search: 1.0.7
+      express: 4.19.2
+      gray-matter: 4.0.3
+      javascript-time-ago: 2.5.11
+      mongodb: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      prom-client: 15.1.3
+      remark-gfm: 4.0.1
+      remark-parse: 11.0.0
+      remark-stringify: 11.0.0
+      sucrase: 3.35.0
+      unified: 11.0.5
+      unist: 0.0.1
+      unist-util-to-string-with-nodes: 0.1.1
+      unist-util-visit: 5.0.0
+      uuid: 11.1.0
+      ws: 8.18.3
+      yaml: 2.8.1
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - bufferutil
+      - debug
+      - gcp-metadata
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+
+  '@promethean-os/kanban@0.2.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)':
+    dependencies:
+      '@promethean-os/agents-workflow': 0.0.0(ws@8.18.3)
+      '@promethean-os/lmdb-cache': 0.1.0
+      '@promethean-os/markdown': 0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      '@promethean-os/utils': 0.0.1
+      chokidar: 4.0.3
+      globby: 14.0.2
+      gray-matter: 4.0.3
+      js-yaml: 4.1.0
+      mongodb: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      simple-git: 3.28.0
+      ws: 8.18.3
+      xml2js: 0.6.2
+      yaml: 2.8.1
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - bufferutil
+      - debug
+      - gcp-metadata
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+
+  '@promethean-os/level-cache@0.1.0':
+    dependencies:
+      '@promethean-os/utils': 0.0.1
+      level: 9.0.0
+
+  '@promethean-os/lmdb-cache@0.1.0':
+    dependencies:
+      '@promethean-os/utils': 0.0.1
+
   '@promethean-os/logger@0.2.0':
     dependencies:
       winston: 3.18.3
       winston-daily-rotate-file: 4.7.1(winston@3.18.3)
+
+  '@promethean-os/markdown@0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)':
+    dependencies:
+      '@promethean-os/fs': 0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      '@types/javascript-time-ago': 2.5.0
+      '@types/mdast': 3.0.15
+      '@types/unist': 3.0.3
+      body-parser: 1.20.3
+      chromadb: 3.0.17
+      duckduckgo-search: 1.0.7
+      express: 4.19.2
+      gray-matter: 4.0.3
+      javascript-time-ago: 2.5.11
+      mongodb: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      ollama: 0.5.18
+      prom-client: 15.1.3
+      remark-gfm: 4.0.1
+      remark-parse: 11.0.0
+      remark-stringify: 11.0.0
+      sucrase: 3.35.0
+      unified: 11.0.5
+      unist: 0.0.1
+      unist-util-to-string-with-nodes: 0.1.1
+      unist-util-visit: 5.0.0
+      uuid: 11.1.0
+      ws: 8.18.3
+      yaml: 2.8.1
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - bufferutil
+      - debug
+      - gcp-metadata
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+
+  '@promethean-os/ollama-queue@1.0.0':
+    dependencies:
+      '@promethean-os/lmdb-cache': 0.1.0
+      '@promethean-os/utils': 0.0.1
+
+  '@promethean-os/pantheon-core@1.0.0(@promethean-os/agent-state@1.0.0)(@promethean-os/persistence@packages+persistence)':
+    dependencies:
+      '@promethean-os/agent-state': 1.0.0
+      '@promethean-os/persistence': link:packages/persistence
+      zod: 3.25.76
+
+  '@promethean-os/stream@0.0.1(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)':
+    dependencies:
+      '@types/javascript-time-ago': 2.5.0
+      '@types/unist': 3.0.3
+      body-parser: 1.20.3
+      chromadb: 3.0.17
+      duckduckgo-search: 1.0.7
+      express: 4.19.2
+      gray-matter: 4.0.3
+      javascript-time-ago: 2.5.11
+      mongodb: 6.18.0(@aws-sdk/credential-providers@3.906.0)(socks@2.8.7)
+      ollama: 0.5.18
+      prom-client: 15.1.3
+      remark-gfm: 4.0.1
+      remark-parse: 11.0.0
+      remark-stringify: 11.0.0
+      sucrase: 3.35.0
+      unified: 11.0.5
+      unist: 0.0.1
+      unist-util-to-string-with-nodes: 0.1.1
+      unist-util-visit: 5.0.0
+      uuid: 11.1.0
+      ws: 8.18.3
+      yaml: 2.8.1
+      zod: 3.25.76
+    transitivePeerDependencies:
+      - '@aws-sdk/credential-providers'
+      - '@mongodb-js/zstd'
+      - bufferutil
+      - debug
+      - gcp-metadata
+      - kerberos
+      - mongodb-client-encryption
+      - snappy
+      - socks
+      - supports-color
+      - utf-8-validate
+
+  '@promethean-os/utils@0.0.1':
+    dependencies:
+      p-memoize: 8.0.0
+      type-fest: 4.41.0
+      yaml: 2.8.1
+      zod: 3.25.76
 
   '@protobufjs/aspromise@1.1.2': {}
 
@@ -23567,6 +23887,15 @@ snapshots:
     dependencies:
       event-target-shim: 5.0.1
 
+  abstract-level@2.0.2:
+    dependencies:
+      buffer: 6.0.3
+      is-buffer: 2.0.5
+      level-supports: 6.2.0
+      level-transcoder: 1.0.1
+      maybe-combine-errors: 1.0.0
+      module-error: 1.0.2
+
   abstract-level@3.1.0:
     dependencies:
       buffer: 6.0.3
@@ -24435,6 +24764,10 @@ snapshots:
 
   brorand@1.1.0: {}
 
+  browser-level@2.0.0:
+    dependencies:
+      abstract-level: 2.0.2
+
   browser-level@3.0.0:
     dependencies:
       abstract-level: 3.1.0
@@ -24864,6 +25197,13 @@ snapshots:
     dependencies:
       clsx: 2.1.1
 
+  classic-level@2.0.0:
+    dependencies:
+      abstract-level: 2.0.2
+      module-error: 1.0.2
+      napi-macros: 2.2.2
+      node-gyp-build: 4.8.4
+
   classic-level@3.0.0:
     dependencies:
       abstract-level: 3.1.0
@@ -25007,6 +25347,8 @@ snapshots:
   commander@12.1.0: {}
 
   commander@14.0.2: {}
+
+  commander@14.0.3: {}
 
   commander@2.15.1: {}
 
@@ -28379,7 +28721,7 @@ snapshots:
 
   jsedn@0.4.1:
     dependencies:
-      commander: 14.0.2
+      commander: 14.0.3
       equals: 1.0.5
       type-component: 0.0.1
 
@@ -28529,6 +28871,12 @@ snapshots:
       abstract-level: 3.1.0
       browser-level: 3.0.0
       classic-level: 3.0.0
+
+  level@9.0.0:
+    dependencies:
+      abstract-level: 2.0.2
+      browser-level: 2.0.0
+      classic-level: 2.0.0
 
   leven@3.1.0: {}
 
@@ -32974,6 +33322,24 @@ snapshots:
       '@tsconfig/node14': 1.0.3
       '@tsconfig/node16': 1.0.4
       '@types/node': 20.19.22
+      acorn: 8.15.0
+      acorn-walk: 8.3.4
+      arg: 4.1.3
+      create-require: 1.1.1
+      diff: 4.0.2
+      make-error: 1.3.6
+      typescript: 5.9.3
+      v8-compile-cache-lib: 3.0.1
+      yn: 3.1.1
+
+  ts-node@10.9.2(@types/node@24.9.1)(typescript@5.9.3):
+    dependencies:
+      '@cspotcode/source-map-support': 0.8.1
+      '@tsconfig/node10': 1.0.11
+      '@tsconfig/node12': 1.0.11
+      '@tsconfig/node14': 1.0.3
+      '@tsconfig/node16': 1.0.4
+      '@types/node': 24.9.1
       acorn: 8.15.0
       acorn-walk: 8.3.4
       arg: 4.1.3

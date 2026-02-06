@@ -277,9 +277,6 @@
     },
     {
       "path": "./packages/ws"
-    },
-    {
-      "path": "./packages/opencode-client"
     }
   ]
 }
