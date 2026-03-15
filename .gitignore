@@ -65,3 +65,11 @@ services/knowledge-graph/packages/**/graph.json
 services/knowledge-graph/packages/**/dist/
 services/knowledge-graph/packages/**/coverage/
 services/knowledge-graph/packages/**/.space/
+
+# Fork Tales substrate conventions (local-only)
+.ημ/*
+!.ημ/.gitkeep
+.Π/*
+!.Π/.gitkeep
+.opencode/runtime/eta_mu_knowledge.v1.jsonl
+.opencode/runtime/eta_mu_docmeta.v1.jsonl
