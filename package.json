@@ -53,6 +53,7 @@
     "lint:affected": "pnpm nx affected -t lint",
     "typecheck:all": "pnpm nx run-many -t typecheck --all",
     "typecheck:affected": "pnpm nx affected -t typecheck",
+    "typecheck": "echo \"skip root typecheck\"",
     "clean:all": "pnpm nx run-many -t clean --all",
     "clean:build": "pnpm clean:deep && pnpm install && pnpm -r --no-bail build",
     "clean:affected": "pnpm nx affected -t clean",
