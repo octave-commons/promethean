@@ -94,7 +94,8 @@
     "shadow:watch:frontends": "pnpm --parallel --filter '@promethean-os/*-frontend' run watch:shadow",
     "create-mutaant": "pnpm exec buildfix create-mutaant",
     "pipeline:optimize": "node scripts/pipeline-optimizer.mjs",
-    "pipeline:analyze": "node scripts/pipeline-optimizer.mjs --analyze-only"
+    "pipeline:analyze": "node scripts/pipeline-optimizer.mjs --analyze-only",
+    "eta:docs:index": "node scripts/eta_mu_docs_indexer.mjs"
   },
   "bin": {
     "prom": "./packages/promethean-cli/dist/promethean_cli.cjs",

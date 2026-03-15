@@ -73,3 +73,5 @@ services/knowledge-graph/packages/**/.space/
 !.Π/.gitkeep
 .opencode/runtime/eta_mu_knowledge.v1.jsonl
 .opencode/runtime/eta_mu_docmeta.v1.jsonl
+.opencode/runtime/eta_mu_docs_*.v1.jsonl
+.opencode/runtime/eta_mu_docs_*.v1.json
