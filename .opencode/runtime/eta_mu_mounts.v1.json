@@ -1,0 +1,21 @@
+{
+  "record": "ημ.mounts.v1",
+  "generated_at": "2026-03-16T00:00:00Z",
+  "version": "1",
+  "mounts": [
+    {
+      "id": "promethean-docs",
+      "root": "docs",
+      "include": ["**/*.md"],
+      "exclude": [
+        "**/node_modules/**",
+        "**/.git/**",
+        "**/dist/**",
+        "**/.cache/**",
+        "**/.opencode/**",
+        "**/.ημ/**",
+        "**/.Π/**"
+      ]
+    }
+  ]
+}
