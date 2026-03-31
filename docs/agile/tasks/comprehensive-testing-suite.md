@@ -81,7 +81,7 @@ describe('PlanModeHandler', () => {
 describe('File System Integration', () => {
   test('should update promethean.kanban.json correctly');
   test('should modify process.md without breaking formatting');
-  test('should update kanban-transitions.clj syntax');
+  test('should update kanban_transitions.clj syntax');
   test('should handle file permission issues');
   test('should create and restore backups');
 });

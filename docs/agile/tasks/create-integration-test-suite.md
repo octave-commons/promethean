@@ -200,7 +200,7 @@ tests/integration/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Testing framework: `docs/testing-framework.md`
 - Integration testing patterns: `docs/integration-testing.md`
 - Test containers: https://www.testcontainers.org/

@@ -201,7 +201,7 @@ tests/performance/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Performance monitoring: `docs/performance-monitoring.md`
 - Load testing tools: https://k6.io/
 - Memory profiling: https://nodejs.org/en/docs/guides/simple-profiling/

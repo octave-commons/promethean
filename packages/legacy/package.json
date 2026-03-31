@@ -1,0 +1,70 @@
+{
+  "name": "@promethean-os/legacy",
+  "version": "0.2.0",
+  "description": "Legacy utilities and compatibility layer",
+  "main": "dist/index.cjs",
+  "types": "dist/index.d.ts",
+  "module": "dist/index.js",
+  "type": "module",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./dist/*": "./dist/*",
+    "./*": "./dist/*",
+    "./env.js": "./env.js",
+    "./brokerClient.js": "./brokerClient.js",
+    "./queueManager.js": "./queueManager.js"
+  },
+  "files": [
+    "dist",
+    "src/env.js",
+    "src/brokerClient.js",
+    "src/queueManager.js"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts --format cjs,esm --out-dir dist && tsc -p tsconfig.json --emitDeclarationOnly --declaration",
+    "clean": "rimraf dist tsconfig.tsbuildinfo",
+    "typecheck": "tsc -p tsconfig.json",
+    "test": "pnpm run build && ava",
+    "lint": "pnpm exec eslint .",
+    "coverage": "pnpm run build && c8 ava",
+    "format": "pnpm exec prettier --write ."
+  },
+  "keywords": [
+    "legacy",
+    "compatibility",
+    "utilities",
+    "broker",
+    "queue"
+  ],
+  "author": "Promethean Framework",
+  "license": "GPL-3.0-only",
+  "dependencies": {
+    "@types/estree": "^1.0.5",
+    "body-parser": "^1.20.2",
+    "canvas": "^3.1.2",
+    "dotenv": "^17.2.1",
+    "execa": "^9.6.0",
+    "express": "^4.19.2",
+    "fs-extra": "^11.3.0",
+    "mongodb": "^6.18.0",
+    "prom-client": "^15.1.0",
+    "sucrase": "^3.35.0",
+    "ws": "^8.18.0",
+    "yaml": "^2.7.0"
+  },
+  "devDependencies": {
+    "@types/body-parser": "^1.19.5",
+    "@types/express": "^4.17.21",
+    "@types/ws": "^8.5.12",
+    "ava": "^6.0.0",
+    "eslint": "^8.57.0",
+    "prettier": "^3.0.0",
+    "rimraf": "^5.0.0",
+    "tsup": "^8.0.0",
+    "typescript": "^5.0.0"
+  }
+}

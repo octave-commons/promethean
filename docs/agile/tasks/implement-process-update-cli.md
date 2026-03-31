@@ -108,7 +108,7 @@ Migration ID: mig-2025-10-15-todo-backlog
    - Modify transition documentation
    - Update mermaid flowchart
 
-3. docs/agile/rules/kanban-transitions.clj
+3. docs/agile/rules/kanban_transitions.clj
    - Update status references
    - Modify transition functions
    - Update column-key normalization

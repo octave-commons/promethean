@@ -13,7 +13,7 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 ## 📚 Operating Context
 
-- The board structure and flow logic are defined in [[process|process.md]].
+- The board structure and flow logic are defined in [[docs/agile/process|process.md]].
 - Tasks must live in `agile/tasks/` as individual files.
 - Tasks must be linked from the board before they can move to **Ready** or beyond.
 - Board items that are not yet linked to task files are considered incomplete.
@@ -40,15 +40,13 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 ## 🧠 Tags and Their Meanings
 
-| Tag             | Meaning |
-```
-|------------------|--------|
-```
-| `#codex-task`    | Work Codex can handle (refactors, tests, scripts) |
-| `#agent-mode`    | Tasks that require discussion or system-level thought |
-| `#framework-core`| Related to core architecture of Promethean |
-| `#doc-this`      | Task must produce markdown documentation |
-| `#rewrite-later` | Placeholder, needs deeper refinement |
+| Tag               | Meaning                                               |
+| ----------------- | ----------------------------------------------------- |
+| `#codex-task`     | Work Codex can handle (refactors, tests, scripts)     |
+| `#agent-mode`     | Tasks that require discussion or system-level thought |
+| `#framework-core` | Related to core architecture of Promethean            |
+| `#doc-this`       | Task must produce markdown documentation              |
+| `#rewrite-later`  | Placeholder, needs deeper refinement                  |
 
 ---
 
@@ -56,16 +54,14 @@ states, enforcing WIP limits, and prompting Codex when a card carries the
 
 The board columns are derived from these hashtags in each task file:
 
-| Hashtag        | Column |
-```
-|----------------|--------|
-```
-| `#IceBox`      | Ice Box |
-| `#Accepted`    | Accepted |
-| `#Ready`       | Ready |
-| `#Todo`        | 🟢 To Do |
-| `#InProgress`  | 🟡 In Progress |
-| `#Done`        | 🔵 Done |
+| Hashtag       | Column         |
+| ------------- | -------------- |
+| `#IceBox`     | Ice Box        |
+| `#Accepted`   | Accepted       |
+| `#Ready`      | Ready          |
+| `#Todo`       | 🟢 To Do       |
+| `#InProgress` | 🟡 In Progress |
+| `#Done`       | 🔵 Done        |
 
 
 ## 🛠️ Required Behaviors

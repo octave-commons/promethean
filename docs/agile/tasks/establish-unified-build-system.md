@@ -176,7 +176,7 @@ Create a unified build system that can compile TypeScript, ClojureScript, and El
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Build system documentation: `docs/build-system.md`
 - CI/CD configuration: `.github/workflows/`
 - Existing build configs: `packages/*/tsconfig.json`

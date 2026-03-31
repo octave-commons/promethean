@@ -1,12 +1,17 @@
 packages:
   - packages/*
   - services/*
+  - services/*/packages/*
   - pipelines/*
   - packages/*/*
+  - packages/*/packages/*
   - .opencode/*
   - scripts/*/*
   - cli/*
+  - cli/kanban/packages/*
   - tools/
+  - experimental/*
+  - experimental/*/packages/*
 
 auditConfig:
   ignoreCves:

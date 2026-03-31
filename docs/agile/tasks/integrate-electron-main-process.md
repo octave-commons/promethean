@@ -208,7 +208,7 @@ src/typescript/electron/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current main process: `packages/opencode-cljs-electron/src/main/`
 - Electron documentation: https://www.electronjs.org/docs
 - IPC best practices: `docs/ipc-guidelines.md`

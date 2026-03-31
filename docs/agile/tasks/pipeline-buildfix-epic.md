@@ -1,11 +1,16 @@
 ---
-uuid: "dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd"
-title: "Pipeline BuildFix & Automation Epic"
-slug: "pipeline-buildfix-epic"
-status: "testing"
-priority: "P0"
-labels: ["automation", "buildfix", "epic", "pipeline", "timeout"]
-created_at: "2025-10-12T23:41:48.142Z"
+uuid: dc8c2b6d-a4a0-44ac-b31d-613201f1a2bd
+title: Pipeline BuildFix & Automation Epic
+slug: pipeline-buildfix-epic
+status: review
+priority: P0
+labels:
+  - automation
+  - buildfix
+  - epic
+  - pipeline
+  - timeout
+created_at: 2025-10-12T23:41:48.142Z
 estimates:
   complexity: ""
   scale: ""

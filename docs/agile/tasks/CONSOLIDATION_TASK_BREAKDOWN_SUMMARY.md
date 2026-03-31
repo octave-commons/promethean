@@ -190,7 +190,7 @@ Each task card includes:
 
 ## 🔍 Related Documents
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]] - Original consolidation plan
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]] - Original consolidation plan
 - [[docs/agile/kanban-cli-reference.md]] - Kanban management commands
 - [[docs/agile/process.md]] - Development process guidelines
 

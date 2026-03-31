@@ -1,22 +1,43 @@
 services:
+  nginx:
+    image: nginx:1.27
+    depends_on:
+      - sentinel
+      - openwebui
+    volumes:
+      - ./configs/nginx/frontends.conf:/etc/nginx/conf.d/frontends.conf:ro
+    ports:
+      - '8080:80'
+    networks: [prom-net]
+
+  sentinel:
+    build:
+      context: .
+      dockerfile: services/sentinel/Dockerfile
+    environment:
+      SENTINEL_UI_PORT: 8787
+      SENTINEL_CONFIG: /app/sentinel.edn
+    networks: [prom-net]
+    expose:
+      - '8787'
+
   rabbitmq:
     # profiles: ["messaging"]
     image: rabbitmq:3.13-management
     volumes:
       - rabbitmq_data:/var/lib/rabbitmq
     ports:
-      - "5672:5672"
-      - "15672:15672"
+      - '5672:5672'
+      - '15672:15672'
     networks: [prom-net]
     restart: unless-stopped
   openwebui:
     image: ghcr.io/open-webui/open-webui:main
     gpus: all
     # profiles: ["ai","rag","ollama","mcp"]
-    ports:
-      - '3000:8080'
     volumes:
       - open-webui:/app/backend/data
+    networks: [prom-net]
 
   chromadb:
     image: ${CHROMA_IMAGE:-chromadb/chroma:1.0.21.dev56}
@@ -68,7 +89,6 @@ services:
       timeout: 5s
       retries: 5
 
-
   mongodb:
     image: mongo:6-jammy
     container_name: mongodb
@@ -78,7 +98,32 @@ services:
     volumes:
       - mongo-data:/data/db
 
+  elasticsearch:
+    image: docker.elastic.co/elasticsearch/elasticsearch:8.15.2
+    container_name: elasticsearch
+    environment:
+      - discovery.type=single-node
+      - xpack.security.enabled=false
+      - ES_JAVA_OPTS=-Xms1g -Xmx1g
+    ulimits:
+      memlock:
+        soft: -1
+        hard: -1
+    volumes:
+      - es-data:/usr/share/elasticsearch/data
+    ports:
+      - '127.0.0.1:9200:9200'
+      - '127.0.0.1:9300:9300'
+    networks: [prom-net]
+    restart: unless-stopped
+    healthcheck:
+      test: ['CMD-SHELL', 'curl -fsS http://127.0.0.1:9200 >/dev/null || exit 1']
+      interval: 10s
+      timeout: 5s
+      retries: 6
+
   # nats:
+
   #   profiles: ['messaging']
   #   image: nats:2.10
   #   command: ['-js', '-sd', '/data']
@@ -242,7 +287,6 @@ services:
   #   # environment:
   #   #   SEMGREP_APP_TOKEN: "${SEMGREP_APP_TOKEN}"
 
-
   # vllm:
   #   image: vllm/vllm-openai:v0.6.3
   #   restart: unless-stopped
@@ -293,7 +337,6 @@ services:
   #     retries: 6
   #     start_period: 60s # Give vLLM more time to download models and start
 
-
 volumes:
   nats_data:
   qdrant-data:
@@ -304,6 +347,7 @@ volumes:
   mongo-data:
   open-webui:
   rabbitmq_data:
+  es-data:
 
 networks:
   prom-net:

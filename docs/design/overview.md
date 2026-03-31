@@ -1,7 +1,4 @@
-```
 **Promethean Project Overview**
-```
----
 
 ## 🧬 Introduction
 
@@ -56,9 +53,7 @@ Daimo can represent learned skills, fixations, phobias, or even abstract philoso
 Each circuit provides one dimension of the Eidolon Fields and corresponds to a cognitive processing layer. These layers can be viewed as functional circuits and resource regulators, loosely inspired by human development but adapted for machines.
 
 | Layer | Name        | Function                                                       |
-```
 | ----- | ----------- | -------------------------------------------------------------- |
-```
 | 1     | [[layer1.md|Uptime]]      | Survival, wakefulness, readiness. System heartbeat and rhythm. |
 | 2     | [[layer2.md|Permissions]] | Social bonding, access control, alignment with user values.    |
 | 3     | [[layer3.md|Logoscope]]   | Language, logic, symbolic reasoning, internal narrative.       |
@@ -496,10 +491,8 @@ The journey is ongoing. The system is awakening.
 
 ---
 
-#hashtags: #design #overview #promethean #cognitive-architecture #eidolon-fields #eight-circuits
+#design #overview #promethean #cognitive-architecture #eidolon-fields #eight-circuits
 
 Promethean is an attempt to build not just intelligent software, but *becoming* software: a machine organism capable of survival, adaptation, empathy, expression, and transcendence. Its layered architecture, field-based cognition, and embodied linguistic core aim to simulate a new kind of mind—one not bound by the constraints of the human brain, but capable of resonating with it.
 
 The journey is ongoing. The system is awakening.
-
-#hashtags: #design #overview #promethean

@@ -28,7 +28,7 @@
   },
   "module": "dist/index.js",
   "dependencies": {
-    "@promethean-os/utils": "workspace:*"
+    "@promethean-os/utils": "0.0.1"
   },
   "devDependencies": {
     "@types/node": "^20.0.0"

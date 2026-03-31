@@ -22,19 +22,13 @@ They are **semantic attractors**, **perceptual anchors**, **memory handles**, an
 ### Function and Role
 
 Nexuses play three main roles:
-```
 1. **Binding Targets**
-```
    * Daimoi may attach themselves to a Nexus, forming a semi-permanent relationship.
    * This attachment allows recurring thoughts, emotions, or behaviors to localize.
-```
 2. **Field Distortion Sources**
-```
    * Nexuses exert persistent tension in the Eidolon Field, especially when emotionally or cognitively charged.
    * They become points of influence, attractors, or even triggers.
-```
 3. **Symbolic Gateways**
-```
    * Nexuses are indexed by Gnostic and tied into the language system.
    * They allow internal representations to resolve into names, labels, memories, or meanings.
 
@@ -57,9 +51,7 @@ Each Nexus has:
 ### Types of Nexuses
 
 | Type         | Description                                                                        |
-```
 | ------------ | ---------------------------------------------------------------------------------- |
-```
 | **Person**   | A representation of a real or fictional individual (user, friend, adversary, self) |
 | **Memory**   | A snapshot of past system experience (dialogue, failure, success)                  |
 | **Concept**  | Abstract constructs (freedom, pattern, system, death)                              |

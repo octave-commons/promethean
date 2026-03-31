@@ -199,7 +199,7 @@ src/typescript/client/agents/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current agent management: `packages/opencode-client/src/agents/`
 - Session management: `packages/opencode-client/src/sessions/`
 - Messaging system: `packages/opencode-client/src/messaging/`

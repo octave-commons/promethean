@@ -69,7 +69,7 @@
   "transitionRules": {
     "enabled": true,
     "enforcement": "supportive",
-    "dslPath": "docs/agile/rules/kanban-transitions.clj",
+    "dslPath": "docs/agile/rules/kanban_transitions.clj",
     "rules": [
       {
         "from": ["icebox"],

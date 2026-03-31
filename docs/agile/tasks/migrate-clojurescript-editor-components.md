@@ -215,7 +215,7 @@ src/clojurescript/editor/
 
 ### 🔗 Related Links
 
-- [[PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS.md]]
+- [[docs/hacks/inbox/PACKAGE_CONSOLIDATION_PLAN_STORY_POINTS]]
 - Current editor: `packages/opencode-cljs-electron/src/editor/`
 - Keymap system: `packages/opencode-cljs-electron/src/keymap/`
 - UI components: `packages/opencode-cljs-electron/src/ui/`

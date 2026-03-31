@@ -1,5 +1,7 @@
 # AGENTS.md
 
+Folder purpose: reusable @promethean-os/\* libraries consumed by services, CLIs, and experiments. Most new work now lives under `cli/`, `services/`, or `experimental/`; this folder holds shared/legacy libraries still in-repo with docs under `docs/packages/<slug>/`.
+
 ## Module Resolution
 
 - Do not resolve modules via relative paths outside of a package's root.
@@ -8,6 +10,8 @@
 - node version is pinned by package.json
 
 ## Package scaffolding
+
+Many libraries here are vendored submodules; prefer updating their upstream repos when `.git` or `.gitrepo` is present. Add new packages here only when they cannot live under `cli/`, `services/`, or `experimental/`.
 
 - Use Nx to create new workspace packages:
   - Libraries: `nx g tools:package <name> --preset library`
@@ -30,7 +34,7 @@
 - **No test code in prod paths.** Ports/DI keeps boundaries explicit.
 - **Deterministic & parallel-friendly.** No shared module singletons leaking between tests.
 - **Easier refactors.** Adapters are the only place that knows Mongo/Chroma APIs.
-- **Right tool for each test level.** Fakes for unit speed; containers for realistic integration. The principle is well-established: mock *your* interfaces, not vendor clients. ([Hynek Schlawack][3], [8th Light][2])
+- **Right tool for each test level.** Fakes for unit speed; containers for realistic integration. The principle is well-established: mock _your_ interfaces, not vendor clients. ([Hynek Schlawack][3], [8th Light][2])
 - `esmock` provides native ESM import mocking and has examples for AVA. It avoids invasive “test hook” exports. ([NPM][5], [Skypack][6])
 
 ## Clean Code
@@ -40,6 +44,7 @@
 - Prefer small, incremental improvements to code quality.
 
 ## Example package
+
 Keep it simple, use barrel exports, minimal tsconfig extending `../../tsconfig.base.json`, minimal `ava.config.mjs`
 build essentials (`typescript`, `rimraf`, `eslint`,`prettier`,`ts-node`,`ava`,`tsx`, etc) are pinned to the root ``package.json`
 to prevent version drift.
@@ -47,14 +52,16 @@ to prevent version drift.
 node versions are pinned to root `package.json` to prevent version drift.
 
 ### packages/hack/src/hack.ts
+
 ```typescript
-import {foo} from "@promethean-os/bar"
+import { foo } from '@promethean-os/bar';
 export function hack() {}
 ```
+
 ### packages/hack/src/index.ts
 
 ```typescript
-export * from "./hack.js"
+export * from './hack.js';
 ```
 
 ### packages/hack/package.json
@@ -98,17 +105,18 @@ export * from "./hack.js"
 ```
 
 ### packages/hack/tsconfig.json
+
 ```json
 {
-    "extends": "../../config/tsconfig.base.json",
-    "compilerOptions": {
-        "rootDir": "src",
-        "outDir": "dist",
-        "composite": true,
-        "declaration": true
-    },
-    "include": ["src/**/*"],
-    "references": []
+  "extends": "../../config/tsconfig.base.json",
+  "compilerOptions": {
+    "rootDir": "src",
+    "outDir": "dist",
+    "composite": true,
+    "declaration": true
+  },
+  "include": ["src/**/*"],
+  "references": []
 }
 ```
 

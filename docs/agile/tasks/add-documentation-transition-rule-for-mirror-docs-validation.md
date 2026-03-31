@@ -26,7 +26,7 @@ The kanban workflow includes a "Document" step in the process, but there's no va
 ## Requirements
 
 ### 1. Transition Rule Enhancement
-- Add new validation function `documentation-mirror-complete?` to `docs/agile/rules/kanban-transitions.clj`
+- Add new validation function `documentation-mirror-complete?` to `docs/agile/rules/kanban_transitions.clj`
 - Integrate with existing `document → done` transition rule
 - Check for mirror docs existence in `docs/:code-change/` directory structure
 
@@ -45,7 +45,7 @@ The transition rule should verify:
 ## Implementation Plan
 
 ### Phase 1: Create Validation Function (45 minutes)
-1. Add `documentation-mirror-complete?` function to `kanban-transitions.clj`
+1. Add `documentation-mirror-complete?` function to `kanban_transitions.clj`
 2. Implement file system check for docs/:code-change directory
 3. Add frontmatter validation for mirror docs
 4. Test validation logic with sample tasks
@@ -73,7 +73,7 @@ The transition rule should verify:
 ## Technical Details
 
 ### Files to Modify
-- `docs/agile/rules/kanban-transitions.clj` - Add validation function
+- `docs/agile/rules/kanban_transitions.clj` - Add validation function
 - `promethean.kanban.json` - Update transition rule configuration
 
 ### New Function Signature

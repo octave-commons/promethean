@@ -49,7 +49,7 @@ The Comprehensive Testing Transition Rule provides extensive configuration optio
 
 1. **Environment Variables** (highest priority)
 2. **JSON Configuration** (`promethean.kanban.json`)
-3. **Clojure DSL Rules** (`docs/agile/rules/kanban-transitions.clj`)
+3. **Clojure DSL Rules** (`docs/agile/rules/kanban_transitions.clj`)
 4. **Default Values** (lowest priority)
 
 ---

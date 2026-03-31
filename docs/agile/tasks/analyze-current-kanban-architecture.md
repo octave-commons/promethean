@@ -32,7 +32,7 @@ Conduct comprehensive analysis of the current kanban system architecture to unde
 
 - `promethean.kanban.json` - Configuration and status definitions
 - `docs/agile/process.md` - FSM rules and workflow documentation
-- `docs/agile/rules/kanban-transitions.clj` - Transition rule DSL implementation
+- `docs/agile/rules/kanban_transitions.clj` - Transition rule DSL implementation
 - `@promethean-os/kanban` package - Core kanban functionality
 
 ### Integration Points

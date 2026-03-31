@@ -15,7 +15,7 @@
   },
   "dependencies": {
     "@promethean-os/buildfix": "workspace:*",
-    "@promethean-os/ollama-queue": "workspace:*"
+    "@promethean-os/ollama-queue": "1.0.0"
   },
   "devDependencies": {
     "@types/node": "^20.0.0",
