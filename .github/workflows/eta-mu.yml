@@ -33,7 +33,7 @@ jobs:
       - name: Checkout eta-mu logic
         uses: actions/checkout@v4
         with:
-          repository: open-hax/eta-mu-github
+          repository: open-hax/eta-mu
           path: .eta-mu
 
       - name: Create eta-mu app token
@@ -54,10 +54,10 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: .eta-mu/pnpm-lock.yaml
+          cache-dependency-path: .eta-mu/packages/eta-mu-github/pnpm-lock.yaml
 
       - name: Install eta-mu dependencies
-        run: pnpm --dir .eta-mu install --frozen-lockfile
+        run: pnpm --dir .eta-mu/packages/eta-mu-github install --frozen-lockfile
 
       - name: Run eta-mu event handler
         env:
@@ -73,7 +73,7 @@ jobs:
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
         run: >-
-          pnpm --dir .eta-mu dev run-event
+          pnpm --dir .eta-mu/packages/eta-mu-github dev run-event
           --repo "${GITHUB_REPOSITORY}"
           --event-name "${GITHUB_EVENT_NAME}"
           --event-path "${GITHUB_EVENT_PATH}"
