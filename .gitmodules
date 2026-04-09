@@ -1,6 +1,3 @@
-[submodule "orgs/open-hax/knoxx"]
-	path = orgs/open-hax/knoxx
-	url = https://github.com/open-hax/knoxx
 [submodule "orgs/open-hax/openplanner"]
 	path = orgs/open-hax/openplanner
 	url = https://github.com/open-hax/openplanner
@@ -16,9 +13,6 @@
 [submodule "orgs/octave-commons/daimoi"]
 	path = orgs/octave-commons/daimoi
 	url = git@github.com:octave-commons/daimoi.git
-[submodule "orgs/octave-commons/cephalon"]
-	path = orgs/octave-commons/cephalon
-	url = git@github.com:octave-commons/cephalon.git
 [submodule "orgs/ussyverse/routussy"]
 	path = orgs/ussyverse/routussy
 	url = https://github.com/riatzukiza/routussy.git
