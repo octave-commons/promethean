@@ -1,71 +1,88 @@
 # OpenPlanner Docker Stack
 
-**Single compose file. Atlas Local only. No overlays. No variants.**
+**Single compose file. MongoDB Community Server. No overlays. No variants.**
 
 ## Quick Reference
 
 | What | Value |
 |------|-------|
 | Compose file | `docker-compose.yml` (THIS IS THE ONLY ONE) |
-| MongoDB image | `mongodb/mongodb-atlas-local:latest` |
-| Atlas Search | Bundled inside mongodb-atlas-local (no separate mongot container) |
-| Vector indexes | Created by `scripts/atlas-init.sh` on first boot |
+| MongoDB image | `mongo:8.0` (Community Server) |
+| Vector search | Handled by `openplanner-proxx` embedding service |
 | Init service | `mongo-init` (runs once, `restart: "no"`) |
 
 ## Architecture
 
 ```
 docker-compose.yml
-├── secrets-init        stub (no-op, kept for dependency compat)
-├── mongodb             mongodb-atlas-local (includes mongot internally)
-├── mongot              stub (no-op, kept for dependency compat)
-├── mongo-init          runs atlas-init.sh once, creates user + collections + indexes
+├── mongodb             MongoDB Community Server 8.0 (standalone, no replica set)
+├── mongo-init          runs mongo-init.sh once, creates user + collections + indexes
 ├── openplanner         main application (depends on mongodb healthy + mongo-init complete)
-├── openplanner-proxx   PostgreSQL proxy for Knoxx
+├── openplanner-proxx   Embedding service + vector search
 ├── knoxx-*             Knoxx agent backend, frontend, nginx, postgres, redis
 ├── graph-weaver        graph processing service
-├── myrmex              crawler service (profile: graph)
-├── eros-eris-field-app field app
-├── kms-ingestion       knowledge management ingestion
-├── shibboleth-*        auth services
-└── shuvcrawl           web crawler
+├── eros-eris-field-app force-directed graph simulation
+├── kms-ingestion       knowledge management ingestion (Clojure)
+└── shibboleth-*        auth services
 ```
 
-## Why mongodb-atlas-local (and NOT mongodb-community-server)
+## Why MongoDB Community Server (NOT Atlas Local)
 
-The OpenPlanner stack requires **Atlas Search** (vector search via `$vectorSearch`) for:
+Atlas Local generates replica set names from container IDs. When containers are recreated:
+1. Old replica set config in persistent volume references old container ID
+2. New container has different ID
+3. MongoDB fails: "node is not in primary or recovering state"
+4. **Data cannot persist across container recreations**
 
-1. **Semantic graph traversal** — `POST /v1/graph/memory` uses vector similarity to seed graph traversal. Without Atlas Search indexes, this returns 0 vector hits.
-2. **Document chunk search** — `POST /v1/ingestion/search` retrieves relevant document chunks by embedding similarity.
+MongoDB Community Server in standalone mode (no replica set) allows:
+- Data persistence across container recreations
+- Simpler configuration
+- Standard MongoDB 8.0 features
 
-`mongodb-community-server` does NOT include Atlas Search. To get it with the community edition, you would need a separate `mongot` container, separate keyfile management, replica set initialization, and manual index creation via the mongot admin API. This is fragile and was the source of multiple production failures.
+**Trade-off**: No native vector search in MongoDB. Vector search is handled by the `openplanner-proxx` embedding service.
 
-`mongodb-atlas-local` bundles MongoDB + mongot in a single container with:
-- Automatic keyfile generation
-- Automatic replica set initialization
-- Built-in Atlas Search (mongot) on localhost:27027
-- Standard `createSearchIndexes` mongosh commands just work
+## Startup Sequence
 
-## Vector Search Indexes
+### Quick Start (Full Stack with Dev Frontend)
 
-Created by `scripts/atlas-init.sh` on every fresh boot:
+```bash
+cd /home/err/devel/services/openplanner
 
-| Collection | Index name | Dimensions | Similarity | Filters |
-|-----------|-----------|------------|------------|---------|
-| `graph_node_embeddings` | `embedding_vector` | 1024 | cosine | `project`, `embedding_model` |
-| `event_chunks` | `chunk_vector` | 1024 | cosine | `project`, `source` |
+# Start everything with dev profile (includes Vite dev server)
+docker compose --profile dev up -d
 
-These indexes are **required** for the application to function. Without them, semantic queries silently return empty results.
+# Wait for all services to become healthy (~2 minutes)
+docker compose ps
+```
+
+### Core Stack Only
+
+```bash
+# Start MongoDB and OpenPlanner core
+docker compose up -d mongodb
+docker compose up -d openplanner
+
+# Verify OpenPlanner is healthy
+curl http://localhost:7777/v1/health
+```
+
+### Graph Stack (Force-Directed Simulation)
+
+```bash
+# Single worker
+docker compose --profile graph up -d
+
+# 20 shards (parallel processing)
+docker compose --profile graph-20 up -d
+```
 
 ## MONGODB_URI Format
 
-Atlas Local uses a simple auth format (no replicaSet parameter):
+Community Server uses simple auth format (no replicaSet parameter):
 
 ```
 mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
 ```
-
-**Do NOT use `replicaSet=rs0`** — Atlas Local manages its own replica set internally.
 
 ## Environment Variables
 
@@ -78,9 +95,7 @@ All variables have sensible defaults. Override in `.env` or host environment.
 | `MONGODB_DB` | `openplanner` | Application database name |
 | `OPENPLANNER_MONGO_APP_USERNAME` | `openplanner` | Application readWrite user |
 | `OPENPLANNER_MONGO_APP_PASSWORD` | `change-me-openplanner-password` | Application user password |
-| `EMBEDDING_DIMENSIONS` | `1024` | Vector embedding dimensions for search indexes |
 | `OPENPLANNER_PORT` | `7777` | Main app port |
-| `OPENPLANNER_MONGODB_PORT` | `27017` | MongoDB exposed port |
 | `OPENPLANNER_API_KEY` | `change-me` | API key for HTTP access |
 
 ## Common Operations
@@ -88,21 +103,25 @@ All variables have sensible defaults. Override in `.env` or host environment.
 ### Fresh start (wipes all data)
 ```bash
 docker compose down -v   # -v removes volumes
-docker compose up -d
-# Wait for mongo-init to complete, then verify:
-docker logs openplanner-mongo-init-1
+docker compose --profile dev up -d
+# Wait for all services healthy, then verify:
+docker compose ps
 ```
 
 ### Restart without losing data
 ```bash
 docker compose restart
+# Or to stop completely:
+docker compose down
+docker compose --profile dev up -d
 ```
 
-### Verify vector indexes exist
+### Verify MongoDB connection
 ```bash
 docker exec openplanner-mongodb-1 mongosh \
-  'mongodb://openplannerRoot:${MONGODB_ROOT_PASSWORD}@localhost:27017/openplanner?authSource=admin' \
-  --quiet --eval 'db.runCommand({ listSearchIndexes: "graph_node_embeddings" })'
+  -u openplannerRoot -p 'change-me-root-password' \
+  --authenticationDatabase admin --quiet \
+  --eval 'db.getSiblingDB("openplanner").getCollectionNames()'
 ```
 
 ### Re-run init script (e.g., after adding new collections)
@@ -110,18 +129,77 @@ docker exec openplanner-mongodb-1 mongosh \
 docker compose up -d mongo-init --force-recreate
 ```
 
-## Historical Context (DO NOT REVERT)
+## Service Ports
 
-This stack previously used two compose files:
-- `docker-compose.yml` — community server with separate mongot
-- `docker-compose.atlas.yml` — atlas local override
+| Service | Internal Port | External Port |
+|---------|---------------|---------------|
+| MongoDB | 27017 | 27017 |
+| OpenPlanner | 7777 | 7777 |
+| Graph Weaver | 8796 | 8796 |
+| Proxx | 8789 | 8790 |
+| Knoxx Frontend (dev) | 5173 | 5173 |
+| Knoxx Nginx | 80 | 80 |
+| Shibboleth | 8088 | 8097 |
 
-This caused repeated failures where the stack was brought up WITHOUT atlas support (vector search indexes missing, graph queries returning empty). The files were merged into a single `docker-compose.yml` in April 2026.
+## Profiles
 
-**There is no longer a `docker-compose.atlas.yml`.** If you see one, it is stale and should be deleted.
+| Profile | Services | Use Case |
+|---------|----------|----------|
+| (none) | mongodb, openplanner, proxx, knoxx-backend, kms-ingestion | Core services |
+| `dev` | + knoxx-frontend-dev (Vite) | Development with hot reload |
+| `production` | + knoxx-frontend (built) | Production deployment |
+| `graph` | + graph-weaver, eros-eris-field-app | Force-directed simulation |
+| `graph-20` | + 20 simulation shards | Parallel processing |
 
-The following files were also removed as they are specific to the community-server setup:
-- `config/mongod.conf` — community server config (replica set, mongot host, keyfile path)
-- `config/mongot.yml` — separate mongot container config (gRPC, TLS, storage)
+## Troubleshooting
 
-Atlas Local manages all of this internally.
+### MongoDB Authentication Failed
+
+The `mongo-init` container creates the app user automatically. If it failed:
+
+```bash
+docker exec openplanner-mongodb-1 mongosh \
+  -u openplannerRoot -p 'change-me-root-password' \
+  --authenticationDatabase admin --quiet --eval '
+db = db.getSiblingDB("openplanner");
+db.createUser({
+  user: "openplanner",
+  pwd: process.env.OPENPLANNER_MONGO_APP_PASSWORD,  # pragma: allowlist secret
+  roles: [{role: "readWrite", db: "openplanner"}]
+});'
+```
+
+### Knoxx Frontend Keeps Restarting
+
+Ensure you're using the `dev` profile:
+
+```bash
+docker compose --profile dev up -d
+```
+
+### Nginx Crash Loop
+
+Nginx requires `knoxx-frontend-dev` to be healthy. If it's crashing:
+
+```bash
+docker compose logs knoxx-frontend-dev --tail 50
+```
+
+## Historical Context
+
+### Why We Switched from Atlas Local (April 2026)
+
+Atlas Local was causing persistent volume issues:
+- Replica set names derived from container IDs
+- Data loss on container recreation
+- Manual intervention required after every restart
+
+Community Server in standalone mode provides reliable volume persistence.
+
+### Removed Files
+
+The following files were removed as they are specific to Atlas Local:
+- `docker-compose.atlas.yml` — atlas local overlay
+- `config/mongod.conf` — community server replica set config
+- `config/mongot.yml` — separate mongot container config
+- `scripts/atlas-init.sh` — Atlas-specific init script
