@@ -1,8 +1,8 @@
 {
-  "as_of_utc": "2026-03-19T18:44:20Z",
+  "as_of_utc": "2026-03-10T00:00:00Z",
   "clock": {
     "t0_utc": "2026-02-28T00:00:00Z",
-    "second_hand_days": 19.78,
+    "second_hand_days": 10,
     "minute_hand_days": 90,
     "hour_hand_days": 30,
     "structural_bar_days": 450
@@ -10,203 +10,44 @@
   "states": {
     "transit_flow": {
       "score": 4,
-      "trend": "flat-high",
-      "confidence": 0.95,
-      "notes": "JMIC Update 006 reports only 04 confirmed commercial transits in the past 24 hours versus a historical average of about 138 vessels",
-      "evidence": [
-        {
-          "id": "iea_transit_flow_below_10pct",
-          "source": "IEA",
-          "timestamp_utc": "2026-03-19T18:44:14Z",
-          "url": "https://www.iea.org/news/iea-member-countries-to-carry-out-largest-ever-oil-stock-release-amid-market-disruptions-from-middle-east-conflict"
-        },
-        {
-          "id": "jmic_single_digit_transits",
-          "source": "JMIC",
-          "timestamp_utc": "2026-03-19T18:44:18Z",
-          "url": "https://mscio.eu/media/documents/Update_006_JMIC_Advisory_Note_06_MAR_2026_FINAL.pdf"
-        }
-      ]
+      "trend": "worsening",
+      "confidence": 0.9,
+      "notes": "IEA says export volumes remain below 10% of pre-conflict levels"
     },
     "attack_tempo": {
       "score": 4,
       "trend": "flat-high",
-      "confidence": 0.9,
-      "notes": "JMIC Update 006 says the threat remains CRITICAL and attacks are likely for commercial shipping",
-      "evidence": [
-        {
-          "id": "jmic_threat_critical",
-          "source": "JMIC",
-          "timestamp_utc": "2026-03-19T18:44:18Z",
-          "url": "https://mscio.eu/media/documents/Update_006_JMIC_Advisory_Note_06_MAR_2026_FINAL.pdf"
-        }
-      ]
+      "confidence": 0.85,
+      "notes": "MARAD 2026-001A says vessels should keep clear if possible"
     },
     "insurance_availability": {
-      "score": 3,
-      "trend": "easing",
-      "confidence": 0.85,
-      "notes": "War-risk cover remains available but premiums surged more than 1000%, with reported rates around 1% to 1.5% of vessel value",
-      "evidence": [
-        {
-          "id": "insurance_war_risk_spike",
-          "source": "Insurance Journal / Reuters",
-          "timestamp_utc": "2026-03-19T18:44:18Z",
-          "url": "https://www.insurancejournal.com/news/international/2026/03/06/860842.htm"
-        }
-      ]
+      "score": 4,
+      "trend": "flat-high",
+      "confidence": 0.8,
+      "notes": "cover scarce, repriced, or withdrawn"
     },
     "navigation_integrity": {
       "score": 3,
       "trend": "flat-high",
-      "confidence": 0.88,
-      "notes": "JMIC Update 006 says significant GNSS interference continues, with positional offsets, AIS anomalies, and intermittent signal degradation",
-      "evidence": [
-        {
-          "id": "jmic_gnss_interference_persistent",
-          "source": "JMIC",
-          "timestamp_utc": "2026-03-19T18:44:18Z",
-          "url": "https://mscio.eu/media/documents/Update_006_JMIC_Advisory_Note_06_MAR_2026_FINAL.pdf"
-        }
-      ]
+      "confidence": 0.8,
+      "notes": "persistent GNSS/GPS and AIS disruption"
     },
     "bypass_capacity": {
       "score": 3,
-      "trend": "flat-high",
-      "confidence": 0.95,
-      "notes": "IEA cites 3.5-5.5 mb/d of available bypass capacity versus roughly 20 mb/d normal Hormuz flow",
-      "evidence": [
-        {
-          "id": "iea_bypass_capacity_range",
-          "source": "IEA",
-          "timestamp_utc": "2026-03-19T18:44:12Z",
-          "url": "https://www.iea.org/topics/the-middle-east-and-global-energy-markets"
-        }
-      ]
+      "trend": "flat",
+      "confidence": 0.9,
+      "notes": "3.5\u20135.5 mb/d alt capacity vs ~20 mb/d Hormuz"
     },
     "asia_buffer_stress": {
       "score": 1,
-      "trend": "flat",
-      "confidence": 0.95,
-      "notes": "IEA members approved a 400 million barrel emergency stock release to cushion market disruptions",
-      "evidence": [
-        {
-          "id": "iea_emergency_stock_release",
-          "source": "IEA",
-          "timestamp_utc": "2026-03-19T18:44:14Z",
-          "url": "https://www.iea.org/news/iea-member-countries-to-carry-out-largest-ever-oil-stock-release-amid-market-disruptions-from-middle-east-conflict"
-        }
-      ]
+      "trend": "rising",
+      "confidence": 0.6,
+      "notes": "stress emerging, not yet acute everywhere"
     }
   },
   "branches": {
-    "reopening": 0.2201,
-    "effective_closure": 0.5085,
-    "wider_escalation": 0.2714
-  },
-  "branch_model": {
-    "version": "weighted-state-priors-v1",
-    "note": "Working priors derived from state pressure plus named modifiers; these are model choices, not observed facts.",
-    "modifiers": [
-      {
-        "category": "regional_escalation",
-        "source": "AP",
-        "strength": 0.9,
-        "notes": "AP reports Iranian attacks on Gulf energy sites, additional vessel damage off the UAE and Qatar, and regional officials calling it a dangerous escalation",
-        "url": "https://apnews.com/article/52e94398f2432b3aba9b02b51fbe5000",
-        "timestamp_utc": "2026-03-19T18:44:19Z"
-      },
-      {
-        "category": "reopening_pressure",
-        "source": "ABC11 / AP",
-        "strength": 0.55,
-        "notes": "Officials describe a coalition-backed defensive escort mission intended to gradually reopen Hormuz for container ships and tankers after the most intense phase of the conflict",
-        "url": "https://abc11.com/live-updates/iran-war-news-live-updates-mojtaba-khamenei-chosen-irans-supreme-leader/18696218/entry/18696260",
-        "timestamp_utc": "2026-03-19T18:44:20Z"
-      }
-    ],
-    "contributions": {
-      "reopening": {
-        "base": 0.58,
-        "states": {
-          "transit_flow": -0.09,
-          "attack_tempo": -0.08,
-          "insurance_availability": -0.03,
-          "navigation_integrity": -0.03,
-          "bypass_capacity": -0.0225,
-          "asia_buffer_stress": -0.005
-        },
-        "modifiers": [
-          {
-            "category": "regional_escalation",
-            "source": "AP",
-            "strength": 0.9,
-            "contribution": -0.036,
-            "notes": "AP reports Iranian attacks on Gulf energy sites, additional vessel damage off the UAE and Qatar, and regional officials calling it a dangerous escalation"
-          },
-          {
-            "category": "reopening_pressure",
-            "source": "ABC11 / AP",
-            "strength": 0.55,
-            "contribution": 0.044,
-            "notes": "Officials describe a coalition-backed defensive escort mission intended to gradually reopen Hormuz for container ships and tankers after the most intense phase of the conflict"
-          }
-        ]
-      },
-      "effective_closure": {
-        "base": 0.42,
-        "states": {
-          "transit_flow": 0.14,
-          "attack_tempo": 0.1,
-          "insurance_availability": 0.045,
-          "navigation_integrity": 0.0375,
-          "bypass_capacity": 0.03,
-          "asia_buffer_stress": -0.005
-        },
-        "modifiers": [
-          {
-            "category": "regional_escalation",
-            "source": "AP",
-            "strength": 0.9,
-            "contribution": 0.018,
-            "notes": "AP reports Iranian attacks on Gulf energy sites, additional vessel damage off the UAE and Qatar, and regional officials calling it a dangerous escalation"
-          },
-          {
-            "category": "reopening_pressure",
-            "source": "ABC11 / AP",
-            "strength": 0.55,
-            "contribution": -0.022,
-            "notes": "Officials describe a coalition-backed defensive escort mission intended to gradually reopen Hormuz for container ships and tankers after the most intense phase of the conflict"
-          }
-        ]
-      },
-      "wider_escalation": {
-        "base": 0.22,
-        "states": {
-          "transit_flow": 0.02,
-          "attack_tempo": 0.07,
-          "insurance_availability": 0.015,
-          "navigation_integrity": 0.0225,
-          "bypass_capacity": 0.0075,
-          "asia_buffer_stress": 0.0025
-        },
-        "modifiers": [
-          {
-            "category": "regional_escalation",
-            "source": "AP",
-            "strength": 0.9,
-            "contribution": 0.072,
-            "notes": "AP reports Iranian attacks on Gulf energy sites, additional vessel damage off the UAE and Qatar, and regional officials calling it a dangerous escalation"
-          },
-          {
-            "category": "reopening_pressure",
-            "source": "ABC11 / AP",
-            "strength": 0.55,
-            "contribution": -0.022,
-            "notes": "Officials describe a coalition-backed defensive escort mission intended to gradually reopen Hormuz for container ships and tankers after the most intense phase of the conflict"
-          }
-        ]
-      }
-    }
+    "reopening": 0.25,
+    "effective_closure": 0.55,
+    "wider_escalation": 0.2
   }
 }

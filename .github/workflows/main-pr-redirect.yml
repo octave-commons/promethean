@@ -1,0 +1,55 @@
+name: main-pr-redirect
+
+on:
+  pull_request_target:
+    types:
+      - opened
+      - reopened
+      - synchronize
+      - edited
+      - ready_for_review
+    branches:
+      - main
+
+permissions:
+  contents: read
+  issues: write
+  pull-requests: write
+
+concurrency:
+  group: main-pr-redirect-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  retarget-non-staging-main-prs:
+    name: retarget-non-staging-main-prs
+    if: ${{ github.event.pull_request.head.ref != 'staging' || github.event.pull_request.head.repo.full_name != github.repository }}
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const pr = context.payload.pull_request;
+            const { owner, repo } = context.repo;
+            const canonicalStagingRef = `${owner}/${repo}:staging`;
+
+            await github.rest.pulls.update({
+              owner,
+              repo,
+              pull_number: pr.number,
+              base: 'staging',
+            });
+
+            await github.rest.issues.createComment({
+              owner,
+              repo,
+              issue_number: pr.number,
+              body: [
+                'Redirected this PR from `main` to `staging`.',
+                '',
+                '`main` only accepts promotion PRs from the canonical `staging` branch.',
+                `This PR head was \`${pr.head.label}\`, not \`${canonicalStagingRef}\`.`,
+                'After it lands in `staging`, promote `staging` to `main` with the normal promotion PR.',
+              ].join('\n'),
+            });

@@ -1,0 +1,132 @@
+(agent-output-contract
+  (name "eta-mu-five-section-response")
+  (v "ημ.output/response-shape@0.1.0")
+
+  (target
+    (format :markdown)
+    (ast :mdast)
+    (root :document))
+
+  (structure
+    (section
+      (id :section/signal)
+      (heading "Signal")
+      (required true)
+      (order 1)
+      (cardinality :one)
+      (allowed-node-types [:paragraph :list :blockquote :code :table]))
+
+    (section
+      (id :section/evidence)
+      (heading "Evidence")
+      (required true)
+      (order 2)
+      (cardinality :one)
+      (allowed-node-types [:paragraph :list :blockquote :code :table]))
+
+    (section
+      (id :section/frames)
+      (heading "Frames")
+      (required true)
+      (order 3)
+      (cardinality :one)
+      (allowed-node-types [:paragraph :list :blockquote]))
+
+    (section
+      (id :section/countermoves)
+      (heading "Countermoves")
+      (required true)
+      (order 4)
+      (cardinality :one)
+      (allowed-node-types [:paragraph :list :blockquote]))
+
+    (section
+      (id :section/next)
+      (heading "Next")
+      (required true)
+      (order 5)
+      (cardinality :one)
+      (allowed-node-types [:paragraph :list])
+      (local-rules [:rule/next-exactly-one-action])))
+
+  (rules
+    (rule
+      (id :rule/required-section)
+      (kind :deterministic)
+      (check :section-present))
+
+    (rule
+      (id :rule/unique-section)
+      (kind :deterministic)
+      (check :section-unique))
+
+    (rule
+      (id :rule/section-order)
+      (kind :deterministic)
+      (check :heading-order))
+
+    (rule
+      (id :rule/allowed-node-types)
+      (kind :deterministic)
+      (check :node-type-allowlist))
+
+    (rule
+      (id :rule/frames-cardinality)
+      (kind :deterministic)
+      (section :section/frames)
+      (check :frame-count)
+      (min 2)
+      (max 3))
+
+    (rule
+      (id :rule/next-exactly-one-action)
+      (kind :deterministic)
+      (section :section/next)
+      (check :action-count)
+      (exactly 1)))
+
+  (repair
+    (max-retries 2)
+
+    (template
+      (id :repair/missing-section)
+      (when :rule/required-section)
+      (text "Add the missing section `{{heading}}` as a level-2 markdown header (`## {{heading}}`) in position {{order}}. Preserve all other sections. Do not use bold or emphasis in place of headers."))
+
+    (template
+      (id :repair/reorder-sections)
+      (when :rule/section-order)
+      (text "Reorder the existing sections to exactly: ## Signal, ## Evidence, ## Frames, ## Countermoves, ## Next. Each section must use a level-2 markdown header (`##`). Preserve content."))
+
+    (template
+      (id :repair/rewrite-next)
+      (when :rule/next-exactly-one-action)
+      (text "Rewrite `## Next` so it contains exactly one concrete next action."))
+
+    (template
+      (id :repair/frames-cardinality)
+      (when :rule/frames-cardinality)
+      (text "Rewrite `## Frames` so it contains 2–3 plausible interpretations."))
+
+    (template
+      (id :repair/disallowed-node-type)
+      (when :rule/allowed-node-types)
+      (text "Section `{{heading}}` contains `{{nodeType}}` nodes which are not allowed. Use `## {{heading}}` as a level-2 markdown header for section headings. Do not use bold (`**...**`), emphasis, or deeper heading levels (`###`, `####`) inside sections. Flatten sub-section content into paragraphs, lists, or blockquotes.")))
+
+  (review
+    (enabled true)
+    (reviewer-family :gpt)
+    (threshold 0.80)
+    (criteria
+      (criterion (id :criterion/contract-fidelity) (weight 0.45))
+      (criterion (id :criterion/shortcutting-risk) (weight 0.20))
+      (criterion (id :criterion/context-alignment) (weight 0.20))
+      (criterion (id :criterion/actionability) (weight 0.15))))
+
+  (arbitration
+    (accept-if
+      (structure :pass)
+      (review-score-gte 0.80))
+    (reject-if
+      (repair-retries-exhausted true)
+      (or :structure-failed :review-below-threshold))))

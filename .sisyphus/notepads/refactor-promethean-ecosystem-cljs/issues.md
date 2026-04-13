@@ -1,0 +1,4 @@
+- Issue: ecosystem.clj existed untracked in the Promethean submodule; rename to ecosystem.cljs cannot leverage git mv history in this environment.
+- Concern: Migrating clobber.macro usage from runtime load-file to a CLJS namespace with require may require adjustments in build/config to ensure macro resolution, and may generate lsp warnings until resolved.
+- Risk: If macro loading is not wired in the CLJS build, the new ecosystem.cljs may fail compilation or runtime evaluation.
+- Mitigation: Plan a follow-up pass to validate macro loading in the CLJS build and, if necessary, revert to a CLJ-based macro path for macro expansion at compile time.

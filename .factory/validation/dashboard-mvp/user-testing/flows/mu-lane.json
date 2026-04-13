@@ -1,0 +1,230 @@
+{
+  "groupId": "mu-lane",
+  "testedAt": "2026-03-13T12:00:00.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:9002",
+    "backendApi": "http://localhost:9001",
+    "agentBrowserSession": "fceeeeb25828__mu",
+    "evidenceDirectory": "/home/err/.factory/missions/a89af5ba-1e11-4720-8655-69dfa832609a/evidence/dashboard-mvp/mu-lane/"
+  },
+  "toolsUsed": ["agent-browser", "curl"],
+  "assertions": [
+    {
+      "id": "VAL-MU-001",
+      "title": "Local Lane Renders with Emerald Accent",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Navigate to http://localhost:9002",
+          "expected": "Dashboard loads with three lanes visible",
+          "observed": "Dashboard loaded successfully with η, μ, Π lanes visible"
+        },
+        {
+          "action": "Inspect μ lane column for distinct rendering",
+          "expected": "μ lane renders as distinct column",
+          "observed": "section.lane.lane-mu renders as distinct center column (width: 426px)"
+        },
+        {
+          "action": "Check μ symbol visibility",
+          "expected": "μ symbol present as text or icon",
+          "observed": "μ symbol rendered in span.lane-icon (font-size: 26px, 42x42px flex container)"
+        },
+        {
+          "action": "Inspect accent color of μ lane elements",
+          "expected": "Emerald/green accent color (hue ~140-160°)",
+          "observed": "Color rgb(52, 211, 153) = hue 158.1° — confirmed emerald range. Applied to: lane-icon text/border/bg, h2 'Local Reach' heading, empty-state text border rgba(52, 211, 153, 0.2), lane-header border-bottom rgba(52, 211, 153, 0.15)"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane/full-dashboard-overview.png",
+          "dashboard-mvp/mu-lane/VAL-MU-001-mu-lane-focused.png",
+          "dashboard-mvp/mu-lane/VAL-MU-001-mu-lane-annotated.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET http://localhost:9001/api/radars -> 200",
+        "cssInspection": {
+          "muIconColor": "rgb(52, 211, 153)",
+          "muIconBackground": "rgba(52, 211, 153, 0.12)",
+          "muIconBorder": "rgb(52, 211, 153)",
+          "computedHue": "158.1°",
+          "hueRange": "140-160° (emerald)",
+          "headingColor": "rgb(52, 211, 153)",
+          "laneClass": "lane lane-mu"
+        }
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-MU-002",
+      "title": "Proximity and Leverage Indicators",
+      "status": "blocked",
+      "steps": [
+        {
+          "action": "Check μ lane for thread cards",
+          "expected": "Thread cards with proximity and leverage indicators",
+          "observed": "Empty state displayed: 'No local signals yet. Community and open-source radars will populate this lane when signals within your expertise are detected.' — 0 threads exist in backend"
+        },
+        {
+          "action": "Verify DB state",
+          "expected": "Threads exist for display",
+          "observed": "DB confirms: 12 signals, 0 threads (threading pipeline incomplete)"
+        },
+        {
+          "action": "Verify component implementation via source code",
+          "expected": "MuThreadCard component with proximity/leverage indicators exists",
+          "observed": "CONFIRMED: MuThreadCard.tsx implements IndicatorPill components for Proximity (close/moderate/distant), Leverage (high/medium/low leverage), and Time (act now/act within days/act within weeks/window closing). Also includes LeverageBar progress visualization. Unit tests in MuLane.test.tsx confirm these render correctly with test data."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane/full-dashboard-overview.png"
+        ],
+        "consoleErrors": "none",
+        "sourceCodeReview": {
+          "file": "src/ui/components/MuThreadCard.tsx",
+          "proximityIndicator": "IndicatorPill label='Proximity' value={proxLevel} with classes mu-proximity-close/moderate/distant",
+          "leverageIndicator": "IndicatorPill label='Leverage' value='{levLevel} leverage' with classes mu-leverage-high/medium/low",
+          "timeToActIndicator": "IndicatorPill label='Time' value={tta} with values 'act now'/'act within days'/'act within weeks'/'window closing'",
+          "leverageBar": "LeverageBar component with progress bar fill visualization",
+          "unitTestFile": "src/ui/__tests__/MuLane.test.tsx"
+        }
+      },
+      "issues": "Cannot visually verify through user surface because threading pipeline is incomplete (0 threads in backend). UI components are fully implemented and unit-tested but display empty state instead of thread cards."
+    },
+    {
+      "id": "VAL-MU-003",
+      "title": "Action Suggestions per Local Thread",
+      "status": "blocked",
+      "steps": [
+        {
+          "action": "Check μ lane for thread cards with action suggestions",
+          "expected": "Thread cards with ≥2 action suggestions each",
+          "observed": "Empty state displayed — 0 threads, no thread cards visible"
+        },
+        {
+          "action": "Check Action Feed section",
+          "expected": "Action suggestions present",
+          "observed": "Action Feed shows: 'No action suggestions yet. Collect signals and they will populate here.'"
+        },
+        {
+          "action": "Review source code for per-card action suggestions",
+          "expected": "MuThreadCard contains action suggestion list",
+          "observed": "MuThreadCard does NOT include per-card action suggestions. It renders: title, summary, signal count, indicator pills (proximity/leverage/time), leverage bar, source badges, expanded details (kind/status/confidence/tags/members). The ActionFeed component (ActionFeed.tsx) derives time-bounded action suggestions from threads and displays them in a SEPARATE section of the μ lane, not embedded within individual thread cards."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane/full-dashboard-overview.png"
+        ],
+        "consoleErrors": "none",
+        "sourceCodeReview": {
+          "muThreadCardFile": "src/ui/components/MuThreadCard.tsx",
+          "actionFeedFile": "src/ui/components/ActionFeed.tsx",
+          "finding": "Action suggestions are in ActionFeed (lane-level), not per-card. MuThreadCard has no action suggestion list."
+        }
+      },
+      "issues": "Cannot visually verify because 0 threads exist (threading pipeline incomplete). Additionally, source code review indicates that action suggestions are implemented in the ActionFeed component at the lane level, NOT embedded within individual MuThreadCard components. Even with data, individual thread cards would not display ≥2 action suggestions — the assertion's per-card requirement does not match the implemented architecture."
+    },
+    {
+      "id": "VAL-MU-004",
+      "title": "Community Readiness Gauges",
+      "status": "fail",
+      "steps": [
+        {
+          "action": "Check μ lane for community readiness gauges",
+          "expected": "Progress bars or fill indicators showing community readiness",
+          "observed": "No community readiness gauges visible in μ lane — empty state displayed"
+        },
+        {
+          "action": "Search entire codebase for community readiness implementation",
+          "expected": "CommunityReadiness or readiness gauge component exists",
+          "observed": "No matches found for 'community readiness', 'readiness gauge', 'mu-readiness', or 'CommunityReadiness' anywhere in the threat-radar-web source code. No CSS classes or styles for readiness gauges exist."
+        },
+        {
+          "action": "Check for any progress bar components in μ lane",
+          "expected": "Some form of readiness gauge exists",
+          "observed": "The only progress bar in μ lane is the LeverageBar (inside MuThreadCard), which shows leverage percentage. No dedicated community readiness gauge component exists."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane/full-dashboard-overview.png"
+        ],
+        "consoleErrors": "none",
+        "sourceCodeSearch": {
+          "searchTerms": ["community readiness", "readiness gauge", "mu-readiness", "CommunityReadiness"],
+          "searchPaths": ["src/ui/components/", "src/ui/styles.css"],
+          "result": "No matches found — component not implemented"
+        }
+      },
+      "issues": "Community readiness gauges are not implemented. No component, CSS styles, or rendering logic for community readiness indicators exists anywhere in the codebase. The LeverageBar in MuThreadCard is the closest analog but serves a different purpose (leverage visualization per thread, not community readiness)."
+    },
+    {
+      "id": "VAL-CROSS-012",
+      "title": "End-to-End: Signal → μ (Local) Lane Display",
+      "status": "blocked",
+      "steps": [
+        {
+          "action": "Verify signals exist in backend",
+          "expected": "Local-category signals collected and normalized",
+          "observed": "12 signals exist in Postgres (confirmed via SQL query). Signals are collected and persisted."
+        },
+        {
+          "action": "Check threading pipeline",
+          "expected": "Signals clustered into local Thread objects",
+          "observed": "0 threads in database. Threading pipeline is incomplete — signals exist but are not clustered into threads."
+        },
+        {
+          "action": "Check μ lane for thread card display",
+          "expected": "Thread cards with proximity/leverage indicators in μ lane",
+          "observed": "Empty state displayed because 0 threads exist. The MuLane component (MuLane.tsx) extracts threads from radar tiles, filters for local/community kind, sorts by leverage, and renders MuThreadCard components — but there are no threads to display."
+        },
+        {
+          "action": "Verify UI components are implemented for the flow",
+          "expected": "End-to-end pipeline: collect → normalize → thread → display",
+          "observed": "Steps 1-2 work (collection + normalization → 12 signals in DB). Step 3 is broken (threading pipeline → 0 threads). Step 4 is implemented but cannot render (MuLane + MuThreadCard components exist with proximity/leverage indicators)."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane/full-dashboard-overview.png"
+        ],
+        "consoleErrors": "none",
+        "dbState": {
+          "signalCount": 12,
+          "threadCount": 0,
+          "radarCount": 14
+        },
+        "sourceCodeReview": {
+          "muLaneFile": "src/ui/components/MuLane.tsx",
+          "muThreadCardFile": "src/ui/components/MuThreadCard.tsx",
+          "finding": "UI components fully implemented. Pipeline breaks at threading step."
+        }
+      },
+      "issues": "End-to-end flow cannot complete because the threading pipeline is incomplete. Signals are collected and normalized (12 in DB), but clustering into threads does not produce any Thread objects. Without threads, the μ lane shows empty state. The UI components (MuLane, MuThreadCard with proximity/leverage indicators) are fully implemented and would render correctly given thread data."
+    }
+  ],
+  "frictions": [
+    {
+      "description": "The threading pipeline (signal → thread clustering) is not operational, producing 0 threads despite 12 signals in the database. This blocks visual verification of thread-dependent assertions (VAL-MU-002, VAL-MU-003, VAL-CROSS-012).",
+      "resolved": false,
+      "resolution": null,
+      "affectedAssertions": ["VAL-MU-002", "VAL-MU-003", "VAL-MU-004", "VAL-CROSS-012"]
+    },
+    {
+      "description": "Action suggestions are implemented at the lane level (ActionFeed component) rather than per-card within MuThreadCard. The assertion VAL-MU-003 specifies per-card action suggestions which don't match the current architecture.",
+      "resolved": false,
+      "resolution": null,
+      "affectedAssertions": ["VAL-MU-003"]
+    }
+  ],
+  "blockers": [
+    {
+      "description": "Threading pipeline produces 0 threads (12 signals exist but are not clustered). This prevents visual verification of all thread-card-dependent assertions through the user surface.",
+      "affectedAssertions": ["VAL-MU-002", "VAL-MU-003", "VAL-CROSS-012"],
+      "quickFixAttempted": "Verified DB directly (SELECT count(*) FROM threads → 0). Confirmed via API (/api/radars returns 0 threads across all 14 radars). This is a backend pipeline issue, not a frontend rendering bug."
+    }
+  ],
+  "summary": "Tested 5 assertions: 1 passed (VAL-MU-001 — μ lane with emerald accent hue 158°), 1 failed (VAL-MU-004 — community readiness gauges not implemented), 3 blocked (VAL-MU-002, VAL-MU-003, VAL-CROSS-012 — threading pipeline produces 0 threads). Source code review confirms MuThreadCard components for proximity/leverage indicators ARE implemented but cannot be visually verified. Community readiness gauges have no implementation anywhere in the codebase."
+}

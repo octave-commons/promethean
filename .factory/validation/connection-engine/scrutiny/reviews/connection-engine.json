@@ -1,0 +1,57 @@
+{
+  "featureId": "connection-engine",
+  "reviewedAt": "2026-03-13T09:15:00.000Z",
+  "commitId": "0f3e301",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation of detectConnections() engine. Correctly evaluates all global×local thread pairs using a weighted combination of cosine similarity (0.5), Jaccard keyword overlap (0.3), and domain tag overlap (0.2). Generates ConnectionOpportunity objects with all 5 scoring dimensions (realism, fear_factor, public_benefit, polarization_risk, compression_loss) and ActionCards for strong connections (strength > 0.5) with all required schema fields. 26 well-structured vitest tests covering detection, strength calculation, ActionCard generation, no-connection cases, type inference, helper functions, and edge cases. The implementation conforms to the actual Zod schemas in schema.ts rather than the idealized field list in the feature description (e.g., no top-level 'urgency' or 'actionableSteps' fields — these are expressed through time_window.label and suggested_actions on ConnectionOpportunity respectively), which is the correct approach. All validation assertions (VAL-CONN-001, VAL-CONN-002, VAL-CONN-003) are covered. VAL-CROSS-003 is only indirectly addressed since it requires dashboard-level integration to fully verify.",
+    "issues": [
+      {
+        "file": "packages/radar-core/src/connections.ts",
+        "line": 1,
+        "severity": "non_blocking",
+        "description": "STOP_WORDS set, tokenize(), buildTermVector(), and cosineSimilarity() are duplicated from cluster.ts. The implementations are functionally identical (connections.ts uses plain TF while cluster.ts uses TF-IDF, but tokenize and cosineSimilarity are byte-for-byte the same). These shared utilities should be extracted to a common module to prevent further proliferation."
+      },
+      {
+        "file": "packages/radar-core/src/connections.ts",
+        "line": 330,
+        "severity": "non_blocking",
+        "description": "In generateActionCard(), the computed 'urgency' value (line 330-333) is only used to derive time_window.label but is not exposed in the output. Downstream consumers wanting to sort ActionCards by urgency would need to reverse-engineer it from the label string. Consider adding urgency to the description or as a metadata field if the schema allows."
+      },
+      {
+        "file": "packages/radar-core/src/connections.ts",
+        "line": 178,
+        "severity": "non_blocking",
+        "description": "calculateStrength() rounds to 4 decimal places (Math.round(... * 10000) / 10000) while all other scoring functions use round2() which rounds to 2 decimal places. Minor inconsistency in precision across the module."
+      },
+      {
+        "file": "packages/radar-core/tests/connections.test.ts",
+        "line": 225,
+        "severity": "non_blocking",
+        "description": "Test 'ActionCards include actionableSteps (via description mentioning step count)' has a misleading name — ActionCard schema has no 'actionableSteps' field. The test actually validates VAL-CONN-002 field completeness (scope, effort, expected_benefit, risk, feedback_metric). The parenthetical '(via description mentioning step count)' is confusing since the test doesn't check description content for step counts."
+      },
+      {
+        "file": "packages/radar-core/src/connections.ts",
+        "line": 309,
+        "severity": "non_blocking",
+        "description": "inferEffort() uses optional chaining on members (globalThread.members?.length ?? 0) but Thread schema defaults members to [], so it's always an array. The optional chaining is harmless but unnecessary — signals defensive coding rather than schema understanding."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "STOP_WORDS, tokenize(), and cosineSimilarity() are now duplicated across cluster.ts and connections.ts in radar-core. No convention documented in AGENTS.md about extracting shared text-processing utilities to a common module. This pattern will proliferate as more features build on text similarity.",
+      "evidence": "packages/radar-core/src/cluster.ts lines 1-130 and packages/radar-core/src/connections.ts lines 1-120 contain identical STOP_WORDS sets and near-identical tokenize/cosineSimilarity implementations. Worker acknowledged the conflict (renamed exports to _conn prefix) but didn't extract the shared code."
+    },
+    {
+      "area": "skills",
+      "observation": "Worker did NOT follow TDD as required by backend-worker skill ('Write failing tests first'). Transcript shows implementation was written first (Create connections.ts), then tests (Create connections.test.ts), then tests run and all passed immediately. Handoff reports followedProcedure: true, which is inaccurate. The skill's TDD exception clause ('For configuration-only, type-restoration, or wiring-only tasks') does not apply here since this is new runtime logic.",
+      "evidence": "Transcript skeleton shows: Tool: Create (connections.ts) → Tool: Edit (index.ts) → Tool: Create (connections.test.ts) → Tool: Execute (vitest run) with all 26 tests passing on first run. Backend-worker skill step 2 says 'Write failing tests first (TDD).'"
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "The connection-engine feature passes review. The implementation is well-structured, correctly conforms to the Zod schemas, produces ConnectionOpportunity objects with all 5 scoring dimensions and ActionCards with full field completeness. 26 comprehensive tests cover the main paths and edge cases. Non-blocking issues include code duplication with cluster.ts (shared text utilities not extracted), a computed urgency value that isn't exposed in the output, minor rounding precision inconsistency, and a misleading test name. The worker deviated from the backend-worker skill's TDD procedure by writing implementation before tests but reported followedProcedure: true."
+}

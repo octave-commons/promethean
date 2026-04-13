@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","UNAUTHENTICATED_IDENTITY",["~#set",[["^ ","~:flags",["^2",["~:public","~:static","~:field","~:final"]]]]],"getSubject",["^2",[["^ ","^3",["^2",["~:method","^4"]]]]],"getUserPrincipal",["^2",[["^ ","^3",["^2",["^9","^4"]]]]],"isUserInRole",["^2",[["^ ","^3",["^2",["^9","^4"]]]]]]]

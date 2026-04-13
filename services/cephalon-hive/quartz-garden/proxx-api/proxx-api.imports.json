@@ -1,0 +1,2370 @@
+{
+  "id": "proxx-api",
+  "title": "Proxx API",
+  "root": "orgs/open-hax/proxx/src",
+  "nodes": [
+    "app.ts",
+    "lib/account-identity.ts",
+    "lib/auth/github-allowlist.ts",
+    "lib/auth/index.ts",
+    "lib/auth/sql-persistence.ts",
+    "lib/auth/types.ts",
+    "lib/auto-model-selector.ts",
+    "lib/chroma-ollama-embedding.ts",
+    "lib/chroma-session-index.ts",
+    "lib/config.ts",
+    "lib/credential-store.ts",
+    "lib/data/models-dev-pricing-data.ts",
+    "lib/db/account-health-store.ts",
+    "lib/db/event-labelers.ts",
+    "lib/db/event-store.ts",
+    "lib/db/index.ts",
+    "lib/db/json-seeder.ts",
+    "lib/db/schema.ts",
+    "lib/db/sql-credential-store.ts",
+    "lib/db/sql-federation-store.ts",
+    "lib/db/sql-request-usage-store.ts",
+    "lib/db/sql-tenant-provider-policy-store.ts",
+    "lib/epoch.ts",
+    "lib/factory-auth.ts",
+    "lib/factory-compat.ts",
+    "lib/factory-oauth.ts",
+    "lib/federation/bridge-agent-autostart.ts",
+    "lib/federation/bridge-agent.ts",
+    "lib/federation/bridge-protocol.ts",
+    "lib/federation/bridge-relay.ts",
+    "lib/federation/owner-credential.ts",
+    "lib/host-dashboard.ts",
+    "lib/key-pool.ts",
+    "lib/messages-compat.ts",
+    "lib/model-pricing.ts",
+    "lib/models.ts",
+    "lib/native-auth.ts",
+    "lib/oauth-routes.ts",
+    "lib/observability/request-log-ws-hub.ts",
+    "lib/ollama-compat.ts",
+    "lib/ollama-context.ts",
+    "lib/ollama-native.ts",
+    "lib/openai-oauth.ts",
+    "lib/openai-quota.ts",
+    "lib/policy/adapters/index.ts",
+    "lib/policy/adapters/model-info.ts",
+    "lib/policy/config/load.ts",
+    "lib/policy/config/validate.ts",
+    "lib/policy/defaults/gpt.ts",
+    "lib/policy/defaults/index.ts",
+    "lib/policy/engine.ts",
+    "lib/policy/engine/account-ordering.ts",
+    "lib/policy/engine/index.ts",
+    "lib/policy/engine/matchers.ts",
+    "lib/policy/engine/provider-ordering.ts",
+    "lib/policy/engine/strategy-selection.ts",
+    "lib/policy/index.ts",
+    "lib/policy/loader.ts",
+    "lib/policy/schema.ts",
+    "lib/policy/types.ts",
+    "lib/prompt-affinity-store.ts",
+    "lib/provider-catalog.ts",
+    "lib/provider-policy.ts",
+    "lib/provider-routing.ts",
+    "lib/provider-strategy.ts",
+    "lib/provider-strategy/base.ts",
+    "lib/provider-strategy/contexts.ts",
+    "lib/provider-strategy/fallback.ts",
+    "lib/provider-strategy/local.ts",
+    "lib/provider-strategy/registry.ts",
+    "lib/provider-strategy/shared.ts",
+    "lib/provider-strategy/strategies/factory.ts",
+    "lib/provider-strategy/strategies/gemini.ts",
+    "lib/provider-strategy/strategies/ollama.ts",
+    "lib/provider-strategy/strategies/openai.ts",
+    "lib/provider-strategy/strategies/standard.ts",
+    "lib/provider-utils.ts",
+    "lib/proxy-settings-store.ts",
+    "lib/proxy.ts",
+    "lib/quota-monitor.ts",
+    "lib/request-auth.ts",
+    "lib/request-log-store.ts",
+    "lib/responses-compat.ts",
+    "lib/runtime-credential-store.ts",
+    "lib/session-store.ts",
+    "lib/telemetry/otel.ts",
+    "lib/tenant-api-key.ts",
+    "lib/tenant-provider-policy.ts",
+    "lib/token-refresh-manager.ts",
+    "lib/tool-mcp-seed.ts",
+    "lib/ui-routes.ts",
+    "main.ts",
+    "routes/api/v1/index.ts",
+    "routes/credentials/account-management-ui.ts",
+    "routes/credentials/context.ts",
+    "routes/credentials/factory-browser-oauth-ui.ts",
+    "routes/credentials/factory-device-oauth-ui.ts",
+    "routes/credentials/get-credentials-ui.ts",
+    "routes/credentials/index.ts",
+    "routes/credentials/openai-browser-oauth-ui.ts",
+    "routes/credentials/openai-device-oauth-ui.ts",
+    "routes/credentials/openai-probe-ui.ts",
+    "routes/credentials/openai-prompt-cache-audit-ui.ts",
+    "routes/credentials/openai-quota-ui.ts",
+    "routes/credentials/openai-refresh-ui.ts",
+    "routes/credentials/prefix.ts",
+    "routes/credentials/ui.ts",
+    "routes/events/index.ts",
+    "routes/federation/account-knowledge.ts",
+    "routes/federation/index.ts",
+    "routes/federation/prefix.ts",
+    "routes/federation/remote.ts",
+    "routes/federation/ui.ts",
+    "routes/hosts/index.ts",
+    "routes/index.ts",
+    "routes/mcp/index.ts",
+    "routes/observability/index.ts",
+    "routes/observability/prefix.ts",
+    "routes/sessions/context.ts",
+    "routes/sessions/index.ts",
+    "routes/sessions/prefix.ts",
+    "routes/sessions/ui.ts",
+    "routes/settings/delete-tenant-api-key-ui.ts",
+    "routes/settings/get-me-ui.ts",
+    "routes/settings/get-settings-ui.ts",
+    "routes/settings/get-tenant-api-keys-ui.ts",
+    "routes/settings/get-tenants-ui.ts",
+    "routes/settings/index.ts",
+    "routes/settings/post-settings-ui.ts",
+    "routes/settings/post-tenant-api-keys-ui.ts",
+    "routes/settings/post-tenant-select-ui.ts",
+    "routes/settings/prefix.ts",
+    "routes/settings/ui.ts",
+    "routes/shared/ui-auth.ts",
+    "routes/types.ts",
+    "routes/ui/index.ts"
+  ],
+  "edges": [
+    {
+      "from": "app.ts",
+      "to": "lib/config.ts",
+      "spec": "./lib/config.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./lib/key-pool.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "./lib/credential-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/openai-oauth.ts",
+      "spec": "./lib/openai-oauth.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/factory-auth.ts",
+      "spec": "./lib/factory-auth.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/models.ts",
+      "spec": "./lib/models.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/provider-catalog.ts",
+      "spec": "./lib/provider-catalog.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/proxy.ts",
+      "spec": "./lib/proxy.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/policy/index.ts",
+      "spec": "./lib/policy/index.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/provider-routing.ts",
+      "spec": "./lib/provider-routing.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/provider-strategy.ts",
+      "spec": "./lib/provider-strategy.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/provider-policy.ts",
+      "spec": "./lib/provider-policy.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "./lib/provider-utils.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/telemetry/otel.ts",
+      "spec": "./lib/telemetry/otel.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "./lib/request-log-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/model-pricing.ts",
+      "spec": "./lib/model-pricing.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/prompt-affinity-store.ts",
+      "spec": "./lib/prompt-affinity-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/proxy-settings-store.ts",
+      "spec": "./lib/proxy-settings-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/quota-monitor.ts",
+      "spec": "./lib/quota-monitor.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/ui-routes.ts",
+      "spec": "./lib/ui-routes.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "routes/api/v1/index.ts",
+      "spec": "./routes/api/v1/index.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/ollama-context.ts",
+      "spec": "./lib/ollama-context.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/ollama-native.ts",
+      "spec": "./lib/ollama-native.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "./lib/responses-compat.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/native-auth.ts",
+      "spec": "./lib/native-auth.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/ollama-compat.ts",
+      "spec": "./lib/ollama-compat.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./lib/db/index.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/sql-credential-store.ts",
+      "spec": "./lib/db/sql-credential-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/account-health-store.ts",
+      "spec": "./lib/db/account-health-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/event-store.ts",
+      "spec": "./lib/db/event-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/event-labelers.ts",
+      "spec": "./lib/db/event-labelers.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/sql-request-usage-store.ts",
+      "spec": "./lib/db/sql-request-usage-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/sql-federation-store.ts",
+      "spec": "./lib/db/sql-federation-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/sql-tenant-provider-policy-store.ts",
+      "spec": "./lib/db/sql-tenant-provider-policy-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/auth/sql-persistence.ts",
+      "spec": "./lib/auth/sql-persistence.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/auth/github-allowlist.ts",
+      "spec": "./lib/auth/github-allowlist.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/db/json-seeder.ts",
+      "spec": "./lib/db/json-seeder.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/oauth-routes.ts",
+      "spec": "./lib/oauth-routes.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/auto-model-selector.ts",
+      "spec": "./lib/auto-model-selector.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/runtime-credential-store.ts",
+      "spec": "./lib/runtime-credential-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/token-refresh-manager.ts",
+      "spec": "./lib/token-refresh-manager.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "./lib/tenant-api-key.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/request-auth.ts",
+      "spec": "./lib/request-auth.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/federation/bridge-agent-autostart.ts",
+      "spec": "./lib/federation/bridge-agent-autostart.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/federation/bridge-relay.ts",
+      "spec": "./lib/federation/bridge-relay.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/federation/owner-credential.ts",
+      "spec": "./lib/federation/owner-credential.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "lib/tenant-provider-policy.ts",
+      "spec": "./lib/tenant-provider-policy.js"
+    },
+    {
+      "from": "lib/auth/github-allowlist.ts",
+      "to": "lib/db/index.ts",
+      "spec": "../db/index.js"
+    },
+    {
+      "from": "lib/auth/github-allowlist.ts",
+      "to": "lib/db/schema.ts",
+      "spec": "../db/schema.js"
+    },
+    {
+      "from": "lib/auth/index.ts",
+      "to": "lib/auth/sql-persistence.ts",
+      "spec": "./sql-persistence.js"
+    },
+    {
+      "from": "lib/auth/index.ts",
+      "to": "lib/auth/github-allowlist.ts",
+      "spec": "./github-allowlist.js"
+    },
+    {
+      "from": "lib/auth/index.ts",
+      "to": "lib/auth/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "lib/auth/sql-persistence.ts",
+      "to": "lib/db/index.ts",
+      "spec": "../db/index.js"
+    },
+    {
+      "from": "lib/auth/sql-persistence.ts",
+      "to": "lib/db/schema.ts",
+      "spec": "../db/schema.js"
+    },
+    {
+      "from": "lib/auth/sql-persistence.ts",
+      "to": "lib/auth/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "lib/auto-model-selector.ts",
+      "to": "lib/model-pricing.ts",
+      "spec": "./model-pricing.js"
+    },
+    {
+      "from": "lib/auto-model-selector.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "./request-log-store.js"
+    },
+    {
+      "from": "lib/auto-model-selector.ts",
+      "to": "lib/db/account-health-store.ts",
+      "spec": "./db/account-health-store.js"
+    },
+    {
+      "from": "lib/chroma-session-index.ts",
+      "to": "lib/chroma-ollama-embedding.ts",
+      "spec": "./chroma-ollama-embedding.js"
+    },
+    {
+      "from": "lib/chroma-session-index.ts",
+      "to": "lib/session-store.ts",
+      "spec": "./session-store.js"
+    },
+    {
+      "from": "lib/credential-store.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/credential-store.ts",
+      "to": "lib/account-identity.ts",
+      "spec": "./account-identity.js"
+    },
+    {
+      "from": "lib/credential-store.ts",
+      "to": "lib/epoch.ts",
+      "spec": "./epoch.js"
+    },
+    {
+      "from": "lib/db/account-health-store.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./index.js"
+    },
+    {
+      "from": "lib/db/account-health-store.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../key-pool.js"
+    },
+    {
+      "from": "lib/db/account-health-store.ts",
+      "to": "lib/db/schema.ts",
+      "spec": "./schema.js"
+    },
+    {
+      "from": "lib/db/event-labelers.ts",
+      "to": "lib/db/event-store.ts",
+      "spec": "./event-store.js"
+    },
+    {
+      "from": "lib/db/event-store.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./index.js"
+    },
+    {
+      "from": "lib/db/json-seeder.ts",
+      "to": "lib/epoch.ts",
+      "spec": "../epoch.js"
+    },
+    {
+      "from": "lib/db/json-seeder.ts",
+      "to": "lib/factory-auth.ts",
+      "spec": "../factory-auth.js"
+    },
+    {
+      "from": "lib/db/json-seeder.ts",
+      "to": "lib/models.ts",
+      "spec": "../models.js"
+    },
+    {
+      "from": "lib/db/json-seeder.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../key-pool.js"
+    },
+    {
+      "from": "lib/db/json-seeder.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./index.js"
+    },
+    {
+      "from": "lib/db/sql-credential-store.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./index.js"
+    },
+    {
+      "from": "lib/db/sql-credential-store.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../key-pool.js"
+    },
+    {
+      "from": "lib/db/sql-credential-store.ts",
+      "to": "lib/account-identity.ts",
+      "spec": "../account-identity.js"
+    },
+    {
+      "from": "lib/db/sql-credential-store.ts",
+      "to": "lib/epoch.ts",
+      "spec": "../epoch.js"
+    },
+    {
+      "from": "lib/db/sql-credential-store.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "../tenant-api-key.js"
+    },
+    {
+      "from": "lib/db/sql-credential-store.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "../credential-store.js"
+    },
+    {
+      "from": "lib/db/sql-credential-store.ts",
+      "to": "lib/db/schema.ts",
+      "spec": "./schema.js"
+    },
+    {
+      "from": "lib/db/sql-federation-store.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./index.js"
+    },
+    {
+      "from": "lib/db/sql-federation-store.ts",
+      "to": "lib/federation/owner-credential.ts",
+      "spec": "../federation/owner-credential.js"
+    },
+    {
+      "from": "lib/db/sql-request-usage-store.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./index.js"
+    },
+    {
+      "from": "lib/db/sql-request-usage-store.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "../request-log-store.js"
+    },
+    {
+      "from": "lib/db/sql-tenant-provider-policy-store.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./index.js"
+    },
+    {
+      "from": "lib/db/sql-tenant-provider-policy-store.ts",
+      "to": "lib/db/schema.ts",
+      "spec": "./schema.js"
+    },
+    {
+      "from": "lib/db/sql-tenant-provider-policy-store.ts",
+      "to": "lib/tenant-provider-policy.ts",
+      "spec": "../tenant-provider-policy.js"
+    },
+    {
+      "from": "lib/factory-auth.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/factory-compat.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/factory-oauth.ts",
+      "to": "lib/factory-auth.ts",
+      "spec": "./factory-auth.js"
+    },
+    {
+      "from": "lib/federation/bridge-agent-autostart.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "../credential-store.js"
+    },
+    {
+      "from": "lib/federation/bridge-agent-autostart.ts",
+      "to": "lib/config.ts",
+      "spec": "../config.js"
+    },
+    {
+      "from": "lib/federation/bridge-agent-autostart.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../key-pool.js"
+    },
+    {
+      "from": "lib/federation/bridge-agent-autostart.ts",
+      "to": "lib/models.ts",
+      "spec": "../models.js"
+    },
+    {
+      "from": "lib/federation/bridge-agent-autostart.ts",
+      "to": "lib/federation/bridge-agent.ts",
+      "spec": "./bridge-agent.js"
+    },
+    {
+      "from": "lib/federation/bridge-agent-autostart.ts",
+      "to": "lib/federation/bridge-protocol.ts",
+      "spec": "./bridge-protocol.js"
+    },
+    {
+      "from": "lib/federation/bridge-agent.ts",
+      "to": "lib/federation/bridge-protocol.ts",
+      "spec": "./bridge-protocol.js"
+    },
+    {
+      "from": "lib/federation/bridge-protocol.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../provider-utils.js"
+    },
+    {
+      "from": "lib/federation/bridge-relay.ts",
+      "to": "lib/federation/bridge-protocol.ts",
+      "spec": "./bridge-protocol.js"
+    },
+    {
+      "from": "lib/key-pool.ts",
+      "to": "lib/telemetry/otel.ts",
+      "spec": "./telemetry/otel.js"
+    },
+    {
+      "from": "lib/key-pool.ts",
+      "to": "lib/epoch.ts",
+      "spec": "./epoch.js"
+    },
+    {
+      "from": "lib/key-pool.ts",
+      "to": "lib/factory-auth.ts",
+      "spec": "./factory-auth.js"
+    },
+    {
+      "from": "lib/model-pricing.ts",
+      "to": "lib/data/models-dev-pricing-data.ts",
+      "spec": "./data/models-dev-pricing-data.js"
+    },
+    {
+      "from": "lib/native-auth.ts",
+      "to": "lib/config.ts",
+      "spec": "./config.js"
+    },
+    {
+      "from": "lib/native-auth.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "./provider-utils.js"
+    },
+    {
+      "from": "lib/oauth-routes.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./db/index.js"
+    },
+    {
+      "from": "lib/oauth-routes.ts",
+      "to": "lib/auth/sql-persistence.ts",
+      "spec": "./auth/sql-persistence.js"
+    },
+    {
+      "from": "lib/oauth-routes.ts",
+      "to": "lib/auth/github-allowlist.ts",
+      "spec": "./auth/github-allowlist.js"
+    },
+    {
+      "from": "lib/oauth-routes.ts",
+      "to": "lib/db/json-seeder.ts",
+      "spec": "./db/json-seeder.js"
+    },
+    {
+      "from": "lib/oauth-routes.ts",
+      "to": "lib/db/sql-credential-store.ts",
+      "spec": "./db/sql-credential-store.js"
+    },
+    {
+      "from": "lib/oauth-routes.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "./tenant-api-key.js"
+    },
+    {
+      "from": "lib/observability/request-log-ws-hub.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "../request-log-store.js"
+    },
+    {
+      "from": "lib/ollama-compat.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "./provider-utils.js"
+    },
+    {
+      "from": "lib/ollama-context.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "./provider-utils.js"
+    },
+    {
+      "from": "lib/openai-quota.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "./credential-store.js"
+    },
+    {
+      "from": "lib/openai-quota.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "./responses-compat.js"
+    },
+    {
+      "from": "lib/policy/adapters/index.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../../key-pool.js"
+    },
+    {
+      "from": "lib/policy/adapters/index.ts",
+      "to": "lib/provider-routing.ts",
+      "spec": "../../provider-routing.js"
+    },
+    {
+      "from": "lib/policy/adapters/index.ts",
+      "to": "lib/db/account-health-store.ts",
+      "spec": "../../db/account-health-store.js"
+    },
+    {
+      "from": "lib/policy/adapters/index.ts",
+      "to": "lib/policy/engine/index.ts",
+      "spec": "../engine/index.js"
+    },
+    {
+      "from": "lib/policy/adapters/index.ts",
+      "to": "lib/policy/adapters/model-info.ts",
+      "spec": "./model-info.js"
+    },
+    {
+      "from": "lib/policy/adapters/model-info.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../../key-pool.js"
+    },
+    {
+      "from": "lib/policy/adapters/model-info.ts",
+      "to": "lib/db/account-health-store.ts",
+      "spec": "../../db/account-health-store.js"
+    },
+    {
+      "from": "lib/policy/adapters/model-info.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/config/load.ts",
+      "to": "lib/policy/defaults/index.ts",
+      "spec": "../defaults/index.js"
+    },
+    {
+      "from": "lib/policy/config/load.ts",
+      "to": "lib/policy/engine/index.ts",
+      "spec": "../engine/index.js"
+    },
+    {
+      "from": "lib/policy/config/load.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/config/load.ts",
+      "to": "lib/policy/config/validate.ts",
+      "spec": "./validate.js"
+    },
+    {
+      "from": "lib/policy/config/validate.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/defaults/gpt.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/defaults/index.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/defaults/index.ts",
+      "to": "lib/policy/defaults/gpt.ts",
+      "spec": "./gpt.js"
+    },
+    {
+      "from": "lib/policy/engine.ts",
+      "to": "lib/policy/engine/index.ts",
+      "spec": "./engine/index.js"
+    },
+    {
+      "from": "lib/policy/engine.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "./schema.js"
+    },
+    {
+      "from": "lib/policy/engine.ts",
+      "to": "lib/policy/defaults/index.ts",
+      "spec": "./defaults/index.js"
+    },
+    {
+      "from": "lib/policy/engine/account-ordering.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/engine/account-ordering.ts",
+      "to": "lib/policy/engine/matchers.ts",
+      "spec": "./matchers.js"
+    },
+    {
+      "from": "lib/policy/engine/index.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/engine/index.ts",
+      "to": "lib/policy/engine/matchers.ts",
+      "spec": "./matchers.js"
+    },
+    {
+      "from": "lib/policy/engine/index.ts",
+      "to": "lib/policy/engine/account-ordering.ts",
+      "spec": "./account-ordering.js"
+    },
+    {
+      "from": "lib/policy/engine/index.ts",
+      "to": "lib/policy/engine/provider-ordering.ts",
+      "spec": "./provider-ordering.js"
+    },
+    {
+      "from": "lib/policy/engine/index.ts",
+      "to": "lib/policy/engine/strategy-selection.ts",
+      "spec": "./strategy-selection.js"
+    },
+    {
+      "from": "lib/policy/engine/matchers.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/engine/provider-ordering.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/engine/strategy-selection.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "../schema.js"
+    },
+    {
+      "from": "lib/policy/engine/strategy-selection.ts",
+      "to": "lib/policy/engine/matchers.ts",
+      "spec": "./matchers.js"
+    },
+    {
+      "from": "lib/policy/index.ts",
+      "to": "lib/policy/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "lib/policy/index.ts",
+      "to": "lib/policy/engine.ts",
+      "spec": "./engine.js"
+    },
+    {
+      "from": "lib/policy/index.ts",
+      "to": "lib/policy/loader.ts",
+      "spec": "./loader.js"
+    },
+    {
+      "from": "lib/policy/index.ts",
+      "to": "lib/policy/adapters/index.ts",
+      "spec": "./adapters/index.js"
+    },
+    {
+      "from": "lib/policy/loader.ts",
+      "to": "lib/policy/config/load.ts",
+      "spec": "./config/load.js"
+    },
+    {
+      "from": "lib/policy/types.ts",
+      "to": "lib/policy/schema.ts",
+      "spec": "./schema.js"
+    },
+    {
+      "from": "lib/policy/types.ts",
+      "to": "lib/policy/defaults/index.ts",
+      "spec": "./defaults/index.js"
+    },
+    {
+      "from": "lib/provider-catalog.ts",
+      "to": "lib/config.ts",
+      "spec": "./config.js"
+    },
+    {
+      "from": "lib/provider-catalog.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/provider-catalog.ts",
+      "to": "lib/provider-routing.ts",
+      "spec": "./provider-routing.js"
+    },
+    {
+      "from": "lib/provider-catalog.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "./provider-utils.js"
+    },
+    {
+      "from": "lib/provider-catalog.ts",
+      "to": "lib/models.ts",
+      "spec": "./models.js"
+    },
+    {
+      "from": "lib/provider-policy.ts",
+      "to": "lib/policy/adapters/index.ts",
+      "spec": "./policy/adapters/index.js"
+    },
+    {
+      "from": "lib/provider-routing.ts",
+      "to": "lib/config.ts",
+      "spec": "./config.js"
+    },
+    {
+      "from": "lib/provider-routing.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/provider-strategy.ts",
+      "to": "lib/provider-strategy/contexts.ts",
+      "spec": "./provider-strategy/contexts.js"
+    },
+    {
+      "from": "lib/provider-strategy.ts",
+      "to": "lib/provider-strategy/local.ts",
+      "spec": "./provider-strategy/local.js"
+    },
+    {
+      "from": "lib/provider-strategy.ts",
+      "to": "lib/provider-strategy/fallback.ts",
+      "spec": "./provider-strategy/fallback.js"
+    },
+    {
+      "from": "lib/provider-strategy.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "./provider-strategy/shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/base.ts",
+      "to": "lib/proxy.ts",
+      "spec": "../proxy.js"
+    },
+    {
+      "from": "lib/provider-strategy/base.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/base.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/base.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "./shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/contexts.ts",
+      "to": "lib/config.ts",
+      "spec": "../config.js"
+    },
+    {
+      "from": "lib/provider-strategy/contexts.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/contexts.ts",
+      "to": "lib/provider-routing.ts",
+      "spec": "../provider-routing.js"
+    },
+    {
+      "from": "lib/provider-strategy/contexts.ts",
+      "to": "lib/provider-strategy/registry.ts",
+      "spec": "./registry.js"
+    },
+    {
+      "from": "lib/provider-strategy/contexts.ts",
+      "to": "lib/request-auth.ts",
+      "spec": "../request-auth.js"
+    },
+    {
+      "from": "lib/provider-strategy/contexts.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "./shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/contexts.ts",
+      "to": "lib/auto-model-selector.ts",
+      "spec": "../auto-model-selector.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/db/account-health-store.ts",
+      "spec": "../db/account-health-store.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/db/event-store.ts",
+      "spec": "../db/event-store.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../key-pool.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/policy/index.ts",
+      "spec": "../policy/index.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/prompt-affinity-store.ts",
+      "spec": "../prompt-affinity-store.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "../request-log-store.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/quota-monitor.ts",
+      "spec": "../quota-monitor.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/proxy.ts",
+      "spec": "../proxy.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/provider-routing.ts",
+      "spec": "../provider-routing.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/telemetry/otel.ts",
+      "spec": "../telemetry/otel.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/provider-strategy/registry.ts",
+      "spec": "./registry.js"
+    },
+    {
+      "from": "lib/provider-strategy/fallback.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "./shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/local.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "../request-log-store.js"
+    },
+    {
+      "from": "lib/provider-strategy/local.ts",
+      "to": "lib/proxy.ts",
+      "spec": "../proxy.js"
+    },
+    {
+      "from": "lib/provider-strategy/local.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/local.ts",
+      "to": "lib/telemetry/otel.ts",
+      "spec": "../telemetry/otel.js"
+    },
+    {
+      "from": "lib/provider-strategy/local.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "./shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/registry.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "./shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/registry.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/registry.ts",
+      "to": "lib/provider-strategy/strategies/gemini.ts",
+      "spec": "./strategies/gemini.js"
+    },
+    {
+      "from": "lib/provider-strategy/registry.ts",
+      "to": "lib/provider-strategy/strategies/factory.ts",
+      "spec": "./strategies/factory.js"
+    },
+    {
+      "from": "lib/provider-strategy/registry.ts",
+      "to": "lib/provider-strategy/strategies/openai.ts",
+      "spec": "./strategies/openai.js"
+    },
+    {
+      "from": "lib/provider-strategy/registry.ts",
+      "to": "lib/provider-strategy/strategies/ollama.ts",
+      "spec": "./strategies/ollama.js"
+    },
+    {
+      "from": "lib/provider-strategy/registry.ts",
+      "to": "lib/provider-strategy/strategies/standard.ts",
+      "spec": "./strategies/standard.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/config.ts",
+      "spec": "../config.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../key-pool.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "../request-log-store.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/request-auth.ts",
+      "spec": "../request-auth.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/model-pricing.ts",
+      "spec": "../model-pricing.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/policy/index.ts",
+      "spec": "../policy/index.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/db/account-health-store.ts",
+      "spec": "../db/account-health-store.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/provider-policy.ts",
+      "spec": "../provider-policy.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/messages-compat.ts",
+      "spec": "../messages-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/ollama-compat.ts",
+      "spec": "../ollama-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/shared.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/factory.ts",
+      "to": "lib/proxy.ts",
+      "spec": "../../proxy.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/factory.ts",
+      "to": "lib/messages-compat.ts",
+      "spec": "../../messages-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/factory.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/factory.ts",
+      "to": "lib/factory-compat.ts",
+      "spec": "../../factory-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/factory.ts",
+      "to": "lib/provider-strategy/base.ts",
+      "spec": "../base.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/factory.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "../shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/gemini.ts",
+      "to": "lib/provider-strategy/base.ts",
+      "spec": "../base.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/gemini.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/gemini.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "../shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/ollama.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/ollama.ts",
+      "to": "lib/ollama-compat.ts",
+      "spec": "../../ollama-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/ollama.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/ollama.ts",
+      "to": "lib/provider-strategy/base.ts",
+      "spec": "../base.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/ollama.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "../shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/openai.ts",
+      "to": "lib/proxy.ts",
+      "spec": "../../proxy.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/openai.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/openai.ts",
+      "to": "lib/provider-strategy/base.ts",
+      "spec": "../base.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/openai.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "../shared.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/standard.ts",
+      "to": "lib/proxy.ts",
+      "spec": "../../proxy.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/standard.ts",
+      "to": "lib/responses-compat.ts",
+      "spec": "../../responses-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/standard.ts",
+      "to": "lib/messages-compat.ts",
+      "spec": "../../messages-compat.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/standard.ts",
+      "to": "lib/provider-utils.ts",
+      "spec": "../../provider-utils.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/standard.ts",
+      "to": "lib/provider-strategy/base.ts",
+      "spec": "../base.js"
+    },
+    {
+      "from": "lib/provider-strategy/strategies/standard.ts",
+      "to": "lib/provider-strategy/shared.ts",
+      "spec": "../shared.js"
+    },
+    {
+      "from": "lib/provider-utils.ts",
+      "to": "lib/proxy.ts",
+      "spec": "./proxy.js"
+    },
+    {
+      "from": "lib/proxy-settings-store.ts",
+      "to": "lib/db/index.ts",
+      "spec": "./db/index.js"
+    },
+    {
+      "from": "lib/proxy-settings-store.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "./tenant-api-key.js"
+    },
+    {
+      "from": "lib/proxy.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/quota-monitor.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "./credential-store.js"
+    },
+    {
+      "from": "lib/quota-monitor.ts",
+      "to": "lib/openai-quota.ts",
+      "spec": "./openai-quota.js"
+    },
+    {
+      "from": "lib/quota-monitor.ts",
+      "to": "lib/db/account-health-store.ts",
+      "spec": "./db/account-health-store.js"
+    },
+    {
+      "from": "lib/request-auth.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "./tenant-api-key.js"
+    },
+    {
+      "from": "lib/request-log-store.ts",
+      "to": "lib/model-pricing.ts",
+      "spec": "./model-pricing.js"
+    },
+    {
+      "from": "lib/runtime-credential-store.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "./credential-store.js"
+    },
+    {
+      "from": "lib/runtime-credential-store.ts",
+      "to": "lib/db/sql-credential-store.ts",
+      "spec": "./db/sql-credential-store.js"
+    },
+    {
+      "from": "lib/token-refresh-manager.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/types.ts",
+      "spec": "../routes/types.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/config.ts",
+      "spec": "./config.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "./credential-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/host-dashboard.ts",
+      "spec": "./host-dashboard.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/request-auth.ts",
+      "spec": "./request-auth.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "./key-pool.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "./request-log-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/credentials/index.ts",
+      "spec": "../routes/credentials/index.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/federation/index.ts",
+      "spec": "../routes/federation/index.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/federation/account-knowledge.ts",
+      "spec": "../routes/federation/account-knowledge.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/federation/remote.ts",
+      "spec": "../routes/federation/remote.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/sessions/index.ts",
+      "spec": "../routes/sessions/index.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/settings/index.ts",
+      "spec": "../routes/settings/index.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../routes/shared/ui-auth.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/tool-mcp-seed.ts",
+      "spec": "./tool-mcp-seed.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/proxy-settings-store.ts",
+      "spec": "./proxy-settings-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/db/event-store.ts",
+      "spec": "./db/event-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/db/sql-credential-store.ts",
+      "spec": "./db/sql-credential-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/db/sql-federation-store.ts",
+      "spec": "./db/sql-federation-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/db/sql-tenant-provider-policy-store.ts",
+      "spec": "./db/sql-tenant-provider-policy-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/db/sql-request-usage-store.ts",
+      "spec": "./db/sql-request-usage-store.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/auth/sql-persistence.ts",
+      "spec": "./auth/sql-persistence.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "./tenant-api-key.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/federation/bridge-relay.ts",
+      "spec": "./federation/bridge-relay.js"
+    },
+    {
+      "from": "lib/ui-routes.ts",
+      "to": "lib/observability/request-log-ws-hub.ts",
+      "spec": "./observability/request-log-ws-hub.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "lib/telemetry/otel.ts",
+      "spec": "./lib/telemetry/otel.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "app.ts",
+      "spec": "./app.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "lib/config.ts",
+      "spec": "./lib/config.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../../types.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "lib/federation/bridge-relay.ts",
+      "spec": "../../../lib/federation/bridge-relay.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/federation/index.ts",
+      "spec": "../../federation/index.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/settings/index.ts",
+      "spec": "../../settings/index.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/sessions/index.ts",
+      "spec": "../../sessions/index.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/credentials/index.ts",
+      "spec": "../../credentials/index.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/hosts/index.ts",
+      "spec": "../../hosts/index.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/events/index.ts",
+      "spec": "../../events/index.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/mcp/index.ts",
+      "spec": "../../mcp/index.js"
+    },
+    {
+      "from": "routes/api/v1/index.ts",
+      "to": "routes/observability/index.ts",
+      "spec": "../../observability/index.js"
+    },
+    {
+      "from": "routes/credentials/account-management-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/account-management-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/account-management-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/context.ts",
+      "to": "lib/factory-oauth.ts",
+      "spec": "../../lib/factory-oauth.js"
+    },
+    {
+      "from": "routes/credentials/context.ts",
+      "to": "lib/openai-oauth.ts",
+      "spec": "../../lib/openai-oauth.js"
+    },
+    {
+      "from": "routes/credentials/context.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/factory-browser-oauth-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/factory-browser-oauth-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/factory-browser-oauth-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/factory-device-oauth-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/factory-device-oauth-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/factory-device-oauth-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/get-credentials-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/credentials/get-credentials-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/get-credentials-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/get-credentials-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/index.ts",
+      "to": "routes/credentials/ui.ts",
+      "spec": "./ui.js"
+    },
+    {
+      "from": "routes/credentials/index.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/openai-browser-oauth-ui.ts",
+      "to": "lib/account-identity.ts",
+      "spec": "../../lib/account-identity.js"
+    },
+    {
+      "from": "routes/credentials/openai-browser-oauth-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/openai-browser-oauth-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/openai-browser-oauth-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/openai-device-oauth-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/openai-device-oauth-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/openai-device-oauth-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/openai-probe-ui.ts",
+      "to": "lib/openai-quota.ts",
+      "spec": "../../lib/openai-quota.js"
+    },
+    {
+      "from": "routes/credentials/openai-probe-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/openai-probe-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/openai-probe-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/openai-prompt-cache-audit-ui.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "../../lib/request-log-store.js"
+    },
+    {
+      "from": "routes/credentials/openai-prompt-cache-audit-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/openai-prompt-cache-audit-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/openai-prompt-cache-audit-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/openai-quota-ui.ts",
+      "to": "lib/openai-quota.ts",
+      "spec": "../../lib/openai-quota.js"
+    },
+    {
+      "from": "routes/credentials/openai-quota-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/openai-quota-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/openai-quota-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/openai-refresh-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/openai-refresh-ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/openai-refresh-ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/credentials/prefix.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/account-management-ui.ts",
+      "spec": "./account-management-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/factory-browser-oauth-ui.ts",
+      "spec": "./factory-browser-oauth-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/factory-device-oauth-ui.ts",
+      "spec": "./factory-device-oauth-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/get-credentials-ui.ts",
+      "spec": "./get-credentials-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/openai-browser-oauth-ui.ts",
+      "spec": "./openai-browser-oauth-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/openai-device-oauth-ui.ts",
+      "spec": "./openai-device-oauth-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/openai-prompt-cache-audit-ui.ts",
+      "spec": "./openai-prompt-cache-audit-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/openai-probe-ui.ts",
+      "spec": "./openai-probe-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/openai-quota-ui.ts",
+      "spec": "./openai-quota-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/openai-refresh-ui.ts",
+      "spec": "./openai-refresh-ui.js"
+    },
+    {
+      "from": "routes/credentials/ui.ts",
+      "to": "routes/credentials/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/events/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/federation/account-knowledge.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "../../lib/credential-store.js"
+    },
+    {
+      "from": "routes/federation/account-knowledge.ts",
+      "to": "lib/db/sql-federation-store.ts",
+      "spec": "../../lib/db/sql-federation-store.js"
+    },
+    {
+      "from": "routes/federation/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/federation/index.ts",
+      "to": "routes/federation/ui.ts",
+      "spec": "./ui.js"
+    },
+    {
+      "from": "routes/federation/index.ts",
+      "to": "routes/federation/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/federation/index.ts",
+      "to": "lib/federation/bridge-relay.ts",
+      "spec": "../../lib/federation/bridge-relay.js"
+    },
+    {
+      "from": "routes/federation/prefix.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "lib/federation/bridge-relay.ts",
+      "spec": "../../lib/federation/bridge-relay.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "lib/tenant-provider-policy.ts",
+      "spec": "../../lib/tenant-provider-policy.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "routes/federation/account-knowledge.ts",
+      "spec": "./account-knowledge.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "routes/federation/remote.ts",
+      "spec": "./remote.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "routes/federation/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/federation/ui.ts",
+      "to": "lib/db/sql-federation-store.ts",
+      "spec": "../../lib/db/sql-federation-store.js"
+    },
+    {
+      "from": "routes/hosts/index.ts",
+      "to": "lib/host-dashboard.ts",
+      "spec": "../../lib/host-dashboard.js"
+    },
+    {
+      "from": "routes/hosts/index.ts",
+      "to": "lib/request-auth.ts",
+      "spec": "../../lib/request-auth.js"
+    },
+    {
+      "from": "routes/hosts/index.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/hosts/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/federation/index.ts",
+      "spec": "./federation/index.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/settings/index.ts",
+      "spec": "./settings/index.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/sessions/index.ts",
+      "spec": "./sessions/index.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/credentials/index.ts",
+      "spec": "./credentials/index.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/hosts/index.ts",
+      "spec": "./hosts/index.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/events/index.ts",
+      "spec": "./events/index.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/mcp/index.ts",
+      "spec": "./mcp/index.js"
+    },
+    {
+      "from": "routes/index.ts",
+      "to": "routes/ui/index.ts",
+      "spec": "./ui/index.js"
+    },
+    {
+      "from": "routes/mcp/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/observability/index.ts",
+      "to": "lib/ui-routes.ts",
+      "spec": "../../lib/ui-routes.js"
+    },
+    {
+      "from": "routes/observability/index.ts",
+      "to": "lib/tool-mcp-seed.ts",
+      "spec": "../../lib/tool-mcp-seed.js"
+    },
+    {
+      "from": "routes/observability/index.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "../../lib/tenant-api-key.js"
+    },
+    {
+      "from": "routes/observability/index.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/observability/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/observability/index.ts",
+      "to": "routes/observability/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/observability/prefix.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/sessions/context.ts",
+      "to": "lib/chroma-session-index.ts",
+      "spec": "../../lib/chroma-session-index.js"
+    },
+    {
+      "from": "routes/sessions/context.ts",
+      "to": "lib/session-store.ts",
+      "spec": "../../lib/session-store.js"
+    },
+    {
+      "from": "routes/sessions/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/sessions/index.ts",
+      "to": "routes/sessions/ui.ts",
+      "spec": "./ui.js"
+    },
+    {
+      "from": "routes/sessions/index.ts",
+      "to": "routes/sessions/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/sessions/index.ts",
+      "to": "routes/sessions/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/sessions/prefix.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/sessions/ui.ts",
+      "to": "lib/session-store.ts",
+      "spec": "../../lib/session-store.js"
+    },
+    {
+      "from": "routes/sessions/ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/sessions/ui.ts",
+      "to": "routes/sessions/context.ts",
+      "spec": "./context.js"
+    },
+    {
+      "from": "routes/sessions/ui.ts",
+      "to": "routes/sessions/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/delete-tenant-api-key-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/delete-tenant-api-key-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/delete-tenant-api-key-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/get-me-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/get-me-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/get-me-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/get-settings-ui.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "../../lib/tenant-api-key.js"
+    },
+    {
+      "from": "routes/settings/get-settings-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/get-settings-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/get-settings-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/get-tenant-api-keys-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/get-tenant-api-keys-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/get-tenant-api-keys-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/get-tenants-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/get-tenants-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/get-tenants-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/index.ts",
+      "to": "routes/settings/ui.ts",
+      "spec": "./ui.js"
+    },
+    {
+      "from": "routes/settings/index.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/post-settings-ui.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "../../lib/tenant-api-key.js"
+    },
+    {
+      "from": "routes/settings/post-settings-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/post-settings-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/post-settings-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/post-tenant-api-keys-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/post-tenant-api-keys-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/post-tenant-api-keys-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/post-tenant-select-ui.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "../../lib/tenant-api-key.js"
+    },
+    {
+      "from": "routes/settings/post-tenant-select-ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/post-tenant-select-ui.ts",
+      "to": "routes/shared/ui-auth.ts",
+      "spec": "../shared/ui-auth.js"
+    },
+    {
+      "from": "routes/settings/post-tenant-select-ui.ts",
+      "to": "routes/settings/prefix.ts",
+      "spec": "./prefix.js"
+    },
+    {
+      "from": "routes/settings/prefix.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/delete-tenant-api-key-ui.ts",
+      "spec": "./delete-tenant-api-key-ui.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/get-me-ui.ts",
+      "spec": "./get-me-ui.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/get-settings-ui.ts",
+      "spec": "./get-settings-ui.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/get-tenant-api-keys-ui.ts",
+      "spec": "./get-tenant-api-keys-ui.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/get-tenants-ui.ts",
+      "spec": "./get-tenants-ui.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/post-settings-ui.ts",
+      "spec": "./post-settings-ui.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/post-tenant-api-keys-ui.ts",
+      "spec": "./post-tenant-api-keys-ui.js"
+    },
+    {
+      "from": "routes/settings/ui.ts",
+      "to": "routes/settings/post-tenant-select-ui.ts",
+      "spec": "./post-tenant-select-ui.js"
+    },
+    {
+      "from": "routes/shared/ui-auth.ts",
+      "to": "lib/request-auth.ts",
+      "spec": "../../lib/request-auth.js"
+    },
+    {
+      "from": "routes/shared/ui-auth.ts",
+      "to": "lib/tenant-api-key.ts",
+      "spec": "../../lib/tenant-api-key.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/config.ts",
+      "spec": "../lib/config.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/credential-store.ts",
+      "spec": "../lib/credential-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/key-pool.ts",
+      "spec": "../lib/key-pool.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/request-log-store.ts",
+      "spec": "../lib/request-log-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/proxy-settings-store.ts",
+      "spec": "../lib/proxy-settings-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/db/event-store.ts",
+      "spec": "../lib/db/event-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/db/sql-credential-store.ts",
+      "spec": "../lib/db/sql-credential-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/db/sql-federation-store.ts",
+      "spec": "../lib/db/sql-federation-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/db/sql-tenant-provider-policy-store.ts",
+      "spec": "../lib/db/sql-tenant-provider-policy-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/db/sql-request-usage-store.ts",
+      "spec": "../lib/db/sql-request-usage-store.js"
+    },
+    {
+      "from": "routes/types.ts",
+      "to": "lib/auth/sql-persistence.ts",
+      "spec": "../lib/auth/sql-persistence.js"
+    },
+    {
+      "from": "routes/ui/index.ts",
+      "to": "routes/types.ts",
+      "spec": "../types.js"
+    }
+  ]
+}

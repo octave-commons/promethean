@@ -1,0 +1,17 @@
+__PUBLIC_HOST__ {
+  encode gzip zstd
+
+  redir /fleet /fleet/ 308
+  handle_path /fleet/* {
+    reverse_proxy host-fleet-dashboard:8791
+  }
+
+  @api path /v1* /api* /auth* /health
+  reverse_proxy @api host.docker.internal:8789
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  }
+
+  reverse_proxy host.docker.internal:5174
+}

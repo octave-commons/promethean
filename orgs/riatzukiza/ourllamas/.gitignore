@@ -1,0 +1,8 @@
+.env
+outbox/*.json
+outbox/*.jsonl
+archive/*
+state/*.json
+!outbox/.gitkeep
+!archive/.gitkeep
+!state/.gitkeep

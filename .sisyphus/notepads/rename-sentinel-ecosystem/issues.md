@@ -1,0 +1,2 @@
+- Issue: Ensure single atomic task scope for submodule rename; verify that only ecosystem.cljs is edited and committed.
+- blockers: submodule pointer updates may involve multiple submodules in root if workspace config changes.

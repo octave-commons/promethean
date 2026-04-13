@@ -1,0 +1,1 @@
+["^ ","~$register-memory-routes!",["^ ","~:row",6,"~:col",1,"~:fixed-arities",["~#set",[4]],"~:name","^0","~:ns","~$knoxx.backend.memory-routes","~:top-ns","^7","~:type","~:fn"],"~:filename","backend/src/cljs/knoxx/backend/memory_routes.cljs"]

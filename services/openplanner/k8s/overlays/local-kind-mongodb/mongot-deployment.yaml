@@ -1,0 +1,93 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: mongot
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openplanner
+      app.kubernetes.io/component: mongot
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: openplanner
+        app.kubernetes.io/component: mongot
+    spec:
+      initContainers:
+        - name: wait-for-mongot-user
+          image: mongodb/mongodb-community-server:8.2.0-ubi9
+          env:
+            - name: MONGODB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_USERNAME
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_PASSWORD
+          command:
+            - /bin/sh
+            - -lc
+            - |
+              set -eu
+              until mongosh --host mongodb-0.mongodb -u "$MONGODB_ROOT_USERNAME" -p "$MONGODB_ROOT_PASSWORD" --authenticationDatabase admin --quiet --eval "try { const user = db.getSiblingDB('admin').getUser('mongotUser'); quit(user ? 0 : 1); } catch (e) { quit(1); }"; do
+                sleep 2
+              done
+      containers:
+        - name: mongot
+          image: mongodb/mongodb-community-search:0.53.1
+          args: ["--config", "/etc/mongot/mongot.yml"]
+          command: ["/mongot-community/mongot"]
+          ports:
+            - name: grpc
+              containerPort: 27028
+            - name: health
+              containerPort: 8080
+            - name: metrics
+              containerPort: 9946
+          readinessProbe:
+            tcpSocket:
+              port: health
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: health
+            initialDelaySeconds: 20
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
+          volumeMounts:
+            - name: mongot-config
+              mountPath: /etc/mongot
+              readOnly: true
+            - name: mongot-secrets
+              mountPath: /etc/mongot/secrets
+              readOnly: true
+            - name: mongot-data
+              mountPath: /var/lib/mongot
+          resources:
+            requests:
+              cpu: 100m
+              memory: 256Mi
+            limits:
+              cpu: 500m
+              memory: 512Mi
+      volumes:
+        - name: mongot-config
+          configMap:
+            name: mongot-config
+        - name: mongot-secrets
+          secret:
+            secretName: openplanner-mongodb-secrets
+            defaultMode: 0400
+            items:
+              - key: mongot-password
+                path: mongot-password
+        - name: mongot-data
+          persistentVolumeClaim:
+            claimName: openplanner-mongot-data

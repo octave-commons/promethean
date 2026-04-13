@@ -1,0 +1,383 @@
+# Cephalon Hive - Multi-Cephalon Discord Bot Stack
+#
+# Spawns three cephalons: Duck, OpenHax, OpenSkull
+# Each connects to Discord with its own identity and persona.
+# Uses OpenAI-compatible endpoints via proxx/Ollama.
+#
+# Required environment:
+#   DUCK_DISCORD_TOKEN    - Duck bot token
+#   OPENHAX_DISCORD_TOKEN - OpenHax bot token
+#   OPENSKULL_DISCORD_TOKEN - OpenSkull bot token
+
+name: cephalon-hive
+
+services:
+  openplanner:
+    build:
+      context: ../../orgs/riatzukiza/openplanner
+      dockerfile: Dockerfile
+    depends_on:
+      chroma:
+        condition: service_started
+    ports:
+      - "${OPENPLANNER_PORT:-7777}:7777"
+    environment:
+      NODE_ENV: production
+      OPENPLANNER_HOST: 0.0.0.0
+      OPENPLANNER_PORT: "7777"
+      OPENPLANNER_API_KEY: "${OPENPLANNER_API_KEY:-change-me}"
+      OPENPLANNER_DATA_DIR: /app/openplanner-lake
+      CHROMA_URL: http://chroma:8000
+      CHROMA_COLLECTION: "${OPENPLANNER_CHROMA_COLLECTION:-openplanner_events_20260327}"
+      CHROMA_COMPACT_COLLECTION: "${OPENPLANNER_CHROMA_COMPACT_COLLECTION:-openplanner_events_20260327_compact}"
+      OLLAMA_BASE_URL: "${OPENPLANNER_OLLAMA_BASE_URL:-http://ollama:11434}"
+      OLLAMA_API_KEY: "${OPENPLANNER_OLLAMA_API_KEY:-}"
+      OLLAMA_EMBED_MODEL: "${OPENPLANNER_OLLAMA_EMBED_MODEL:-qwen3-embedding:0.6b}"
+      OLLAMA_COMPACT_EMBED_MODEL: "${OPENPLANNER_OLLAMA_COMPACT_EMBED_MODEL:-qwen3-embedding:4b}"
+      OLLAMA_EMBED_MODEL_BY_SOURCE: "${OPENPLANNER_OLLAMA_EMBED_MODEL_BY_SOURCE:-}"
+      OLLAMA_EMBED_MODEL_BY_KIND: "${OPENPLANNER_OLLAMA_EMBED_MODEL_BY_KIND:-}"
+      OLLAMA_EMBED_MODEL_BY_PROJECT: "${OPENPLANNER_OLLAMA_EMBED_MODEL_BY_PROJECT:-}"
+      OLLAMA_EMBED_TRUNCATE: "${OPENPLANNER_OLLAMA_EMBED_TRUNCATE:-true}"
+      OLLAMA_EMBED_NUM_CTX: "${OPENPLANNER_OLLAMA_EMBED_NUM_CTX:-}"
+      # MongoDB TTL settings (when using STORAGE_BACKEND=mongodb)
+      MONGODB_EVENTS_TTL_SECONDS: "${MONGODB_EVENTS_TTL_SECONDS:-0}"
+      MONGODB_COMPACTED_TTL_SECONDS: "${MONGODB_COMPACTED_TTL_SECONDS:-0}"
+    volumes:
+      - cephalon-hive-openplanner-lake:/app/openplanner-lake
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:7777/v1/health').then((response) => { if (!response.ok) { process.exit(1); } }).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+
+  chroma:
+    image: chromadb/chroma:latest
+    ports:
+      - "${OPENPLANNER_CHROMA_PORT:-8000}:8000"
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma
+    volumes:
+      - cephalon-hive-openplanner-chroma:/chroma/chroma
+    restart: unless-stopped
+
+  dashboard:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: ["node", "/workspace/services/cephalon-hive/dashboard/server.mjs"]
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      openplanner:
+        condition: service_healthy
+    environment:
+      CEPHALON_DASHBOARD_PORT: "3310"
+      OPENPLANNER_API_BASE_URL: "http://openplanner:7777"
+      OPENPLANNER_API_KEY: "${OPENPLANNER_API_KEY:-change-me}"
+      CEPHALON_DASHBOARD_TARGETS_JSON: '[{"id":"duck","label":"Duck","baseUrl":"http://duck:3001"},{"id":"openhax","label":"OpenHax","baseUrl":"http://openhax:3002"},{"id":"openskull","label":"OpenSkull","baseUrl":"http://openskull:3003"}]'
+    ports:
+      - "${CEPHALON_DASHBOARD_PORT:-3310}:3310"
+    volumes:
+      - ../..:/workspace:ro
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+
+  # Sintel Perception - Bluesky firehose listener feeding Cephalon perception
+  sintel-perception:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: ["node", "/workspace/services/cephalon-hive/sync/sintel-perception.mjs"]
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    environment:
+      SINTEL_BSKY_RELAY: "${SINTEL_BSKY_RELAY:-wss://bsky.network}"
+      SINTEL_MONGODB_URI: "mongodb://mongodb:27017"
+      SINTEL_MONGODB_DB: "cephalon_hive"
+      SINTEL_COLLECTION: "perception_events"
+      SINTEL_TICK_INTERVAL_MS: "${SINTEL_TICK_INTERVAL_MS:-60000}"
+      SINTEL_LOG_LEVEL: "${SINTEL_LOG_LEVEL:-info}"
+    volumes:
+      - ../..:/workspace:ro
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+
+  federation-sync:
+    image: node:22-bookworm-slim
+    working_dir: /workspace
+    command: ["node", "/workspace/services/cephalon-hive/sync/federation-sync.mjs"]
+    environment:
+      CEPHALON_FEDERATION_SYNC_BASE_URL: "${CEPHALON_PROXX_BASE_URL:-http://proxx:8789}"
+      CEPHALON_FEDERATION_SYNC_AUTH_TOKEN: "${PROXX_PROXY_AUTH_TOKEN:-change-me-cephalon-proxx}"
+      CEPHALON_FEDERATION_SYNC_OWNER_SUBJECT: "${PROXX_FEDERATION_DEFAULT_OWNER_SUBJECT:-did:web:proxx.promethean.rest:brethren}"
+      CEPHALON_FEDERATION_SYNC_PEER_ID: "${CEPHALON_FEDERATION_SYNC_PEER_ID:-hub-local-proxx}"
+      CEPHALON_FEDERATION_SYNC_INTERVAL_MS: "${CEPHALON_FEDERATION_SYNC_INTERVAL_MS:-300000}"
+      CEPHALON_FEDERATION_SYNC_INITIAL_DELAY_MS: "${CEPHALON_FEDERATION_SYNC_INITIAL_DELAY_MS:-15000}"
+      CEPHALON_FEDERATION_SYNC_JITTER_MS: "${CEPHALON_FEDERATION_SYNC_JITTER_MS:-10000}"
+      CEPHALON_FEDERATION_SYNC_IMPORT_PROVIDERS: "${CEPHALON_FEDERATION_SYNC_IMPORT_PROVIDERS:-auto}"
+      CEPHALON_FEDERATION_SYNC_BRIDGE_AGENT_ID: "${CEPHALON_FEDERATION_SYNC_BRIDGE_AGENT_ID:-}"
+      CEPHALON_FEDERATION_SYNC_BRIDGE_IMPORT_PROVIDERS: "${CEPHALON_FEDERATION_SYNC_BRIDGE_IMPORT_PROVIDERS:-}"
+      CEPHALON_FEDERATION_SYNC_BRIDGE_IMPORT_LIMIT: "${CEPHALON_FEDERATION_SYNC_BRIDGE_IMPORT_LIMIT:-500}"
+      CEPHALON_FEDERATION_SYNC_BRIDGE_REFRESH_BUFFER_MS: "${CEPHALON_FEDERATION_SYNC_BRIDGE_REFRESH_BUFFER_MS:-600000}"
+      CEPHALON_FEDERATION_SYNC_REQUEST_TIMEOUT_MS: "${CEPHALON_FEDERATION_SYNC_REQUEST_TIMEOUT_MS:-45000}"
+    volumes:
+      - ../..:/workspace:ro
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+
+  mongodb:
+    image: mongo:7
+    volumes:
+      - cephalon-hive-mongodb-data:/data/db
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  proxx-db:
+    image: postgres:16-bookworm
+    environment:
+      POSTGRES_DB: cephalon_proxx
+      POSTGRES_USER: cephalon_proxx
+      POSTGRES_PASSWORD: cephalon_proxx
+    ports:
+      - "${CEPHALON_PROXX_DB_PORT:-15435}:5432"
+    volumes:
+      - cephalon-hive-proxx-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U cephalon_proxx -d cephalon_proxx"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra:
+        aliases:
+          - cephalon-hive-proxx-db
+    profiles:
+      - proxx
+
+  proxx:
+    build:
+      context: ../../orgs/open-hax/proxx
+      dockerfile: Dockerfile
+    ports:
+      - "${CEPHALON_PROXX_PORT:-18779}:8789"
+      - "${CEPHALON_PROXX_OAUTH_PORT:-12455}:8789"
+      - "${CEPHALON_PROXX_WEB_PORT:-15274}:5174"
+    depends_on:
+      proxx-db:
+        condition: service_healthy
+    environment:
+      NODE_ENV: production
+      PROXY_HOST: 0.0.0.0
+      PROXY_PORT: "8789"
+      PORT: "8789"
+      PROXY_AUTH_TOKEN: "${PROXX_PROXY_AUTH_TOKEN:-change-me-cephalon-proxx}"
+      PROXY_KEYS_FILE: /app/keys.empty.json
+      PROXY_MODELS_FILE: /workspace/service-config/models.json
+      PROXY_KEYS_JSON: '${PROXX_KEYS_JSON:-{"providers":{"ollama-cloud":[]}}}'
+      OPENROUTER_API_KEY: "${OPENROUTER_API_KEY:-}"
+      REQUESTY_API_TOKEN: "${REQUESTY_API_TOKEN:-}"
+      REQUESTY_API_KEY: "${REQUESTY_API_KEY:-${REQUESTY_API_TOKEN:-}}"
+      GEMINI_API_KEY: "${GEMINI_API_KEY:-}"
+      MISTRAL_API_KEY: "${MISTRAL_API_KEY:-}"
+
+      UPSTREAM_PROVIDER_ID: "${PROXX_UPSTREAM_PROVIDER_ID:-requesty}"
+      UPSTREAM_FALLBACK_PROVIDER_IDS: "${PROXX_UPSTREAM_FALLBACK_PROVIDER_IDS:-openai,ollama-cloud}"
+      OPENAI_RESPONSES_PATH: "${PROXX_OPENAI_RESPONSES_PATH:-/codex/responses}"
+      OPENAI_CHAT_COMPLETIONS_PATH: "${PROXX_OPENAI_CHAT_COMPLETIONS_PATH:-/codex/responses/compact}"
+      DATABASE_URL: "${PROXX_DATABASE_URL:-postgresql://cephalon_proxx:cephalon_proxx@proxx-db:5432/cephalon_proxx}"
+      OLLAMA_BASE_URL: "${PROXX_OLLAMA_BASE_URL:-http://proxx-big-ussy-hub-spokes-proxx-federation-peer-1:8789}"
+      OLLAMA_API_KEY: "${PROXX_OLLAMA_API_KEY:-}"
+      OLLAMA_CHAT_PATH: "${PROXX_OLLAMA_CHAT_PATH:-/api/chat}"
+      OLLAMA_MODEL_PREFIXES: "${PROXX_OLLAMA_MODEL_PREFIXES:-ollama/,ollama:}"
+      CHROMA_URL: "${PROXX_CHROMA_URL:-http://host.docker.internal:8000}"
+      CHROMA_COLLECTION: "${PROXX_CHROMA_COLLECTION:-open_hax_proxy_sessions}"
+      CHROMA_EMBED_MODEL: "${PROXX_CHROMA_EMBED_MODEL:-nomic-embed-text:latest}"
+      PROXY_ALLOW_UNAUTHENTICATED: "false"
+      FEDERATION_SELF_NODE_ID: "${PROXX_FEDERATION_SELF_NODE_ID:-big-ussy-cephalon}"
+      FEDERATION_SELF_GROUP_ID: "${PROXX_FEDERATION_SELF_GROUP_ID:-cephalon-hive}"
+      FEDERATION_SELF_CLUSTER_ID: "${PROXX_FEDERATION_SELF_CLUSTER_ID:-promethean-brethren}"
+      FEDERATION_SELF_PEER_DID: "${PROXX_FEDERATION_SELF_PEER_DID:-did:web:big.ussy.promethean.rest}"
+      FEDERATION_SELF_PUBLIC_BASE_URL: "${PROXX_FEDERATION_SELF_PUBLIC_BASE_URL:-http://cephalon-hive-proxx:8789}"
+      FEDERATION_DEFAULT_OWNER_SUBJECT: "${PROXX_FEDERATION_DEFAULT_OWNER_SUBJECT:-did:web:big.ussy.promethean.rest}"
+      FEDERATION_REQUEST_TIMEOUT_MS: "${PROXX_FEDERATION_REQUEST_TIMEOUT_MS:-30000}"
+    volumes:
+      - ./proxx/models.json:/workspace/service-config/models.json:ro
+      - cephalon-hive-proxx-data:/app/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra:
+        aliases:
+          - cephalon-hive-proxx
+    profiles:
+      - proxx
+
+  # Duck - The Memelord Cephalon (circuit-based model selection)
+  duck:
+    extends:
+      file: docker-compose.base.yml
+      service: cephalon-base
+    environment:
+      CEPHALON_NAME: DUCK
+      DUCK_DISCORD_TOKEN: "${DUCK_DISCORD_TOKEN:-}"
+      CEPHALON_MONGODB_URI: "mongodb://mongodb:27017"
+      CEPHALON_MONGODB_DB: "cephalon_hive"
+      CEPHALON_MONGODB_COLLECTION: "duck_memories"
+      MEMORY_UI_PORT: "3001"
+      CEPHALON_AUTO_MODEL: "auto:cephalon:fastest"
+      CEPHALON_AUTO_MODEL_DEEP: "auto:cephalon:smartest"
+      CEPHALON_MODEL_C1: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C2: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C3: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C4: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C5: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C6: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C7: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C8: "ollama/gemma3:27b"
+      CEPHALON_INTERVAL_C3_MS: "15000"
+      CEPHALON_INTERVAL_C4_MS: "20000"
+      CEPHALON_USE_OLLAMA: "${CEPHALON_USE_OLLAMA:-true}"
+      OLLAMA_BASE_URL: "http://proxx:8789"
+      OLLAMA_API_KEY: "${OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN:-${PROXX_PROXY_AUTH_TOKEN:-change-me-open-hax-proxy-token}}"
+      OLLAMA_FEDERATION_OWNER_SUBJECT: "${CEPHALON_FEDERATION_OWNER_SUBJECT:-}"
+
+      CEPHALON_REPO_NAME: "duck-cephalon"
+      CEPHALON_MONOREPO_ROOT: "/cephalon/orgs/octave-commons/duck-cephalon"
+      CEPHALON_SOURCE_ROOT: "/cephalon/orgs/octave-commons/duck-cephalon/packages/cephalon-ts"
+      CEPHALON_LOG_FILE: "/cephalon/logs/duck.log"
+      CEPHALON_STATE_DIR: "/cephalon/state"
+    ports:
+      - "${DUCK_MEMORY_UI_PORT:-3301}:3001"
+    volumes:
+      - cephalon-hive-duck-home:/cephalon
+    profiles:
+      - duck
+      - all
+
+  # OpenHax - The Builder Cephalon (circuit-based model selection)
+  openhax:
+    extends:
+      file: docker-compose.base.yml
+      service: cephalon-base
+    environment:
+      CEPHALON_NAME: OPENHAX
+      OPENHAX_DISCORD_TOKEN: "${OPENHAX_DISCORD_TOKEN:-}"
+      CEPHALON_MONGODB_URI: "mongodb://mongodb:27017"
+      CEPHALON_MONGODB_DB: "cephalon_hive"
+      CEPHALON_MONGODB_COLLECTION: "openhax_memories"
+      MEMORY_UI_PORT: "3002"
+      CEPHALON_AUTO_MODEL: "auto:cephalon:fastest"
+      CEPHALON_AUTO_MODEL_DEEP: "auto:cephalon:smartest"
+      CEPHALON_MODEL_C1: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C2: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C3: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C4: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C5: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C6: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C7: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C8: "ollama/gemma3:27b"
+      CEPHALON_INTERVAL_C3_MS: "15000"
+      CEPHALON_INTERVAL_C4_MS: "20000"
+      CEPHALON_USE_OLLAMA: "${CEPHALON_USE_OLLAMA:-true}"
+      OLLAMA_BASE_URL: "http://proxx:8789"
+      OLLAMA_API_KEY: "${OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN:-${PROXX_PROXY_AUTH_TOKEN:-change-me-open-hax-proxy-token}}"
+      OLLAMA_FEDERATION_OWNER_SUBJECT: "${CEPHALON_FEDERATION_OWNER_SUBJECT:-}"
+
+      CEPHALON_REPO_NAME: "openhax-cephalon"
+      CEPHALON_MONOREPO_ROOT: "/cephalon/orgs/octave-commons/openhax-cephalon"
+      CEPHALON_SOURCE_ROOT: "/cephalon/orgs/octave-commons/openhax-cephalon/packages/cephalon-ts"
+      CEPHALON_LOG_FILE: "/cephalon/logs/openhax.log"
+      CEPHALON_STATE_DIR: "/cephalon/state"
+    ports:
+      - "${OPENHAX_MEMORY_UI_PORT:-3302}:3002"
+    volumes:
+      - cephalon-hive-openhax-home:/cephalon
+    profiles:
+      - openhax
+      - all
+
+  # OpenSkull - The Mystic Cephalon (circuit-based model selection)
+  openskull:
+    extends:
+      file: docker-compose.base.yml
+      service: cephalon-base
+    environment:
+      CEPHALON_NAME: OPENSKULL
+      OPENSKULL_DISCORD_TOKEN: "${OPENSKULL_DISCORD_TOKEN:-${OPEN_SKULL_DISCORD_TOKEN:-}}"
+      CEPHALON_MONGODB_URI: "mongodb://mongodb:27017"
+      CEPHALON_MONGODB_DB: "cephalon_hive"
+      CEPHALON_MONGODB_COLLECTION: "openskull_memories"
+      MEMORY_UI_PORT: "3003"
+      CEPHALON_AUTO_MODEL: "auto:cephalon:fastest"
+      CEPHALON_AUTO_MODEL_DEEP: "auto:cephalon:smartest"
+      CEPHALON_MODEL_C1: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C2: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C3: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C4: "ollama/gpt-oss:20b"
+      CEPHALON_MODEL_C5: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C6: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C7: "ollama/gemma3:27b"
+      CEPHALON_MODEL_C8: "ollama/gemma3:27b"
+      CEPHALON_INTERVAL_C3_MS: "15000"
+      CEPHALON_INTERVAL_C4_MS: "20000"
+      CEPHALON_USE_OLLAMA: "${CEPHALON_USE_OLLAMA:-true}"
+      OLLAMA_BASE_URL: "http://proxx:8789"
+      OLLAMA_API_KEY: "${OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN:-${PROXX_PROXY_AUTH_TOKEN:-change-me-open-hax-proxy-token}}"
+      OLLAMA_FEDERATION_OWNER_SUBJECT: "${CEPHALON_FEDERATION_OWNER_SUBJECT:-}"
+
+      CEPHALON_REPO_NAME: "openskull-cephalon"
+      CEPHALON_MONOREPO_ROOT: "/cephalon/orgs/octave-commons/openskull-cephalon"
+      CEPHALON_SOURCE_ROOT: "/cephalon/orgs/octave-commons/openskull-cephalon/packages/cephalon-ts"
+      CEPHALON_LOG_FILE: "/cephalon/logs/openskull.log"
+      CEPHALON_STATE_DIR: "/cephalon/state"
+    ports:
+      - "${OPENSKULL_MEMORY_UI_PORT:-3303}:3003"
+    volumes:
+      - cephalon-hive-openskull-home:/cephalon
+    profiles:
+      - openskull
+      - all
+
+volumes:
+  cephalon-hive-mongodb-data:
+  cephalon-hive-openplanner-lake:
+  cephalon-hive-openplanner-chroma:
+  cephalon-hive-proxx-db-data:
+  cephalon-hive-proxx-data:
+  cephalon-hive-duck-home:
+  cephalon-hive-openhax-home:
+  cephalon-hive-openskull-home:
+
+networks:
+  ai-infra:
+    external: true
+    name: ai-infra

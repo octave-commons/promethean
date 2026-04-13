@@ -1,0 +1,41 @@
+{
+  "id": "proxx-api",
+  "title": "Proxx API",
+  "root": "orgs/open-hax/proxx/src",
+  "subsystems": [
+    {
+      "name": "lib",
+      "count": 90
+    },
+    {
+      "name": "routes",
+      "count": 44
+    },
+    {
+      "name": "(root)",
+      "count": 2
+    }
+  ],
+  "edges": [
+    {
+      "from": "(root)",
+      "to": "lib",
+      "count": 48
+    },
+    {
+      "from": "routes",
+      "to": "lib",
+      "count": 37
+    },
+    {
+      "from": "lib",
+      "to": "routes",
+      "count": 8
+    },
+    {
+      "from": "(root)",
+      "to": "routes",
+      "count": 1
+    }
+  ]
+}

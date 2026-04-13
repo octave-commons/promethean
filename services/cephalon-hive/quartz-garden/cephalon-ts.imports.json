@@ -1,0 +1,1192 @@
+{
+  "root": "packages/cephalon-ts/src",
+  "nodes": [
+    "app.ts",
+    "cephalon-hive.ts",
+    "chroma/client.ts",
+    "circuits.ts",
+    "cli.ts",
+    "config/bots.ts",
+    "config/defaults.ts",
+    "config/env.ts",
+    "config/policy.ts",
+    "context/assembler.ts",
+    "core/memory-factory.ts",
+    "core/memory-store.ts",
+    "core/minting.ts",
+    "core/mongodb-memory-store.ts",
+    "discord/api-client.ts",
+    "discord/integration.ts",
+    "embeddings/service.ts",
+    "hive-cli.ts",
+    "index.ts",
+    "inspect-discord.ts",
+    "irc/api-client.ts",
+    "irc/integration.ts",
+    "llm/index.ts",
+    "llm/message.ts",
+    "llm/ollama-request-queue.ts",
+    "llm/ollama.ts",
+    "llm/provider.ts",
+    "llm/tools/audio.ts",
+    "llm/tools/browser.ts",
+    "llm/tools/desktop.ts",
+    "llm/tools/executor.ts",
+    "llm/tools/registry.ts",
+    "llm/tools/tenor.ts",
+    "llm/tools/types.ts",
+    "llm/tools/vision.ts",
+    "llm/tools/web.ts",
+    "llm/turn-processor.ts",
+    "llm/zai-client.ts",
+    "llm/zai-provider.ts",
+    "main.ts",
+    "mind/channel-aco.ts",
+    "mind/eidolon-field.ts",
+    "mind/graph-weaver.ts",
+    "mind/output-dedupe.ts",
+    "mind/prompt-field.ts",
+    "mind/rss-poller.ts",
+    "mind/sentiment.ts",
+    "normalization/discord-message.ts",
+    "openplanner/client.ts",
+    "peer/runtime.ts",
+    "proactive/behavior.ts",
+    "proactive/meme-handler.ts",
+    "prompts/developer-prompts.ts",
+    "prompts/duck-persona.ts",
+    "prompts/entertainment-personas.ts",
+    "prompts/index.ts",
+    "prompts/system-prompts.ts",
+    "prompts/tool-definitions.ts",
+    "runtime/temporal.ts",
+    "server.ts",
+    "sessions/manager.ts",
+    "types/index.ts",
+    "types/sinon.d.ts",
+    "ui/dist/assets/index-90406556.js",
+    "ui/node_modules/.vite/deps/chunk-353Q4GP6.js",
+    "ui/node_modules/.vite/deps/chunk-4FRMBN7S.js",
+    "ui/node_modules/.vite/deps/react-dom.js",
+    "ui/node_modules/.vite/deps/react-dom_client.js",
+    "ui/node_modules/.vite/deps/react.js",
+    "ui/node_modules/.vite/deps/react_jsx-dev-runtime.js",
+    "ui/node_modules/.vite/deps/react_jsx-runtime.js",
+    "ui/server.ts",
+    "ui/src/App.tsx",
+    "ui/src/ContextPanel.tsx",
+    "ui/src/Header.tsx",
+    "ui/src/MemoryCard.tsx",
+    "ui/src/MemoryDetail.tsx",
+    "ui/src/MemoryList.tsx",
+    "ui/src/MemoryTable.tsx",
+    "ui/src/Pagination.tsx",
+    "ui/src/SearchBar.tsx",
+    "ui/src/SessionList.tsx",
+    "ui/src/ViewToggle.tsx",
+    "ui/src/api.ts",
+    "ui/src/main.tsx",
+    "ui/vite.config.ts",
+    "utils/error-handling.ts",
+    "utils/pdf.ts",
+    "utils/vector-math.ts",
+    "utils/web-content.ts"
+  ],
+  "edges": [
+    {
+      "from": "app.ts",
+      "to": "config/policy.ts",
+      "spec": "./config/policy.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "config/env.ts",
+      "spec": "./config/env.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "core/memory-store.ts",
+      "spec": "./core/memory-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "core/mongodb-memory-store.ts",
+      "spec": "./core/mongodb-memory-store.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "discord/integration.ts",
+      "spec": "./discord/integration.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "sessions/manager.ts",
+      "spec": "./sessions/manager.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "llm/index.ts",
+      "spec": "./llm/index.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "discord/api-client.ts",
+      "spec": "./discord/api-client.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "irc/api-client.ts",
+      "spec": "./irc/api-client.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "irc/integration.ts",
+      "spec": "./irc/integration.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "types/index.ts",
+      "spec": "./types/index.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "chroma/client.ts",
+      "spec": "./chroma/client.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "ui/server.ts",
+      "spec": "./ui/server.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "openplanner/client.ts",
+      "spec": "./openplanner/client.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "circuits.ts",
+      "spec": "./circuits.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "mind/graph-weaver.ts",
+      "spec": "./mind/graph-weaver.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "mind/rss-poller.ts",
+      "spec": "./mind/rss-poller.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "mind/eidolon-field.ts",
+      "spec": "./mind/eidolon-field.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "mind/prompt-field.ts",
+      "spec": "./mind/prompt-field.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "config/bots.ts",
+      "spec": "./config/bots.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "llm/tools/browser.ts",
+      "spec": "./llm/tools/browser.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "runtime/temporal.ts",
+      "spec": "./runtime/temporal.js"
+    },
+    {
+      "from": "cephalon-hive.ts",
+      "to": "app.ts",
+      "spec": "./app.js"
+    },
+    {
+      "from": "cephalon-hive.ts",
+      "to": "llm/zai-provider.ts",
+      "spec": "./llm/zai-provider.js"
+    },
+    {
+      "from": "cephalon-hive.ts",
+      "to": "config/policy.ts",
+      "spec": "./config/policy.js"
+    },
+    {
+      "from": "chroma/client.ts",
+      "to": "embeddings/service.ts",
+      "spec": "../embeddings/service.js"
+    },
+    {
+      "from": "chroma/client.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "chroma/client.ts",
+      "to": "config/defaults.ts",
+      "spec": "../config/defaults.js"
+    },
+    {
+      "from": "circuits.ts",
+      "to": "types/index.ts",
+      "spec": "./types/index.js"
+    },
+    {
+      "from": "cli.ts",
+      "to": "app.ts",
+      "spec": "./app.js"
+    },
+    {
+      "from": "cli.ts",
+      "to": "config/bots.ts",
+      "spec": "./config/bots.js"
+    },
+    {
+      "from": "config/bots.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "config/defaults.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "config/defaults.ts",
+      "to": "config/env.ts",
+      "spec": "./env.js"
+    },
+    {
+      "from": "config/policy.ts",
+      "to": "config/env.ts",
+      "spec": "./env.js"
+    },
+    {
+      "from": "config/policy.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "context/assembler.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "context/assembler.ts",
+      "to": "prompts/index.ts",
+      "spec": "../prompts/index.js"
+    },
+    {
+      "from": "context/assembler.ts",
+      "to": "config/env.ts",
+      "spec": "../config/env.js"
+    },
+    {
+      "from": "context/assembler.ts",
+      "to": "prompts/entertainment-personas.ts",
+      "spec": "../prompts/entertainment-personas.js"
+    },
+    {
+      "from": "context/assembler.ts",
+      "to": "core/memory-store.ts",
+      "spec": "../core/memory-store.js"
+    },
+    {
+      "from": "context/assembler.ts",
+      "to": "utils/vector-math.ts",
+      "spec": "../utils/vector-math.js"
+    },
+    {
+      "from": "core/memory-factory.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "core/memory-store.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "core/memory-store.ts",
+      "to": "chroma/client.ts",
+      "spec": "../chroma/client.js"
+    },
+    {
+      "from": "core/memory-store.ts",
+      "to": "openplanner/client.ts",
+      "spec": "../openplanner/client.js"
+    },
+    {
+      "from": "core/memory-store.ts",
+      "to": "utils/vector-math.ts",
+      "spec": "../utils/vector-math.js"
+    },
+    {
+      "from": "core/minting.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "core/minting.ts",
+      "to": "core/memory-store.ts",
+      "spec": "./memory-store.js"
+    },
+    {
+      "from": "core/minting.ts",
+      "to": "core/memory-factory.ts",
+      "spec": "./memory-factory.js"
+    },
+    {
+      "from": "core/mongodb-memory-store.ts",
+      "to": "utils/vector-math.ts",
+      "spec": "../utils/vector-math.js"
+    },
+    {
+      "from": "core/mongodb-memory-store.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "core/mongodb-memory-store.ts",
+      "to": "core/memory-store.ts",
+      "spec": "./memory-store.js"
+    },
+    {
+      "from": "core/mongodb-memory-store.ts",
+      "to": "openplanner/client.ts",
+      "spec": "../openplanner/client.js"
+    },
+    {
+      "from": "discord/integration.ts",
+      "to": "normalization/discord-message.ts",
+      "spec": "../normalization/discord-message.js"
+    },
+    {
+      "from": "discord/integration.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "embeddings/service.ts",
+      "to": "llm/ollama-request-queue.ts",
+      "spec": "../llm/ollama-request-queue.js"
+    },
+    {
+      "from": "embeddings/service.ts",
+      "to": "config/defaults.ts",
+      "spec": "../config/defaults.js"
+    },
+    {
+      "from": "hive-cli.ts",
+      "to": "cephalon-hive.ts",
+      "spec": "./cephalon-hive.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "app.ts",
+      "spec": "./app.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "config/policy.ts",
+      "spec": "./config/policy.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "config/bots.ts",
+      "spec": "./config/bots.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "chroma/client.ts",
+      "spec": "./chroma/client.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "embeddings/service.ts",
+      "spec": "./embeddings/service.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "core/memory-store.ts",
+      "spec": "./core/memory-store.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "core/mongodb-memory-store.ts",
+      "spec": "./core/mongodb-memory-store.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "discord/api-client.ts",
+      "spec": "./discord/api-client.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "discord/integration.ts",
+      "spec": "./discord/integration.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "llm/ollama.ts",
+      "spec": "./llm/ollama.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "sessions/manager.ts",
+      "spec": "./sessions/manager.js"
+    },
+    {
+      "from": "index.ts",
+      "to": "runtime/temporal.ts",
+      "spec": "./runtime/temporal.js"
+    },
+    {
+      "from": "inspect-discord.ts",
+      "to": "discord/api-client.ts",
+      "spec": "./discord/api-client.js"
+    },
+    {
+      "from": "inspect-discord.ts",
+      "to": "config/bots.ts",
+      "spec": "./config/bots.js"
+    },
+    {
+      "from": "inspect-discord.ts",
+      "to": "config/policy.ts",
+      "spec": "./config/policy.js"
+    },
+    {
+      "from": "irc/integration.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "irc/integration.ts",
+      "to": "irc/api-client.ts",
+      "spec": "./api-client.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/message.ts",
+      "spec": "./message.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/provider.ts",
+      "spec": "./provider.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/zai-provider.ts",
+      "spec": "./zai-provider.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/zai-client.ts",
+      "spec": "./zai-client.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/turn-processor.ts",
+      "spec": "./turn-processor.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./tools/types.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/tools/executor.ts",
+      "spec": "./tools/executor.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/tools/registry.ts",
+      "spec": "./tools/registry.js"
+    },
+    {
+      "from": "llm/index.ts",
+      "to": "llm/ollama-request-queue.ts",
+      "spec": "./ollama-request-queue.js"
+    },
+    {
+      "from": "llm/message.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "llm/ollama.ts",
+      "to": "llm/message.ts",
+      "spec": "./message.js"
+    },
+    {
+      "from": "llm/ollama.ts",
+      "to": "llm/provider.ts",
+      "spec": "./provider.js"
+    },
+    {
+      "from": "llm/ollama.ts",
+      "to": "llm/turn-processor.ts",
+      "spec": "./turn-processor.js"
+    },
+    {
+      "from": "llm/ollama.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./tools/types.js"
+    },
+    {
+      "from": "llm/ollama.ts",
+      "to": "llm/tools/executor.ts",
+      "spec": "./tools/executor.js"
+    },
+    {
+      "from": "llm/ollama.ts",
+      "to": "llm/tools/registry.ts",
+      "spec": "./tools/registry.js"
+    },
+    {
+      "from": "llm/ollama.ts",
+      "to": "llm/ollama-request-queue.ts",
+      "spec": "./ollama-request-queue.js"
+    },
+    {
+      "from": "llm/provider.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "llm/provider.ts",
+      "to": "prompts/index.ts",
+      "spec": "../prompts/index.js"
+    },
+    {
+      "from": "llm/provider.ts",
+      "to": "llm/message.ts",
+      "spec": "./message.js"
+    },
+    {
+      "from": "llm/provider.ts",
+      "to": "llm/ollama-request-queue.ts",
+      "spec": "./ollama-request-queue.js"
+    },
+    {
+      "from": "llm/provider.ts",
+      "to": "config/defaults.ts",
+      "spec": "../config/defaults.js"
+    },
+    {
+      "from": "llm/tools/audio.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/tools/browser.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/tools/browser.ts",
+      "to": "llm/zai-client.ts",
+      "spec": "../zai-client.js"
+    },
+    {
+      "from": "llm/tools/desktop.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "types/index.ts",
+      "spec": "../../types/index.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "prompts/index.ts",
+      "spec": "../../prompts/index.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "llm/tools/registry.ts",
+      "spec": "./registry.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "mind/channel-aco.ts",
+      "spec": "../../mind/channel-aco.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "chroma/client.ts",
+      "spec": "../../chroma/client.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "openplanner/client.ts",
+      "spec": "../../openplanner/client.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "core/memory-store.ts",
+      "spec": "../../core/memory-store.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "discord/api-client.ts",
+      "spec": "../../discord/api-client.js"
+    },
+    {
+      "from": "llm/tools/executor.ts",
+      "to": "irc/api-client.ts",
+      "spec": "../../irc/api-client.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "prompts/index.ts",
+      "spec": "../../prompts/index.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "prompts/entertainment-personas.ts",
+      "spec": "../../prompts/entertainment-personas.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "types/index.ts",
+      "spec": "../../types/index.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "llm/tools/browser.ts",
+      "spec": "./browser.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "llm/tools/tenor.ts",
+      "spec": "./tenor.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "llm/zai-client.ts",
+      "spec": "../zai-client.js"
+    },
+    {
+      "from": "llm/tools/registry.ts",
+      "to": "peer/runtime.ts",
+      "spec": "../../peer/runtime.js"
+    },
+    {
+      "from": "llm/tools/tenor.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/tools/tenor.ts",
+      "to": "config/env.ts",
+      "spec": "../../config/env.js"
+    },
+    {
+      "from": "llm/tools/tenor.ts",
+      "to": "peer/runtime.ts",
+      "spec": "../../peer/runtime.js"
+    },
+    {
+      "from": "llm/tools/types.ts",
+      "to": "types/index.ts",
+      "spec": "../../types/index.js"
+    },
+    {
+      "from": "llm/tools/types.ts",
+      "to": "prompts/index.ts",
+      "spec": "../../prompts/index.js"
+    },
+    {
+      "from": "llm/tools/types.ts",
+      "to": "discord/api-client.ts",
+      "spec": "../../discord/api-client.js"
+    },
+    {
+      "from": "llm/tools/types.ts",
+      "to": "irc/api-client.ts",
+      "spec": "../../irc/api-client.js"
+    },
+    {
+      "from": "llm/tools/types.ts",
+      "to": "chroma/client.ts",
+      "spec": "../../chroma/client.js"
+    },
+    {
+      "from": "llm/tools/types.ts",
+      "to": "openplanner/client.ts",
+      "spec": "../../openplanner/client.js"
+    },
+    {
+      "from": "llm/tools/types.ts",
+      "to": "core/memory-store.ts",
+      "spec": "../../core/memory-store.js"
+    },
+    {
+      "from": "llm/tools/vision.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/tools/web.ts",
+      "to": "llm/tools/types.ts",
+      "spec": "./types.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "llm/provider.ts",
+      "spec": "./provider.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "llm/zai-provider.ts",
+      "spec": "./zai-provider.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "llm/tools/executor.ts",
+      "spec": "./tools/executor.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "core/memory-store.ts",
+      "spec": "../core/memory-store.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "discord/api-client.ts",
+      "spec": "../discord/api-client.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "mind/output-dedupe.ts",
+      "spec": "../mind/output-dedupe.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "context/assembler.ts",
+      "spec": "../context/assembler.js"
+    },
+    {
+      "from": "llm/turn-processor.ts",
+      "to": "core/minting.ts",
+      "spec": "../core/minting.js"
+    },
+    {
+      "from": "llm/zai-provider.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "llm/zai-provider.ts",
+      "to": "prompts/index.ts",
+      "spec": "../prompts/index.js"
+    },
+    {
+      "from": "llm/zai-provider.ts",
+      "to": "llm/provider.ts",
+      "spec": "./provider.js"
+    },
+    {
+      "from": "llm/zai-provider.ts",
+      "to": "llm/message.ts",
+      "spec": "./message.js"
+    },
+    {
+      "from": "llm/zai-provider.ts",
+      "to": "llm/zai-client.ts",
+      "spec": "./zai-client.js"
+    },
+    {
+      "from": "llm/zai-provider.ts",
+      "to": "config/env.ts",
+      "spec": "../config/env.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "config/policy.ts",
+      "spec": "./config/policy.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "core/memory-store.ts",
+      "spec": "./core/memory-store.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "discord/integration.ts",
+      "spec": "./discord/integration.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "sessions/manager.ts",
+      "spec": "./sessions/manager.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "llm/index.ts",
+      "spec": "./llm/index.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "discord/api-client.ts",
+      "spec": "./discord/api-client.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "types/index.ts",
+      "spec": "./types/index.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "ui/server.ts",
+      "spec": "./ui/server.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "openplanner/client.ts",
+      "spec": "./openplanner/client.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "config/bots.ts",
+      "spec": "./config/bots.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "circuits.ts",
+      "spec": "./circuits.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "runtime/temporal.ts",
+      "spec": "./runtime/temporal.js"
+    },
+    {
+      "from": "mind/channel-aco.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "mind/channel-aco.ts",
+      "to": "mind/sentiment.ts",
+      "spec": "./sentiment.js"
+    },
+    {
+      "from": "mind/eidolon-field.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "mind/graph-weaver.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "mind/output-dedupe.ts",
+      "to": "normalization/discord-message.ts",
+      "spec": "../normalization/discord-message.js"
+    },
+    {
+      "from": "mind/prompt-field.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "mind/rss-poller.ts",
+      "to": "mind/graph-weaver.ts",
+      "spec": "./graph-weaver.js"
+    },
+    {
+      "from": "normalization/discord-message.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "openplanner/client.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "peer/runtime.ts",
+      "to": "config/bots.ts",
+      "spec": "../config/bots.js"
+    },
+    {
+      "from": "proactive/behavior.ts",
+      "to": "sessions/manager.ts",
+      "spec": "../sessions/manager.js"
+    },
+    {
+      "from": "proactive/behavior.ts",
+      "to": "llm/ollama.ts",
+      "spec": "../llm/ollama.js"
+    },
+    {
+      "from": "proactive/behavior.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "proactive/behavior.ts",
+      "to": "config/defaults.ts",
+      "spec": "../config/defaults.js"
+    },
+    {
+      "from": "proactive/meme-handler.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "proactive/meme-handler.ts",
+      "to": "discord/api-client.ts",
+      "spec": "../discord/api-client.js"
+    },
+    {
+      "from": "prompts/entertainment-personas.ts",
+      "to": "config/env.ts",
+      "spec": "../config/env.js"
+    },
+    {
+      "from": "prompts/entertainment-personas.ts",
+      "to": "peer/runtime.ts",
+      "spec": "../peer/runtime.js"
+    },
+    {
+      "from": "prompts/entertainment-personas.ts",
+      "to": "prompts/duck-persona.ts",
+      "spec": "./duck-persona.js"
+    },
+    {
+      "from": "prompts/index.ts",
+      "to": "prompts/system-prompts.ts",
+      "spec": "./system-prompts.js"
+    },
+    {
+      "from": "prompts/index.ts",
+      "to": "prompts/developer-prompts.ts",
+      "spec": "./developer-prompts.js"
+    },
+    {
+      "from": "prompts/index.ts",
+      "to": "prompts/tool-definitions.ts",
+      "spec": "./tool-definitions.js"
+    },
+    {
+      "from": "prompts/index.ts",
+      "to": "prompts/duck-persona.ts",
+      "spec": "./duck-persona.js"
+    },
+    {
+      "from": "prompts/system-prompts.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "runtime/temporal.ts",
+      "to": "circuits.ts",
+      "spec": "../circuits.js"
+    },
+    {
+      "from": "runtime/temporal.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "server.ts",
+      "to": "config/bots.ts",
+      "spec": "./config/bots.js"
+    },
+    {
+      "from": "sessions/manager.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "sessions/manager.ts",
+      "to": "config/defaults.ts",
+      "spec": "../config/defaults.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/chunk-353Q4GP6.js",
+      "to": "ui/node_modules/.vite/deps/chunk-4FRMBN7S.js",
+      "spec": "./chunk-4FRMBN7S.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/react-dom.js",
+      "to": "ui/node_modules/.vite/deps/chunk-353Q4GP6.js",
+      "spec": "./chunk-353Q4GP6.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/react-dom.js",
+      "to": "ui/node_modules/.vite/deps/chunk-4FRMBN7S.js",
+      "spec": "./chunk-4FRMBN7S.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/react-dom_client.js",
+      "to": "ui/node_modules/.vite/deps/chunk-353Q4GP6.js",
+      "spec": "./chunk-353Q4GP6.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/react-dom_client.js",
+      "to": "ui/node_modules/.vite/deps/chunk-4FRMBN7S.js",
+      "spec": "./chunk-4FRMBN7S.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/react.js",
+      "to": "ui/node_modules/.vite/deps/chunk-4FRMBN7S.js",
+      "spec": "./chunk-4FRMBN7S.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/react_jsx-dev-runtime.js",
+      "to": "ui/node_modules/.vite/deps/chunk-4FRMBN7S.js",
+      "spec": "./chunk-4FRMBN7S.js"
+    },
+    {
+      "from": "ui/node_modules/.vite/deps/react_jsx-runtime.js",
+      "to": "ui/node_modules/.vite/deps/chunk-4FRMBN7S.js",
+      "spec": "./chunk-4FRMBN7S.js"
+    },
+    {
+      "from": "ui/server.ts",
+      "to": "chroma/client.ts",
+      "spec": "../chroma/client.js"
+    },
+    {
+      "from": "ui/server.ts",
+      "to": "core/memory-store.ts",
+      "spec": "../core/memory-store.js"
+    },
+    {
+      "from": "ui/server.ts",
+      "to": "types/index.ts",
+      "spec": "../types/index.js"
+    },
+    {
+      "from": "ui/server.ts",
+      "to": "openplanner/client.ts",
+      "spec": "../openplanner/client.js"
+    },
+    {
+      "from": "ui/server.ts",
+      "to": "peer/runtime.ts",
+      "spec": "../peer/runtime.js"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/Header.tsx",
+      "spec": "./Header"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/MemoryList.tsx",
+      "spec": "./MemoryList"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/MemoryTable.tsx",
+      "spec": "./MemoryTable"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/MemoryDetail.tsx",
+      "spec": "./MemoryDetail"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/ContextPanel.tsx",
+      "spec": "./ContextPanel"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/SessionList.tsx",
+      "spec": "./SessionList"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/SearchBar.tsx",
+      "spec": "./SearchBar"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/ViewToggle.tsx",
+      "spec": "./ViewToggle"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/Pagination.tsx",
+      "spec": "./Pagination"
+    },
+    {
+      "from": "ui/src/App.tsx",
+      "to": "ui/src/api.ts",
+      "spec": "./api"
+    },
+    {
+      "from": "ui/src/ContextPanel.tsx",
+      "to": "ui/src/api.ts",
+      "spec": "./api"
+    },
+    {
+      "from": "ui/src/MemoryCard.tsx",
+      "to": "ui/src/api.ts",
+      "spec": "./api"
+    },
+    {
+      "from": "ui/src/MemoryDetail.tsx",
+      "to": "ui/src/api.ts",
+      "spec": "./api"
+    },
+    {
+      "from": "ui/src/MemoryList.tsx",
+      "to": "ui/src/MemoryCard.tsx",
+      "spec": "./MemoryCard"
+    },
+    {
+      "from": "ui/src/MemoryList.tsx",
+      "to": "ui/src/api.ts",
+      "spec": "./api"
+    },
+    {
+      "from": "ui/src/MemoryTable.tsx",
+      "to": "ui/src/api.ts",
+      "spec": "./api"
+    },
+    {
+      "from": "ui/src/SessionList.tsx",
+      "to": "ui/src/api.ts",
+      "spec": "./api"
+    },
+    {
+      "from": "ui/src/main.tsx",
+      "to": "ui/src/App.tsx",
+      "spec": "./App"
+    }
+  ]
+}

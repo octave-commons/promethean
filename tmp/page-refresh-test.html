@@ -1,0 +1,523 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Page Refresh Test - State Persistence</title>
+  <style>
+    * {
+      box-sizing: border-box;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, Oxygen, Ubuntu, sans-serif;
+      max-width: 800px;
+      margin: 0 auto;
+      padding: 20px;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    h1 {
+      color: #4ecca3;
+    }
+    .test-section {
+      background: #16213e;
+      border-radius: 8px;
+      padding: 20px;
+      margin: 20px 0;
+    }
+    .test-section h2 {
+      margin-top: 0;
+      color: #4ecca3;
+      font-size: 1.2em;
+    }
+    .status {
+      display: inline-block;
+      padding: 4px 12px;
+      border-radius: 4px;
+      font-weight: bold;
+      font-size: 0.9em;
+    }
+    .status.pass {
+      background: #2e7d32;
+      color: white;
+    }
+    .status.fail {
+      background: #c62828;
+      color: white;
+    }
+    .status.pending {
+      background: #f57c00;
+      color: white;
+    }
+    button {
+      background: #4ecca3;
+      color: #1a1a2e;
+      border: none;
+      padding: 10px 20px;
+      border-radius: 4px;
+      cursor: pointer;
+      font-weight: bold;
+      margin: 5px;
+    }
+    button:hover {
+      background: #3db892;
+    }
+    input, textarea {
+      width: 100%;
+      padding: 10px;
+      margin: 10px 0;
+      border-radius: 4px;
+      border: 1px solid #4ecca3;
+      background: #1a1a2e;
+      color: #eee;
+    }
+    .counter {
+      font-size: 2em;
+      font-weight: bold;
+      color: #4ecca3;
+    }
+    .result {
+      margin-top: 10px;
+      padding: 10px;
+      border-radius: 4px;
+      background: rgba(78, 204, 163, 0.1);
+    }
+    pre {
+      background: #0f0f23;
+      padding: 15px;
+      border-radius: 4px;
+      overflow-x: auto;
+    }
+    #run-all-results {
+      margin-top: 20px;
+    }
+  </style>
+</head>
+<body>
+  <h1>🔄 Page Refresh Test Suite</h1>
+  <p>Tests to verify state persistence across page refreshes</p>
+  
+  <div>
+    <button onclick="runAllTests()">▶️ Run All Tests</button>
+    <button onclick="location.reload()">🔄 Refresh Page</button>
+    <button onclick="clearAllStorage()">🗑️ Clear All Storage</button>
+  </div>
+  
+  <div id="run-all-results"></div>
+
+  <!-- Test 1: localStorage -->
+  <div class="test-section">
+    <h2>Test 1: localStorage Persistence</h2>
+    <p><span class="status pending" id="test1-status">PENDING</span></p>
+    <p>Tests if data stored in localStorage survives page refresh.</p>
+    <input type="text" id="test1-input" placeholder="Enter test value">
+    <button onclick="saveToLocalStorage()">Save to localStorage</button>
+    <div class="result" id="test1-result"></div>
+  </div>
+
+  <!-- Test 2: sessionStorage -->
+  <div class="test-section">
+    <h2>Test 2: sessionStorage Persistence</h2>
+    <p><span class="status pending" id="test2-status">PENDING</span></p>
+    <p>Tests if data stored in sessionStorage survives page refresh (should NOT persist in new tab, but DOES persist on refresh).</p>
+    <input type="text" id="test2-input" placeholder="Enter test value">
+    <button onclick="saveToSessionStorage()">Save to sessionStorage</button>
+    <div class="result" id="test2-result"></div>
+  </div>
+
+  <!-- Test 3: IndexedDB -->
+  <div class="test-section">
+    <h2>Test 3: IndexedDB Persistence</h2>
+    <p><span class="status pending" id="test3-status">PENDING</span></p>
+    <p>Tests if data stored in IndexedDB survives page refresh.</p>
+    <textarea id="test3-input" placeholder="Enter large text or JSON" rows="3"></textarea>
+    <button onclick="saveToIndexedDB()">Save to IndexedDB</button>
+    <button onclick="loadFromIndexedDB()">Load from IndexedDB</button>
+    <div class="result" id="test3-result"></div>
+  </div>
+
+  <!-- Test 4: URL Parameters -->
+  <div class="test-section">
+    <h2>Test 4: URL Parameter Persistence</h2>
+    <p><span class="status pending" id="test4-status">PENDING</span></p>
+    <p>Tests if URL parameters survive page refresh.</p>
+    <input type="text" id="test4-input" placeholder="Enter value for URL param">
+    <button onclick="setUrlParam()">Set URL Parameter</button>
+    <div class="result" id="test4-result"></div>
+  </div>
+
+  <!-- Test 5: Cookie -->
+  <div class="test-section">
+    <h2>Test 5: Cookie Persistence</h2>
+    <p><span class="status pending" id="test5-status">PENDING</span></p>
+    <p>Tests if cookies survive page refresh.</p>
+    <input type="text" id="test5-input" placeholder="Enter cookie value">
+    <button onclick="setCookie()">Set Cookie</button>
+    <div class="result" id="test5-result"></div>
+  </div>
+
+  <!-- Test 6: Counter State -->
+  <div class="test-section">
+    <h2>Test 6: Counter State (Increment Test)</h2>
+    <p><span class="status pending" id="test6-status">PENDING</span></p>
+    <p>Increment this counter and refresh to verify persistence.</p>
+    <div class="counter" id="counter">0</div>
+    <button onclick="incrementCounter()">+ Increment</button>
+    <button onclick="decrementCounter()">- Decrement</button>
+    <button onclick="resetCounter()">Reset</button>
+    <div class="result" id="test6-result"></div>
+  </div>
+
+  <!-- Test 7: Form State -->
+  <div class="test-section">
+    <h2>Test 7: Form State Auto-save</h2>
+    <p><span class="status pending" id="test7-status">PENDING</span></p>
+    <p>Type in the form below. Changes auto-save to localStorage every second.</p>
+    <form id="test7-form">
+      <input type="text" name="username" placeholder="Username">
+      <input type="email" name="email" placeholder="Email">
+      <textarea name="bio" placeholder="Bio"></textarea>
+    </form>
+    <div class="result" id="test7-result">Auto-save status: <span id="autosave-status">Idle</span></div>
+  </div>
+
+  <script>
+    // Utility functions
+    function setStatus(testNum, status, message) {
+      const statusEl = document.getElementById(`test${testNum}-status`);
+      const resultEl = document.getElementById(`test${testNum}-result`);
+      
+      statusEl.textContent = status.toUpperCase();
+      statusEl.className = `status ${status.toLowerCase()}`;
+      resultEl.textContent = message;
+    }
+
+    function clearAllStorage() {
+      localStorage.clear();
+      sessionStorage.clear();
+      document.cookie.split(";").forEach(c => {
+        document.cookie = c.replace(/^ +/, "").replace(/=.*/, "=;expires=" + new Date().toUTCString() + ";path=/");
+      });
+      
+      // Clear IndexedDB
+      const req = indexedDB.deleteDatabase('PageRefreshTestDB');
+      req.onsuccess = () => {
+        alert('All storage cleared! Refresh page to see clean state.');
+        location.reload();
+      };
+    }
+
+    // Test 1: localStorage
+    function saveToLocalStorage() {
+      const value = document.getElementById('test1-input').value;
+      if (!value) {
+        setStatus(1, 'fail', 'Please enter a value first');
+        return;
+      }
+      localStorage.setItem('test1_value', value);
+      localStorage.setItem('test1_timestamp', new Date().toISOString());
+      setStatus(1, 'pass', `Saved "${value}" at ${new Date().toLocaleTimeString()}. Refresh page to verify persistence.`);
+    }
+
+    function checkLocalStorage() {
+      const value = localStorage.getItem('test1_value');
+      const timestamp = localStorage.getItem('test1_timestamp');
+      if (value) {
+        document.getElementById('test1-input').value = value;
+        setStatus(1, 'pass', `✓ Persisted "${value}" (saved at ${new Date(timestamp).toLocaleTimeString()})`);
+        return true;
+      }
+      return false;
+    }
+
+    // Test 2: sessionStorage
+    function saveToSessionStorage() {
+      const value = document.getElementById('test2-input').value;
+      if (!value) {
+        setStatus(2, 'fail', 'Please enter a value first');
+        return;
+      }
+      sessionStorage.setItem('test2_value', value);
+      sessionStorage.setItem('test2_timestamp', new Date().toISOString());
+      setStatus(2, 'pass', `Saved "${value}" at ${new Date().toLocaleTimeString()}. Refresh page to verify persistence.`);
+    }
+
+    function checkSessionStorage() {
+      const value = sessionStorage.getItem('test2_value');
+      const timestamp = sessionStorage.getItem('test2_timestamp');
+      if (value) {
+        document.getElementById('test2-input').value = value;
+        setStatus(2, 'pass', `✓ Persisted "${value}" (saved at ${new Date(timestamp).toLocaleTimeString()})`);
+        return true;
+      }
+      return false;
+    }
+
+    // Test 3: IndexedDB
+    let db;
+    
+    function initIndexedDB() {
+      return new Promise((resolve, reject) => {
+        const request = indexedDB.open('PageRefreshTestDB', 1);
+        
+        request.onerror = () => reject(request.error);
+        request.onsuccess = () => {
+          db = request.result;
+          resolve(db);
+        };
+        
+        request.onupgradeneeded = (event) => {
+          const database = event.target.result;
+          if (!database.objectStoreNames.contains('testData')) {
+            database.createObjectStore('testData', { keyPath: 'id' });
+          }
+        };
+      });
+    }
+
+    async function saveToIndexedDB() {
+      const value = document.getElementById('test3-input').value;
+      if (!value) {
+        setStatus(3, 'fail', 'Please enter a value first');
+        return;
+      }
+      
+      try {
+        if (!db) await initIndexedDB();
+        const tx = db.transaction(['testData'], 'readwrite');
+        const store = tx.objectStore('testData');
+        store.put({
+          id: 'test3_value',
+          data: value,
+          timestamp: new Date().toISOString()
+        });
+        
+        setStatus(3, 'pass', `Saved to IndexedDB at ${new Date().toLocaleTimeString()}. Refresh page to verify persistence.`);
+      } catch (error) {
+        setStatus(3, 'fail', `Error: ${error.message}`);
+      }
+    }
+
+    async function loadFromIndexedDB() {
+      try {
+        if (!db) await initIndexedDB();
+        const tx = db.transaction(['testData'], 'readonly');
+        const store = tx.objectStore('testData');
+        const request = store.get('test3_value');
+        
+        request.onsuccess = () => {
+          if (request.result) {
+            document.getElementById('test3-input').value = request.result.data;
+            setStatus(3, 'pass', `Loaded "${request.result.data}" (saved at ${new Date(request.result.timestamp).toLocaleTimeString()})`);
+          } else {
+            setStatus(3, 'pending', 'No data found in IndexedDB');
+          }
+        };
+      } catch (error) {
+        setStatus(3, 'fail', `Error: ${error.message}`);
+      }
+    }
+
+    async function checkIndexedDB() {
+      try {
+        if (!db) await initIndexedDB();
+        const tx = db.transaction(['testData'], 'readonly');
+        const store = tx.objectStore('testData');
+        const request = store.get('test3_value');
+        
+        return new Promise((resolve) => {
+          request.onsuccess = () => {
+            if (request.result) {
+              document.getElementById('test3-input').value = request.result.data;
+              setStatus(3, 'pass', `✓ Persisted "${request.result.data}" (saved at ${new Date(request.result.timestamp).toLocaleTimeString()})`);
+              resolve(true);
+            } else {
+              resolve(false);
+            }
+          };
+          request.onerror = () => resolve(false);
+        });
+      } catch (error) {
+        return false;
+      }
+    }
+
+    // Test 4: URL Parameters
+    function setUrlParam() {
+      const value = document.getElementById('test4-input').value;
+      if (!value) {
+        setStatus(4, 'fail', 'Please enter a value first');
+        return;
+      }
+      const url = new URL(window.location);
+      url.searchParams.set('test4_value', value);
+      url.searchParams.set('test4_timestamp', new Date().toISOString());
+      window.history.pushState({}, '', url);
+      setStatus(4, 'pass', `URL updated. Refresh page to verify persistence.`);
+    }
+
+    function checkUrlParams() {
+      const params = new URLSearchParams(window.location.search);
+      const value = params.get('test4_value');
+      const timestamp = params.get('test4_timestamp');
+      if (value) {
+        document.getElementById('test4-input').value = value;
+        setStatus(4, 'pass', `✓ Persisted "${value}" (saved at ${new Date(timestamp).toLocaleTimeString()})`);
+        return true;
+      }
+      return false;
+    }
+
+    // Test 5: Cookies
+    function setCookie() {
+      const value = document.getElementById('test5-input').value;
+      if (!value) {
+        setStatus(5, 'fail', 'Please enter a value first');
+        return;
+      }
+      const timestamp = new Date().toISOString();
+      document.cookie = `test5_value=${encodeURIComponent(value)};max-age=86400;path=/`;
+      document.cookie = `test5_timestamp=${encodeURIComponent(timestamp)};max-age=86400;path=/`;
+      setStatus(5, 'pass', `Cookie set at ${new Date().toLocaleTimeString()}. Refresh page to verify persistence.`);
+    }
+
+    function getCookie(name) {
+      const cookies = document.cookie.split(';');
+      for (let cookie of cookies) {
+        const [key, value] = cookie.trim().split('=');
+        if (key === name) return decodeURIComponent(value);
+      }
+      return null;
+    }
+
+    function checkCookies() {
+      const value = getCookie('test5_value');
+      const timestamp = getCookie('test5_timestamp');
+      if (value) {
+        document.getElementById('test5-input').value = value;
+        setStatus(5, 'pass', `✓ Persisted "${value}" (saved at ${new Date(timestamp).toLocaleTimeString()})`);
+        return true;
+      }
+      return false;
+    }
+
+    // Test 6: Counter
+    function getCounter() {
+      return parseInt(localStorage.getItem('test6_counter') || '0', 10);
+    }
+
+    function updateCounterDisplay() {
+      document.getElementById('counter').textContent = getCounter();
+    }
+
+    function incrementCounter() {
+      const count = getCounter() + 1;
+      localStorage.setItem('test6_counter', count.toString());
+      updateCounterDisplay();
+      checkCounter();
+    }
+
+    function decrementCounter() {
+      const count = getCounter() - 1;
+      localStorage.setItem('test6_counter', count.toString());
+      updateCounterDisplay();
+      checkCounter();
+    }
+
+    function resetCounter() {
+      localStorage.removeItem('test6_counter');
+      updateCounterDisplay();
+      setStatus(6, 'pending', 'Counter reset. Increment and refresh to test.');
+    }
+
+    function checkCounter() {
+      const count = getCounter();
+      if (count !== 0) {
+        setStatus(6, 'pass', `✓ Counter persisted: ${count} (increment and refresh to test)`);
+        return true;
+      }
+      return false;
+    }
+
+    // Test 7: Form Auto-save
+    let autosaveInterval;
+
+    function startAutosave() {
+      const form = document.getElementById('test7-form');
+      const statusEl = document.getElementById('autosave-status');
+      
+      // Load saved data
+      const saved = localStorage.getItem('test7_form');
+      if (saved) {
+        const data = JSON.parse(saved);
+        Object.keys(data).forEach(key => {
+          const input = form.elements[key];
+          if (input) input.value = data[key];
+        });
+        setStatus(7, 'pass', '✓ Form data restored from previous session');
+      }
+      
+      // Auto-save every second when form changes
+      autosaveInterval = setInterval(() => {
+        const formData = {};
+        Array.from(form.elements).forEach(el => {
+          if (el.name) formData[el.name] = el.value;
+        });
+        localStorage.setItem('test7_form', JSON.stringify(formData));
+        statusEl.textContent = `Saved at ${new Date().toLocaleTimeString()}`;
+      }, 1000);
+      
+      form.addEventListener('input', () => {
+        statusEl.textContent = 'Typing...';
+      });
+    }
+
+    function checkFormState() {
+      const saved = localStorage.getItem('test7_form');
+      return !!saved;
+    }
+
+    // Run all tests
+    async function runAllTests() {
+      const results = [];
+      const resultsEl = document.getElementById('run-all-results');
+      
+      resultsEl.innerHTML = '<h3>Running all tests...</h3>';
+      
+      // Run checks
+      results.push({ test: 'localStorage', pass: checkLocalStorage() });
+      results.push({ test: 'sessionStorage', pass: checkSessionStorage() });
+      results.push({ test: 'IndexedDB', pass: await checkIndexedDB() });
+      results.push({ test: 'URL Parameters', pass: checkUrlParams() });
+      results.push({ test: 'Cookies', pass: checkCookies() });
+      results.push({ test: 'Counter', pass: checkCounter() });
+      results.push({ test: 'Form State', pass: checkFormState() });
+      
+      // Display results
+      const passCount = results.filter(r => r.pass).length;
+      const html = `
+        <h3>Test Results: ${passCount}/${results.length} passed</h3>
+        <pre>${results.map(r => 
+          `${r.pass ? '✓' : '✗'} ${r.test}: ${r.pass ? 'PASS' : 'NO DATA'}`
+        ).join('\n')}</pre>
+        <p>${passCount === results.length ? 
+          '✅ All tests passed! Data persists across refresh.' : 
+          'ℹ️ Some tests have no data yet. Enter values and refresh to test.'}</p>
+      `;
+      resultsEl.innerHTML = html;
+    }
+
+    // Initialize on page load
+    async function init() {
+      await initIndexedDB();
+      updateCounterDisplay();
+      startAutosave();
+      
+      // Run automatic checks
+      setTimeout(runAllTests, 100);
+    }
+
+    init();
+  </script>
+</body>
+</html>

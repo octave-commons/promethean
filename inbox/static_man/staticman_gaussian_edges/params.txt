@@ -1,0 +1,6 @@
+Otsu_T=70.00
+Canny_lower=22
+Canny_upper=45
+DoG_sigmas=(1.2,5.0)
+contrast_push_k=110
+edge_mask_gamma=0.75

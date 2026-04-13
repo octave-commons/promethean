@@ -1,0 +1,37 @@
+{
+  "generatedAt": "2026-04-04T06:19:51.403504+00:00",
+  "tooloxxRoot": "/home/err/devel/orgs/open-hax/tooloxx",
+  "scope": "MCP server documentation only",
+  "sources": {
+    "develRoot": "/home/err/devel",
+    "prometheanRoot": "/home/err/devel/orgs/octave-commons/promethean"
+  },
+  "excludedDirs": [
+    ".cpcache",
+    ".git",
+    ".next",
+    ".nx",
+    ".pytest_cache",
+    ".scannerwork",
+    ".serena",
+    ".shadow-cljs",
+    ".\u03a0",
+    ".\u03b7\u03bc",
+    "__pycache__",
+    "coverage",
+    "dist",
+    "node_modules"
+  ],
+  "imports": {
+    "devel-root": {
+      "destination": "docs/imports/devel-root",
+      "files": 8,
+      "selectionRule": "doc files in devel root surfaces whose paths explicitly target MCP/tooloxx/radar-stack MCP surfaces"
+    },
+    "promethean": {
+      "destination": "docs/imports/promethean",
+      "files": 32,
+      "selectionRule": "doc files in Promethean docs/spec/services paths explicitly tied to MCP services, MCP package docs, or MCP security/config docs"
+    }
+  }
+}

@@ -1,0 +1,37 @@
+{
+  "peers": [
+    {
+      "id": "canonical-proxx-local",
+      "ownerSubject": "did:web:proxx.promethean.rest:brethren",
+      "label": "Canonical proxx-local",
+      "baseUrl": "http://proxx:8789",
+      "controlBaseUrl": "http://proxx:8789",
+      "authMode": "at_did",
+      "auth": {
+        "credential": "e6UuPuoU7mLqakSE-9CYuHFazwDwT-iQqPlwMLGw1TE44bO3QuhSAVqpHgAJ8iPA"
+      },
+      "status": "active",
+      "capabilities": {
+        "accounts": true,
+        "usage": true,
+        "audit": true
+      },
+      "createdAt": "2026-03-26T02:07:49.680Z",
+      "updatedAt": "2026-03-26T02:09:44.470Z"
+    },
+    {
+      "id": "c2aa348d-13ff-4e13-80a5-ba7d5ef24ed3",
+      "ownerSubject": "legacy_admin_key:25bf8e1a2393f1108d37029b3df55932",
+      "label": "local",
+      "baseUrl": "http://proxx-local-proxx-1:8789",
+      "authMode": "admin_key",
+      "auth": {
+        "credential": "local"
+      },
+      "status": "active",
+      "capabilities": {},
+      "createdAt": "2026-03-25T23:49:29.016Z",
+      "updatedAt": "2026-03-25T23:49:29.016Z"
+    }
+  ]
+}

@@ -1,0 +1,27 @@
+services:
+  open-hax-openai-proxy-ssl:
+    image: caddy:2.8-alpine
+    depends_on:
+      open-hax-openai-proxy:
+        condition: service_healthy
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - open-hax-openai-proxy-caddy-data:/data
+      - open-hax-openai-proxy-caddy-config:/config
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    networks:
+      ai-infra: {}
+
+volumes:
+  open-hax-openai-proxy-caddy-data:
+  open-hax-openai-proxy-caddy-config:
+
+networks:
+  ai-infra:
+    external: true
+    name: ai-infra

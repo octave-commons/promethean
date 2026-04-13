@@ -1,0 +1,38 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openplanner
+resources:
+  - ../../base
+  - mongodb-configmap.yaml
+  - mongot-configmap.yaml
+  - mongodb-service.yaml
+  - mongot-service.yaml
+  - mongodb-statefulset.yaml
+  - mongot-data-pvc.yaml
+  - mongot-deployment.yaml
+  - mongo-init-job.yaml
+  - host-proxx-service.yaml
+  - host-proxx-endpointslice.generated.yaml
+  - ingress.yaml
+patches:
+  - path: openplanner-config-mongodb-patch.yaml
+  - path: openplanner-mongodb-deployment-patch.yaml
+  - path: delete-chroma-deployment.yaml
+  - path: delete-chroma-service.yaml
+  - path: delete-chroma-pvc.yaml
+images:
+  - name: openplanner
+    newName: openplanner
+    newTag: local
+generatorOptions:
+  disableNameSuffixHash: true
+secretGenerator:
+  - name: openplanner-secrets
+    envs:
+      - openplanner-secret.env
+  - name: openplanner-mongodb-secrets
+    envs:
+      - mongodb-secret.env
+    files:
+      - mongodb-keyfile=generated/mongodb-keyfile
+      - mongot-password=generated/mongot-password

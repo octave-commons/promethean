@@ -22,9 +22,8 @@ jobs:
       - name: Checkout eta-mu logic
         uses: actions/checkout@v4
         with:
-          repository: open-hax/eta-mu
+          repository: open-hax/eta-mu-github
           path: .eta-mu
-          ref: ${{ vars.ETA_MU_REF_MAIN || vars.ETA_MU_GITHUB_REF_MAIN || 'main' }}
 
       - name: Setup pnpm
         uses: pnpm/action-setup@v4
@@ -36,16 +35,16 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: .eta-mu/packages/eta-mu-github/pnpm-lock.yaml
+          cache-dependency-path: .eta-mu/pnpm-lock.yaml
 
       - name: Install eta-mu dependencies
-        run: pnpm --dir .eta-mu/packages/eta-mu-github install --frozen-lockfile
+        run: pnpm --dir .eta-mu install --frozen-lockfile
 
       - name: Enforce review-thread resolution for configured actors
         env:
           GITHUB_TOKEN: ${{ github.token }}
           ETA_MU_REVIEW_ACTORS: ${{ vars.ETA_MU_REVIEW_ACTORS }}
         run: >-
-          pnpm --dir .eta-mu/packages/eta-mu-github dev review-gate
+          pnpm --dir .eta-mu dev review-gate
           --repo "${GITHUB_REPOSITORY}"
           --pr "${{ github.event.pull_request.number }}"

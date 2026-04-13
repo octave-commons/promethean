@@ -1,155 +1,127 @@
-# openplanner devops home
+# OpenPlanner Docker Stack
 
-Canonical source: `../../orgs/open-hax/openplanner`
+**Single compose file. Atlas Local only. No overlays. No variants.**
 
-This directory is the workspace-local runtime/devops home for OpenPlanner.
-Use it for:
+## Quick Reference
 
-- the devel-specific Compose stack
-- local runtime state under `./openplanner-lake`
-- local-only overrides that should not live in the source repository
+| What | Value |
+|------|-------|
+| Compose file | `docker-compose.yml` (THIS IS THE ONLY ONE) |
+| MongoDB image | `mongodb/mongodb-atlas-local:latest` |
+| Atlas Search | Bundled inside mongodb-atlas-local (no separate mongot container) |
+| Vector indexes | Created by `scripts/atlas-init.sh` on first boot |
+| Init service | `mongo-init` (runs once, `restart: "no"`) |
 
-Do **not** run the devel runtime from `orgs/open-hax/openplanner/`.
-The `orgs/**` copy is the source/community home; `services/openplanner` is the
-local runtime home.
+## Architecture
 
-## Local compose
-
-```bash
-cd /home/err/devel/services/openplanner
-docker compose up --build -d
-curl http://127.0.0.1:8787/v1/health
-curl http://127.0.0.1:7777/v1/health
+```
+docker-compose.yml
+├── secrets-init        stub (no-op, kept for dependency compat)
+├── mongodb             mongodb-atlas-local (includes mongot internally)
+├── mongot              stub (no-op, kept for dependency compat)
+├── mongo-init          runs atlas-init.sh once, creates user + collections + indexes
+├── openplanner         main application (depends on mongodb healthy + mongo-init complete)
+├── openplanner-proxx   PostgreSQL proxy for Knoxx
+├── knoxx-*             Knoxx agent backend, frontend, nginx, postgres, redis
+├── graph-weaver        graph processing service
+├── myrmex              crawler service (profile: graph)
+├── eros-eris-field-app field app
+├── kms-ingestion       knowledge management ingestion
+├── shibboleth-*        auth services
+└── shuvcrawl           web crawler
 ```
 
-Or from the workspace root:
+## Why mongodb-atlas-local (and NOT mongodb-community-server)
 
-```bash
-pnpm docker:stack up openplanner -- --build
-pnpm docker:stack status openplanner
+The OpenPlanner stack requires **Atlas Search** (vector search via `$vectorSearch`) for:
+
+1. **Semantic graph traversal** — `POST /v1/graph/memory` uses vector similarity to seed graph traversal. Without Atlas Search indexes, this returns 0 vector hits.
+2. **Document chunk search** — `POST /v1/ingestion/search` retrieves relevant document chunks by embedding similarity.
+
+`mongodb-community-server` does NOT include Atlas Search. To get it with the community edition, you would need a separate `mongot` container, separate keyfile management, replica set initialization, and manual index creation via the mongot admin API. This is fragile and was the source of multiple production failures.
+
+`mongodb-atlas-local` bundles MongoDB + mongot in a single container with:
+- Automatic keyfile generation
+- Automatic replica set initialization
+- Built-in Atlas Search (mongot) on localhost:27027
+- Standard `createSearchIndexes` mongosh commands just work
+
+## Vector Search Indexes
+
+Created by `scripts/atlas-init.sh` on every fresh boot:
+
+| Collection | Index name | Dimensions | Similarity | Filters |
+|-----------|-----------|------------|------------|---------|
+| `graph_node_embeddings` | `embedding_vector` | 1024 | cosine | `project`, `embedding_model` |
+| `event_chunks` | `chunk_vector` | 1024 | cosine | `project`, `source` |
+
+These indexes are **required** for the application to function. Without them, semantic queries silently return empty results.
+
+## MONGODB_URI Format
+
+Atlas Local uses a simple auth format (no replicaSet parameter):
+
+```
+mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
 ```
 
-## Graph runtime
+**Do NOT use `replicaSet=rs0`** — Atlas Local manages its own replica set internally.
 
-The graph slice now lives here instead of `services/knoxx`.
+## Environment Variables
 
-Services under the `graph` profile:
+All variables have sensible defaults. Override in `.env` or host environment.
 
-- `graph-weaver` on `http://127.0.0.1:8796/`
-- `eros-eris-field-app` as the semantic/layout worker
-- `shuvcrawl` on `http://127.0.0.1:3777/`
-- `myrmex` as the crawl/event ingestion worker
+| Variable | Default | Purpose |
+|----------|---------|---------|
+| `MONGODB_ROOT_USERNAME` | `openplannerRoot` | MongoDB root user |
+| `MONGODB_ROOT_PASSWORD` | `change-me-root-password` | MongoDB root password |
+| `MONGODB_DB` | `openplanner` | Application database name |
+| `OPENPLANNER_MONGO_APP_USERNAME` | `openplanner` | Application readWrite user |
+| `OPENPLANNER_MONGO_APP_PASSWORD` | `change-me-openplanner-password` | Application user password |
+| `EMBEDDING_DIMENSIONS` | `1024` | Vector embedding dimensions for search indexes |
+| `OPENPLANNER_PORT` | `7777` | Main app port |
+| `OPENPLANNER_MONGODB_PORT` | `27017` | MongoDB exposed port |
+| `OPENPLANNER_API_KEY` | `change-me` | API key for HTTP access |
 
-Start them with:
+## Common Operations
 
+### Fresh start (wipes all data)
 ```bash
-cd /home/err/devel/services/openplanner
-docker compose --profile graph up --build -d graph-weaver eros-eris-field-app shuvcrawl myrmex
+docker compose down -v   # -v removes volumes
+docker compose up -d
+# Wait for mongo-init to complete, then verify:
+docker logs openplanner-mongo-init-1
 ```
 
-Useful checks:
-
+### Restart without losing data
 ```bash
-curl http://127.0.0.1:8796/api/status | jq
-curl http://127.0.0.1:3777/health | jq
-curl -H 'Authorization: Bearer change-me' http://127.0.0.1:7777/v1/graph/stats | jq
-docker compose logs -f myrmex
-docker compose logs -f eros-eris-field-app
+docker compose restart
 ```
 
-## Data placement
-
-Mutable runtime state lives here, especially:
-
-- `services/openplanner/openplanner-lake/`
-
-The local wrapper expects `vexx`, the NPU-backed cosine service used to rerank
-vector matches for Knoxx/OpenPlanner and to serve semantic edge scoring for
-Eros, to be reachable on `http://host.docker.internal:8787` from containers.
-OpenPlanner persists Ollama embedding cache entries under:
-
-- `services/openplanner/openplanner-lake/cache/ollama-embeddings.jsonl`
-
-One working local launch path is:
-
+### Verify vector indexes exist
 ```bash
-cd /home/err/devel/orgs/open-hax/openplanner/packages/vexx
-pm2 start 'env VEXX_HOST=0.0.0.0 VEXX_PORT=8787 VEXX_DEVICE=NPU VEXX_AUTO_ORDER=NPU,GPU,CPU VEXX_REQUIRE_ACCEL=true clojure -M:run' --name vexx --cwd /home/err/devel/orgs/open-hax/openplanner/packages/vexx
+docker exec openplanner-mongodb-1 mongosh \
+  'mongodb://openplannerRoot:${MONGODB_ROOT_PASSWORD}@localhost:27017/openplanner?authSource=admin' \
+  --quiet --eval 'db.runCommand({ listSearchIndexes: "graph_node_embeddings" })'
 ```
 
-The Compose-defined `vexx` service is kept behind the `container-vexx` profile
-for later ABI/device experiments, but the currently verified path for NPU usage
-in this workspace is the host-run service above.
-
-That state should stay out of `orgs/open-hax/openplanner/` so source and local
-runtime concerns remain separated.
-
-## Semantic graph builder
-
-The offline semantic graph builder now runs from this wrapper via the `jobs` profile.
-
-Run the full pipeline with:
-
+### Re-run init script (e.g., after adding new collections)
 ```bash
-cd /home/err/devel/services/openplanner
-docker compose --profile jobs run --rm semantic-graph-builder
+docker compose up -d mongo-init --force-recreate
 ```
 
-Artifacts land under:
+## Historical Context (DO NOT REVERT)
 
-- `services/openplanner/openplanner-lake/jobs/semantic-graph/<run-id>/`
+This stack previously used two compose files:
+- `docker-compose.yml` — community server with separate mongot
+- `docker-compose.atlas.yml` — atlas local override
 
-The graph helper script also lives here now:
+This caused repeated failures where the stack was brought up WITHOUT atlas support (vector search indexes missing, graph queries returning empty). The files were merged into a single `docker-compose.yml` in April 2026.
 
-- `services/openplanner/scripts/materialize-missing-graph-node-embeddings.py`
+**There is no longer a `docker-compose.atlas.yml`.** If you see one, it is stale and should be deleted.
 
-## MongoDB profile
+The following files were also removed as they are specific to the community-server setup:
+- `config/mongod.conf` — community server config (replica set, mongot host, keyfile path)
+- `config/mongot.yml` — separate mongot container config (gRPC, TLS, storage)
 
-### Community Search (default, local dev)
-
-```bash
-cd /home/err/devel/services/openplanner
-docker compose up --build -d
-```
-
-The default stack provisions MongoDB Community Search with:
-
-- `secrets-init` for local key/password files under `./runtime-secrets/`
-- `mongodb` in replica-set mode with `mongotHost` wiring
-- `mongo-init` to initiate `rs0` and create `mongotUser` + app user
-- `mongot` using the local search config in `./config/mongot.yml`
-
-**Limitation:** Community Search containers do not support `createSearchIndexes`
-or `$vectorSearch`. Vector similarity falls back to vexx/JS cosine scan.
-See [docs/deployment/vector-search.md](docs/deployment/vector-search.md).
-
-### Atlas Local (production vector search)
-
-For native `$vectorSearch` support, use the Atlas Local overlay:
-
-```bash
-cd /home/err/devel/services/openplanner
-docker compose -f docker-compose.yml -f docker-compose.atlas.yml up --build -d
-```
-
-This replaces Community containers with `mongodb/mongodb-atlas-local`, enabling:
-- Full `createSearchIndexes` / `$listSearchIndexes` support
-- Native `$vectorSearch` with real vector index backing
-- No separate mongot container needed
-
-See [docs/deployment/production-vector-search.md](docs/deployment/production-vector-search.md)
-for the full deployment runbook and data migration instructions.
-
-## Migration testing
-
-Run migration commands from this wrapper, but execute them inside the container so they can access the mounted runtime lake and resolve Compose service names. Host-side DuckDB access may fail against root-owned lake files produced by containers.
-
-```bash
-cd /home/err/devel/services/openplanner
-
-docker compose run --rm --build \
-  -e OPENPLANNER_STORAGE_BACKEND=mongodb \
-  -e MONGODB_DB=openplanner_migration_smoke \
-  openplanner \
-  node dist/migrate.js legacy-to-mongo --dry-run
-```
+Atlas Local manages all of this internally.

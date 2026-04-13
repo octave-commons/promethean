@@ -1,0 +1,8 @@
+services:
+  open-hax-openai-proxy:
+    environment:
+      HOST_DASHBOARD_DOCKER_SOCKET_PATH: "${HOST_DASHBOARD_DOCKER_SOCKET_PATH:-/var/run/docker.sock}"
+      HOST_DASHBOARD_RUNTIME_ROOT: "${HOST_DASHBOARD_RUNTIME_ROOT:-/workspace/runtime-repo}"
+    volumes:
+      - ./:/workspace/runtime-repo:ro
+      - /var/run/docker.sock:/var/run/docker.sock

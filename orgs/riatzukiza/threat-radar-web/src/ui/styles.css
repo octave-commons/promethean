@@ -53,65 +53,6 @@ body {
   line-height: 1.5;
 }
 
-.status-line {
-  margin-top: 12px;
-  color: var(--muted);
-  font-size: 14px;
-}
-
-.summary-row {
-  display: flex;
-  flex-wrap: wrap;
-  gap: 10px;
-  align-items: center;
-  margin-top: 16px;
-}
-
-.summary-pill {
-  display: inline-flex;
-  align-items: center;
-  border: 1px solid var(--line);
-  border-radius: 999px;
-  padding: 6px 10px;
-  color: var(--ink);
-  background: rgba(255, 255, 255, 0.03);
-  font-size: 12px;
-}
-
-.toggle-button {
-  border: 1px solid rgba(255, 209, 102, 0.35);
-  border-radius: 999px;
-  padding: 7px 12px;
-  background: rgba(255, 209, 102, 0.08);
-  color: var(--accent-2);
-  font: inherit;
-  cursor: pointer;
-}
-
-.toggle-button:hover {
-  background: rgba(255, 209, 102, 0.14);
-}
-
-.state-card {
-  max-width: 1400px;
-  margin: 0 auto 18px;
-  padding: 18px 20px;
-  border: 1px solid var(--line);
-  border-radius: 18px;
-  background: rgba(23, 27, 34, 0.72);
-  box-shadow: 0 10px 30px rgba(0,0,0,0.2);
-}
-
-.state-card h2 {
-  margin: 0 0 8px;
-  font-size: 20px;
-}
-
-.state-card p {
-  margin: 6px 0 0;
-  color: var(--muted);
-}
-
 .wall {
   display: grid;
   grid-template-columns: repeat(auto-fill, minmax(240px, 1fr));
@@ -194,27 +135,12 @@ body {
   fill: var(--accent-2);
 }
 
-.tile-note {
-  margin: 4px 0 12px;
-  color: var(--muted);
-  font-size: 12px;
-}
-
 .tile-meta {
   display: flex;
   justify-content: space-between;
   gap: 8px;
   color: var(--muted);
   font-size: 12px;
-}
-
-.tile-placeholder {
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  min-height: 220px;
-  color: var(--muted);
-  font-size: 14px;
 }
 
 @keyframes pulse {

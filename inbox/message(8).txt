@@ -1,0 +1,57 @@
+**Here is a targeted list of the most aligned potential stakeholders** for your Solar-Powered Open AI Infrastructure project (as described in the eta-mu-sol-charter.md gist). These groups match the charter’s core non-negotiables: community/tribal leadership and governance, renewable (solar) energy on tribal land in Arizona, equity-focused access for underserved communities (race/income-denied neighborhoods, students, educators, writers/researchers serving them), no founder/investor extraction or control, and transparent, mission-driven reinvestment.
+
+I prioritized **Arizona-specific or Southwest tribal entities** already active in solar/renewable energy, digital equity, or AI/data sovereignty. Recent federal clean-energy funding cuts (e.g., Solar for All, IRA-related programs) have pushed tribes toward philanthropy, Native-led financing, and self-determined models—making your charter’s structure especially attractive.
+
+Stakeholders fall into four practical categories. I include **why they fit**, key examples, and contact/next-step notes. Start with intermediaries like the Alliance for Tribal Clean Energy or ITCA—they can make warm introductions and help navigate tribal protocols.
+
+### 1. Arizona Tribal Nations & Land Owners (Primary Hosts & Governance Partners)
+These own suitable land, have ongoing solar projects, unelectrified homes, and strong interest in energy sovereignty + digital access for their communities. Your model (community board governance, solar-powered AI tools for education/research/equity) aligns directly with tribal self-determination and economic development goals.
+
+- **Navajo Nation** (largest; multiple solar projects like Kayenta Solar Plant with NTUA; Light Up Navajo initiative; high need for home electrification and digital tools).
+- **Hopi Tribe** (solar home/battery projects; microgrids; recent federal grant attempts for hundreds of homes).
+- **Gila River Indian Community** (innovative solar-over-canal projects; expanding solar; carbon-neutral goals).
+- **Colorado River Indian Tribes** (agrivoltaics projects; hosts Huurav Energy).
+
+**Broader entry point**: Inter Tribal Council of Arizona (ITCA) represents 21 tribes and coordinates economic development/renewables.
+
+**Next step**: Contact tribal economic development or energy offices (many listed on azed.gov/oie or gotr.azgovernor.gov). Emphasize land-use partnership under tribal board control.
+
+### 2. Native-Led Energy & Infrastructure Organizations (Implementation & Bridge Partners)
+These already build/deploy solar on tribal lands in Arizona and connect to funding/investors without taking control.
+
+- **Native Renewables** (Hopi/Navajo-focused; installs off-grid solar + battery for families; Indigenous-led; has philanthropic support and partnerships). Perfect for pilot solar infrastructure. Contact: contact@nativerenewables.com or form on nativerenewables.org.
+- **Huurav Energy** (first Native-owned financing initiative, based on Colorado River Indian Tribes land in Arizona; provides bridge loans, technical support, and connects philanthropic capital/investors to stalled tribal solar projects; explicitly fills federal funding gaps). Strong fit for sustainability financing that respects sovereignty. Website: huurav.com (pipeline of 22+ projects).
+- **Navajo Power** (co-develops utility-scale renewables with tribes; prioritizes sovereignty and community benefits).
+
+**Next step**: Reach out via their websites—these groups already partner with tribes on exactly this scale of solar deployment.
+
+### 3. Philanthropic Foundations & Grant Makers (Primary Funding Sources)
+These fund tribal clean energy, digital equity, and Indigenous-led projects without demanding equity, ownership, or governance control. Many explicitly back gap funding post-federal cuts and emphasize community sovereignty.
+
+- **Alliance for Tribal Clean Energy** (Indigenous-led 501(c)(3); provides **pro bono** technical assistance, grant writing, project development, and financing via the Indigenous Power & Light Fund; backed by MacArthur Foundation and others; works nationwide but heavily active in Southwest/Arizona tribes). **Top recommendation**—they bridge exactly the current funding void. Contact: info@tribalcleanenergy.org or tribalcleanenergy.org.
+- **MacArthur Foundation** (major funder of Alliance’s Indigenous Power & Light Fund and tribal clean energy; supports equitable, sovereignty-focused renewables).
+- **Ford Foundation** (funds Tribal Digital Sovereignty work, including ASU’s Center for Tribal Digital Sovereignty; AI/data governance in Native communities; digital equity). Excellent alignment with your AI tools + community governance.
+- **Tides Foundation** (has funded Native Renewables’ solar work).
+- **Seventh Generation Fund** (supports Native grassroots renewables and sustainable communities).
+- **Arizona Community Foundation / Native American Philanthropy** (Arizona-focused equity and Indigenous leadership funding).
+
+**Next step**: Pitch via the charter’s governance structure (board control, no donor influence). Alliance or Ford contacts can facilitate.
+
+### 4. Academic & Digital Sovereignty Institutions (Technical/Policy Collaborators)
+- **Arizona State University (ASU) Center for Tribal Digital Sovereignty / American Indian Policy Institute (AIPI)** (Ford- and Google.org-funded; leads on Tribal Digital Sovereignty, AI governance, data protection, and equitable tech for tribes; hosts Wiring the Rez conferences). Ideal for AI infrastructure design that respects sovereignty.
+
+**Next step**: Contact via aipi.asu.edu/ctds—strong Arizona tie and policy expertise.
+
+### Additional Strong Fits & Strategic Advice
+- **Native CDFIs** and other impact lenders (mentioned as bridging gaps for tribes; low-interest, mission-aligned capital without extraction).
+- Limited federal programs (e.g., DOE Office of Indian Energy, NTIA Digital Equity tribal set-asides) still exist but have faced cuts—use philanthropy first.
+
+**How to approach**:
+1. Lead with the charter document—highlight community board control, solar + AI for equity, and no-exit/no-extraction rules.
+2. Use intermediaries (Alliance, ITCA, Huurav) for introductions to avoid cold outreach.
+3. Frame as a demonstration project: renewable-powered, community-owned AI infrastructure that advances energy + digital sovereignty.
+4. Annual charter review and transparent metrics will resonate with these groups’ emphasis on accountability and reinvestment.
+
+This is **not exhaustive** (there are 22 federally recognized Arizona tribes + dozens of aligned foundations), but these are the highest-signal, currently active players based on public projects and funding priorities as of 2026. They are already solving pieces of your exact puzzle (solar on tribal land, equity access, sovereignty).
+
+If you share a one-pager or pitch deck, I can help refine outreach language or suggest specific next contacts. This project has real resonance right now—good luck!

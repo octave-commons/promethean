@@ -1,0 +1,22 @@
+services:
+  - type: web
+    name: threat-radar-mcp
+    runtime: node
+    region: oregon
+    plan: starter
+    buildCommand: pnpm install && pnpm --filter @workspace/radar-core build && pnpm --filter @workspace/mcp-foundation build && pnpm --filter @riatzukiza/threat-radar-mcp build
+    startCommand: pnpm --filter @riatzukiza/threat-radar-mcp start
+    healthCheckPath: /health
+    envVars:
+      - key: NODE_VERSION
+        value: "22"
+      - key: PORT
+        value: "10002"
+      - key: ADMIN_AUTH_KEY
+        generateValue: true
+      - key: PUBLIC_BASE_URL
+        sync: false
+      - key: ALLOW_UNAUTH_LOCAL
+        value: "false"
+      - key: DATABASE_URL
+        sync: false

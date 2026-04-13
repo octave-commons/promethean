@@ -1,0 +1,407 @@
+{
+  "root": "packages/cephalon-ts/src",
+  "subsystems": [
+    {
+      "name": "ui",
+      "count": 23
+    },
+    {
+      "name": "llm",
+      "count": 17
+    },
+    {
+      "name": "(root)",
+      "count": 9
+    },
+    {
+      "name": "mind",
+      "count": 7
+    },
+    {
+      "name": "prompts",
+      "count": 6
+    },
+    {
+      "name": "config",
+      "count": 4
+    },
+    {
+      "name": "core",
+      "count": 4
+    },
+    {
+      "name": "utils",
+      "count": 4
+    },
+    {
+      "name": "discord",
+      "count": 2
+    },
+    {
+      "name": "irc",
+      "count": 2
+    },
+    {
+      "name": "proactive",
+      "count": 2
+    },
+    {
+      "name": "types",
+      "count": 2
+    },
+    {
+      "name": "chroma",
+      "count": 1
+    },
+    {
+      "name": "context",
+      "count": 1
+    },
+    {
+      "name": "embeddings",
+      "count": 1
+    },
+    {
+      "name": "normalization",
+      "count": 1
+    },
+    {
+      "name": "openplanner",
+      "count": 1
+    },
+    {
+      "name": "peer",
+      "count": 1
+    },
+    {
+      "name": "runtime",
+      "count": 1
+    },
+    {
+      "name": "sessions",
+      "count": 1
+    }
+  ],
+  "edges": [
+    {
+      "from": "(root)",
+      "to": "config",
+      "count": 12
+    },
+    {
+      "from": "(root)",
+      "to": "discord",
+      "count": 7
+    },
+    {
+      "from": "llm",
+      "to": "types",
+      "count": 7
+    },
+    {
+      "from": "llm",
+      "to": "prompts",
+      "count": 6
+    },
+    {
+      "from": "(root)",
+      "to": "core",
+      "count": 5
+    },
+    {
+      "from": "(root)",
+      "to": "llm",
+      "count": 5
+    },
+    {
+      "from": "(root)",
+      "to": "mind",
+      "count": 4
+    },
+    {
+      "from": "core",
+      "to": "types",
+      "count": 4
+    },
+    {
+      "from": "llm",
+      "to": "core",
+      "count": 4
+    },
+    {
+      "from": "mind",
+      "to": "types",
+      "count": 4
+    },
+    {
+      "from": "(root)",
+      "to": "sessions",
+      "count": 3
+    },
+    {
+      "from": "(root)",
+      "to": "types",
+      "count": 3
+    },
+    {
+      "from": "(root)",
+      "to": "runtime",
+      "count": 3
+    },
+    {
+      "from": "config",
+      "to": "types",
+      "count": 3
+    },
+    {
+      "from": "llm",
+      "to": "config",
+      "count": 3
+    },
+    {
+      "from": "llm",
+      "to": "discord",
+      "count": 3
+    },
+    {
+      "from": "(root)",
+      "to": "irc",
+      "count": 2
+    },
+    {
+      "from": "(root)",
+      "to": "chroma",
+      "count": 2
+    },
+    {
+      "from": "(root)",
+      "to": "ui",
+      "count": 2
+    },
+    {
+      "from": "(root)",
+      "to": "openplanner",
+      "count": 2
+    },
+    {
+      "from": "context",
+      "to": "prompts",
+      "count": 2
+    },
+    {
+      "from": "core",
+      "to": "openplanner",
+      "count": 2
+    },
+    {
+      "from": "core",
+      "to": "utils",
+      "count": 2
+    },
+    {
+      "from": "llm",
+      "to": "mind",
+      "count": 2
+    },
+    {
+      "from": "llm",
+      "to": "chroma",
+      "count": 2
+    },
+    {
+      "from": "llm",
+      "to": "openplanner",
+      "count": 2
+    },
+    {
+      "from": "llm",
+      "to": "irc",
+      "count": 2
+    },
+    {
+      "from": "llm",
+      "to": "peer",
+      "count": 2
+    },
+    {
+      "from": "proactive",
+      "to": "types",
+      "count": 2
+    },
+    {
+      "from": "chroma",
+      "to": "embeddings",
+      "count": 1
+    },
+    {
+      "from": "chroma",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "chroma",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "context",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "context",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "context",
+      "to": "core",
+      "count": 1
+    },
+    {
+      "from": "context",
+      "to": "utils",
+      "count": 1
+    },
+    {
+      "from": "core",
+      "to": "chroma",
+      "count": 1
+    },
+    {
+      "from": "discord",
+      "to": "normalization",
+      "count": 1
+    },
+    {
+      "from": "discord",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "embeddings",
+      "to": "llm",
+      "count": 1
+    },
+    {
+      "from": "embeddings",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "(root)",
+      "to": "embeddings",
+      "count": 1
+    },
+    {
+      "from": "irc",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "llm",
+      "to": "context",
+      "count": 1
+    },
+    {
+      "from": "mind",
+      "to": "normalization",
+      "count": 1
+    },
+    {
+      "from": "normalization",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "openplanner",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "peer",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "proactive",
+      "to": "sessions",
+      "count": 1
+    },
+    {
+      "from": "proactive",
+      "to": "llm",
+      "count": 1
+    },
+    {
+      "from": "proactive",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "proactive",
+      "to": "discord",
+      "count": 1
+    },
+    {
+      "from": "prompts",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "prompts",
+      "to": "peer",
+      "count": 1
+    },
+    {
+      "from": "prompts",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "runtime",
+      "to": "(root)",
+      "count": 1
+    },
+    {
+      "from": "runtime",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "sessions",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "sessions",
+      "to": "config",
+      "count": 1
+    },
+    {
+      "from": "ui",
+      "to": "chroma",
+      "count": 1
+    },
+    {
+      "from": "ui",
+      "to": "core",
+      "count": 1
+    },
+    {
+      "from": "ui",
+      "to": "types",
+      "count": 1
+    },
+    {
+      "from": "ui",
+      "to": "openplanner",
+      "count": 1
+    },
+    {
+      "from": "ui",
+      "to": "peer",
+      "count": 1
+    }
+  ]
+}

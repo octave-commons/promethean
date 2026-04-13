@@ -1,0 +1,736 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Chronos - Time Tracker</title>
+  <style>
+    :root {
+      --bg: #0a0a0f;
+      --bg-card: #12121a;
+      --bg-elevated: #1a1a24;
+      --fg: #e8e8f0;
+      --fg-muted: #888899;
+      --accent: #4a9eff;
+      --accent-hover: #6ab0ff;
+      --success: #22c55e;
+      --warning: #f59e0b;
+      --danger: #ef4444;
+      --border: #2a2a3a;
+      --radius: 8px;
+    }
+
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Inter', -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: var(--bg);
+      color: var(--fg);
+      min-height: 100vh;
+      line-height: 1.6;
+    }
+
+    .container {
+      max-width: 1400px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 2rem;
+      padding-bottom: 1rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    h1 {
+      font-size: 1.75rem;
+      font-weight: 600;
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+    }
+
+    h1::before {
+      content: '⏱️';
+    }
+
+    .grid {
+      display: grid;
+      grid-template-columns: 1fr 350px;
+      gap: 1.5rem;
+    }
+
+    @media (max-width: 1024px) {
+      .grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .card {
+      background: var(--bg-card);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+      padding: 1.5rem;
+    }
+
+    .card-header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+      padding-bottom: 0.75rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .card-title {
+      font-size: 1rem;
+      font-weight: 600;
+      color: var(--fg);
+    }
+
+    .badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.25rem;
+      padding: 0.25rem 0.5rem;
+      border-radius: 9999px;
+      font-size: 0.75rem;
+      font-weight: 500;
+      background: var(--accent);
+      color: white;
+    }
+
+    .badge.active {
+      background: var(--success);
+      animation: pulse 2s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; }
+      50% { opacity: 0.7; }
+    }
+
+    .session-active {
+      background: var(--bg-elevated);
+      border: 2px solid var(--success);
+      border-radius: var(--radius);
+      padding: 1rem;
+      margin-bottom: 1rem;
+    }
+
+    .session-active .project-name {
+      font-size: 1.25rem;
+      font-weight: 600;
+      color: var(--success);
+    }
+
+    .session-active .timer {
+      font-size: 2rem;
+      font-weight: 700;
+      font-variant-numeric: tabular-nums;
+      margin: 0.5rem 0;
+    }
+
+    .session-active .task {
+      color: var(--fg-muted);
+      font-size: 0.875rem;
+    }
+
+    /* Form inputs */
+    input, select, textarea {
+      width: 100%;
+      padding: 0.625rem 0.875rem;
+      background: var(--bg);
+      border: 1px solid var(--border);
+      border-radius: var(--radius);
+      color: var(--fg);
+      font-size: 0.875rem;
+      transition: border-color 0.2s;
+    }
+
+    input:focus, select:focus, textarea:focus {
+      outline: none;
+      border-color: var(--accent);
+    }
+
+    .form-group {
+      margin-bottom: 1rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.75rem;
+      font-weight: 500;
+      color: var(--fg-muted);
+      margin-bottom: 0.375rem;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Buttons */
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      gap: 0.5rem;
+      padding: 0.625rem 1.25rem;
+      border-radius: var(--radius);
+      font-size: 0.875rem;
+      font-weight: 500;
+      cursor: pointer;
+      border: none;
+      transition: all 0.2s;
+    }
+
+    .btn-primary {
+      background: var(--accent);
+      color: white;
+    }
+
+    .btn-primary:hover {
+      background: var(--accent-hover);
+    }
+
+    .btn-success {
+      background: var(--success);
+      color: white;
+    }
+
+    .btn-success:hover {
+      background: #16a34a;
+    }
+
+    .btn-danger {
+      background: var(--danger);
+      color: white;
+    }
+
+    .btn-danger:hover {
+      background: #dc2626;
+    }
+
+    .btn-ghost {
+      background: transparent;
+      color: var(--fg-muted);
+      border: 1px solid var(--border);
+    }
+
+    .btn-ghost:hover {
+      background: var(--bg-elevated);
+      color: var(--fg);
+    }
+
+    .btn-sm {
+      padding: 0.375rem 0.75rem;
+      font-size: 0.75rem;
+    }
+
+    /* Session list */
+    .session-list {
+      display: flex;
+      flex-direction: column;
+      gap: 0.75rem;
+    }
+
+    .session-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      border: 1px solid var(--border);
+    }
+
+    .session-item:hover {
+      border-color: var(--accent);
+    }
+
+    .session-item .project-color {
+      width: 4px;
+      height: 100%;
+      min-height: 40px;
+      border-radius: 2px;
+      margin-right: 0.75rem;
+    }
+
+    .session-item .info {
+      flex: 1;
+    }
+
+    .session-item .project {
+      font-weight: 600;
+      font-size: 0.875rem;
+    }
+
+    .session-item .task {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+    }
+
+    .session-item .duration {
+      font-variant-numeric: tabular-nums;
+      font-size: 0.875rem;
+      color: var(--fg-muted);
+    }
+
+    /* Project list */
+    .project-item {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 0.75rem;
+      background: var(--bg);
+      border-radius: var(--radius);
+      margin-bottom: 0.5rem;
+      border: 1px solid var(--border);
+    }
+
+    .project-item:hover {
+      border-color: var(--accent);
+    }
+
+    .project-item .color-dot {
+      width: 12px;
+      height: 12px;
+      border-radius: 50%;
+      margin-right: 0.75rem;
+    }
+
+    /* Tabs */
+    .tabs {
+      display: flex;
+      gap: 0.5rem;
+      margin-bottom: 1rem;
+    }
+
+    .tab {
+      padding: 0.5rem 1rem;
+      border-radius: var(--radius);
+      background: transparent;
+      border: 1px solid var(--border);
+      color: var(--fg-muted);
+      cursor: pointer;
+      font-size: 0.875rem;
+      transition: all 0.2s;
+    }
+
+    .tab:hover {
+      background: var(--bg-elevated);
+    }
+
+    .tab.active {
+      background: var(--accent);
+      border-color: var(--accent);
+      color: white;
+    }
+
+    /* Stats */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(3, 1fr);
+      gap: 1rem;
+      margin-bottom: 1.5rem;
+    }
+
+    .stat-card {
+      background: var(--bg);
+      border-radius: var(--radius);
+      padding: 1rem;
+      text-align: center;
+      border: 1px solid var(--border);
+    }
+
+    .stat-value {
+      font-size: 1.5rem;
+      font-weight: 700;
+      color: var(--accent);
+    }
+
+    .stat-label {
+      font-size: 0.75rem;
+      color: var(--fg-muted);
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+
+    /* Hidden sections */
+    .hidden {
+      display: none !important;
+    }
+
+    /* Tags */
+    .tags {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 0.25rem;
+      margin-top: 0.5rem;
+    }
+
+    .tag {
+      padding: 0.125rem 0.5rem;
+      background: var(--bg-elevated);
+      border-radius: 9999px;
+      font-size: 0.625rem;
+      color: var(--fg-muted);
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <header>
+      <h1>Chronos</h1>
+      <div style="display: flex; gap: 1rem; align-items: center;">
+        <span id="clock" style="color: var(--fg-muted); font-variant-numeric: tabular-nums;"></span>
+        <button class="btn btn-ghost btn-sm" onclick="showSettings">⚙️ Settings</button>
+      </div>
+    </header>
+
+    <div class="grid">
+      <main>
+        <!-- Active Session -->
+        <div id="activeSection" class="card" style="margin-bottom: 1.5rem;">
+          <div id="activeSession" class="hidden">
+            <div class="card-header">
+              <span class="card-title">Active Session</span>
+              <span class="badge active">● REC</span>
+            </div>
+            <div class="session-active">
+              <div class="project-name" id="activeProject">-</div>
+              <div class="timer" id="activeTimer">00:00:00</div>
+              <div class="task" id="activeTask">-</div>
+              <div style="display: flex; gap: 0.5rem; margin-top: 1rem;">
+                <button class="btn btn-danger btn-sm" onclick="stopActiveSession()">Stop Session</button>
+                <button class="btn btn-ghost btn-sm" onclick="editActiveSession()">Edit</button>
+              </div>
+            </div>
+          </div>
+          <div id="noActiveSession">
+            <div class="card-header">
+              <span class="card-title">Start New Session</span>
+            </div>
+            <div class="form-group">
+              <label>Project</label>
+              <select id="newProject">
+                <option value="">Select project...</option>
+              </select>
+            </div>
+            <div class="form-group">
+              <label>Task</label>
+              <input type="text" id="newTask" placeholder="What are you working on?">
+            </div>
+            <div class="form-group">
+              <label>Tags (comma-separated)</label>
+              <input type="text" id="newTags" placeholder="agent, coding, review">
+            </div>
+            <button class="btn btn-success" onclick="startSession()">▶ Start Session</button>
+          </div>
+        </div>
+
+        <!-- Stats -->
+        <div class="stats-grid">
+          <div class="stat-card">
+            <div class="stat-value" id="todayTotal">0h 0m</div>
+            <div class="stat-label">Today</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="weekTotal">0h 0m</div>
+            <div class="stat-label">This Week</div>
+          </div>
+          <div class="stat-card">
+            <div class="stat-value" id="activeCount">0</div>
+            <div class="stat-label">Active</div>
+          </div>
+        </div>
+
+        <!-- Sessions List -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Recent Sessions</span>
+            <span id="sessionsBadge" class="badge">0</span>
+          </div>
+          <div id="sessionsList" class="session-list">
+            <div style="text-align: center; padding: 2rem; color: var(--fg-muted);">
+              Loading...
+            </div>
+          </div>
+        </div>
+      </main>
+
+      <aside>
+        <!-- Projects -->
+        <div class="card" style="margin-bottom: 1rem;">
+          <div class="card-header">
+            <span class="card-title">Projects</span>
+            <button class="btn btn-ghost btn-sm" onclick="showAddProject()">+ Add</button>
+          </div>
+          <div id="addProjectForm" class="hidden" style="margin-bottom: 1rem; padding: 1rem; background: var(--bg); border-radius: var(--radius);">
+            <div class="form-group">
+              <label>Name</label>
+              <input type="text" id="projectName" placeholder="Project name">
+            </div>
+            <div class="form-group">
+              <label>Client</label>
+              <input type="text" id="projectClient" placeholder="Client name (optional)">
+            </div>
+            <div class="form-group">
+              <label>Hourly Rate ($)</label>
+              <input type="number" id="projectRate" placeholder="0.00">
+            </div>
+            <button class="btn btn-primary btn-sm" onclick="addProject()">Create Project</button>
+          </div>
+          <div id="projectsList"></div>
+        </div>
+
+        <!-- Quick Actions -->
+        <div class="card">
+          <div class="card-header">
+            <span class="card-title">Agent Status</span>
+          </div>
+          <div id="agentStatus" style="font-size: 0.875rem;">
+            <div style="margin-bottom: 0.5rem;">
+              <strong>API Endpoint:</strong><br>
+              <code style="background: var(--bg); padding: 0.25rem 0.5rem; border-radius: 4px;">http://localhost:5199/api</code>
+            </div>
+            <div style="margin-bottom: 0.5rem;">
+              <strong>Tool Schema:</strong><br>
+              <span style="color: var(--fg-muted);">Available as chronos-tool</span>
+            </div>
+          </div>
+        </div>
+      </aside>
+    </div>
+  </div>
+
+  <script>
+    const API = '/api';
+
+    // Utility functions
+    async function fetchAPI(endpoint, options = {}) {
+      const response = await fetch(API + endpoint, {
+        headers: { 'Content-Type': 'application/json' },
+        ...options
+      });
+      return response.json();
+    }
+
+    function formatDuration(seconds) {
+      if (!seconds) return '0m';
+      const hours = Math.floor(seconds / 3600);
+      const minutes = Math.floor((seconds % 3600) / 60);
+      if (hours > 0) return `${hours}h ${minutes}m`;
+      return `${minutes}m`;
+    }
+
+    function formatTimer(seconds) {
+      const h = Math.floor(seconds / 3600).toString().padStart(2, '0');
+      const m = Math.floor((seconds % 3600) / 60).toString().padStart(2, '0');
+      const s = Math.floor(seconds % 60).toString().padStart(2, '0');
+      return `${h}:${m}:${s}`;
+    }
+
+    function formatTime(isoString) {
+      return new Date(isoString).toLocaleTimeString([], { hour: '2-digit', minute: '2-digit' });
+    }
+
+    // Clock
+    function updateClock() {
+      document.getElementById('clock').textContent = new Date().toLocaleTimeString();
+    }
+    setInterval(updateClock, 1000);
+    updateClock();
+
+    // Active session timer
+    let activeStartTime = null;
+    let timerInterval = null;
+
+    function updateActiveTimer() {
+      if (!activeStartTime) return;
+      const elapsed = Math.floor((Date.now() - new Date(activeStartTime).getTime()) / 1000);
+      document.getElementById('activeTimer').textContent = formatTimer(elapsed);
+    }
+
+    // Data loading
+    async function loadData() {
+      const [status, projects, sessions] = await Promise.all([
+        fetchAPI('/agent/status'),
+        fetchAPI('/projects'),
+        fetchAPI('/sessions?limit=20')
+      ]);
+
+      renderActiveSession(status.active[0]);
+      renderProjects(projects);
+      renderSessions(sessions);
+      updateProjectSelect(projects);
+      updateStats(status);
+
+      // Update active count
+      document.getElementById('activeCount').textContent = status.active.length;
+      document.getElementById('sessionsBadge').textContent = sessions.length;
+    }
+
+    function renderActiveSession(session) {
+      const container = document.getElementById('activeSession');
+      const noneContainer = document.getElementById('noActiveSession');
+
+      if (session) {
+        container.classList.remove('hidden');
+        noneContainer.classList.add('hidden');
+        document.getElementById('activeProject').textContent = session.project;
+        document.getElementById('activeTask').textContent = session.task || 'No task specified';
+        activeStartTime = session.start_time;
+
+        if (timerInterval) clearInterval(timerInterval);
+        timerInterval = setInterval(updateActiveTimer, 1000);
+        updateActiveTimer();
+      } else {
+        container.classList.add('hidden');
+        noneContainer.classList.remove('hidden');
+        activeStartTime = null;
+        if (timerInterval) clearInterval(timerInterval);
+      }
+    }
+
+    function renderProjects(projects) {
+      const container = document.getElementById('projectsList');
+      container.innerHTML = projects.map(p => `
+        <div class="project-item">
+          <div style="display: flex; align-items: center;">
+            <div class="color-dot" style="background: ${p.color}"></div>
+            <div>
+              <div style="font-weight: 500">${p.name}</div>
+              ${p.client ? `<div style="font-size: 0.75rem; color: var(--fg-muted)">${p.client}</div>` : ''}
+            </div>
+          </div>
+          ${p.hourly_rate ? `<div style="font-size: 0.875rem; color: var(--fg-muted)">$${p.hourly_rate}/hr</div>` : ''}
+        </div>
+      `).join('');
+    }
+
+    function renderSessions(sessions) {
+      const container = document.getElementById('sessionsList');
+      if (sessions.length === 0) {
+        container.innerHTML = '<div style="text-align: center; padding: 2rem; color: var(--fg-muted);">No sessions yet</div>';
+        return;
+      }
+
+      container.innerHTML = sessions.map(s => `
+        <div class="session-item">
+          <div style="display: flex; align-items: center; flex: 1;">
+            <div class="project-color" style="background: ${s.color}"></div>
+            <div class="info">
+              <div class="project">${s.project_name}</div>
+              <div class="task">${s.task || 'No task'}</div>
+              ${s.tags && s.tags.length > 0 ? `<div class="tags">${s.tags.map(t => `<span class="tag">${t}</span>`).join('')}</div>` : ''}
+            </div>
+          </div>
+          <div style="text-align: right;">
+            <div class="duration">${formatDuration(s.duration_seconds)}</div>
+            <div style="font-size: 0.625rem; color: var(--fg-muted)">${s.end_time ? formatTime(s.end_time) : 'active'}</div>
+          </div>
+        </div>
+      `).join('');
+    }
+
+    function updateProjectSelect(projects) {
+      const select = document.getElementById('newProject');
+      select.innerHTML = '<option value="">Select project...</option>' +
+        projects.map(p => `<option value="${p.id}">${p.name}${p.client ? ` (${p.client})` : ''}</option>`).join('');
+    }
+
+    function updateStats(status) {
+      // Calculate today's total
+      const today = new Date().toISOString().split('T')[0];
+      fetchAPI(`/reports/sessions?start=${today}&end=${new Date(Date.now() + 86400000).toISOString().split('T')[0]}`).then(sessions => {
+        const total = sessions.reduce((acc, s) => acc + (s.duration_seconds || 0), 0);
+        document.getElementById('todayTotal').textContent = formatDuration(total);
+      });
+
+      // Week total
+      const weekAgo = new Date(Date.now() - 7 * 86400000).toISOString().split('T')[0];
+      fetchAPI(`/reports/sessions?start=${weekAgo}&end=${new Date(Date.now() + 86400000).toISOString().split('T')[0]}`).then(sessions => {
+        const total = sessions.reduce((acc, s) => acc + (s.duration_seconds || 0), 0);
+        document.getElementById('weekTotal').textContent = formatDuration(total);
+      });
+    }
+
+    // Actions
+    async function startSession() {
+      const projectId = document.getElementById('newProject').value;
+      const task = document.getElementById('newTask').value;
+      const tags = document.getElementById('newTags').value.split(',').map(t => t.trim()).filter(t => t);
+
+      if (!projectId) {
+        alert('Please select a project');
+        return;
+      }
+
+      await fetchAPI('/sessions/start', {
+        method: 'POST',
+        body: JSON.stringify({ project_id: parseInt(projectId), task, tags })
+      });
+
+      document.getElementById('newTask').value = '';
+      document.getElementById('newTags').value = '';
+      loadData();
+    }
+
+    async function stopActiveSession() {
+      await fetchAPI('/sessions/stop-all', { method: 'POST' });
+      loadData();
+    }
+
+    async function stopSession(id) {
+      await fetchAPI(`/sessions/${id}/stop`, { method: 'POST' });
+      loadData();
+    }
+
+    function showAddProject() {
+      document.getElementById('addProjectForm').classList.toggle('hidden');
+    }
+
+    async function addProject() {
+      const name = document.getElementById('projectName').value;
+      const client = document.getElementById('projectClient').value;
+      const hourlyRate = parseFloat(document.getElementById('projectRate').value) || null;
+
+      if (!name) {
+        alert('Please enter a project name');
+        return;
+      }
+
+      await fetchAPI('/projects', {
+        method: 'POST',
+        body: JSON.stringify({ name, client, hourly_rate: hourlyRate })
+      });
+
+      document.getElementById('projectName').value = '';
+      document.getElementById('projectClient').value = '';
+      document.getElementById('projectRate').value = '';
+      document.getElementById('addProjectForm').classList.add('hidden');
+      loadData();
+    }
+
+    function editActiveSession() {
+      // TODO: Implement edit modal
+      alert('Edit functionality coming soon');
+    }
+
+    function showSettings() {
+      // TODO: Implement settings
+      alert('Settings coming soon');
+    }
+
+    // Initialize
+    loadData();
+    setInterval(loadData, 30000); // Refresh every 30s
+  </script>
+</body>
+</html>

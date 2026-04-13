@@ -1,0 +1,9 @@
+node_modules/
+dist/
+logs/
+data/
+web/dist/
+
+.env
+keys.json
+models.json

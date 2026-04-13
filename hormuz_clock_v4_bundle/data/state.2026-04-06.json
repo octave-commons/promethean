@@ -1,0 +1,155 @@
+{
+  "as_of_utc": "2026-04-06T16:00:00Z",
+  "model_version": "v4.1-uncertainty-ranges",
+  "clock": {
+    "t0_utc": "2026-02-28T00:00:00Z",
+    "second_hand_days": 37,
+    "minute_hand_days": 90,
+    "hour_hand_days": 30,
+    "structural_bar_days": 450,
+    "critical_deadline": {
+      "label": "Trump ultimatum",
+      "timestamp_utc": "2026-04-07T24:00:00Z",
+      "description": "US deadline for Iran to reopen Hormuz or face infrastructure strikes"
+    }
+  },
+  "states": {
+    "transit_flow": {
+      "score": 4,
+      "score_range": {"low": 4, "high": 4},
+      "uncertainty": "minimal",
+      "trend": "flat-broken",
+      "confidence": 0.95,
+      "confidence_range": {"low": 0.90, "high": 0.98},
+      "notes": "Hormuz effectively closed to non-Iranian commercial traffic. JMIC reports ~4 transits/day vs 138 baseline. Iran operates selective tolled passage regime.",
+      "evidence_refs": ["jmic_single_digit_transits", "axios_brent_110"],
+      "reasoning": "Score is effectively certain at maximum (broken) - no meaningful transit recovery observed. Uncertainty is in how long this persists, not the current state."
+    },
+    "attack_tempo": {
+      "score": 4,
+      "score_range": {"low": 3, "high": 4},
+      "uncertainty": "low",
+      "trend": "escalating",
+      "confidence": 0.88,
+      "confidence_range": {"low": 0.80, "high": 0.94},
+      "notes": "US aircraft shot down (first in 20+ years). IRGC intel chief killed. Tehran under constant bombardment. Israel striking South Pars. 20+ healthcare facilities attacked.",
+      "evidence_refs": ["ap_us_aircraft_downed", "ap_irgc_intel_chief_killed", "ap_tehran_resident_bombardment", "who_healthcare_attacks_20plus"],
+      "reasoning": "Score could be 3-4 depending on whether we measure intensity against regional war standards (3) or normalized pre-conflict baseline (4). Trend clearly escalating with Trump ultimatum."
+    },
+    "insurance_availability": {
+      "score": 4,
+      "score_range": {"low": 3, "high": 4},
+      "uncertainty": "moderate",
+      "trend": "flat-unavailable",
+      "confidence": 0.82,
+      "confidence_range": {"low": 0.70, "high": 0.90},
+      "notes": "Gulf marine war rates spiked 5x. Hormuz described as 'effectively uninsurable.' Lloyd's says cover exists but restricted. Premiums at 1-1.5% of vessel value.",
+      "evidence_refs": ["guardian_insurance_uninsurable"],
+      "reasoning": "Score range reflects ambiguity between 'technically available at extreme cost' (3) vs 'practically unavailable for most operators' (4). Real uncertainty in functional availability."
+    },
+    "navigation_integrity": {
+      "score": 3,
+      "score_range": {"low": 2, "high": 4},
+      "uncertainty": "high",
+      "trend": "unknown",
+      "confidence": 0.75,
+      "confidence_range": {"low": 0.60, "high": 0.85},
+      "notes": "GNSS interference and AIS anomalies reported in JMIC updates. Military jamming likely widespread. Data is stale - no fresh JMIC update since March 19.",
+      "evidence_refs": ["jmic_gnss_interference_persistent"],
+      "reasoning": "High uncertainty due to data gap. Score could range from degraded (2) if interference localized, to broken (4) if systematic military jamming. Fresh intelligence needed."
+    },
+    "bypass_capacity": {
+      "score": 2,
+      "score_range": {"low": 1, "high": 3},
+      "uncertainty": "high",
+      "trend": "improving",
+      "confidence": 0.78,
+      "confidence_range": {"low": 0.65, "high": 0.88},
+      "notes": "India sourcing 75% from non-Hormuz routes (40 nations). Saudi rerouting via Red Sea. IEA cites 3.5-5.5 mb/d bypass vs 20 mb/d normal flow. Adapters succeeding but gaps remain for gas.",
+      "evidence_refs": ["businesstoday_india_75pct_bypass", "iea_bypass_capacity_range"],
+      "reasoning": "Large uncertainty range reflects partial success. Crude adapters working (score 1-2), but LNG/gas much harder (score 3). India success may not generalize to all importers."
+    },
+    "asia_buffer_stress": {
+      "score": 2,
+      "score_range": {"low": 1, "high": 3},
+      "uncertainty": "moderate",
+      "trend": "rising",
+      "confidence": 0.80,
+      "confidence_range": {"low": 0.70, "high": 0.90},
+      "notes": "IEA 400M barrel emergency release cushions near-term. But medical supplies stuck in Dubai, humanitarian aid blocked for millions. Food systems under pressure.",
+      "evidence_refs": ["ap_humanitarian_aid_blocked", "opb_medical_supplies_dubai", "iea_emergency_stock_release"],
+      "reasoning": "Oil buffers adequate for now (score 1-2), but humanitarian/medical supply chains breaking (score 3). Composite stress rising as conflict extends beyond 30-day horizon."
+    }
+  },
+  "branches": {
+    "reopening": {
+      "center": 0.15,
+      "range": {"low": 0.05, "high": 0.30},
+      "confidence": 0.55,
+      "confidence_range": {"low": 0.40, "high": 0.70},
+      "description": "Hormuz reopens to normal commercial traffic within 30 days",
+      "blockers": ["Iran demands permanent ceasefire guarantee", "Trump ultimatum makes negotiation harder", "UN force authorization watered down"],
+      "enablers": ["Pakistan mediation active", "Iran 10-point counter-proposal", "Coalition escort planning exists"]
+    },
+    "effective_closure": {
+      "center": 0.45,
+      "range": {"low": 0.30, "high": 0.60},
+      "confidence": 0.70,
+      "confidence_range": {"low": 0.55, "high": 0.82},
+      "description": "Hormuz remains effectively closed for 30-90 days, selective Iranian transit continues",
+      "blockers": ["Bypass adapters working for some importers", "IEA emergency release", "Economic pressure on Iran"],
+      "enablers": ["Iran controls chokepoint", "Insurance unavailable", "Military escalation", "No viable forced reopening mechanism"]
+    },
+    "wider_escalation": {
+      "center": 0.40,
+      "range": {"low": 0.25, "high": 0.55},
+      "confidence": 0.65,
+      "confidence_range": {"low": 0.50, "high": 0.80},
+      "description": "Conflict expands to regional infrastructure, civilian targets, or direct US-Iran confrontation",
+      "blockers": ["Global economic pressure", "UN diplomatic efforts", "Pakistan/Turkey/Egypt mediation"],
+      "enablers": ["Trump ultimatum deadline", "South Pars attack", "US aircraft downed", "Healthcare facilities targeted", "War crime accusations dismissed"]
+    }
+  },
+  "branch_model": {
+    "version": "v4.1-with-uncertainty-ranges",
+    "note": "Branch probabilities now include explicit uncertainty ranges reflecting model confidence and signal quality.",
+    "methodology": "Center = weighted prior. Range = plausible interval given signal gaps and model uncertainty. Ranges overlap intentionally - they are not calibrated probabilities.",
+    "modifiers": [
+      {
+        "category": "regional_escalation",
+        "source": "AP / multiple",
+        "strength": 0.95,
+        "notes": "Trump ultimatum for infrastructure strikes. South Pars attacked. US aircraft downed. Healthcare facilities targeted.",
+        "timestamp_utc": "2026-04-06T16:00:00Z"
+      },
+      {
+        "category": "reopening_pressure",
+        "source": "AP / diplomatic",
+        "strength": 0.40,
+        "notes": "Pakistan mediation continues. Iran submitted 10-point proposal. But Iran rejected 45-day ceasefire, demands permanent end.",
+        "timestamp_utc": "2026-04-06T16:00:00Z"
+      },
+      {
+        "category": "humanitarian_crisis",
+        "source": "AP / WHO / OPB",
+        "strength": 0.75,
+        "notes": "Medical supplies stuck in Dubai. Food/medicine blocked for millions. 20+ healthcare facilities attacked. Growing civilian toll.",
+        "timestamp_utc": "2026-04-06T16:00:00Z"
+      }
+    ]
+  },
+  "meta": {
+    "model_evolution": {
+      "change": "Added uncertainty ranges to all scores and branch probabilities",
+      "rationale": "User requested ranges indicating level of uncertainty in probability models. This replaces false precision with explicit epistemic uncertainty.",
+      "limitations": "Ranges are heuristic, not calibrated. Overlap is intentional. Do not interpret as Bayesian credible intervals."
+    },
+    "data_gaps": [
+      "No fresh JMIC update since March 19",
+      "Iranian casualty count not updated for days",
+      "Navigation integrity data stale",
+      "LNG transit data sparse"
+    ],
+    "next_update_priority": "Fresh navigation/GNSS data, LNG flow status, Iranian domestic conditions"
+  }
+}

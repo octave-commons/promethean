@@ -1,0 +1,173 @@
+{
+  "groupId": "unit-tests-atproto",
+  "testedAt": "2026-03-12T22:40:07Z",
+  "isolation": {
+    "radar-core": "cd /home/err/devel/packages/radar-core && npx vitest run",
+    "signal-atproto": "cd /home/err/devel/packages/signal-atproto && npx vitest run",
+    "notes": "Unit tests are self-contained with no shared state concerns"
+  },
+  "toolsUsed": ["vitest"],
+  "assertions": [
+    {
+      "id": "VAL-PROC-001",
+      "title": "SignalEvents Clustered into Threads",
+      "status": "pass",
+      "steps": [
+        { "action": "Run radar-core cluster tests", "expected": "Tests for topic-based clustering pass", "observed": "All 8 cluster tests passed" },
+        { "action": "Verify test 'separates signals with different topics into different threads'", "expected": "3 signals on topic A (GPU/chip) and 2 on topic B (military/conflict) produce at least 2 distinct threads", "observed": "Test passes: creates ≥2 threads, tech signals grouped together, geo signals grouped together, thread IDs are distinct" },
+        { "action": "Verify test 'groups similar signals into the same thread'", "expected": "3 similar signals cluster together", "observed": "Test passes: all 3 signals with shared GPU/chip/shortage terms are in the same thread" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/radar-core-verbose.txt",
+        "relevantTests": [
+          "cluster > separates signals with different topics into different threads",
+          "cluster > groups similar signals into the same thread",
+          "cluster > clusters cross-source signals (Bluesky + Reddit) on the same topic together",
+          "cluster > produces valid Thread objects conforming to the Zod schema"
+        ],
+        "testFile": "packages/radar-core/tests/cluster.test.ts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-PROC-002",
+      "title": "Reducer Produces Bounded Score Ranges",
+      "status": "pass",
+      "steps": [
+        { "action": "Run radar-core snapshot-reducer tests", "expected": "Tests for bounded score ranges pass", "observed": "All 13 reducer tests passed" },
+        { "action": "Verify test 'score ranges have valid min <= max bounds'", "expected": "Every score range has min <= median <= max, all values in [0,1]", "observed": "Test passes: asserts min <= median <= max and 0 <= min, max <= 1 for every scoreRange" },
+        { "action": "Verify test 'produces a valid RadarSnapshot from a single thread'", "expected": "Snapshot has scoreRanges with lower/upper bounds", "observed": "Test passes: snapshot.scoreRanges.length >= 1, validates against Zod schema" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/radar-core-verbose.txt",
+        "relevantTests": [
+          "reduce > score ranges have valid min <= max bounds",
+          "reduce > produces a valid RadarSnapshot from a single thread",
+          "reduce > produces a valid RadarSnapshot from multiple threads with different categories",
+          "reduce > snapshot validates against Zod schema"
+        ],
+        "testFile": "packages/radar-core/tests/snapshot-reducer.test.ts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-PROC-003",
+      "title": "Model Disagreement Index",
+      "status": "pass",
+      "steps": [
+        { "action": "Run radar-core reducer disagreement tests", "expected": "Disagreement index = 0 for identical confidence, > 0 for differing", "observed": "Test passes all 3 sub-cases" },
+        { "action": "Verify identical confidence case", "expected": "3 threads with confidence 0.5 → disagreementIndex = 0", "observed": "snapshotSame.disagreementIndex === 0 ✓" },
+        { "action": "Verify differing confidence case", "expected": "Threads with confidence 0.1 and 0.9 → disagreementIndex > 0", "observed": "snapshotMixed.disagreementIndex > 0 and <= 1 ✓" },
+        { "action": "Verify extreme disagreement case", "expected": "Threads with confidence 0.0 and 1.0 → disagreementIndex >= 0.9", "observed": "snapshotExtreme.disagreementIndex >= 0.9 ✓" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/radar-core-verbose.txt",
+        "relevantTests": [
+          "reduce > computes disagreement index correctly",
+          "reduce > produces a valid RadarSnapshot from multiple threads with different categories"
+        ],
+        "testFile": "packages/radar-core/tests/snapshot-reducer.test.ts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ERR-002",
+      "title": "Reducer Determinism",
+      "status": "pass",
+      "steps": [
+        { "action": "Run radar-core reducer determinism tests", "expected": "Shuffled and reversed inputs produce identical outputs", "observed": "Both determinism tests pass" },
+        { "action": "Verify test 'DETERMINISM: shuffled inputs produce identical outputs'", "expected": "5 threads shuffled with 3 different seeds all produce output identical to baseline", "observed": "shuffle(threads, 42), shuffle(threads, 12345), shuffle(threads, 99999) all toEqual(baseline) ✓" },
+        { "action": "Verify test 'DETERMINISM: reversed input produces identical output'", "expected": "3 threads in forward vs reversed order produce identical output", "observed": "reversed toEqual(forward) ✓" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/radar-core-verbose.txt",
+        "relevantTests": [
+          "reduce > DETERMINISM: shuffled inputs produce identical outputs",
+          "reduce > DETERMINISM: reversed input produces identical output"
+        ],
+        "testFile": "packages/radar-core/tests/snapshot-reducer.test.ts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-DATA-002",
+      "title": "SignalEvents Published as AT Protocol Records",
+      "status": "pass",
+      "steps": [
+        { "action": "Run signal-atproto converter tests for SignalEvent", "expected": "SignalEvent converts to valid AT Protocol record", "observed": "Both toAtprotoSignalEvent tests pass" },
+        { "action": "Verify test 'serializes a SignalEvent to AT Protocol record format'", "expected": "Record has $type='app.openhax.radar.signalEvent', correct field mapping", "observed": "All fields mapped correctly: $type, provenanceSource, provenanceAuthor, text, title, links, domainTags, contentHash, observedAt, ingestedAt ✓" },
+        { "action": "Verify test 'handles optional/undefined provenance fields gracefully'", "expected": "Minimal event converts without errors, optional fields are undefined", "observed": "Minimal event converts; provenanceAuthor, provenancePostUri, title, contentHash all undefined ✓" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/signal-atproto-verbose.txt",
+        "relevantTests": [
+          "toAtprotoSignalEvent > serializes a SignalEvent to AT Protocol record format",
+          "toAtprotoSignalEvent > handles optional/undefined provenance fields gracefully",
+          "publishSignalEvent + read-back > publishes a SignalEvent and returns a valid AT URI"
+        ],
+        "testFile": "packages/signal-atproto/tests/converters.test.ts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-DATA-003",
+      "title": "Threads Published as AT Protocol Records",
+      "status": "pass",
+      "steps": [
+        { "action": "Run signal-atproto converter tests for Thread", "expected": "Thread converts to valid AT Protocol record with member refs", "observed": "toAtprotoThread test passes" },
+        { "action": "Verify test 'serializes a Thread to AT Protocol record format with member refs'", "expected": "Record has $type='app.openhax.radar.thread', memberRefs array, all metadata fields", "observed": "All fields correct: $type, radarId, kind, title, memberRefs=['sig-001','sig-002'], sourceDistribution, confidence, domainTags, status, timeline fields ✓" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/signal-atproto-verbose.txt",
+        "relevantTests": [
+          "toAtprotoThread > serializes a Thread to AT Protocol record format with member refs",
+          "publishThread + read-back > publishes a Thread and returns a valid AT URI"
+        ],
+        "testFile": "packages/signal-atproto/tests/converters.test.ts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-DATA-004",
+      "title": "Reduced Snapshots Published as AT Protocol Records",
+      "status": "pass",
+      "steps": [
+        { "action": "Run signal-atproto converter tests for Snapshot", "expected": "ReducedSnapshot converts to valid AT Protocol record with flattened ranges", "observed": "toAtprotoSnapshot test passes" },
+        { "action": "Verify test 'serializes a ReducedSnapshot with flattened signal ranges'", "expected": "Record has $type='app.openhax.radar.snapshot', flattened signal ranges (rangeLow/rangeHigh), branches array", "observed": "All fields correct: $type, radarId, snapshotKind, modelCount, disagreementIndex, qualityScore, signals.geopolitical.rangeLow=1, rangeHigh=4, branches with name/support/triggers ✓" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/signal-atproto-verbose.txt",
+        "relevantTests": [
+          "toAtprotoSnapshot > serializes a ReducedSnapshot with flattened signal ranges",
+          "publishSnapshot + read-back > publishes a Snapshot and returns a valid AT URI"
+        ],
+        "testFile": "packages/signal-atproto/tests/converters.test.ts"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-011",
+      "title": "AT Protocol Round-Trip: Publish → Read-Back",
+      "status": "pass",
+      "steps": [
+        { "action": "Run signal-atproto publisher round-trip tests", "expected": "Published records can be read back with matching content", "observed": "All 3 round-trip tests pass (SignalEvent, Thread, Snapshot)" },
+        { "action": "Verify SignalEvent round-trip", "expected": "Publish → getRecord → content fields match original", "observed": "readBack.value.$type, text, title, provenanceSource, provenanceAuthor, domainTags, contentHash, observedAt all match ✓" },
+        { "action": "Verify Thread round-trip", "expected": "Publish → getRecord → thread fields match original", "observed": "readBack.value.$type, title, kind, radarId, memberRefs, sourceDistribution, confidence, status all match ✓" },
+        { "action": "Verify Snapshot round-trip", "expected": "Publish → getRecord → snapshot fields and signal ranges match", "observed": "readBack.value.$type, radarId, snapshotKind, modelCount, disagreementIndex, qualityScore match; signals.geopolitical.median=2.5, rangeLow=1, rangeHigh=4; 2 branches with correct names ✓" }
+      ],
+      "evidence": {
+        "testOutput": "signal-pipeline/unit-tests/signal-atproto-verbose.txt",
+        "relevantTests": [
+          "publishSignalEvent + read-back > reads back a published SignalEvent with matching content",
+          "publishThread + read-back > reads back a published Thread with matching content",
+          "publishSnapshot + read-back > reads back a published Snapshot with matching content"
+        ],
+        "testFile": "packages/signal-atproto/tests/publisher.test.ts"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 8 assertions: 8 passed, 0 failed. radar-core (55/55 tests pass): clustering, reducer score ranges, disagreement index, and determinism all verified. signal-atproto (16/16 tests pass): AT Protocol conversion for SignalEvent, Thread, and Snapshot plus publish→read-back round-trip all verified."
+}

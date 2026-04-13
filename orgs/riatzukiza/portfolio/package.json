@@ -1,0 +1,12 @@
+{
+  "name": "@promethean-os/riatzukiza-portfolio",
+  "private": true,
+  "version": "0.0.0",
+  "type": "module",
+  "scripts": {
+    "dev": "node src/server.mjs",
+    "start": "node src/server.mjs",
+    "garden:generate": "node src/garden/generate.mjs",
+    "garden:generate:one": "node src/garden/generate.mjs --project cephalon-ts"
+  }
+}

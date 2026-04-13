@@ -1,23 +1,21 @@
-name: open-hax-openai-proxy
-
 services:
   open-hax-openai-proxy:
     depends_on:
       open-hax-openai-proxy-db:
         condition: service_healthy
     build:
-      context: ./orgs/open-hax/proxx
+      context: .
       dockerfile: Dockerfile
     ports:
-      - "${PROXY_PORT:-18790}:8789"
-      - "${OPENAI_OAUTH_CALLBACK_PORT:-1456}:8789"
-      - "${PROXY_WEB_PORT:-25177}:5174"
+      - "${PROXY_PORT:-8789}:8789"
+      - "${OPENAI_OAUTH_CALLBACK_PORT:-1455}:8789"
+      - "${PROXY_WEB_PORT:-5174}:5174"
     environment:
       NODE_ENV: production
       PROXY_HOST: 0.0.0.0
       PROXY_PORT: "8789"
       PORT: "8789"
-      OPENAI_OAUTH_CALLBACK_PORT: "${OPENAI_OAUTH_CALLBACK_PORT:-1456}"
+      OPENAI_OAUTH_CALLBACK_PORT: "${OPENAI_OAUTH_CALLBACK_PORT:-1455}"
       PROXY_AUTH_TOKEN: "${PROXY_AUTH_TOKEN:-change-me-open-hax-proxy-token}"
       PROXY_KEYS_FILE: /workspace/service-config/keys.json
       PROXY_MODELS_FILE: /workspace/service-config/models.json
@@ -28,8 +26,8 @@ services:
       UPSTREAM_PROVIDER_ID: "${UPSTREAM_PROVIDER_ID:-openai}"
       UPSTREAM_FALLBACK_PROVIDER_IDS: "${UPSTREAM_FALLBACK_PROVIDER_IDS:-ollama-cloud,requesty}"
       DISABLED_PROVIDER_IDS: "${DISABLED_PROVIDER_IDS:-}"
-      UPSTREAM_BASE_URL: "${UPSTREAM_BASE_URL:-https://chatgpt.com/backend-api}"
-      UPSTREAM_PROVIDER_BASE_URLS: "${UPSTREAM_PROVIDER_BASE_URLS:-ollama-cloud=https://ollama.com,openai=https://chatgpt.com/backend-api,vivgrid=https://api.vivgrid.com,requesty=https://router.requesty.ai/v1}"
+      UPSTREAM_BASE_URL: "${UPSTREAM_BASE_URL:-}"
+      UPSTREAM_PROVIDER_BASE_URLS: "${UPSTREAM_PROVIDER_BASE_URLS:-ollama-cloud=https://ollama.com,ob1=https://dashboard.openblocklabs.com/api,openai=https://chatgpt.com/backend-api,openrouter=https://openrouter.ai/api/v1,requesty=https://router.requesty.ai/v1,vivgrid=https://api.vivgrid.com}"
       REQUESTY_API_TOKEN: "${REQUESTY_API_TOKEN:-}"
       OPENAI_PROVIDER_ID: "${OPENAI_PROVIDER_ID:-openai}"
       OPENAI_BASE_URL: "${OPENAI_BASE_URL:-https://chatgpt.com/backend-api}"
@@ -75,7 +73,6 @@ services:
       PROXY_KEY_RELOAD_MS: "${PROXY_KEY_RELOAD_MS:-5000}"
       PROXY_KEY_COOLDOWN_MS: "${PROXY_KEY_COOLDOWN_MS:-30000}"
       UPSTREAM_REQUEST_TIMEOUT_MS: "${UPSTREAM_REQUEST_TIMEOUT_MS:-180000}"
-      UPSTREAM_STREAM_BOOTSTRAP_TIMEOUT_MS: "${UPSTREAM_STREAM_BOOTSTRAP_TIMEOUT_MS:-180000}"
       PROXY_ALLOW_UNAUTHENTICATED: "${PROXY_ALLOW_UNAUTHENTICATED:-false}"
       DATABASE_URL: "${DATABASE_URL:-postgresql://openai_proxy:openai_proxy@open-hax-openai-proxy-db:5432/openai_proxy}" # pragma: allowlist secret
       VITE_ALLOWED_HOSTS: "${VITE_ALLOWED_HOSTS:-}"
@@ -84,28 +81,17 @@ services:
       CHROMA_EMBED_MODEL: "${CHROMA_EMBED_MODEL:-nomic-embed-text:latest}"
       HOST_DASHBOARD_SELF_ID: "${HOST_DASHBOARD_SELF_ID:-}"
       HOST_DASHBOARD_TARGETS_JSON: "${HOST_DASHBOARD_TARGETS_JSON:-}"
-      HOST_DASHBOARD_DOCKER_SOCKET_PATH: "${HOST_DASHBOARD_DOCKER_SOCKET_PATH:-/var/run/docker.sock}"
-      HOST_DASHBOARD_RUNTIME_ROOT: "${HOST_DASHBOARD_RUNTIME_ROOT:-/workspace/runtime-repo}"
+      HOST_DASHBOARD_DOCKER_SOCKET_PATH: "${HOST_DASHBOARD_DOCKER_SOCKET_PATH:-}"
+      HOST_DASHBOARD_RUNTIME_ROOT: "${HOST_DASHBOARD_RUNTIME_ROOT:-}"
       HOST_DASHBOARD_REQUEST_TIMEOUT_MS: "${HOST_DASHBOARD_REQUEST_TIMEOUT_MS:-5000}"
       OTEL_EXPORTER_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-}"
       OTEL_EXPORTER_OTLP_HEADERS: "${OTEL_EXPORTER_OTLP_HEADERS:-}"
-      OTEL_SERVICE_NAME: "${OTEL_SERVICE_NAME:-proxx-root}"
-      OTEL_RESOURCE_ATTRIBUTES: "${OTEL_RESOURCE_ATTRIBUTES:-service.name=proxx-root}"
-
-      # Federation identity for the primary node
-      FEDERATION_SELF_NODE_ID: "${FEDERATION_SELF_NODE_ID:-root-primary}"
-      FEDERATION_SELF_GROUP_ID: "${FEDERATION_SELF_GROUP_ID:-workspace-root}"
-      FEDERATION_SELF_CLUSTER_ID: "${FEDERATION_SELF_CLUSTER_ID:-workspace-root-local}"
-      FEDERATION_SELF_PEER_DID: "${FEDERATION_SELF_PEER_DID:-}"
-      FEDERATION_SELF_PUBLIC_BASE_URL: "${FEDERATION_SELF_PUBLIC_BASE_URL:-http://open-hax-openai-proxy:8789}"
-      FEDERATION_DEFAULT_OWNER_SUBJECT: "${FEDERATION_DEFAULT_OWNER_SUBJECT:-did:web:open-hax-openai-proxy.local}"
-      FEDERATION_REQUEST_TIMEOUT_MS: "${FEDERATION_REQUEST_TIMEOUT_MS:-30000}"
+      OTEL_SERVICE_NAME: "${OTEL_SERVICE_NAME:-proxx}"
+      OTEL_RESOURCE_ATTRIBUTES: "${OTEL_RESOURCE_ATTRIBUTES:-service.name=proxx}"
     volumes:
-      - ./services/proxx/keys.json:/workspace/service-config/keys.json:ro
-      - ./services/proxx/models.json:/workspace/service-config/models.json:ro
+      - ./keys.json:/workspace/service-config/keys.json
+      - ./models.json:/workspace/service-config/models.json:ro
       - ./data:/app/data
-      - ./:/workspace/runtime-repo:ro
-      - /var/run/docker.sock:/var/run/docker.sock
     extra_hosts:
       - "host.docker.internal:host-gateway"
     healthcheck:
@@ -131,9 +117,9 @@ services:
       POSTGRES_USER: openai_proxy
       POSTGRES_PASSWORD: openai_proxy # pragma: allowlist secret
     ports:
-      - "${PROXY_DB_PORT:-15431}:5432"
+      - "${PROXY_DB_PORT:-5432}:5432"
     volumes:
-      - open-hax-openai-proxy-root-db-data:/var/lib/postgresql/data
+      - open-hax-openai-proxy-db-data:/var/lib/postgresql/data
     healthcheck:
       test: ["CMD-SHELL", "pg_isready -U openai_proxy -d openai_proxy"]
       interval: 10s
@@ -150,4 +136,4 @@ networks:
     name: ai-infra
 
 volumes:
-  open-hax-openai-proxy-root-db-data:
+  open-hax-openai-proxy-db-data:

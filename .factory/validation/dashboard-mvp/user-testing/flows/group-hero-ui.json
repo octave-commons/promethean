@@ -1,0 +1,154 @@
+{
+  "groupId": "group-hero-ui",
+  "testedAt": "2026-03-13T12:00:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:9002",
+    "backendApi": "http://localhost:9001",
+    "agentBrowserSession": "e63ce43e32d8__heroui",
+    "readOnly": true
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": [
+    {
+      "id": "VAL-UI-002",
+      "title": "Hero Panel Ring Gauges",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Navigate to http://localhost:9002 and wait for network idle",
+          "expected": "Dashboard loads with hero panel visible",
+          "observed": "Dashboard loaded successfully, hero panel visible at top of page"
+        },
+        {
+          "action": "Take annotated screenshot of the hero panel",
+          "expected": "3 ring gauges labeled Agency, Nuance, Critical",
+          "observed": "3 ring gauges visible: Agency (80), Nuance (3), Critical (54)"
+        },
+        {
+          "action": "Inspect SVG elements via DOM evaluation",
+          "expected": "3 SVG ring gauge elements with aria-labels and values in [0, 100]",
+          "observed": "3 SVGs with class 'risk-gauge', aria-labels 'Agency: 80', 'Nuance: 3', 'Critical: 54', each 120x78 with 6 child elements (defs + arcs)"
+        },
+        {
+          "action": "Check CSS animation/transition properties on gauge arcs",
+          "expected": "Transition or animation properties present for arc animation",
+          "observed": "Arc path elements have 'transition: d 0.8s' for animated arc rendering on load/data change, plus 'transition: all' on background paths"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/group-hero-ui/VAL-UI-002-hero-panel-overview.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /api/radars -> 200 (polling)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-UI-004",
+      "title": "Source Firehose Panel",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Click 'Expand signal firehose' button at bottom of page",
+          "expected": "Firehose panel expands to show signal items",
+          "observed": "Panel expanded, class changed to 'fh-panel fh-panel--expanded', 10 article items visible"
+        },
+        {
+          "action": "Inspect firehose items for source labels, freshness tags, and quality indicators",
+          "expected": "Each item shows source badge, timestamp-derived freshness, and quality indicator",
+          "observed": "Each item shows: source badge (Reddit/Bluesky), freshness tag ('56m ago'/'57m ago'), quality indicator ('medium actionable'), thread title, radar name, signal count, and domain tags"
+        },
+        {
+          "action": "Take screenshot of expanded firehose",
+          "expected": "Visual confirmation of firehose items with all required indicators",
+          "observed": "Screenshot confirms 10 signal items with colored source badges, MEDIUM and ACTIONABLE pill labels, freshness timestamps, and thread titles"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/group-hero-ui/VAL-UI-004-firehose-expanded.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /api/radars -> 200 (polling)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-UI-007",
+      "title": "Action Feed with Time-Bounded Suggestions",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Scroll to Action Feed section in the μ (Local) lane",
+          "expected": "Action feed visible with time-bounded suggestions",
+          "observed": "Action Feed heading visible with '15 suggestions' count"
+        },
+        {
+          "action": "Inspect action feed items and time-bound labels",
+          "expected": "At least one action item with a time horizon label",
+          "observed": "15 action items grouped into 3 time horizons: 'within 24 hours' (2 items), 'this week' (5 items), 'coordination opportunity' (8 items). Each item has title, time label, probability, evidence references, radar name, and urgency percentage."
+        },
+        {
+          "action": "Take screenshot of the action feed",
+          "expected": "Visual confirmation of time-bounded action items",
+          "observed": "Screenshot shows 'WITHIN 24 HOURS' and 'THIS WEEK' section headers with action cards like 'Prepare for: ai' with 'WITHIN 24 HOURS' pill label and urgency scores"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/group-hero-ui/VAL-UI-007-action-feed.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /api/radars -> 200 (polling)"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ERR-001",
+      "title": "Empty State Display",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Search source code for empty state component in threat-radar-web/src/",
+          "expected": "An EmptyState component exists that renders when no radars are present",
+          "observed": "EmptyState component found in src/ui/App.tsx (line 116-159) with data-testid='dashboard-empty-state'"
+        },
+        {
+          "action": "Verify conditional rendering logic in App.tsx",
+          "expected": "EmptyState renders when tiles.length === 0 and not loading and no error",
+          "observed": "Line 230: `{!loading && tiles.length === 0 && !error ? <EmptyState /> : <3-lane-grid>}` — correct conditional rendering"
+        },
+        {
+          "action": "Verify EmptyState content provides helpful guidance",
+          "expected": "Informative message with instructions for creating radars",
+          "observed": "Component renders: 'Welcome to Mission Control' heading, description paragraph, and 3 numbered setup steps (1: radar_create, 2: radar_collect_bluesky/reddit, 3: radar_reduce_live). Also includes SVG clock icon."
+        },
+        {
+          "action": "Verify CSS styles for empty state",
+          "expected": "Styled empty state with proper layout",
+          "observed": "CSS class 'dashboard-empty-state' defined in styles.css (line 1582+) with centered flex layout, min-height 50vh, proper typography and color settings"
+        },
+        {
+          "action": "Verify unit tests exist for empty state",
+          "expected": "Tests confirm empty state behavior",
+          "observed": "Tests in FirehosePanel.test.tsx verify 'dashboard-empty-state' renders correctly; MuLane.test.tsx tests mu-empty-state; EtaLane.test.tsx tests eta lane empty state"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (code review — empty state cannot be triggered via browser with 20+ radars seeded)",
+        "codeReview": {
+          "emptyStateComponent": "src/ui/App.tsx lines 116-159",
+          "conditionalRendering": "src/ui/App.tsx line 230",
+          "cssStyles": "src/ui/styles.css lines 1581-1608",
+          "unitTests": "src/ui/__tests__/FirehosePanel.test.tsx, MuLane.test.tsx, EtaLane.test.tsx"
+        }
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 4 assertions: all 4 passed. VAL-UI-002 confirmed 3 animated ring gauges (Agency:80, Nuance:3, Critical:54) with CSS transitions. VAL-UI-004 confirmed 10 firehose signals with source badges, freshness tags, and quality indicators. VAL-UI-007 confirmed 15 action feed suggestions grouped by time horizons (within 24 hours, this week, coordination opportunity). VAL-ERR-001 confirmed via code review that EmptyState component exists and renders helpful onboarding guidance when no radars are present."
+}

@@ -1,0 +1,61 @@
+{
+  "milestone": "signal-pipeline",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 16,
+    "passed": 16,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-COL-001",
+    "VAL-COL-002",
+    "VAL-COL-003",
+    "VAL-COL-004",
+    "VAL-DATA-001",
+    "VAL-PROC-001",
+    "VAL-PROC-002",
+    "VAL-PROC-003",
+    "VAL-PROC-004",
+    "VAL-PROC-005",
+    "VAL-ERR-002",
+    "VAL-DATA-002",
+    "VAL-DATA-003",
+    "VAL-DATA-004",
+    "VAL-CROSS-010",
+    "VAL-CROSS-011"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [
+    {
+      "target": "user-testing.md",
+      "description": "Added Flow Validator Guidance sections for API and Unit Test surfaces with MCP call format, auth details, DB query method, and isolation rules",
+      "source": "setup"
+    }
+  ],
+  "previousRound": null,
+  "flowReports": [
+    ".factory/validation/signal-pipeline/user-testing/flows/collection-persistence.json",
+    ".factory/validation/signal-pipeline/user-testing/flows/mcp-tools-snapshots.json",
+    ".factory/validation/signal-pipeline/user-testing/flows/unit-tests-atproto.json"
+  ],
+  "testSurfaces": {
+    "api": {
+      "tool": "curl",
+      "url": "http://localhost:9001",
+      "assertionsTested": ["VAL-COL-001", "VAL-COL-002", "VAL-COL-003", "VAL-COL-004", "VAL-DATA-001", "VAL-CROSS-010", "VAL-PROC-004", "VAL-PROC-005"]
+    },
+    "unit-tests": {
+      "tool": "vitest",
+      "packages": ["radar-core (55/55 passed)", "signal-atproto (16/16 passed)"],
+      "assertionsTested": ["VAL-PROC-001", "VAL-PROC-002", "VAL-PROC-003", "VAL-ERR-002", "VAL-DATA-002", "VAL-DATA-003", "VAL-DATA-004", "VAL-CROSS-011"]
+    }
+  },
+  "frictions": [
+    "Bluesky searchQuery parameter returned 0 results for all tested terms; only actor-based collection worked",
+    "MCP Streamable HTTP requires specific Accept headers and session initialization",
+    "MCP tool responses return summary counts rather than full objects; field validation required direct Postgres queries"
+  ]
+}

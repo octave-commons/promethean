@@ -1,0 +1,74 @@
+name: Deploy production
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - projects/webring-sites/fork-tales-site/**
+      - .github/workflows/fork-tales-*.yml
+  workflow_dispatch:
+
+concurrency:
+  group: fork-tales-production-deploy
+  cancel-in-progress: true
+
+jobs:
+  deploy-production:
+    name: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    environment: production
+    permissions:
+      contents: read
+    env:
+      PRODUCTION_HOST: ${{ vars.FORK_TALES_PRODUCTION_HOST || 'big.ussy.promethean.rest' }}
+      PRODUCTION_USER: ${{ vars.FORK_TALES_PRODUCTION_USER || 'error' }}
+      PRODUCTION_DEPLOY_PATH: ${{ vars.FORK_TALES_PRODUCTION_DEPLOY_PATH || '~/devel/services/fork-tales-site' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Start ssh-agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.FORK_TALES_DEPLOY_SSH_KEY }}
+
+      - name: Validate production deploy config
+        run: |
+          : "${PRODUCTION_HOST:?Set repo/environment variable FORK_TALES_PRODUCTION_HOST}"
+          : "${PRODUCTION_DEPLOY_PATH:?Set repo/environment variable FORK_TALES_PRODUCTION_DEPLOY_PATH}"
+
+      - name: Trust production host
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${PRODUCTION_HOST}" >> ~/.ssh/known_hosts
+
+      - run: chmod +x projects/webring-sites/fork-tales-site/scripts/*.sh
+      - name: Sync and deploy production runtime
+        run: projects/webring-sites/fork-tales-site/scripts/deploy-remote.sh
+        env:
+          DEPLOY_HOST: ${{ vars.FORK_TALES_PRODUCTION_HOST || 'big.ussy.promethean.rest' }}
+          DEPLOY_USER: ${{ vars.FORK_TALES_PRODUCTION_USER || 'error' }}
+          DEPLOY_PATH: ${{ vars.FORK_TALES_PRODUCTION_DEPLOY_PATH || '~/devel/services/fork-tales-site' }}
+          DEPLOY_COMPOSE_PROJECT_NAME: ${{ vars.FORK_TALES_PRODUCTION_COMPOSE_PROJECT_NAME || 'fork-tales-site' }}
+          DEPLOY_PUBLIC_HOST: ${{ vars.FORK_TALES_PRODUCTION_PUBLIC_HOST || 'fork.tales.promethean.rest' }}
+          DEPLOY_CADDY_ADMIN_URL: ${{ vars.FORK_TALES_PRODUCTION_CADDY_ADMIN_URL || 'http://127.0.0.1:2019' }}
+          DEPLOY_PORT: ${{ vars.FORK_TALES_PRODUCTION_PORT || '8794' }}
+          DEPLOY_BIND_HOST: ${{ vars.FORK_TALES_PRODUCTION_BIND_HOST || '127.0.0.1' }}
+          DEPLOY_ENV_FILE: ${{ secrets.FORK_TALES_PRODUCTION_ENV_FILE }}
+      - name: Verify live production
+        run: projects/webring-sites/fork-tales-site/scripts/verify-live.sh
+        env:
+          VERIFY_URL: ${{ vars.FORK_TALES_PRODUCTION_BASE_URL || 'https://fork.tales.promethean.rest' }}
+          VERIFY_RESOLVE_ADDRESS: ${{ vars.FORK_TALES_PRODUCTION_VERIFY_RESOLVE_ADDRESS || '' }}
+
+      - name: Production failure logs
+        if: failure()
+        run: |
+          ssh "${PRODUCTION_USER}@${PRODUCTION_HOST}" bash -s -- "${PRODUCTION_DEPLOY_PATH}" "${{ vars.FORK_TALES_PRODUCTION_COMPOSE_PROJECT_NAME || 'fork-tales-site' }}" <<'EOF'
+          set -euo pipefail
+          cd "$1"
+          docker compose --project-name "$2" -f compose.yaml ps
+          docker compose --project-name "$2" -f compose.yaml logs --tail=200
+          EOF

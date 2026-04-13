@@ -1,0 +1,198 @@
+{
+  "groupId": "cross-flows",
+  "testedAt": "2026-03-13T05:30:00Z",
+  "isolation": {
+    "appUrl": "http://localhost:9002",
+    "backendApi": "http://localhost:9001",
+    "agentBrowserSession": "fceeeeb25828__cross",
+    "adminAuth": "x-admin-key: dev-admin-key-12345"
+  },
+  "toolsUsed": ["agent-browser", "curl"],
+  "assertions": [
+    {
+      "id": "VAL-CROSS-003",
+      "title": "Personalization slider → re-render",
+      "status": "fail",
+      "steps": [
+        {
+          "action": "Open dashboard and expand personalization panel",
+          "expected": "Personalization sliders visible",
+          "observed": "6 dimension weight sliders (Geopolitical, Infrastructure, Economic, Security, Climate, Technology) all at 50, plus 3 toggles (Agency Bias, Critical Thinking, Federation)"
+        },
+        {
+          "action": "Note current gauge/clock values in η lane",
+          "expected": "Current values recorded",
+          "observed": "η lane gauges all show 0.0 THREAT (geopolitical radars have no score range data); Π lane Integration Test Radar shows 2.0 THREAT"
+        },
+        {
+          "action": "Adjust Geopolitical weight slider from 50 to 90",
+          "expected": "Slider moves, value saved",
+          "observed": "Slider moved to 90. localStorage updated: threat-radar-personalization.weights.geopolitical = 90"
+        },
+        {
+          "action": "Check for API call in network log",
+          "expected": "API call triggered with new weight value",
+          "observed": "Regular polling GET /api/radars calls continue (~12s interval), but NO dedicated API call triggered by slider change. Weights are client-side only (localStorage)."
+        },
+        {
+          "action": "Verify gauge/clock values change",
+          "expected": "Gauge/clock values change to reflect adjusted weights",
+          "observed": "Gauge values remain unchanged at 0.0 THREAT. The weight application code exists in EtaLane.tsx (factor = weight/50 applied to score range medians) but all η lane radars have no deterministicSnapshot.score_ranges data, so the factor multiplies 0 and produces no visible change."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/cross-flows/VAL-CROSS-003-initial-dashboard.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-003-sliders-visible.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-003-after-slider-change.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-003-scrolled-down.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /api/radars polling every ~12s (not triggered by slider change)"
+      },
+      "issues": "Gauge/clock values do not change when adjusting personalization sliders because: (1) The slider change is saved to localStorage only, not sent as an API call. (2) The weight application code in EtaLane.tsx requires non-zero score_ranges in deterministicSnapshot, but all η lane radars have empty score ranges. (3) The main threat gauge (0.0) does not incorporate personalization weights. Step 3 (observe API call) fails because the weight change is purely client-side. Step 4 (gauge values change) fails because 0 × any_factor = 0."
+    },
+    {
+      "id": "VAL-CROSS-007",
+      "title": "Polling auto-update: New signal reflected without refresh",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Open dashboard and note current state",
+          "expected": "Dashboard loaded with existing radars",
+          "observed": "Dashboard shows η lane with VAL PROC-005 (0.0 THREAT) and VAL PROC-004 (0.0 THREAT), Π lane with Integration Test Radar (2.0 THREAT)"
+        },
+        {
+          "action": "Create new radar 'Polling Test Cross007' via MCP (radar_create, category: geopolitical)",
+          "expected": "Radar created successfully",
+          "observed": "Radar created with id 000c9017-027e-4c31-8975-65e30f2094c1, slug polling-test-cross007"
+        },
+        {
+          "action": "Submit assessment packet via MCP (radar_submit_packet with transit_flow:4, attack_tempo:3, insurance_availability:2)",
+          "expected": "Packet submitted successfully",
+          "observed": "Packet submitted: ok=true, submissionId=cross007-thread, weight=0.2"
+        },
+        {
+          "action": "Trigger live reduce via MCP (radar_reduce_live)",
+          "expected": "Live snapshot generated with signal data",
+          "observed": "Live snapshot generated: transit_flow median=4, attack_tempo median=3, insurance_availability median=2"
+        },
+        {
+          "action": "Wait ≤15s and check dashboard without refresh",
+          "expected": "New radar appears with updated gauge values",
+          "observed": "After 15s: 'Polling Test Cross007' appeared in η lane with 3.0 THREAT gauge, signal dimensions visible (transit_flow: 4, attack_tempo: 3, insurance_availability: 2). No manual refresh performed."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/cross-flows/VAL-CROSS-007-before.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-007-after-packet.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-007-after-reduce.png"
+        ],
+        "consoleErrors": "none",
+        "network": "Periodic GET /api/radars returning updated data with new radar tile"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-008",
+      "title": "MCP radar creation → dashboard display",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Open dashboard and note current state",
+          "expected": "Dashboard loaded with existing radars",
+          "observed": "Dashboard shows Polling Test Cross007 in η lane (3.0 THREAT), Integration Test Radar in Π lane (2.0 THREAT)"
+        },
+        {
+          "action": "Create new radar 'MCP Display Test Cross008' via MCP (radar_create, category: test)",
+          "expected": "Radar created successfully via MCP",
+          "observed": "Radar created: id f42fc1e2-d74d-4249-ba20-d2bc79c74388, slug mcp-display-cross008, category test, status active"
+        },
+        {
+          "action": "Wait ≤15s for polling cycle",
+          "expected": "New radar appears in dashboard",
+          "observed": "After 15s: 'MCP Display Test Cross008' appeared in Π (Connections) lane with ACTIVE badge, 0.0 THREAT gauge, and metadata (0 packets, 0 sources, 0 models). No manual refresh."
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/cross-flows/VAL-CROSS-008-before.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-008-after.png"
+        ],
+        "consoleErrors": "none",
+        "network": "MCP POST /mcp tools/call radar_create -> 200; polling GET /api/radars picked up new radar"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-009",
+      "title": "API error → graceful dashboard degradation",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Confirm dashboard loads normally with working API",
+          "expected": "Dashboard renders with data, no errors",
+          "observed": "Dashboard fully functional with radar tiles, gauges, and all 3 lanes populated"
+        },
+        {
+          "action": "Stop API server (kill process on port 9001)",
+          "expected": "API server stops, requests fail",
+          "observed": "API server killed. curl to health endpoint fails (connection refused)"
+        },
+        {
+          "action": "Wait for next polling cycle (~15s)",
+          "expected": "Dashboard shows error indicator",
+          "observed": "Red/amber error banner appears at top: 'Unable to reach the radar API' with 'Retry' button. Radar tiles disappear, 3 lanes remain with placeholders. Critical Thinking section still visible."
+        },
+        {
+          "action": "Check console for uncaught JS errors",
+          "expected": "No uncaught exceptions",
+          "observed": "Zero uncaught JS errors in console"
+        },
+        {
+          "action": "Restart API server",
+          "expected": "API comes back healthy",
+          "observed": "API restarted successfully: health endpoint returns ok, listening on 9001"
+        },
+        {
+          "action": "Verify dashboard recovers after API restart",
+          "expected": "Dashboard recovers and shows data again",
+          "observed": "After next polling cycle: error banner gone, all radar tiles restored, data displayed normally"
+        }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/cross-flows/VAL-CROSS-009-before-api-down.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-009-api-down.png",
+          "dashboard-mvp/cross-flows/VAL-CROSS-009-api-restored.png"
+        ],
+        "consoleErrors": "none",
+        "network": "GET /api/radars fails with connection refused when API down; resumes normally after restart"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "MCP Streamable HTTP transport requires session management (mcp-session-id header from initialize response). Each curl call needs to maintain the session or tool calls fail with 'Server not initialized'. Not mentioned in user-testing.md.",
+      "resolved": true,
+      "resolution": "Extracted mcp-session-id from initialize response headers and passed it with subsequent requests",
+      "affectedAssertions": ["VAL-CROSS-007", "VAL-CROSS-008"]
+    },
+    {
+      "description": "radar_submit_packet expects a 'packet' wrapper object with specific required fields (thread_id, radar_id, module_version_id, timestamp_utc, model_id, signal_scores with value/range/confidence/reason), not the simplified format shown in the task prompt",
+      "resolved": true,
+      "resolution": "Used tools/list to discover correct schema, then submitted properly formatted packet",
+      "affectedAssertions": ["VAL-CROSS-007"]
+    },
+    {
+      "description": "Submitting a packet does not automatically trigger live snapshot reduction. A separate radar_reduce_live call is needed for signal data to appear in the API response for dashboard polling",
+      "resolved": true,
+      "resolution": "Called radar_reduce_live after submitting packet",
+      "affectedAssertions": ["VAL-CROSS-007"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 4 assertions: 3 passed (VAL-CROSS-007, VAL-CROSS-008, VAL-CROSS-009), 1 failed (VAL-CROSS-003: personalization slider saves weights to localStorage and code applies them via factor multiplication, but no score_ranges data exists in test radars for visible gauge changes, and no API call is triggered by slider changes)."
+}

@@ -1,0 +1,150 @@
+# Solar-Powered Open AI Infrastructure Charter
+
+## Purpose
+
+This project provides free or subsidized access to high-quality AI writing, reasoning, and knowledge tools powered by renewable energy on tribal and community land in Arizona. The service is built to demonstrate that computational resources can be governed for public benefit rather than extraction, and that smart people systematically excluded from opportunity can lead and own the infrastructure that serves them.
+
+## Core Values (Non-Negotiable)
+
+- **Community leadership**: Governance decisions and mission control belong to the people the service is designed to serve, not to the engineer who built it.
+- **Actual equity, not symbolic**: Access is determined by clear, transparent eligibility; pricing is sustainable and fair; no donor or shareholder can buy influence over who gets served.
+- **Engineering integrity**: The infrastructure is secure, honest, and well-maintained; technical decisions are made on merit, not politics.
+- **Ownership stakes matter**: The entity must be structured so that the community, not any individual founder or funder, controls long-term direction.
+
+## Who This Serves First
+
+Priority access (free or near-free tier):
+- People from neighborhoods where opportunity has been systematically denied based on race or income.
+- Students and educators in schools serving those communities.
+- Writers, researchers, and small organizations doing work that serves those populations.
+
+Secondary tier (subsidized, low-cost):
+- Any individual or nonprofit willing to accept best-effort latency and queue discipline.
+
+Optional premium tier (funded by donors/mission-aligned orgs):
+- Organizations or individuals who want priority latency in exchange for funding expanded capacity.
+
+**Non-negotiable rule**: No premium tier user can purchase influence over mission, eligibility rules, or governance.
+
+## Governance Structure
+
+An elected or appointed board/council makes all non-technical decisions:
+- Who qualifies for free access.
+- How revenue from premium users is allocated.
+- Pricing policy for the paid tier.
+- Any changes to the charter.
+- Whether to hire or remove a technical lead.
+
+The board must include:
+- At least one member from the primary-served community.
+- At least one member with nonprofit or cooperative governance experience.
+- At least one member independent of the founding team.
+- The board can include the engineer, but the engineer does not chair or control it.
+
+## The Engineer's Role (Founding Technical Lead)
+
+Responsibilities:
+- Design, build, and maintain the infrastructure.
+- Manage uptime, security, and system health.
+- Recommend infrastructure changes to board approval.
+- Train successors and document systems.
+- Report transparently on costs, capacity, and technical constraints.
+
+Powers:
+- Full authority over system architecture and implementation decisions.
+- Full authority to reject or modify requests that compromise security or integrity.
+- Seat on the board if desired, but no veto over mission or governance.
+
+Constraints:
+- Cannot unilaterally change who the service is for.
+- Cannot change pricing or eligibility without board approval.
+- Cannot appoint leadership or board members.
+- Cannot convert the project to private ownership or profit extraction.
+- Holds no claim to future value or ownership stake (unless the charter explicitly defines a limited founder stake and the board approves it).
+
+## Compensation and Sustainability
+
+**Founding engineer**: Salary or contract payment equivalent to market rate for the role, reviewed and approved by the board. Not a founder discount; you are being paid for real work. The amount is bounded and known upfront.
+
+**Board members**: Decide their own compensation (if any) through a transparent process. The charter should specify whether governance is voluntary or paid.
+
+**Reinvestment**: All revenue from the premium tier, donor funding, and operational surpluses is reinvested into capacity, resilience, and the primary community mission.
+
+**No exit for the engineer**: You do not get to sell the company, convert it to a for-profit, or extract hidden value if you decide to leave. If you depart, the board hires the next engineer.
+
+## What Donors and Investors Cannot Do
+
+- Dictate who gets served or overrule eligibility.
+- Change the charter or mission without the board.
+- Claim ownership or governance power proportional to funding.
+- Build debt or obligations that force mission compromise.
+- Demand returns or equity stakes.
+
+What donors can get:
+- Transparency on impact (how many people served, cost per use, uptime).
+- Public recognition aligned with their values.
+- Confidence that their money funds a durable mission, not a VC exit.
+
+## Conflict Resolution
+
+If the engineer and the board disagree on a technical matter:
+- The engineer has final authority (they own the implementation risk).
+
+If they disagree on mission or governance:
+- The board has final authority (they own the community trust).
+
+If neither can move, the charter amendments process applies (board + engineer supermajority, documented).
+
+## What Happens If Leadership Changes
+
+If the engineer departs:
+- The board hires a replacement based on technical merit and values alignment.
+- Code and systems are documented so transition is possible.
+- The engineer's successor has the same role and same constraints.
+
+If the board changes:
+- New members are elected/appointed by existing board or community process.
+- They inherit all obligations in this charter.
+
+If the organization dissolves:
+- All code, data, and infrastructure become public domain or released under an open license.
+- Any funds remaining are donated to a nonprofit serving the same communities.
+- No individual gets a liquidation payout.
+
+## Amendment Process
+
+This charter can be amended, but only by:
+- A supermajority of the board (two-thirds or higher).
+- The agreement of the founding engineer (or their designated successor).
+- A 30-day notice to the community and all stakeholders.
+
+Minor clarifications can be amended by board majority. Changes to core values (purpose, equity principles, governance structure) require supermajority + engineer + community input.
+
+## Success Metrics
+
+This charter is working if:
+- The service is reliably available to the primary community.
+- The board is making decisions on mission, not the engineer.
+- Revenue is transparent and reinvested.
+- New engineers and board members can step in without the project collapsing.
+- The people the service is meant to serve say it is legitimate and theirs.
+
+This charter has failed if:
+- The engineer or any single person has become the decision-maker.
+- Access has shifted to whoever pays most.
+- The code is proprietary or locked.
+- The board is ceremonial and powerless.
+
+---
+
+## Signature Block (Optional)
+
+By signing below, the parties agree to this charter and commit to the governance structure and values described.
+
+**Founding Engineer**: _________________________ Date: _______
+
+**Initial Board Chair**: _________________________ Date: _______
+
+**Board Member(s)**: _________________________ Date: _______
+
+This charter is a living document. It should be reviewed annually and amended if experience shows that it does not serve the stated purpose.

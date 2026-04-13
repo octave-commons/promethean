@@ -1,0 +1,14 @@
+services:
+  ollama-registry:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    network_mode: host
+    environment:
+      - OUR_GPUS_URL=http://127.0.0.1:18000
+      - OUR_GPUS_API_KEY=
+      - PROXX_URL=http://127.0.0.1:18756
+      - PROXX_API_KEY=big-ussy-federation-spoke-token
+      - PROXX_EXTRA_TARGETS=http://127.0.0.1:8789@e6UuPuoU7mLqakSE-9CYuHFazwDwT-iQqPlwMLGw1TE44bO3QuhSAVqpHgAJ8iPA
+      - POLL_INTERVAL_MS=30000
+    restart: unless-stopped

@@ -1,0 +1,3 @@
+- Blockers: None identified beyond standard submodule commit flow
+- Risks: Submodule pointer drift if submodule commits are not pushed/pulled consistently
+- Mitigations: Commit submodule changes first, then update root workspace pointer and push

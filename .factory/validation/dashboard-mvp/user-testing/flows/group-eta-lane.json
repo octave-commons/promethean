@@ -1,0 +1,115 @@
+{
+  "groupId": "group-eta-lane",
+  "testedAt": "2026-03-13T08:22:00.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:9002",
+    "backendApi": "http://localhost:9001",
+    "agentBrowserSession": "e63ce43e32d8__etalane",
+    "radarId": "f5bb7cbf-002f-4ae1-9bb8-4fc5de07eb1b"
+  },
+  "toolsUsed": ["agent-browser", "curl", "docker exec psql"],
+  "assertions": [
+    {
+      "id": "VAL-ETA-002",
+      "title": "Thread Cards with Gauges",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:9002", "expected": "Dashboard loads", "observed": "Dashboard loaded successfully with 'Threat Radar Wall' title" },
+        { "action": "Scroll to Threads (5) section in η lane", "expected": "Thread cards visible", "observed": "5 thread cards visible under 'Threads (5)' heading" },
+        { "action": "Inspect first thread card 'Iran / Conducted / Large-scale / Naval'", "expected": "Title, subtitle, ≥ 2 gauge bars", "observed": "Title: 'Iran / Conducted / Large-scale / Naval', subtitle: 'emerging' status badge, 3 horizontal gauge bars (geopolitics 0.50, middle-east 0.50, energy 0.50) each with .eta-gauge-bar class, fill bar, and numeric value" },
+        { "action": "Verify gauge bar DOM structure", "expected": "Horizontal bars with values", "observed": "Each gauge bar has: eta-gauge-bar-label, eta-gauge-bar-track with eta-gauge-bar-fill (width: 50%), and eta-gauge-bar-value span showing '0.50'" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/group-eta-lane/VAL-ETA-002-thread-cards.png"],
+        "consoleErrors": "none",
+        "network": "GET /api/radars -> 200 with 5 threads in response"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ETA-003",
+      "title": "Narrative Branches",
+      "status": "pass",
+      "steps": [
+        { "action": "Scroll to 'Narrative Branches' heading in η lane", "expected": "Narrative branch section visible with ≥ 2 interpretations", "observed": "Narrative Branches heading (h4) visible with branch map SVG visualization" },
+        { "action": "Inspect branch visualization", "expected": "≥ 2 distinct interpretation labels", "observed": "3 branches displayed: 'energy' (60%), 'diplomacy' (20%), 'geopolitics' (20%) — rendered as a node graph with labeled branches and percentage bars" },
+        { "action": "Verify branch data source", "expected": "Data from API render_state.deterministicSnapshot.narrativeBranches", "observed": "API returns 3 narrativeBranches with labels, probabilities (0.6, 0.2, 0.2), and scoring dimensions (realism, fear, publicBenefit, actionability, polarizationRisk, compressionLoss)" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/group-eta-lane/VAL-ETA-003-narrative-branches.png"],
+        "consoleErrors": "none",
+        "network": "GET /api/radars -> 200 with render_state.deterministicSnapshot.narrativeBranches containing 3 branches"
+      },
+      "issues": "Narrative branches are displayed at the radar section level, not within individual thread article cards. The section is within the η lane radar card alongside the thread listing."
+    },
+    {
+      "id": "VAL-ETA-004",
+      "title": "Source Provenance Badges",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect Bluesky-sourced thread card 'Iran / Conducted / Large-scale / Naval'", "expected": "≥ 1 source badge", "observed": "Source badge with Bluesky icon (SVG), label 'Bluesky', and count '1' — rendered as span.source-badge with cyan color (rgb(0, 133, 255)), data-testid='source-badge-bluesky'" },
+        { "action": "Inspect Reddit-sourced thread card 'Detailed / Analysis / Chokepoint / Affects'", "expected": "≥ 1 source badge", "observed": "Source badge with Reddit icon (SVG), label 'Reddit', and count '1' — rendered as span.source-badge with orange color (rgb(255, 69, 0)), data-testid='source-badge-reddit'" },
+        { "action": "Verify all 5 thread cards have source badges", "expected": "Each card has source provenance", "observed": "3 Bluesky-sourced threads show 'Bluesky 1' badge; 2 Reddit-sourced threads show 'Reddit 1' badge" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/group-eta-lane/VAL-ETA-004-source-badges.png", "dashboard-mvp/group-eta-lane/VAL-ETA-004-reddit-source.png"],
+        "consoleErrors": "none",
+        "network": "Thread objects in API response include source_distribution: {bluesky:1} or {reddit:1}"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ETA-005",
+      "title": "Uncertainty Labels",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect thread card 'Iran / Conducted / Large-scale / Naval'", "expected": "Uncertainty label visible", "observed": "Label 'moderate uncertainty' displayed in span.eta-thread-uncertainty.uncertainty-moderate with data-testid='thread-uncertainty'" },
+        { "action": "Inspect thread card 'Detailed / Analysis / Chokepoint / Affects'", "expected": "Uncertainty label visible", "observed": "Label 'moderate uncertainty' displayed with same CSS class and test ID" },
+        { "action": "Verify all 5 thread cards have uncertainty labels", "expected": "Each thread shows uncertainty", "observed": "All 5 thread cards display 'moderate uncertainty' label (consistent with disagreement_index=0.35 from live snapshot)" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/group-eta-lane/VAL-ETA-002-thread-cards.png", "dashboard-mvp/group-eta-lane/VAL-ETA-004-reddit-source.png"],
+        "consoleErrors": "none",
+        "network": "Live snapshot has disagreement_index=0.35, threads derive 'moderate' uncertainty level"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-001",
+      "title": "End-to-End: Bluesky → η Lane Clock",
+      "status": "pass",
+      "steps": [
+        { "action": "Query Postgres for Bluesky signals", "expected": "Bluesky signals exist in DB", "observed": "3 signals with source='bluesky': sig-geo-01 (Iran Naval Exercises), sig-geo-02 (Oil Tanker Insurance), sig-geo-03 (US Navy Carrier)" },
+        { "action": "Query Postgres for threads with Bluesky source", "expected": "Threads exist with bluesky source_distribution", "observed": "3 threads with source_distribution={\"bluesky\":1}: 'Iran / Conducted / Large-scale / Naval', 'Lloyds / Market / Reports / Increase', 'Uss / Eisenhower / Carrier / Strike'" },
+        { "action": "Check API for snapshot score ranges", "expected": "Snapshot has score_ranges", "observed": "Live snapshot render_state.deterministicSnapshot.scoreRanges contains 8 dimensions (diplomacy, energy, geopolitics, infrastructure, insurance, middle-east, military, shipping) with min/max/median values. disagreement_index=0.35, model_count=2" },
+        { "action": "Verify clock in η lane via browser", "expected": "Clock visible in η lane", "observed": "Threat clock for 'Strait of Hormuz Monitor' visible showing 2.7 THREAT with colored arc gauge in the η (Global Forces) lane" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/group-eta-lane/VAL-CROSS-001-eta-clock.png"],
+        "consoleErrors": "none",
+        "network": "DB: SELECT source FROM signals -> 3 bluesky rows. API: GET /api/radars -> radar with liveSnapshot.signals containing transit_flow, attack_tempo, insurance_availability with weighted_values from 2 models"
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-002",
+      "title": "End-to-End: Reddit → η Lane Clock",
+      "status": "pass",
+      "steps": [
+        { "action": "Query Postgres for Reddit signals", "expected": "Reddit signals exist in DB", "observed": "2 signals with source='reddit': sig-geo-04 (Energy Infrastructure Vulnerability Analysis), sig-geo-05 (Diplomatic Channels Stalling on Iran)" },
+        { "action": "Query Postgres for threads with Reddit source", "expected": "Threads exist with reddit source_distribution", "observed": "2 threads with source_distribution={\"reddit\":1}: 'Detailed / Analysis / Chokepoint / Affects', 'Mediation / Attempts / Reportedly / Stalled'" },
+        { "action": "Verify snapshot includes data from both sources", "expected": "Snapshot visible with Reddit-derived data", "observed": "Live snapshot includes narrative branches referencing Reddit-sourced threads: 'diplomacy' branch (20%) cites 'Mediation / Attempts / Reportedly / Stalled', 'energy' branch (60%) cites 'Detailed / Analysis / Chokepoint / Affects'" },
+        { "action": "Verify clock in η lane shows combined Bluesky+Reddit data", "expected": "Clock visible reflecting all sources", "observed": "Same Strait of Hormuz Monitor clock at 2.7 THREAT level displays data derived from both Bluesky and Reddit signal pipelines" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/group-eta-lane/VAL-CROSS-001-eta-clock.png", "dashboard-mvp/group-eta-lane/VAL-ETA-004-reddit-source.png"],
+        "consoleErrors": "none",
+        "network": "DB: SELECT source FROM signals -> 2 reddit rows. API: /api/radars -> radar with 5 threads (2 reddit-sourced) and liveSnapshot with render_state.deterministicSnapshot.narrativeBranches citing reddit thread titles"
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [],
+  "blockers": [],
+  "summary": "Tested 6 assertions: all 6 passed. VAL-ETA-002 (thread cards with gauges), VAL-ETA-003 (narrative branches with 3 interpretations), VAL-ETA-004 (Bluesky/Reddit source badges), VAL-ETA-005 (moderate uncertainty labels), VAL-CROSS-001 (Bluesky→η pipeline end-to-end), VAL-CROSS-002 (Reddit→η pipeline end-to-end)."
+}

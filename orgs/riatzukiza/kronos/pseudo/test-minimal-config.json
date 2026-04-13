@@ -1,0 +1,18 @@
+{
+  "transport": "http",
+  "endpoints": [
+    {
+      "path": "/mcp",
+      "tools": [
+        "mcp_help"
+      ],
+      "includeHelp": false
+    }
+  ],
+  "security": {
+    "enabled": false
+  },
+  "logging": {
+    "level": "debug"
+  }
+}

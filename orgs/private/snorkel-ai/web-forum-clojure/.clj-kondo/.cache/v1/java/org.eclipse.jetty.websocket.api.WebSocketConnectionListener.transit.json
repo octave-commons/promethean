@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","onWebSocketClose",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"onWebSocketConnect",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"onWebSocketError",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

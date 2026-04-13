@@ -1,0 +1,92 @@
+name: Deploy staging
+
+on:
+  push:
+    branches:
+      - staging
+    paths:
+      - projects/webring-sites/fork-tales-site/**
+      - .github/workflows/fork-tales-*.yml
+  workflow_dispatch:
+
+concurrency:
+  group: fork-tales-staging-deploy
+  cancel-in-progress: true
+
+jobs:
+  staging-preflight:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@v5
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - run: python -m pip install --upgrade pip
+      - run: python -m pip install './projects/webring-sites/fork-tales-site[dev]'
+      - run: python -m pytest projects/webring-sites/fork-tales-site/tests -q
+      - run: bash -n projects/webring-sites/fork-tales-site/scripts/deploy-remote.sh
+      - run: bash -n projects/webring-sites/fork-tales-site/scripts/verify-live.sh
+
+  deploy-staging:
+    name: deploy
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs:
+      - staging-preflight
+    environment: staging
+    permissions:
+      contents: read
+    env:
+      STAGING_HOST: ${{ vars.FORK_TALES_STAGING_HOST || 'ussy3.promethean.rest' }}
+      STAGING_USER: ${{ vars.FORK_TALES_STAGING_USER || 'error' }}
+      STAGING_DEPLOY_PATH: ${{ vars.FORK_TALES_STAGING_DEPLOY_PATH || '~/devel/services/fork-tales-site-staging' }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v5
+
+      - name: Start ssh-agent
+        uses: webfactory/ssh-agent@v0.9.0
+        with:
+          ssh-private-key: ${{ secrets.FORK_TALES_STAGING_DEPLOY_SSH_KEY }}
+
+      - name: Validate staging deploy config
+        run: |
+          : "${STAGING_HOST:?Set repo/environment variable FORK_TALES_STAGING_HOST}"
+          : "${STAGING_DEPLOY_PATH:?Set repo/environment variable FORK_TALES_STAGING_DEPLOY_PATH}"
+
+      - name: Trust staging host
+        run: |
+          mkdir -p ~/.ssh
+          ssh-keyscan -H "${STAGING_HOST}" >> ~/.ssh/known_hosts
+
+      - run: chmod +x projects/webring-sites/fork-tales-site/scripts/*.sh
+      - name: Sync and deploy staging runtime
+        run: projects/webring-sites/fork-tales-site/scripts/deploy-remote.sh
+        env:
+          DEPLOY_HOST: ${{ vars.FORK_TALES_STAGING_HOST || 'ussy3.promethean.rest' }}
+          DEPLOY_USER: ${{ vars.FORK_TALES_STAGING_USER || 'error' }}
+          DEPLOY_PATH: ${{ vars.FORK_TALES_STAGING_DEPLOY_PATH || '~/devel/services/fork-tales-site-staging' }}
+          DEPLOY_COMPOSE_PROJECT_NAME: ${{ vars.FORK_TALES_STAGING_COMPOSE_PROJECT_NAME || 'fork-tales-site-staging' }}
+          DEPLOY_PUBLIC_HOST: ${{ vars.FORK_TALES_STAGING_PUBLIC_HOST || 'staging.fork.tales.promethean.rest' }}
+          DEPLOY_CADDY_ADMIN_URL: ${{ vars.FORK_TALES_STAGING_CADDY_ADMIN_URL || 'http://127.0.0.1:2019' }}
+          DEPLOY_PORT: ${{ vars.FORK_TALES_STAGING_PORT || '8794' }}
+          DEPLOY_BIND_HOST: ${{ vars.FORK_TALES_STAGING_BIND_HOST || '127.0.0.1' }}
+          DEPLOY_ENV_FILE: ${{ secrets.FORK_TALES_STAGING_ENV_FILE }}
+      - name: Verify live staging
+        run: projects/webring-sites/fork-tales-site/scripts/verify-live.sh
+        env:
+          VERIFY_URL: ${{ vars.FORK_TALES_STAGING_BASE_URL || 'https://staging.fork.tales.promethean.rest' }}
+          VERIFY_RESOLVE_ADDRESS: ${{ vars.FORK_TALES_STAGING_VERIFY_RESOLVE_ADDRESS || '' }}
+
+      - name: Staging failure logs
+        if: failure()
+        run: |
+          ssh "${STAGING_USER}@${STAGING_HOST}" bash -s -- "${STAGING_DEPLOY_PATH}" "${{ vars.FORK_TALES_STAGING_COMPOSE_PROJECT_NAME || 'fork-tales-site-staging' }}" <<'EOF'
+          set -euo pipefail
+          cd "$1"
+          docker compose --project-name "$2" -f compose.yaml ps
+          docker compose --project-name "$2" -f compose.yaml logs --tail=200
+          EOF

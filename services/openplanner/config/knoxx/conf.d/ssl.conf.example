@@ -1,0 +1,39 @@
+# FutureSight KMS - HTTPS Configuration (optional)
+# 
+# To enable HTTPS:
+# 1. Copy ssl certs to config/ssl/ (fullchain.pem, privkey.pem)
+# 2. Rename this file to ssl.conf
+# 3. Uncomment the server blocks below
+# 4. Comment out the HTTP-only blocks in default.conf
+
+# ============================================================
+# HTTPS Server
+# ============================================================
+# server {
+#     listen 443 ssl http2;
+#     server_name _;
+#
+#     ssl_certificate /etc/nginx/ssl/fullchain.pem;
+#     ssl_certificate_key /etc/nginx/ssl/privkey.pem;
+#     ssl_protocols TLSv1.2 TLSv1.3;
+#     ssl_ciphers ECDHE-ECDSA-AES128-GCM-SHA256:ECDHE-RSA-AES128-GCM-SHA256:ECDHE-ECDSA-AES256-GCM-SHA384:ECDHE-RSA-AES256-GCM-SHA384;
+#     ssl_prefer_server_ciphers off;
+#     ssl_session_timeout 1d;
+#     ssl_session_cache shared:SSL:50m;
+#     ssl_session_tickets off;
+#
+#     # HSTS
+#     add_header Strict-Transport-Security "max-age=63072000" always;
+#
+#     # Include the same location blocks as in default.conf
+#     # (copy from default.conf, or use include directive)
+# }
+
+# ============================================================
+# HTTP -> HTTPS Redirect
+# ============================================================
+# server {
+#     listen 80;
+#     server_name _;
+#     return 301 https://$host$request_uri;
+# }

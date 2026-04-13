@@ -1,0 +1,23 @@
+{:agent/name "Promethean Duck"
+ :agent/id "duck"
+ :llm {:provider :openai-compatible
+       :base-url nil
+       :api-key nil
+       :model "qwen3-vl:2b-instruct"
+       :temperature 0.3
+       :max-tokens 1200}
+ :eidolon {:embedding-model "qwen3-embedding"
+           :top-k 24
+           :dedupe? true
+           :recent-window 96
+           :related-window 256
+           :gc {:enabled? true
+                :batch-size 64
+                :min-age-seconds 86400
+                :min-access-count 1}}
+ :discord {:enabled? false
+           :token nil
+           :channel-ids #{343299242963763200
+                          450688080542695436
+                          343179912196128792
+                          367156652140658699}}}

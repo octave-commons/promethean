@@ -1,21 +1,10 @@
 services:
   secrets-init:
-    image: python:3.12-alpine
+    image: busybox:1.36
     command:
-    - /bin/sh
-    - -lc
-    - "set -eu\nmkdir -p /runtime-secrets\npython - <<'PY'\nimport base64, os, pathlib\n\
-      root = pathlib.Path('/runtime-secrets')\nroot.mkdir(parents=True, exist_ok=True)\n\
-      keyfile = root / 'mongodb-keyfile'\npassword_file = root / 'mongot-password'\n\
-      if not keyfile.exists():\n    keyfile.write_text(base64.b64encode(os.urandom(756)).decode('ascii'))\n\
-      if not password_file.exists():\n    password_file.write_text(os.environ.get('MONGOT_SYNC_PASSWORD',\
-      \ '<password>'))\nos.chmod(keyfile, 0o400)\nos.chmod(password_file,\
-      \ 0o400)\ntry:\n    os.chown(keyfile, 998, 998)\nexcept PermissionError:\n \
-      \   pass\nPY\n"
-    environment:
-      MONGOT_SYNC_PASSWORD: ${MONGOT_SYNC_PASSWORD:-<password>}
-    volumes:
-    - ./runtime-secrets:/runtime-secrets
+    - echo
+    - 'Atlas Local: secrets-init skipped'
+    volumes: []
     user: 0:0
   vexx:
     profiles:
@@ -61,103 +50,60 @@ services:
         - vexx
     user: ${DOCKER_USER:-1000:1000}
   mongodb:
-    image: mongodb/mongodb-community-server:8.2.0-ubi9
-    command:
-    - mongod
-    - --config
-    - /etc/mongod.conf
-    cpus: 1
-    cpuset: 2-21
+    image: mongodb/mongodb-atlas-local:latest
+    command: []
     ports:
     - 127.0.0.1:${OPENPLANNER_MONGODB_PORT:-27017}:27017
     environment:
       MONGODB_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME:-openplannerRoot}
-      MONGODB_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD:-<password>}
+      MONGODB_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD:-change-me-root-password}
     volumes:
-    - openplanner-mongodb-data:/data/db
-    - ./config/mongod.conf:/etc/mongod.conf:ro
-    - ./runtime-secrets:/etc/mongodb-secrets:ro
+    - openplanner-atlas-data:/data/db
     healthcheck:
       test:
       - CMD
       - mongosh
       - --eval
       - db.adminCommand('ping')
-      interval: 30s
+      interval: 15s
       timeout: 10s
-      retries: 5
+      retries: 10
       start_period: 30s
-    restart: unless-stopped
-    networks:
-      default: {}
-      ai-infra:
-        aliases:
-        - openplanner-mongodb
   mongot:
-    image: mongodb/mongodb-community-search:0.55.0
-    cpus: 1
-    cpuset: 2-21
-    depends_on:
-      secrets-init:
-        condition: service_completed_successfully
-      mongodb:
-        condition: service_healthy
-      mongo-init:
-        condition: service_completed_successfully
-    entrypoint:
-    - /mongot-community/mongot
-    - --config
-    - /etc/mongot/mongot.yml
-    ports:
-    - 127.0.0.1:${OPENPLANNER_MONGOT_PORT:-27028}:27028
-    volumes:
-    - ./config/mongot.yml:/etc/mongot/mongot.yml:ro
-    - ./runtime-secrets:/etc/mongot/secrets:ro
-    tmpfs:
-    - /var/lib/mongot:size=4g,uid=998,gid=998,mode=0755
-    restart: unless-stopped
-    networks:
-      default: {}
-      ai-infra: {}
+    image: busybox:1.36
+    command:
+    - sleep
+    - infinity
+    depends_on: {}
+    entrypoint: []
+    ports: []
+    volumes: []
+    tmpfs: []
+    healthcheck:
+      test:
+      - CMD
+      - 'true'
+      interval: 60s
+      timeout: 5s
+      retries: 1
   mongo-init:
     image: mongodb/mongodb-community-server:8.2.0-ubi9
     depends_on:
-      secrets-init:
-        condition: service_completed_successfully
       mongodb:
         condition: service_healthy
     entrypoint:
     - /bin/sh
-    - -lc
-    - "set -eu\nuntil mongosh --host mongodb -u \"${MONGODB_ROOT_USERNAME:-openplannerRoot}\"\
-      \ -p \"${MONGODB_ROOT_PASSWORD:-<password>}\" --authenticationDatabase\
-      \ admin --quiet --eval 'db.adminCommand({ ping: 1 })' >/dev/null 2>&1; do\n\
-      \  sleep 2\ndone\nmongosh --host mongodb -u \"${MONGODB_ROOT_USERNAME:-openplannerRoot}\"\
-      \ -p \"${MONGODB_ROOT_PASSWORD:-<password>}\" --authenticationDatabase\
-      \ admin --quiet <<EOF\ntry {\n  rs.status();\n} catch (e) {\n  rs.initiate({\
-      \ _id: \"rs0\", members: [{ _id: 0, host: \"mongodb:27017\" }] });\n}\n\nfor\
-      \ (let i = 0; i < 30; i += 1) {\n  const hello = db.adminCommand({ hello: 1\
-      \ });\n  if (hello.isWritablePrimary === true) break;\n  sleep(1000);\n}\n\n\
-      const admin = db.getSiblingDB('admin');\nconst existing = admin.getUser('mongotUser');\n\
-      if (!existing) {\n  admin.createUser({\n    user: 'mongotUser',\n    pwd: '${MONGOT_SYNC_PASSWORD:-<password>}',\n\
-      \    roles: [{ role: 'searchCoordinator', db: 'admin' }]\n  });\n}\n\nconst\
-      \ appDb = db.getSiblingDB('${MONGODB_DB:-openplanner}');\nconst appExisting\
-      \ = appDb.getUser('${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}');\nif (!appExisting)\
-      \ {\n  appDb.createUser({\n    user: '${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}',\n\
-      \    pwd: '${OPENPLANNER_MONGO_APP_PASSWORD:-<password>}',\n\
-      \    roles: [{ role: 'readWrite', db: '${MONGODB_DB:-openplanner}' }]\n  });\n\
-      }\nEOF\n"
+    - /scripts/atlas-init.sh
     environment:
       MONGODB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME:-openplannerRoot}
-      MONGODB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD:-<password>}
+      MONGODB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD:-change-me-root-password}
       MONGODB_DB: ${MONGODB_DB:-openplanner}
       OPENPLANNER_MONGO_APP_USERNAME: ${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}
-      OPENPLANNER_MONGO_APP_PASSWORD: ${OPENPLANNER_MONGO_APP_PASSWORD:-<password>}
-      MONGOT_SYNC_PASSWORD: ${MONGOT_SYNC_PASSWORD:-<password>}
+      OPENPLANNER_MONGO_APP_PASSWORD: ${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-1024}
+    volumes:
+    - ./scripts/atlas-init.sh:/scripts/atlas-init.sh:ro
     restart: 'no'
-    networks:
-      default: {}
-      ai-infra: {}
   openplanner:
     build:
       context: ../../orgs/open-hax/openplanner
@@ -169,8 +115,6 @@ services:
         condition: service_completed_successfully
       mongodb:
         condition: service_healthy
-      mongot:
-        condition: service_started
       mongo-init:
         condition: service_completed_successfully
     ports:
@@ -182,7 +126,7 @@ services:
       OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
       OPENPLANNER_DATA_DIR: /app/openplanner-lake
       OPENPLANNER_STORAGE_BACKEND: mongodb
-      MONGODB_URI: ${MONGODB_URI:-mongodb://openplanner:<password>@mongodb:27017/openplanner?replicaSet=rs0&authSource=openplanner}
+      MONGODB_URI: mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
       MONGODB_DB: ${MONGODB_DB:-openplanner}
       MONGODB_EVENTS_COLLECTION: ${MONGODB_EVENTS_COLLECTION:-events}
       MONGODB_COMPACTED_COLLECTION: ${MONGODB_COMPACTED_COLLECTION:-compacted_memories}
@@ -211,6 +155,8 @@ services:
       VEXX_TIMEOUT_MS: ${VEXX_TIMEOUT_MS:-30000}
     volumes:
     - ./openplanner-lake:/app/openplanner-lake
+    - ../../orgs/open-hax/openplanner/dist:/app/dist:ro
+    - ../../orgs/open-hax/openplanner/node_modules:/app/node_modules:ro
     extra_hosts:
     - host.docker.internal:host-gateway
     healthcheck:
@@ -218,8 +164,7 @@ services:
       - CMD
       - node
       - -e
-      - fetch('http://127.0.0.1:7777/v1/health').then((response) => { if (!response.ok)
-        { process.exit(1); } }).catch(() => process.exit(1))
+      - fetch('http://127.0.0.1:7777/v1/health').then((response) => { if (!response.ok) { process.exit(1); } }).catch(() => process.exit(1))
       interval: 30s
       timeout: 10s
       retries: 3
@@ -378,74 +323,21 @@ services:
     command:
     - /bin/sh
     - -lc
-    - |
-      python - <<'PY'
-      import json, os, sys, time, urllib.error, urllib.request
-
-      local_base = os.environ["LOCAL_PROXX_BASE_URL"].rstrip("/")
-      local_token = os.environ["LOCAL_PROXX_AUTH_TOKEN"]
-      canonical_base = os.environ["CANONICAL_PROXX_BASE_URL"].rstrip("/")
-      canonical_token = os.environ.get("CANONICAL_PROXX_AUTH_TOKEN", "").strip()
-      provider_ids = [entry.strip() for entry in os.environ.get("PROJECTED_IMPORT_PROVIDER_IDS", "zai").split(",") if entry.strip()]
-      interval = max(30, int(os.environ.get("SYNC_INTERVAL_SECONDS", "300")))
-
-      if not canonical_token:
-        print("openplanner-proxx-federation-sync: missing CANONICAL_PROXX_AUTH_TOKEN", file=sys.stderr)
-        sys.exit(1)
-
-      def request(url: str, token: str, body: dict | None = None) -> dict:
-        data = None if body is None else json.dumps(body).encode("utf-8")
-        req = urllib.request.Request(url, data=data, method="POST" if body is not None else "GET")
-        req.add_header("Authorization", f"Bearer {token}")
-        if data is not None:
-          req.add_header("Content-Type", "application/json")
-        with urllib.request.urlopen(req, timeout=15) as response:
-          payload = response.read().decode("utf-8")
-          return json.loads(payload) if payload else {}
-
-      def wait_for_health(url: str, token: str) -> None:
-        health_url = f"{url}/health"
-        while True:
-          try:
-            request(health_url, token)
-            return
-          except Exception as error:  # noqa: BLE001
-            print(f"waiting for {health_url}: {error}", file=sys.stderr)
-            time.sleep(5)
-
-      peer_payload = {
-        "id": "canonical-proxx",
-        "ownerCredential": local_token,
-        "label": "Canonical Proxx",
-        "baseUrl": canonical_base,
-        "controlBaseUrl": canonical_base,
-        "auth": {"credential": canonical_token},
-        "status": "active",
-      }
-
-      while True:
-        try:
-          wait_for_health(local_base, local_token)
-          wait_for_health(canonical_base, canonical_token)
-          request(f"{local_base}/api/v1/federation/peers", local_token, peer_payload)
-          request(
-            f"{local_base}/api/v1/federation/sync/pull",
-            local_token,
-            {"peerId": "canonical-proxx", "pullUsage": False},
-          )
-          for provider_id in provider_ids:
-            request(
-              f"{local_base}/api/v1/federation/projected-accounts/import-all",
-              local_token,
-              {"sourcePeerId": "canonical-proxx", "providerId": provider_id},
-            )
-        except urllib.error.HTTPError as error:
-          detail = error.read().decode("utf-8", errors="replace")
-          print(f"openplanner-proxx-federation-sync http error: {error.code} {detail}", file=sys.stderr)
-        except Exception as error:  # noqa: BLE001
-          print(f"openplanner-proxx-federation-sync error: {error}", file=sys.stderr)
-        time.sleep(interval)
-      PY
+    - "python - <<'PY'\nimport json, os, sys, time, urllib.error, urllib.request\n\nlocal_base = os.environ[\"LOCAL_PROXX_BASE_URL\"].rstrip(\"/\")\nlocal_token = os.environ[\"LOCAL_PROXX_AUTH_TOKEN\"]\n\
+      canonical_base = os.environ[\"CANONICAL_PROXX_BASE_URL\"].rstrip(\"/\")\ncanonical_token = os.environ.get(\"CANONICAL_PROXX_AUTH_TOKEN\", \"\").strip()\nprovider_ids = [entry.strip() for entry in\
+      \ os.environ.get(\"PROJECTED_IMPORT_PROVIDER_IDS\", \"zai\").split(\",\") if entry.strip()]\ninterval = max(30, int(os.environ.get(\"SYNC_INTERVAL_SECONDS\", \"300\")))\n\nif not canonical_token:\n\
+      \  print(\"openplanner-proxx-federation-sync: missing CANONICAL_PROXX_AUTH_TOKEN\", file=sys.stderr)\n  sys.exit(1)\n\ndef request(url: str, token: str, body: dict | None = None) -> dict:\n  data\
+      \ = None if body is None else json.dumps(body).encode(\"utf-8\")\n  req = urllib.request.Request(url, data=data, method=\"POST\" if body is not None else \"GET\")\n  req.add_header(\"Authorization\"\
+      , f\"Bearer {token}\")\n  if data is not None:\n    req.add_header(\"Content-Type\", \"application/json\")\n  with urllib.request.urlopen(req, timeout=15) as response:\n    payload = response.read().decode(\"\
+      utf-8\")\n    return json.loads(payload) if payload else {}\n\ndef wait_for_health(url: str, token: str) -> None:\n  health_url = f\"{url}/health\"\n  while True:\n    try:\n      request(health_url,\
+      \ token)\n      return\n    except Exception as error:  # noqa: BLE001\n      print(f\"waiting for {health_url}: {error}\", file=sys.stderr)\n      time.sleep(5)\n\npeer_payload = {\n  \"id\": \"\
+      canonical-proxx\",\n  \"ownerCredential\": local_token,\n  \"label\": \"Canonical Proxx\",\n  \"baseUrl\": canonical_base,\n  \"controlBaseUrl\": canonical_base,\n  \"auth\": {\"credential\": canonical_token},\n\
+      \  \"status\": \"active\",\n}\n\nwhile True:\n  try:\n    wait_for_health(local_base, local_token)\n    wait_for_health(canonical_base, canonical_token)\n    request(f\"{local_base}/api/v1/federation/peers\"\
+      , local_token, peer_payload)\n    request(\n      f\"{local_base}/api/v1/federation/sync/pull\",\n      local_token,\n      {\"peerId\": \"canonical-proxx\", \"pullUsage\": False},\n    )\n    for\
+      \ provider_id in provider_ids:\n      request(\n        f\"{local_base}/api/v1/federation/projected-accounts/import-all\",\n        local_token,\n        {\"sourcePeerId\": \"canonical-proxx\", \"\
+      providerId\": provider_id},\n      )\n  except urllib.error.HTTPError as error:\n    detail = error.read().decode(\"utf-8\", errors=\"replace\")\n    print(f\"openplanner-proxx-federation-sync http\
+      \ error: {error.code} {detail}\", file=sys.stderr)\n  except Exception as error:  # noqa: BLE001\n    print(f\"openplanner-proxx-federation-sync error: {error}\", file=sys.stderr)\n  time.sleep(interval)\n\
+      PY\n"
     restart: unless-stopped
     networks:
       default: {}
@@ -453,6 +345,7 @@ services:
     user: ${DOCKER_USER:-1000:1000}
   graph-weaver:
     profiles:
+    - graph-20
     - graph
     - graph-2
     - graph-3
@@ -476,11 +369,11 @@ services:
       GRAPH_WEAVER_PERSISTENCE_MODE: ${GRAPH_WEAVER_PERSISTENCE_MODE:-openplanner}
       GRAPH_WEAVER_INCLUDE_WEB_LAYER_WHEN_IDLE: ${GRAPH_WEAVER_INCLUDE_WEB_LAYER_WHEN_IDLE:-true}
       GRAPH_WEAVER_INCLUDE_SEMANTIC_EDGES: ${GRAPH_WEAVER_INCLUDE_SEMANTIC_EDGES:-true}
-      GRAPH_WEAVER_SEMANTIC_MIN_SIMILARITY: ${GRAPH_WEAVER_SEMANTIC_MIN_SIMILARITY:-0.8}
+      GRAPH_WEAVER_SEMANTIC_MIN_SIMILARITY: ${GRAPH_WEAVER_SEMANTIC_MIN_SIMILARITY:-0.5}
       GRAPH_WEAVER_OPENPLANNER_PROJECTS: ${GRAPH_WEAVER_OPENPLANNER_PROJECTS:-devel,web,bluesky,knoxx-session}
       WEBGL_GRAPH_VIEW_DIST: /app/workspace/devel/orgs/open-hax/openplanner/packages/webgl-graph-view/dist
       STATE_DIR: /app/workspace/devel/services/openplanner/openplanner-lake/graph-weaver
-      MONGODB_URI: ${MONGODB_URI:-mongodb://openplanner:<password>@mongodb:27017/openplanner?replicaSet=rs0&authSource=openplanner}authSource=openplanner}
+      MONGODB_URI: mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
       MONGODB_DB: ${MONGODB_DB:-openplanner}
       MONGODB_NODE_COLLECTION: ${GRAPH_WEAVER_NODE_COLLECTION:-graph_weaver_nodes}
       MONGODB_EDGE_COLLECTION: ${GRAPH_WEAVER_EDGE_COLLECTION:-graph_weaver_edges}
@@ -521,8 +414,7 @@ services:
     cpus: 1.5
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "corepack enable && pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app
-      dev"
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
     environment:
       CI: 'true'
       NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
@@ -600,8 +492,7 @@ services:
     cpus: 1.5
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "corepack enable && pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app
-      dev"
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
     environment:
       CI: 'true'
       NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
@@ -673,8 +564,7 @@ services:
     cpus: 1.5
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "corepack enable && pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app
-      dev"
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
     environment:
       CI: 'true'
       NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
@@ -747,8 +637,7 @@ services:
     cpus: 1.5
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "corepack enable && pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app
-      dev"
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
     environment:
       CI: 'true'
       NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
@@ -828,8 +717,7 @@ services:
     cpus: 1.5
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "corepack enable && pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app
-      dev"
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
     environment:
       CI: 'true'
       NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
@@ -901,8 +789,7 @@ services:
     cpus: 1.5
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "corepack enable && pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app
-      dev"
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
     environment:
       CI: 'true'
       NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
@@ -974,8 +861,7 @@ services:
     cpus: 1.5
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "corepack enable && pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app
-      dev"
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
     environment:
       CI: 'true'
       NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
@@ -1040,6 +926,787 @@ services:
     restart: unless-stopped
     networks: *id004
     user: ${DOCKER_USER:-1000:1000}
+  # === Eros-Eris 20-shard cluster (22 CPU - 2 reserved = 20 workers) ===
+  eros-eris-shard-0-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "2"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 0
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-1-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "3"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 1
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-2-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "4"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 2
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-3-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "5"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 3
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-4-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "6"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 4
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-5-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "7"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 5
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-6-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "8"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 6
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-7-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "9"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 7
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-8-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "10"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 8
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-9-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "11"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 9
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-10-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "12"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 10
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-11-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "13"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 11
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-12-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "14"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 12
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-13-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "15"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 13
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-14-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "16"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 14
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-15-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "17"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 15
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-16-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "18"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 16
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-17-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "19"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 17
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-18-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "20"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 18
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
+  eros-eris-shard-19-of-20:
+    profiles:
+    - graph-20
+    image: node:22-bookworm
+    cpus: 1
+    cpuset: "21"
+    working_dir: /app/workspace/devel
+    command: bash -lc "npx pnpm -C orgs/open-hax/openplanner/packages/eros-eris-field-app dev"
+    environment:
+      CI: 'true'
+      NODE_OPTIONS: --use-openssl-ca
+      EROS_ERIS_WORKER_ROLE: structural
+      GRAPHQL_URL: http://graph-weaver:8796/graphql
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      SIM_MAX_NODES: ${EROS_ERIS_SIM_MAX_NODES:-3000}
+      SIM_MAX_EDGES: ${EROS_ERIS_SIM_MAX_EDGES:-6000}
+      SIM_STEP_MS: ${EROS_ERIS_SIM_STEP_MS:-1000}
+      SIM_SUBSTEPS: ${EROS_ERIS_SIM_SUBSTEPS:-8}
+      SIM_DT: ${EROS_ERIS_SIM_DT:-0.4}
+      SIM_REFRESH_MS: ${EROS_ERIS_SIM_REFRESH_MS:-8000}
+      SIM_WRITE_MS: ${EROS_ERIS_SIM_WRITE_MS:-5000}
+      SIM_WRITE_CHUNK: ${EROS_ERIS_SIM_WRITE_CHUNK:-500}
+      SIM_SHARD_INDEX: 19
+      SIM_SHARD_COUNT: 20
+      GLOBAL_REPULSION: ${EROS_ERIS_GLOBAL_REPULSION:-28}
+      DAMPING: ${EROS_ERIS_DAMPING:-0.85}
+      TARGET_RADIUS: ${EROS_ERIS_TARGET_RADIUS:-5000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      graph-weaver:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - ai-infra
   shuvcrawl:
     profiles:
     - graph
@@ -1073,9 +1740,8 @@ services:
     healthcheck:
       test:
       - CMD-SHELL
-      - 'if [ -n "$SHUVCRAWL_API_TOKEN" ]; then curl -fsS -H "Authorization: Bearer
-        $SHUVCRAWL_API_TOKEN" http://127.0.0.1:3777/health >/dev/null; else curl -fsS
-        http://127.0.0.1:3777/health >/dev/null; fi'
+      - 'if [ -n "$SHUVCRAWL_API_TOKEN" ]; then curl -fsS -H "Authorization: Bearer $SHUVCRAWL_API_TOKEN" http://127.0.0.1:3777/health >/dev/null; else curl -fsS http://127.0.0.1:3777/health >/dev/null;
+        fi'
       interval: 30s
       timeout: 10s
       retries: 5
@@ -1145,14 +1811,11 @@ services:
     cpus: 2
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: bash -lc "if ! command -v g++ >/dev/null 2>&1; then apt-get update &&
-      apt-get install -y --no-install-recommends build-essential python3; fi && if
-      ! command -v node-gyp >/dev/null 2>&1; then npm install -g node-gyp; fi && corepack
-      enable && cd /app/workspace/devel/orgs/open-hax/openplanner/node_modules/.pnpm/hnswlib-node@3.0.0/node_modules/hnswlib-node
-      && node-gyp rebuild && cd /app/workspace/devel && pnpm -C orgs/open-hax/openplanner/packages/semantic-graph-builder
-      dev run"
+    command: bash -lc "if ! command -v g++ >/dev/null 2>&1; then apt-get update && apt-get install -y --no-install-recommends build-essential python3; fi && if ! command -v node-gyp >/dev/null 2>&1; then
+      npm install -g node-gyp; fi && corepack enable && cd /app/workspace/devel/orgs/open-hax/openplanner/node_modules/.pnpm/hnswlib-node@3.0.0/node_modules/hnswlib-node && node-gyp rebuild && cd /app/workspace/devel
+      && pnpm -C orgs/open-hax/openplanner/packages/semantic-graph-builder dev run"
     environment:
-      MONGODB_URI: ${MONGODB_URI:-mongodb://openplanner:<password>@mongodb:27017/openplanner?replicaSet=rs0&authSource=openplanner}authSource=openplanner}
+      MONGODB_URI: mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
       MONGODB_DB_NAME: ${MONGODB_DB:-openplanner}
       OPENPLANNER_LAKE_DIR: /app/workspace/devel/services/openplanner/openplanner-lake
       EMBEDDING_MODEL: ${SEMANTIC_GRAPH_EMBEDDING_MODEL:-qwen3-embedding:0.6b}
@@ -1247,14 +1910,14 @@ services:
       KNOXX_PRIMARY_ORG_NAME: ${KNOXX_PRIMARY_ORG_NAME:-Open Hax}
       KNOXX_PRIMARY_ORG_KIND: ${KNOXX_PRIMARY_ORG_KIND:-platform_owner}
       KNOXX_BOOTSTRAP_SYSTEM_ADMIN_EMAIL: ${KNOXX_BOOTSTRAP_SYSTEM_ADMIN_EMAIL:-system-admin@open-hax.local}
-      KNOXX_BOOTSTRAP_SYSTEM_ADMIN_NAME: ${KNOXX_BOOTSTRAP_SYSTEM_ADMIN_NAME:-Knoxx
-        System Admin}
+      KNOXX_BOOTSTRAP_SYSTEM_ADMIN_NAME: ${KNOXX_BOOTSTRAP_SYSTEM_ADMIN_NAME:-Knoxx System Admin}
       GMAIL_APP_EMAIL: ${GMAIL_APP_EMAIL:-}
       GMAIL_APP_PASSWORD: ${GMAIL_APP_PASSWORD:-}
       REDIS_URL: redis://knoxx-redis:6379
       WORKSPACE_ROOT: /app/workspace/devel
       SHIBBOLETH_BASE_URL: ${SHIBBOLETH_BASE_URL:-http://shibboleth-backend:8788}
       SHIBBOLETH_UI_URL: ${SHIBBOLETH_UI_URL:-http://localhost:8097}
+      KNOXX_TRANSLATION_AGENT_ENABLED: ${KNOXX_TRANSLATION_AGENT_ENABLED:-false}
     gpus: all
     extra_hosts:
     - host.docker.internal:host-gateway
@@ -1264,7 +1927,9 @@ services:
     - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
     - knoxx-backend-node-modules:/app/workspace/devel/orgs/open-hax/openplanner/packages/knoxx/backend/node_modules
     - knoxx-backend-shadow-cljs:/app/workspace/devel/orgs/open-hax/openplanner/packages/knoxx/backend/.shadow-cljs
-    - knoxx-backend-dist:/app/workspace/devel/orgs/open-hax/openplanner/packages/knoxx/backend/dist
+    - ${DEVEL_ROOT_PATH:-../..}/orgs/open-hax/openplanner/packages/knoxx/backend/src/server.mjs:/app/src/server.mjs:ro
+    - ${DEVEL_ROOT_PATH:-../..}/orgs/open-hax/openplanner/packages/knoxx/backend/dist:/app/dist
+    - ${DEVEL_ROOT_PATH:-../..}/orgs/open-hax/openplanner/packages/knoxx/backend/dist:/app/workspace/devel/orgs/open-hax/openplanner/packages/knoxx/backend/dist
     - knoxx-backend-m2:/root/.m2
     depends_on:
       knoxx-redis:
@@ -1319,7 +1984,8 @@ services:
     cpus: 1
     cpuset: 2-21
     working_dir: /app/workspace/devel
-    command: 'bash -lc "cd orgs/open-hax/openplanner && pnpm install --filter @open-hax/knoxx-frontend --config.node-linker=hoisted --store-dir=/tmp/pnpm-store --no-frozen-lockfile && pnpm --filter @open-hax/uxx build && pnpm exec tsc -p packages/webgl-graph-view/tsconfig.json && cd packages/knoxx/frontend && npx vite --host 0.0.0.0 --port 5173 --strictPort"
+    command: 'bash -lc "cd orgs/open-hax/openplanner && pnpm install --filter @open-hax/knoxx-frontend --config.node-linker=hoisted --store-dir=/tmp/pnpm-store --no-frozen-lockfile && pnpm --filter @open-hax/uxx
+      build && pnpm exec tsc -p packages/webgl-graph-view/tsconfig.json && cd packages/knoxx/frontend && npx vite --host 0.0.0.0 --port 5173 --strictPort"
 
       '
     expose:
@@ -1381,9 +2047,6 @@ services:
     - knoxx-internal
     - ai-infra
     user: ${DOCKER_USER:-1000:1000}
-  # km-labels: REMOVED - replaced by native OpenPlanner /v1/labels, /v1/tenants, /v1/export routes
-  # The Python FastAPI service is no longer needed. All label/tenant/export traffic
-  # now routes through openplanner_api via nginx.
   kms-ingestion:
     image: knoxx-kms-ingestion:latest
     cpus: 2
@@ -1413,10 +2076,15 @@ services:
       INGEST_MAX_LOAD_PER_CORE: ${INGEST_MAX_LOAD_PER_CORE:-1.35}
       INGEST_THROTTLE_SLEEP_MS: ${INGEST_THROTTLE_SLEEP_MS:-500}
       INGEST_BATCH_DELAY_MS: ${INGEST_BATCH_DELAY_MS:-1000}
+      TRANSLATION_AGENT_ENABLED: ${TRANSLATION_AGENT_ENABLED:-true}
+      TRANSLATION_POLL_MS: ${TRANSLATION_POLL_MS:-5000}
+      KNOXX_BACKEND_URL: http://knoxx-backend:8000
+      KNOXX_API_KEY: ${KNOXX_API_KEY:-}
+      KNOXX_USER_EMAIL: ${KNOXX_USER_EMAIL:-system-admin@open-hax.local}
     extra_hosts:
     - host.docker.internal:host-gateway
     volumes:
-    - ${WORKSPACE_PATH:-../../..}:/app/workspace:ro
+    - ${WORKSPACE_PATH:-../../..}:/app/workspace
     depends_on:
       knoxx-postgres:
         condition: service_healthy
@@ -1480,6 +2148,44 @@ services:
     restart: unless-stopped
     networks:
     - knoxx-internal
+  translation-worker:
+    profiles:
+    - legacy-translation-worker
+    image: node:22-bookworm-slim
+    cpus: 0.5
+    cpuset: 2-21
+    working_dir: /app
+    command: bash -lc "npx tsx scripts/translation-worker.ts"
+    environment:
+      MONGODB_URI: mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
+      MONGODB_DB: ${MONGODB_DB:-openplanner}
+      MT_PROVIDER_URL: ${MT_PROVIDER_URL:-http://openplanner-proxx:8789}
+      MT_PROVIDER_API_KEY: ${OPENPLANNER_PROXX_AUTH_TOKEN:-change-me-openplanner-proxx-token}
+      MT_PROVIDER_MODEL: ${MT_PROVIDER_MODEL:-glm-4.5-flash}
+      TRANSLATION_POLL_MS: ${TRANSLATION_POLL_MS:-5000}
+      TRANSLATION_BATCH_SIZE: ${TRANSLATION_BATCH_SIZE:-100}
+      TRANSLATION_SEGMENT_SIZE: ${TRANSLATION_SEGMENT_SIZE:-500}
+      GRAPH_MEMORY_ENABLED: ${TRANSLATION_GRAPH_MEMORY_ENABLED:-true}
+      GRAPH_MEMORY_BASE_URL: http://openplanner:7777
+      GRAPH_MEMORY_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+    volumes:
+    - ../../orgs/open-hax/openplanner/scripts:/app/scripts:ro
+    - ../../orgs/open-hax/openplanner/node_modules:/app/node_modules:ro
+    - ../../orgs/open-hax/openplanner/package.json:/app/package.json:ro
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      openplanner:
+        condition: service_healthy
+      openplanner-proxx:
+        condition: service_healthy
+    restart: unless-stopped
+    networks:
+    - default
+    - knoxx-internal
+    user: ${DOCKER_USER:-1000:1000}
 volumes:
   openplanner-mongodb-data: null
   openplanner-proxx-db-data: null
@@ -1496,7 +2202,7 @@ volumes:
   knoxx-frontend-node-modules: null
   knoxx-knoxx-node-modules: null
   shibboleth-data: null
-  # km-labels-data: removed with km-labels service
+  openplanner-atlas-data: null
 networks:
   ai-infra:
     external: true

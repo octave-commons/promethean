@@ -1,0 +1,56 @@
+{
+  "featureId": "firehose-empty-error-states",
+  "reviewedAt": "2026-03-13T05:12:00.000Z",
+  "commitId": "0fa7bdd",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation covering all four sub-features: (1) collapsible FirehosePanel with signal feed entries showing source icon, timestamp, freshness color indicator, quality badge, and classification tag; (2) enhanced EmptyState with 3-step onboarding guide; (3) first-visit defaults via usePersonalization; (4) MCP radar auto-appears via existing 12s polling. Code follows existing codebase conventions (functional components, CSS variables, dark theme palette). Pure utility functions are correctly separated and exported for testability. 32 new tests cover all logic branches. TypeScript strict mode passes, build succeeds.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/FirehosePanel.tsx",
+        "line": 58,
+        "severity": "non_blocking",
+        "description": "The firehose derives entries from ThreadData (clustered thread summaries) rather than raw SignalEvents. The feature description says 'raw signal feed as it arrives' but implementation shows thread-level entries with signalCount. This is a reasonable design trade-off since the API returns threads not raw signals, but the naming 'Signal Firehose' slightly misrepresents the granularity."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/FirehosePanel.tsx",
+        "line": 58,
+        "severity": "non_blocking",
+        "description": "No limit on the number of entries rendered. If a radar has hundreds of threads, all are rendered in the DOM. Consider adding a max entries cap (e.g., 50) or virtualization for performance at scale. Current max-height: 300px with overflow-y: auto mitigates visual impact but not DOM weight."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/App.tsx",
+        "line": 288,
+        "severity": "non_blocking",
+        "description": "FirehosePanel renders even when the dashboard is in empty state (no tiles). This shows '0 signals' at the bottom alongside the EmptyState onboarding. Functionally acceptable—it provides context—but could be hidden during empty state for cleaner first-visit UX."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/FirehosePanel.tsx",
+        "line": 85,
+        "severity": "non_blocking",
+        "description": "freshnessClass and relativeTime use Date.now() directly, making them impure. Tests work around this by generating timestamps relative to now, but this makes snapshot testing or deterministic rendering harder. Consider accepting an optional 'now' parameter for testability."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Worker introduced a new component naming pattern: sub-components (FreshnessIndicator, QualityBadge, ClassificationTag, FirehoseEntryRow) are defined as private functions in the same file rather than separate files. This is consistent with prior patterns (e.g., RadarCard in App.tsx) but not documented as the preferred approach in AGENTS.md.",
+      "evidence": "FirehosePanel.tsx lines 111-170 define 4 private sub-components in the same file. Similar pattern exists in App.tsx with RadarCard, EmptyState, LanePlaceholder."
+    },
+    {
+      "area": "conventions",
+      "observation": "CSS class prefix convention: new components use 'fh-' prefix for all CSS classes, matching existing patterns (lane-, pers-, ct-, af-). This ad-hoc BEM-like prefix pattern is consistent but undocumented.",
+      "evidence": "styles.css uses prefixes: lane- (lanes), pers- (personalization), ct- (critical thinking), af- (action feed), fh- (firehose). No convention doc exists."
+    },
+    {
+      "area": "skills",
+      "observation": "Worker followed the frontend-worker skill procedure correctly: read feature, understood data shape, wrote tests, implemented component, verified visually with agent-browser, ran typecheck, committed. skillFeedback.followedProcedure=true with no deviations.",
+      "evidence": "Transcript skeleton shows tool calls in the expected order: Read mission docs → Read types/components → Create test file → Create component → Edit CSS → Run tsc → Run vitest → Build → agent-browser verification → Commit"
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Feature passes review. The implementation delivers all four required sub-features: a collapsible firehose panel with freshness/quality/classification indicators, an enhanced empty state with step-by-step onboarding, first-visit defaults via usePersonalization, and MCP radar auto-discovery via polling. Code quality is high with 32 well-structured tests, consistent CSS patterns, and proper TypeScript typing. Four non-blocking issues noted: thread-level vs raw-signal granularity in the firehose, no entry count limit, firehose visible during empty state, and impure time functions. None are blocking for the milestone."
+}

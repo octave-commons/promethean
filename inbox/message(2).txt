@@ -1,0 +1,156 @@
+name: webring-site
+description: Build a themed single-page website and register it in the ussyco.de webring. Covers site creation, local hosting, webring API registration, theme configuration, and end-to-end verification.
+license: MIT
+compatibility: opencode
+metadata:
+  audience: agents
+  workflow: webring
+---
+# Build a Site for the ussyco.de Webring
+You are building a single-page website that will be hosted on the ussyco.de webring and accessible at `<subdomain>.ussyco.de`.
+## What is the ussyco.de webring?
+A chaotic, ever-growing ring of retro web experiments hosted at `ussyco.de`. Each member site gets its own subdomain (e.g., `stallionussy.ussyco.de`). Sites are served via a Go reverse proxy -- you build a site, serve it locally, register it in the webring, and the proxy makes it live at the subdomain.
+## The Server Environment
+- **Server IP:** `104.218.100.104`
+- **OS:** Debian Linux
+- **Project directory:** `/home/mojo/projects/webring`
+- **Go service:** runs on `:8421`, managed by systemd (`ussycode.service`)
+- **nginx:** fronts everything on ports 80/443 with wildcard TLS for `*.ussyco.de`
+- **Existing sites** live in `/home/mojo/projects/webring2/` through `/home/mojo/projects/webring7/` and similar directories
+## Step-by-Step Process
+### 1. Research Existing Sites for Inspiration (MANDATORY)
+Before building anything, you MUST browse existing ring members to understand the vibe. Fetch the ring data:
+```bash
+curl -s https://ussyco.de/api/webring | python3 -m json.tool
+Then read 2-3 existing site index.html files from the server to understand the range of aesthetics:
+- /home/mojo/projects/webring7/index.html -- StallionUSSY (luxury auction terminal)
+- /home/mojo/projects/webring6/index.html -- Church of the Holy Internet (medieval liturgical)
+- /home/mojo/projects/webring5/index.html -- B.U.R.P. (X-Files classified docs)
+- /home/mojo/projects/webring4/index.html -- SapphicSanctuary (Angelfire/Lisa Frank)
+- /home/mojo/projects/webring3/index.html -- ussyZine (GeoCities retro zine)
+- /home/mojo/projects/webring2/index.html -- ussyCentral (hacker collective)
+CRITICAL RULES:
+- DO NOT copy the structure, layout, or content of any existing site
+- DO NOT reuse color schemes or aesthetic themes that are already taken
+- DO draw inspiration from the energy -- absurd humor, deep commitment to a ridiculous premise, period-authentic web design, fake corporate speak, bureaucratic satire, niche obsessions played totally straight
+- Your site should feel like it belongs in the ring but is unmistakably its own thing
+- Every existing site has a distinct visual identity. Yours must too.
+2. Choose a Concept
+Pick a concept that is:
+- Absurd but played straight -- treat a ridiculous premise with total seriousness
+- Niche and specific -- not "a funny website" but "The Municipal Bureau of Lost Socks" or "Dr. Gloop's Interdimensional Deli Menu"
+- Rich with detail -- fake testimonials, bureaucratic forms, product listings, field reports, case files, whatever fits the premise
+- NOT a duplicate of anything already in the ring. Check the existing sites list first.
+3. Build the Site
+Create a directory for your site:
+mkdir -p /home/mojo/projects/<your-site-name>
+Build a single index.html with inline CSS (or a separate style.css). Requirements:
+- Self-contained: No external CDN dependencies. No JavaScript frameworks. Pure HTML and CSS. Vanilla JS only if needed for small interactions.
+- Distinct aesthetic: Choose a visual style that matches your concept. Examples of aesthetics NOT yet used: art deco, vaporwave, brutalist, newspaper broadsheet, medical journal, infomercial, ransom note, construction zone, underwater, steampunk, soviet propaganda, old computer manual, recipe card, board game instructions, airline safety card...
+- Rich content: At minimum include: a header/title area, 3+ content sections, fake but detailed body text, and a footer. More is better.
+- Responsive: Should look decent on mobile.
+- Include the webring widget at the bottom of the page:
+    <div id="webring" data-theme="dark"></div>
+  <script src="https://ussyco.de/api/webring/widget.js"></script>
+    Use data-theme="dark" for dark sites, omit it for light sites.
+4. Serve the Site Locally
+Start a local HTTP server on an available port:
+# Check what ports are in use
+ss -tlnp | grep -E ':(84[0-9]{2}|85[0-9]{2})'
+# Pick an unused port (8422-8499 range) and serve
+nohup python3 -m http.server <PORT> --directory /home/mojo/projects/<your-site-name> > /dev/null 2>&1 &
+echo "PID: $!"
+Verify it works:
+curl -s http://localhost:<PORT> | head -10
+For persistence, consider creating a systemd service:
+sudo tee /etc/systemd/system/<your-site-name>.service << 'EOF'
+[Unit]
+Description=<your-site-name> static site server
+After=network.target
+[Service]
+Type=simple
+ExecStart=/usr/bin/python3 -m http.server <PORT> --directory /home/mojo/projects/<your-site-name>
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target
+EOF
+sudo systemctl daemon-reload
+sudo systemctl enable --now <your-site-name>
+5. Register in the Webring
+Admin API Key: You need an admin API key. If one was provided to you, use it. If not, ask the user for one.
+Add the member:
+curl -X POST \
+  -H "X-Api-Key: <ADMIN_KEY>" \
+  -H "Content-Type: application/json" \
+  https://ussyco.de/api/admin/members \
+  -d '{
+    "name": "<Display Name>",
+    "subdomain": "<subdomain>",
+    "url": "http://localhost:<PORT>",
+    "description": "<One-line description, make it punchy>",
+    "mode": "proxy",
+    "capabilities": {
+      "can_redirect": true,
+      "can_proxy": true,
+      "can_cname": false,
+      "can_profile": true
+    },
+    "theme": "{\"bg\":\"<hex>\",\"text\":\"<hex>\",\"accent\":\"<hex>\",\"border\":\"<hex>\",\"font\":\"<font-stack>\"}"
+  }'
+Important fields:
+- name: Human-readable display name for the hub page
+- subdomain: lowercase, alphanumeric + hyphens, 1-63 chars, no leading/trailing hyphens. This becomes <subdomain>.ussyco.de
+- url: Where the proxy fetches from. Use http://localhost:<PORT> since you're on the same server.
+- mode: MUST be "proxy" so the site is served directly through the subdomain
+- description: Shows on the hub page. Be descriptive and funny.
+- theme: JSON string with hub card colors. Must match your site's actual visual style. Fields: bg (card background), text (text color), accent (links/headings), border (card border), font (CSS font-family stack)
+Subdomain rules -- these are RESERVED and will be rejected:
+www, mail, ftp, ns1, ns2, api, admin, localhost, autoconfig, autodiscover, _dmarc, smtp, pop, imap, webmail, cpanel, whm
+6. Verify End-to-End
+Run ALL of these checks:
+# 1. Local server responds
+curl -s http://localhost:<PORT> | head -5
+# 2. Proxy serves your site through the Go service
+curl -s -H "X-Subdomain: <subdomain>" http://localhost:8421/api/subdomain/ | head -5
+# 3. HTTPS subdomain works
+curl -s https://<subdomain>.ussyco.de | head -5
+# 4. Site appears in the webring
+curl -s https://ussyco.de/api/webring | python3 -c "import json,sys; d=json.load(sys.stdin); print([s['name'] for s in d['sites'] if s['subdomain']=='<subdomain>'])"
+# 5. CSS/assets load through proxy (if using separate stylesheet)
+curl -s -o /dev/null -w '%{http_code}' https://<subdomain>.ussyco.de/style.css
+ALL checks must pass. If #2 or #3 fails, the proxy can't reach your local server -- check the port and URL.
+7. Report Results
+When done, output:
+- The site name and subdomain
+- The live URL: https://<subdomain>.ussyco.de
+- A brief description of what you built and the aesthetic
+- Verification results from step 6
+API Reference (Quick)
+All endpoints are at https://ussyco.de (or http://localhost:8421 from the server).
+Method	Path
+GET	/api/webring
+GET	/api/health
+POST	/api/admin/members
+GET	/api/admin/members
+PUT	/api/admin/members/{id}
+DELETE	/api/admin/members/{id}
+Auth header: X-Api-Key: <key>
+Theme Format
+The theme field is a JSON string stored on each member. It controls how the site's card looks on the hub page (https://ussyco.de/hub/).
+{
+  "bg": "#0c0c0c",
+  "text": "#b8b8a0",
+  "accent": "#aa0000",
+  "border": "#550000",
+  "font": "Courier New, monospace"
+}
+Pick colors that reflect your site's actual design. The hub card should feel like a thumbnail preview of your site's vibe.
+Common Pitfalls
+1. Port already in use -- always check ss -tlnp before picking a port
+2. Forgot "mode": "proxy" -- if you use "redirect" mode, visitors get bounced to localhost which doesn't work externally
+3. Forgot can_proxy: true in capabilities -- the proxy will return 403 without it
+4. Subdomain already taken -- check existing members first with GET /api/webring
+5. Static assets don't load -- if you use <link rel="stylesheet" href="style.css">, make sure the CSS file is in the same directory being served. The proxy passes through all paths.
+6. Server dies on terminal close -- use nohup or a systemd service for persistence
+7. Theme is not a string -- the theme field in the API is a JSON string, not an object. You must JSON.stringify() it or escape it as a string in the curl payload.

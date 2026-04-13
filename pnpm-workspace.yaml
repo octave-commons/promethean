@@ -17,27 +17,14 @@ packages:
   - packages/output-contract-gate
   - packages/thread-assessment
   - packages/npu-top
-  - packages/omni-top
-  - packages/kanban
-  - packages/sintel
-  - packages/portal
-  - packages/host-fleet-dashboard
-  - orgs/riatzukiza/portfolio
+  - packages/radar-core
+  - packages/mcp-foundation
+  - packages/signal-atproto
+  - packages/signal-embed-browser
+  - packages/thread-assessment
+  - packages/embedding
+  - orgs/riatzukiza/threat-radar-mcp
   - orgs/riatzukiza/threat-radar-web
-  - orgs/riatzukiza/mnemosyne
-  - orgs/open-hax/depenoxx
-  - orgs/anomalyco/opencode-compat
-  - orgs/anomalyco/opencode-indexer
-  - orgs/riatzukiza/kronos
-  - orgs/open-hax/openplanner
-  - orgs/open-hax/openplanner/packages/uxx
-  - orgs/open-hax/openplanner/packages/reconstituter
-  - orgs/open-hax/openplanner/packages/webgl-graph-view
-  - orgs/open-hax/openplanner/packages/opencode-openplanner-plugin-cljs
-  - orgs/open-hax/openplanner/packages/openplanner-cljs-client
-  - orgs/open-hax/eta-mu/packages/*
-  - orgs/riatzukiza/ourllamas
-  - orgs/open-hax/vivgrid-openai-proxy
   - services/*
   - orgs/open-hax/openhax/packages/*
   - orgs/riatzukiza/promethean/packages/*

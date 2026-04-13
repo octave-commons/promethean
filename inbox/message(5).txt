@@ -1,0 +1,64 @@
+================================================================================
+                    WELCOME TO THE SERVER - NEW USER GUIDE
+================================================================================
+SERVER ACCESS
+-------------
+IPv4:        169.197.82.183
+IPv6:        2604:7a80:2c01:2:a604:cdff:fe5a:af10
+Tailscale:   100.125.215.12
+SSH PORTS & AUTH METHODS
+------------------------
+| Connection Type | Password Auth | Pubkey Auth |
+|-----------------|--------------|-------------|
+| WAN (public IP) |     NO       |    YES      |
+| Tailscale       |     YES      |    YES      |
+SSH COMMANDS
+------------
+# From anywhere (pubkey only):
+ssh error@169.197.82.183
+# Via Tailscale (password or pubkey):
+ssh error@100.125.215.12
+# With key directly:
+ssh -i ~/.ssh/your_key error@169.197.82.183
+================================================================================
+                              CREDENTIALS
+================================================================================
+SSH/SYSTEM LOGIN
+----------------
+Username:    error
+Password:    boners1234
+Note: Password auth only works over Tailscale. Use pubkey for WAN connections.
+================================================================================
+                            PROXMOX ACCESS
+================================================================================
+Web UI:      https://169.197.82.183:8006
+           or https://100.125.215.12:8006
+Username:    error
+Password:    boners1234
+Realm:       Linux PAM
+Permissions: Administrator (full access to all VMs, containers, storage)
+COMMANDS
+--------
+qm list              # List VMs
+pct list             # List containers
+pvesh                # Proxmox shell tools
+================================================================================
+                            SUDO ACCESS
+================================================================================
+You have full sudo access. Use with caution:
+sudo <command>       # Run single command as root
+sudo -i              # Get root shell
+sudo su -             # Switch to root user
+================================================================================
+                            FILE PATHS
+================================================================================
+Home dir:    /home/error
+SSH keys:    /home/error/.ssh/authorized_keys
+================================================================================
+                      IMPORTANT SECURITY NOTES
+================================================================================
+1. This account has Administrator privileges - use responsibly
+2. Password auth is RESTRICTED to Tailscale network only
+3. WAN connections require SSH key authentication
+4. Change your password regularly: passwd
+================================================================================

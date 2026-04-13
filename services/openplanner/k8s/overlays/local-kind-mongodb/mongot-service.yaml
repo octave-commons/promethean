@@ -1,0 +1,18 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: mongot
+spec:
+  selector:
+    app.kubernetes.io/name: openplanner
+    app.kubernetes.io/component: mongot
+  ports:
+    - name: grpc
+      port: 27028
+      targetPort: grpc
+    - name: health
+      port: 8080
+      targetPort: health
+    - name: metrics
+      port: 9946
+      targetPort: metrics

@@ -1,0 +1,85 @@
+{
+  "groupId": "mu-lane-round3",
+  "testedAt": "2026-03-13T08:45:00.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:9002",
+    "backendApi": "http://localhost:9001",
+    "agentBrowserSession": "00e3c2c556cd"
+  },
+  "toolsUsed": ["agent-browser", "curl"],
+  "assertions": [
+    {
+      "id": "VAL-MU-002",
+      "title": "Proximity and Leverage Indicators",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:9002", "expected": "Dashboard loads with μ lane visible", "observed": "Dashboard loaded, μ (Local Reach) lane visible with emerald accent" },
+        { "action": "Inspect thread cards in μ lane", "expected": "Thread cards display proximity and leverage indicators", "observed": "All 5 thread cards display 'PROXIMITY moderate', 'LEVERAGE medium leverage', 'TIME act within days' badges" },
+        { "action": "Check leverage bar", "expected": "Leverage bar with percentage visible", "observed": "Leverage bar at 53% (52.5% fill width) on 4 cards, 48% (47.5%) on 1 card" },
+        { "action": "DOM inspection for indicator elements", "expected": "data-testid attributes for proximity, leverage, time indicators", "observed": "Found data-testid='mu-indicator-proximity' with label 'Proximity' value 'moderate', data-testid='mu-indicator-leverage' with label 'Leverage' value 'medium leverage', data-testid='mu-indicator-time' with label 'Time' value 'act within days'" }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane-round3/dashboard-overview.png",
+          "dashboard-mvp/mu-lane-round3/VAL-MU-002-thread-card-indicators.png",
+          "dashboard-mvp/mu-lane-round3/VAL-MU-003-tall-viewport.png"
+        ],
+        "consoleErrors": "none",
+        "domInspection": "All 5 thread cards have mu-indicator elements with correct data-testid attributes: mu-indicator-proximity (value='moderate'), mu-indicator-leverage (value='medium leverage'), mu-indicator-time (value='act within days'). Leverage bar uses mu-leverage-bar with fill width of 52.5%/47.5%."
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-MU-003",
+      "title": "Action Suggestions per Local Thread",
+      "status": "pass",
+      "steps": [
+        { "action": "Inspect thread cards for action suggestions", "expected": "Each thread card contains ≥ 2 action items", "observed": "All 5 thread cards contain 3 action suggestions each" },
+        { "action": "Read action suggestion text", "expected": "Concrete, context-relevant action steps", "observed": "Actions: '→ Monitor AI model releases', '→ Review compute resource impact', '→ Assess local AI adoption opportunities'" },
+        { "action": "DOM inspection for action elements", "expected": "data-testid='mu-action-suggestions' with ≥ 2 mu-action-suggestion items", "observed": "Each card has data-testid='mu-action-suggestions' containing <ul class='mu-action-suggestions-list'> with 3 <li class='mu-action-suggestion-item'> elements" },
+        { "action": "Screenshot with tall viewport showing full cards", "expected": "Suggested Actions section visible within thread cards", "observed": "Full-page tall-viewport screenshot shows 'SUGGESTED ACTIONS' label with 3 arrow-prefixed action items inside each card" }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane-round3/VAL-MU-003-tall-viewport.png",
+          "dashboard-mvp/mu-lane-round3/VAL-MU-003-actions-in-card.png"
+        ],
+        "consoleErrors": "none",
+        "domInspection": "All 5 thread cards contain data-testid='mu-action-suggestions' with 3 mu-action-suggestion-item elements each. Action texts are: 'Monitor AI model releases', 'Review compute resource impact', 'Assess local AI adoption opportunities'. Actions are derived from thread domain_tags (ai, open-source, deployment, etc.)."
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-CROSS-012",
+      "title": "End-to-End: Signal → μ (Local) Lane Display",
+      "status": "pass",
+      "steps": [
+        { "action": "Verify backend has technology-category radar with local signals", "expected": "Radar with category 'technology' exists with threads", "observed": "Radar 'Open Source AI Community' (category=technology, id=7caa6d82-...) has 5 threads with domain_tags like ['ai','open-source','deployment']" },
+        { "action": "Verify signals normalized and clustered into threads", "expected": "Threads exist with signal references and domain tags", "observed": "5 threads: 'Llama / Release / Enables / Local' (tags: ai, open-source, deployment), 'Training / Analysis / Electricity / Costs' (tags: ai, energy, training), 'Evaluation / Framework / Released / Provides' (tags: ai, safety, open-source), 'Cloud / Spot / Pricing / Dropped' (tags: ai, infrastructure, community), 'Open / Source / Organizing / Response' (tags: ai, regulation, community)" },
+        { "action": "Verify threads appear in μ lane (not Π lane)", "expected": "Technology category routes to μ lane after fix", "observed": "All 5 threads render in the μ (Local Reach) lane column with emerald green accent. Lane header shows '5 local threads SORTED BY LEVERAGE'" },
+        { "action": "Verify proximity and leverage indicators on μ lane cards", "expected": "Thread cards show leverage and time-to-act indicators", "observed": "Each card shows PROXIMITY moderate, LEVERAGE medium leverage, TIME act within days, and a leverage bar (48-53%)" },
+        { "action": "Verify live snapshot with scoreRanges exists", "expected": "Live snapshot with deterministicSnapshot render_state", "observed": "Live snapshot id=7caa6d82-...:live:... has render_state.deterministicSnapshot with scoreRanges for dimensions: ai, community, deployment, energy, infrastructure, open-source, regulation, safety" }
+      ],
+      "evidence": {
+        "screenshots": [
+          "dashboard-mvp/mu-lane-round3/dashboard-overview.png",
+          "dashboard-mvp/mu-lane-round3/VAL-MU-003-tall-viewport.png"
+        ],
+        "consoleErrors": "none",
+        "apiResponse": "GET /api/radars returns radar 'Open Source AI Community' with category='technology', 5 threads, live snapshot with scoreRanges for 8 dimensions",
+        "domInspection": "μ lane renders 5 thread cards from technology radar. Lane header: 'Local Reach — Signals inside your expertise where intervention might matter'. Community Readiness gauges show Awareness 10%, Engagement 40%, Coordination 85%, Resilience 25%."
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "All 5 thread cards show identical action suggestions ('Monitor AI model releases', 'Review compute resource impact', 'Assess local AI adoption opportunities') regardless of thread-specific domain_tags. The action derivation appears to use a generic template rather than per-thread domain-specific actions.",
+      "resolved": false,
+      "resolution": null,
+      "affectedAssertions": ["VAL-MU-003"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 3 assertions: 3 passed (VAL-MU-002, VAL-MU-003, VAL-CROSS-012). All μ lane thread cards now display proximity/leverage indicators and action suggestions after the lane-routing.ts and MuThreadCard fixes. Technology category correctly routes to μ lane. One friction noted: action suggestions are identical across all cards rather than thread-specific."
+}

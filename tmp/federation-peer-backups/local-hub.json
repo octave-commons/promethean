@@ -1,0 +1,51 @@
+{
+  "peers": [
+    {
+      "id": "f848706e-22ae-42a3-a6d2-66f4c097c51c",
+      "ownerSubject": "did:web:proxx.promethean.rest:brethren",
+      "label": "Big Ussy Cephalon Proxx",
+      "baseUrl": "http://big.ussy.promethean.rest:8789",
+      "authMode": "admin_key",
+      "auth": {
+        "credential": "7lRhRr84C4V9SWbO7ty0EDnrNOZ711u1"
+      },
+      "status": "active",
+      "capabilities": {},
+      "createdAt": "2026-03-24T21:22:20.213Z",
+      "updatedAt": "2026-03-24T21:22:20.213Z"
+    },
+    {
+      "id": "canonical-proxx-local",
+      "ownerSubject": "did:web:proxx.promethean.rest:brethren",
+      "label": "Canonical proxx-local",
+      "baseUrl": "http://proxx:8789",
+      "controlBaseUrl": "http://proxx:8789",
+      "authMode": "at_did",
+      "auth": {
+        "credential": "e6UuPuoU7mLqakSE-9CYuHFazwDwT-iQqPlwMLGw1TE44bO3QuhSAVqpHgAJ8iPA"
+      },
+      "status": "active",
+      "capabilities": {
+        "accounts": true,
+        "usage": true,
+        "audit": true
+      },
+      "createdAt": "2026-03-26T02:09:47.044Z",
+      "updatedAt": "2026-03-26T02:09:47.044Z"
+    },
+    {
+      "id": "80346cef-f38d-4bd5-adbd-c6807444b924",
+      "ownerSubject": "legacy_admin_key:8147f202ddd0250f8a6daa488c9a7096",
+      "label": "Local Federation Peer",
+      "baseUrl": "http://open-hax-federation-peer:8789",
+      "authMode": "admin_key",
+      "auth": {
+        "token": "federation-peer-token"
+      },
+      "status": "active",
+      "capabilities": {},
+      "createdAt": "2026-03-22T18:36:20.153Z",
+      "updatedAt": "2026-03-22T18:36:20.153Z"
+    }
+  ]
+}

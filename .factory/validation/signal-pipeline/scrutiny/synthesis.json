@@ -1,0 +1,173 @@
+{
+  "milestone": "signal-pipeline",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "npx vitest run --reporter=verbose (root + per-package)",
+      "exitCode": 0,
+      "notes": "Root-level: 3 pm2-clj tests fail (pre-existing, documented in AGENTS.md). All mission packages pass: radar-core 55/55, signal-atproto 16/16, threat-radar-mcp 53/53."
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "pnpm -r --parallel typecheck",
+      "exitCode": 1,
+      "notes": "Only failure: @promethean-os/migrations (off-limits promethean package, pre-existing). All mission packages typecheck clean: radar-core, signal-atproto, signal-embed-browser, thread-assessment, mcp-foundation, threat-radar-mcp, threat-radar-web."
+    },
+    "lint": {
+      "passed": true,
+      "command": "echo 'no lint configured yet'",
+      "exitCode": 0,
+      "notes": "No lint configured per services.yaml"
+    }
+  },
+  "reviewsSummary": {
+    "total": 8,
+    "passed": 8,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "featureId": "bluesky-collector-mcp",
+      "severity": "non_blocking",
+      "description": "Uses `any` types for AT Protocol post objects (post: any, record as any) violating AGENTS.md 'No any types' convention"
+    },
+    {
+      "featureId": "bluesky-collector-mcp",
+      "severity": "non_blocking",
+      "description": "DJB2 hash for content_hash has higher collision risk than crypto hashes; shared with reddit-collector"
+    },
+    {
+      "featureId": "postgres-storage-migration",
+      "severity": "non_blocking",
+      "description": "signals and threads tables lack FK constraints on radar_id, unlike other tables which use REFERENCES radars(id) ON DELETE CASCADE"
+    },
+    {
+      "featureId": "postgres-storage-migration",
+      "severity": "non_blocking",
+      "description": "No UNIQUE constraint on signals.content_hash — dedup relies on application-level findSignalByContentHash()"
+    },
+    {
+      "featureId": "signal-normalization",
+      "severity": "non_blocking",
+      "description": "normalize('') produces SignalEvent with text='' which fails signalEventSchema validation (text: z.string().min(1))"
+    },
+    {
+      "featureId": "signal-normalization",
+      "severity": "non_blocking",
+      "description": "keywordMatches() only checks first indexOf occurrence, missing valid standalone matches when first occurrence is embedded in another word"
+    },
+    {
+      "featureId": "deterministic-reducer",
+      "severity": "non_blocking",
+      "description": "NarrativeBranch uses camelCase fields (publicBenefit) while existing schema.ts uses snake_case (public_benefit) — naming inconsistency"
+    },
+    {
+      "featureId": "mcp-tool-completeness",
+      "severity": "non_blocking",
+      "description": "Test file duplicates all 9 tool handlers (~300 lines) instead of importing production server; drift risk between main.ts and test"
+    },
+    {
+      "featureId": "mcp-tool-completeness",
+      "severity": "non_blocking",
+      "description": "Deterministic reducer path (Thread→RadarSnapshot) untested because no threads created during test flow"
+    },
+    {
+      "featureId": "at-protocol-publishing",
+      "severity": "non_blocking",
+      "description": "toAtprotoThread() stores local signal_event_ids in memberRefs instead of AT URIs as lexicon declares (format: at-uri)"
+    }
+  ],
+  "appliedUpdates": [
+    {
+      "target": "library",
+      "description": "Updated environment.md: DATABASE_URL now shows correct user 'openai_proxy' for Docker Postgres",
+      "sourceFeature": "postgres-storage-migration"
+    },
+    {
+      "target": "library",
+      "description": "Added Bluesky public API endpoint knowledge (public.api.bsky.app vs bsky.social) to architecture.md",
+      "sourceFeature": "bluesky-collector-mcp"
+    },
+    {
+      "target": "library",
+      "description": "Documented standard collector tool pattern (dedup+store+response format) in architecture.md",
+      "sourceFeature": "bluesky-collector-mcp, reddit-collector-mcp"
+    },
+    {
+      "target": "library",
+      "description": "Documented thread clustering algorithm details (TF-IDF, threshold 0.15, O(n²)) in architecture.md",
+      "sourceFeature": "thread-clustering"
+    },
+    {
+      "target": "library",
+      "description": "Documented dual reducer architecture (reducer.ts vs snapshot-reducer.ts) in architecture.md",
+      "sourceFeature": "deterministic-reducer"
+    },
+    {
+      "target": "library",
+      "description": "Documented AT Protocol design decisions (memberRefs local IDs, client config pattern) in architecture.md",
+      "sourceFeature": "at-protocol-publishing"
+    },
+    {
+      "target": "library",
+      "description": "Added vitest 0.34.6 --grep limitation note and Postgres test safety note to architecture.md",
+      "sourceFeature": "thread-clustering, bluesky-collector-mcp"
+    },
+    {
+      "target": "library",
+      "description": "Replaced stale 'CRITICAL: radar-core type restoration' note (types are restored) with current architecture knowledge",
+      "sourceFeature": "scrutiny-validator"
+    }
+  ],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: Use snake_case for all Zod schema field names in radar-core packages to match existing schema.ts types (SignalEvent, Thread, ConnectionOpportunity, ActionCard). New types should not introduce camelCase fields.",
+      "evidence": "deterministic-reducer created NarrativeBranch with camelCase fields (publicBenefit, polarizationRisk, compressionLoss) while all existing radar-core types use snake_case (public_benefit, fear_factor, polarization_risk). This inconsistency will compound as more types are added.",
+      "isSystemic": true
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add guidance for handling third-party SDK types: When external SDK types are complex/verbose (e.g., AT Protocol PostView), workers should use `unknown` with type narrowing or define minimal local interfaces, not `any`. Example: `const post: unknown = ...` with assertion functions.",
+      "evidence": "bluesky-collector-mcp used `post: any` and `record as any` despite 'No any types' convention. The AT Protocol SDK exports typed PostView but convention doesn't address how to handle complex third-party types.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add testing convention: MCP tool integration tests should import and test the production server (on a test port) rather than duplicating tool handler implementations. This prevents drift between test and production code.",
+      "evidence": "mcp-tool-completeness test file duplicates all 9 tool handlers (~300 lines) instead of importing the production server from main.ts. Future tool changes in main.ts would not be caught by these tests.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: Extract shared collector utilities (hashContent, nowIso) into a shared module (e.g., src/collectors/utils.ts) when adding new collectors. Current duplication across bluesky.ts and reddit.ts is acceptable for 2 collectors but will compound.",
+      "evidence": "reddit-collector-mcp and bluesky-collector-mcp both contain identical hashContent() and nowIso() implementations (bluesky.ts:18-23, reddit.ts:18-23).",
+      "isSystemic": true
+    },
+    {
+      "target": "skills",
+      "suggestion": "Clarify backend-worker TDD exception clause: 'wiring-only tasks' should mean tasks that only connect existing code (import, register, configure) without adding new runtime logic. Tasks that add new CRUD methods, normalization logic, or algorithms should still follow TDD. Multiple workers cited the exception for non-wiring work.",
+      "evidence": "postgres-storage-migration (new CRUD methods), bluesky-collector-mcp (new collector logic), thread-clustering (new algorithm), and deterministic-reducer (new reduction logic) all deviated from TDD citing the 'wiring-only' exception. Only reddit-collector-mcp approximately followed TDD.",
+      "isSystemic": true
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "parseJsonb pattern already documented in architecture.md",
+      "reason": "already-documented"
+    },
+    {
+      "observation": "Worker correctly followed procedure (signal-normalization positive observation)",
+      "reason": "not actionable — positive observation, no change needed"
+    },
+    {
+      "observation": "catch(err: unknown) pattern consistently applied across MCP handlers",
+      "reason": "not actionable — positive observation confirming convention compliance"
+    }
+  ],
+  "previousRound": null
+}

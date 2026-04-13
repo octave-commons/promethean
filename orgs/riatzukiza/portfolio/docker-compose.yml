@@ -1,0 +1,37 @@
+name: riatzukiza-portfolio
+
+services:
+  portfolio:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    working_dir: /workspace/services/riatzukiza-portfolio
+    command: ["node", "src/server.mjs"]
+    environment:
+      HOST: 0.0.0.0
+      PORT: "8088"
+      # Override these if you want to serve a different static root.
+      PORTFOLIO_STATIC_ROOT: "orgs/riatzukiza/riatzukiza.github.io/static"
+      QUARTZ_GARDEN_OUTPUT_ROOT: "orgs/riatzukiza/riatzukiza.github.io/static/garden"
+      QUARTZ_GARDEN_CONFIG: "services/riatzukiza-portfolio/garden.config.json"
+    ports:
+      - "${PORTFOLIO_PORT:-8088}:8088"
+    volumes:
+      # Workspace bind mount: needed to serve the portfolio + to generate graphs from real source trees.
+      - ../..:/workspace
+    user: "${PORTFOLIO_UID:-1000}:${PORTFOLIO_GID:-1000}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8088/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped

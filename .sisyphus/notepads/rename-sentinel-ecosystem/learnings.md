@@ -1,0 +1,2 @@
+- Plan executed: rename sentinel ecosystem file from CLJ to CLJS and adjust macros.
+- Key learnings: Use exact file move patch with Move directive; maintain history via git mv; update ns pattern and macro calls accordingly.

@@ -1,0 +1,55 @@
+{
+  "outputRoot": "orgs/riatzukiza/riatzukiza.github.io/static/garden",
+  "projects": [
+    {
+      "id": "cephalon-ts",
+      "title": "Cephalon Hive — Cephalon TS",
+      "subtitle": "File import graphs (packages/cephalon-ts/src)",
+      "description": "A quartz-garden view of the Cephalon runtime: subsystems map + entrypoint slices + full file-level import lattice.",
+      "tags": ["typescript", "agents", "discord", "llm", "graph"],
+      "root": "packages/cephalon-ts/src",
+      "entries": [
+        { "id": "main", "file": "main.ts", "title": "Entrypoint: main.ts" },
+        { "id": "app", "file": "app.ts", "title": "Entrypoint: app.ts" },
+        { "id": "cli", "file": "cli.ts", "title": "Entrypoint: cli.ts" },
+        { "id": "hive-cli", "file": "hive-cli.ts", "title": "Entrypoint: hive-cli.ts" }
+      ]
+    },
+    {
+      "id": "openplanner",
+      "title": "OpenPlanner",
+      "subtitle": "File import graphs (services/openplanner/src)",
+      "description": "OpenPlanner’s internal wiring: routes, plugins, and the event/search surface that feeds the hive.",
+      "tags": ["typescript", "search", "server", "chroma", "events"],
+      "root": "services/openplanner/src",
+      "entries": [
+        { "id": "main", "file": "main.ts", "title": "Entrypoint: main.ts" },
+        { "id": "app", "file": "app.ts", "title": "Entrypoint: app.ts" }
+      ]
+    },
+    {
+      "id": "proxx-api",
+      "title": "Proxx API",
+      "subtitle": "File import graphs (orgs/open-hax/proxx/src)",
+      "description": "Proxy + federation internals: request routing, provider adapters, auth, and the control plane.",
+      "tags": ["typescript", "proxy", "oauth", "federation", "postgres"],
+      "root": "orgs/open-hax/proxx/src",
+      "entries": [
+        { "id": "main", "file": "main.ts", "title": "Entrypoint: main.ts" },
+        { "id": "app", "file": "app.ts", "title": "Entrypoint: app.ts" }
+      ]
+    },
+    {
+      "id": "proxx-web",
+      "title": "Proxx Web",
+      "subtitle": "File import graphs (orgs/open-hax/proxx/web/src)",
+      "description": "Web UI wiring: pages, lib utilities, and the frontend entrypoints.",
+      "tags": ["typescript", "react", "web", "ui"],
+      "root": "orgs/open-hax/proxx/web/src",
+      "entries": [
+        { "id": "main", "file": "main.tsx", "title": "Entrypoint: main.tsx" },
+        { "id": "app", "file": "App.tsx", "title": "Entrypoint: App.tsx" }
+      ]
+    }
+  ]
+}

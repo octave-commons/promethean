@@ -1,0 +1,186 @@
+{
+  "groupId": "eta-lane",
+  "testedAt": "2026-03-13T05:15:00.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:9002",
+    "backendApi": "http://localhost:9001",
+    "agentBrowserSession": "fceeeeb25828__eta",
+    "evidenceDir": "/home/err/.factory/missions/a89af5ba-1e11-4720-8655-69dfa832609a/evidence/dashboard-mvp/eta-lane/"
+  },
+  "toolsUsed": ["agent-browser", "curl", "psql"],
+  "assertions": [
+    {
+      "id": "VAL-ETA-001",
+      "title": "Global Lane Renders with Cyan Accent",
+      "status": "pass",
+      "steps": [
+        { "action": "Navigate to http://localhost:9002", "expected": "Dashboard loads", "observed": "Dashboard loaded successfully, title 'Threat Radar Wall'" },
+        { "action": "Inspect η lane column", "expected": "Distinct column with cyan accent", "observed": "Column with class 'lane lane-eta' renders as distinct column" },
+        { "action": "Inspect η symbol element", "expected": "η symbol visible with cyan color", "observed": "span.lane-icon with text 'η', color rgb(34, 211, 238) — cyan hue ~187°" },
+        { "action": "Inspect lane-icon CSS", "expected": "Cyan-range accent color (~hue 180°)", "observed": "borderColor: rgb(34, 211, 238), backgroundColor: rgba(34, 211, 238, 0.12) — confirmed cyan" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/eta-lane/VAL-ETA-001-full-dashboard.png", "dashboard-mvp/eta-lane/VAL-ETA-001-eta-lane-scrolled.png"],
+        "consoleErrors": "none",
+        "network": "GET http://localhost:9001/api/radars -> 200 (polling)",
+        "cssInspection": {
+          "etaIconColor": "rgb(34, 211, 238)",
+          "etaIconBackgroundColor": "rgba(34, 211, 238, 0.12)",
+          "etaLaneBorderBottomColor": "rgba(34, 211, 238, 0.15)",
+          "etaSymbolFontSize": "26px",
+          "etaSymbolText": "η"
+        }
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-ETA-002",
+      "title": "Thread Cards with Gauges",
+      "status": "fail",
+      "steps": [
+        { "action": "Navigate to http://localhost:9002 and locate η lane", "expected": "η lane visible with thread cards", "observed": "η lane visible with 4 radar sections (EtaRadarSection) but 0 thread cards (EtaThreadCard)" },
+        { "action": "Query DOM for eta-thread-card elements", "expected": "At least 1 thread card with title, subtitle, and ≥2 gauge bars", "observed": "0 elements matching [data-testid='eta-thread-card'], 0 elements matching [data-testid='eta-gauge-bar']" },
+        { "action": "Query DOM for eta-score-ranges (fallback gauge)", "expected": "Score range gauges if no thread cards", "observed": "0 elements matching [data-testid='eta-score-ranges'] — η lane radars have empty signal data, so fallback gauges do not render" },
+        { "action": "Verify radar sections show titles and subtitles", "expected": "Titles and subtitles visible", "observed": "Radar sections show h3 titles (e.g. 'VAL PROC-005 Test Radar') and category spans ('geopolitical') but no gauge bars because signal data is empty" },
+        { "action": "Check API for η lane radar data", "expected": "Radars have signal data for gauges", "observed": "All 4 η lane radars (geopolitical category) have empty signals object and 0 branches — no data for gauge bars to render" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/eta-lane/VAL-ETA-001-full-dashboard.png"],
+        "consoleErrors": "none",
+        "domInspection": {
+          "threadCardCount": 0,
+          "gaugeBarCount": 0,
+          "scoreRangeCount": 0,
+          "radarSectionCount": 4,
+          "radarSectionsShowTitlesAndCategories": true
+        },
+        "apiData": "4 η lane radars with 0 signals each. Code path: EtaRadarSection renders RiskGauges only when scoreRanges.length > 0 or snapshot.signals has entries. Both conditions false."
+      },
+      "issues": "η lane radars have no signal/assessment data populated — signals table has 12 signals (5 Bluesky, 7 Reddit) but none are associated with radars (radar_id is NULL for all). Thread cards (EtaThreadCard) require thread data but threads table has 0 rows. The UI code fully supports gauge bars, but test data doesn't flow through the pipeline to populate them."
+    },
+    {
+      "id": "VAL-ETA-003",
+      "title": "Narrative Branches",
+      "status": "fail",
+      "steps": [
+        { "action": "Query DOM for narrative branch sections in η lane", "expected": "At least 1 thread card with ≥2 narrative branch interpretations", "observed": "0 elements matching '.eta-branch-section' in the η lane" },
+        { "action": "Check API for branch data in η lane radars", "expected": "Radars have branch data", "observed": "All 4 η lane radars have 0 branches. No render_state.deterministicSnapshot exists for any η lane radar." },
+        { "action": "Verify code path supports branches", "expected": "BranchMap renders when data present", "observed": "EtaRadarSection renders BranchMap when branchMapData.length >= 2, but condition is never met due to empty data" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/eta-lane/VAL-ETA-001-full-dashboard.png"],
+        "consoleErrors": "none",
+        "domInspection": {
+          "branchSectionCount": 0
+        },
+        "apiData": "All η lane radars have 0 branches in liveSnapshot and no deterministicSnapshot in render_state."
+      },
+      "issues": "No narrative branches exist for η lane radars. The reduction pipeline has not produced deterministic snapshot data with narrative branches for the geopolitical-category radars. The UI component (BranchMap) is implemented and renders correctly in the Π lane with test data, but η lane radars lack the necessary data."
+    },
+    {
+      "id": "VAL-ETA-004",
+      "title": "Source Provenance Badges",
+      "status": "fail",
+      "steps": [
+        { "action": "Query DOM for source badges in η lane", "expected": "At least 1 source badge (e.g., 'Bluesky', 'Reddit')", "observed": "0 elements matching '[data-testid=\"eta-thread-sources\"]' or '.source-badge' in η lane" },
+        { "action": "Check if threads exist to provide source distribution", "expected": "Thread data with source_distribution", "observed": "0 threads in database. EtaThreadCard renders SourceBadge from thread.source_distribution but no threads exist." },
+        { "action": "Verify signals exist in database", "expected": "Signals from Bluesky/Reddit collected", "observed": "12 signals in database (5 Bluesky, 7 Reddit) but all have NULL radar_id — not associated with any radar, not threaded" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/eta-lane/VAL-ETA-001-full-dashboard.png"],
+        "consoleErrors": "none",
+        "domInspection": {
+          "sourceBadgeCount": 0,
+          "threadCardCount": 0
+        },
+        "dbState": "signals table: 5 bluesky + 7 reddit = 12 total, all with NULL radar_id. threads table: 0 rows."
+      },
+      "issues": "Source badges are rendered by EtaThreadCard from thread.source_distribution, but no threads exist. Raw signals from Bluesky and Reddit are in the database but haven't been threaded or associated with radars."
+    },
+    {
+      "id": "VAL-ETA-005",
+      "title": "Uncertainty Labels",
+      "status": "fail",
+      "steps": [
+        { "action": "Query DOM for uncertainty labels in η lane", "expected": "At least 1 label showing 'low', 'moderate', or 'high' uncertainty", "observed": "0 elements matching '[data-testid=\"thread-uncertainty\"]'" },
+        { "action": "Check disagreement halo on clocks", "expected": "Visual disagreement indicator", "observed": "Threat clocks have data-testid='disagreement-halo' SVG elements but these are visual halos, not text labels. Disagreement index is 0 for all η lane radars." },
+        { "action": "Verify code implements uncertainty labels", "expected": "EtaThreadCard has uncertaintyLabel function", "observed": "EtaThreadCard.tsx implements uncertaintyLabel(confidence) returning 'low uncertainty', 'moderate uncertainty', or 'high uncertainty' — but requires thread data which doesn't exist" }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/eta-lane/VAL-ETA-001-full-dashboard.png"],
+        "consoleErrors": "none",
+        "domInspection": {
+          "uncertaintyLabelCount": 0,
+          "disagreementHaloCount": 4
+        }
+      },
+      "issues": "Uncertainty labels are rendered inside EtaThreadCard footer, which requires thread data. No threads exist in the database. The disagreement_index on all η lane radar snapshots is 0 (no multi-model submissions)."
+    },
+    {
+      "id": "VAL-CROSS-001",
+      "title": "End-to-End: Bluesky → η Lane Clock",
+      "status": "fail",
+      "steps": [
+        { "action": "Check Bluesky signals in database", "expected": "Bluesky signals collected and present", "observed": "5 Bluesky signals in signals table (titles include Japanese Bluesky content)" },
+        { "action": "Check if signals are associated with radars", "expected": "Signals linked to radars via radar_id", "observed": "All 5 Bluesky signals have NULL radar_id — not associated with any radar" },
+        { "action": "Check if signals are threaded", "expected": "Signals clustered into Thread objects", "observed": "threads table has 0 rows — no threading has occurred" },
+        { "action": "Check η lane for Bluesky-sourced data", "expected": "Thread cards or clock values reflecting Bluesky data", "observed": "η lane shows 4 radar sections all with 0.0 THREAT, no thread cards, no signal data. Bluesky signals did not flow through to the display layer." },
+        { "action": "Verify pipeline completeness", "expected": "Collection → normalization → threading → reduction → display", "observed": "Pipeline completed collection (signals in DB) but threading and radar-association steps were not executed. Signal data sits in the signals table without flowing to the dashboard." }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/eta-lane/VAL-ETA-001-full-dashboard.png"],
+        "consoleErrors": "none",
+        "dbState": {
+          "blueskySignals": 5,
+          "threadsFromBluesky": 0,
+          "radarAssociations": "none (all radar_id NULL)"
+        }
+      },
+      "issues": "Bluesky signals were collected and persisted to Postgres (5 signals) but the pipeline stops there. Signals are not associated with radars (NULL radar_id), not clustered into threads (0 threads), and therefore no reduced snapshot or clock values appear in the η lane. The end-to-end flow from Bluesky to η lane display is incomplete."
+    },
+    {
+      "id": "VAL-CROSS-002",
+      "title": "End-to-End: Reddit → η Lane Clock",
+      "status": "fail",
+      "steps": [
+        { "action": "Check Reddit signals in database", "expected": "Reddit signals collected and present", "observed": "7 Reddit signals in signals table (from LocalLLaMA and worldnews subreddits)" },
+        { "action": "Check if signals are associated with radars", "expected": "Signals linked to radars via radar_id", "observed": "All 7 Reddit signals have NULL radar_id — not associated with any radar" },
+        { "action": "Check if signals are threaded", "expected": "Signals clustered into Thread objects", "observed": "threads table has 0 rows — no threading has occurred" },
+        { "action": "Check η lane for Reddit-sourced data", "expected": "Thread cards or clock values reflecting Reddit data", "observed": "η lane shows 4 radar sections all with 0.0 THREAT, no thread cards, no signal data. Reddit signals did not flow through to the display layer." },
+        { "action": "Verify pipeline completeness", "expected": "Collection → normalization → threading → reduction → display", "observed": "Pipeline completed collection (signals in DB) but threading and radar-association steps were not executed." }
+      ],
+      "evidence": {
+        "screenshots": ["dashboard-mvp/eta-lane/VAL-ETA-001-full-dashboard.png"],
+        "consoleErrors": "none",
+        "dbState": {
+          "redditSignals": 7,
+          "threadsFromReddit": 0,
+          "radarAssociations": "none (all radar_id NULL)"
+        }
+      },
+      "issues": "Reddit signals were collected and persisted to Postgres (7 signals from LocalLLaMA and worldnews) but the pipeline stops there. Signals are not associated with radars (NULL radar_id), not clustered into threads (0 threads), and therefore no reduced snapshot or clock values appear in the η lane. The end-to-end flow from Reddit to η lane display is incomplete."
+    }
+  ],
+  "frictions": [
+    {
+      "description": "The η lane radars (geopolitical category) have no signal data, no branches, and no threads despite 12 signals existing in the database. The signals were collected from Bluesky and Reddit but were not associated with any radar (radar_id is NULL for all) and were not threaded (threads table has 0 rows). This makes it impossible to test thread card features (gauges, branches, badges, uncertainty labels).",
+      "resolved": false,
+      "resolution": null,
+      "affectedAssertions": ["VAL-ETA-002", "VAL-ETA-003", "VAL-ETA-004", "VAL-ETA-005", "VAL-CROSS-001", "VAL-CROSS-002"]
+    },
+    {
+      "description": "The UI code (EtaLane.tsx, EtaThreadCard.tsx) fully implements all tested features — gauge bars, narrative branches, source badges, uncertainty labels — but the data pipeline from signal collection through threading/reduction to display is incomplete, so these features cannot be observed in the live dashboard.",
+      "resolved": false,
+      "resolution": null,
+      "affectedAssertions": ["VAL-ETA-002", "VAL-ETA-003", "VAL-ETA-004", "VAL-ETA-005"]
+    }
+  ],
+  "blockers": [
+    {
+      "description": "Signal-to-thread pipeline not operational: 12 signals exist in database but 0 threads have been created. Signals lack radar_id associations. The threading/clustering step appears to not have been run or is not producing threads from these signals.",
+      "affectedAssertions": ["VAL-ETA-002", "VAL-ETA-003", "VAL-ETA-004", "VAL-ETA-005", "VAL-CROSS-001", "VAL-CROSS-002"],
+      "quickFixAttempted": "Verified signals exist via SQL query (5 bluesky, 7 reddit, all with NULL radar_id). Verified threads table has 0 rows. Checked API /api/radars — all radars return empty threads array. No non-disruptive fix available — threading pipeline needs to be run to populate data."
+    }
+  ],
+  "summary": "Tested 7 assertions: 1 passed (VAL-ETA-001 — η lane renders with cyan accent and η symbol), 6 failed (VAL-ETA-002 through VAL-ETA-005, VAL-CROSS-001, VAL-CROSS-002). All failures stem from the same root cause: the signal-to-thread pipeline is incomplete. 12 signals (5 Bluesky, 7 Reddit) are collected in Postgres but not associated with radars or clustered into threads, so the η lane cannot display thread cards, gauge bars, narrative branches, source badges, or uncertainty labels. The UI components are fully implemented and would render correctly with populated data."
+}

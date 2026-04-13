@@ -1,0 +1,62 @@
+{
+  "featureId": "thread-clustering",
+  "reviewedAt": "2026-03-13T03:15:00.000Z",
+  "commitId": "b46cd65",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid TF-IDF cosine similarity implementation with union-find agglomerative clustering. The cluster() function correctly tokenizes signal content, builds TF-IDF vectors, computes pairwise cosine similarity, and merges signals above a configurable threshold. Thread objects conform to the Zod threadSchema with all required fields (id, kind, title, members, timeline, domain_tags, status). The implementation covers all feature requirements: cluster() exported from radar-core, groups by topic similarity, cross-source clustering works, and 8 vitest tests pass (exceeding the 6+ requirement). Code is well-structured with clear separation of concerns (tokenization, TF-IDF, similarity, clustering, thread building). The worker correctly mapped the feature's requested fields to the existing Thread schema.",
+    "issues": [
+      {
+        "file": "packages/radar-core/src/cluster.ts",
+        "line": 295,
+        "severity": "non_blocking",
+        "description": "O(n²) pairwise similarity computation. For the current use case this is fine, but will degrade with large signal sets (e.g., 10k+ signals). Consider documenting the expected input size or adding a warning in the JSDoc."
+      },
+      {
+        "file": "packages/radar-core/src/cluster.ts",
+        "line": 340,
+        "severity": "non_blocking",
+        "description": "All thread members get relevance=1 uniformly. A more informative approach would compute relevance from the signal's cosine similarity to the cluster centroid. Not required by the feature spec, but would improve downstream thread assessment quality."
+      },
+      {
+        "file": "packages/radar-core/src/cluster.ts",
+        "line": 405,
+        "severity": "non_blocking",
+        "description": "Internal helper functions (_tokenize, _buildTfVector, _buildIdfMap, _cosineSimilarity, _generateTitle) are exported but never imported in tests. The tests correctly use only the public cluster() API. These exports leak implementation details — consider removing them or documenting that they are internal/unstable."
+      },
+      {
+        "file": "packages/radar-core/src/cluster.ts",
+        "line": 231,
+        "severity": "non_blocking",
+        "description": "The DEFAULT_SIMILARITY_THRESHOLD of 0.15 is quite low, which could cause over-clustering for signals with incidental term overlap. The threshold is configurable via ClusterOptions so this is a tuning concern rather than a bug, but it would be useful to document the reasoning for this default."
+      },
+      {
+        "file": "packages/radar-core/tests/cluster.test.ts",
+        "line": 6,
+        "severity": "non_blocking",
+        "description": "NOW is computed at module load time via new Date().toISOString(). This is fine for tests but introduces a non-deterministic element. A fixed ISO timestamp would make tests fully deterministic."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The feature verification step specifies 'npx vitest run --grep cluster' but vitest 0.34.6 does not support --grep. The worker correctly used 'npx vitest run tests/cluster.test.ts' instead. The features.json verificationSteps should be updated to use file path targeting instead of --grep for vitest.",
+      "evidence": "features.json verificationSteps: 'cd packages/radar-core && npx vitest run --grep cluster (6+ pass)'. Worker skillFeedback.suggestedChanges documents this mismatch. Worker ran: 'npx vitest run tests/cluster.test.ts --reporter=verbose' successfully."
+    },
+    {
+      "area": "conventions",
+      "observation": "The backend-worker skill says 'Write failing tests first (TDD)' but the worker created tests and implementation in quick succession (both in a single Create step). From the transcript, tests were created first (cluster.test.ts) then implementation (cluster.ts), which is consistent with TDD ordering, but no explicit 'run tests, confirm they fail' step was observed before implementation.",
+      "evidence": "Transcript skeleton shows: Create cluster.test.ts, then Create cluster.ts, then Execute vitest. No intermediate 'run tests to see failure' step."
+    },
+    {
+      "area": "knowledge",
+      "observation": "The architecture.md library file documents the data flow as 'Thread clustering → Assessment packets → Deterministic reducer' and mentions the cluster() function fits in this pipeline. The clustering algorithm details (TF-IDF with cosine similarity, default threshold 0.15, union-find agglomerative) could be added to architecture.md for future workers who need to understand or tune the pipeline.",
+      "evidence": "architecture.md Data Flow section mentions 'Thread clustering' as a pipeline stage but doesn't describe the algorithm. cluster.ts implements TF-IDF cosine similarity with configurable threshold (default 0.15)."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "The thread-clustering feature is well-implemented and passes review. The cluster() function correctly uses TF-IDF cosine similarity with union-find agglomerative clustering to group SignalEvents into Thread objects. All 8 tests pass, covering empty input, single signal, multi-signal merge, topic separation, cross-source (Bluesky + Reddit) clustering, title generation, Zod schema validation, and domain tag assignment. Thread objects conform to the existing threadSchema. No blocking issues found. Non-blocking concerns include O(n²) scaling, uniform relevance=1 for all members, and unused exported internal helpers. The worker followed the backend-worker skill procedure and produced clean, well-documented code."
+}
