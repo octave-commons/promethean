@@ -1,0 +1,29 @@
+# OVMS NPU stack — Qwen3-Embedding-0.6B-int8-ov on Intel NPU
+# Requires: /dev/accel present, latest-gpu OVMS image, model repo prepared via Makefile
+
+services:
+  qwen3-embedding-06b-npu:
+    image: openvino/model_server:latest-gpu
+    container_name: qwen3-embedding-06b-npu
+    user: "${UID}:${GID}"
+    devices:
+      - "/dev/accel:/dev/accel"
+    group_add:
+      - "${RENDER_GID}"
+    volumes:
+      - "./models:/workspace:ro"
+    ports:
+      - "8000:8000"
+    command: >
+      --rest_port 8000
+      --config_path /workspace/config.json
+      --target_device NPU
+      --batch_size 1
+      --log_level DEBUG
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-sf", "http://localhost:8000/v3/models"]
+      interval: 10s
+      timeout: 5s
+      retries: 6
+      start_period: 30s
