@@ -1,6 +1,6 @@
 {
   "record": "ημ.mounts.v1",
-  "generated_at": "2026-03-15T00:00:00Z",
+  "generated_at": "2026-03-16T00:00:00Z",
   "version": "1",
   "mounts": [
     {
@@ -11,7 +11,10 @@
         "**/node_modules/**",
         "**/.git/**",
         "**/dist/**",
-        "**/.cache/**"
+        "**/.cache/**",
+        "**/.opencode/**",
+        "**/.ημ/**",
+        "**/.Π/**"
       ]
     }
   ]
