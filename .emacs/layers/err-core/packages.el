@@ -49,27 +49,27 @@
      flycheck
      treesit-auto
      company
-     copilot
+     ;; copilot
      ))
 
-(defun err-core/post-init-copilot ()
+;; (defun err-core/post-init-copilot ()
 
-  (with-eval-after-load 'copilot
+;;   (with-eval-after-load 'copilot
 
 
-    (advice-add 'copilot--infer-indentation-offset :around
-      (lambda (orig &rest args)
-        (condition-case _
-          (apply orig args)
-          (warning (err-core/copilot-lisp-indent-fallback))
-          (error   (err-core/copilot-lisp-indent-fallback)))))
-    (dolist (m '(emacs-lisp-mode lisp-mode lisp-interaction-mode scheme-mode clojure-mode hy-mode))
-      (add-hook (intern (format "%s-hook" m))
-        (lambda ()
-          (setq-local lisp-body-indent (or (and (numberp lisp-body-indent) lisp-body-indent) 2))
-          (setq-local standard-indent   (or (and (numberp standard-indent) standard-indent) 2))
-          (setq-local tab-width         (or (and (numberp tab-width) tab-width) 2)) (setq-local indent-tabs-mode nil)))))
-  )
+;;     (advice-add 'copilot--infer-indentation-offset :around
+;;       (lambda (orig &rest args)
+;;         (condition-case _
+;;           (apply orig args)
+;;           (warning (err-core/copilot-lisp-indent-fallback))
+;;           (error   (err-core/copilot-lisp-indent-fallback)))))
+;;     (dolist (m '(emacs-lisp-mode lisp-mode lisp-interaction-mode scheme-mode clojure-mode hy-mode))
+;;       (add-hook (intern (format "%s-hook" m))
+;;         (lambda ()
+;;           (setq-local lisp-body-indent (or (and (numberp lisp-body-indent) lisp-body-indent) 2))
+;;           (setq-local standard-indent   (or (and (numberp standard-indent) standard-indent) 2))
+;;           (setq-local tab-width         (or (and (numberp tab-width) tab-width) 2)) (setq-local indent-tabs-mode nil)))))
+;;   )
 (defun err-core/post-init-lsp-sonarlint ()
   (with-eval-after-load 'lsp-sonarlint
     (setq lsp-sonarlint-auto-download t)
