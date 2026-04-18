@@ -50,6 +50,9 @@ services:
         - vexx
     user: ${DOCKER_USER:-1000:1000}
   mongodb:
+    # MongoDB Community Server in standalone mode (no replica set)
+    # This allows persistent volumes across container recreations
+    # Vector search is handled by the embedding service (proxx)
     image: mongo:8.0
     command:
     - mongod
@@ -79,6 +82,9 @@ services:
       retries: 10
       start_period: 20s
   mongot:
+    # Placeholder: Vector search via Atlas mongot disabled
+    # Using Community Server without integrated vector search
+    # Semantic search is handled by proxx embedding service
     image: busybox:1.36
     command:
     - echo
@@ -330,6 +336,24 @@ services:
       CANONICAL_PROXX_AUTH_TOKEN: ${OPENPLANNER_CANONICAL_PROXX_AUTH_TOKEN:-${OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN:-${PROXY_AUTH_TOKEN:-}}}
       PROJECTED_IMPORT_PROVIDER_IDS: ${OPENPLANNER_PROXX_PROJECTED_IMPORT_PROVIDER_IDS:-zai}
       SYNC_INTERVAL_SECONDS: ${OPENPLANNER_PROXX_SYNC_INTERVAL_SECONDS:-300}
+    command:
+    - /bin/sh
+    - -lc
+    - "python - <<'PY'\nimport json, os, sys, time, urllib.error, urllib.request\n\nlocal_base = os.environ[\"LOCAL_PROXX_BASE_URL\"].rstrip(\"/\")\nlocal_token = os.environ[\"LOCAL_PROXX_AUTH_TOKEN\"]\n\
+      canonical_base = os.environ[\"CANONICAL_PROXX_BASE_URL\"].rstrip(\"/\")\ncanonical_token = os.environ.get(\"CANONICAL_PROXX_AUTH_TOKEN\", \"\").strip()\nprovider_ids = [entry.strip() for entry in\
+      \ os.environ.get(\"PROJECTED_IMPORT_PROVIDER_IDS\", \"zai\").split(\",\") if entry.strip()]\ninterval = max(30, int(os.environ.get(\"SYNC_INTERVAL_SECONDS\", \"300\")))\n\nif not canonical_token:\n\
+      \  print(\"openplanner-proxx-federation-sync: missing CANONICAL_PROXX_AUTH_TOKEN\", file=sys.stderr)\n  sys.exit(1)\n\ndef request(url: str, token: str, body: dict | None = None) -> dict:\n  data\
+      \ = None if body is None else json.dumps(body).encode(\"utf-8\")\n  req = urllib.request.Request(url, data=data, method=\"POST\" if body is not None else \"GET\")\n  req.add_header(\"Authorization\"\
+      , f\"Bearer {token}\")\n  if data is not None:\n    req.add_header(\"Content-Type\", \"application/json\")\n  with urllib.request.urlopen(req, timeout=15) as response:\n    payload = response.read().decode(\"\
+      utf-8\")\n    return json.loads(payload) if payload else {}\n\ndef wait_for_health(url: str, token: str) -> None:\n  health_url = f\"{url}/health\"\n  while True:\n    try:\n      request(health_url,\
+      \ token)\n      return\n    except Exception as error:  # noqa: BLE001\n      print(f\"waiting for {health_url}: {error}\", file=sys.stderr)\n      time.sleep(5)\n\npeer_payload = {\n  \"id\": \"\
+      canonical-proxx\",\n  \"ownerCredential\": local_token,\n  \"label\": \"Canonical Proxx\",\n  \"baseUrl\": canonical_base,\n  \"controlBaseUrl\": canonical_base,\n  \"auth\": {\"credential\": canonical_token},\n\
+      \  \"status\": \"active\",\n}\n\nwhile True:\n  try:\n    wait_for_health(local_base, local_token)\n    wait_for_health(canonical_base, canonical_token)\n    request(f\"{local_base}/api/v1/federation/peers\"\
+      , local_token, peer_payload)\n    request(\n      f\"{local_base}/api/v1/federation/sync/pull\",\n      local_token,\n      {\"peerId\": \"canonical-proxx\", \"pullUsage\": False},\n    )\n    for\
+      \ provider_id in provider_ids:\n      request(\n        f\"{local_base}/api/v1/federation/projected-accounts/import-all\",\n        local_token,\n        {\"sourcePeerId\": \"canonical-proxx\", \"\
+      providerId\": provider_id},\n      )\n  except urllib.error.HTTPError as error:\n    detail = error.read().decode(\"utf-8\", errors=\"replace\")\n    print(f\"openplanner-proxx-federation-sync http\
+      \ error: {error.code} {detail}\", file=sys.stderr)\n  except Exception as error:  # noqa: BLE001\n    print(f\"openplanner-proxx-federation-sync error: {error}\", file=sys.stderr)\n  time.sleep(interval)\n\
+      PY\n"
     restart: unless-stopped
     networks:
       default: {}
