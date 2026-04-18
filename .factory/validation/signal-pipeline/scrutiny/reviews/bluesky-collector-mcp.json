@@ -1,0 +1,61 @@
+{
+  "featureId": "bluesky-collector-mcp",
+  "reviewedAt": "2026-03-13T03:15:00.000Z",
+  "commitId": "93b2312",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Implementation fully covers all feature requirements. The radar_collect_bluesky MCP tool is properly registered with Zod input schema, accepts feedUri/listUri/actor/searchQuery parameters, fetches from the Bluesky public API (correctly using public.api.bsky.app for unauthenticated access), normalizes posts into SignalEvent objects with source_type='bluesky', deduplicates by content_hash, persists to Postgres via store.createSignal, and returns {ok, collected, duplicates, total_fetched}. Input validation correctly rejects missing params and malformed AT Protocol URIs. 14 vitest tests pass covering normalization (4), collector feed methods (6), and validation logic (4). Integration testing via curl confirmed the tool appears in MCP tools/list, handles error cases, collects real posts, stores in Postgres, and deduplicates on re-fetch. The BlueskyCollector class properly handles all 4 query types (search, feed, list, actor) with correct AT Protocol API endpoints.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/collectors/bluesky.ts",
+        "line": 100,
+        "severity": "non_blocking",
+        "description": "Method _postToSignalEvent uses `post: any` and `post.record as any`. AGENTS.md coding conventions state 'No any types'. Should use `unknown` with instanceof/type narrowing, or import PostView from @atproto/api. The AT Protocol SDK exports proper types (e.g., AppBskyFeedDefs.PostView) that could replace the any casts."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/collectors/bluesky.ts",
+        "line": 25,
+        "severity": "non_blocking",
+        "description": "hashContent uses a simple DJB2-variant hash producing short base-36 strings. This has higher collision probability than crypto hashes (SHA-256). For the current scale this is acceptable, but at higher signal volumes it could cause false-positive dedup matches. Consider using node:crypto createHash('sha256') for production reliability."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/tests/bluesky-collector.test.ts",
+        "line": 230,
+        "severity": "non_blocking",
+        "description": "The 'MCP tool validation' test suite (4 tests at lines 230-269) tests inline JavaScript expressions (Boolean checks and startsWith) rather than invoking the actual MCP tool handler. These tests verify JavaScript primitive behavior, not the tool's validation code path. The worker compensated by doing thorough curl-based integration testing, but these unit tests provide limited regression protection for the actual validation logic in main.ts."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/main.ts",
+        "line": 657,
+        "severity": "non_blocking",
+        "description": "A new BlueskyCollector() is instantiated on every MCP tool call, creating a fresh AtpAgent each time. While functional for unauthenticated public API access, a shared/cached instance would be more efficient and avoid repeated object construction."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "Worker discovered that bsky.social requires authentication while public.api.bsky.app does not. This is critical knowledge for any future Bluesky integration work. The worker spent multiple tool calls testing bsky.social, getting AuthMissing errors, then finding the public endpoint. This knowledge should be recorded so future workers don't repeat this discovery.",
+      "evidence": "Transcript shows: worker tested direct Bluesky API at bsky.social which returned {\"error\":\"AuthMissing\"}, then tested public.api.bsky.app which worked. Worker then updated collector to use public.api.bsky.app as default for unauthenticated access (bluesky.ts lines 39-42)."
+    },
+    {
+      "area": "conventions",
+      "observation": "Worker used `any` types in _postToSignalEvent (post: any, record as any) despite AGENTS.md stating 'No any types'. The AT Protocol SDK does export typed PostView but the convention guidance doesn't mention how to handle complex third-party SDK types where full typing is verbose.",
+      "evidence": "orgs/riatzukiza/threat-radar-mcp/src/collectors/bluesky.ts:100 — `private _postToSignalEvent(post: any): SignalEvent`"
+    },
+    {
+      "area": "skills",
+      "observation": "The backend-worker skill says 'Write failing tests first (TDD)' with an exception for wiring-only tasks. Worker wrote tests after implementation, which is arguably justified since this is a wiring task. The skill's TDD exception clause could be clearer about what constitutes 'wiring-only' vs 'new runtime logic' — the BlueskyCollector enhancement (adding list URI support and public API endpoint) is arguably new runtime logic, not pure wiring.",
+      "evidence": "Skill SKILL.md step 2: 'Exception: For configuration-only, type-restoration, or wiring-only tasks with no new runtime logic, skip TDD'. Worker transcript shows tests created after implementation, not before."
+    },
+    {
+      "area": "knowledge",
+      "observation": "Worker found that vitest 0.34.6 does not support --grep flag. The feature's verificationSteps specify 'npx vitest run --grep bluesky' which fails. The correct approach is 'npx vitest run tests/bluesky-collector.test.ts'. This should be noted so verification steps in future features use the correct syntax.",
+      "evidence": "Transcript shows worker tried 'npx vitest run --grep bluesky' which failed, then switched to 'npx vitest run tests/bluesky-collector.test.ts'. Worker also noted this in skillFeedback.suggestedChanges."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "PASS. The radar_collect_bluesky MCP tool implementation is complete and correct. All 5 feature requirements are met: (1) accepts feedUri/listUri/actor/searchQuery params, (2) fetches via AT Protocol public API, (3) normalizes to SignalEvent with source='bluesky', (4) stores in Postgres with dedup, (5) returns collected count. 14 vitest tests pass, typecheck clean, integration verified via curl with real Bluesky API. Four non-blocking issues found: use of `any` types violating coding conventions, weak hash function for dedup, shallow MCP validation unit tests, and per-call collector instantiation. None affect correctness or feature completeness."
+}

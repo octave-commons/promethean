@@ -1,0 +1,135 @@
+{
+  "groupId": "collection-persistence",
+  "testedAt": "2026-03-13T03:43:30.000Z",
+  "isolation": {
+    "appUrl": "http://localhost:9001",
+    "auth": "MCP: auto-authenticated (ALLOW_UNAUTH_LOCAL=true); REST: x-admin-auth-key: dev-admin-key-12345",
+    "db": "docker exec open-hax-openai-proxy-open-hax-openai-proxy-db-1 psql -U openai_proxy -d threat_radar",
+    "uniqueSlug": "val-data-001-8784cd7a",
+    "radarId": "62175615-2ec8-4276-948b-039a6e1f313b"
+  },
+  "toolsUsed": ["curl"],
+  "assertions": [
+    {
+      "id": "VAL-COL-001",
+      "title": "Bluesky Collector Returns SignalEvents",
+      "status": "pass",
+      "steps": [
+        { "action": "Initialize MCP session via POST /mcp with initialize method", "expected": "Session established with mcp-session-id header", "observed": "Session ID returned: dc2fb60e-01d6-49e7-8bac-a97cd5ff2fee" },
+        { "action": "Call radar_collect_bluesky with searchQuery='climate change'", "expected": "At least one signal collected", "observed": "0 collected — Bluesky search API returned no results for text queries" },
+        { "action": "Call radar_collect_bluesky with actor='bsky.app', limit=5", "expected": "At least one signal collected", "observed": "collected=2, duplicates=3, total_fetched=5 — actor-based collection succeeded" },
+        { "action": "Query Postgres for bluesky signals", "expected": "Rows with populated id, source, text, observed_at, provenance (post_uri)", "observed": "5 bluesky signals found with all fields populated including provenance.post_uri (canonical URL), provenance.source_type='bluesky', content_hash, metadata (like_count, repost_count, reply_count)" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (API testing)",
+        "network": "POST /mcp tools/call radar_collect_bluesky -> 200 SSE response with {ok:true,collected:2,duplicates:3,total_fetched:5}",
+        "files": [
+          "signal-pipeline/collection/VAL-COL-001-bluesky-mcp-call.txt",
+          "signal-pipeline/collection/VAL-COL-001-bluesky-db-signals.json"
+        ]
+      },
+      "issues": "searchQuery parameter returned 0 results for all tested terms ('climate change', 'news', 'technology'). Only actor-based collection worked. This may indicate the Bluesky search API is rate-limited or requires different query format. The collector itself functions correctly via the actor parameter."
+    },
+    {
+      "id": "VAL-COL-002",
+      "title": "Reddit Collector Returns SignalEvents",
+      "status": "pass",
+      "steps": [
+        { "action": "Initialize MCP session", "expected": "Session established", "observed": "Session ID returned: 8d973bd1-e7bb-46c8-8067-72d27885b686" },
+        { "action": "Call radar_collect_reddit with subreddits=['LocalLLaMA'], sort='hot', limit=5", "expected": "At least one SignalEvent collected", "observed": "collected=5, duplicates=0, total_fetched=5" },
+        { "action": "Query Postgres for reddit signals", "expected": "Rows with populated id, source, text, observed_at, provenance", "observed": "5 reddit signals found with all fields populated: id (UUID), source='reddit', text (post content), observed_at (ISO timestamp), provenance.post_uri (Reddit URL), provenance.author, provenance.source_type='reddit', provenance.confidence_class, links (canonical URL), domain_tags (subreddit), content_hash, metadata (score, num_comments, upvote_ratio)" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (API testing)",
+        "network": "POST /mcp tools/call radar_collect_reddit -> 200 SSE response with {ok:true,collected:5,duplicates:0,total_fetched:5}",
+        "files": [
+          "signal-pipeline/collection/VAL-COL-002-reddit-mcp-call.txt",
+          "signal-pipeline/collection/VAL-COL-002-reddit-db-signals.json"
+        ]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-COL-003",
+      "title": "Collected Signals Persist to Postgres",
+      "status": "pass",
+      "steps": [
+        { "action": "Query Postgres signal counts by source", "expected": "Bluesky and Reddit signals present", "observed": "bluesky=5, reddit=5, total=10 signals in DB" },
+        { "action": "Query specific signals by ID", "expected": "Signals retrievable by primary key", "observed": "Both 00e78856-... (bluesky) and ea86138e-... (reddit) returned with full data" },
+        { "action": "Verify fields are populated", "expected": "id, source, text, observed_at, provenance, content_hash all non-null", "observed": "All fields populated correctly" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (API testing)",
+        "network": "Direct Postgres SQL queries via docker exec",
+        "files": [
+          "signal-pipeline/collection/VAL-COL-003-persistence.txt"
+        ]
+      },
+      "issues": "Per task instructions, server restart was NOT performed. Persistence confirmed via direct Postgres queries only."
+    },
+    {
+      "id": "VAL-COL-004",
+      "title": "Duplicate Signal Detection",
+      "status": "pass",
+      "steps": [
+        { "action": "Record initial state: 5 reddit signals, all content_hash values unique", "expected": "Baseline established", "observed": "5 unique content_hashes: 4xr4cn, 6agleg, 79ht4o, f0x6k7, ghmpr2" },
+        { "action": "Re-collect same LocalLLaMA hot/5 signals", "expected": "Duplicates detected, no new rows created", "observed": "MCP response: {collected:0, duplicates:5, total_fetched:5}" },
+        { "action": "Verify total count unchanged", "expected": "Still 5 reddit signals", "observed": "count=5 — unchanged" },
+        { "action": "Check for duplicate content_hash values", "expected": "No content_hash appears more than once", "observed": "0 rows with count > 1 — deduplication confirmed" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (API testing)",
+        "network": "POST /mcp tools/call radar_collect_reddit -> 200 SSE with {ok:true,collected:0,duplicates:5,total_fetched:5}",
+        "files": [
+          "signal-pipeline/collection/VAL-COL-004-dedup.txt"
+        ]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-DATA-001",
+      "title": "Radar Configuration Persists via Postgres",
+      "status": "pass",
+      "steps": [
+        { "action": "Create radar via MCP radar_create tool with unique slug val-data-001-8784cd7a", "expected": "Radar created with ID returned", "observed": "Radar created: id=62175615-2ec8-4276-948b-039a6e1f313b, slug=val-data-001-8784cd7a, category=technology, status=active" },
+        { "action": "Query radar via REST API GET /api/radars", "expected": "Radar appears in API response", "observed": "Radar found in API response with matching id, slug, name, category, status" },
+        { "action": "Query Postgres directly for the radar", "expected": "Row exists in radars table", "observed": "SELECT from radars WHERE slug='val-data-001-8784cd7a' returned 1 matching row with all fields correct" }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "n/a (API testing)",
+        "network": "POST /mcp radar_create -> 200 with radar object; GET /api/radars -> 200 with radar list including test radar",
+        "files": [
+          "signal-pipeline/collection/VAL-DATA-001-radar-persistence.txt"
+        ]
+      },
+      "issues": "Per task instructions, server restart was NOT performed. Persistence confirmed via both REST API query and direct Postgres SQL query."
+    }
+  ],
+  "frictions": [
+    {
+      "description": "Bluesky searchQuery parameter returned 0 results for all tested search terms ('climate change', 'news', 'technology'). Only actor-based collection (actor='bsky.app') worked successfully. This may be a Bluesky API rate limit, indexing delay, or a change in the public search API behavior.",
+      "resolved": true,
+      "resolution": "Used actor parameter instead of searchQuery to successfully collect Bluesky signals",
+      "affectedAssertions": ["VAL-COL-001"]
+    },
+    {
+      "description": "MCP tool responses return only summary counts ({ok, collected, duplicates, total_fetched}) rather than the full SignalEvent objects. Validation of individual signal fields required querying Postgres directly.",
+      "resolved": true,
+      "resolution": "Queried Postgres to verify individual signal field completeness (id, source, text, observed_at, provenance with post_uri/canonical_url, content_hash, links, metadata)",
+      "affectedAssertions": ["VAL-COL-001", "VAL-COL-002"]
+    },
+    {
+      "description": "MCP Streamable HTTP transport requires Accept: 'application/json, text/event-stream' header and session management via mcp-session-id header. Initial calls without these headers failed with protocol errors.",
+      "resolved": true,
+      "resolution": "Added proper Accept header and extracted mcp-session-id from response headers for subsequent requests",
+      "affectedAssertions": ["VAL-COL-001", "VAL-COL-002", "VAL-COL-004", "VAL-DATA-001"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 5 assertions: all 5 passed. Bluesky collector works via actor parameter (searchQuery returned 0 results). Reddit collector works perfectly. Signals persist in Postgres with all required fields. Duplicate detection correctly prevents re-insertion (content_hash based). Radar configuration persists in Postgres and is queryable via both REST API and direct SQL."
+}

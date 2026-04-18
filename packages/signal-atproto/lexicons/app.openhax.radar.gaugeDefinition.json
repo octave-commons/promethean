@@ -1,0 +1,31 @@
+{
+  "lexicon": 1,
+  "id": "app.openhax.radar.gaugeDefinition",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "Deterministic definition of a metric (gauge/signal). Shareable, forkable, versionable.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["label", "description", "scaleMin", "scaleMax", "scaleLabels"],
+        "properties": {
+          "radarSlug": { "type": "string" },
+          "label": { "type": "string", "maxLength": 200 },
+          "description": { "type": "string", "maxLength": 2000 },
+          "scaleMin": { "type": "integer", "minimum": 0 },
+          "scaleMax": { "type": "integer", "minimum": 1 },
+          "scaleLabels": {
+            "type": "array",
+            "items": { "type": "string" },
+            "minLength": 2,
+            "maxLength": 10
+          },
+          "inputRules": { "type": "string", "maxLength": 5000 },
+          "thresholds": { "type": "string", "maxLength": 2000 },
+          "version": { "type": "integer", "minimum": 1 }
+        }
+      }
+    }
+  }
+}

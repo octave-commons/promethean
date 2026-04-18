@@ -1,0 +1,68 @@
+{
+  "records": [
+    {
+      "providerId": "ollama-cloud",
+      "model": "gpt-oss:20b",
+      "pheromone": 1,
+      "successCount": 1170,
+      "failureCount": 9,
+      "updatedAt": 1774911433642
+    },
+    {
+      "providerId": "ollama-cloud",
+      "model": "gemma3:12b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 2587,
+      "updatedAt": 1774903093659
+    },
+    {
+      "providerId": "openai",
+      "model": "gemma3:12b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 2781,
+      "updatedAt": 1774903133484
+    },
+    {
+      "providerId": "requesty",
+      "model": "gemma3:12b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 86,
+      "updatedAt": 1774903134565
+    },
+    {
+      "providerId": "ollama-cloud",
+      "model": "gemma3:27b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 2369,
+      "updatedAt": 1774903194973
+    },
+    {
+      "providerId": "openai",
+      "model": "gemma3:27b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 2534,
+      "updatedAt": 1774903233448
+    },
+    {
+      "providerId": "requesty",
+      "model": "gemma3:27b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 79,
+      "updatedAt": 1774903234184
+    },
+    {
+      "providerId": "openai",
+      "model": "gpt-oss:20b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 12,
+      "updatedAt": 1774911444225
+    }
+  ]
+}

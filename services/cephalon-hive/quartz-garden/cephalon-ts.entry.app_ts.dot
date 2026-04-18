@@ -1,0 +1,369 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#fcfcff", fontname="Helvetica", fontsize=18, labelloc="t", labeljust="l", label="Cephalon TS entry graph — packages/cephalon-ts/src"]; 
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=9, color="#c8c8d0", fillcolor="#f4f4fb"]; 
+  edge  [color="#99aabb", arrowsize=0.55, penwidth=1.0];
+
+  subgraph cluster__root_ {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="23 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="(root)";
+    "app.ts" [label="app.ts", tooltip="app.ts", color="#4b4be0", fillcolor="#e9e9ff", penwidth=2.2];
+    "circuits.ts" [label="circuits.ts", tooltip="circuits.ts"];
+  }
+
+  subgraph cluster_chroma {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="94 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="chroma";
+    "chroma/client.ts" [label="chroma/client.ts", tooltip="chroma/client.ts"];
+  }
+
+  subgraph cluster_config {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="90 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="config";
+    "config/bots.ts" [label="config/bots.ts", tooltip="config/bots.ts"];
+    "config/defaults.ts" [label="config/defaults.ts", tooltip="config/defaults.ts"];
+    "config/env.ts" [label="config/env.ts", tooltip="config/env.ts"];
+    "config/policy.ts" [label="config/policy.ts", tooltip="config/policy.ts"];
+  }
+
+  subgraph cluster_context {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="167 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="context";
+    "context/assembler.ts" [label="context/assembler.ts", tooltip="context/assembler.ts"];
+  }
+
+  subgraph cluster_core {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="335 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="core";
+    "core/memory-factory.ts" [label="core/memory-factory.ts", tooltip="core/memory-factory.ts"];
+    "core/memory-store.ts" [label="core/memory-store.ts", tooltip="core/memory-store.ts"];
+    "core/minting.ts" [label="core/minting.ts", tooltip="core/minting.ts"];
+    "core/mongodb-memory-store.ts" [label="core/mongodb-memory-store.ts", tooltip="core/mongodb-memory-store.ts"];
+  }
+
+  subgraph cluster_discord {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="348 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="discord";
+    "discord/api-client.ts" [label="discord/api-client.ts", tooltip="discord/api-client.ts"];
+    "discord/integration.ts" [label="discord/integration.ts", tooltip="discord/integration.ts"];
+  }
+
+  subgraph cluster_embeddings {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="212 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="embeddings";
+    "embeddings/service.ts" [label="embeddings/service.ts", tooltip="embeddings/service.ts"];
+  }
+
+  subgraph cluster_irc {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="138 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="irc";
+    "irc/api-client.ts" [label="irc/api-client.ts", tooltip="irc/api-client.ts"];
+    "irc/integration.ts" [label="irc/integration.ts", tooltip="irc/integration.ts"];
+  }
+
+  subgraph cluster_llm {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="325 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="llm";
+    "llm/index.ts" [label="llm/index.ts", tooltip="llm/index.ts"];
+    "llm/message.ts" [label="llm/message.ts", tooltip="llm/message.ts"];
+    "llm/ollama-request-queue.ts" [label="llm/ollama-request-queue.ts", tooltip="llm/ollama-request-queue.ts"];
+    "llm/provider.ts" [label="llm/provider.ts", tooltip="llm/provider.ts"];
+    "llm/tools/browser.ts" [label="llm/tools/browser.ts", tooltip="llm/tools/browser.ts"];
+    "llm/tools/executor.ts" [label="llm/tools/executor.ts", tooltip="llm/tools/executor.ts"];
+    "llm/tools/registry.ts" [label="llm/tools/registry.ts", tooltip="llm/tools/registry.ts"];
+    "llm/tools/tenor.ts" [label="llm/tools/tenor.ts", tooltip="llm/tools/tenor.ts"];
+    "llm/tools/types.ts" [label="llm/tools/types.ts", tooltip="llm/tools/types.ts"];
+    "llm/turn-processor.ts" [label="llm/turn-processor.ts", tooltip="llm/turn-processor.ts"];
+    "llm/zai-client.ts" [label="llm/zai-client.ts", tooltip="llm/zai-client.ts"];
+    "llm/zai-provider.ts" [label="llm/zai-provider.ts", tooltip="llm/zai-provider.ts"];
+  }
+
+  subgraph cluster_mind {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="34 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="mind";
+    "mind/channel-aco.ts" [label="mind/channel-aco.ts", tooltip="mind/channel-aco.ts"];
+    "mind/eidolon-field.ts" [label="mind/eidolon-field.ts", tooltip="mind/eidolon-field.ts"];
+    "mind/graph-weaver.ts" [label="mind/graph-weaver.ts", tooltip="mind/graph-weaver.ts"];
+    "mind/output-dedupe.ts" [label="mind/output-dedupe.ts", tooltip="mind/output-dedupe.ts"];
+    "mind/prompt-field.ts" [label="mind/prompt-field.ts", tooltip="mind/prompt-field.ts"];
+    "mind/rss-poller.ts" [label="mind/rss-poller.ts", tooltip="mind/rss-poller.ts"];
+    "mind/sentiment.ts" [label="mind/sentiment.ts", tooltip="mind/sentiment.ts"];
+  }
+
+  subgraph cluster_normalization {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="5 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="normalization";
+    "normalization/discord-message.ts" [label="normalization/discord-message.ts", tooltip="normalization/discord-message.ts"];
+  }
+
+  subgraph cluster_openplanner {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="16 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="openplanner";
+    "openplanner/client.ts" [label="openplanner/client.ts", tooltip="openplanner/client.ts"];
+  }
+
+  subgraph cluster_peer {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="338 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="peer";
+    "peer/runtime.ts" [label="peer/runtime.ts", tooltip="peer/runtime.ts"];
+  }
+
+  subgraph cluster_prompts {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="151 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="prompts";
+    "prompts/developer-prompts.ts" [label="prompts/developer-prompts.ts", tooltip="prompts/developer-prompts.ts"];
+    "prompts/duck-persona.ts" [label="prompts/duck-persona.ts", tooltip="prompts/duck-persona.ts"];
+    "prompts/entertainment-personas.ts" [label="prompts/entertainment-personas.ts", tooltip="prompts/entertainment-personas.ts"];
+    "prompts/index.ts" [label="prompts/index.ts", tooltip="prompts/index.ts"];
+    "prompts/system-prompts.ts" [label="prompts/system-prompts.ts", tooltip="prompts/system-prompts.ts"];
+    "prompts/tool-definitions.ts" [label="prompts/tool-definitions.ts", tooltip="prompts/tool-definitions.ts"];
+  }
+
+  subgraph cluster_runtime {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="208 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="runtime";
+    "runtime/temporal.ts" [label="runtime/temporal.ts", tooltip="runtime/temporal.ts"];
+  }
+
+  subgraph cluster_sessions {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="69 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="sessions";
+    "sessions/manager.ts" [label="sessions/manager.ts", tooltip="sessions/manager.ts"];
+  }
+
+  subgraph cluster_types {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="25 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="types";
+    "types/index.ts" [label="types/index.ts", tooltip="types/index.ts"];
+  }
+
+  subgraph cluster_ui {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="132 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="ui";
+    "ui/server.ts" [label="ui/server.ts", tooltip="ui/server.ts"];
+  }
+
+  subgraph cluster_utils {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="201 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="utils";
+    "utils/vector-math.ts" [label="utils/vector-math.ts", tooltip="utils/vector-math.ts"];
+  }
+
+  "app.ts" -> "config/policy.ts";
+  "app.ts" -> "config/env.ts";
+  "app.ts" -> "core/memory-store.ts";
+  "app.ts" -> "core/mongodb-memory-store.ts";
+  "app.ts" -> "discord/integration.ts";
+  "app.ts" -> "sessions/manager.ts";
+  "app.ts" -> "llm/index.ts";
+  "app.ts" -> "discord/api-client.ts";
+  "app.ts" -> "irc/api-client.ts";
+  "app.ts" -> "irc/integration.ts";
+  "app.ts" -> "types/index.ts";
+  "app.ts" -> "chroma/client.ts";
+  "app.ts" -> "ui/server.ts";
+  "app.ts" -> "openplanner/client.ts";
+  "app.ts" -> "circuits.ts";
+  "app.ts" -> "mind/graph-weaver.ts";
+  "app.ts" -> "mind/rss-poller.ts";
+  "app.ts" -> "mind/eidolon-field.ts";
+  "app.ts" -> "mind/prompt-field.ts";
+  "app.ts" -> "config/bots.ts";
+  "app.ts" -> "llm/tools/browser.ts";
+  "app.ts" -> "runtime/temporal.ts";
+  "chroma/client.ts" -> "embeddings/service.ts";
+  "chroma/client.ts" -> "types/index.ts";
+  "chroma/client.ts" -> "config/defaults.ts";
+  "circuits.ts" -> "types/index.ts";
+  "config/bots.ts" -> "types/index.ts";
+  "config/defaults.ts" -> "types/index.ts";
+  "config/defaults.ts" -> "config/env.ts";
+  "config/policy.ts" -> "config/env.ts";
+  "config/policy.ts" -> "types/index.ts";
+  "context/assembler.ts" -> "types/index.ts";
+  "context/assembler.ts" -> "prompts/index.ts";
+  "context/assembler.ts" -> "config/env.ts";
+  "context/assembler.ts" -> "prompts/entertainment-personas.ts";
+  "context/assembler.ts" -> "core/memory-store.ts";
+  "context/assembler.ts" -> "utils/vector-math.ts";
+  "core/memory-factory.ts" -> "types/index.ts";
+  "core/memory-store.ts" -> "types/index.ts";
+  "core/memory-store.ts" -> "chroma/client.ts";
+  "core/memory-store.ts" -> "openplanner/client.ts";
+  "core/memory-store.ts" -> "utils/vector-math.ts";
+  "core/minting.ts" -> "types/index.ts";
+  "core/minting.ts" -> "core/memory-store.ts";
+  "core/minting.ts" -> "core/memory-factory.ts";
+  "core/mongodb-memory-store.ts" -> "utils/vector-math.ts";
+  "core/mongodb-memory-store.ts" -> "types/index.ts";
+  "core/mongodb-memory-store.ts" -> "core/memory-store.ts";
+  "core/mongodb-memory-store.ts" -> "openplanner/client.ts";
+  "discord/integration.ts" -> "normalization/discord-message.ts";
+  "discord/integration.ts" -> "types/index.ts";
+  "embeddings/service.ts" -> "llm/ollama-request-queue.ts";
+  "embeddings/service.ts" -> "config/defaults.ts";
+  "irc/integration.ts" -> "types/index.ts";
+  "irc/integration.ts" -> "irc/api-client.ts";
+  "llm/index.ts" -> "llm/message.ts";
+  "llm/index.ts" -> "llm/provider.ts";
+  "llm/index.ts" -> "llm/zai-provider.ts";
+  "llm/index.ts" -> "llm/zai-client.ts";
+  "llm/index.ts" -> "llm/turn-processor.ts";
+  "llm/index.ts" -> "llm/tools/types.ts";
+  "llm/index.ts" -> "llm/tools/executor.ts";
+  "llm/index.ts" -> "llm/tools/registry.ts";
+  "llm/index.ts" -> "llm/ollama-request-queue.ts";
+  "llm/message.ts" -> "types/index.ts";
+  "llm/provider.ts" -> "types/index.ts";
+  "llm/provider.ts" -> "prompts/index.ts";
+  "llm/provider.ts" -> "llm/message.ts";
+  "llm/provider.ts" -> "llm/ollama-request-queue.ts";
+  "llm/provider.ts" -> "config/defaults.ts";
+  "llm/tools/browser.ts" -> "llm/tools/types.ts";
+  "llm/tools/browser.ts" -> "llm/zai-client.ts";
+  "llm/tools/executor.ts" -> "types/index.ts";
+  "llm/tools/executor.ts" -> "prompts/index.ts";
+  "llm/tools/executor.ts" -> "llm/tools/types.ts";
+  "llm/tools/executor.ts" -> "llm/tools/registry.ts";
+  "llm/tools/executor.ts" -> "mind/channel-aco.ts";
+  "llm/tools/executor.ts" -> "chroma/client.ts";
+  "llm/tools/executor.ts" -> "openplanner/client.ts";
+  "llm/tools/executor.ts" -> "core/memory-store.ts";
+  "llm/tools/executor.ts" -> "discord/api-client.ts";
+  "llm/tools/executor.ts" -> "irc/api-client.ts";
+  "llm/tools/registry.ts" -> "prompts/index.ts";
+  "llm/tools/registry.ts" -> "prompts/entertainment-personas.ts";
+  "llm/tools/registry.ts" -> "types/index.ts";
+  "llm/tools/registry.ts" -> "llm/tools/types.ts";
+  "llm/tools/registry.ts" -> "llm/tools/browser.ts";
+  "llm/tools/registry.ts" -> "llm/tools/tenor.ts";
+  "llm/tools/registry.ts" -> "llm/zai-client.ts";
+  "llm/tools/registry.ts" -> "peer/runtime.ts";
+  "llm/tools/tenor.ts" -> "llm/tools/types.ts";
+  "llm/tools/tenor.ts" -> "config/env.ts";
+  "llm/tools/tenor.ts" -> "peer/runtime.ts";
+  "llm/tools/types.ts" -> "types/index.ts";
+  "llm/tools/types.ts" -> "prompts/index.ts";
+  "llm/tools/types.ts" -> "discord/api-client.ts";
+  "llm/tools/types.ts" -> "irc/api-client.ts";
+  "llm/tools/types.ts" -> "chroma/client.ts";
+  "llm/tools/types.ts" -> "openplanner/client.ts";
+  "llm/tools/types.ts" -> "core/memory-store.ts";
+  "llm/turn-processor.ts" -> "types/index.ts";
+  "llm/turn-processor.ts" -> "llm/provider.ts";
+  "llm/turn-processor.ts" -> "llm/zai-provider.ts";
+  "llm/turn-processor.ts" -> "llm/tools/executor.ts";
+  "llm/turn-processor.ts" -> "core/memory-store.ts";
+  "llm/turn-processor.ts" -> "discord/api-client.ts";
+  "llm/turn-processor.ts" -> "mind/output-dedupe.ts";
+  "llm/turn-processor.ts" -> "context/assembler.ts";
+  "llm/turn-processor.ts" -> "core/minting.ts";
+  "llm/zai-provider.ts" -> "types/index.ts";
+  "llm/zai-provider.ts" -> "prompts/index.ts";
+  "llm/zai-provider.ts" -> "llm/provider.ts";
+  "llm/zai-provider.ts" -> "llm/message.ts";
+  "llm/zai-provider.ts" -> "llm/zai-client.ts";
+  "llm/zai-provider.ts" -> "config/env.ts";
+  "mind/channel-aco.ts" -> "types/index.ts";
+  "mind/channel-aco.ts" -> "mind/sentiment.ts";
+  "mind/eidolon-field.ts" -> "types/index.ts";
+  "mind/graph-weaver.ts" -> "types/index.ts";
+  "mind/output-dedupe.ts" -> "normalization/discord-message.ts";
+  "mind/prompt-field.ts" -> "types/index.ts";
+  "mind/rss-poller.ts" -> "mind/graph-weaver.ts";
+  "normalization/discord-message.ts" -> "types/index.ts";
+  "openplanner/client.ts" -> "types/index.ts";
+  "peer/runtime.ts" -> "config/bots.ts";
+  "prompts/entertainment-personas.ts" -> "config/env.ts";
+  "prompts/entertainment-personas.ts" -> "peer/runtime.ts";
+  "prompts/entertainment-personas.ts" -> "prompts/duck-persona.ts";
+  "prompts/index.ts" -> "prompts/system-prompts.ts";
+  "prompts/index.ts" -> "prompts/developer-prompts.ts";
+  "prompts/index.ts" -> "prompts/tool-definitions.ts";
+  "prompts/index.ts" -> "prompts/duck-persona.ts";
+  "prompts/system-prompts.ts" -> "types/index.ts";
+  "runtime/temporal.ts" -> "circuits.ts";
+  "runtime/temporal.ts" -> "types/index.ts";
+  "sessions/manager.ts" -> "types/index.ts";
+  "sessions/manager.ts" -> "config/defaults.ts";
+  "ui/server.ts" -> "chroma/client.ts";
+  "ui/server.ts" -> "core/memory-store.ts";
+  "ui/server.ts" -> "types/index.ts";
+  "ui/server.ts" -> "openplanner/client.ts";
+  "ui/server.ts" -> "peer/runtime.ts";
+}

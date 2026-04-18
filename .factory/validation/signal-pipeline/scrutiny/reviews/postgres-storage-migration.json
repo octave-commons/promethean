@@ -1,0 +1,67 @@
+{
+  "featureId": "postgres-storage-migration",
+  "reviewedAt": "2026-03-13T03:15:00.000Z",
+  "commitId": "8bcb3fe",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation that adds signals and threads tables to the Postgres schema, implements full CRUD on PostgresRadarStore with proper JSONB handling via parseJsonb(), mirrors the interface on InMemoryRadarStore for fallback mode, fixes the updateRadar trailing-comma SQL bug, and delivers 14 vitest integration tests (well above the 6 minimum). TypeScript compiles cleanly, server starts with Postgres, and all API endpoints work. The pre-existing JSONB deserialization bug is fixed systematically across all row mappers.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/lib/postgres.ts",
+        "line": 130,
+        "severity": "non_blocking",
+        "description": "signals.radar_id and threads.radar_id lack FOREIGN KEY constraints to radars(id), unlike all other tables (radar_module_versions, radar_sources, radar_packets, radar_snapshots) which use REFERENCES radars(id) ON DELETE CASCADE. This may be intentional (signals can exist before radar association), but it deviates from the established pattern and should be a conscious design decision documented somewhere."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/lib/postgres.ts",
+        "line": 139,
+        "severity": "non_blocking",
+        "description": "No UNIQUE constraint on signals.content_hash. The findSignalByContentHash method is intended for dedup but two different signal rows with the same content_hash can coexist. ON CONFLICT is on id, not content_hash. If dedup by content_hash is a requirement, a UNIQUE partial index (WHERE content_hash IS NOT NULL) would enforce it at the DB level."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/store.ts",
+        "line": 185,
+        "severity": "non_blocking",
+        "description": "updateRadar uses read-then-write pattern (fetch current, merge, write back). This has a TOCTOU race under concurrent updates. Acceptable for current single-server setup but worth noting if concurrency increases."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/store.ts",
+        "line": 612,
+        "severity": "non_blocking",
+        "description": "File ends without trailing newline (No newline at end of file). Same for postgres.ts. Minor style issue."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/package.json",
+        "line": 30,
+        "severity": "non_blocking",
+        "description": "vitest pinned at 0.34.6 which is a very old version (current is 2.x). This works but may cause compatibility issues with future vitest ecosystem packages. Consider upgrading when convenient."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The new signals and threads tables omit FOREIGN KEY constraints on radar_id, unlike all other radar_* tables which reference radars(id) ON DELETE CASCADE. If this is intentional (signals can exist independently), this design decision should be documented in architecture.md.",
+      "evidence": "orgs/riatzukiza/threat-radar-mcp/src/lib/postgres.ts:130-160 — signals and threads tables use plain TEXT for radar_id; compare to line 45, 61, 75, 90 where other tables use REFERENCES radars(id) ON DELETE CASCADE"
+    },
+    {
+      "area": "knowledge",
+      "observation": "The Docker Postgres uses user 'openai_proxy', not 'postgres'. The worker discovered this and fixed init.sh and .env, but environment.md still shows DATABASE_URL as postgres://localhost:5432/threat_radar without user credentials. Should be updated to reflect the actual connection string format needed.",
+      "evidence": ".factory/init.sh diff shows change from 'psql -U postgres' to 'psql -U openai_proxy'; .factory/library/environment.md still says DATABASE_URL local format is 'postgres://localhost:5432/threat_radar' without user/password"
+    },
+    {
+      "area": "knowledge",
+      "observation": "The parseJsonb pattern is already documented in architecture.md (added by this or a prior worker). Good — this prevents future workers from hitting the same JSONB string-vs-object bug.",
+      "evidence": ".factory/library/architecture.md Postgres Patterns section documents parseJsonb requirement"
+    },
+    {
+      "area": "skills",
+      "observation": "Worker noted TDD exception for wiring-only tasks as justified deviation. The skill's procedure says 'Write failing tests first (TDD)' with an exception clause for 'configuration-only, type-restoration, or wiring-only tasks'. Adding tables + CRUD methods is arguably not purely wiring, but the worker wrote 14 comprehensive tests after implementation. The deviation is reasonable but the skill's exception clause could be tightened to clarify that 'new CRUD methods' still warrant TDD.",
+      "evidence": "Handoff skillFeedback.suggestedChanges notes: 'the exception for wiring-only tasks applies here since the Postgres adapter and schema already existed'"
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Pass. The postgres-storage-migration feature is well-implemented with comprehensive test coverage (14 tests vs 6 required). Schema creates signals and threads tables with proper indexes. PostgresRadarStore implements full CRUD with parseJsonb applied consistently across all JSONB fields. InMemoryRadarStore mirrors the interface for fallback. The updateRadar SQL bug and JSONB deserialization bug are both fixed. Non-blocking issues: missing FK constraints on new tables (may be intentional), no UNIQUE on content_hash, old vitest version, and environment.md has stale DATABASE_URL format."
+}

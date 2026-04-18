@@ -1,0 +1,20 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+namespace: openplanner
+resources:
+  - ../../base
+  - host-proxx-service.yaml
+  - host-proxx-endpointslice.generated.yaml
+  - ingress.yaml
+patches:
+  - path: openplanner-local-kind-patch.yaml
+images:
+  - name: openplanner
+    newName: openplanner
+    newTag: local
+generatorOptions:
+  disableNameSuffixHash: true
+secretGenerator:
+  - name: openplanner-secrets
+    envs:
+      - secret.env

@@ -1,6 +1,9 @@
-# Draft Spec: Multi-tenancy user model for `services/open-hax-openai-proxy`
+# Draft Spec: Multi-tenancy user model for `open-hax-openai-proxy`
 
-## Signal / Summary
+## Status
+Draft
+
+## Summary
 `open-hax-openai-proxy` is currently effectively **single-operator / single-tenant** by default:
 - API access is guarded by a single shared `PROXY_AUTH_TOKEN` (or disabled via `PROXY_ALLOW_UNAUTHENTICATED=true`).
 - UI login uses GitHub OAuth + a SQL allowlist and issues short-lived access/refresh cookies (`proxy_auth` / `proxy_refresh`).
@@ -10,6 +13,12 @@ This spec extends the system with an **opt-in** multi-tenant + federation model:
 - **Default path (unchanged):** local proxy, one operator, managing their own providers/credentials.
 - **Opt-in multi-tenancy:** tenants, memberships, tenant-scoped root API keys.
 - **Opt-in federation:** delegated/share capability keys (proof-of-possession), revocation propagation, and explicit trust between proxies.
+
+This is the promoted repo-local draft for the tenant/federation identity model. Focused companion drafts:
+- `specs/drafts/multi-tenant-proxy-foundation.md`
+- `specs/drafts/proxy-federation.md`
+- `specs/drafts/cloud-deployment.md`
+- `specs/drafts/tenant-federation-cloud-roadmap.md`
 
 ## Context (repo evidence)
 - Request auth gate is currently a single shared secret: `PROXY_AUTH_TOKEN` checked in `src/app.ts` via Bearer token or cookie (`open_hax_proxy_auth_token`).
@@ -327,8 +336,6 @@ CREATE TABLE IF NOT EXISTS tenant_api_keys (
 CREATE INDEX IF NOT EXISTS idx_tenant_api_keys_tenant ON tenant_api_keys(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_tenant_api_keys_hash ON tenant_api_keys(token_hash);
 
--- Delegated/share keys (capabilities) minted by this proxy.
--- `id` corresponds to capability `jti`.
 CREATE TABLE IF NOT EXISTS delegated_keys (
   id TEXT PRIMARY KEY,
   tenant_id TEXT NOT NULL REFERENCES tenants(id) ON DELETE CASCADE,
@@ -350,7 +357,6 @@ CREATE TABLE IF NOT EXISTS delegated_keys (
 CREATE INDEX IF NOT EXISTS idx_delegated_keys_tenant ON delegated_keys(tenant_id);
 CREATE INDEX IF NOT EXISTS idx_delegated_keys_holder ON delegated_keys(holder_did);
 
--- Federation trust store (which issuer DIDs are accepted).
 CREATE TABLE IF NOT EXISTS trusted_issuers (
   issuer_did TEXT PRIMARY KEY,
   status TEXT NOT NULL DEFAULT 'active',
@@ -421,6 +427,14 @@ Change:
 ### Phase 2 — Tenant-aware usage & quotas
 - Add `{tenant_id, issuer, key_id}` to request logs + usage snapshots.
 - Add quota checks in request pipeline (per-tenant max requests/minute etc.).
+- Partial implementation status:
+  - request logs now persist `{tenant_id, issuer, key_id}`
+  - account-usage accumulators and daily account snapshots are keyed by that attribution tuple
+  - `/api/ui/request-logs` now enforces tenant visibility and supports tenant/key filtering
+  - tenant-scoped dashboard overview and provider-model analytics now derive rollups from request-log attribution filters
+  - per-tenant `requestsPerMinute` enforcement now blocks excess `/v1/*` requests using tenant-scoped proxy settings
+  - tenant-scoped provider allow/deny settings now gate upstream provider selection, including factory-prefixed and local Ollama paths
+  - richer quota dimensions (tokens/day, cost ceilings, concurrency) are still pending
 
 ### Phase 3 — Tenant-scoped provider credentials (optional)
 - Either:
@@ -435,6 +449,21 @@ Change:
 - If using introspection: cache conservatively and treat issuer downtime as a policy decision (fail-closed vs fail-open per route).
 - Ensure UI endpoints require user session + tenant role checks.
 - Keep branch-protection bypass out of this scope (separate operational spec).
+
+## Reconciliation with focused companion drafts
+This draft is the canonical identity/capability model. Companion drafts remain useful, but should be read as narrower lenses:
+
+- `specs/drafts/multi-tenant-proxy-foundation.md`
+  - concise tenant-isolation/persistence/UI checklist
+  - complements this document’s deeper key/auth model
+- `specs/drafts/proxy-federation.md`
+  - focuses on peer routing, loop prevention, provenance, and peer capability exchange
+  - this document is authoritative for delegated-key identity/trust mechanics
+- `specs/drafts/cloud-deployment.md`
+  - focuses on hosted runtime/persistence/ops constraints
+  - required before federation becomes operationally trustworthy
+- `specs/drafts/tenant-federation-cloud-roadmap.md`
+  - sequencing/portfolio view across all three tracks
 
 ## Open questions
 1. Default path: do we keep `PROXY_AUTH_TOKEN` as the primary local auth mechanism, and treat tenant keys as optional even when multi-tenancy is enabled?

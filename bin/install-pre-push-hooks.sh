@@ -41,6 +41,8 @@ echo "Installed pre-push and pre-commit hooks for root repo"
 ROOT_EXCLUDE=$(git -C "$ROOT_DIR" rev-parse --git-path info/exclude)
 ensure_nx_ignore "$ROOT_EXCLUDE"
 echo "Ensured .nx ignore for root repo"
+echo "Default pre-push typecheck mode: PREPUSH_TYPECHECK_MODE=fast"
+echo "Set PREPUSH_TYPECHECK_MODE=nx before git push to run Nx affected typechecks"
 
 # Install for each submodule recursively
 if git -C "$ROOT_DIR" rev-parse --git-dir >/dev/null 2>&1; then

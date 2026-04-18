@@ -1,0 +1,239 @@
+{
+  "id": "openplanner",
+  "title": "OpenPlanner",
+  "root": "services/openplanner/src",
+  "nodes": [
+    "app.ts",
+    "declarations.d.ts",
+    "lib/chroma.ts",
+    "lib/config.ts",
+    "lib/duckdb.ts",
+    "lib/embedding-models.ts",
+    "lib/embeddings.ts",
+    "lib/hash.ts",
+    "lib/importers/chatgpt.ts",
+    "lib/jobs.ts",
+    "lib/paths.ts",
+    "lib/semantic-compaction.ts",
+    "lib/types.ts",
+    "lib/vector-search.ts",
+    "main.ts",
+    "plugins/auth.ts",
+    "plugins/chroma.ts",
+    "plugins/duckdb.ts",
+    "routes/v1/blobs.ts",
+    "routes/v1/events.ts",
+    "routes/v1/health.ts",
+    "routes/v1/index.ts",
+    "routes/v1/jobs.ts",
+    "routes/v1/search.ts",
+    "routes/v1/sessions.ts"
+  ],
+  "edges": [
+    {
+      "from": "app.ts",
+      "to": "lib/config.ts",
+      "spec": "./lib/config.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "plugins/auth.ts",
+      "spec": "./plugins/auth.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "plugins/duckdb.ts",
+      "spec": "./plugins/duckdb.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "plugins/chroma.ts",
+      "spec": "./plugins/chroma.js"
+    },
+    {
+      "from": "app.ts",
+      "to": "routes/v1/index.ts",
+      "spec": "./routes/v1/index.js"
+    },
+    {
+      "from": "lib/chroma.ts",
+      "to": "lib/embedding-models.ts",
+      "spec": "./embedding-models.js"
+    },
+    {
+      "from": "lib/config.ts",
+      "to": "lib/embedding-models.ts",
+      "spec": "./embedding-models.js"
+    },
+    {
+      "from": "lib/importers/chatgpt.ts",
+      "to": "lib/duckdb.ts",
+      "spec": "../duckdb.js"
+    },
+    {
+      "from": "lib/importers/chatgpt.ts",
+      "to": "lib/types.ts",
+      "spec": "../types.js"
+    },
+    {
+      "from": "lib/semantic-compaction.ts",
+      "to": "lib/duckdb.ts",
+      "spec": "./duckdb.js"
+    },
+    {
+      "from": "lib/semantic-compaction.ts",
+      "to": "lib/chroma.ts",
+      "spec": "./chroma.js"
+    },
+    {
+      "from": "lib/semantic-compaction.ts",
+      "to": "lib/config.ts",
+      "spec": "./config.js"
+    },
+    {
+      "from": "lib/semantic-compaction.ts",
+      "to": "lib/vector-search.ts",
+      "spec": "./vector-search.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "app.ts",
+      "spec": "./app.js"
+    },
+    {
+      "from": "main.ts",
+      "to": "lib/config.ts",
+      "spec": "./lib/config.js"
+    },
+    {
+      "from": "plugins/auth.ts",
+      "to": "lib/config.ts",
+      "spec": "../lib/config.js"
+    },
+    {
+      "from": "plugins/chroma.ts",
+      "to": "lib/config.ts",
+      "spec": "../lib/config.js"
+    },
+    {
+      "from": "plugins/chroma.ts",
+      "to": "lib/embedding-models.ts",
+      "spec": "../lib/embedding-models.js"
+    },
+    {
+      "from": "plugins/chroma.ts",
+      "to": "lib/chroma.ts",
+      "spec": "../lib/chroma.js"
+    },
+    {
+      "from": "plugins/chroma.ts",
+      "to": "lib/embeddings.ts",
+      "spec": "../lib/embeddings.js"
+    },
+    {
+      "from": "plugins/duckdb.ts",
+      "to": "lib/config.ts",
+      "spec": "../lib/config.js"
+    },
+    {
+      "from": "plugins/duckdb.ts",
+      "to": "lib/duckdb.ts",
+      "spec": "../lib/duckdb.js"
+    },
+    {
+      "from": "plugins/duckdb.ts",
+      "to": "lib/paths.ts",
+      "spec": "../lib/paths.js"
+    },
+    {
+      "from": "routes/v1/blobs.ts",
+      "to": "lib/hash.ts",
+      "spec": "../../lib/hash.js"
+    },
+    {
+      "from": "routes/v1/blobs.ts",
+      "to": "lib/paths.ts",
+      "spec": "../../lib/paths.js"
+    },
+    {
+      "from": "routes/v1/events.ts",
+      "to": "lib/duckdb.ts",
+      "spec": "../../lib/duckdb.js"
+    },
+    {
+      "from": "routes/v1/events.ts",
+      "to": "lib/types.ts",
+      "spec": "../../lib/types.js"
+    },
+    {
+      "from": "routes/v1/index.ts",
+      "to": "routes/v1/health.ts",
+      "spec": "./health.js"
+    },
+    {
+      "from": "routes/v1/index.ts",
+      "to": "routes/v1/blobs.ts",
+      "spec": "./blobs.js"
+    },
+    {
+      "from": "routes/v1/index.ts",
+      "to": "routes/v1/events.ts",
+      "spec": "./events.js"
+    },
+    {
+      "from": "routes/v1/index.ts",
+      "to": "routes/v1/search.ts",
+      "spec": "./search.js"
+    },
+    {
+      "from": "routes/v1/index.ts",
+      "to": "routes/v1/sessions.ts",
+      "spec": "./sessions.js"
+    },
+    {
+      "from": "routes/v1/index.ts",
+      "to": "routes/v1/jobs.ts",
+      "spec": "./jobs.js"
+    },
+    {
+      "from": "routes/v1/jobs.ts",
+      "to": "lib/jobs.ts",
+      "spec": "../../lib/jobs.js"
+    },
+    {
+      "from": "routes/v1/jobs.ts",
+      "to": "lib/paths.ts",
+      "spec": "../../lib/paths.js"
+    },
+    {
+      "from": "routes/v1/jobs.ts",
+      "to": "lib/importers/chatgpt.ts",
+      "spec": "../../lib/importers/chatgpt.js"
+    },
+    {
+      "from": "routes/v1/jobs.ts",
+      "to": "lib/semantic-compaction.ts",
+      "spec": "../../lib/semantic-compaction.js"
+    },
+    {
+      "from": "routes/v1/search.ts",
+      "to": "lib/duckdb.ts",
+      "spec": "../../lib/duckdb.js"
+    },
+    {
+      "from": "routes/v1/search.ts",
+      "to": "lib/types.ts",
+      "spec": "../../lib/types.js"
+    },
+    {
+      "from": "routes/v1/search.ts",
+      "to": "lib/vector-search.ts",
+      "spec": "../../lib/vector-search.js"
+    },
+    {
+      "from": "routes/v1/sessions.ts",
+      "to": "lib/duckdb.ts",
+      "spec": "../../lib/duckdb.js"
+    }
+  ]
+}

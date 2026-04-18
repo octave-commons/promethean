@@ -1,0 +1,61 @@
+{
+  "milestone": "connection-engine",
+  "round": 1,
+  "status": "pass",
+  "assertionsSummary": {
+    "total": 15,
+    "passed": 15,
+    "failed": 0,
+    "blocked": 0
+  },
+  "passedAssertions": [
+    "VAL-CONN-001",
+    "VAL-CONN-002",
+    "VAL-CONN-003",
+    "VAL-BROWSER-001",
+    "VAL-BROWSER-002",
+    "VAL-BROWSER-003",
+    "VAL-FED-001",
+    "VAL-FED-002",
+    "VAL-FED-003",
+    "VAL-PI-001",
+    "VAL-PI-002",
+    "VAL-PI-003",
+    "VAL-PI-004",
+    "VAL-PI-005",
+    "VAL-CROSS-004"
+  ],
+  "failedAssertions": [],
+  "blockedAssertions": [],
+  "appliedUpdates": [
+    {
+      "target": "user-testing.md",
+      "description": "Added Flow Validator Guidance sections for connection-engine milestone: unit tests (vitest) and browser (agent-browser) surfaces",
+      "source": "setup"
+    }
+  ],
+  "previousRound": null,
+  "flowReports": [
+    ".factory/validation/connection-engine/user-testing/flows/unit-tests.json",
+    ".factory/validation/connection-engine/user-testing/flows/browser-pi-lane.json"
+  ],
+  "testingApproach": {
+    "unitTests": {
+      "assertions": ["VAL-CONN-001", "VAL-CONN-002", "VAL-CONN-003", "VAL-BROWSER-001", "VAL-BROWSER-002", "VAL-BROWSER-003", "VAL-FED-001", "VAL-FED-003"],
+      "tool": "vitest",
+      "testSuites": [
+        "packages/radar-core/tests/connections.test.ts (26 tests)",
+        "packages/radar-core/tests/snapshot-reducer.test.ts (13 tests)",
+        "packages/signal-embed-browser/src/__tests__/similarity.test.ts + diagnostics.test.ts (32 tests)",
+        "orgs/riatzukiza/threat-radar-mcp/tests/federation.test.ts (22 tests)"
+      ],
+      "totalTests": 93
+    },
+    "browserTests": {
+      "assertions": ["VAL-PI-001", "VAL-PI-002", "VAL-PI-003", "VAL-PI-004", "VAL-PI-005", "VAL-FED-002", "VAL-CROSS-004"],
+      "tool": "agent-browser",
+      "session": "26894d55f54c__pi",
+      "target": "http://localhost:9002"
+    }
+  }
+}

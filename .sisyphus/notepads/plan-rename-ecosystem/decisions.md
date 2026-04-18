@@ -1,0 +1,3 @@
+- Decision: Rename ecosystem.clj to ecosystem.cljs within orgs/open-hax/clients as CLJS-compatible file.
+- Rationale: CLJS format improves integration with OpenCode's CLJS tooling; preserves history by moving file, with submodule and root pointers updated accordingly.
+- Alternatives considered: keep CLJ file but add a compatibility shim; chose full rename for clarity and future CLJS-only maintenance.

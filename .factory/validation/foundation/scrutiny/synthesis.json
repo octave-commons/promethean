@@ -1,0 +1,127 @@
+{
+  "milestone": "foundation",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "npx vitest run --reporter=verbose",
+      "exitCode": 1,
+      "note": "Exit code 1 due to 3 pre-existing pm2-clj parity test failures (documented in AGENTS.md as known pre-existing issues unrelated to threat-radar). All 6 mission-related tests pass. Package-specific: radar-core 13/13 pass, signal-atproto 6/6 pass."
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "pnpm -r --parallel typecheck",
+      "exitCode": 2,
+      "note": "Exit code 2 due to pre-existing failure in @promethean-os/migrations (off-limits promethean repo, missing exports from @promethean-os/embedding). All 7 mission packages typecheck cleanly: radar-core, signal-atproto, signal-embed-browser, mcp-foundation, thread-assessment, threat-radar-mcp, threat-radar-web."
+    },
+    "lint": {
+      "passed": true,
+      "command": "echo \"no lint configured yet\"",
+      "exitCode": 0,
+      "note": "Lint not yet configured for this workspace."
+    }
+  },
+  "reviewsSummary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "featureReviews": {
+    "restore-radar-core-types": {
+      "status": "pass",
+      "commitId": "a9bdfe1",
+      "codeQuality": 4,
+      "correctness": 5,
+      "testCoverage": 2,
+      "blockingIssues": 0,
+      "nonBlockingIssues": 1
+    },
+    "register-pnpm-workspace": {
+      "status": "pass",
+      "commitId": "e295709",
+      "codeQuality": 4,
+      "correctness": 5,
+      "testCoverage": 4,
+      "blockingIssues": 0,
+      "nonBlockingIssues": 1
+    },
+    "fix-mcp-type-error": {
+      "status": "pass",
+      "commitId": "8709a20",
+      "codeQuality": 4,
+      "correctness": 5,
+      "testCoverage": 3,
+      "blockingIssues": 0,
+      "nonBlockingIssues": 2
+    },
+    "foundation-build-verify": {
+      "status": "pass",
+      "commitId": "cac0dee",
+      "codeQuality": 4,
+      "correctness": 5,
+      "testCoverage": 4,
+      "blockingIssues": 0,
+      "nonBlockingIssues": 3
+    }
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [
+    {
+      "target": "library",
+      "file": ".factory/library/environment.md",
+      "description": "Documented Express 5 ParamsDictionary string|string[] type quirk with fix pattern",
+      "sourceFeature": "fix-mcp-type-error"
+    },
+    {
+      "target": "library",
+      "file": ".factory/library/architecture.md",
+      "description": "Documented standard tsconfig template for new packages and the 11 broken tsconfig fixes",
+      "sourceFeature": "foundation-build-verify"
+    },
+    {
+      "target": "library",
+      "file": ".factory/library/architecture.md",
+      "description": "Documented @promethean-os/embedding naming convention exception from @workspace/* pattern",
+      "sourceFeature": "register-pnpm-workspace"
+    }
+  ],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Update or remove the 'CRITICAL: radar-core Type Restoration' section in both mission AGENTS.md and .factory/library/architecture.md — the types have been restored (commit a9bdfe1). Leaving stale 'MISSING' warnings causes future workers to attempt redundant work.",
+      "evidence": "Feature restore-radar-core-types successfully restored all 6 schemas (SignalEvent, SignalEventProvenance, Thread, ThreadMembership, ConnectionOpportunity, ActionCard) to src/schema.ts. Build and typecheck pass.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add explicit error handling pattern to coding conventions: 'Use catch (err: unknown) with instanceof Error narrowing. Never use catch (err: any).' Example: catch (err: unknown) { const msg = err instanceof Error ? err.message : 'Unknown error'; }",
+      "evidence": "Feature fix-mcp-type-error committed code with catch (err: any) in two route handlers (main.ts lines 367, 378), violating the 'No any types' convention. The convention exists but lacks an explicit catch-block pattern example.",
+      "isSystemic": true
+    },
+    {
+      "target": "skills",
+      "suggestion": "Add exception to backend-worker skill's TDD step: 'For configuration-only tasks (workspace registration, tsconfig fixes) and type-only fixes (no runtime behavior change), tsc --noEmit is sufficient verification. TDD may be skipped with justification in handoff.'",
+      "evidence": "Three features (register-pnpm-workspace, fix-mcp-type-error, restore-radar-core-types) had no runtime behavior to test. All workers correctly deviated from TDD but noted it in skillFeedback. This is a consistent pattern worth codifying.",
+      "isSystemic": true
+    },
+    {
+      "target": "services.yaml",
+      "suggestion": "Consider updating the 'test' command from 'npx vitest run --reporter=verbose' (root-level only) to 'pnpm -r run test' (runs all package test scripts). Individual packages now have their own vitest configs and test scripts. Alternatively, document that per-package tests exist alongside the root command.",
+      "evidence": "packages/radar-core and packages/signal-atproto both have 'test': 'vitest run' in package.json. The root vitest.config.ts only picks up tests/*, not package-level tests.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "detect-secrets pre-commit hook flags test files with sha256: prefixed strings as secrets",
+      "reason": "already-documented — this is already in AGENTS.md under 'Known Pre-Existing Issues' with the SKIP_PRECOMMIT_SECRETS=1 workaround"
+    },
+    {
+      "observation": "dist/*.js files contain runtime Zod definitions suitable for copy-back to src when source is lost",
+      "reason": "too-niche — this recovery pattern is specific to the one-time type restoration and unlikely to recur. Not worth documenting as general guidance."
+    }
+  ],
+  "previousRound": null
+}

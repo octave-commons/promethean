@@ -1,0 +1,17 @@
+{
+  "name": "chronos",
+  "version": "0.1.0",
+  "description": "Time tracker for contracting with agent tool integration",
+  "type": "module",
+  "scripts": {
+    "dev": "bun run --watch src/index.ts",
+    "start": "bun run src/index.ts",
+    "db:migrate": "bun run src/migrate.ts"
+  },
+  "dependencies": {
+    "hono": "^4.6.0"
+  },
+  "devDependencies": {
+    "bun-types": "^1.1.0"
+  }
+}

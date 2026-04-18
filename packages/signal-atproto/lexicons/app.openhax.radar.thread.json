@@ -1,0 +1,37 @@
+{
+  "lexicon": 1,
+  "id": "app.openhax.radar.thread",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "Merged topic or event thread with timeline, linked signal events, source distribution, and confidence.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["kind", "title", "timelineFirstSeen", "timelineLastUpdated"],
+        "properties": {
+          "radarId": { "type": "string" },
+          "kind": { "type": "string", "description": "event | narrative | local_opportunity" },
+          "title": { "type": "string", "maxLength": 500 },
+          "summary": { "type": "string", "maxLength": 5000 },
+          "memberRefs": {
+            "type": "array",
+            "description": "AT URIs of signal event records belonging to this thread",
+            "items": { "type": "string", "format": "at-uri" },
+            "maxLength": 500
+          },
+          "sourceDistribution": {
+            "type": "object",
+            "description": "Map of source type to count"
+          },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "domainTags": { "type": "array", "items": { "type": "string" }, "maxLength": 30 },
+          "status": { "type": "string", "description": "emerging | active | cooling | archived" },
+          "timelineFirstSeen": { "type": "string", "format": "datetime" },
+          "timelineLastUpdated": { "type": "string", "format": "datetime" },
+          "timelinePeakActivity": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

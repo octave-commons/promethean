@@ -1,0 +1,31 @@
+{
+  "providers": {
+    "vivgrid": [
+      "vivgrid-example-key-1",
+      "vivgrid-example-key-2"
+    ],
+    "ollama-cloud": [
+      "ollama-cloud-example-key-1",
+      "ollama-cloud-example-key-2"
+    ],
+    "openai": {
+      "auth": "oauth_bearer",
+      "accounts": [
+        "openai-oauth-access-token-1",
+        "openai-oauth-access-token-2"
+      ]
+    },
+    "factory": {
+      "auth": "api_key",
+      "accounts": [
+        "fk-example-factory-api-key-1",
+        {
+          "id": "factory-oauth",
+          "auth": "oauth_bearer",
+          "access_token": "eyJhbGciOiJSUzI1NiIs...",
+          "refresh_token": "example-refresh-token"
+        }
+      ]
+    }
+  }
+}

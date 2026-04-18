@@ -129,7 +129,7 @@ const main = (): void => {
   const targets = listTargets().filter((target) => !args.repoFilter || target.repo === args.repoFilter || target.path === args.repoFilter);
   const report = targets.map((target) => {
     const eligible = target.permission === "ADMIN";
-    const plannedFiles = [path.join(target.path, ".github/workflows/eta-mu.yml"), path.join(target.path, ".github/workflows/eta-mu-review-gate.yml")];
+    const plannedFiles = [path.join(target.path, ".github/workflows/eta-mu.yml"), path.join(target.path, ".github/workflows/eta-mu-rollout.ts")];
     const installed = args.command === "install" && args.apply && eligible ? installWorkflows(target) : [];
     return {
       repo: target.repo,

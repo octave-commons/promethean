@@ -1,0 +1,25 @@
+services:
+  host-fleet-dashboard:
+    container_name: host-fleet-dashboard
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env
+    environment:
+      HOST_FLEET_DASHBOARD_HOST: 0.0.0.0
+      HOST_FLEET_DASHBOARD_PORT: 8791
+      HOST_FLEET_DOCKER_SOCKET_PATH: /var/run/docker.sock
+    ports:
+      - "127.0.0.1:${HOST_FLEET_DASHBOARD_PORT:-8791}:8791"
+    volumes:
+      - /var/run/docker.sock:/var/run/docker.sock
+      - ../:/workspace/services:ro
+    networks:
+      ai-infra: {}
+    restart: unless-stopped
+
+networks:
+  ai-infra:
+    external: true
+    name: ai-infra

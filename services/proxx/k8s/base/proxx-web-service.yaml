@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: proxx-web
+spec:
+  selector:
+    app.kubernetes.io/name: proxx
+    app.kubernetes.io/component: proxy
+  ports:
+    - name: http
+      port: 5174
+      targetPort: web

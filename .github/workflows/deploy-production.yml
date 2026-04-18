@@ -1,0 +1,117 @@
+name: deploy-production
+
+on:
+  push:
+    branches:
+      - main
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: proxx-production
+  cancel-in-progress: false
+
+jobs:
+  production-preflight:
+    name: production-preflight
+    runs-on: ubuntu-latest
+    timeout-minutes: 75
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - run: go install github.com/rhysd/actionlint/cmd/actionlint@latest
+      - run: chmod +x scripts/*.sh
+      - run: ./scripts/ci-lint.sh
+      - run: /home/runner/go/bin/actionlint
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run typecheck
+      - run: pnpm test
+      - run: pnpm run build
+      - run: pnpm run web:build
+
+  deploy-production:
+    name: deploy-production
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    needs:
+      - production-preflight
+    environment: production
+    steps:
+      - uses: actions/checkout@v5
+      - name: configure production ssh
+        run: |
+          install -m 700 -d ~/.ssh
+          printf '%s\n' "${PRODUCTION_SSH_PRIVATE_KEY}" > ~/.ssh/deploy_key
+          chmod 600 ~/.ssh/deploy_key
+          printf 'Host *\n  IdentityFile ~/.ssh/deploy_key\n  IdentitiesOnly yes\n' > ~/.ssh/config
+          chmod 600 ~/.ssh/config
+          touch ~/.ssh/known_hosts
+          ssh-keyscan -H "${PRODUCTION_HOST}" >> ~/.ssh/known_hosts
+        env:
+          PRODUCTION_HOST: ${{ vars.PRODUCTION_SSH_HOST || 'ussy.promethean.rest' }}
+          PRODUCTION_SSH_PRIVATE_KEY: ${{ secrets.PRODUCTION_SSH_PRIVATE_KEY }}
+      - run: chmod +x scripts/*.sh
+      - name: deploy production runtime
+        run: ./scripts/deploy-remote.sh
+        env:
+          DEPLOY_HOST: ${{ vars.PRODUCTION_SSH_HOST || 'ussy.promethean.rest' }}
+          DEPLOY_USER: ${{ vars.PRODUCTION_SSH_USER || 'error' }}
+          DEPLOY_PATH: ${{ vars.PRODUCTION_DEPLOY_PATH || '~/devel/services/proxx' }}
+          DEPLOY_COMPOSE_PROJECT_NAME: ${{ vars.PRODUCTION_COMPOSE_PROJECT_NAME || 'open-hax-openai-proxy' }}
+          DEPLOY_PUBLIC_HOST: ${{ vars.PRODUCTION_PUBLIC_HOST || 'ussy.promethean.rest' }}
+          DEPLOY_ENABLE_TLS: 'true'
+          DEPLOY_HEALTH_TIMEOUT_SECONDS: '240'
+      - name: production deploy failure logs
+        if: failure()
+        run: |
+          # shellcheck disable=SC2029,SC2086
+          ssh error@${PRODUCTION_HOST} "cd '${PRODUCTION_PATH}' && docker compose -f docker-compose.yml -f deploy/docker-compose.ssl.yml ps && docker compose -f docker-compose.yml -f deploy/docker-compose.ssl.yml logs --tail=200"
+        env:
+          PRODUCTION_HOST: ${{ vars.PRODUCTION_SSH_HOST || 'ussy.promethean.rest' }}
+          PRODUCTION_PATH: ${{ vars.PRODUCTION_DEPLOY_PATH || '~/devel/services/proxx' }}
+
+  verify-production:
+    name: verify-production
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    needs:
+      - deploy-production
+    environment: production
+    steps:
+      - run: |
+          curl_args=()
+          if [[ -n "${PRODUCTION_RESOLVE_ADDRESS}" ]]; then
+            curl_args+=(--resolve "${PRODUCTION_PUBLIC_HOST}:443:${PRODUCTION_RESOLVE_ADDRESS}")
+          fi
+          for attempt in $(seq 1 30); do
+            echo "health-check attempt ${attempt}" >/dev/null
+            if curl -fsS "${curl_args[@]}" -H "Authorization: Bearer ${PRODUCTION_AUTH_TOKEN}" "${PRODUCTION_BASE_URL}/health" >/dev/null; then
+              exit 0
+            fi
+            sleep 10
+          done
+          exit 1
+        env:
+          PRODUCTION_BASE_URL: ${{ vars.PRODUCTION_BASE_URL || 'https://ussy.promethean.rest' }}
+          PRODUCTION_AUTH_TOKEN: ${{ secrets.PRODUCTION_PROXY_AUTH_TOKEN }}
+          PRODUCTION_PUBLIC_HOST: ${{ vars.PRODUCTION_PUBLIC_HOST || 'ussy.promethean.rest' }}
+          PRODUCTION_RESOLVE_ADDRESS: ${{ vars.PRODUCTION_VERIFY_RESOLVE_ADDRESS || '' }}
+      - run: |
+          curl_args=()
+          if [[ -n "${PRODUCTION_RESOLVE_ADDRESS}" ]]; then
+            curl_args+=(--resolve "${PRODUCTION_PUBLIC_HOST}:443:${PRODUCTION_RESOLVE_ADDRESS}")
+          fi
+          curl -fsS "${curl_args[@]}" "${PRODUCTION_BASE_URL}" >/dev/null
+        env:
+          PRODUCTION_BASE_URL: ${{ vars.PRODUCTION_BASE_URL || 'https://ussy.promethean.rest' }}
+          PRODUCTION_PUBLIC_HOST: ${{ vars.PRODUCTION_PUBLIC_HOST || 'ussy.promethean.rest' }}
+          PRODUCTION_RESOLVE_ADDRESS: ${{ vars.PRODUCTION_VERIFY_RESOLVE_ADDRESS || '' }}

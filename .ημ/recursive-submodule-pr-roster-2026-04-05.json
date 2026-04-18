@@ -1,0 +1,175 @@
+{
+  "time": "2026-04-05T21:21:30Z",
+  "rootBranch": "staging",
+  "rootPreHead": "2c9641b",
+  "rootSnapshotBranch": "fork-tax/20260405-recursive-root-staging-211500-pr-roster",
+  "newPullRequests": [
+    {
+      "path": "orgs/octave-commons/cephalon",
+      "repo": "octave-commons/cephalon",
+      "head": "88da268",
+      "branch": "fork-tax/20260405-recursive-cephalon",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/octave-commons/cephalon/pull/1"
+    },
+    {
+      "path": "orgs/octave-commons/fork_tales",
+      "repo": "octave-commons/fork_tales",
+      "head": "7d08760",
+      "branch": "fork-tax/20260405-recursive-fork-tales",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/octave-commons/fork_tales/pull/4"
+    },
+    {
+      "path": "orgs/octave-commons/graph-weaver",
+      "repo": "octave-commons/graph-weaver",
+      "head": "50f9c4c",
+      "branch": "fork-tax/20260404-recursive-graph-weaver",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/octave-commons/graph-weaver/pull/1"
+    },
+    {
+      "path": "orgs/octave-commons/graph-weaver-aco",
+      "repo": "octave-commons/graph-weaver-aco",
+      "head": "14044f8",
+      "branch": "fork-tax/20260405-recursive-graph-weaver-aco",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/octave-commons/graph-weaver-aco/pull/1"
+    },
+    {
+      "path": "orgs/octave-commons/myrmex",
+      "repo": "octave-commons/myrmex",
+      "head": "f985948",
+      "branch": "fork-tax/20260404-recursive-myrmex",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/octave-commons/myrmex/pull/1"
+    },
+    {
+      "path": "orgs/octave-commons/promethean",
+      "repo": "octave-commons/promethean",
+      "head": "9112b3120",
+      "branch": "fork-tax/20260404-recursive-promethean",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/octave-commons/promethean/pull/1715"
+    },
+    {
+      "path": "orgs/octave-commons/shibboleth",
+      "repo": "octave-commons/shibboleth",
+      "head": "84bf757",
+      "branch": "fork-tax/20260405-recursive-shibboleth-apc",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/octave-commons/shibboleth/pull/6"
+    },
+    {
+      "path": "orgs/open-hax/openhax",
+      "repo": "open-hax/openhax",
+      "head": "ac21ab2",
+      "branch": "fork-tax/20260404-recursive-openhax",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/open-hax/openhax/pull/5"
+    },
+    {
+      "path": "orgs/open-hax/openplanner",
+      "repo": "open-hax/openplanner",
+      "head": "868548d",
+      "branch": "fork-tax/20260404-recursive-openplanner",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/open-hax/openplanner/pull/1"
+    },
+    {
+      "path": "orgs/open-hax/voxx",
+      "repo": "open-hax/voxx",
+      "head": "c8cd6dc",
+      "branch": "fork-tax/20260405-recursive-voxx-refresh",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/open-hax/voxx/pull/5"
+    },
+    {
+      "path": "orgs/open-hax/workbench",
+      "repo": "open-hax/workbench",
+      "head": "31173a24",
+      "branch": "fork-tax/20260405-recursive-workbench",
+      "base": "main",
+      "remote": "origin",
+      "prUrl": "https://github.com/open-hax/workbench/pull/3"
+    },
+    {
+      "path": "orgs/shuv/our-gpus",
+      "repo": "shuv1337/our-gpus",
+      "head": "e3c2428",
+      "branch": "fork-tax/20260404-recursive-our-gpus",
+      "base": "master",
+      "remote": "fork",
+      "prUrl": "https://github.com/shuv1337/our-gpus/pull/3"
+    },
+    {
+      "path": "orgs/shuv/shuvcrawl",
+      "repo": "shuv1337/shuvcrawl",
+      "head": "b8a821d",
+      "branch": "fork-tax/20260405-recursive-shuvcrawl",
+      "base": "master",
+      "remote": "fork",
+      "prUrl": "https://github.com/shuv1337/shuvcrawl/pull/1"
+    }
+  ],
+  "existingPullRequests": [
+    {
+      "path": "orgs/open-hax/knoxx",
+      "repo": "open-hax/knoxx",
+      "head": "6997074",
+      "branch": "fork-tax/20260404-recursive-knoxx",
+      "prUrl": "https://github.com/open-hax/knoxx/pull/1"
+    },
+    {
+      "path": "orgs/open-hax/proxx",
+      "repo": "open-hax/proxx",
+      "head": "593dde0",
+      "branch": "fork-tax/20260404-033121-proxx-night-owl-dashboard-finish",
+      "prUrl": "https://github.com/open-hax/proxx/pull/160"
+    },
+    {
+      "path": "orgs/open-hax/uxx",
+      "repo": "open-hax/uxx",
+      "head": "c463bec",
+      "branch": "feat/merge-proxy-console-theme",
+      "prUrl": "https://github.com/open-hax/uxx/pull/4"
+    }
+  ],
+  "blockedPublications": [
+    {
+      "path": "orgs/anomalyco/opencode",
+      "repo": "riatzukiza/opencode",
+      "pushedHead": "9a85d98c9",
+      "availableBranch": "feat/security-scans",
+      "blocker": "new PR branch push blocked by pre-push typecheck: Unsupported package manager specification (bun@1.3.10)"
+    },
+    {
+      "path": "orgs/open-hax/knoxx",
+      "repo": "open-hax/knoxx",
+      "localHead": "7cded1d",
+      "publishedHead": "6997074",
+      "blocker": "local snapshot commit blocked by pre-push size lint, clj-kondo, frontend typecheck, and ingestion errors"
+    }
+  ],
+  "residualLocalDirt": [
+    "orgs/octave-commons/fork_tales: LaTeX auxiliary files left local",
+    "orgs/octave-commons/shibboleth: LaTeX auxiliary files and PDF left local",
+    "orgs/open-hax/knoxx: generated cache directories left local",
+    "orgs/open-hax/openplanner: DuckDB, dist, and node_modules left local",
+    "orgs/open-hax/workbench: tracked node_modules churn left local",
+    ".git/index.lock: alternate index required at root",
+    "services/cephalon-stack/*: concurrent root dirt left untouched",
+    "services/mcp-stack/*: concurrent root dirt left untouched",
+    "services/opencode-stack/*: concurrent root dirt left untouched"
+  ]
+}

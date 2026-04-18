@@ -1,0 +1,52 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openplanner
+spec:
+  replicas: 2
+  minReadySeconds: 10
+  progressDeadlineSeconds: 600
+  strategy:
+    $patch: replace
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  template:
+    spec:
+      initContainers:
+        - name: wait-for-mongo-app-user
+          image: mongodb/mongodb-community-server:8.2.0-ubi9
+          env:
+            - name: MONGODB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_USERNAME
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_PASSWORD
+            - name: OPENPLANNER_MONGO_APP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: OPENPLANNER_MONGO_APP_USERNAME
+          command:
+            - /bin/sh
+            - -lc
+            - |
+              set -eu
+              until mongosh --host mongodb-0.mongodb -u "$MONGODB_ROOT_USERNAME" -p "$MONGODB_ROOT_PASSWORD" --authenticationDatabase admin --quiet --eval "try { const hello = db.adminCommand({ hello: 1 }); const user = db.getSiblingDB('openplanner').getUser('${OPENPLANNER_MONGO_APP_USERNAME}'); quit((hello.isWritablePrimary === true && user) ? 0 : 1); } catch (e) { quit(1); }"; do
+                sleep 2
+              done
+      containers:
+        - name: openplanner
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi

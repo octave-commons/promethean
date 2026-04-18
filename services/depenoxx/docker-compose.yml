@@ -1,0 +1,46 @@
+# depenoxx local garden
+#
+# Devops wrapper for orgs/open-hax/depenoxx
+# Source code lives in the org repo; this is the runtime garden.
+
+services:
+  depenoxx:
+    build:
+      context: ${DEPENOXX_SOURCE_PATH:-../../orgs/open-hax/depenoxx}
+      dockerfile: Dockerfile
+    image: depenoxx:latest
+    cpus: 1
+    cpuset: "2-21"
+    working_dir: /app
+    command: ["node", "src/server.mjs"]
+    environment:
+      HOST: 0.0.0.0
+      PORT: "8798"
+      WORKSPACE_ROOT: "/workspace"
+      PROJECT_NAME: "${DEPENOXX_PROJECT_NAME:-devel}"
+    ports:
+      - "${DEPENOXX_PORT:-8798}:8798"
+    volumes:
+      - ${DEPENOXX_WORKSPACE:-../..}:/workspace
+    user: "${DEPENOXX_UID:-1000}:${DEPENOXX_GID:-1000}"
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:8798/api/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      - depenoxx-internal
+
+networks:
+  depenoxx-internal:
+    driver: bridge

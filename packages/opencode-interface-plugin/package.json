@@ -1,0 +1,6 @@
+{
+  "name": "@promethean-os/opencode-interface-plugin",
+  "version": "0.0.1",
+  "private": true,
+  "main": "index.js"
+}

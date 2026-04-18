@@ -1,0 +1,62 @@
+{
+  "featureId": "eta-lane-signals",
+  "reviewedAt": "2026-03-13T05:15:00.000Z",
+  "commitId": "6099884",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation of the η (global) lane with live signal data. Three new components (EtaLaneContent, EtaThreadCard, SourceBadge) plus API type extensions and a minimal backend change to serve threads. The code follows existing patterns (functional components, CSS variables, dark theme), data flows correctly from /api/radars through typed ThreadData into rendered thread cards with gauges, source badges, and uncertainty labels. Score ranges are displayed as min/max bars (not single points), narrative branches render via BranchMap when ≥2 exist, and ThreatClock shows overall threat level. 23 tests cover all three components with good fixture patterns. The commit also correctly integrated with the subsequent personalization feature (weights prop added to EtaLaneContent). No blocking issues found.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/EtaLane.tsx",
+        "line": 60,
+        "severity": "non_blocking",
+        "description": "aggregateSourceCounts() helper function is defined but never called anywhere in the codebase. Dead code that should be removed or wired into a lane-level source summary."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/EtaThreadCard.tsx",
+        "line": 109,
+        "severity": "non_blocking",
+        "description": "GaugeBar for each domain_tag uses thread.confidence as the value for all tags uniformly. This means if a thread has tags ['geopolitical', 'infrastructure'], both gauge bars show the same value. A per-dimension score would be more informative, but the current approach is acceptable since thread-level per-dimension scores aren't available in the ThreadData type."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/EtaThreadCard.tsx",
+        "line": 126,
+        "severity": "non_blocking",
+        "description": "SourceBadge count computed as `Math.round(proportion * signalCount) || undefined` — when proportion * signalCount rounds to 0, the count becomes undefined and is hidden. This silently drops low-count sources. Consider using Math.max(1, Math.round(...)) to show at least 1 for any present source."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/EtaLane.tsx",
+        "line": 83,
+        "severity": "non_blocking",
+        "description": "Thread filtering uses a hardcoded list of global domain tags (['geopolitical', 'infrastructure', 'economic', 'security', 'climate']). If new domain categories are added to the backend, threads with those tags won't appear unless the frontend filter is updated. Consider making this list configurable or pulling it from the API."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/EtaThreadCard.tsx",
+        "line": 21,
+        "severity": "non_blocking",
+        "description": "formatRelativeTime() uses Date.now() which makes the output non-deterministic during testing. Tests currently only check truthiness of the output, which is fine, but if more precise time assertions are needed later, a clock injection pattern would help."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Worker correctly followed the frontend-worker skill procedure: wrote tests first, implemented components, verified via agent-browser, ran typecheck. Good adherence to established patterns (functional components, CSS in styles.css, SVG icons).",
+      "evidence": "Handoff shows all verification steps completed: tsc --noEmit (0 errors), vitest run (76 tests), vite build (success), agent-browser screenshot confirming visual rendering."
+    },
+    {
+      "area": "skills",
+      "observation": "Worker made a minimal backend change (adding `threads` to /api/radars response in threat-radar-mcp/src/main.ts) as part of the frontend feature. The frontend-worker skill's 'When to Return to Orchestrator' section says to return if 'API endpoint needed by the UI doesn't exist yet', but the worker pragmatically added 2 lines to an existing endpoint instead of returning. The skill feedback correctly notes this gap. The skill could document that minimal additions to existing endpoints are acceptable when they directly enable the UI feature.",
+      "evidence": "threat-radar-mcp/src/main.ts diff shows only 2 lines added (listThreads call + threads in response). Worker's skillFeedback.suggestedChanges confirms this observation."
+    },
+    {
+      "area": "knowledge",
+      "observation": "Worker discovered that Postgres Docker requires password auth but environment.md previously documented passwordless connection. This was already noted by a prior worker and environment.md has since been updated with the correct DATABASE_URL. The discoveredIssue is now resolved in shared state.",
+      "evidence": "Handoff discoveredIssues[0] mentions the password auth issue. Current .factory/library/environment.md already documents the correct connection string with openai_proxy credentials."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Feature passes review. The η lane implementation is well-structured with 3 clean components (EtaLaneContent, EtaThreadCard, SourceBadge), proper API type extensions, comprehensive test coverage (23 tests), and correct integration with the data pipeline. Minor issues include a dead helper function (aggregateSourceCounts), uniform confidence display across domain tags in thread cards, and a hardcoded global domain tag filter. All feature requirements are met: ThreatClock renders global threat level, RiskGauges show score ranges (not single points), BranchMap shows narrative branches with probabilities, source attribution badges display Bluesky/Reddit icons, and thread cards show signal count and last-updated time."
+}

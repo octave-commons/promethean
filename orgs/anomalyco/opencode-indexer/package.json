@@ -1,0 +1,31 @@
+{
+  "name": "@promethean-os/opencode-indexer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "files": [
+    "dist",
+    "src",
+    "README.md"
+  ],
+  "scripts": {
+    "predev": "pnpm -C ../../../packages/reconstituter build",
+    "dev": "tsx src/index.ts",
+    "prestart": "pnpm -C ../../../packages/reconstituter build",
+    "prebuild": "pnpm -C ../../../packages/reconstituter build",
+    "build": "tsc -p tsconfig.json",
+    "start": "node dist/index.js",
+    "test": "pnpm run build && ava"
+  },
+  "dependencies": {
+    "@promethean-os/reconstituter": "workspace:*"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.7",
+    "ava": "^6.2.0",
+    "tsx": "^4.19.0",
+    "typescript": "^5.5.0"
+  }
+}

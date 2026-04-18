@@ -1,0 +1,54 @@
+{
+  "groupId": "pkg-infrastructure",
+  "surface": "cli",
+  "testingTool": "pnpm + vitest + tsc",
+  "assertions": {
+    "VAL-PKG-001": {
+      "status": "pass",
+      "evidence": "All 5 mission packages (radar-core, signal-atproto, signal-embed-browser, threat-radar-mcp, threat-radar-web) built successfully with exit code 0. threat-radar-web also ran vite build producing production bundle (151.37 kB JS, 5.18 kB CSS).",
+      "commands": [
+        "pnpm --filter @workspace/radar-core run build → exit 0",
+        "pnpm --filter @workspace/signal-atproto run build → exit 0",
+        "pnpm --filter @workspace/signal-embed-browser run build → exit 0",
+        "pnpm --filter @riatzukiza/threat-radar-mcp run build → exit 0",
+        "pnpm --filter @riatzukiza/threat-radar-web run build → exit 0"
+      ]
+    },
+    "VAL-PKG-002": {
+      "status": "pass",
+      "evidence": "pnpm install --frozen-lockfile completed with exit 0. tsc --noEmit succeeded for all downstream packages (radar-core, signal-atproto, threat-radar-mcp, threat-radar-web) confirming all internal @workspace/* imports resolve correctly.",
+      "commands": [
+        "pnpm install --frozen-lockfile → exit 0",
+        "cd packages/radar-core && npx tsc --noEmit → exit 0",
+        "cd packages/signal-atproto && npx tsc --noEmit → exit 0",
+        "cd orgs/riatzukiza/threat-radar-mcp && npx tsc --noEmit → exit 0",
+        "cd orgs/riatzukiza/threat-radar-web && npx tsc --noEmit → exit 0"
+      ]
+    },
+    "VAL-PKG-003": {
+      "status": "pass",
+      "evidence": "radar-core exports SignalEvent, Thread, ConnectionOpportunity, ActionCard types (schema.ts lines 291-296). Downstream packages (threat-radar-mcp, signal-atproto) import these types and pass tsc --noEmit. Confirmed imports in: threat-radar-mcp/src/main.ts, threat-radar-mcp/src/store.ts, threat-radar-mcp/src/collectors/bluesky.ts, threat-radar-mcp/src/collectors/reddit.ts, signal-atproto/src/converters.ts, signal-atproto/src/client.ts.",
+      "commands": [
+        "grep shows 7 import sites across 2 downstream packages",
+        "tsc --noEmit in all consuming packages → exit 0"
+      ]
+    },
+    "VAL-PKG-004": {
+      "status": "pass",
+      "evidence": "vitest run in packages/radar-core: 13 tests passed, 0 failed. Test file: tests/schema.test.ts covering SignalEvent schema (4 tests), Thread schema (3 tests), ConnectionOpportunity schema (2 tests), ActionCard schema (2 tests), Radar schema (1 test), ReducedSnapshot schema (1 test).",
+      "commands": [
+        "cd packages/radar-core && npx vitest run --reporter=verbose → exit 0, 13 passed"
+      ]
+    },
+    "VAL-PKG-005": {
+      "status": "pass",
+      "evidence": "vitest run in packages/signal-atproto: 6 tests passed, 0 failed. Test file: tests/converters.test.ts covering toAtprotoSignalEvent (2 tests), toAtprotoThread (1 test), toAtprotoSnapshot (1 test), toAtprotoConnectionOpportunity (1 test), toAtprotoActionCard (1 test).",
+      "commands": [
+        "cd packages/signal-atproto && npx vitest run --reporter=verbose → exit 0, 6 passed"
+      ]
+    }
+  },
+  "frictions": [],
+  "blockers": [],
+  "toolsUsed": ["pnpm", "tsc", "vitest"]
+}

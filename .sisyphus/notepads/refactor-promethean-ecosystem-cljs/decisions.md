@@ -1,0 +1,4 @@
+- Decision: Migrate ecosystem.clj to ecosystem.cljs using a CLJS-friendly pattern (ns + require) and ecosystem-output at the end.
+- Rationale: Align with the codebase's CLJS tooling expectations while preserving the original app definitions; this enables continued PM2 ecosystem management via CLJS tooling.
+- Scope: Do not remove or modify the actual app definitions; keep the content identical except how macros are loaded and invoked.
+- Next steps: Validate with full workspace build and address any macro-loading issues in the CLJS build, possibly by adjusting the CLJS compilation step to load the macro.cljs source or by moving macro expansion to a CLJ phase.

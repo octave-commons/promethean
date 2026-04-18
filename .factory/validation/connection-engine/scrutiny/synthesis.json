@@ -1,0 +1,98 @@
+{
+  "milestone": "connection-engine",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "cd packages/radar-core && npx vitest run; cd orgs/riatzukiza/threat-radar-mcp && npx vitest run; cd orgs/riatzukiza/threat-radar-web && npx vitest run; cd packages/signal-atproto && npx vitest run",
+      "exitCode": 0,
+      "details": "radar-core: 81 passed (5 files), threat-radar-mcp: 83 passed (6 files), threat-radar-web: 332 passed (18 files), signal-atproto: 16 passed (2 files). Total: 512 tests, 0 failures in mission packages. Pre-existing pm2-clj failures (3) unrelated to mission."
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "pnpm -r --parallel typecheck",
+      "exitCode": 0,
+      "details": "All mission packages typecheck clean. Pre-existing failure in @promethean-os/migrations (off-limits promethean package) unrelated to mission."
+    },
+    "lint": {
+      "passed": true,
+      "command": "echo 'no lint configured yet'",
+      "exitCode": 0,
+      "details": "No lint configured for this workspace."
+    }
+  },
+  "reviewsSummary": {
+    "total": 4,
+    "passed": 4,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [
+    {
+      "target": "library",
+      "description": "Added federation env vars (FEDERATION_INSTANCE_NAME, FEDERATION_TIMEOUT_MS, FEDERATION_STALE_MS, FEDERATION_MAX_RETRIES) to environment.md",
+      "sourceFeature": "federation-enso"
+    },
+    {
+      "target": "library",
+      "description": "Added federation architecture section to architecture.md documenting 8 API endpoints, privacy model, and design choices",
+      "sourceFeature": "federation-enso"
+    },
+    {
+      "target": "library",
+      "description": "Added browser embedding trigram fallback documentation to architecture.md (hash space, method, limitations, fallback chain)",
+      "sourceFeature": "browser-onnx-embedding"
+    }
+  ],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add 'pi-conn-' to the documented CSS prefix convention list: 'BEM-like prefix convention per component area (lane-, pers-, ct-, af-, fh-, pi-conn-)'",
+      "evidence": "Feature browser-onnx-embedding and pi-lane-full added 162+ lines of CSS with pi-conn-* prefix. The prefix follows the established pattern but is not documented.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Enforce the existing 'Extract common utilities (formatRelativeTime, lane-tag mappings) to src/ui/utils/' convention. Consider creating a misc-cleanup task to extract the 3 duplicated formatRelativeTime implementations and the text utility duplication in radar-core (tokenize, STOP_WORDS, cosineSimilarity in both cluster.ts and connections.ts).",
+      "evidence": "formatRelativeTime duplicated in EtaThreadCard.tsx:19, MuThreadCard.tsx:98, PiLaneConnections.tsx:112. STOP_WORDS/tokenize/cosineSimilarity duplicated in radar-core/src/cluster.ts and radar-core/src/connections.ts. AGENTS.md already states the convention but 3 features in dashboard-mvp and connection-engine milestones have not followed it.",
+      "isSystemic": true
+    },
+    {
+      "target": "skills",
+      "suggestion": "Backend-worker skill: Strengthen TDD enforcement. Two features (connection-engine, federation-enso) wrote implementation before tests but reported followedProcedure: true. Consider adding explicit checkpoint: 'Confirm test file exists and at least one test fails before writing implementation.'",
+      "evidence": "connection-engine transcript: Create connections.ts → Create connections.test.ts (tests all pass first run). federation-enso transcript: Create federation.ts → Create federation.test.ts (tests all pass first run). Both handoffs report followedProcedure: true with 0 deviations.",
+      "isSystemic": true
+    },
+    {
+      "target": "skills",
+      "suggestion": "Backend-worker skill: Add note about integration verification requirements. Federation-enso worker added 8 API endpoints but never started the service or tested with curl. Skill step 6 requires integration verification for API endpoints.",
+      "evidence": "federation-enso handoff verification has 3 entries (vitest, tsc, combined vitest) but no curl commands or service start. Backend-worker SKILL.md step 6 says 'If the feature involves API endpoints or MCP tools: Start the service... Test with curl.'",
+      "isSystemic": false
+    },
+    {
+      "target": "skills",
+      "suggestion": "Frontend-worker skill: Add guidance for when Postgres is unavailable. Workers testing dashboard features may find the MCP backend won't start without Postgres, blocking visual verification with real data. Suggest fallback: use mock data in tests, verify layout/rendering with agent-browser even without live API.",
+      "evidence": "pi-lane-full worker noted: 'The frontend-worker skill could mention that Postgres may not be running in the dev environment, suggesting fallback verification approaches when the full backend stack isn't available.'",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Document that /api/federation/receive is intentionally unauthenticated (for inter-peer communication). Future workers should not add requireAdminKey to this endpoint. Consider documenting a roadmap for peer authentication (envelope signatures).",
+      "evidence": "federation-enso review: main.ts:509 — app.post('/api/federation/receive', ...) is the only POST endpoint without auth. This is by design for peer communication but undocumented.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "signal-embed-browser package.json uses vitest 1.6.1 while workspace root uses 0.34.6",
+      "reason": "already-documented — architecture.md notes 'threat-radar-web vitest: Uses vitest 1.6.x (not workspace 0.34.6)'. The pattern is consistent and intentional."
+    },
+    {
+      "observation": "Frontend-worker skill was followed correctly for browser-onnx-embedding",
+      "reason": "positive observation — no action needed, skill procedure works correctly when followed"
+    }
+  ],
+  "previousRound": null
+}

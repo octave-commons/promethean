@@ -1,0 +1,19 @@
+# dependencies
+**/node_modules/
+
+# build outputs
+**/dist/
+**/build/
+**/*.tsbuildinfo
+
+# local runtime state
+**/logs/
+**/.env
+**/.env.*
+**/.python-sandbox/
+
+# local oauth/runtime databases
+services/mcp-fs-oauth/data/*.db*
+
+# editor/system noise
+.DS_Store

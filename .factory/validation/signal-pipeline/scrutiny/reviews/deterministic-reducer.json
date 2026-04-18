@@ -1,0 +1,62 @@
+{
+  "featureId": "deterministic-reducer",
+  "reviewedAt": "2026-03-13T03:27:00.000Z",
+  "commitId": "615d203",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation of a deterministic reducer that takes Thread[] and produces RadarSnapshot. The critical determinism property is well-handled via sort-by-ID before processing, stable sorting in all intermediate operations, and avoidance of non-deterministic APIs (no Date.now(), no Math.random()). The Zod schemas enforce output contracts, tests are comprehensive (13 tests covering determinism with seeded shuffles, edge cases, and metrics correctness). Floating-point reproducibility is managed via round2/round4 helpers. Minor code quality concerns noted below, none blocking.",
+    "issues": [
+      {
+        "file": "packages/radar-core/src/snapshot-reducer.ts",
+        "line": 280,
+        "severity": "non_blocking",
+        "description": "The exported function name `reduce` is very generic and could be confused with Array.prototype.reduce or the existing `reduceRadarPackets` in reducer.ts. A more specific name like `reduceThreadsToSnapshot` would improve discoverability and reduce ambiguity for consumers importing from @workspace/radar-core."
+      },
+      {
+        "file": "packages/radar-core/src/snapshot-reducer.ts",
+        "line": 18,
+        "severity": "non_blocking",
+        "description": "NarrativeBranch uses camelCase field names (publicBenefit, polarizationRisk, compressionLoss) while existing schema.ts types use snake_case (public_benefit, fear_factor, polarization_risk, compression_loss in ConnectionOpportunity). This naming inconsistency within the same package could confuse downstream consumers or make field mapping error-prone."
+      },
+      {
+        "file": "packages/radar-core/src/snapshot-reducer.ts",
+        "line": 330,
+        "severity": "non_blocking",
+        "description": "Single-thread branch splitting creates two branches with identical thread data (same reference). Both branches receive the same scoring, evidence array, and probability (0.5 each after normalization). The only difference is the label ('baseline' vs the category name). This produces semantically redundant branches for single-thread inputs. Consider generating a genuinely distinct alternative interpretation."
+      },
+      {
+        "file": "packages/radar-core/src/snapshot-reducer.ts",
+        "line": 350,
+        "severity": "non_blocking",
+        "description": "Probability normalization only triggers when |probSum - 1| > 0.001. Since round4() introduces at most ~0.0001 error per branch (max 4 branches = 0.0004 total drift), probabilities may sum to 0.9996-1.0004 without normalization firing. This is within test tolerance (toBeCloseTo(1.0, 2) = ±0.005) but means the output doesn't strictly guarantee sum = 1.0."
+      },
+      {
+        "file": "packages/radar-core/src/snapshot-reducer.ts",
+        "line": 1,
+        "severity": "non_blocking",
+        "description": "The RadarSnapshot type has no identifier fields (no id, radar_id, timestamp). The existing ReducedSnapshot in schema.ts includes id, radar_id, module_version_id, as_of_utc, snapshot_kind. If RadarSnapshot will be stored or correlated in the pipeline, identifier fields will be needed. Feature spec didn't require this, so noting for future."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "New snapshot-reducer types use camelCase field names (publicBenefit, polarizationRisk) while existing schema.ts types use snake_case (public_benefit, fear_factor, polarization_risk). AGENTS.md doesn't specify which naming convention to use for new Zod schemas/types in radar-core. This will cause inconsistency as more types are added.",
+      "evidence": "packages/radar-core/src/snapshot-reducer.ts lines 18-27 (narrativeBranchSchema with camelCase) vs packages/radar-core/src/schema.ts connectionOpportunitySchema (snake_case fields like public_benefit, fear_factor, polarization_risk)"
+    },
+    {
+      "area": "conventions",
+      "observation": "Worker did not follow TDD as specified in backend-worker skill step 2 ('Write failing tests first'). Worker created implementation (snapshot-reducer.ts) before tests (snapshot-reducer.test.ts), then fixed implementation to make tests pass. The handoff reports followedProcedure: true despite this deviation. The skill exception clause ('For configuration-only, type-restoration, or wiring-only tasks') does not apply here since this is new runtime logic.",
+      "evidence": "Transcript skeleton shows Create of snapshot-reducer.ts before Create of snapshot-reducer.test.ts. Handoff skillFeedback.followedProcedure = true with empty deviations array."
+    },
+    {
+      "area": "conventions",
+      "observation": "The relationship between the two reducer modules is undocumented. reducer.ts contains reduceRadarPackets() (RadarAssessmentPacket[] → ReducedSnapshot) while snapshot-reducer.ts contains reduce() (Thread[] → RadarSnapshot). The architecture.md data flow diagram shows 'Assessment packets → Deterministic reducer → Live snapshot' but doesn't mention a Thread→RadarSnapshot path. This second reduction stage may represent a different pipeline path that should be documented.",
+      "evidence": "packages/radar-core/src/reducer.ts exports reduceRadarPackets, packages/radar-core/src/snapshot-reducer.ts exports reduce. .factory/library/architecture.md data flow section has no mention of Thread→RadarSnapshot path."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "PASS. The deterministic-reducer implementation is correct and well-tested. The critical determinism property is properly enforced via sort-by-ID, stable sorting, and avoidance of non-deterministic operations — verified by 2 dedicated determinism tests using seeded shuffles and reversal. All 13 tests pass. The reduce() function produces valid RadarSnapshot output conforming to Zod schemas with scoreRanges, disagreementIndex (0-1), narrativeBranches (2-4 with probability normalization), and compressionLoss. Five non-blocking issues noted: generic export name, camelCase vs snake_case inconsistency with existing types, redundant single-thread branches, probability normalization threshold edge, and missing identifier fields. Three shared-state observations flagged for triage: field naming convention gap in AGENTS.md, TDD deviation unreported in handoff, and undocumented dual-reducer architecture."
+}

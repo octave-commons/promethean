@@ -1,0 +1,13 @@
+# Grafana Dashboard Provisioning
+apiVersion: 1
+
+providers:
+  - name: 'OpenPlanner Dashboards'
+    orgId: 1
+    folder: 'OpenPlanner'
+    folderUid: 'openplanner'
+    type: file
+    disableDeletion: false
+    editable: true
+    options:
+      path: /etc/grafana/provisioning/dashboards/json

@@ -1,0 +1,56 @@
+{
+  "featureId": "reddit-collector-mcp",
+  "reviewedAt": "2026-03-13T03:15:00.000Z",
+  "commitId": "9b9e65d",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "The implementation correctly wires the RedditCollector as an MCP tool (radar_collect_reddit) in main.ts following the same pattern as the existing Bluesky collector. The tool accepts subreddit names, sort, limit, and timeframe parameters, fetches via Reddit JSON API, normalizes posts to SignalEvent with source='reddit', deduplicates via content_hash, and stores in Postgres. Returns { ok: true, collected: N, duplicates: N, total_fetched: N }. 12 vitest tests were added covering normalization, collection, error handling, dedup, input validation, and multi-subreddit scenarios. The implementation is sound and complete, with only minor non-blocking issues.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/tests/reddit-collector.test.ts",
+        "line": 215,
+        "severity": "non_blocking",
+        "description": "The 'MCP tool input validation' test suite (2 tests) doesn't actually test MCP tool input validation or Zod schema enforcement. The 'rejects when no subreddits are provided' test just checks `[].length > 0 === false` on a local array — it never exercises the Zod schema `z.array(z.string().min(1)).min(1)` or the tool handler. The 'accepts valid subreddit names' test similarly only checks string lengths. These tests are trivially passing without testing any real code path. They should invoke the Zod schema or the tool handler to verify that empty arrays are rejected and valid names are accepted."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/tests/reddit-collector.test.ts",
+        "line": 25,
+        "severity": "non_blocking",
+        "description": "Comment says `created_utc: 1705312000, // 2024-01-15T10:00:00Z` but the actual ISO conversion of epoch 1705312000 is 2024-01-15T09:46:40.000Z (as correctly asserted on line 96). The inline comment is misleading — 13 minutes off."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/tests/reddit-collector.test.ts",
+        "line": 80,
+        "severity": "non_blocking",
+        "description": "Tests access the private method `_postToSignalEvent` via unsafe type casting: `(collector as unknown as { _postToSignalEvent: ... })._postToSignalEvent.bind(collector)`. While this is a pragmatic approach for testing normalization logic directly, it's fragile — any rename of the private method would silently break these tests at runtime rather than at compile time. Consider exposing a static utility or testing normalization through the public `collectFromSubreddit` interface with mocked fetch."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/main.ts",
+        "line": 700,
+        "severity": "non_blocking",
+        "description": "The radar_collect_reddit tool is missing `annotations` (e.g., `openWorldHint: true`, `destructiveHint: false`) that are used on some other tools in the file (like radar_get_audit_log). While the Bluesky collector also omits annotations, `openWorldHint: true` would be appropriate since this tool makes external network calls to reddit.com."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "The utility functions `hashContent()` and `nowIso()` are duplicated identically in both `src/collectors/bluesky.ts` and `src/collectors/reddit.ts`. There is no documented convention about extracting shared collector utilities. As more collectors are added, this duplication will compound.",
+      "evidence": "bluesky.ts lines 18-23 and reddit.ts lines 18-23 contain identical `hashContent()` implementations; bluesky.ts line 14 and reddit.ts line 14 contain identical `nowIso()` implementations."
+    },
+    {
+      "area": "conventions",
+      "observation": "The MCP collector tool pattern (how to register a collector tool with dedup, response format `{ok, collected, duplicates, total_fetched}`, and Postgres storage) is consistent between Bluesky and Reddit but not documented anywhere. Future collector workers would benefit from a documented pattern showing the standard collector tool structure.",
+      "evidence": "Bluesky tool (main.ts ~line 623) and Reddit tool (main.ts ~line 700) follow the same dedup+store+response pattern but this pattern is only discoverable by reading existing code."
+    },
+    {
+      "area": "skills",
+      "observation": "The backend-worker skill says to 'Write failing tests first (TDD)' but the worker wrote passing tests first (created tests, one failed due to a timestamp calculation error, fixed it, then all passed). The exception clause about 'wiring-only tasks' could arguably apply here since the RedditCollector class pre-existed, but the worker did add normalization test logic that exercises non-trivial code. The skill was followed closely enough — worker did write tests before wiring main.ts.",
+      "evidence": "Transcript shows: created tests → ran tests → 1 failed (timestamp) → fixed assertion → all passed → then wired main.ts. This is roughly TDD with a minor deviation."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "The reddit-collector-mcp feature passes review. The implementation correctly registers radar_collect_reddit as an MCP tool following the established Bluesky collector pattern. The RedditCollector class (pre-existing) is properly wired with Zod-validated input schema, content_hash dedup, and Postgres storage. 12 vitest tests were added (10 substantive, 2 trivially passing). All expected behaviors from the feature spec are met: tool is registered and callable, fetches via Reddit JSON API without auth, normalizes to SignalEvent, persists to Postgres, returns {ok: true, collected: N}. Non-blocking issues: 2 input validation tests don't exercise real code, timestamp comment is off by ~13 minutes, private method access in tests is fragile, and MCP annotations are missing. No blocking issues found."
+}

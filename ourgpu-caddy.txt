@@ -1,0 +1,11 @@
+# our-gpus with API key protection
+our.gpu.big.ussy.promethean.rest {
+    handle /api/* {
+        @has_key header X-Api-Key our-gpu-secret-key-2024
+        reverse_proxy @has_key 127.0.0.1:18000
+        respond * "Unauthorized" 401
+    }
+    handle /healthz { reverse_proxy 127.0.0.1:18000 }
+    handle /readyz { reverse_proxy 127.0.0.1:18000 }
+    reverse_proxy 127.0.0.1:15173
+}

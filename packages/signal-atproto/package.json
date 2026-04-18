@@ -1,0 +1,29 @@
+{
+  "name": "@workspace/signal-atproto",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "main": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "default": "./dist/index.js"
+    }
+  },
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "clean": "rm -rf dist",
+    "typecheck": "tsc -p tsconfig.json --noEmit",
+    "test": "vitest run"
+  },
+  "dependencies": {
+    "@atproto/api": "^0.13.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@workspace/radar-core": "workspace:*",
+    "typescript": "^5.6.3",
+    "vitest": "0.34.6"
+  }
+}

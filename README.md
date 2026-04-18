@@ -1,574 +1,412 @@
-# Devel Workspace
+# Open Hax OpenAI Proxy
 
-A multi-repository development workspace. Many repositories are tracked as git submodules under `orgs/`, with additional local clones and workspace-level packages/tools.
+OpenAI-compatible proxy server with provider-scoped account rotation.
 
-## Overview
+DEVEL instructions live in `DEVEL.md`.
 
-This workspace contains **35+ git submodules** (see `.gitmodules`) plus a handful of **local clones** (see `.git/info/exclude`), organized primarily under the `orgs/` directory structure.
+## Features
 
-- **Promethean OS**: A comprehensive operating system and development framework
-- **Opencode**: Development tools and AI-powered coding assistants  
-- **Agent Shell**: Emacs-based AI agent integration framework
-- **Dotfiles**: Personal development environment configuration
-- **Various tools and utilities**: Supporting libraries and applications
+- `POST /v1/chat/completions` compatibility endpoint.
+- Multi-provider routing through one OpenAI-compatible endpoint.
+- Model-aware upstream routing for Claude models: `claude-*` can be sent to upstream `POST /v1/messages` and converted back into chat-completions format.
+- Model-aware upstream routing: `gpt-*` models are sent to upstream `POST /v1/responses` and converted back into chat-completions format.
+- Preserves reasoning traces when translating Responses/Messages payloads by mapping them to OpenAI-compatible `reasoning_content` in non-stream and synthetic stream responses.
+- Maps OpenAI-style reasoning controls (`reasoning_effort` / `reasoning.effort`) into Claude `thinking` payloads: `none` disables thinking, `low|medium|high|xhigh` map to safe Claude budgets, and auto-routed plain `claude-*` traffic gets the same protection.
+- Model-aware routing to OpenAI provider: models prefixed with `openai/` or `openai:` route to configured OpenAI endpoints.
+- Global fast-mode toggle for Responses traffic: the proxy can inject `service_tier: "priority"` for GPT/Responses requests, with per-request overrides still respected.
+- Model-aware routing to Ollama base API: models prefixed with `ollama/` or `ollama:` are sent to Ollama `POST /api/chat`.
+- Built-in React/Vite console with a usage dashboard plus Chat, Credentials, and Tools/MCP pages.
+- OpenAI OAuth browser + device flows based on OpenCode Codex plugin behavior (PKCE, state, callback exchange, account extraction).
+- Chroma-backed semantic history search with lexical fallback for chat session recall.
+- `GET /v1/models` and `GET /v1/models/:id` model listing.
+- `GET /v1/models` merges static models with live Ollama/Ollama Cloud catalogs when configured.
+- Auto-aliases tagged Ollama families to the largest variant (for example `qwen3.5` -> `qwen3.5:397b`).
+- Provider-scoped account rotation when upstream returns rate limits (`429`, plus `403/503` with `retry-after`).
+- Cross-provider fallback for shared models (for example `vivgrid` <-> `ollama-cloud`) when one provider's keys or upstream path fails.
+- Flexible `keys.json` supports both API-key and OAuth bearer accounts, with multiple accounts per provider.
 
-## Repository Structure
-
-### Organization-Based Structure
-
-Most repos are organized under `orgs/` by their GitHub organizations (tracked either as submodules or local clones).
-
-| Organization | Repository | Purpose | Path |
-|--------------|------------|---------|------|
-| **riatzukiza** | `promethean` | Main OS and framework development | `orgs/riatzukiza/promethean` |
-| **riatzukiza** | `dotfiles` | Personal configuration files | `orgs/riatzukiza/dotfiles` |
-| **riatzukiza** | `agent-shell` | Emacs AI agent framework | `orgs/riatzukiza/agent-shell` |
-| **riatzukiza** | `openhax` | Full-stack application | `orgs/riatzukiza/openhax` |
-| **riatzukiza** | `stt` | SST organization mirror | `orgs/riatzukiza/stt` |
-| **riatzukiza** | `desktop` | Desktop configuration | `orgs/riatzukiza/desktop` |
-| **riatzukiza** | `book-of-shadows` | Personal documentation | `orgs/riatzukiza/book-of-shadows` |
-| **riatzukiza** | `goblin-lessons` | Educational content | `orgs/riatzukiza/goblin-lessons` |
-| **riatzukiza** | `riatzukiza.github.io` | Personal website | `orgs/riatzukiza/riatzukiza.github.io` |
-| **anomalyco** | `opencode` | OpenCode development tools *(local clone; excluded from root git)* | `orgs/anomalyco/opencode` |
-| **open-hax** | `codex` | Authentication for Codex | `orgs/open-hax/codex` |
-| **moofone** | `codex-ts-sdk` | TypeScript SDK for Codex | `orgs/moofone/codex-ts-sdk` |
-| **openai** | `codex` | OpenAI Codex integration | `orgs/openai/codex` |
-
-> Note: the table above is intentionally non-exhaustive; this workspace also tracks submodules under `services/` and `vaults/`.
-
-### Directory Structure
-
-```
-devel/
-├── orgs/                          # Organization-based submodules
-│   ├── riatzukiza/                # riatzukiza's repositories
-│   │   ├── promethean/            # Main framework
-│   │   ├── dotfiles/              # Configuration files
-│   │   ├── agent-shell/           # Emacs AI framework
-│   │   ├── openhax/               # Full-stack app
-│   │   ├── stt/                   # SST org mirror
-│   │   ├── desktop/               # Desktop config
-│   │   ├── book-of-shadows/       # Documentation
-│   │   ├── goblin-lessons/        # Educational content
-│   │   └── riatzukiza.github.io/ # Personal site
-│   ├── anomalyco/                  # Anomaly Co organization  
-│   │   └── opencode/              # Main opencode repo
-│   # (additional orgs omitted; see .gitmodules for the authoritative list)
-│   ├── open-hax/                  # open-hax organization
-│   │   └── codex/                 # Auth plugin
-│   ├── moofone/                   # moofone's repositories
-│   │   └── codex-ts-sdk/          # TypeScript SDK
-│   └── openai/                    # OpenAI organization
-│       └── codex/                 # Codex CLI/runtime
-├── src/                           # Workspace-level code
-├── docs/                          # Documentation
-└── tools/                         # Workspace tools
-```
-
-## Development Setup
-
-### Prerequisites
-
-- **Node.js**: 22+ recommended (CI uses Node 22)
-- **pnpm**: Package manager (v10.14.0)
-- **Bun**: Runtime for opencode development
-- **Git**: For submodule management
-
-### Initial Setup
+## Standalone Setup
 
 ```bash
-# Clone and initialize submodules
-git clone <workspace-url>
-git submodule update --init --recursive
-
-# Install dependencies
+git clone https://github.com/open-hax/proxx.git
+cd proxx
 pnpm install
-
-# Setup development environment
-cd orgs/riatzukiza/promethean && pnpm install
-cd orgs/anomalyco/opencode && bun install
+cp .env.example .env
+cp keys.example.json keys.json
+cp models.example.json models.json # optional preferences; discovery is canonical
 ```
 
-### Ecosystem Process Management (PM2)
+Required setup:
 
-All processes are managed through the **ecosystem system**. Define apps in `ecosystems/*.cljs` files and compile with shadow-cljs.
+- Put real provider credentials in one of: `keys.json`, `PROXY_KEYS_JSON` / `UPSTREAM_KEYS_JSON`, or the configured SQL store via `DATABASE_URL`
+- Set `PROXY_AUTH_TOKEN` in `.env` unless you are only doing local unauthenticated debugging
+- Adjust `UPSTREAM_*`, `OPENAI_*`, `OLLAMA_*`, optional `CHROMA_*`, and optional `OTEL_*` settings in `.env` for your environment
+- If you enable OTEL export, set your own collector endpoint and auth headers through environment variables rather than hardcoding them in tracked files
+
+Alternative credential sources:
+
+- `PROXY_KEYS_JSON` / `UPSTREAM_KEYS_JSON` can carry the same JSON payload inline when you cannot rely on a mounted `keys.json` (for example Render)
+- When `DATABASE_URL` is configured, SQL-backed credentials are also loaded and become the runtime source of truth for the proxy UI and request routing
+- `DISABLED_PROVIDER_IDS` can remove providers such as `vivgrid` from live routing without deleting their stored credentials
+
+## Shared-state federation v1
+
+If you want several `proxx` instances to behave like one mirrored operator surface, point them at the same `DATABASE_URL`.
+
+In this mode the shared SQL database becomes the control plane for:
+- GitHub/UI operator login state and tenant membership
+- tenant API keys and proxy settings
+- provider credentials, including OpenAI OAuth accounts added through the UI
+- dashboard / analytics usage data
+
+That means:
+- add an OpenAI OAuth account on one instance -> the other instances can pick it up from the same DB-backed credential store
+- usage analytics aggregate across the fleet instead of fragmenting per instance
+
+Current boundary:
+- shared in v1: operator/admin state, tenant API keys and proxy settings, provider credentials including OAuth accounts, analytics
+- still local for now: chat sessions, prompt affinity, and other convenience file state
+
+Env-backed providers:
+
+- `OPENROUTER_API_KEY` automatically exposes an `openrouter` provider route.
+- `REQUESTY_API_TOKEN` (or `REQUESTY_API_KEY`) automatically exposes a `requesty` provider route.
+- `GEMINI_API_KEY` automatically exposes a `gemini` provider route (native Gemini REST via `generateContent`).
+- `ZAI_API_KEY` (or `ZHIPU_API_KEY`) automatically exposes a `zai` provider route (z.ai GLM chat via `https://api.z.ai/api/paas/v4`).
+- `openrouter` and `requesty` default to OpenAI-compatible `/v1/chat/completions` routing.
+- You can target them by setting `UPSTREAM_PROVIDER_ID=openrouter|requesty|gemini|zai`, or by listing them in `UPSTREAM_FALLBACK_PROVIDER_IDS`.
+
+Additional provider ids:
+
+- `ob1` is available as a standard provider id. Configure it in `keys.json` and target it with `UPSTREAM_PROVIDER_ID=ob1`.
+- The default base URL for `ob1` is `https://dashboard.openblocklabs.com/api`.
+
+## Run
+
+Start the API server:
 
 ```bash
-# Compile ecosystems to PM2 config
-pnpm generate-ecosystem
-
-# Start all processes from compiled config
-pm2 start ecosystem.config.cjs
-
-# Individual process management
-pm2 list                    # List running processes
-pm2 stop <app-name>         # Stop specific process
-pm2 restart <app-name>      # Restart specific process
-pm2 delete <app-name>       # Delete process from PM2
-pm2 logs <app-name>         # View process logs
-pm2 monit                   # Real-time monitoring dashboard
+pnpm dev
 ```
 
-**Ecosystem Files:**
-- Location: `ecosystems/*.cljs`
-- Format: ClojureScript using `clobber.macro/defapp`
-- Output: `.clobber/index.cjs` (CommonJS for PM2)
-- Entry: `ecosystem.config.cjs` (requires `.clobber/index.cjs`)
-
-**Example:**
-```clojure
-;; ecosystems/myapp.cljs
-(ns myapp
-  (:require [clobber.macro]))
-
-(clobber.macro/defapp "my-service"
-  {:script "node"
-   :args ["dist/index.js"]
-   :cwd "/path/to/service"
-   :env {:NODE_ENV "production"}
-   :autorestart true})
-```
-
-**See `.opencode/skills/pm2-process-management/SKILL.md` for detailed PM2 workflows.**
-
----
-
-## Development Commands
-
-### Workspace Level
+Build and run production mode:
 
 ```bash
-# Lint affected projects across workspace
-pnpm lint
-
-# Lint all projects
-pnpm lint:all
-
-# Typecheck affected projects
-pnpm typecheck
-
-# Typecheck all projects
-pnpm typecheck:all
-
-# Build affected projects
 pnpm build
-
-# Build all projects
-pnpm build:all
+pnpm start
 ```
 
-### Docker Stacks
-
-Use the root compose registry to discover and manage the curated monorepo stacks from `/home/err/devel`:
+Run tests:
 
 ```bash
-pnpm docker:stack:list
-pnpm docker:stack up devel -- --build
-pnpm docker:stack up mcp -- --build
-pnpm docker:stack up cephalon -- --build
-pnpm docker:stack up ollama
-pnpm docker:stack up opencode -- --build
-pnpm docker:stack show promethean
+pnpm test
+```
+
+## Web Console
+
+Run the web UI in dev mode:
+
+```bash
+pnpm web:dev
+```
+
+Build the web UI:
+
+```bash
+pnpm web:build
+```
+
+Preview the built UI:
+
+```bash
+pnpm web:preview
+```
+
+## Host fleet dashboard
+
+The console now includes a **Hosts** page for the ussy fleet.
+
+What it shows:
+- per-host container inventory
+- routed subdomains parsed from the runtime Caddyfile
+- partial/unreachable host cards instead of failing the whole page when one host is broken
+
+How it works:
+- the local proxx container can read Docker state through an opt-in mounted Docker socket
+- the local proxx container can read runtime files from an opt-in read-only runtime bind mount
+- remote hosts are queried over HTTPS through each host's own `/api/ui/hosts/self` endpoint
+
+Minimal env shape:
+
+```bash
+HOST_DASHBOARD_SELF_ID=ussy
+HOST_DASHBOARD_TARGETS_JSON=[{"id":"ussy","label":"ussy.promethean.rest","baseUrl":"https://ussy.promethean.rest","authTokenEnv":"HOST_DASHBOARD_USSY_TOKEN"},{"id":"ussy3","label":"ussy3.promethean.rest","baseUrl":"https://ussy3.promethean.rest","authTokenEnv":"HOST_DASHBOARD_USSY3_TOKEN"}]
+HOST_DASHBOARD_USSY_TOKEN=...
+HOST_DASHBOARD_USSY3_TOKEN=...
+```
+
+Notes:
+- remote targets need an explicit `authToken` or `authTokenEnv`; the dashboard does not forward `PROXY_AUTH_TOKEN` implicitly
+- if a remote host is unreachable, misconfigured, or missing auth, it still renders as an error card so you can keep future hosts in the inventory before access is fixed
+- local Docker/runtime introspection is opt-in via `docker-compose.host-dashboard.override.yml`
+
+## Docker Compose
+
+Container/runtime workflows now live in the workspace devops home:
+
+```bash
+cd /path/to/workspace/services/proxx
+docker compose up --build -d
+docker compose ps
+docker compose logs -f
+```
+
+Or from the workspace root:
+
+```bash
 pnpm docker:stack status open-hax-openai-proxy
-pnpm docker:stack status voxx
 pnpm docker:stack use-container open-hax-openai-proxy -- --build
-pnpm docker:stack use-host open-hax-openai-proxy
-pnpm docker:stack up voxx -- --build
-pnpm docker:stack up openplanner -- --build
-pnpm docker:stack up part64 -- --build
-pnpm docker:stack ps open-hax-openai-proxy
 pnpm docker:stack logs open-hax-openai-proxy -- -f
 ```
 
-See `docs/docker-stacks.md` for the registered stack names and command behavior.
+Notes:
 
-### Bin Utilities
+- credentials are required for upstream proxying, but they can come from `keys.json`, inline JSON env, provider-specific env vars, or SQL when `DATABASE_URL` is configured
+- `data/` still stores local fallback request logs and session history; with `DATABASE_URL` configured, shared fleet analytics are also mirrored into SQL
+- The API defaults to `127.0.0.1:8789`
+- The web companion is exposed on `${PROXY_WEB_PORT:-5174}`
+- The local compose stack now starts Postgres by default and sets `DATABASE_URL` so local runtime behavior matches Render more closely
+- `keys.json` is still required for startup.
+- `data/` stays bind-mounted for request logs and session history.
+- include `docker-compose.host-dashboard.override.yml` only when you want local host-dashboard Docker/runtime introspection
+- If you want to mount Factory CLI auth files, include `docker-compose.factory-auth.override.yml` explicitly.
+- The compose stack now defaults `OLLAMA_BASE_URL` to `http://ollama:11434` when attached to the shared `ai-infra` network; `CHROMA_URL` still defaults to `host.docker.internal` unless you also containerize Chroma on a shared network.
+- The web companion is exposed on `${PROXY_WEB_PORT:-5174}`.
+- The checked-in host PM2 source now includes both the API and web companion in `ecosystem.container.config.cjs`.
+- Source code remains here in `orgs/open-hax/proxx`; service-local env/config/data now lives under `services/proxx`.
+- OTEL export can be enabled with standard `OTEL_EXPORTER_OTLP_*`, `OTEL_SERVICE_NAME`, and `OTEL_RESOURCE_ATTRIBUTES` environment variables.
 
-- `bin/install-pre-push-hooks.sh`: Installs `.hooks/pre-push-typecheck.sh` into the root repo and every submodule, adding `.nx/` to git excludes.
-- `bin/setup-branch-protection [--dry-run]`: Applies baseline GitHub branch protection to every GitHub-backed submodule default branch (set `ALSO_DEV=true` to also guard `dev`; requires `gh` admin access).
-- `bin/fix-submodules <org>`: Converts nested git directories into proper submodules under the given org, creating GitHub remotes when missing and committing the replacements.
-- `bin/github-transfer-submodules <org>`: Transfers each `.gitmodules` repo to the target org via `gh transfer`.
-- `bin/init-pnpm-submodules`: Initializes pnpm workspace packages that lack git repos, creates private GitHub repos under `GITHUB_OWNER` (default `octave-commons`), pushes `main`, and adds them back as submodules.
-- `bin/opencode-command`: Wrapper for `bin/create-command` with the required `NODE_PATH` set for NBB.
+## Environment Variables
 
-### Submodule Workflows
+- `PROXY_HOST` (default: `127.0.0.1`)
+- `PROXY_PORT` (default: `8789`)
+- `OPENAI_OAUTH_CALLBACK_PORT` (default: `1455`; port used when building the browser OAuth redirect URL)
+- `STREAM_CHUNK_DELAY_MS` (optional; default: `0`; fixed delay added between synthetic SSE chunks)
+- `STREAM_CHUNK_DELAY_MS_MIN` / `STREAM_CHUNK_DELAY_MS_MAX` (optional; default: unset; random delay range between chunks)
+- `UPSTREAM_PROVIDER_ID` (default: `vivgrid`; provider key in `keys.json`)
+- `UPSTREAM_FALLBACK_PROVIDER_IDS` (default: auto `ollama-cloud` when primary is `vivgrid`, or `vivgrid` when primary is `ollama-cloud`; comma-separated)
+- `UPSTREAM_BASE_URL` (optional override; when unset or blank, the proxy derives it from `UPSTREAM_PROVIDER_ID` / `UPSTREAM_PROVIDER_BASE_URLS`)
+- `UPSTREAM_PROVIDER_BASE_URLS` (optional mapping: `provider=url,provider=url`; defaults include `vivgrid=https://api.vivgrid.com`, `ollama-cloud=https://ollama.com`, `ob1=https://dashboard.openblocklabs.com/api`, `openrouter=https://openrouter.ai/api/v1`, and `requesty=https://router.requesty.ai/v1`)
+- `UPSTREAM_BASE_URL` (default: `https://api.vivgrid.com`)
+- `UPSTREAM_PROVIDER_BASE_URLS` (optional mapping: `provider=url,provider=url`; defaults include `vivgrid=https://api.vivgrid.com`, `ollama-cloud=https://ollama.com`, `zai=https://api.z.ai/api/paas/v4`, `openrouter=https://openrouter.ai/api/v1`, `requesty=https://router.requesty.ai/v1`, `gemini=https://generativelanguage.googleapis.com/v1beta`, and `factory=https://api.factory.ai`)
+- `OPENAI_PROVIDER_ID` (default: `openai`; provider key in `keys.json`)
+- `OPENAI_BASE_URL` (default: `https://chatgpt.com/backend-api`)
+- `OLLAMA_BASE_URL` (default: `http://127.0.0.1:11434`)
+- `ZAI_BASE_URL` (optional; default: `https://api.z.ai/api/paas/v4`; alias: `ZHIPU_BASE_URL`)
+- `ZHIPU_BASE_URL` (optional alias of `ZAI_BASE_URL`)
+- `ZAI_PROVIDER_ID` (optional; default: `zai`; alias: `ZHIPU_PROVIDER_ID`)
+- `ZHIPU_PROVIDER_ID` (optional alias of `ZAI_PROVIDER_ID`)
+- `UPSTREAM_CHAT_COMPLETIONS_PATH` (default: `/v1/chat/completions`)
+- `OPENAI_CHAT_COMPLETIONS_PATH` (default: `/v1/chat/completions`)
+- `UPSTREAM_MESSAGES_PATH` (default: `/v1/messages`)
+- `UPSTREAM_MESSAGES_MODEL_PREFIXES` (default: `claude-`; comma-separated prefixes)
+- `UPSTREAM_MESSAGES_INTERLEAVED_THINKING_BETA` (default: `interleaved-thinking-2025-05-14`; set empty to disable auto `anthropic-beta` injection when thinking is enabled)
+- `UPSTREAM_RESPONSES_PATH` (default: `/v1/responses`)
+- `OPENAI_RESPONSES_PATH` (default: `/v1/responses`)
+- `UPSTREAM_IMAGES_GENERATIONS_PATH` (default: `/v1/images/generations`)
+- `UPSTREAM_RESPONSES_MODEL_PREFIXES` (default: `gpt-`; comma-separated prefixes)
+- `OPENAI_MODEL_PREFIXES` (default: `openai/,openai:`; comma-separated prefixes)
+- `OLLAMA_CHAT_PATH` (default: `/api/chat`)
+- `OLLAMA_MODEL_PREFIXES` (default: `ollama/,ollama:`; comma-separated prefixes)
+- `PROXY_KEYS_FILE` (default: `./keys.json`, fallback: `VIVGRID_KEYS_FILE`)
+- `PROXY_MODELS_FILE` (default: `./models.json`, fallback: `VIVGRID_MODELS_FILE`)
+- `PROXY_REQUEST_LOGS_FILE` (default: `./data/request-logs.jsonl`)
+- `PROXY_REQUEST_LOGS_MAX_ENTRIES` (default: `100000`; retained raw request-log entries used for backfill/debug/recent views)
+- `PROXY_SETTINGS_FILE` (default: `./data/proxy-settings.json`)
+- `PROXY_KEY_RELOAD_MS` (default: `5000`, fallback: `VIVGRID_KEY_RELOAD_MS`)
+- `PROXY_KEY_COOLDOWN_MS` (default: `30000`, fallback: `VIVGRID_KEY_COOLDOWN_MS`)
+- `UPSTREAM_REQUEST_TIMEOUT_MS` (default: `180000`)
+- `PROXY_AUTH_TOKEN` (required unless `PROXY_ALLOW_UNAUTHENTICATED=true`)
+- `PROXY_ALLOW_UNAUTHENTICATED` (default: `false`; use `true` only for local debugging)
+- `CHROMA_URL` (optional; default: `http://127.0.0.1:8000`)
+- `CHROMA_COLLECTION` (optional; default: `open_hax_proxy_sessions`)
+- `CHROMA_EMBED_MODEL` (optional; default: `nomic-embed-text:latest`; served from Ollama)
+- `OTEL_EXPORTER_OTLP_ENDPOINT` (optional; OTLP HTTP base URL for telemetry export)
+- `OTEL_EXPORTER_OTLP_HEADERS` (optional; comma-separated OTLP headers, for example ingest auth; do not commit real secrets)
+- `OTEL_SERVICE_NAME` (optional; default: `proxx`)
+- `OTEL_RESOURCE_ATTRIBUTES` (optional; comma-separated OTEL resource attributes)
+- `OTEL_SDK_DISABLED` (optional; set `true` to disable telemetry even when endpoint and headers are set)
 
-```bash
-# Promethean package development
-cd orgs/riatzukiza/promethean && pnpm --filter @promethean-os/<pkg> <command>
+## Chroma + Ollama
 
-# Opencode development
-cd orgs/anomalyco/opencode && bun dev
+Semantic session search now registers an Ollama embedding function with the Chroma JS client instead of relying on Chroma's default embedder.
 
-# Agent shell development (Emacs Lisp)
-cd orgs/riatzukiza/agent-shell && emacs agent-shell.el
-
-# Clojure
-# Most Clojure/ClojureScript work lives in the Promethean submodule.
-
-# Codex TypeScript SDK development
-cd orgs/moofone/codex-ts-sdk && pnpm <command>
-```
-
-### Issue & PR Projection
-
-Mirror every GitHub issue and pull request for the submodules living under `orgs/**` into the local `issues/org/` tree. The projector requires a valid `GITHUB_TOKEN` (with `repo` scope for private repos) exported in your environment.
-
-```bash
-# Project everything (issues + PRs) for every tracked repo
-GITHUB_TOKEN=<token> pnpm issues:project
-
-# Regenerate only Promethean issues (leave PRs alone)
-GITHUB_TOKEN=<token> pnpm issues:project -- --repo riatzukiza/promethean --type issues
-
-# Clean the output folder and limit to the 10 newest PRs per repo
-GITHUB_TOKEN=<token> pnpm issues:project -- --clean --type prs --limit 10
-```
-
-Output layout:
-
-```
-issues/org/<owner>/<repo>/
-  issues/<number>-<slug>/thread.md
-  prs/<number>-<slug>/
-    thread.md
-    reviews/<review-id>.md
-    files/<path>.md
-```
-
-Each `thread.md` mirrors the GitHub conversation, every `reviews/<id>.md` interleaves inline review comments with their diff hunks, and `files/<path>.md` stores the per-file diffs along with any inline annotations.
-
-## Code Style and Standards
-
-### ESLint Configuration
-
-The workspace enforces strict code quality through ESLint with the following rules:
-
-- **ESM-first source**: write `import`/`export` in source; avoid `require`/`module.exports`
-- **Functional programming**: Prefer `const`, avoid `let`, no classes
-- **TypeScript strict**: No `any`, explicit types, readonly parameters
-- **Import order**: builtin → external → internal → sibling → index
-- **Function limits**: Max 100 lines per function, 15 cognitive complexity
-
-### TypeScript Configuration
-
-- **Target**: ES2022
-- **Module (build output)**: CommonJS (`tsconfig.json`), even though `package.json` is ESM (`"type": "module"`)
-- **Strict mode**: Enabled with all type-checking options
-- **Module resolution**: Node.js style
-
-### Testing Standards
-
-- Use `sleep` from test utils instead of `setTimeout`
-- Mock at module boundaries with `esmock`
-- Tests in `src/tests/` directory
-- Deterministic and parallel-friendly test design
-
-## Key Components
-
-### Promethean Framework
-
-The core development framework containing:
-- Package-based architecture with `pnpm workspaces`
-- Emacs configuration layers for development
-- MCP (Model Context Protocol) integrations
-- Comprehensive tooling and utilities
-- **Location**: `orgs/riatzukiza/promethean/`
-
-### Opencode Integration
-
-AI-powered development tools:
-- TUI-based development environment
-- GitHub Actions and VS Code extensions
-- Multi-language SDK support
-- Agent-based workflow automation
-- **Location**: `orgs/anomalyco/opencode/`
-
-### Release Monitoring Automation
-
-- `.github/workflows/codex-release-watch.yml` polls `sst/opencode` (`v*`) and `openai/codex` (`rust-v*`) releases daily or on demand.
-- `scripts/codex-release-monitor.mjs` clones upstream tags, captures diffs, and drives the `release-impact` OpenCode agent with `release-context.md` + `release-diff.patch` attachments.
-- Agent guidance lives in `.opencode/agents/release-impact.md`, enforcing a strict JSON impact schema for automation.
-- Findings auto-create GitHub issues labeled `codex-release-watch`; successful runs update `.github/release-watch/state.json` so the next diff always references the last reviewed tag.
-- Requires `OPENCODE_API_KEY` secret and (optionally) `RELEASE_WATCH_MODEL` repo var to select a model (defaults to `openai/gpt-5-codex-high`).
-
-### Agent Shell
-
-Emacs-based framework for AI agent integration:
-- Support for multiple AI providers (OpenAI, Anthropic, Google)
-- Interactive development workflows
-- Extensible agent architecture
-- **Location**: `orgs/riatzukiza/agent-shell/`
-
-### Clojure
-
-- Most Clojure/ClojureScript work is in `orgs/riatzukiza/promethean/` (and related submodules).
-- Useful MCP servers are primarily TypeScript services under `services/`.
-
-## Working with Submodules
-
-### Common Operations
+- Start Chroma separately at `CHROMA_URL`.
+- Ensure Ollama is running at `OLLAMA_BASE_URL`.
+- Pull an embedding model such as `nomic-embed-text:latest`.
 
 ```bash
-# Update all submodules to latest
-git submodule update --remote --merge
-
-# Work in specific submodule
-cd orgs/riatzukiza/promethean
-git checkout main
-git pull origin main
-
-# Commit submodule changes
-git add orgs/riatzukiza/promethean
-git commit -m "Update promethean to latest"
-
-# Initialize new submodule
-git submodule add <repository-url> orgs/<org>/<repo>
+ollama pull nomic-embed-text:latest
 ```
 
-### Submodule Management CLI
+The proxy will use Ollama's `/api/embed` endpoint when available, and fall back to `/api/embeddings` for older Ollama builds.
 
-The workspace uses a unified CLI tool for submodule management with Commander.js framework.
+## `keys.json` Format
 
-#### Main Commands
-```bash
-# Sync .gitmodules mappings and initialize/update submodules
-submodule sync [--recursive] [--jobs <number>]
-
-# Fetch remote refs and update to latest tracked commits
-submodule update [--recursive] [--jobs <number>]
-
-# Show pinned commits and dirty submodule worktrees
-submodule status [--recursive]
-
-# Smart commit across submodule hierarchy with pantheon integration
-submodule smart commit "message" [--dry-run] [--recursive]
+```json
+{
+  "providers": {
+    "vivgrid": [
+      "vivgrid-key-1",
+      "vivgrid-key-2"
+    ],
+    "ollama-cloud": [
+      "ollama-key-1",
+      "ollama-key-2"
+    ],
+    "openai": {
+      "auth": "oauth_bearer",
+      "accounts": [
+        "oauth-access-token-1",
+        "oauth-access-token-2"
+      ]
+    }
+  }
+}
 ```
 
-#### Help and Options
-```bash
-# Show main help
-submodule --help
+`id` fields are optional. When omitted, the proxy auto-generates stable internal UUID account IDs per token.
 
-# Show help for specific command
-submodule sync --help
-submodule update --help
-submodule status --help
+Backward compatibility is preserved for legacy single-provider formats:
+
+- `{"keys": ["legacy-key-1", "legacy-key-2"]}`
+- `["legacy-key-1", "legacy-key-2"]`
+
+Those legacy formats map to `UPSTREAM_PROVIDER_ID`.
+
+## `models.json` Preferences
+
+`models.json` is now **preference metadata**, not the source of truth. The proxy discovers models dynamically via provider `/v1/models` (and provider-specific catalog endpoints) and uses `models.json` to:
+
+- **prioritize** models in listings and routing
+- **disable** models (exclude from listing + routing)
+- **alias** model names (rewrite to a discovered model ID)
+
+Example:
+
+```json
+{
+  "preferred": ["gpt-5.3-codex", "gemini-3.1-pro-preview"],
+  "disabled": ["gemini-1.0-pro"],
+  "aliases": { "qwen3.5": "qwen3.5:397b" }
+}
 ```
 
-#### Legacy Support
-For backward compatibility, the original scripts still work but show deprecation warnings:
-- `bin/submodules-sync` → `submodule sync`
-- `bin/submodules-update` → `submodule update`
-- `bin/submodules-status` → `submodule status`
+Notes:
+- Preferred models only **reorder** discovered models (they do **not** add undiscovered models).
+- Disabled models are excluded even if a provider advertises them.
+- Aliases only apply when the **target** model exists in the discovered catalog.
 
-#### Core Features
-- **Parallel execution**: Uses 8 jobs by default (configurable via `SUBMODULE_JOBS=<n>`)
-- **Recursive support**: Pass `--recursive` for nested submodules
-- **Error handling**: Comprehensive error reporting and recovery procedures
+## OpenAI OAuth Routing Through Chat-Completions
 
-#### Usage Examples
+Route requests to OpenAI by prefixing model names:
 
-```bash
-# Fast way to clone every tracked submodule after pulling main
-submodule sync
+- `"model": "openai/gpt-5"`
+- `"model": "openai:gpt-5"`
 
-# Update workspace to the latest commits published in each submodule
-submodule update
+The prefix is stripped before upstream dispatch, and accounts are selected from `keys.json.providers[OPENAI_PROVIDER_ID]`.
 
-# Inspect which submodules have local changes before committing
-submodule status
+For migrated legacy OAuth accounts, the `openai` provider is treated as a ChatGPT Codex upstream, not the OpenAI Platform API. Those accounts require `chatgpt_account_id` metadata and are sent to `/codex/responses` by default.
 
-# Smart commit with interactive explanation
-submodule smart commit "prepare for release"
+## Factory.ai Provider
 
-# Smart commit dry run to see what would be committed
-submodule smart commit "prepare for release" --dry-run
+The proxy supports [Factory.ai](https://factory.ai) as a provider, routing requests to `https://api.factory.ai` with automatic credential management.
 
-# Use 4 parallel jobs instead of default 8
-submodule update --jobs 4
+### Credentials
 
-# Include nested submodules (for advanced use cases)
-submodule update --recursive
+Factory credentials can be supplied in three ways (all sources merge at runtime):
 
-# Use environment variable for jobs (legacy support)
-SUBMODULE_JOBS=4 submodule update
+1. **Environment variable** — set `FACTORY_API_KEY` with your Factory API key.
+2. **Local auth files** — the proxy reads `~/.factory/auth.v2.file` and `~/.factory/auth.v2.key` (OAuth tokens written by the Factory CLI). Override paths with `FACTORY_AUTH_V2_FILE` / `FACTORY_AUTH_V2_KEY`.
+3. **`keys.json`** — add a `factory` provider entry with `"auth": "api_key"` and an `"accounts"` array containing your key(s). See `keys.example.json` for a complete example including OAuth bearer accounts.
+
+### Model Routing
+
+Prefix a model name with `factory/` or `factory:` to route it through the Factory provider:
+
+- `"model": "factory/claude-opus-4-5"`
+- `"model": "factory/gpt-5"`
+- `"model": "factory/gemini-3-pro-preview"`
+
+The prefix is stripped before the request is sent upstream. Any model available on Factory.ai can be used.
+
+### OAuth Setup (Web Console)
+
+The web console exposes two OAuth flows for obtaining Factory credentials interactively:
+
+- **Device flow** — `POST /api/ui/credentials/factory/oauth/device/start` initiates a device-code grant; poll with `POST /api/ui/credentials/factory/oauth/device/poll`.
+- **Browser flow** — `POST /api/ui/credentials/factory/oauth/browser/start` returns an authorization URL for PKCE-based browser login.
+
+Both flows store the resulting tokens so the proxy can use them for subsequent requests.
+
+### Environment Variables
+
+- `FACTORY_API_KEY` — Factory API key (creates a `factory` provider automatically).
+- `FACTORY_BASE_URL` — override the default `https://api.factory.ai` endpoint.
+- `FACTORY_MODEL_PREFIXES` — model prefixes that trigger Factory routing (default: `factory/,factory:`).
+
+## Ollama `num_ctx` Control Through OpenAI API
+
+When you send requests through `POST /v1/chat/completions`, route to Ollama by prefixing the model:
+
+- `"model": "ollama/llama3.2"`
+- `"model": "ollama:llama3.2"`
+
+Then set `num_ctx` through your OpenAI-style payload using either of these fields:
+
+- `open_hax.ollama.num_ctx` (recommended)
+- `num_ctx` (top-level alias)
+
+Example:
+
+```json
+{
+  "model": "ollama/llama3.2",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Summarize this repository."
+    }
+  ],
+  "open_hax": {
+    "ollama": {
+      "num_ctx": 32768
+    }
+  }
+}
 ```
 
-### Automation Tools
+## Side-by-Side Rollout
 
-#### Giga System
-- **src/giga/run-submodule.ts**: Runs test/build in submodules via package.json scripts or Nx
-- **src/giga/giga-watch.ts**: Watches for changes and triggers affected tests/builds automatically
-- **src/giga/commit-propagator.ts**: Handles commit and tag propagation between submodules
+- Keep VivGrid proxy on `8787` and run this proxy on `8789` for parallel validation.
+- Reuse the same keys/models files initially, then split once traffic migrates.
+- Compare status codes, SSE behavior, and tool-call payloads before cutover.
 
-#### Nx Integration
-- **tools/nx-plugins/giga/plugin.ts**: Creates Nx virtual projects for each submodule
-- **src/nss/gitmodules.ts**: Parses .gitmodules and discovers nested submodules
-
-#### Workspace Automation
-```bash
-# Run tests for all submodules via Nx
-pnpm nx run-many --target=test --all
-
-# Watch for changes and run affected tests
-bun run src/giga/giga-watch.ts
-
-# Run specific submodule target
-bun run src/giga/run-submodule.ts "orgs/riatzukiza/promethean" test
-```
-
-> **Note:** Pass `--recursive` only when you intentionally need nested submodules (for example inside `orgs/riatzukiza/promethean`). Those repositories must publish their own `.gitmodules` entries or git will report an error. Keeping recursion off by default avoids noise from inner repos that are managed with other tooling. Legacy git-subrepo placeholders inside `orgs/riatzukiza/promethean` and `orgs/riatzukiza/stt` have been removed, so `--recursive` now walks only real submodules.
-
-### Smart Commit Feature
-
-The `submodule smart commit` command provides intelligent, hierarchical commit management:
-
-#### Key Features
-- **Breadth-first traversal**: Commits from deepest submodules up to root workspace
-- **Pantheon integration**: Generates meaningful commit messages using AI assistance
-- **Interactive explanation**: Prompts for change context to enhance commit messages
-- **Context propagation**: Child commit messages inform parent commit messages
-- **Dry-run mode**: Preview changes without actually committing
-
-#### Algorithm Overview
-1. **Analysis**: Discovers all `orgs/**` submodules and builds hierarchy
-2. **Depth grouping**: Organizes modules by depth for breadth-first processing
-3. **Interactive prompt**: Asks "Why were these changes made?" with your message
-4. **Bottom-up commits**: Commits deepest modules first, then aggregates up the tree
-5. **Pantheon integration**: Uses AI to generate context-aware commit messages
-6. **Root aggregation**: Final commit at workspace level integrating all changes
-
-#### Example Usage
-```bash
-# Interactive smart commit with context
-submodule smart commit "prepare for release"
-
-# See what would be committed without actually doing it
-submodule smart commit "prepare for release" --dry-run
-
-# Include nested submodules in smart commit
-submodule smart commit "prepare for release" --recursive
-```
-
-### Advanced Documentation
-
-For comprehensive submodule management guidance, see:
-- **[Worktrees & Submodules Guide](docs/worktrees-and-submodules.md)**: Complete policies, workflows, and troubleshooting
-- **[Submodule Recovery Plan](spec/submodules-update.md)**: Recovery procedures for nested submodule failures
-- **[Kanban Submodule Analysis](spec/kanban-submodule-comparison.md)**: Case study of divergent histories
-- **[AGENTS.md](AGENTS.md)**: Agent-specific submodule management guidance and best practices
-- **[CLI Migration Guide](docs/SUBMODULE_CLI_MIGRATION.md)**: Migration from bash scripts to Commander.js CLI
-
-### Branch Management
-
-Each submodule maintains its own branch structure:
-- `main`: Stable development branch
-- Feature branches in respective repositories
-- Workspace tracks specific commits for reproducibility
-
-## Development Workflow
-
-1. **Start**: Navigate to the relevant submodule under `orgs/` for your task
-2. **Develop**: Use submodule-specific commands and tools
-3. **Test**: Run tests within the submodule context
-4. **Integrate**: Update workspace submodule references
-5. **Commit**: Commit both submodule changes and workspace updates
-
-## Configuration Files
-
-- `package.json`: Workspace-level dependencies and scripts
-- `eslint.config.mjs`: Shared ESLint configuration
-- `tsconfig.json`: TypeScript compiler settings
-- `.gitmodules`: Submodule configuration and URLs
-- `AGENTS.md`: Development guidelines and agent configurations
-
-## Cross-Repository Documentation
-
-The workspace maintains comprehensive cross-reference documentation:
-
-### Documentation Navigation
-- **[Master Cross-Reference Index](docs/MASTER_CROSS_REFERENCE_INDEX.md)**: Complete ecosystem overview
-- **[Repository Index](REPOSITORY_INDEX.md)**: All repositories and their purposes
-- **Individual CROSS_REFERENCES.md files**: Located in each repository
-
-### Integration Patterns
-- **Authentication**: `orgs/open-hax/codex` ↔ `orgs/moofone/codex-ts-sdk` ↔ `orgs/openai/codex`
-- **Agent Development**: `orgs/riatzukiza/agent-shell` ↔ `orgs/riatzukiza/promethean`
-- **Web Development**: `orgs/anomalyco/opencode` ↔ `orgs/riatzukiza/openhax`
-- **Environment Setup**: `orgs/riatzukiza/dotfiles` ↔ all development tools
-
-## Git Cheatsheet
-
-### Find deleted files/folders
+## Example Request
 
 ```bash
-# With commit messages and blobs
-git log --all --pretty=oneline -- services/js/health
-
-# Just the blobs
-git log --all -- services/js/broker
+curl --request POST \
+  --url http://127.0.0.1:8789/v1/chat/completions \
+  --header 'Content-Type: application/json' \
+  --header 'Authorization: Bearer change-me-open-hax-proxy-token' \
+  --data '{
+    "model": "gemini-3.1-pro-preview",
+    "messages": [
+      {
+        "role": "user",
+        "content": "Say hello in English, Chinese and Japanese."
+      }
+    ],
+    "stream": true
+  }'
 ```
-
-### Restore from blob
-
-```bash
-git restore --source <blob> -- <path/to/file>
-```
-
-### POST JSON with curl
-
-```bash
-curl -s -X POST http://hostname:port/path/to/thing \
-  -H 'content-type: application/json' \
-  -d "{}"
-```
-
-## Contributing
-
-When contributing to this workspace:
-
-1. Identify the appropriate submodule under `orgs/` for your changes
-2. Follow the code style guidelines in `AGENTS.md`
-3. Ensure all linting and type checking passes
-4. Update submodule references when making significant changes
-5. Test changes across affected submodules
-6. Respect the organization-based structure when suggesting new submodules
-
-## riatzukiza Remote READMEs
-
-<!-- BEGIN: RIATZUKIZA-READMES -->
-- [riatzukiza/agent-shell](https://github.com/riatzukiza/agent-shell#readme)
-- [riatzukiza/book-of-shadows](https://github.com/riatzukiza/book-of-shadows#readme)
-- [riatzukiza/desktop](https://github.com/riatzukiza/desktop#readme)
-- [riatzukiza/dotfiles](https://github.com/riatzukiza/dotfiles#readme)
-- [riatzukiza/goblin-lessons](https://github.com/riatzukiza/goblin-lessons#readme)
-- [riatzukiza/openhax](https://github.com/riatzukiza/openhax#readme)
-- [riatzukiza/promethean](https://github.com/riatzukiza/promethean#readme)
-- [riatzukiza/riatzukiza.github.io](https://github.com/riatzukiza/riatzukiza.github.io#readme)
-- [riatzukiza/stt](https://github.com/riatzukiza/stt#readme)
-<!-- END: RIATZUKIZA-READMES -->
-
-## Support
-
-For workspace-specific issues:
-- Check `AGENTS.md` for development guidelines
-- Review individual submodule README files
-- Use workspace-level commands for cross-submodule operations
-- Navigate using the `orgs/` structure for specific repositories
-
-<!-- PACKAGE-DOC-MATRIX:START -->
-
-> This section is auto-generated by scripts/package-doc-matrix.ts. Do not edit manually.
-
-## Internal Dependencies
-
-_None (external-only)._
-
-## Internal Dependents
-
-_None (external-only)._
-
-_Last updated: 2025-11-16T11:25:38.889Z_
-
-<!-- PACKAGE-DOC-MATRIX:END -->

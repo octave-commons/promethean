@@ -1,0 +1,27 @@
+{
+  "transport": "http",
+  "port": 0,
+  "tools": [
+    "fs_list",
+    "fs_read", 
+    "fs_write",
+    "fs_delete",
+    "fs_tree",
+    "fs_search",
+    "mcp_help"
+  ],
+  "includeHelp": true,
+  "endpoints": {
+    "mcp": {
+      "tools": [
+        "fs_list",
+        "fs_read",
+        "fs_write", 
+        "fs_delete",
+        "fs_tree",
+        "fs_search"
+      ],
+      "includeHelp": true
+    }
+  }
+}

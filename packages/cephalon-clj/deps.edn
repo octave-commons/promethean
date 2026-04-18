@@ -1,0 +1,9 @@
+{:paths ["src" "resources"]
+ :deps {org.clojure/clojure {:mvn/version "1.11.3"}
+        org.clojure/core.async {:mvn/version "1.6.681"}
+        cheshire/cheshire {:mvn/version "5.12.0"}
+        clj-http/clj-http {:mvn/version "3.12.3"}
+          net.dv8tion/JDA {:mvn/version "6.3.0"}}
+ :aliases {:run {:main-opts ["-m" "promethean.main"]}
+           :test {:extra-paths ["test"]
+                  :main-opts ["-m" "promethean.test-runner"]}}}

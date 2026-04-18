@@ -1,0 +1,74 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: openplanner
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: RollingUpdate
+    rollingUpdate:
+      maxUnavailable: 0
+      maxSurge: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openplanner
+      app.kubernetes.io/component: api
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: openplanner
+        app.kubernetes.io/component: api
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: openplanner
+          image: openplanner
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: http
+              containerPort: 7777
+          envFrom:
+            - configMapRef:
+                name: openplanner-config
+            - secretRef:
+                name: openplanner-secrets
+          volumeMounts:
+            - name: openplanner-data
+              mountPath: /app/openplanner-lake
+          startupProbe:
+            httpGet:
+              path: /v1/health
+              port: http
+            failureThreshold: 18
+            periodSeconds: 10
+          readinessProbe:
+            httpGet:
+              path: /v1/health
+              port: http
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            httpGet:
+              path: /v1/health
+              port: http
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          lifecycle:
+            preStop:
+              exec:
+                command: ["/bin/sh", "-lc", "sleep 10"]
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: openplanner-data
+          persistentVolumeClaim:
+            claimName: openplanner-data

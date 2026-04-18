@@ -1,0 +1,9 @@
+Your last response failed the structure contract `eta-mu-five-section-response`.
+Repair only the following violations and preserve all passing content:
+1. Add the missing section `Signal` as a level-2 markdown header (`## Signal`) in position 1. Preserve all other sections. Do not use bold or emphasis in place of headers.
+2. Add the missing section `Evidence` as a level-2 markdown header (`## Evidence`) in position 2. Preserve all other sections. Do not use bold or emphasis in place of headers.
+3. Add the missing section `Frames` as a level-2 markdown header (`## Frames`) in position 3. Preserve all other sections. Do not use bold or emphasis in place of headers.
+4. Add the missing section `Countermoves` as a level-2 markdown header (`## Countermoves`) in position 4. Preserve all other sections. Do not use bold or emphasis in place of headers.
+5. Add the missing section `Next` as a level-2 markdown header (`## Next`) in position 5. Preserve all other sections. Do not use bold or emphasis in place of headers.
+6. Reorder the existing sections to exactly: ## Signal, ## Evidence, ## Frames, ## Countermoves, ## Next. Each section must use a level-2 markdown header (`##`). Preserve content.
+Return Markdown only.

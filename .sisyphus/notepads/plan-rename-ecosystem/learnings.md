@@ -1,0 +1,5 @@
+- Rename OpenHax ecosystem client from CLJ to CLJS namespace file.
+- Replaced (load-file "pm2-clj-project/src/clobber/macro.cljs") with a proper CLJS-friendly ns + require pattern and macro invocations.
+- Used existing clobber.macro/defapp and replaced ecosystem call with clobber.macro/ecosystem-output per instruction.
+- Ensured history preservation by moving the file within the submodule (ecosystem.cljs) and committing in both submodule and root workspace pointers.
+- Verification steps: lsp diagnostics on changed files, workspace build, and submodule pointer integrity.

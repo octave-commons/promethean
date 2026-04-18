@@ -31,27 +31,6 @@ jobs:
       OPEN_HAX_OPENAI_PROXY_URL: ${{ vars.OPEN_HAX_OPENAI_PROXY_URL }}
       OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN: ${{ secrets.OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN }}
     steps:
-      - name: Resolve eta-mu refs
-        id: eta_mu_refs
-        shell: bash
-        env:
-          ETA_MU_REF_MAIN: ${{ vars.ETA_MU_REF_MAIN }}
-          ETA_MU_REF_STAGING: ${{ vars.ETA_MU_REF_STAGING }}
-          ETA_MU_GITHUB_REF_MAIN: ${{ vars.ETA_MU_GITHUB_REF_MAIN }}
-          ETA_MU_GITHUB_REF_STAGING: ${{ vars.ETA_MU_GITHUB_REF_STAGING }}
-        run: |
-          target_branch="${GITHUB_REF_NAME}"
-          if [[ "${GITHUB_EVENT_NAME}" == pull_request* ]]; then
-            target_branch="${GITHUB_BASE_REF}"
-          fi
-
-          eta_mu_ref="${ETA_MU_REF_MAIN:-${ETA_MU_GITHUB_REF_MAIN:-main}}"
-          if [[ "$target_branch" == "staging" ]]; then
-            eta_mu_ref="${ETA_MU_REF_STAGING:-${ETA_MU_GITHUB_REF_STAGING:-staging}}"
-          fi
-
-          echo "eta_mu_ref=${eta_mu_ref}" >> "$GITHUB_OUTPUT"
-
       - name: Checkout target repository
         uses: actions/checkout@v4
         with:
@@ -60,13 +39,18 @@ jobs:
       - name: Checkout eta-mu logic
         uses: actions/checkout@v4
         with:
-          repository: open-hax/eta-mu
+          repository: open-hax/eta-mu-github
           path: .eta-mu
-          ref: ${{ steps.eta_mu_refs.outputs.eta_mu_ref }}
+
+      - name: Checkout eta-mu-pi (skills, extensions, settings)
+        uses: actions/checkout@v4
+        with:
+          repository: open-hax/eta-mu-pi
+          path: .pi
 
       - name: Create eta-mu app token
         id: eta_mu_token
-        continue-on-error: true
+        if: ${{ env.ETA_MU_APP_ID != '' && env.ETA_MU_APP_PRIVATE_KEY != '' }}
         uses: actions/create-github-app-token@v1
         with:
           app-id: ${{ env.ETA_MU_APP_ID }}
@@ -82,31 +66,12 @@ jobs:
         with:
           node-version: 22
           cache: pnpm
-          cache-dependency-path: .eta-mu/packages/eta-mu-github/pnpm-lock.yaml
+          cache-dependency-path: .eta-mu/pnpm-lock.yaml
 
       - name: Install eta-mu dependencies
-        run: pnpm --dir .eta-mu/packages/eta-mu-github install --frozen-lockfile
-
-      - name: Detect eta-mu model auth
-        id: eta_mu_model_auth
-        shell: bash
-        env:
-          OPEN_HAX_OPENAI_PROXY_URL: ${{ vars.OPEN_HAX_OPENAI_PROXY_URL }}
-          OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN: ${{ secrets.OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN }}
-          OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
-          ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
-          GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-        run: |
-          ready=false
-          if [[ -n "${OPEN_HAX_OPENAI_PROXY_URL:-}" && -n "${OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN:-}" ]]; then
-            ready=true
-          elif [[ -n "${OPENAI_API_KEY:-}" || -n "${ANTHROPIC_API_KEY:-}" || -n "${GEMINI_API_KEY:-}" ]]; then
-            ready=true
-          fi
-          echo "ready=${ready}" >> "$GITHUB_OUTPUT"
+        run: pnpm --dir .eta-mu install --frozen-lockfile
 
       - name: Run eta-mu event handler
-        if: ${{ steps.eta_mu_model_auth.outputs.ready == 'true' }}
         env:
           GITHUB_TOKEN: ${{ steps.eta_mu_token.outputs.token != '' && steps.eta_mu_token.outputs.token || github.token }}
           ETA_MU_APP_ID: ${{ secrets.ETA_MU_APP_ID }}
@@ -123,14 +88,11 @@ jobs:
           OPENAI_API_KEY: ${{ secrets.OPENAI_API_KEY }}
           ANTHROPIC_API_KEY: ${{ secrets.ANTHROPIC_API_KEY }}
           GEMINI_API_KEY: ${{ secrets.GEMINI_API_KEY }}
-          PI_CODING_AGENT_DIR: ${{ github.workspace }}/.eta-mu/.pi/agent
+          # Point pi to the checked-out eta-mu-pi config
+          PI_CODING_AGENT_DIR: ${{ github.workspace }}/.pi/agent
         run: >-
-          pnpm --dir .eta-mu/packages/eta-mu-github dev run-event
+          pnpm --dir .eta-mu dev run-event
           --repo "${GITHUB_REPOSITORY}"
           --event-name "${GITHUB_EVENT_NAME}"
           --event-path "${GITHUB_EVENT_PATH}"
           --cwd "$PWD"
-
-      - name: Skip eta-mu event handler when no model auth is configured
-        if: ${{ steps.eta_mu_model_auth.outputs.ready != 'true' }}
-        run: echo "Skipping eta-mu event handling because no model auth is configured for this repo."

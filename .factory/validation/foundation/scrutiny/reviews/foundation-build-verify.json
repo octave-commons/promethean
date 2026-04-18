@@ -1,0 +1,85 @@
+{
+  "featureId": "foundation-build-verify",
+  "milestone": "foundation",
+  "reviewer": "scrutiny-feature-reviewer",
+  "reviewedAt": "2026-03-13T02:15:00.000Z",
+  "commitId": "cac0dee",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeQuality": {
+    "score": 4,
+    "observations": [
+      "Tests are well-structured with clear describe/it blocks and descriptive names covering positive validation, rejection, and default-application paths.",
+      "Both vitest configs are clean and minimal with explicit globals:false (good practice).",
+      "Minor inconsistency: radar-core uses vitest '^0.34.6' (range) while signal-atproto uses '0.34.6' (pinned). Should be consistent — both should use the same specifier.",
+      "The 11 tsconfig.json fixes use an identical template for all packages, which is pragmatic given the broken base config, but strips package-specific settings (composite, references, baseUrl, downlevelIteration, exactOptionalPropertyTypes, types arrays). Since the base config was already missing and these packages weren't building, this is acceptable but heavy-handed.",
+      "packages/utils lost 'exclude: [\"src/tests/**/*\"]' — test files in src/tests/ will now be compiled. Non-breaking but unintended inclusion.",
+      "packages/event lost 'types: [\"node\", \"ava\"]' — all @types packages now auto-included. Non-breaking.",
+      "packages/persistence and packages/event lost project references — acceptable since references require composite which requires the missing base config."
+    ]
+  },
+  "correctness": {
+    "score": 5,
+    "observations": [
+      "All 13 radar-core tests correctly exercise Zod safeParse() against the actual schema definitions in schema.ts. Test data matches schema shapes precisely.",
+      "All 6 signal-atproto tests correctly verify converter function output against expected AT Protocol record shapes, including $type fields, field mapping, and optional field handling.",
+      "The converter functions (converters.ts) correctly map snake_case domain types to camelCase AT Protocol records with proper $type annotations.",
+      "Schema tests verify both happy-path validation and rejection paths (missing fields, empty id, invalid enums, out-of-range scores).",
+      "Default value tests correctly verify Zod .default() behavior for optional arrays, confidence_class, and status fields."
+    ]
+  },
+  "testCoverage": {
+    "score": 4,
+    "observations": [
+      "radar-core: 13 tests across 6 schemas (SignalEvent: 4, Thread: 3, ConnectionOpportunity: 2, ActionCard: 2, Radar: 1, ReducedSnapshot: 1). Exceeds the 8-test minimum.",
+      "signal-atproto: 6 tests across 5 converter functions. Exceeds the 4-test minimum.",
+      "Good coverage of validation (accepts valid), rejection (rejects invalid), and defaults (applies defaults). All core domain types exercised.",
+      "Missing: No negative tests for Thread members array (empty array, invalid member shape), no boundary tests for ConnectionOpportunity confidence field (only score tested), no test for ActionCard with missing outcome (optional field).",
+      "Missing: signal-atproto tests don't test edge cases like empty arrays for links/domainTags or very long strings.",
+      "No test for the signalEventProvenanceSchema or threadMembershipSchema imported but not directly tested in isolation."
+    ]
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "file": "packages/utils/tsconfig.json",
+      "severity": "non_blocking",
+      "description": "Lost 'exclude: [\"src/tests/**/*\"]' — test files under src/tests/ are now included in the build output. This may add unnecessary files to dist/ but doesn't break functionality."
+    },
+    {
+      "file": "packages/event/tsconfig.json",
+      "severity": "non_blocking",
+      "description": "Lost 'composite: true', 'references: []', and 'types: [\"node\", \"ava\"]'. The composite/references removal is fine since the base config was broken, but the types array removal means all @types in node_modules are now auto-included rather than restricted to node and ava."
+    },
+    {
+      "file": "packages/signal-atproto/package.json",
+      "severity": "non_blocking",
+      "description": "vitest version is pinned '0.34.6' without caret, while radar-core uses '^0.34.6'. Should be consistent across packages."
+    }
+  ],
+  "sharedStateObservations": [
+    {
+      "target": "AGENTS.md",
+      "description": "The worker found 11 packages with broken tsconfig.json files that extended a non-existent ../../config/tsconfig.base.json. This pattern of broken tsconfig inheritance should be documented in AGENTS.md under 'Known Pre-Existing Issues' so future workers know about it and the resolution (inline compiler options template).",
+      "evidence": "Commit cac0dee fixes tsconfig.json in: embedding, mcp-oauth, utils, persistence, logger, test-utils, event, npu-top, reconstituter, aether, fsm — all extended ../../config/tsconfig.base.json which didn't exist."
+    },
+    {
+      "target": "library",
+      "description": "The workspace has no shared tsconfig.base.json. Workers needing to create new packages should know the standard tsconfig template (ES2022, NodeNext, strict, skipLibCheck, declaration, declarationMap, sourceMap). This should be documented in library/architecture.md or a new library/tsconfig-conventions.md.",
+      "evidence": "Worker applied identical tsconfig template to 11 packages. Future packages should use the same settings for consistency."
+    },
+    {
+      "target": "AGENTS.md",
+      "description": "The detect-secrets pre-commit hook flagging test files with 'sha256:' prefixed strings is already documented in AGENTS.md under 'Known Pre-Existing Issues', which is good. The worker correctly used SKIP_PRECOMMIT_SECRETS=1 as documented.",
+      "evidence": "Handoff discoveredIssues mentions this, and AGENTS.md already has guidance. No action needed."
+    },
+    {
+      "target": "services.yaml",
+      "description": "services.yaml 'test' command is 'npx vitest run --reporter=verbose' but individual packages now have their own 'test': 'vitest run' scripts. The workspace-level test command should probably use 'pnpm -r run test' to run all package test scripts, or at least document that per-package tests exist.",
+      "evidence": "packages/radar-core/package.json and packages/signal-atproto/package.json both have \"test\": \"vitest run\". services.yaml uses npx vitest globally."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Feature passes all requirements. 13 radar-core tests and 6 signal-atproto tests are well-written and exceed minimums (8 and 4 respectively). All 6 target packages build and typecheck cleanly. vitest is properly configured in both packages. The worker additionally fixed 11 broken tsconfig.json files that referenced a missing base config — a pragmatic fix using a standardized template. Non-blocking issues: minor vitest version pinning inconsistency, and some package-specific tsconfig settings (composite, references, types array) were lost in the template replacement. No blocking issues found."
+}

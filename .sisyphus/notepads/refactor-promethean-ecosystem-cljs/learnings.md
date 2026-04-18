@@ -1,0 +1,5 @@
+- Atomic single-file refactor inside a multi-repo workspace is feasible by introducing a new CLJS file and migrating the macro usage via CLJS-friendly namespace patterns.
+- Replaced the old (load-file ...) macro loading approach with a proper CLJS namespace and require, then preserved the original app definitions inside the new ecosystem.cljs.
+- History considerations: the original ecosystem.clj file was untracked in this environment, so the move did not leverage a true git mv history path in the submodule. If strict history preservation is required, a dedicated git mv in the submodule and commit history reconstruction may be needed.
+- Build/diagnostics caveat: lsp diagnostics show unresolved-namespace clobber.macro in the CLJS file, which suggests macro resolution/load-time wiring must be ensured in the CLJS/PM2 ecosystem build pipeline.
+- Verification approach: run workspace build (pnpm -w build) and run typecheck/tests as appropriate; fix macro-loading path if the build reveals failures.

@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","getMaxConnections",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"getMaxCachedConnections",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getSMaxConnections",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getTtl",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"getMaxQueueSize",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

@@ -1,0 +1,24 @@
+{
+  "name": "reconstitute-mcp",
+  "version": "0.1.0",
+  "type": "module",
+  "bin": {
+    "reconstitute-mcp": "./build/index.js"
+  },
+  "scripts": {
+    "build": "tsc && chmod 755 build/index.js",
+    "dev": "node --enable-source-maps --loader ts-node/esm src/index.ts"
+  },
+  "dependencies": {
+    "@modelcontextprotocol/sdk": "^1.0.0",
+    "@opencode-ai/sdk": "^1.1.36",
+    "chromadb": "^3.2.2",
+    "level": "^10.0.0",
+    "zod": "^3.23.8"
+  },
+  "devDependencies": {
+    "@types/node": "^22.10.0",
+    "ts-node": "^10.9.2",
+    "typescript": "^5.6.3"
+  }
+}

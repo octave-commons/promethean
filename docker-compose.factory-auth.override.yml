@@ -1,0 +1,9 @@
+services:
+  open-hax-openai-proxy:
+    environment:
+      FACTORY_AUTH_V2_FILE: /workspace/service-config/factory-auth.v2.file
+      FACTORY_AUTH_V2_KEY: /workspace/service-config/factory-auth.v2.key
+    volumes:
+      # Provide host paths via env vars to avoid committing machine-specific paths.
+      - ${FACTORY_AUTH_V2_HOST_FILE:?set FACTORY_AUTH_V2_HOST_FILE}:/workspace/service-config/factory-auth.v2.file:ro
+      - ${FACTORY_AUTH_V2_HOST_KEY:?set FACTORY_AUTH_V2_HOST_KEY}:/workspace/service-config/factory-auth.v2.key:ro

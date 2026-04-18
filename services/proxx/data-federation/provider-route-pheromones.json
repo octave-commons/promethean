@@ -1,0 +1,124 @@
+{
+  "records": [
+    {
+      "providerId": "ollama-cloud",
+      "model": "gemma3:27b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 6694,
+      "updatedAt": 1774957167100
+    },
+    {
+      "providerId": "ollama-cloud",
+      "model": "gemma3:12b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 782,
+      "updatedAt": 1774937829978
+    },
+    {
+      "providerId": "openai",
+      "model": "qwen3.5:2b-bf16",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 3172,
+      "updatedAt": 1774937903864
+    },
+    {
+      "providerId": "ollama-cloud",
+      "model": "gpt-oss:20b",
+      "pheromone": 0.08847599999999994,
+      "successCount": 5006,
+      "failureCount": 33,
+      "updatedAt": 1774980524680
+    },
+    {
+      "providerId": "openai",
+      "model": "gemma3:27b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 14289,
+      "updatedAt": 1774985293991
+    },
+    {
+      "providerId": "openai",
+      "model": "gemma3:12b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 1081,
+      "updatedAt": 1774937881600
+    },
+    {
+      "providerId": "ollama-cloud",
+      "model": "qwen3.5:2b-bf16",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 2577,
+      "updatedAt": 1774937914051
+    },
+    {
+      "providerId": "requesty",
+      "model": "gemma3:12b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 35,
+      "updatedAt": 1774937882528
+    },
+    {
+      "providerId": "requesty",
+      "model": "gemma3:27b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 406,
+      "updatedAt": 1774980742636
+    },
+    {
+      "providerId": "requesty",
+      "model": "qwen3.5:2b-bf16",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 92,
+      "updatedAt": 1774937914829
+    },
+    {
+      "providerId": "openai",
+      "model": "gpt-oss:20b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 43247,
+      "updatedAt": 1774985577907
+    },
+    {
+      "providerId": "requesty",
+      "model": "gpt-oss:20b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 1227,
+      "updatedAt": 1774981000281
+    },
+    {
+      "providerId": "requesty",
+      "model": "glm-5",
+      "pheromone": 0.2,
+      "successCount": 0,
+      "failureCount": 1,
+      "updatedAt": 1774980827871
+    },
+    {
+      "providerId": "openai",
+      "model": "glm-5",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 34,
+      "updatedAt": 1774980865333
+    },
+    {
+      "providerId": "openai",
+      "model": "gemma3:4b",
+      "pheromone": 0,
+      "successCount": 0,
+      "failureCount": 36,
+      "updatedAt": 1774980877786
+    }
+  ]
+}

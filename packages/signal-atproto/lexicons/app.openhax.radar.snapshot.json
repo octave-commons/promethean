@@ -1,0 +1,41 @@
+{
+  "lexicon": 1,
+  "id": "app.openhax.radar.snapshot",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "Reduced snapshot (daily or live) produced by the deterministic reducer. The canonical clock state.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["radarId", "snapshotKind", "asOfUtc", "modelCount", "disagreementIndex"],
+        "properties": {
+          "radarId": { "type": "string" },
+          "moduleVersionId": { "type": "string" },
+          "snapshotKind": { "type": "string", "description": "live | daily" },
+          "asOfUtc": { "type": "string", "format": "datetime" },
+          "signals": {
+            "type": "object",
+            "description": "Map of signal_id to { median, rangeLow, rangeHigh, agreement, sampleSize }"
+          },
+          "branches": {
+            "type": "array",
+            "items": {
+              "type": "object",
+              "required": ["name", "support"],
+              "properties": {
+                "name": { "type": "string" },
+                "support": { "type": "string" },
+                "agreement": { "type": "number" },
+                "triggers": { "type": "array", "items": { "type": "string" } }
+              }
+            }
+          },
+          "modelCount": { "type": "integer", "minimum": 0 },
+          "disagreementIndex": { "type": "number", "minimum": 0, "maximum": 1 },
+          "qualityScore": { "type": "number", "minimum": 0 }
+        }
+      }
+    }
+  }
+}

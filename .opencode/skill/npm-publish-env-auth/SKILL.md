@@ -1,0 +1,1 @@
+/home/err/.pi/agent/skills/npm-publish-env-auth/SKILL.md

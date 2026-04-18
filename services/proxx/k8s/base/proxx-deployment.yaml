@@ -1,0 +1,84 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: proxx
+spec:
+  replicas: 1
+  revisionHistoryLimit: 3
+  strategy:
+    type: Recreate
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: proxx
+      app.kubernetes.io/component: proxy
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: proxx
+        app.kubernetes.io/component: proxy
+    spec:
+      terminationGracePeriodSeconds: 30
+      containers:
+        - name: proxx
+          image: proxx
+          imagePullPolicy: IfNotPresent
+          ports:
+            - name: api
+              containerPort: 8789
+            - name: web
+              containerPort: 5174
+          envFrom:
+            - configMapRef:
+                name: proxx-config
+            - secretRef:
+                name: proxx-secrets
+          volumeMounts:
+            - name: proxx-data
+              mountPath: /app/data
+            - name: proxx-models
+              mountPath: /app/models.json
+              subPath: models.json
+          startupProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -lc
+                - >-
+                  node -e "fetch('http://127.0.0.1:8789/health',{headers:{Authorization:'Bearer '+(process.env.PROXY_AUTH_TOKEN||'')}}).then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+            failureThreshold: 24
+            periodSeconds: 10
+          readinessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -lc
+                - >-
+                  node -e "fetch('http://127.0.0.1:8789/health',{headers:{Authorization:'Bearer '+(process.env.PROXY_AUTH_TOKEN||'')}}).then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 3
+          livenessProbe:
+            exec:
+              command:
+                - /bin/sh
+                - -lc
+                - >-
+                  node -e "fetch('http://127.0.0.1:8789/health',{headers:{Authorization:'Bearer '+(process.env.PROXY_AUTH_TOKEN||'')}}).then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))"
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 3
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: proxx-data
+          persistentVolumeClaim:
+            claimName: proxx-data
+        - name: proxx-models
+          configMap:
+            name: proxx-models

@@ -1,0 +1,50 @@
+{
+  "featureId": "dashboard-api-polling",
+  "reviewedAt": "2026-03-13T05:02:00.000Z",
+  "commitId": "7131433",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation covering all 5 feature requirements. API client module (client.ts) with typed fetchRadars() and ApiError class provides clean error handling without exposing internals. Polling hook (useRadarPolling.ts) correctly implements 12-second interval, stale data preservation via hasLoadedRef, activeRef-guarded state updates, and cleanup on unmount. ErrorBanner provides accessible (role=alert) error display with stale indicator and optional retry. LoadingSkeleton provides accessible (role=status) loading state with animated SVG spinner and pulsing cards. App.tsx refactored cleanly to use the new hook, replacing inline fetch logic with proper conditional rendering for loading/error/empty states. 27 new tests across 4 test files cover all error paths, polling behavior, cleanup, and component rendering. All 53 tests pass. TypeScript typecheck clean.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/api/client.ts",
+        "line": 43,
+        "severity": "non_blocking",
+        "description": "fetchRadars validates Array.isArray(data) but casts to RadarTile[] without per-element shape validation. AGENTS.md says 'Zod: Use for runtime validation of external inputs'. Since this consumes the local MCP API (which already validates), the risk is low, but a Zod schema parse would add defense-in-depth against API response drift."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/__tests__/ErrorBanner.test.tsx",
+        "line": 30,
+        "severity": "non_blocking",
+        "description": "Stale timestamp test creates a Date 30s in the past and matches /\\d+s ago/. If test execution takes >29 seconds (unlikely but possible under CI load), the minute boundary could cause a flaky match. Consider mocking Date.now() for deterministic output."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/App.tsx",
+        "line": 197,
+        "severity": "non_blocking",
+        "description": "In μ and Π lanes, the ternary logic for loading/empty states is slightly convoluted (loading && LoadingSkeleton, then !loading && tiles.length > 0 ? grid : !loading ? placeholder : null). While correct, extracting a small LaneBody component would improve readability. No functional issue."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "skills",
+      "observation": "Worker hit a fake-timer conflict when testing the polling hook: vitest fake timers + @testing-library/react's waitFor caused test timeouts. Worker had to rewrite tests using a flushPromises() helper with queueMicrotask instead of waitFor. The frontend-worker skill doesn't document this pattern, and future workers implementing polling hooks will likely hit the same issue.",
+      "evidence": "Transcript shows first vitest run had timeouts in useRadarPolling.test.tsx, worker then rewrote the test file using a custom flushPromises() helper with act() + queueMicrotask. The working pattern is in src/api/__tests__/useRadarPolling.test.tsx."
+    },
+    {
+      "area": "conventions",
+      "observation": "Worker's skillFeedback notes vitest doesn't support --grep flag, which is referenced in features.json verificationSteps ('npx vitest run --grep api|poll'). This is already documented in architecture.md under 'Testing Notes', but the feature definition itself references an unsupported flag, suggesting feature authors didn't check the architecture doc.",
+      "evidence": "features.json verificationSteps[0]: 'cd orgs/riatzukiza/threat-radar-web && npx vitest run --grep api|poll (tests pass)' vs architecture.md: 'vitest version: Workspace uses vitest 0.34.6 which does NOT support --grep flag.'"
+    },
+    {
+      "area": "conventions",
+      "observation": "API response types (RadarTile, SignalData, BranchData) are defined locally in threat-radar-web/src/api/types.ts rather than imported from @workspace/radar-core. This is reasonable since radar-core doesn't export the API response envelope type, but as the API evolves, type drift between the MCP server's actual response shape and the dashboard's local types could cause silent mismatches.",
+      "evidence": "src/api/types.ts defines RadarTile locally. Architecture doc shows radar-core exports SignalEvent/Thread/ConnectionOpportunity but not the API response envelope type."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Feature 'dashboard-api-polling' passes review. All 5 requirements are fully implemented: (1) typed API client with structured error handling, (2) 12-second polling with auto-update, (3) error banner with no crash and stale data preservation, (4) loading skeleton/spinner, (5) interval cleanup on unmount. 27 new tests provide comprehensive coverage of the API client, polling hook, and UI components. Three non-blocking issues noted: missing Zod validation of API response elements, potentially flaky timestamp test, and slightly complex ternary rendering in lane components. No blocking issues found."
+}

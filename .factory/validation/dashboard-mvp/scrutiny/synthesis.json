@@ -1,0 +1,137 @@
+{
+  "milestone": "dashboard-mvp",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "pnpm --filter @workspace/radar-core run test && pnpm --filter @workspace/signal-atproto run test && pnpm --filter @riatzukiza/threat-radar-mcp run test && pnpm --filter @riatzukiza/threat-radar-web run test",
+      "exitCode": 0,
+      "details": "radar-core: 55 tests (4 files), signal-atproto: 16 tests (2 files), threat-radar-mcp: 53 tests (4 files), threat-radar-web: 176 tests (11 files). Total: 300 tests passed, 0 failures."
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "tsc --noEmit in radar-core, signal-atproto, threat-radar-mcp, threat-radar-web",
+      "exitCode": 0,
+      "details": "All 4 packages typecheck clean with zero errors."
+    },
+    "lint": {
+      "passed": true,
+      "command": "echo 'no lint configured yet'",
+      "exitCode": 0,
+      "details": "No lint configured per services.yaml."
+    }
+  },
+  "reviewsSummary": {
+    "total": 7,
+    "passed": 7,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "featureId": "dashboard-3-lane-layout",
+      "severity": "non_blocking",
+      "description": "No component tests added despite frontend-worker skill requiring them. Worker justified as 'layout-only refactor'."
+    },
+    {
+      "featureId": "clock-gauge-components",
+      "severity": "non_blocking",
+      "description": "RiskGauge gradient ID collision risk when multiple instances share the same label. ThreatClock lacks negative value guard."
+    },
+    {
+      "featureId": "clock-gauge-components",
+      "severity": "non_blocking",
+      "description": "Components define local TypeScript interfaces instead of importing from @workspace/radar-core, risking type drift."
+    },
+    {
+      "featureId": "dashboard-api-polling",
+      "severity": "non_blocking",
+      "description": "No Zod validation on API response elements (AGENTS.md recommends Zod for external inputs). Low risk since API is local MCP server."
+    },
+    {
+      "featureId": "eta-lane-signals",
+      "severity": "non_blocking",
+      "description": "Dead code: aggregateSourceCounts() helper defined but never called. Hardcoded global domain tag filter list."
+    },
+    {
+      "featureId": "mu-lane-signals",
+      "severity": "non_blocking",
+      "description": "formatRelativeTime duplicated verbatim from EtaThreadCard.tsx. Should extract to shared utility."
+    },
+    {
+      "featureId": "personalization-controls",
+      "severity": "non_blocking",
+      "description": "Unused imports (applyWeights, computeCompositeScore) in App.tsx. Weight logic duplicated between EtaLane inline and usePersonalization utility. No tests for CriticalThinkingSection or ActionFeed components."
+    },
+    {
+      "featureId": "personalization-controls",
+      "severity": "non_blocking",
+      "description": "Weights only flow to η lane gauges. μ lane does not receive or apply personalization weights."
+    },
+    {
+      "featureId": "firehose-empty-error-states",
+      "severity": "non_blocking",
+      "description": "Firehose operates at thread-level granularity rather than raw SignalEvent level. No entry count cap for large datasets."
+    }
+  ],
+  "appliedUpdates": [
+    {
+      "target": "library",
+      "description": "Added testing patterns to architecture.md: (1) vitest fake-timer + waitFor conflict resolution using flushPromises() helper, (2) threat-radar-web uses vitest 1.6.x with -t flag instead of --grep.",
+      "sourceFeature": "dashboard-api-polling, clock-gauge-components"
+    }
+  ],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "skills",
+      "suggestion": "frontend-worker skill: Enforce or clarify agent-browser visual verification requirement. 3 of 7 dashboard-mvp workers skipped step 5 (visual verification via agent-browser) with no skill deviation recorded. Either make it mandatory with clearer language, or explicitly mark it optional when no new visual components are added.",
+      "evidence": "dashboard-3-lane-layout, clock-gauge-components, and personalization-controls workers all skipped agent-browser verification. Only eta-lane-signals and firehose-empty-error-states performed visual checks.",
+      "isSystemic": true
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: shared UI utilities should live in src/ui/utils/ or src/ui/helpers/. formatRelativeTime is duplicated across EtaThreadCard.tsx and MuThreadCard.tsx. Data-fetching hooks go in src/api/, UI state hooks in src/ui/hooks/.",
+      "evidence": "mu-lane-signals review found formatRelativeTime duplicated verbatim. personalization-controls created src/ui/hooks/ for usePersonalization while useRadarPolling lives in src/api/. No documented convention for either.",
+      "isSystemic": true
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: centralize lane-to-tag category mappings. η lane filters by ['geopolitical','infrastructure','economic','security','climate'], μ lane by ['local','community','oss','developer','open-source','ai']. These hardcoded lists in separate components will diverge. Document them in one place or extract to a shared config.",
+      "evidence": "eta-lane-signals (EtaLane.tsx:77) and mu-lane-signals (MuLane.tsx:34) each independently define which domain_tags qualify for their lane. No shared constant or mapping exists.",
+      "isSystemic": true
+    },
+    {
+      "target": "skills",
+      "suggestion": "frontend-worker skill: Add note that minimal backend changes (1-5 lines) to existing endpoints are acceptable when they directly enable the UI feature, rather than requiring return-to-orchestrator for a separate backend feature.",
+      "evidence": "eta-lane-signals worker pragmatically added 2 lines to threat-radar-mcp main.ts to include threads in the API response, rather than returning to orchestrator. This was the right call but deviated from skill guidance.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Add convention: CSS class prefix pattern. Each component area uses a short prefix (lane-, pers-, ct-, af-, fh-) for CSS classes. Document this BEM-like convention to maintain consistency.",
+      "evidence": "All 7 features consistently used prefixed CSS classes (lane-header, pers-panel, ct-section, af-feed, fh-panel) but the pattern is nowhere documented.",
+      "isSystemic": true
+    }
+  ],
+  "rejectedObservations": [
+    {
+      "observation": "Worker used `as React.CSSProperties` type cast for CSS custom properties. Suggested documenting as convention.",
+      "reason": "Standard React pattern for CSS custom properties. Too minor to warrant AGENTS.md documentation."
+    },
+    {
+      "observation": "Private sub-component pattern (defining sub-components in the same file) not documented.",
+      "reason": "Already established pattern across the codebase. Consistent usage makes explicit documentation unnecessary."
+    },
+    {
+      "observation": "vitest --grep flag discrepancy in features.json verificationSteps.",
+      "reason": "Already documented in architecture.md Testing Notes section. Feature definition issue, not a codebase convention gap."
+    },
+    {
+      "observation": "vitest version fragmentation (0.34.6 vs 1.6.x).",
+      "reason": "Already noted in architecture.md. Version difference is acceptable since threat-radar-web has a separate vite config and vitest 1.x is backward compatible for test APIs."
+    }
+  ],
+  "previousRound": null
+}

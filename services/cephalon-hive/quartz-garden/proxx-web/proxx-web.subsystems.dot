@@ -1,0 +1,13 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#fcfcff", fontname="Helvetica", fontsize=18, labelloc="t", labeljust="l", label="Proxx Web (subsystems) — orgs/open-hax/proxx/web/src"]; 
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=12, color="#c8c8d0", fillcolor="#f4f4fb"]; 
+  edge  [color="#777788", arrowsize=0.7];
+
+  "pages" [label="pages (8)", fillcolor="228 0.28 0.96"];
+  "lib" [label="lib (4)", fillcolor="221 0.28 0.96"];
+  "(root)" [label="(root) (2)", fillcolor="23 0.28 0.96"];
+
+  "pages" -> "lib" [label="17", penwidth=4.77];
+  "(root)" -> "pages" [label="8", penwidth=3.86];
+  "(root)" -> "lib" [label="1", penwidth=1.90];
+}

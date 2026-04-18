@@ -1,0 +1,89 @@
+{
+  "contract": "eta-mu-five-section-response",
+  "version": "ημ.output/response-shape@0.1.0",
+  "stage": "structure",
+  "ok": false,
+  "failures": [
+    {
+      "ruleId": "rule/required-section",
+      "sectionId": "section/signal",
+      "heading": "Signal",
+      "expected": {
+        "heading": "Signal",
+        "order": 1
+      },
+      "actual": {
+        "present": false
+      },
+      "message": "Missing required section `Signal`"
+    },
+    {
+      "ruleId": "rule/required-section",
+      "sectionId": "section/evidence",
+      "heading": "Evidence",
+      "expected": {
+        "heading": "Evidence",
+        "order": 2
+      },
+      "actual": {
+        "present": false
+      },
+      "message": "Missing required section `Evidence`"
+    },
+    {
+      "ruleId": "rule/required-section",
+      "sectionId": "section/frames",
+      "heading": "Frames",
+      "expected": {
+        "heading": "Frames",
+        "order": 3
+      },
+      "actual": {
+        "present": false
+      },
+      "message": "Missing required section `Frames`"
+    },
+    {
+      "ruleId": "rule/required-section",
+      "sectionId": "section/countermoves",
+      "heading": "Countermoves",
+      "expected": {
+        "heading": "Countermoves",
+        "order": 4
+      },
+      "actual": {
+        "present": false
+      },
+      "message": "Missing required section `Countermoves`"
+    },
+    {
+      "ruleId": "rule/required-section",
+      "sectionId": "section/next",
+      "heading": "Next",
+      "expected": {
+        "heading": "Next",
+        "order": 5
+      },
+      "actual": {
+        "present": false
+      },
+      "message": "Missing required section `Next`"
+    },
+    {
+      "ruleId": "rule/section-order",
+      "expected": {
+        "headings": [
+          "Signal",
+          "Evidence",
+          "Frames",
+          "Countermoves",
+          "Next"
+        ]
+      },
+      "actual": {
+        "headings": []
+      },
+      "message": "Section order mismatch. Expected Signal, Evidence, Frames, Countermoves, Next, received "
+    }
+  ]
+}

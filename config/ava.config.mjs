@@ -12,7 +12,7 @@ export default {
     ts: 'module',
   },
   nodeArguments: [
-    '--loader=tsx',
+    '--import=tsx',
     '--no-warnings',
   ],
   timeout: '2m',

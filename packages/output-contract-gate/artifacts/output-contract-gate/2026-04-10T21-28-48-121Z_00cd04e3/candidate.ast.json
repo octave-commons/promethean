@@ -1,0 +1,465 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Signal",
+              "position": {
+                "start": {
+                  "line": 1,
+                  "column": 3,
+                  "offset": 2
+                },
+                "end": {
+                  "line": 1,
+                  "column": 9,
+                  "offset": 8
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 1,
+              "offset": 0
+            },
+            "end": {
+              "line": 1,
+              "column": 11,
+              "offset": 10
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 11,
+          "offset": 10
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This is the signal section.",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 1,
+              "offset": 12
+            },
+            "end": {
+              "line": 3,
+              "column": 28,
+              "offset": 39
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 12
+        },
+        "end": {
+          "line": 3,
+          "column": 28,
+          "offset": 39
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Evidence",
+              "position": {
+                "start": {
+                  "line": 5,
+                  "column": 3,
+                  "offset": 43
+                },
+                "end": {
+                  "line": 5,
+                  "column": 11,
+                  "offset": 51
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 1,
+              "offset": 41
+            },
+            "end": {
+              "line": 5,
+              "column": 13,
+              "offset": 53
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 41
+        },
+        "end": {
+          "line": 5,
+          "column": 13,
+          "offset": 53
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "This is the evidence section.",
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 55
+            },
+            "end": {
+              "line": 7,
+              "column": 30,
+              "offset": 84
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 55
+        },
+        "end": {
+          "line": 7,
+          "column": 30,
+          "offset": 84
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Frames",
+              "position": {
+                "start": {
+                  "line": 9,
+                  "column": 3,
+                  "offset": 88
+                },
+                "end": {
+                  "line": 9,
+                  "column": 9,
+                  "offset": 94
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 86
+            },
+            "end": {
+              "line": 9,
+              "column": 11,
+              "offset": 96
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 86
+        },
+        "end": {
+          "line": 9,
+          "column": 11,
+          "offset": 96
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Frame 1: First interpretation.",
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 98
+            },
+            "end": {
+              "line": 11,
+              "column": 31,
+              "offset": 128
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 11,
+          "column": 1,
+          "offset": 98
+        },
+        "end": {
+          "line": 11,
+          "column": 31,
+          "offset": 128
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Frame 2: Second interpretation.",
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 130
+            },
+            "end": {
+              "line": 13,
+              "column": 32,
+              "offset": 161
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 130
+        },
+        "end": {
+          "line": 13,
+          "column": 32,
+          "offset": 161
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Countermoves",
+              "position": {
+                "start": {
+                  "line": 15,
+                  "column": 3,
+                  "offset": 165
+                },
+                "end": {
+                  "line": 15,
+                  "column": 15,
+                  "offset": 177
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 163
+            },
+            "end": {
+              "line": 15,
+              "column": 17,
+              "offset": 179
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 163
+        },
+        "end": {
+          "line": 15,
+          "column": 17,
+          "offset": 179
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Countermove 1: First risk.",
+          "position": {
+            "start": {
+              "line": 17,
+              "column": 1,
+              "offset": 181
+            },
+            "end": {
+              "line": 17,
+              "column": 27,
+              "offset": 207
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 17,
+          "column": 1,
+          "offset": 181
+        },
+        "end": {
+          "line": 17,
+          "column": 27,
+          "offset": 207
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Next",
+              "position": {
+                "start": {
+                  "line": 19,
+                  "column": 3,
+                  "offset": 211
+                },
+                "end": {
+                  "line": 19,
+                  "column": 7,
+                  "offset": 215
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 19,
+              "column": 1,
+              "offset": 209
+            },
+            "end": {
+              "line": 19,
+              "column": 9,
+              "offset": 217
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 19,
+          "column": 1,
+          "offset": 209
+        },
+        "end": {
+          "line": 19,
+          "column": 9,
+          "offset": 217
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Do the next thing.",
+          "position": {
+            "start": {
+              "line": 21,
+              "column": 1,
+              "offset": 219
+            },
+            "end": {
+              "line": 21,
+              "column": 19,
+              "offset": 237
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 21,
+          "column": 1,
+          "offset": 219
+        },
+        "end": {
+          "line": 21,
+          "column": 19,
+          "offset": 237
+        }
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 22,
+      "column": 1,
+      "offset": 238
+    }
+  }
+}

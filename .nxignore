@@ -1,4 +1,5 @@
-# Ignore submodule project configs to prevent duplicate Nx project names.
-orgs/**/project.json
-projects/**/project.json
-!projects/orgs-open-hax-workbench/project.json
+# Ignore all static project.json files - we use giga plugin for dynamic project generation
+projects/**/*.json
+projects.bak/**/*.json
+orgs/**/*.json
+!orgs/open-hax/workbench/project.json
