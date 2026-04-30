@@ -1,0 +1,39 @@
+{:paths ["src"]
+ :deps {org.clojure/clojure {:mvn/version "1.12.1"}
+        org.clojure/tools.logging {:mvn/version "1.3.0"}
+        nrepl/nrepl {:mvn/version "1.3.1"}
+        com.bhauman/clojure-mcp {:git/url "https://github.com/bhauman/clojure-mcp.git"
+                                 :git/tag "v0.1.11-alpha"
+                                 :git/sha "7739dba"}
+        org.slf4j/slf4j-nop {:mvn/version "2.0.16"}}
+
+ :aliases
+ {:;; Centralized MCP server for all Clojure runtimes
+  mcp-central {:extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.16"}}
+               :extra-paths ["src"]
+               :exec-fn centralized-clojure-mcp.server/start-unified-mcp
+               :exec-args {:port 7890}}
+
+  ;; JVM-specific MCP server
+  mcp-jvm {:extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.16"}}
+             :extra-paths ["src"]
+             :exec-fn centralized-clojure-mcp.server/start-jvm-mcp
+             :exec-args {:port 7891}}
+
+  ;; ClojureScript-specific MCP server
+  mcp-cljs {:extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.16"}}
+              :extra-paths ["src"]
+              :exec-fn centralized-clojure-mcp.server/start-cljs-mcp
+              :exec-args {:port 7892}}
+
+  ;; Development mode with logging
+  mcp-dev {:extra-deps {ch.qos.logback/logback-classic {:mvn/version "1.4.14"}}
+            :extra-paths ["src"]
+            :exec-fn centralized-clojure-mcp.server/start-unified-mcp
+            :exec-args {:port 7890}}
+
+   ;; Test the MCP server
+   :mcp-test {:extra-deps {org.slf4j/slf4j-nop {:mvn/version "2.0.16"}}
+              :extra-paths ["src"]
+              :exec-fn centralized-clojure-mcp.server/start-unified-mcp
+              :exec-args {:port 7893 :test-mode true}}}

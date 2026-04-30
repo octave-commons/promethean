@@ -1,0 +1,84 @@
+apiVersion: batch/v1
+kind: Job
+metadata:
+  name: mongo-init
+spec:
+  backoffLimit: 12
+  ttlSecondsAfterFinished: 86400
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: openplanner
+        app.kubernetes.io/component: mongo-init
+    spec:
+      restartPolicy: OnFailure
+      containers:
+        - name: mongo-init
+          image: mongodb/mongodb-community-server:8.2.0-ubi9
+          env:
+            - name: MONGODB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_USERNAME
+            - name: MONGODB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_PASSWORD
+            - name: MONGOT_SYNC_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGOT_SYNC_PASSWORD
+            - name: OPENPLANNER_MONGO_APP_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: OPENPLANNER_MONGO_APP_USERNAME
+            - name: OPENPLANNER_MONGO_APP_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: OPENPLANNER_MONGO_APP_PASSWORD
+          command:
+            - /bin/sh
+            - -lc
+            - |
+              set -eu
+              until mongosh --host mongodb-0.mongodb -u "$MONGODB_ROOT_USERNAME" -p "$MONGODB_ROOT_PASSWORD" --authenticationDatabase admin --quiet --eval 'db.adminCommand({ ping: 1 })' >/dev/null 2>&1; do
+                sleep 2
+              done
+              mongosh --host mongodb-0.mongodb -u "$MONGODB_ROOT_USERNAME" -p "$MONGODB_ROOT_PASSWORD" --authenticationDatabase admin --quiet <<EOF
+              try {
+                rs.status();
+              } catch (e) {
+                rs.initiate({ _id: "rs0", members: [{ _id: 0, host: "mongodb-0.mongodb:27017" }] });
+              }
+
+              for (let i = 0; i < 60; i += 1) {
+                const hello = db.adminCommand({ hello: 1 });
+                if (hello.isWritablePrimary === true) break;
+                sleep(1000);
+              }
+
+              const admin = db.getSiblingDB('admin');
+              const existing = admin.getUser('mongotUser');
+              if (!existing) {
+                admin.createUser({
+                  user: 'mongotUser',
+                  pwd: '${MONGOT_SYNC_PASSWORD}',
+                  roles: [{ role: 'searchCoordinator', db: 'admin' }]
+                });
+              }
+
+              const appDb = db.getSiblingDB('openplanner');
+              const appExisting = appDb.getUser('${OPENPLANNER_MONGO_APP_USERNAME}');
+              if (!appExisting) {
+                appDb.createUser({
+                  user: '${OPENPLANNER_MONGO_APP_USERNAME}',
+                  pwd: '${OPENPLANNER_MONGO_APP_PASSWORD}',
+                  roles: [{ role: 'readWrite', db: 'openplanner' }]
+                });
+              }
+              EOF

@@ -1,0 +1,75 @@
+services:
+  open-hax-openai-proxy-glm5:
+    image: open-hax-openai-proxy-open-hax-openai-proxy
+    depends_on:
+      open-hax-openai-proxy-db:
+        condition: service_healthy
+        required: false
+    ports:
+      - "8791:8789"
+      - "5175:5174"
+    environment:
+      NODE_ENV: production
+      PROXY_HOST: 0.0.0.0
+      PROXY_PORT: "8789"
+      PORT: "8789"
+      PROXY_AUTH_TOKEN: "${PROXY_AUTH_TOKEN:-change-me-open-hax-proxy-token}"
+      PROXY_KEYS_FILE: /workspace/service-config/keys.json
+      PROXY_MODELS_FILE: /workspace/service-config/models.json
+      PROXY_REQUEST_LOGS_FILE: /app/data/request-logs.jsonl
+      UPSTREAM_PROVIDER_ID: "ollama-cloud"
+      UPSTREAM_FALLBACK_PROVIDER_IDS: ""
+      DISABLED_PROVIDER_IDS: "vivgrid,openai"
+      UPSTREAM_BASE_URL: "https://ollama.com"
+      UPSTREAM_PROVIDER_BASE_URLS: "ollama-cloud=https://ollama.com"
+      OPENAI_PROVIDER_ID: "ollama-cloud"
+      OPENAI_BASE_URL: "https://ollama.com"
+      DATABASE_URL: "postgresql://openai_proxy@open-hax-openai-proxy-db:5432/openai_proxy"
+      PGPASSWORD: "${POSTGRES_PASSWORD:-change-me}" # pragma: allowlist secret
+      CHROMA_URL: "${CHROMA_URL:-http://host.docker.internal:8000}"
+      CHROMA_COLLECTION: "${CHROMA_COLLECTION:-open_hax_proxy_sessions}"
+      OTEL_EXPORTER_OTLP_ENDPOINT: "${OTEL_EXPORTER_OTLP_ENDPOINT:-}"
+      OTEL_EXPORTER_OTLP_HEADERS: "${OTEL_EXPORTER_OTLP_HEADERS:-}"
+      OTEL_SERVICE_NAME: "${OTEL_SERVICE_NAME:-proxx-glm5}"
+      OTEL_RESOURCE_ATTRIBUTES: "${OTEL_RESOURCE_ATTRIBUTES:-service.name=proxx-glm5}"
+    volumes:
+      - ./keys.json:/workspace/service-config/keys.json
+      - ./models.json:/workspace/service-config/models.json:ro
+      - ./data:/app/data
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "Promise.all([fetch('http://127.0.0.1:8789/health',{headers:{Authorization:'Bearer '+(process.env.PROXY_AUTH_TOKEN||'')}}), fetch('http://127.0.0.1:5174')]).then(([proxyResponse, webResponse]) => { if (!proxyResponse.ok || !webResponse.ok) { process.exit(1); } }).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      ai-infra: {}
+
+  open-hax-openai-proxy-db:
+    image: postgres:16-bookworm
+    environment:
+      POSTGRES_DB: openai_proxy
+      POSTGRES_USER: openai_proxy
+      POSTGRES_PASSWORD: "${POSTGRES_PASSWORD:-change-me}" # pragma: allowlist secret
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U openai_proxy -d openai_proxy"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    networks:
+      ai-infra: {}
+
+networks:
+  ai-infra:
+    external: true
+    name: ai-infra

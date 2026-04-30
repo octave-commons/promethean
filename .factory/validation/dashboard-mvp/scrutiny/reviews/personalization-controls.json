@@ -1,0 +1,74 @@
+{
+  "featureId": "personalization-controls",
+  "reviewedAt": "2026-03-13T05:12:00.000Z",
+  "commitId": "bd237d755ad328ff13e195f27e2d3c515402bcf1",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation of personalization panel with 6 dimension weight sliders (0-100), 3 toggles (agency bias, critical thinking, federation), localStorage persistence with corruption handling, and immediate score updates in η lane gauges. Architecture is clean: usePersonalization hook manages state and persistence, PersonalizationPanel is a controlled component, CriticalThinkingSection (VAL-UI-006) and ActionFeed (VAL-UI-007) are well-structured. 30 tests covering component rendering, hook state management, localStorage round-trip, and weight/composite scoring utilities. Several non-blocking issues identified.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/App.tsx",
+        "line": 16,
+        "severity": "non_blocking",
+        "description": "Unused imports: `applyWeights` and `computeCompositeScore` are imported from usePersonalization but never referenced in App.tsx. These should be removed to avoid dead code warnings. The weight application is done inline in EtaLane.tsx instead."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/EtaLane.tsx",
+        "line": 119,
+        "severity": "non_blocking",
+        "description": "Duplicated weight calculation logic. EtaLane computes `const factor = weight / 50; const weightedMedian = Math.max(0, Math.min(100, sr.median * 100 * factor))` inline, which is the same logic as the `applyWeights()` utility function in usePersonalization.ts. The utility is tested but the inline version is not independently tested. Should use `applyWeights()` to avoid drift between the two code paths."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/App.tsx",
+        "line": 221,
+        "severity": "non_blocking",
+        "description": "Weight changes only affect η lane gauges. The feature description says 'Changes reflected immediately in displayed scores/gauges' but weights are only passed to `EtaLaneContent`. The μ lane (`MuLaneContent`) does not receive or apply weights, so slider changes have no visible effect on μ lane content. This is partially acceptable since μ lane uses different card-based rendering without score gauges, but worth noting."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/hooks/usePersonalization.ts",
+        "line": 117,
+        "severity": "non_blocking",
+        "description": "Double localStorage read on hook initialization. `loadFromStorage()` is called separately in the useState initializers for both `weights` and `toggles`, parsing the same JSON string twice. Minor optimization opportunity: load once and destructure."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/CriticalThinkingSection.tsx",
+        "line": 1,
+        "severity": "non_blocking",
+        "description": "No component tests for CriticalThinkingSection. The feature says 'Write component tests for slider and toggle state management' (which is covered), but this new component with conditional rendering logic (disagreement alert, enabled/disabled states) has no test coverage."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/ActionFeed.tsx",
+        "line": 1,
+        "severity": "non_blocking",
+        "description": "No component tests for ActionFeed. This complex component derives action suggestions from tile data with urgency scoring, time horizon grouping, and agency bias boosting — all untested business logic. The deriveActions/threadToAction helper functions would benefit from unit tests."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/App.tsx",
+        "line": 246,
+        "severity": "non_blocking",
+        "description": "Federation toggle has UI-only effect: changes the Π lane placeholder message between two strings. No actual federation data flow is enabled/disabled. Acceptable for MVP since no federation backend exists yet, but the toggle's observable effect is minimal."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "knowledge",
+      "observation": "The features.json verification step references `--grep` flag for vitest which is not supported in the workspace's vitest 0.34.6. This is already documented in architecture.md ('vitest version: Workspace uses vitest 0.34.6 which does NOT support --grep flag'), but the features.json was authored after that knowledge was recorded. Future feature definitions should use `-t` pattern matching instead.",
+      "evidence": "features.json personalization-controls verificationSteps[0]: 'npx vitest run --grep personalization|slider|toggle' — worker correctly identified this and used `-t` flag instead. Worker skillFeedback.suggestedChanges confirms this."
+    },
+    {
+      "area": "skills",
+      "observation": "Worker did not perform visual verification via agent-browser (skill procedure step 5), but handoff.skillFeedback.followedProcedure is true and deviations is empty. The transcript skeleton shows no agent-browser tool calls. This may indicate the worker couldn't start the dev server within mission boundaries, or considered it optional — but the skill procedure lists it as a step, not optional.",
+      "evidence": "Transcript skeleton contains no agent-browser invocations. Skill SKILL.md step 5: 'Verify visually with agent-browser... Use agent-browser open http://localhost:9002 to view'. Handoff has no interactiveChecks field. Worker did run typecheck and all tests."
+    },
+    {
+      "area": "conventions",
+      "observation": "Worker created a new hooks directory (src/ui/hooks/) for usePersonalization.ts. Other hooks like useRadarPolling.ts live in src/api/. There's no documented convention for where hooks should go. This split (UI hooks in ui/hooks/, data hooks in api/) is reasonable but undocumented.",
+      "evidence": "src/api/useRadarPolling.ts (existing data-fetching hook) vs src/ui/hooks/usePersonalization.ts (new UI state hook) — different directories, no documented pattern in AGENTS.md."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Feature passes review. Core personalization functionality is well-implemented: the usePersonalization hook cleanly manages weights/toggles with localStorage persistence and corruption handling, PersonalizationPanel is a proper controlled component with good accessibility (role=switch, aria-checked, aria-label), and the weight application correctly modifies η lane gauge values in real-time. 30 tests provide solid coverage of the panel component, hook state management, localStorage round-trip, and scoring utilities. Non-blocking issues include unused imports in App.tsx, duplicated weight logic between EtaLane and the applyWeights utility, weights not flowing to μ lane, and no tests for CriticalThinkingSection/ActionFeed components. The CriticalThinkingSection (VAL-UI-006) and ActionFeed (VAL-UI-007) fulfill their validation requirements with static guidance content and time-grouped action suggestions respectively."
+}

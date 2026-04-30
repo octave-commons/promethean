@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","<init>",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"visitLogicalAssignmentOperator",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"handleLHSName",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"handleLHSPropertyReference",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

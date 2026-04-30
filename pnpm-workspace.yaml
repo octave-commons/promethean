@@ -3,7 +3,6 @@ packages:
   - packages/embedding
   - packages/persistence
   - orgs/open-hax/uxx
-  - packages/futuresight-kms
   - packages/ollama-registry
   - packages/opencode-cljs-client
   - packages/aether
@@ -15,26 +14,17 @@ packages:
   - packages/fsm
   - orgs/open-hax/tooloxx/packages/*
   - packages/radar-core
-  - packages/webgl-graph-view
   - packages/output-contract-gate
   - packages/thread-assessment
   - packages/npu-top
-  - packages/omni-top
-  - packages/kanban
-  - packages/sintel
-  - packages/portal
-  - packages/host-fleet-dashboard
-  - orgs/riatzukiza/portfolio
+  - packages/radar-core
+  - packages/mcp-foundation
+  - packages/signal-atproto
+  - packages/signal-embed-browser
+  - packages/thread-assessment
+  - packages/embedding
+  - orgs/riatzukiza/threat-radar-mcp
   - orgs/riatzukiza/threat-radar-web
-  - orgs/riatzukiza/mnemosyne
-  - orgs/open-hax/depenoxx
-  - orgs/anomalyco/opencode-compat
-  - orgs/anomalyco/opencode-indexer
-  - orgs/riatzukiza/kronos
-  - orgs/open-hax/openplanner
-  - orgs/riatzukiza/ourllamas
-  - orgs/open-hax/vivgrid-openai-proxy
-  - orgs/riatzukiza/futuresight-kms
   - services/*
   - orgs/open-hax/openhax/packages/*
   - orgs/riatzukiza/promethean/packages/*

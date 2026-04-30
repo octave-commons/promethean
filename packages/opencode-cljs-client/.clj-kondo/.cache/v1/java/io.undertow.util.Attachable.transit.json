@@ -1,0 +1,1 @@
+["^ ","~:members",["^ ","getAttachment",["~#set",[["^ ","~:flags",["^2",["~:method","~:public"]]]]],"getAttachmentList",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"putAttachment",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"removeAttachment",["^2",[["^ ","^3",["^2",["^4","^5"]]]]],"addToAttachmentList",["^2",[["^ ","^3",["^2",["^4","^5"]]]]]]]

@@ -1,0 +1,209 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Promethean Portal</title>
+  <style>
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+      background: #0a0a0f;
+      color: #e0e0e0;
+      min-height: 100vh;
+    }
+    header {
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 100%);
+      padding: 2rem;
+      text-align: center;
+      border-bottom: 1px solid #2a2a4a;
+    }
+    header h1 {
+      font-size: 2rem;
+      font-weight: 600;
+      color: #fff;
+      letter-spacing: 0.05em;
+    }
+    header p {
+      color: #8888aa;
+      margin-top: 0.5rem;
+      font-size: 0.9rem;
+    }
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 2rem;
+    }
+    .category {
+      margin-bottom: 2.5rem;
+    }
+    .category h2 {
+      font-size: 1.1rem;
+      color: #6a6a9a;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      margin-bottom: 1rem;
+      padding-bottom: 0.5rem;
+      border-bottom: 1px solid #1a1a2e;
+    }
+    .grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+      gap: 1rem;
+    }
+    .card {
+      background: #12121a;
+      border: 1px solid #2a2a3a;
+      border-radius: 8px;
+      padding: 1.25rem;
+      transition: border-color 0.2s, transform 0.2s;
+      text-decoration: none;
+      color: inherit;
+      display: block;
+    }
+    .card:hover {
+      border-color: #4a4a7a;
+      transform: translateY(-2px);
+    }
+    .card h3 {
+      font-size: 1rem;
+      color: #fff;
+      margin-bottom: 0.25rem;
+    }
+    .card .port {
+      font-size: 0.8rem;
+      color: #6a6a9a;
+      font-family: monospace;
+      margin-bottom: 0.5rem;
+    }
+    .card p {
+      font-size: 0.85rem;
+      color: #8888aa;
+      line-height: 1.4;
+    }
+    .card .status {
+      display: inline-block;
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      margin-right: 0.5rem;
+      background: #444;
+    }
+    .card .status.online { background: #4ade80; }
+    .card .status.offline { background: #f87171; }
+    .card .status.checking { background: #fbbf24; }
+    .card-header {
+      display: flex;
+      align-items: center;
+      margin-bottom: 0.5rem;
+    }
+    .card-header .status { flex-shrink: 0; }
+  </style>
+</head>
+<body>
+  <header>
+    <h1>Promethean Portal</h1>
+    <p>Browser frontends from active compose stacks</p>
+  </header>
+  <div class="container" id="app">
+    <p style="color:#666">Loading services...</p>
+  </div>
+  <script>
+    const SERVICES = [
+      {
+        category: "Proxy & Web UI",
+        items: [
+          { name: "Proxx Web UI", port: 5174, path: "/", desc: "Vite dev server for the Proxx OpenAI proxy web interface" },
+        ]
+      },
+      {
+        category: "Cephalon (Discord Bots)",
+        items: [
+          { name: "Cephalon Stack", port: 3000, path: "/", desc: "Single cephalon memory UI web interface" },
+          { name: "Cephalon Hive Dashboard", port: 3310, path: "/", desc: "Multi-cephalon management dashboard" },
+          { name: "Duck Memory UI", port: 3301, path: "/", desc: "Duck cephalon memory web interface" },
+          { name: "OpenHax Memory UI", port: 3302, path: "/", desc: "OpenHax cephalon memory web interface" },
+          { name: "OpenSkull Memory UI", port: 3303, path: "/", desc: "OpenSkull cephalon memory web interface" },
+          { name: "Cephalon Hive Proxx Web", port: 15274, path: "/", desc: "Proxx web UI running inside Cephalon Hive" },
+        ]
+      },
+      {
+        category: "Monitoring & Ops",
+        items: [
+          { name: "Host Fleet Dashboard", port: 8791, path: "/", desc: "Docker host and container fleet monitoring" },
+          { name: "Eta Mu (Truth Workbench)", port: 8790, path: "/", desc: "State management and truth workbench UI" },
+          { name: "Devel Graph Weaver", port: 8796, path: "/", desc: "Workspace dependency graph visualization" },
+          { name: "Devel Deps Garden", port: 8798, path: "/", desc: "Workspace dependency and dev tools manager" },
+        ]
+      },
+      {
+        category: "GPU & LLM Tracking",
+        items: [
+          { name: "Our GPUs Web", port: 15173, path: "/", desc: "Ollama instance discovery and management web UI" },
+        ]
+      },
+      {
+        category: "Radar & Intelligence",
+        items: [
+          { name: "Radar Web", port: 10003, path: "/", desc: "Threat intelligence and Bluesky radar web interface" },
+          { name: "Fork Tales Weaver", port: 8793, path: "/", desc: "Web graph weaver for fork tales visualization" },
+        ]
+      },
+      {
+        category: "Content",
+        items: [
+          { name: "Riatzukiza Portfolio", port: 8088, path: "/", desc: "Personal portfolio and digital garden" },
+        ]
+      }
+    ];
+
+    async function checkStatus(port) {
+      try {
+        const controller = new AbortController();
+        const timeout = setTimeout(() => controller.abort(), 3000);
+        await fetch(`http://${window.location.hostname}:${port}/`, {
+          signal: controller.signal,
+          mode: 'no-cors'
+        });
+        clearTimeout(timeout);
+        return 'online';
+      } catch {
+        return 'offline';
+      }
+    }
+
+    async function render() {
+      const app = document.getElementById('app');
+      let html = '';
+
+      for (const cat of SERVICES) {
+        html += `<div class="category"><h2>${cat.category}</h2><div class="grid">`;
+        for (const svc of cat.items) {
+          html += `
+            <a class="card" href="http://${window.location.hostname}:${svc.port}${svc.path}" target="_blank" rel="noopener">
+              <div class="card-header">
+                <span class="status checking" id="status-${svc.port}"></span>
+                <h3>${svc.name}</h3>
+              </div>
+              <div class="port">localhost:${svc.port}</div>
+              <p>${svc.desc}</p>
+            </a>`;
+        }
+        html += '</div></div>';
+      }
+
+      app.innerHTML = html;
+
+      for (const cat of SERVICES) {
+        for (const svc of cat.items) {
+          const status = await checkStatus(svc.port);
+          const el = document.getElementById(`status-${svc.port}`);
+          if (el) el.className = `status ${status}`;
+        }
+      }
+    }
+
+    render();
+  </script>
+</body>
+</html>

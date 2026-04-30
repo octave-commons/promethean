@@ -1,0 +1,36 @@
+{
+  "lexicon": 1,
+  "id": "app.openhax.radar.actionCard",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "Specific suggested action with scope, effort, expected benefit, risk, and feedback metric.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["connectionRef", "title", "description", "scope", "effort", "expectedBenefit", "risk", "feedbackMetricName", "feedbackMetricMeasurement", "timeWindowLabel", "createdAt"],
+        "properties": {
+          "connectionRef": { "type": "string", "format": "at-uri" },
+          "title": { "type": "string", "maxLength": 300 },
+          "description": { "type": "string", "maxLength": 5000 },
+          "scope": { "type": "string", "description": "individual | team | community | network" },
+          "effort": { "type": "string", "description": "minutes | hours | days | weeks" },
+          "expectedBenefit": { "type": "string", "maxLength": 1000 },
+          "risk": { "type": "string", "description": "none | low | medium | high" },
+          "riskDescription": { "type": "string", "maxLength": 1000 },
+          "feedbackMetricName": { "type": "string" },
+          "feedbackMetricMeasurement": { "type": "string" },
+          "feedbackMetricBaseline": { "type": "number" },
+          "feedbackMetricTarget": { "type": "number" },
+          "timeWindowLabel": { "type": "string" },
+          "timeWindowStart": { "type": "string", "format": "datetime" },
+          "timeWindowEnd": { "type": "string", "format": "datetime" },
+          "status": { "type": "string", "description": "proposed | accepted | in_progress | completed | abandoned" },
+          "outcomeNotes": { "type": "string", "maxLength": 2000 },
+          "outcomeFeedbackValue": { "type": "number" },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

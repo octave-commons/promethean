@@ -1,0 +1,1772 @@
+{
+  "type": "root",
+  "children": [
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Signal",
+          "position": {
+            "start": {
+              "line": 1,
+              "column": 4,
+              "offset": 3
+            },
+            "end": {
+              "line": 1,
+              "column": 10,
+              "offset": 9
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 1,
+          "column": 1,
+          "offset": 0
+        },
+        "end": {
+          "line": 1,
+          "column": 10,
+          "offset": 9
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "The ",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 1,
+              "offset": 11
+            },
+            "end": {
+              "line": 3,
+              "column": 5,
+              "offset": 15
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": "/api/tools/websearch",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 5,
+              "offset": 15
+            },
+            "end": {
+              "line": 3,
+              "column": 27,
+              "offset": 37
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " route provides a unified web search API that attempts OpenAI's ",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 27,
+              "offset": 37
+            },
+            "end": {
+              "line": 3,
+              "column": 91,
+              "offset": 101
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": "web_search",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 91,
+              "offset": 101
+            },
+            "end": {
+              "line": 3,
+              "column": 103,
+              "offset": 113
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " tool with fallback to Exa MCP, returning structured results with extracted citations.",
+          "position": {
+            "start": {
+              "line": 3,
+              "column": 103,
+              "offset": 113
+            },
+            "end": {
+              "line": 3,
+              "column": 189,
+              "offset": 199
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 3,
+          "column": 1,
+          "offset": 11
+        },
+        "end": {
+          "line": 3,
+          "column": 189,
+          "offset": 199
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Evidence",
+          "position": {
+            "start": {
+              "line": 5,
+              "column": 4,
+              "offset": 204
+            },
+            "end": {
+              "line": 5,
+              "column": 12,
+              "offset": 212
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 5,
+          "column": 1,
+          "offset": 201
+        },
+        "end": {
+          "line": 5,
+          "column": 12,
+          "offset": 212
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Core Architecture:",
+              "position": {
+                "start": {
+                  "line": 7,
+                  "column": 3,
+                  "offset": 216
+                },
+                "end": {
+                  "line": 7,
+                  "column": 21,
+                  "offset": 234
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 7,
+              "column": 1,
+              "offset": 214
+            },
+            "end": {
+              "line": 7,
+              "column": 23,
+              "offset": 236
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 7,
+          "column": 1,
+          "offset": 214
+        },
+        "end": {
+          "line": 7,
+          "column": 23,
+          "offset": 236
+        }
+      }
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "start": 1,
+      "spread": true,
+      "children": [
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Input Validation",
+                      "position": {
+                        "start": {
+                          "line": 9,
+                          "column": 6,
+                          "offset": 243
+                        },
+                        "end": {
+                          "line": 9,
+                          "column": 22,
+                          "offset": 259
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 4,
+                      "offset": 241
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 24,
+                      "offset": 261
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " (lines 96-110): Validates ",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 24,
+                      "offset": 261
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 51,
+                      "offset": 288
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "query",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 51,
+                      "offset": 288
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 58,
+                      "offset": 295
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " (required string), normalizes ",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 58,
+                      "offset": 295
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 89,
+                      "offset": 326
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "numResults",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 89,
+                      "offset": 326
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 101,
+                      "offset": 338
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " to 1-20 range (default 8), accepts optional ",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 101,
+                      "offset": 338
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 146,
+                      "offset": 383
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "searchContextSize",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 146,
+                      "offset": 383
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 165,
+                      "offset": 402
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " (low/medium/high), ",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 165,
+                      "offset": 402
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 185,
+                      "offset": 422
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "allowedDomains",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 185,
+                      "offset": 422
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 201,
+                      "offset": 438
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " array (max 50), and ",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 201,
+                      "offset": 438
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 222,
+                      "offset": 459
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "model",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 222,
+                      "offset": 459
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 229,
+                      "offset": 466
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " string.",
+                  "position": {
+                    "start": {
+                      "line": 9,
+                      "column": 229,
+                      "offset": 466
+                    },
+                    "end": {
+                      "line": 9,
+                      "column": 237,
+                      "offset": 474
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 9,
+                  "column": 4,
+                  "offset": 241
+                },
+                "end": {
+                  "line": 9,
+                  "column": 237,
+                  "offset": 474
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 9,
+              "column": 1,
+              "offset": 238
+            },
+            "end": {
+              "line": 9,
+              "column": 237,
+              "offset": 474
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Model Selection",
+                      "position": {
+                        "start": {
+                          "line": 11,
+                          "column": 6,
+                          "offset": 481
+                        },
+                        "end": {
+                          "line": 11,
+                          "column": 21,
+                          "offset": 496
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 11,
+                      "column": 4,
+                      "offset": 479
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 23,
+                      "offset": 498
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " (lines 119-128): Builds a unique model list from requested model + ",
+                  "position": {
+                    "start": {
+                      "line": 11,
+                      "column": 23,
+                      "offset": 498
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 91,
+                      "offset": 566
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "OPEN_HAX_WEBSEARCH_FALLBACK_MODEL",
+                  "position": {
+                    "start": {
+                      "line": 11,
+                      "column": 91,
+                      "offset": 566
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 126,
+                      "offset": 601
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " env var (defaults to ",
+                  "position": {
+                    "start": {
+                      "line": 11,
+                      "column": 126,
+                      "offset": 601
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 148,
+                      "offset": 623
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "gpt-5.2",
+                  "position": {
+                    "start": {
+                      "line": 11,
+                      "column": 148,
+                      "offset": 623
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 157,
+                      "offset": 632
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": "). Deduplicates while preserving order.",
+                  "position": {
+                    "start": {
+                      "line": 11,
+                      "column": 157,
+                      "offset": 632
+                    },
+                    "end": {
+                      "line": 11,
+                      "column": 196,
+                      "offset": 671
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 11,
+                  "column": 4,
+                  "offset": 479
+                },
+                "end": {
+                  "line": 11,
+                  "column": 196,
+                  "offset": 671
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 11,
+              "column": 1,
+              "offset": 476
+            },
+            "end": {
+              "line": 11,
+              "column": 196,
+              "offset": 671
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 9,
+          "column": 1,
+          "offset": 238
+        },
+        "end": {
+          "line": 11,
+          "column": 196,
+          "offset": 671
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "strong",
+          "children": [
+            {
+              "type": "text",
+              "value": "Key Helpers:",
+              "position": {
+                "start": {
+                  "line": 13,
+                  "column": 3,
+                  "offset": 675
+                },
+                "end": {
+                  "line": 13,
+                  "column": 15,
+                  "offset": 687
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 13,
+              "column": 1,
+              "offset": 673
+            },
+            "end": {
+              "line": 13,
+              "column": 17,
+              "offset": 689
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 13,
+          "column": 1,
+          "offset": 673
+        },
+        "end": {
+          "line": 13,
+          "column": 17,
+          "offset": 689
+        }
+      }
+    },
+    {
+      "type": "list",
+      "ordered": false,
+      "start": null,
+      "spread": false,
+      "children": [
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "exaWebSearch()",
+                  "position": {
+                    "start": {
+                      "line": 15,
+                      "column": 3,
+                      "offset": 693
+                    },
+                    "end": {
+                      "line": 15,
+                      "column": 19,
+                      "offset": 709
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " (lines 32-89): Handles MCP JSON-RPC protocol for Exa, with 25s timeout, abort signal composition, and markdown link extraction",
+                  "position": {
+                    "start": {
+                      "line": 15,
+                      "column": 19,
+                      "offset": 709
+                    },
+                    "end": {
+                      "line": 15,
+                      "column": 146,
+                      "offset": 836
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 15,
+                  "column": 3,
+                  "offset": 693
+                },
+                "end": {
+                  "line": 15,
+                  "column": 146,
+                  "offset": 836
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 15,
+              "column": 1,
+              "offset": 691
+            },
+            "end": {
+              "line": 15,
+              "column": 146,
+              "offset": 836
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "inlineCode",
+                  "value": "buildUserText()",
+                  "position": {
+                    "start": {
+                      "line": 16,
+                      "column": 3,
+                      "offset": 839
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 20,
+                      "offset": 856
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " (lines 147-155): Constructs the user prompt with optional domain restrictions",
+                  "position": {
+                    "start": {
+                      "line": 16,
+                      "column": 20,
+                      "offset": 856
+                    },
+                    "end": {
+                      "line": 16,
+                      "column": 98,
+                      "offset": 934
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 16,
+                  "column": 3,
+                  "offset": 839
+                },
+                "end": {
+                  "line": 16,
+                  "column": 98,
+                  "offset": 934
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 16,
+              "column": 1,
+              "offset": 837
+            },
+            "end": {
+              "line": 16,
+              "column": 98,
+              "offset": 934
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 15,
+          "column": 1,
+          "offset": 691
+        },
+        "end": {
+          "line": 16,
+          "column": 98,
+          "offset": 934
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Frames",
+          "position": {
+            "start": {
+              "line": 18,
+              "column": 4,
+              "offset": 939
+            },
+            "end": {
+              "line": 18,
+              "column": 10,
+              "offset": 945
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 18,
+          "column": 1,
+          "offset": 936
+        },
+        "end": {
+          "line": 18,
+          "column": 10,
+          "offset": 945
+        }
+      }
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "start": 1,
+      "spread": true,
+      "children": [
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Intentional Fallback Cascade",
+                      "position": {
+                        "start": {
+                          "line": 20,
+                          "column": 6,
+                          "offset": 952
+                        },
+                        "end": {
+                          "line": 20,
+                          "column": 34,
+                          "offset": 980
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 20,
+                      "column": 4,
+                      "offset": 950
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 36,
+                      "offset": 982
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": ": The double-loop (models × domain-in-tool vs domain-in-prompt) suggests hard-won experience with OpenAI's ",
+                  "position": {
+                    "start": {
+                      "line": 20,
+                      "column": 36,
+                      "offset": 982
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 143,
+                      "offset": 1089
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "allowed_domains",
+                  "position": {
+                    "start": {
+                      "line": 20,
+                      "column": 143,
+                      "offset": 1089
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 160,
+                      "offset": 1106
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " parameter being unreliable or inconsistently supported across model versions.",
+                  "position": {
+                    "start": {
+                      "line": 20,
+                      "column": 160,
+                      "offset": 1106
+                    },
+                    "end": {
+                      "line": 20,
+                      "column": 238,
+                      "offset": 1184
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 20,
+                  "column": 4,
+                  "offset": 950
+                },
+                "end": {
+                  "line": 20,
+                  "column": 238,
+                  "offset": 1184
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 20,
+              "column": 1,
+              "offset": 947
+            },
+            "end": {
+              "line": 20,
+              "column": 238,
+              "offset": 1184
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "MCP-as-Backup",
+                      "position": {
+                        "start": {
+                          "line": 22,
+                          "column": 6,
+                          "offset": 1191
+                        },
+                        "end": {
+                          "line": 22,
+                          "column": 19,
+                          "offset": 1204
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 4,
+                      "offset": 1189
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 21,
+                      "offset": 1206
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": ": Exa is treated as a safety net, not a peer—activated only after OpenAI failures, gated by env var, returns fewer metadata fields (no ",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 21,
+                      "offset": 1206
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 156,
+                      "offset": 1341
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "responseId",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 156,
+                      "offset": 1341
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 168,
+                      "offset": 1353
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " or ",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 168,
+                      "offset": 1353
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 172,
+                      "offset": 1357
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "model",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 172,
+                      "offset": 1357
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 179,
+                      "offset": 1364
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": ").",
+                  "position": {
+                    "start": {
+                      "line": 22,
+                      "column": 179,
+                      "offset": 1364
+                    },
+                    "end": {
+                      "line": 22,
+                      "column": 181,
+                      "offset": 1366
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 22,
+                  "column": 4,
+                  "offset": 1189
+                },
+                "end": {
+                  "line": 22,
+                  "column": 181,
+                  "offset": 1366
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 22,
+              "column": 1,
+              "offset": 1186
+            },
+            "end": {
+              "line": 22,
+              "column": 181,
+              "offset": 1366
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Internal Injection Pattern",
+                      "position": {
+                        "start": {
+                          "line": 24,
+                          "column": 6,
+                          "offset": 1373
+                        },
+                        "end": {
+                          "line": 24,
+                          "column": 32,
+                          "offset": 1399
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 24,
+                      "column": 4,
+                      "offset": 1371
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 34,
+                      "offset": 1401
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": ": Uses Fastify's ",
+                  "position": {
+                    "start": {
+                      "line": 24,
+                      "column": 34,
+                      "offset": 1401
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 51,
+                      "offset": 1418
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "inject()",
+                  "position": {
+                    "start": {
+                      "line": 24,
+                      "column": 51,
+                      "offset": 1418
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 61,
+                      "offset": 1428
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " to call the internal ",
+                  "position": {
+                    "start": {
+                      "line": 24,
+                      "column": 61,
+                      "offset": 1428
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 83,
+                      "offset": 1450
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "/v1/responses",
+                  "position": {
+                    "start": {
+                      "line": 24,
+                      "column": 83,
+                      "offset": 1450
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 98,
+                      "offset": 1465
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " endpoint rather than making external HTTP calls, keeping auth internal and avoiding network overhead.",
+                  "position": {
+                    "start": {
+                      "line": 24,
+                      "column": 98,
+                      "offset": 1465
+                    },
+                    "end": {
+                      "line": 24,
+                      "column": 200,
+                      "offset": 1567
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 24,
+                  "column": 4,
+                  "offset": 1371
+                },
+                "end": {
+                  "line": 24,
+                  "column": 200,
+                  "offset": 1567
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 24,
+              "column": 1,
+              "offset": 1368
+            },
+            "end": {
+              "line": 24,
+              "column": 200,
+              "offset": 1567
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 20,
+          "column": 1,
+          "offset": 947
+        },
+        "end": {
+          "line": 24,
+          "column": 200,
+          "offset": 1567
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Countermoves",
+          "position": {
+            "start": {
+              "line": 26,
+              "column": 4,
+              "offset": 1572
+            },
+            "end": {
+              "line": 26,
+              "column": 16,
+              "offset": 1584
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 26,
+          "column": 1,
+          "offset": 1569
+        },
+        "end": {
+          "line": 26,
+          "column": 16,
+          "offset": 1584
+        }
+      }
+    },
+    {
+      "type": "list",
+      "ordered": true,
+      "start": 1,
+      "spread": true,
+      "children": [
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Retry Budget Exhaustion",
+                      "position": {
+                        "start": {
+                          "line": 28,
+                          "column": 6,
+                          "offset": 1591
+                        },
+                        "end": {
+                          "line": 28,
+                          "column": 29,
+                          "offset": 1614
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 28,
+                      "column": 4,
+                      "offset": 1589
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 31,
+                      "offset": 1616
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": ": The double-loop over models × domain-config could burn through rate limits quickly. A caller with 3 fallback models would generate 6 internal ",
+                  "position": {
+                    "start": {
+                      "line": 28,
+                      "column": 31,
+                      "offset": 1616
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 175,
+                      "offset": 1760
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "/v1/responses",
+                  "position": {
+                    "start": {
+                      "line": 28,
+                      "column": 175,
+                      "offset": 1760
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 190,
+                      "offset": 1775
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " calls before hitting Exa.",
+                  "position": {
+                    "start": {
+                      "line": 28,
+                      "column": 190,
+                      "offset": 1775
+                    },
+                    "end": {
+                      "line": 28,
+                      "column": 216,
+                      "offset": 1801
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 28,
+                  "column": 4,
+                  "offset": 1589
+                },
+                "end": {
+                  "line": 28,
+                  "column": 216,
+                  "offset": 1801
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 28,
+              "column": 1,
+              "offset": 1586
+            },
+            "end": {
+              "line": 28,
+              "column": 216,
+              "offset": 1801
+            }
+          }
+        },
+        {
+          "type": "listItem",
+          "spread": false,
+          "checked": null,
+          "children": [
+            {
+              "type": "paragraph",
+              "children": [
+                {
+                  "type": "strong",
+                  "children": [
+                    {
+                      "type": "text",
+                      "value": "Silent Degradation",
+                      "position": {
+                        "start": {
+                          "line": 30,
+                          "column": 6,
+                          "offset": 1808
+                        },
+                        "end": {
+                          "line": 30,
+                          "column": 24,
+                          "offset": 1826
+                        }
+                      }
+                    }
+                  ],
+                  "position": {
+                    "start": {
+                      "line": 30,
+                      "column": 4,
+                      "offset": 1806
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 26,
+                      "offset": 1828
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": ": If ",
+                  "position": {
+                    "start": {
+                      "line": 30,
+                      "column": 26,
+                      "offset": 1828
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 31,
+                      "offset": 1833
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "OPEN_HAX_WEBSEARCH_EXA_FALLBACK=false",
+                  "position": {
+                    "start": {
+                      "line": 30,
+                      "column": 31,
+                      "offset": 1833
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 70,
+                      "offset": 1872
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " and all OpenAI attempts fail, the 502 error surfaces ",
+                  "position": {
+                    "start": {
+                      "line": 30,
+                      "column": 70,
+                      "offset": 1872
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 124,
+                      "offset": 1926
+                    }
+                  }
+                },
+                {
+                  "type": "inlineCode",
+                  "value": "lastErrorPayload",
+                  "position": {
+                    "start": {
+                      "line": 30,
+                      "column": 124,
+                      "offset": 1926
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 142,
+                      "offset": 1944
+                    }
+                  }
+                },
+                {
+                  "type": "text",
+                  "value": " but doesn't distinguish between auth failures, rate limits, or model unavailability—callers can't adapt their retry strategy.",
+                  "position": {
+                    "start": {
+                      "line": 30,
+                      "column": 142,
+                      "offset": 1944
+                    },
+                    "end": {
+                      "line": 30,
+                      "column": 268,
+                      "offset": 2070
+                    }
+                  }
+                }
+              ],
+              "position": {
+                "start": {
+                  "line": 30,
+                  "column": 4,
+                  "offset": 1806
+                },
+                "end": {
+                  "line": 30,
+                  "column": 268,
+                  "offset": 2070
+                }
+              }
+            }
+          ],
+          "position": {
+            "start": {
+              "line": 30,
+              "column": 1,
+              "offset": 1803
+            },
+            "end": {
+              "line": 30,
+              "column": 268,
+              "offset": 2070
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 28,
+          "column": 1,
+          "offset": 1586
+        },
+        "end": {
+          "line": 30,
+          "column": 268,
+          "offset": 2070
+        }
+      }
+    },
+    {
+      "type": "heading",
+      "depth": 2,
+      "children": [
+        {
+          "type": "text",
+          "value": "Next",
+          "position": {
+            "start": {
+              "line": 32,
+              "column": 4,
+              "offset": 2075
+            },
+            "end": {
+              "line": 32,
+              "column": 8,
+              "offset": 2079
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 32,
+          "column": 1,
+          "offset": 2072
+        },
+        "end": {
+          "line": 32,
+          "column": 8,
+          "offset": 2079
+        }
+      }
+    },
+    {
+      "type": "paragraph",
+      "children": [
+        {
+          "type": "text",
+          "value": "Read ",
+          "position": {
+            "start": {
+              "line": 34,
+              "column": 1,
+              "offset": 2081
+            },
+            "end": {
+              "line": 34,
+              "column": 6,
+              "offset": 2086
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": "orgs/open-hax/proxx/src/lib/response-utils.ts",
+          "position": {
+            "start": {
+              "line": 34,
+              "column": 6,
+              "offset": 2086
+            },
+            "end": {
+              "line": 34,
+              "column": 53,
+              "offset": 2133
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " to understand the citation extraction logic that bridges OpenAI's response format to the unified ",
+          "position": {
+            "start": {
+              "line": 34,
+              "column": 53,
+              "offset": 2133
+            },
+            "end": {
+              "line": 34,
+              "column": 151,
+              "offset": 2231
+            }
+          }
+        },
+        {
+          "type": "inlineCode",
+          "value": "sources",
+          "position": {
+            "start": {
+              "line": 34,
+              "column": 151,
+              "offset": 2231
+            },
+            "end": {
+              "line": 34,
+              "column": 160,
+              "offset": 2240
+            }
+          }
+        },
+        {
+          "type": "text",
+          "value": " array.",
+          "position": {
+            "start": {
+              "line": 34,
+              "column": 160,
+              "offset": 2240
+            },
+            "end": {
+              "line": 34,
+              "column": 167,
+              "offset": 2247
+            }
+          }
+        }
+      ],
+      "position": {
+        "start": {
+          "line": 34,
+          "column": 1,
+          "offset": 2081
+        },
+        "end": {
+          "line": 34,
+          "column": 167,
+          "offset": 2247
+        }
+      }
+    }
+  ],
+  "position": {
+    "start": {
+      "line": 1,
+      "column": 1,
+      "offset": 0
+    },
+    "end": {
+      "line": 35,
+      "column": 1,
+      "offset": 2248
+    }
+  }
+}

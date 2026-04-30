@@ -1,0 +1,111 @@
+# OpenPlanner - Personal Data Lake
+#
+# Storage backends:
+#   - DuckDB (default): file-based, embedded
+#   - MongoDB: scalable, shared with Cephalon Hive
+#
+# Set OPENPLANNER_STORAGE_BACKEND=mongodb to use MongoDB.
+
+services:
+  openplanner:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      chroma:
+        condition: service_started
+      mongodb:
+        condition: service_healthy
+        required: false
+    ports:
+      - "${OPENPLANNER_PORT:-7777}:7777"
+    environment:
+      NODE_ENV: production
+      OPENPLANNER_HOST: 0.0.0.0
+      OPENPLANNER_PORT: "7777"
+      OPENPLANNER_API_KEY: "${OPENPLANNER_API_KEY:-change-me}"
+      OPENPLANNER_DATA_DIR: /app/openplanner-lake
+      # Storage backend: duckdb (default) or mongodb
+      OPENPLANNER_STORAGE_BACKEND: "${OPENPLANNER_STORAGE_BACKEND:-duckdb}"
+      # MongoDB configuration (used when STORAGE_BACKEND=mongodb)
+      MONGODB_URI: "${MONGODB_URI:-mongodb://mongodb:27017}"
+      MONGODB_DB: "${MONGODB_DB:-openplanner}"
+      MONGODB_EVENTS_COLLECTION: "${MONGODB_EVENTS_COLLECTION:-events}"
+      MONGODB_COMPACTED_COLLECTION: "${MONGODB_COMPACTED_COLLECTION:-compacted_memories}"
+      # ChromaDB for vector search
+      CHROMA_URL: http://chroma:8000
+      CHROMA_COLLECTION: "${OPENPLANNER_CHROMA_COLLECTION:-openplanner_events_v1}"
+      CHROMA_COMPACT_COLLECTION: "${OPENPLANNER_CHROMA_COMPACT_COLLECTION:-openplanner_events_v1_compact}"
+      # Ollama embeddings
+      OLLAMA_BASE_URL: "${OPENPLANNER_OLLAMA_BASE_URL:-http://host.docker.internal:8789}"
+      OLLAMA_API_KEY: "${OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN:-change-me-open-hax-proxy-token}"
+      OLLAMA_EMBED_MODEL: "${OPENPLANNER_OLLAMA_EMBED_MODEL:-qwen3-embedding:0.6b}"
+      OLLAMA_COMPACT_EMBED_MODEL: "${OPENPLANNER_OLLAMA_COMPACT_EMBED_MODEL:-qwen3-embedding:4b}"
+      OLLAMA_EMBED_MODEL_BY_SOURCE: "${OPENPLANNER_OLLAMA_EMBED_MODEL_BY_SOURCE:-}"
+      OLLAMA_EMBED_MODEL_BY_KIND: "${OPENPLANNER_OLLAMA_EMBED_MODEL_BY_KIND:-}"
+      OLLAMA_EMBED_MODEL_BY_PROJECT: "${OPENPLANNER_OLLAMA_EMBED_MODEL_BY_PROJECT:-}"
+      OLLAMA_EMBED_TRUNCATE: "${OPENPLANNER_OLLAMA_EMBED_TRUNCATE:-true}"
+      OLLAMA_EMBED_NUM_CTX: "${OPENPLANNER_OLLAMA_EMBED_NUM_CTX:-}"
+    volumes:
+      - ./openplanner-lake:/app/openplanner-lake
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    healthcheck:
+      test:
+        [
+          "CMD",
+          "node",
+          "-e",
+          "fetch('http://127.0.0.1:7777/v1/health').then((response) => { if (!response.ok) { process.exit(1); } }).catch(() => process.exit(1))"
+        ]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+
+  chroma:
+    image: chromadb/chroma:latest
+    ports:
+      - "${OPENPLANNER_CHROMA_PORT:-8000}:8000"
+    environment:
+      - IS_PERSISTENT=TRUE
+      - PERSIST_DIRECTORY=/chroma/chroma
+    volumes:
+      - ./openplanner-lake/chroma:/chroma/chroma
+    restart: unless-stopped
+
+  # MongoDB - shared with Cephalon Hive for unified perception storage
+  mongodb:
+    image: mongo:7
+    ports:
+      - "${OPENPLANNER_MONGODB_PORT:-27017}:27017"
+    environment:
+      MONGO_INITDB_DATABASE: openplanner
+    volumes:
+      - openplanner-mongodb-data:/data/db
+    healthcheck:
+      test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    profiles:
+      - mongodb
+    networks:
+      default: {}
+      ai-infra:
+        aliases:
+          - openplanner-mongodb
+
+volumes:
+  openplanner-mongodb-data:
+
+networks:
+  ai-infra:
+    external: true
+    name: ai-infra

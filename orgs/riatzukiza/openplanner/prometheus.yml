@@ -1,0 +1,26 @@
+# OpenPlanner Prometheus Configuration
+#
+# Scrapes metrics from OpenPlanner /v1/metrics endpoint
+
+global:
+  scrape_interval: 15s
+  evaluation_interval: 15s
+  external_labels:
+    monitor: 'openplanner'
+
+scrape_configs:
+  # OpenPlanner metrics
+  - job_name: 'openplanner'
+    scrape_interval: 10s
+    static_configs:
+      - targets: ['openplanner:7777']
+    metrics_path: '/v1/metrics'
+    relabel_configs:
+      - target_label: service
+        replacement: openplanner
+
+  # Prometheus self-monitoring
+  - job_name: 'prometheus'
+    scrape_interval: 30s
+    static_configs:
+      - targets: ['localhost:9090']

@@ -1,0 +1,37 @@
+{
+  "lexicon": 1,
+  "id": "app.openhax.radar.connectionOpportunity",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "A Pi object linking a global thread to one or more local actions. The bridge between eta (global) and mu (local).",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["globalThreadRef", "bridgeType", "title", "summary", "createdAt"],
+        "properties": {
+          "globalThreadRef": { "type": "string", "format": "at-uri" },
+          "localThreadRefs": {
+            "type": "array",
+            "items": { "type": "string", "format": "at-uri" },
+            "minLength": 1
+          },
+          "bridgeType": { "type": "string", "description": "global_to_local | local_to_global_hypothesis | shared_campaign | shared_indicator" },
+          "title": { "type": "string", "maxLength": 500 },
+          "summary": { "type": "string", "maxLength": 5000 },
+          "score": { "type": "number", "minimum": 0, "maximum": 1 },
+          "confidence": { "type": "number", "minimum": 0, "maximum": 1 },
+          "rationale": { "type": "array", "items": { "type": "string" }, "maxLength": 20 },
+          "publicBenefit": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "fearFactor": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "realism": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "polarizationRisk": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "compressionLoss": { "type": "integer", "minimum": 0, "maximum": 100 },
+          "suggestedActions": { "type": "array", "items": { "type": "string" }, "maxLength": 10 },
+          "coordinationPath": { "type": "string", "maxLength": 2000 },
+          "createdAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

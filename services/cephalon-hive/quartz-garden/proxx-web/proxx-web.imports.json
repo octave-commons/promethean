@@ -1,0 +1,163 @@
+{
+  "id": "proxx-web",
+  "title": "Proxx Web",
+  "root": "orgs/open-hax/proxx/web/src",
+  "nodes": [
+    "App.tsx",
+    "lib/api.ts",
+    "lib/format.ts",
+    "lib/local-storage.ts",
+    "lib/use-stored-state.ts",
+    "main.tsx",
+    "pages/AnalyticsPage.tsx",
+    "pages/ChatPage.tsx",
+    "pages/CredentialsPage.tsx",
+    "pages/DashboardPage.tsx",
+    "pages/FederationPage.tsx",
+    "pages/HostsPage.tsx",
+    "pages/ImagesPage.tsx",
+    "pages/ToolsPage.tsx"
+  ],
+  "edges": [
+    {
+      "from": "App.tsx",
+      "to": "lib/api.ts",
+      "spec": "./lib/api"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/ChatPage.tsx",
+      "spec": "./pages/ChatPage"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/CredentialsPage.tsx",
+      "spec": "./pages/CredentialsPage"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/DashboardPage.tsx",
+      "spec": "./pages/DashboardPage"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/HostsPage.tsx",
+      "spec": "./pages/HostsPage"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/ToolsPage.tsx",
+      "spec": "./pages/ToolsPage"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/ImagesPage.tsx",
+      "spec": "./pages/ImagesPage"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/AnalyticsPage.tsx",
+      "spec": "./pages/AnalyticsPage"
+    },
+    {
+      "from": "App.tsx",
+      "to": "pages/FederationPage.tsx",
+      "spec": "./pages/FederationPage"
+    },
+    {
+      "from": "lib/use-stored-state.ts",
+      "to": "lib/local-storage.ts",
+      "spec": "./local-storage"
+    },
+    {
+      "from": "main.tsx",
+      "to": "App.tsx",
+      "spec": "./App"
+    },
+    {
+      "from": "pages/AnalyticsPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/AnalyticsPage.tsx",
+      "to": "lib/use-stored-state.ts",
+      "spec": "../lib/use-stored-state"
+    },
+    {
+      "from": "pages/ChatPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/ChatPage.tsx",
+      "to": "lib/use-stored-state.ts",
+      "spec": "../lib/use-stored-state"
+    },
+    {
+      "from": "pages/CredentialsPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/CredentialsPage.tsx",
+      "to": "lib/format.ts",
+      "spec": "../lib/format"
+    },
+    {
+      "from": "pages/CredentialsPage.tsx",
+      "to": "lib/use-stored-state.ts",
+      "spec": "../lib/use-stored-state"
+    },
+    {
+      "from": "pages/DashboardPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/DashboardPage.tsx",
+      "to": "lib/format.ts",
+      "spec": "../lib/format"
+    },
+    {
+      "from": "pages/DashboardPage.tsx",
+      "to": "lib/use-stored-state.ts",
+      "spec": "../lib/use-stored-state"
+    },
+    {
+      "from": "pages/FederationPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/FederationPage.tsx",
+      "to": "lib/format.ts",
+      "spec": "../lib/format"
+    },
+    {
+      "from": "pages/HostsPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/ImagesPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/ImagesPage.tsx",
+      "to": "lib/use-stored-state.ts",
+      "spec": "../lib/use-stored-state"
+    },
+    {
+      "from": "pages/ToolsPage.tsx",
+      "to": "lib/api.ts",
+      "spec": "../lib/api"
+    },
+    {
+      "from": "pages/ToolsPage.tsx",
+      "to": "lib/use-stored-state.ts",
+      "spec": "../lib/use-stored-state"
+    }
+  ]
+}

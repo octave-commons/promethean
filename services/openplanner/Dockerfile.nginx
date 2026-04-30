@@ -1,0 +1,59 @@
+FROM nginx:1.27-alpine
+
+# Install envsubst for template rendering at build time
+RUN apk add --no-cache gettext
+
+# Set default values for envsubst (matching compose defaults)
+# These will be used when rendering the templates at build time
+ENV KNOXX_FRONTEND_UPSTREAM_HOST=knoxx-frontend
+ENV KNOXX_FRONTEND_UPSTREAM_PORT=80
+ENV OPENPLANNER_API_KEY=change-me
+ENV KNOXX_BACKEND_HOST=knoxx-backend
+ENV KNOXX_BACKEND_PORT=8000
+ENV SHIBBOLETH_HOST=shibboleth-backend
+ENV SHIBBOLETH_PORT=8788
+ENV OPENPLANNER_HOST=openplanner
+ENV OPENPLANNER_PORT=7777
+ENV KMS_INGESTION_HOST=kms-ingestion
+ENV KMS_INGESTION_PORT=3003
+
+COPY config/knoxx/nginx.conf /etc/nginx/nginx.conf
+COPY config/knoxx/conf.d/default.conf /etc/nginx/templates/default.conf.template
+COPY config/knoxx/conf.d/dev.conf.template /etc/nginx/templates/dev.conf.template
+COPY config/knoxx/conf.d/ssl.conf.example /etc/nginx/conf.d/ssl.conf.example
+COPY config/knoxx/html /usr/share/nginx/html
+
+# Render production config with default values
+# Only substitute specific env vars, leave nginx $variables intact
+RUN envsubst '${KNOXX_FRONTEND_UPSTREAM_HOST} ${KNOXX_FRONTEND_UPSTREAM_PORT} ${OPENPLANNER_API_KEY}' \
+    < /etc/nginx/templates/default.conf.template > /etc/nginx/conf.d/default.conf
+
+# Create config directory for alternative configs
+RUN mkdir -p /etc/nginx/conf.d-available
+
+# Render dev config with dev-specific values
+RUN KNOXX_FRONTEND_UPSTREAM_HOST=knoxx-frontend-dev KNOXX_FRONTEND_UPSTREAM_PORT=5173 \
+    envsubst '${KNOXX_FRONTEND_UPSTREAM_HOST} ${KNOXX_FRONTEND_UPSTREAM_PORT} ${OPENPLANNER_API_KEY}' \
+    < /etc/nginx/templates/dev.conf.template > /etc/nginx/conf.d-available/dev.conf
+
+# Clean up templates since they're now rendered
+RUN rm -rf /etc/nginx/templates
+
+# Make nginx dirs writable by non-root user
+RUN chown -R 1000:1000 /etc/nginx /var/log/nginx /var/cache/nginx
+
+EXPOSE 80 8088 5173
+
+# Script to switch between prod and dev configs
+# Uses conf.d-available to avoid conflicts with nginx entrypoint
+RUN echo '#!/bin/sh' > /docker-entrypoint.d/40-select-config.sh && \
+    echo 'set -eu' >> /docker-entrypoint.d/40-select-config.sh && \
+    echo 'if [ "${KNOXX_FRONTEND_UPSTREAM_PORT:-80}" = "5173" ]; then' >> /docker-entrypoint.d/40-select-config.sh && \
+    echo '  echo "Using dev config (Vite dev server)"' >> /docker-entrypoint.d/40-select-config.sh && \
+    echo '  cp -f /etc/nginx/conf.d-available/dev.conf /etc/nginx/conf.d/default.conf' >> /docker-entrypoint.d/40-select-config.sh && \
+    echo 'else' >> /docker-entrypoint.d/40-select-config.sh && \
+    echo '  echo "Using production config"' >> /docker-entrypoint.d/40-select-config.sh && \
+    echo 'fi' >> /docker-entrypoint.d/40-select-config.sh && \
+    chmod +x /docker-entrypoint.d/40-select-config.sh
+
+CMD ["nginx", "-g", "daemon off;"]

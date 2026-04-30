@@ -1,0 +1,17 @@
+Subject: Publicly reachable Ollama service on {{ ip }}
+
+Hello,
+
+We observed that an Ollama API appears to be publicly reachable at {{ ip }}:{{ port }}.
+Depending on configuration, publicly exposed inference endpoints can permit unauthenticated model enumeration and prompt execution.
+
+Suggested actions:
+- restrict access to trusted networks only
+- place the service behind authentication or a gateway
+- confirm bind settings and firewall rules for port 11434
+- review logs for unexpected access
+
+If this exposure is intentional, no action is needed.
+
+Best,
+Security notification

@@ -1,0 +1,72 @@
+# Cephalon Hive Base Service
+#
+# Common configuration for all cephalons.
+# Mounts the workspace and uses the TypeScript bridge.
+
+services:
+  cephalon-base:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    depends_on:
+      mongodb:
+        condition: service_healthy
+      openplanner:
+        condition: service_healthy
+    volumes:
+      - ../..:/workspace:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+    environment:
+      WORKSPACE_ROOT: /workspace
+      NODE_ENV: production
+      CEPHALON_TS_BRIDGE: "true"
+      CEPHALON_USE_OPENAI_ENDPOINTS: "true"
+      # Runtime limits (raise these to avoid dropped events / truncated outputs)
+      CEPHALON_MAX_TOKENS: "${CEPHALON_MAX_TOKENS:-16384}"
+      CEPHALON_MAX_CONTEXT_TOKENS: "${CEPHALON_MAX_CONTEXT_TOKENS:-262144}"
+      CEPHALON_CONTEXT_RECENT_LIMIT: "${CEPHALON_CONTEXT_RECENT_LIMIT:-500}"
+      CEPHALON_SESSION_CONCURRENCY: "${CEPHALON_SESSION_CONCURRENCY:-8}"
+      CEPHALON_SESSION_QUEUE_MAX_PER_SESSION: "${CEPHALON_SESSION_QUEUE_MAX_PER_SESSION:-2000}"
+      CEPHALON_OLLAMA_QUEUE_MAX_PARALLEL: "${CEPHALON_OLLAMA_QUEUE_MAX_PARALLEL:-8}"
+      CEPHALON_OLLAMA_QUEUE_MAX_BACKLOG: "${CEPHALON_OLLAMA_QUEUE_MAX_BACKLOG:-8192}"
+      CEPHALON_STARTUP_TICK_JITTER_MS: "${CEPHALON_STARTUP_TICK_JITTER_MS:-30000}"
+      CEPHALON_EMBEDDING_CONTEXT_SIZE: "${CEPHALON_EMBEDDING_CONTEXT_SIZE:-8192}"
+      # Persona growth (self.growth)
+      CEPHALON_GROWTH_MAX_PERSONAS_PER_DAY: "${CEPHALON_GROWTH_MAX_PERSONAS_PER_DAY:-6}"
+      CEPHALON_GROWTH_MIN_INTERVAL_MINUTES: "${CEPHALON_GROWTH_MIN_INTERVAL_MINUTES:-20}"
+      CEPHALON_GROWTH_MAX_PERSONAS_TOTAL: "${CEPHALON_GROWTH_MAX_PERSONAS_TOTAL:-512}"
+      CEPHALON_GROWTH_MAX_PROMPT_CHARS: "${CEPHALON_GROWTH_MAX_PROMPT_CHARS:-7000}"
+      # Tenor GIF cadence (fun, not spam)
+      CEPHALON_TENOR_COOLDOWN_SECONDS: "${CEPHALON_TENOR_COOLDOWN_SECONDS:-300}"
+      CEPHALON_TENOR_REQUIRE_RECENT_HUMAN_SECONDS: "${CEPHALON_TENOR_REQUIRE_RECENT_HUMAN_SECONDS:-900}"
+      CEPHALON_TENOR_TIMEOUT_MS: "${CEPHALON_TENOR_TIMEOUT_MS:-12000}"
+      # Optional: restrict gif drops to channel names matching this regex (leave blank to allow any)
+      CEPHALON_TENOR_CHANNEL_NAME_ALLOW_REGEX: "${CEPHALON_TENOR_CHANNEL_NAME_ALLOW_REGEX:-}"
+      CEPHALON_AUTO_MODEL: "${CEPHALON_AUTO_MODEL:-auto:cheapest}"
+      CEPHALON_MODEL_C1: "${CEPHALON_MODEL_C1:-ollama/gpt-oss:20b}"
+      CEPHALON_MODEL_C2: "${CEPHALON_MODEL_C2:-ollama/gpt-oss:20b}"
+      CEPHALON_MODEL_C3: "${CEPHALON_MODEL_C3:-ollama/gpt-oss:20b}"
+      CEPHALON_MODEL_C4: "${CEPHALON_MODEL_C4:-ollama/gpt-oss:20b}"
+      CEPHALON_MODEL_C5: "${CEPHALON_MODEL_C5:-ollama/gemma3:12b}"
+      CEPHALON_MODEL_C6: "${CEPHALON_MODEL_C6:-ollama/gemma3:12b}"
+      CEPHALON_MODEL_C7: "${CEPHALON_MODEL_C7:-ollama/gemma3:27b}"
+      CEPHALON_MODEL_C8: "${CEPHALON_MODEL_C8:-ollama/gemma3:27b}"
+      # Max tokens for vision responses
+      CEPHALON_VISION_MAX_TOKENS: "${CEPHALON_VISION_MAX_TOKENS:-1024}"
+      # IRC is optional. Default to enabled so cephalons appear in IRC channels.
+      CEPHALON_ENABLE_IRC: "${CEPHALON_ENABLE_IRC:-true}"
+      CEPHALON_IRC_HOST: "${CEPHALON_IRC_HOST:-irc.ussy.host}"
+      CEPHALON_IRC_PORT: "${CEPHALON_IRC_PORT:-6697}"
+      CEPHALON_IRC_TLS: "${CEPHALON_IRC_TLS:-true}"
+      CEPHALON_IRC_TLS_SERVERNAME: "${CEPHALON_IRC_TLS_SERVERNAME:-ussyco.de}"
+      CEPHALON_IRC_WORKSPACE: "${CEPHALON_IRC_WORKSPACE:-ussy}"
+      CEPHALON_IRC_CHANNEL: "${CEPHALON_IRC_CHANNEL:-#ussycode}"
+      OPENPLANNER_API_BASE_URL: "${OPENPLANNER_API_BASE_URL:-http://openplanner:7777}"
+      OPENPLANNER_API_KEY: "${OPENPLANNER_API_KEY:-change-me}"
+      # Ollama/OpenAI-compatible endpoint
+      OLLAMA_BASE_URL: "${OLLAMA_BASE_URL:-http://host.docker.internal:11434}"

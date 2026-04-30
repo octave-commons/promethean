@@ -1,0 +1,258 @@
+{
+  "groupId": "mcp-tools-snapshots",
+  "testedAt": "2026-03-13T03:46:30Z",
+  "isolation": {
+    "appUrl": "http://localhost:9001",
+    "auth": "MCP endpoint auto-authenticated (ALLOW_UNAUTH_LOCAL=true); REST endpoints use x-admin-auth-key header",
+    "dbAccess": "docker exec open-hax-openai-proxy-open-hax-openai-proxy-db-1 psql -U openai_proxy -d threat_radar",
+    "radarSlugPrefix": "val-mcp-"
+  },
+  "toolsUsed": ["curl", "psql (via docker exec)"],
+  "assertions": [
+    {
+      "id": "VAL-CROSS-010",
+      "title": "MCP Tool Surface — All 9 Tools Return Valid Responses",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Initialize MCP session with proper Accept headers",
+          "expected": "Session ID returned with protocol version 2024-11-05",
+          "observed": "Session initialized successfully, mcp-session-id header returned"
+        },
+        {
+          "action": "Call radar_create with valid slug/name/category",
+          "expected": "Response with ok:true and radar object",
+          "observed": "ok:true, radar created with id=306cabcf-0091-45ef-831a-1b6cbf43ddf9, slug=val-mcp-cross010"
+        },
+        {
+          "action": "Call radar_list with empty arguments",
+          "expected": "Array of radar objects with metadata",
+          "observed": "Returned array of 11 radars with sourceCount, submissionCount, hasLiveSnapshot, dailySnapshotCount per radar"
+        },
+        {
+          "action": "Call radar_add_source with valid source definition object",
+          "expected": "Response with ok:true and created source",
+          "observed": "ok:true, source created with id=val-src-001, kind=social, trust_profile populated"
+        },
+        {
+          "action": "Call radar_submit_packet with valid RadarAssessmentPacket",
+          "expected": "Response with ok:true and submissionId",
+          "observed": "ok:true, submissionId=val-thread-001, weight=0.2"
+        },
+        {
+          "action": "Call radar_reduce_live with valid radarId",
+          "expected": "Response with ok:true and snapshot object",
+          "observed": "ok:true, snapshot with snapshot_kind=live, model_count=1, valid as_of_utc"
+        },
+        {
+          "action": "Call radar_seal_daily_snapshot with valid radarId",
+          "expected": "Response with ok:true and daily snapshot",
+          "observed": "ok:true, snapshot with snapshot_kind=daily, valid as_of_utc"
+        },
+        {
+          "action": "Call radar_get_audit_log with valid radarId",
+          "expected": "Array of audit events",
+          "observed": "Returned 5 audit events: daily_sealed, live_reduction, packet_submitted, source_added, radar_created"
+        },
+        {
+          "action": "Call radar_collect_bluesky with searchQuery=climate, limit=2",
+          "expected": "Response with ok:true and collection stats",
+          "observed": "ok:true, collected=0, duplicates=0, total_fetched=0 (no search results but tool executed without error)"
+        },
+        {
+          "action": "Call radar_collect_reddit with subreddits=[worldnews], sort=hot, limit=2",
+          "expected": "Response with ok:true and collection stats",
+          "observed": "ok:true, collected=2, duplicates=0, total_fetched=2"
+        },
+        {
+          "action": "Call radar_create with invalid input (missing required fields slug and category)",
+          "expected": "Structured MCP error with validation details",
+          "observed": "isError:true, structured error message: 'MCP error -32602: Input validation error' with path details for missing slug and category"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (API testing)",
+        "network": "All 9 tools returned HTTP 200 with well-formed JSON-RPC 2.0 responses via SSE. Invalid input returned structured MCP error -32602 with Zod validation details.",
+        "responseFiles": [
+          "signal-pipeline/mcp-tools/01-radar_create-response.json",
+          "signal-pipeline/mcp-tools/02-radar_list-response.json",
+          "signal-pipeline/mcp-tools/03-radar_add_source-response.json",
+          "signal-pipeline/mcp-tools/04-radar_submit_packet-response.json",
+          "signal-pipeline/mcp-tools/05-radar_reduce_live-response.json",
+          "signal-pipeline/mcp-tools/06-radar_seal_daily_snapshot-response.json",
+          "signal-pipeline/mcp-tools/07-radar_get_audit_log-response.json",
+          "signal-pipeline/mcp-tools/08-radar_collect_bluesky-response.json",
+          "signal-pipeline/mcp-tools/09-radar_collect_reddit-response.json",
+          "signal-pipeline/mcp-tools/10-invalid-input-response.json"
+        ]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-PROC-004",
+      "title": "Live Snapshot Updates Without Overwriting Daily",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Create radar val-mcp-proc004",
+          "expected": "Radar created successfully",
+          "observed": "Radar created with id=a356d8bc-2d20-4cb4-b7cc-d2247db0147a"
+        },
+        {
+          "action": "Submit first assessment packet (model-alpha, agency=2, nuance=3)",
+          "expected": "Packet accepted",
+          "observed": "ok:true, submissionId=proc004-thread-1, weight=0.2"
+        },
+        {
+          "action": "Reduce live to create initial snapshot",
+          "expected": "Live snapshot created with model_count=1",
+          "observed": "Live snapshot created, model_count=1, snapshot_kind=live"
+        },
+        {
+          "action": "Seal daily snapshot",
+          "expected": "Daily snapshot sealed with snapshot_kind=daily",
+          "observed": "Daily snapshot sealed: id=a356d8bc...:daily:2026-03-13, snapshot_kind=daily, model_count=1, as_of_utc=2026-03-13T03:45:00.497Z"
+        },
+        {
+          "action": "Query daily snapshot in DB (before new packet)",
+          "expected": "Daily snapshot exists with model_count=1",
+          "observed": "Confirmed: snapshot_kind=daily, model_count=1, as_of_utc=2026-03-13 03:45:00.497+00"
+        },
+        {
+          "action": "Submit second packet (model-beta, agency=4, nuance=1 — different scores)",
+          "expected": "Packet accepted",
+          "observed": "ok:true, submissionId=proc004-thread-2, weight=0.2"
+        },
+        {
+          "action": "Call reduce_live after second packet",
+          "expected": "Live snapshot updated with model_count=2",
+          "observed": "Live snapshot updated: model_count=2, new as_of_utc=2026-03-13T03:45:15.588Z"
+        },
+        {
+          "action": "Query daily snapshot in DB (after live update)",
+          "expected": "Daily snapshot unchanged — still model_count=1, same as_of_utc",
+          "observed": "Daily snapshot UNCHANGED: model_count=1, as_of_utc=2026-03-13T03:45:00.497+00, signals={}, branches=[]"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (API testing)",
+        "network": "POST /mcp tools/call for radar_create, radar_submit_packet (x2), radar_reduce_live (x2), radar_seal_daily_snapshot — all HTTP 200",
+        "responseFiles": [
+          "signal-pipeline/mcp-tools/proc004-step1-create.json",
+          "signal-pipeline/mcp-tools/proc004-step2-submit-packet1.json",
+          "signal-pipeline/mcp-tools/proc004-step3a-reduce-before-seal.json",
+          "signal-pipeline/mcp-tools/proc004-step3b-seal-daily.json",
+          "signal-pipeline/mcp-tools/proc004-step5-submit-packet2.json",
+          "signal-pipeline/mcp-tools/proc004-step6-reduce-live-after.json",
+          "signal-pipeline/mcp-tools/proc004-all-snapshots.txt",
+          "signal-pipeline/mcp-tools/proc004-daily-snapshot-final.json",
+          "signal-pipeline/mcp-tools/proc004-live-snapshot-final.json"
+        ],
+        "dbQueries": [
+          "SELECT ... FROM radar_snapshots WHERE radar_id='a356d8bc...' AND snapshot_kind='daily' — model_count=1 both before and after live update",
+          "SELECT ... FROM radar_snapshots WHERE radar_id='a356d8bc...' ORDER BY created_at — shows 3 rows: live(model_count=1), daily(model_count=1), live(model_count=2)"
+        ]
+      },
+      "issues": null
+    },
+    {
+      "id": "VAL-PROC-005",
+      "title": "Daily Snapshot Sealing",
+      "status": "pass",
+      "steps": [
+        {
+          "action": "Create radar val-mcp-proc005",
+          "expected": "Radar created",
+          "observed": "Radar created with id=143f3987-a7f1-4ffa-889e-678f276d06c8"
+        },
+        {
+          "action": "Submit packet (model-gamma, agency=3, nuance=2)",
+          "expected": "Packet accepted",
+          "observed": "ok:true, submissionId=proc005-thread-1"
+        },
+        {
+          "action": "Reduce live",
+          "expected": "Live snapshot with model_count=1",
+          "observed": "Live snapshot: model_count=1, snapshot_kind=live"
+        },
+        {
+          "action": "Seal daily snapshot",
+          "expected": "Daily snapshot with snapshot_kind=daily and valid as_of_utc",
+          "observed": "snapshot_kind=daily, as_of_utc=2026-03-13T03:46:07.094Z, model_count=1"
+        },
+        {
+          "action": "Query daily snapshot in DB — verify snapshot_kind and as_of_utc",
+          "expected": "snapshot_kind='daily', valid ISO 8601 as_of_utc timestamp",
+          "observed": "snapshot_kind=daily, as_of_utc=2026-03-13 03:46:07.094+00 — CONFIRMED"
+        },
+        {
+          "action": "Attempt to re-seal the same day's snapshot",
+          "expected": "Rejection or idempotent no-op",
+          "observed": "isError:true — 'duplicate key value violates unique constraint radar_snapshots_pkey' — re-sealing is rejected"
+        },
+        {
+          "action": "Submit new packet (model-delta, different scores) and reduce live",
+          "expected": "Live snapshot updated, daily remains unchanged",
+          "observed": "Live snapshot updated to model_count=2; daily snapshot unchanged"
+        },
+        {
+          "action": "Query daily snapshot in DB after all subsequent operations",
+          "expected": "Daily snapshot identical to sealed version",
+          "observed": "Daily snapshot UNCHANGED: id=...daily:2026-03-13, model_count=1, signals={}, branches=[] — identical to sealed version"
+        }
+      ],
+      "evidence": {
+        "screenshots": [],
+        "consoleErrors": "N/A (API testing)",
+        "network": "POST /mcp tools/call for radar_create, radar_submit_packet (x2), radar_reduce_live (x2), radar_seal_daily_snapshot (x2, second rejected) — all HTTP 200",
+        "responseFiles": [
+          "signal-pipeline/mcp-tools/proc005-step1-create.json",
+          "signal-pipeline/mcp-tools/proc005-step2-submit.json",
+          "signal-pipeline/mcp-tools/proc005-step3-reduce.json",
+          "signal-pipeline/mcp-tools/proc005-step4-seal.json",
+          "signal-pipeline/mcp-tools/proc005-verify1-daily-db.txt",
+          "signal-pipeline/mcp-tools/proc005-verify2-reseal.json",
+          "signal-pipeline/mcp-tools/proc005-verify3a-submit.json",
+          "signal-pipeline/mcp-tools/proc005-verify3b-reduce.json",
+          "signal-pipeline/mcp-tools/proc005-verify3c-daily-unchanged.txt"
+        ],
+        "dbQueries": [
+          "SELECT ... FROM radar_snapshots WHERE radar_id='143f3987...' AND snapshot_kind='daily' — confirmed snapshot_kind=daily with valid as_of_utc",
+          "Re-seal attempt returned duplicate key error — immutability enforced by primary key constraint",
+          "After subsequent packet + reduce_live, daily row unchanged (model_count=1, signals={}, branches=[])"
+        ]
+      },
+      "issues": null
+    }
+  ],
+  "frictions": [
+    {
+      "description": "MCP Streamable HTTP requires Accept: 'application/json, text/event-stream' header — initial request without this header was rejected with 'Not Acceptable' error",
+      "resolved": true,
+      "resolution": "Added Accept header to all requests",
+      "affectedAssertions": ["VAL-CROSS-010"]
+    },
+    {
+      "description": "MCP Streamable HTTP requires session initialization before tool calls — initial tool call without initialization returned 'Server not initialized' error",
+      "resolved": true,
+      "resolution": "Sent initialize request first, captured mcp-session-id from response headers, included it in subsequent requests",
+      "affectedAssertions": ["VAL-CROSS-010", "VAL-PROC-004", "VAL-PROC-005"]
+    },
+    {
+      "description": "radar_collect_bluesky returned 0 results for searchQuery='climate' — Bluesky search API may have returned empty results, but tool executed without error",
+      "resolved": true,
+      "resolution": "Tool returned well-formed response with ok:true and zero counts — valid behavior when search yields no results",
+      "affectedAssertions": ["VAL-CROSS-010"]
+    },
+    {
+      "description": "Tool parameter names differ from task prompt assumptions — e.g., radar_reduce_live expects 'radarId' (not 'radar_slug'), radar_add_source expects nested 'source' object, radar_collect_bluesky expects 'searchQuery' (not 'query')",
+      "resolved": true,
+      "resolution": "Read tool schemas from source code (main.ts) to determine correct parameter names",
+      "affectedAssertions": ["VAL-CROSS-010"]
+    }
+  ],
+  "blockers": [],
+  "summary": "Tested 3 assertions: 3 passed, 0 failed. VAL-CROSS-010: All 9 MCP tools (radar_create, radar_list, radar_add_source, radar_submit_packet, radar_reduce_live, radar_seal_daily_snapshot, radar_get_audit_log, radar_collect_bluesky, radar_collect_reddit) return well-formed responses; invalid inputs produce structured MCP errors, not crashes. VAL-PROC-004: Live snapshots update independently (model_count 1→2) without modifying sealed daily snapshot (model_count stayed 1). VAL-PROC-005: Daily snapshot sealing produces immutable record with snapshot_kind='daily' and valid as_of_utc; re-sealing is rejected (unique constraint); subsequent operations leave daily unchanged."
+}

@@ -1,0 +1,61 @@
+{
+  "featureId": "restore-radar-core-types",
+  "milestone": "foundation",
+  "reviewer": "scrutiny-feature-reviewer",
+  "reviewedAt": "2026-03-13T01:55:00.000Z",
+  "commitId": "a9bdfe1",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeQuality": {
+    "score": 4,
+    "observations": [
+      "Schemas are well-structured with proper Zod validators (min/max constraints, enum values, defaults, datetime strings).",
+      "Clear section comment '// --- Stable types for mission-control pipeline ---' separates restored types from pre-existing ones.",
+      "All 6 schemas and 6 type exports follow the exact same pattern as the pre-existing schemas above them (schema const + z.infer type export).",
+      "Source code in src/schema.ts is a faithful restoration from dist/schema.js — field-by-field comparison confirms identical Zod definitions."
+    ]
+  },
+  "correctness": {
+    "score": 5,
+    "observations": [
+      "All 4 required types (SignalEvent, Thread, ConnectionOpportunity, ActionCard) plus 2 supporting types (SignalEventProvenance, ThreadMembership) are restored.",
+      "Verified src/schema.ts matches dist/schema.js field-by-field: signalEventProvenanceSchema, signalEventSchema, threadMembershipSchema, threadSchema, connectionOpportunitySchema, actionCardSchema all match exactly.",
+      "dist/schema.d.ts confirms all 6 types appear in compiled output after rebuild.",
+      "src/index.ts already has 'export * from \"./schema.js\"' barrel re-export, correctly exposing all new types.",
+      "tsc --noEmit and tsc -p tsconfig.json both passed with zero errors per handoff verification.",
+      "The commit modifies only packages/radar-core/src/schema.ts (112 insertions, 0 deletions) — minimal, focused change."
+    ]
+  },
+  "testCoverage": {
+    "score": 2,
+    "observations": [
+      "No new tests were added for the restored schemas. Worker notes this is scoped to the foundation-build-verify feature.",
+      "For a pure type restoration task, the compile-time verification (tsc --noEmit passing) provides meaningful coverage that the schemas are syntactically correct.",
+      "Runtime validation tests (e.g., parsing valid/invalid data through the Zod schemas) would strengthen confidence but are reasonably deferred to a dedicated testing feature.",
+      "Pre-existing tests (6 passed, 3 pre-existing failures in pm2-clj unrelated) were not broken by the change."
+    ]
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "file": "packages/radar-core/src/schema.ts",
+      "severity": "non_blocking",
+      "description": "No JSDoc comments on the restored schemas. The existing schemas above also lack JSDoc, so this is consistent, but adding brief descriptions for the pipeline types (SignalEvent, Thread, ConnectionOpportunity, ActionCard) would improve developer experience."
+    }
+  ],
+  "sharedStateObservations": [
+    {
+      "target": "AGENTS.md",
+      "description": "The mission AGENTS.md has a 'CRITICAL: radar-core Type Restoration' section that is now resolved by this feature. It could be updated to reflect that these types have been restored, to prevent future workers from re-doing this work.",
+      "evidence": "Mission AGENTS.md says 'packages/radar-core/src/schema.ts is MISSING types that exist in packages/radar-core/dist/schema.js' — this is no longer true after commit a9bdfe1."
+    },
+    {
+      "target": "library",
+      "description": "The worker sourced types from dist/schema.js rather than dist/schema.d.ts. The .js file contains the actual Zod runtime schemas while .d.ts only has type declarations. This is a useful pattern when recovering lost source — document in library that dist/*.js files contain runtime Zod definitions suitable for direct copy-back to src.",
+      "evidence": "Transcript shows worker Read dist/schema.js and used it as the source for restoration rather than the .d.ts declarations."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Feature passes review. All 6 Zod schemas (signalEventProvenance, signalEvent, threadMembership, thread, connectionOpportunity, actionCard) and their 6 TypeScript type exports were faithfully restored from dist/schema.js to src/schema.ts. The barrel re-export in src/index.ts was already correct. Build and typecheck pass cleanly. The only gap is lack of runtime validation tests, which is reasonably deferred to the foundation-build-verify feature. No blocking issues found."
+}

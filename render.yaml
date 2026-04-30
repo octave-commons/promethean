@@ -1,38 +1,66 @@
-previewsEnabled: true
 services:
   - type: web
-    name: threat-radar-mcp
+    name: open-hax-openai-proxy
     runtime: node
     region: oregon
-    plan: starter
-    buildCommand: pnpm install && pnpm --filter @workspace/radar-core build && pnpm --filter @workspace/mcp-foundation build && pnpm --filter @riatzukiza/threat-radar-mcp build
-    startCommand: pnpm --filter @riatzukiza/threat-radar-mcp start
+    plan: free
+    buildCommand: npm install && npm run build
+    startCommand: npm run start
     healthCheckPath: /health
     envVars:
       - key: NODE_VERSION
         value: "22"
       - key: PORT
-        value: "10002"
-      - key: ADMIN_AUTH_KEY
+        value: "8789"
+      - key: PROXY_PORT
+        value: "8789"
+      - key: PROXY_AUTH_TOKEN
         generateValue: true
-      - key: PUBLIC_BASE_URL
-        sync: false
-      - key: ALLOW_UNAUTH_LOCAL
-        value: "false"
+      - key: UPSTREAM_PROVIDER_ID
+        value: openai
+      - key: UPSTREAM_FALLBACK_PROVIDER_IDS
+        value: ollama-cloud
+      - key: DISABLED_PROVIDER_IDS
+        value: vivgrid
+      - key: UPSTREAM_BASE_URL
+        value: https://chatgpt.com/backend-api
+      - key: UPSTREAM_PROVIDER_BASE_URLS
+        value: ollama-cloud=https://ollama.com,openai=https://chatgpt.com/backend-api,vivgrid=https://api.vivgrid.com
+      - key: OPENAI_PROVIDER_ID
+        value: openai
+      - key: OPENAI_BASE_URL
+        value: https://chatgpt.com/backend-api
+      - key: UPSTREAM_CHAT_COMPLETIONS_PATH
+        value: /v1/chat/completions
+      - key: UPSTREAM_MESSAGES_MODEL_PREFIXES
+        value: claude-
+      - key: UPSTREAM_RESPONSES_MODEL_PREFIXES
+        value: ""
+      - key: OPENAI_MODEL_PREFIXES
+        value: "openai/,openai:"
+      - key: PROXY_KEY_RELOAD_MS
+        value: "5000"
+      - key: PROXY_KEY_COOLDOWN_MS
+        value: "30000"
+      - key: UPSTREAM_REQUEST_TIMEOUT_MS
+        value: "180000"
+      - key: SESSION_SECRET
+        generateValue: true
       - key: DATABASE_URL
+        fromDatabase:
+          name: openai-proxy-db
+          property: connectionString
+      - key: GITHUB_OAUTH_CLIENT_ID
         sync: false
-  - type: web
-    name: threat-radar-web
-    runtime: static
-    rootDir: orgs/riatzukiza/threat-radar-web
-    buildCommand: pnpm install && pnpm --filter @workspace/radar-core build && pnpm --filter @riatzukiza/threat-radar-web build
-    staticPublishPath: ./dist
-    envVars:
-      - key: NODE_VERSION
-        value: "22"
-      - key: VITE_API_URL
-        value: "https://threat-radar-mcp.onrender.com"
+      - key: GITHUB_OAUTH_CLIENT_SECRET
+        sync: false
+      - key: GITHUB_ALLOWED_USERS
+        sync: false
+      - key: UPSTREAM_KEYS_JSON
+        sync: false
+
 databases:
-  - name: threat-radar-db
-    databaseName: threat_radar
-    plan: starter
+  - name: openai-proxy-db
+    databaseName: openai_proxy
+    user: openai_proxy
+    plan: free

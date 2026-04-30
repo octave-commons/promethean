@@ -1,0 +1,78 @@
+{
+  "featureId": "federation-enso",
+  "reviewedAt": "2026-03-13T15:45:00.000Z",
+  "commitId": "b688b45",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation of Enso-style federation module with 556 lines in federation.ts, 161 lines of API wiring in main.ts, and 568 lines of comprehensive tests (22 cases). The envelope types faithfully mirror the original Enso Envelope<T> from promethean/experimental/enso-protocol/src/types/envelope.ts. Canonical serialization follows the same pattern as the original signature.ts. Privacy-preserving aggregate payloads correctly strip raw signals. Trust circle filtering, offline peer handling (stale/retry/offline state machine), and AT Protocol peer discovery are all well-implemented. All 22 tests cover the required areas: envelope serialization, peer exchange, offline handling, trust circles, privacy, AT Protocol discovery, and status API.",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/main.ts",
+        "line": 509,
+        "severity": "non_blocking",
+        "description": "The /api/federation/receive endpoint accepts unauthenticated requests (no requireAdminKey). While peers need to send data without an admin key, there's no alternative authentication mechanism. Any external client can POST fake envelopes. Trust circle filtering mitigates this partially (untrusted peers are rejected), but auto-registration of unknown senders as 'untrusted' means anyone can populate the peer list with junk entries. Acceptable for prototype but needs auth for production."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/main.ts",
+        "line": 509,
+        "severity": "non_blocking",
+        "description": "No rate limiting on /api/federation/receive. A peer or attacker can flood the endpoint with envelopes. Consider adding basic rate limiting before production use."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/lib/federation.ts",
+        "line": 130,
+        "severity": "non_blocking",
+        "description": "Double cast 'parsed as unknown as EnsoEnvelope' in deserializeEnvelope bypasses type safety. The manual field checks above it are a partial substitute, but a Zod schema would be more consistent with the project's Zod-first validation pattern (noted in AGENTS.md coding conventions: 'Zod: Use for runtime validation of external inputs')."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/lib/federation.ts",
+        "line": 193,
+        "severity": "non_blocking",
+        "description": "discoverPeersViaAtProtocol uses sequential for-of loop for handle lookups. For many handles this is O(n) serial network calls. Promise.allSettled would parallelize discovery."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/lib/federation.ts",
+        "line": 0,
+        "severity": "non_blocking",
+        "description": "No Enso envelope signature verification implemented. The original protocol supports Ed25519 signing via signature.ts, and the sig field exists on EnsoEnvelope but is never populated or verified. Feature description doesn't require it, but it's a security gap for federation trust."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-mcp/src/lib/federation.ts",
+        "line": 340,
+        "severity": "non_blocking",
+        "description": "Private method markPeerOffline is misleadingly named — it can mark peers as either 'stale' or 'offline' depending on retry count. A name like 'handlePeerFailure' would be more accurate."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "Federation module introduces 4 new environment variables (FEDERATION_INSTANCE_NAME, FEDERATION_TIMEOUT_MS, FEDERATION_STALE_MS, FEDERATION_MAX_RETRIES) that are not documented in AGENTS.md or .env.example. Future workers may not know these exist.",
+      "evidence": "orgs/riatzukiza/threat-radar-mcp/src/main.ts:465-469 — env vars read with process.env with fallback defaults"
+    },
+    {
+      "area": "conventions",
+      "observation": "The /api/federation/receive endpoint is the only mutation endpoint without requireAdminKey middleware. AGENTS.md doesn't document authentication exceptions for inter-peer endpoints. This deviation from the pattern could confuse future workers.",
+      "evidence": "main.ts:509 — app.post('/api/federation/receive', ...) vs main.ts:534 — app.post('/api/federation/peers', requireAdminKey, ...) — receive is the only POST without auth"
+    },
+    {
+      "area": "skills",
+      "observation": "Worker did not follow TDD as prescribed by backend-worker skill (write failing tests first). Implementation was created before tests. The handoff reports followedProcedure: true with no deviations, but the transcript skeleton shows Create for federation.ts before Create for federation.test.ts. The TDD exception clause ('configuration-only, type-restoration, or wiring-only tasks') does not apply here — this is new runtime logic.",
+      "evidence": "Transcript skeleton: Create federation.ts appears before Create federation.test.ts. Handoff skillFeedback.followedProcedure = true, deviations = []"
+    },
+    {
+      "area": "skills",
+      "observation": "Worker skipped the integration verification step from backend-worker skill: 'If the feature involves API endpoints or MCP tools: Start the service... Test with curl.' Worker added 8 new API endpoints but never started the service or tested with curl. Handoff verification only shows vitest and tsc commands.",
+      "evidence": "Handoff verification.commandsRun has 3 entries (vitest run, tsc --noEmit, vitest run combined). No curl or service start commands. Backend-worker SKILL.md step 6 requires integration verification for API endpoints."
+    },
+    {
+      "area": "knowledge",
+      "observation": "The architecture.md mentions 'Enso protocol for Π — envelope-based federation from promethean experimental' but doesn't document the 8 federation API endpoints, their authentication requirements, or the federation data flow. Future workers integrating with federation would need to read the source.",
+      "evidence": ".factory/library/architecture.md has no mention of /api/federation/* endpoints or FederationManager class"
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Federation-enso passes review. The implementation faithfully adapts the Enso envelope protocol, implements all 5 required capabilities (envelope exchange, AT Protocol peer discovery, privacy-preserving aggregate snapshots, Π lane API, offline handling), and provides 22 comprehensive vitest tests across 7 describe blocks covering all validation criteria (VAL-FED-001, VAL-FED-002, VAL-FED-003). Non-blocking issues: unauthenticated receive endpoint, no rate limiting, double-cast instead of Zod validation, sequential AT Protocol discovery, no envelope signature verification, misleading method name. Shared state observations: undocumented env vars, missing architecture docs for federation endpoints, worker deviated from TDD and skipped integration verification without reporting deviations."
+}

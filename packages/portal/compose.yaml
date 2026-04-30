@@ -1,0 +1,19 @@
+name: promethean-portal
+
+services:
+  portal:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "127.0.0.1:${PORTAL_PORT:-8799}:8799"
+    environment:
+      PORTAL_HOST: "0.0.0.0"
+      PORTAL_PORT: "8799"
+    healthcheck:
+      test: ["CMD", "node", "-e", "fetch('http://127.0.0.1:8799/health').then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 10s
+    restart: unless-stopped

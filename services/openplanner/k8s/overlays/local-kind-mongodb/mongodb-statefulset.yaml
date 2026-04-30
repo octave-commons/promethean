@@ -1,0 +1,107 @@
+apiVersion: apps/v1
+kind: StatefulSet
+metadata:
+  name: mongodb
+spec:
+  serviceName: mongodb
+  replicas: 1
+  selector:
+    matchLabels:
+      app.kubernetes.io/name: openplanner
+      app.kubernetes.io/component: mongodb
+  template:
+    metadata:
+      labels:
+        app.kubernetes.io/name: openplanner
+        app.kubernetes.io/component: mongodb
+    spec:
+      terminationGracePeriodSeconds: 30
+      initContainers:
+        - name: prepare-keyfile
+          image: busybox:1.36
+          command:
+            - /bin/sh
+            - -lc
+            - |
+              set -eu
+              cp /source/mongodb-keyfile /workdir/mongodb-keyfile
+              chmod 0400 /workdir/mongodb-keyfile
+              chown 998:998 /workdir/mongodb-keyfile || true
+          volumeMounts:
+            - name: mongodb-keyfile-source
+              mountPath: /source
+              readOnly: true
+            - name: mongodb-keyfile-workdir
+              mountPath: /workdir
+      containers:
+        - name: mongodb
+          image: mongodb/mongodb-community-server:8.2.0-ubi9
+          args: ["--config", "/etc/mongod/mongod.conf"]
+          env:
+            - name: MONGODB_INITDB_ROOT_USERNAME
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_USERNAME
+            - name: MONGODB_INITDB_ROOT_PASSWORD
+              valueFrom:
+                secretKeyRef:
+                  name: openplanner-mongodb-secrets
+                  key: MONGODB_ROOT_PASSWORD
+          ports:
+            - name: mongodb
+              containerPort: 27017
+          startupProbe:
+            tcpSocket:
+              port: mongodb
+            failureThreshold: 30
+            periodSeconds: 5
+          readinessProbe:
+            tcpSocket:
+              port: mongodb
+            periodSeconds: 10
+            timeoutSeconds: 5
+            failureThreshold: 6
+          livenessProbe:
+            tcpSocket:
+              port: mongodb
+            initialDelaySeconds: 30
+            periodSeconds: 20
+            timeoutSeconds: 5
+            failureThreshold: 6
+          volumeMounts:
+            - name: data
+              mountPath: /data/db
+            - name: mongodb-config
+              mountPath: /etc/mongod
+              readOnly: true
+            - name: mongodb-keyfile-workdir
+              mountPath: /workdir
+          resources:
+            requests:
+              cpu: 250m
+              memory: 512Mi
+            limits:
+              cpu: "1"
+              memory: 1Gi
+      volumes:
+        - name: mongodb-config
+          configMap:
+            name: mongodb-config
+        - name: mongodb-keyfile-source
+          secret:
+            secretName: openplanner-mongodb-secrets
+            defaultMode: 0400
+            items:
+              - key: mongodb-keyfile
+                path: mongodb-keyfile
+        - name: mongodb-keyfile-workdir
+          emptyDir: {}
+  volumeClaimTemplates:
+    - metadata:
+        name: data
+      spec:
+        accessModes: ["ReadWriteOnce"]
+        resources:
+          requests:
+            storage: 20Gi

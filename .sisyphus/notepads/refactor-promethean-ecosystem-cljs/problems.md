@@ -1,0 +1,3 @@
+- Problem: Macro resolution in CLJS environment may not be wired to clobber.macro, causing warnings like unresolved-namespace clobber.macro in lsp diagnostics.
+- Problem: The original ecosystem.clj file was untracked, so the rename did not surface a git mv historical record.
+- Potential blockers: Build failures due to macro expansion differences between CLJ and CLJS; lints warning about macro usage must be resolved before CI.

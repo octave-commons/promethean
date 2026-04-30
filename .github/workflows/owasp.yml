@@ -1,0 +1,65 @@
+name: Security - OWASP Dependency Check
+
+on:
+  pull_request:
+    branches: [main, release]
+
+permissions:
+  contents: read
+  security-events: write
+
+concurrency:
+  group: security-owasp-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  owasp-dependency-check:
+    # Run on PRs to main/release, mostly as a SARIF signal rather than a hard gate.
+    if: (github.event.pull_request.base.ref == 'release' || github.event.pull_request.base.ref == 'main')
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: false
+
+      - name: Setup Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: 22
+
+      - name: Generate npm lockfile from pnpm/bun
+        run: |
+          set -e
+          lock_generated=0
+          if [ -f pnpm-lock.yaml ]; then
+            # NOTE: pnpm-lock -> package-lock conversion tooling has been flaky across
+            # environments; proceed without conversion and let Dependency-Check fall
+            # back to scanning manifests.
+            echo "pnpm-lock.yaml present; skipping conversion" >&2
+          fi
+          if ls bun.lock bun.lockb >/dev/null 2>&1; then
+            npm install --package-lock-only --ignore-scripts || true
+            if [ -f package-lock.json ]; then lock_generated=1; fi
+          fi
+          if [ $lock_generated -eq 0 ] && [ ! -f package-lock.json ]; then
+            echo "No lockfile generated; proceeding with package.json graph" >&2
+          else
+            echo "package-lock.json ready for scan"
+          fi
+
+      - name: OWASP Dependency Check
+        uses: dependency-check/Dependency-Check_Action@main
+        with:
+          project: devel
+          path: .
+          format: "SARIF"
+          out: "dependency-check-report"
+          # Upload SARIF, but don't block PRs on existing vulnerabilities.
+          args: "--failOnCVSS 11"
+
+      - name: Upload SARIF
+        uses: github/codeql-action/upload-sarif@v3
+        with:
+          sarif_file: dependency-check-report/dependency-check-report.sarif

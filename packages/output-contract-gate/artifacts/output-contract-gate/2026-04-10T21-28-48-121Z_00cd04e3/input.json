@@ -1,0 +1,6 @@
+{
+  "createdAt": "2026-04-10T21:28:48.123Z",
+  "contractPath": "/home/err/devel/specs/drafts/contract-enforced-agent-output-pipeline.example.edn",
+  "responsePath": "/tmp/test-bold-sections.md",
+  "artifactsRoot": "/home/err/devel/packages/output-contract-gate/artifacts/output-contract-gate"
+}

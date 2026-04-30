@@ -1,0 +1,65 @@
+{
+  "featureId": "register-pnpm-workspace",
+  "milestone": "foundation",
+  "reviewer": "scrutiny-feature-reviewer",
+  "reviewedAt": "2026-03-13T02:10:00.000Z",
+  "commitId": "e295709",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeQuality": {
+    "score": 4,
+    "observations": [
+      "Clean, minimal diff: only pnpm-workspace.yaml entries, signal-atproto/package.json fix, and lockfile regeneration.",
+      "Commit message is descriptive and lists all 8 registered packages plus the dependency fix.",
+      "The signal-atproto/package.json was correctly tracked (git add) since it was previously untracked on disk.",
+      "Lockfile shows minor path drift in unrelated @promethean-os/embedding links (from relative to deeper relative paths) as a side effect of pnpm recalculating workspace links. Cosmetic, not harmful."
+    ]
+  },
+  "correctness": {
+    "score": 5,
+    "observations": [
+      "All 7 packages from feature description registered: packages/radar-core, packages/mcp-foundation, packages/signal-atproto, packages/signal-embed-browser, packages/thread-assessment, orgs/riatzukiza/threat-radar-mcp, orgs/riatzukiza/threat-radar-web.",
+      "Worker also added packages/embedding per mission AGENTS.md 'Workspace Registration' section — correct decision to follow broader guidance.",
+      "signal-atproto devDependency @workspace/radar-core changed from file:../radar-core to workspace:* — proper pnpm workspace linking.",
+      "All cross-package dependency names verified to match actual package.json name fields: @workspace/radar-core, @workspace/mcp-foundation, @workspace/signal-atproto, etc.",
+      "pnpm install exited 0 with 142 workspace projects recognized.",
+      "pnpm ls verified workspace links resolve: threat-radar-mcp → mcp-foundation + radar-core, threat-radar-web → radar-core, signal-atproto → radar-core."
+    ]
+  },
+  "testCoverage": {
+    "score": 4,
+    "observations": [
+      "No new tests added — appropriate for a workspace configuration change with no code logic.",
+      "Worker ran npx vitest run --reporter=verbose as a regression check: 6 tests passed, 3 pre-existing pm2-clj failures (documented in AGENTS.md as known issues).",
+      "Worker verified cross-package link resolution via pnpm ls for 3 key consumers."
+    ]
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "file": "pnpm-lock.yaml",
+      "severity": "non_blocking",
+      "description": "Lockfile diff includes path changes for unrelated @promethean-os/embedding links (e.g., from link:../../packages/embedding to link:../../../../../packages/embedding) and pulls in services/open-hax-openai-proxy and services/vivgrid-openai-proxy importers. This is a normal side effect of pnpm recalculating the full lockfile when workspace entries change, but creates diff noise."
+    }
+  ],
+  "sharedStateObservations": [
+    {
+      "target": "AGENTS.md",
+      "description": "The mission AGENTS.md lists 'packages/embedding' in the Workspace Registration section but the feature description only lists 7 packages (excluding embedding). The worker correctly followed AGENTS.md over the feature description. Consider aligning the feature description with AGENTS.md to avoid ambiguity for future workers.",
+      "evidence": "Feature description lists 7 packages; AGENTS.md 'Workspace Registration' section lists 8 including packages/embedding. Worker registered all 8."
+    },
+    {
+      "target": "library",
+      "description": "The packages/embedding package uses @promethean-os/embedding as its npm name (not @workspace/embedding). This naming convention difference from the other @workspace/* packages could confuse future workers who assume the @workspace/ prefix pattern.",
+      "evidence": "packages/embedding/package.json has name @promethean-os/embedding while packages/radar-core uses @workspace/radar-core, packages/mcp-foundation uses @workspace/mcp-foundation, etc."
+    },
+    {
+      "target": "skills",
+      "description": "Backend-worker skill says 'Write failing tests first (TDD)' as step 2, but workspace configuration tasks like this one have no code logic to test. The worker correctly skipped TDD. The skill could note that configuration-only tasks may skip step 2.",
+      "evidence": "SKILL.md step 2: 'Write failing tests first (TDD)'. Worker handoff tests.added is empty with note: 'No new tests needed — this is a workspace configuration change.'"
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "Feature register-pnpm-workspace passes review. All 8 packages correctly added to pnpm-workspace.yaml (7 from feature description + packages/embedding from AGENTS.md). signal-atproto dependency fixed from file: to workspace:*. Cross-package linking verified via pnpm install and pnpm ls. No blocking issues. Minor lockfile drift in unrelated packages is cosmetic."
+}

@@ -1,0 +1,115 @@
+{
+  "groupId": "browser-pi-lane",
+  "surface": "agent-browser",
+  "testedAt": "2026-03-13T10:55:00Z",
+  "sessionId": "26894d55f54c__pi",
+  "target": "http://localhost:9002",
+  "isolation": {
+    "surface": "agent-browser (Chromium headless)",
+    "sharedState": "Dashboard reads from threat-radar-mcp API at http://localhost:9001"
+  },
+  "toolsUsed": ["agent-browser"],
+  "assertions": {
+    "VAL-PI-001": {
+      "status": "pass",
+      "title": "Connections Lane Renders with Fuchsia Accent",
+      "evidence": "DOM inspection confirms Π lane renders with class 'lane lane-pi', CSS custom property --lane-accent set to var(--fuchsia). Lane icon text is 'Π'. Accent color rgb(217, 70, 239) confirmed on 16 elements (lane icon, header, scores, tabs). Hue ≈292° falls within the required 290–320° fuchsia/magenta range.",
+      "details": "JavaScript eval extracted lane structure: lane-pi class present, Π symbol visible as lane icon, fuchsia accent rgb(217,70,239) applied consistently across bridge card scores, type badges, feedback loop SVG nodes, and tab controls.",
+      "evidenceFiles": [
+        "evidence/connection-engine/browser-pi-lane/full-dashboard-overview.png"
+      ],
+      "steps": [
+        { "action": "Navigate to http://localhost:9002, set viewport 1920x1080", "expected": "Dashboard loads with 3 lanes", "observed": "Page title 'Threat Radar Wall', all 3 lanes visible (η, μ, Π)" },
+        { "action": "Extract Π lane icon color via JavaScript eval", "expected": "Fuchsia/magenta color in 290-320° hue range", "observed": "rgb(217, 70, 239) → hue ≈292°, within spec" },
+        { "action": "Count fuchsia accent elements in Π lane", "expected": "Multiple elements styled with fuchsia", "observed": "16 elements with rgb(217,70,239) including icon, header, scores, tabs" }
+      ]
+    },
+    "VAL-PI-002": {
+      "status": "pass",
+      "title": "Bridge Card Scores",
+      "evidence": "DOM inspection via JavaScript eval confirms 2 bridge cards, each displaying 3 labeled numeric scores: Realism (100), Fear (84), Public Benefit (28 and 37). Scores rendered in pi-scores-row with pi-score-label and pi-score-value elements.",
+      "details": "Bridge card 0: Realism=100, Fear=84, PublicBenefit=28. Bridge card 1: Realism=100, Fear=84, PublicBenefit=37. Both cards have data-testid='pi-scores-row' with labeled score items.",
+      "evidenceFiles": [
+        "evidence/connection-engine/browser-pi-lane/full-dashboard-annotated.png",
+        "evidence/connection-engine/browser-pi-lane/VAL-CROSS-004-bridge-cards.png"
+      ],
+      "steps": [
+        { "action": "Extract bridge card score data via JavaScript eval", "expected": "Each bridge card shows 3 labeled numeric scores", "observed": "2 bridge cards with Realism, Fear, Public Benefit scores displayed as labeled numbers" }
+      ]
+    },
+    "VAL-PI-003": {
+      "status": "pass",
+      "title": "Bridge Card Local Action",
+      "evidence": "Both bridge cards contain a 'Suggested Action' section (data-testid='pi-suggested-action') with actionable text: 'Monitor \"Detailed / Analysis / Chokepoint / Affects\" for developments affecting local context'. The action text references the global thread and directs local monitoring.",
+      "details": "Bridge card 0: Suggested Action present with text referencing global thread title. Bridge card 1: Same pattern. Both have pi-action-label 'Suggested Action' and pi-action-text with actionable content.",
+      "evidenceFiles": [
+        "evidence/connection-engine/browser-pi-lane/VAL-CROSS-004-bridge-cards.png"
+      ],
+      "steps": [
+        { "action": "Extract suggested action sections from bridge cards", "expected": "Each bridge card contains a 'suggested action' section with actionable text", "observed": "Both bridge cards have 'Suggested Action' label with text: 'Monitor \"Detailed / Analysis / Chokepoint / Affects\" for developments affecting local context'" }
+      ]
+    },
+    "VAL-PI-004": {
+      "status": "pass",
+      "title": "Federated Coordination Path",
+      "evidence": "Both bridge cards contain a 'Coordination Path' section (data-testid='pi-coord-path') with text: 'Coordinate information sharing through federated assessment exchange'. This describes multi-node cross-community coordination via federation.",
+      "details": "Bridge card 0: Coordination Path present with federated coordination text. Bridge card 1: Same pattern. Both reference 'federated assessment exchange' — a multi-node coordination mechanism.",
+      "evidenceFiles": [
+        "evidence/connection-engine/browser-pi-lane/VAL-CROSS-004-bridge-cards.png"
+      ],
+      "steps": [
+        { "action": "Extract coordination path sections from bridge cards", "expected": "Each bridge card contains a coordination path with multi-node coordination text", "observed": "Both bridge cards have 'Coordination Path' label with text referencing 'federated assessment exchange'" }
+      ]
+    },
+    "VAL-PI-005": {
+      "status": "pass",
+      "title": "Feedback Loop Visualization",
+      "evidence": "SVG diagram with aria-label 'P→R→N→Π→A feedback loop' renders 5 circle nodes (P=Perception, R=Reduction, N=Narrative, Π=Connection, A=Action) connected by 4 forward arrows and 1 dashed feedback arc from A back to P. Text label 'feedback' present at bottom of diagram.",
+      "details": "FeedbackLoopDiagram component renders SVG viewBox='0 0 300 80' with 5 labeled nodes, 4 inter-node arrows (line elements with markerEnd), and 1 curved feedback path (dashed arc). The 'feedback' text label appears at (160, 78).",
+      "evidenceFiles": [
+        "evidence/connection-engine/browser-pi-lane/full-dashboard-overview.png",
+        "evidence/connection-engine/browser-pi-lane/VAL-CROSS-004-bridge-cards.png"
+      ],
+      "steps": [
+        { "action": "Extract intelligence loop SVG structure via JavaScript eval", "expected": "5 labeled nodes forming P→R→N→Π→A cycle with feedback arc", "observed": "SVG contains 5 circle+text groups (P, R, N, Π, A), 4 forward arrows, 1 dashed feedback path, 'feedback' text label. aria-label='P→R→N→Π→A feedback loop'" }
+      ]
+    },
+    "VAL-FED-002": {
+      "status": "pass",
+      "title": "Federated Comparison Panel",
+      "evidence": "Clicking 'Federation View' button opens pi-federation-panel with 3 peer nodes displayed side-by-side: 'This Instance' (online, Realism=100, Fear=84, PublicBenefit=28, synced just now), 'Peer Alpha' (online, Realism=100, Fear=79, PublicBenefit=40, synced 5m ago), 'Peer Beta' (stale, Realism=90, Fear=99, PublicBenefit=21, synced 2h ago). Panel uses grid layout with 3 pi-federation-peer elements.",
+      "details": "Federation panel renders ≥2 columns (3 total) each labeled with peer node identifier, showing assessment values for shared thread. Grid layout confirmed via pi-federation-grid class. Each peer shows realism/fear/publicBenefit score bars with numeric values.",
+      "evidenceFiles": [
+        "evidence/connection-engine/browser-pi-lane/VAL-FED-002-federation-view.png",
+        "evidence/connection-engine/browser-pi-lane/VAL-FED-002-federation-full.png",
+        "evidence/connection-engine/browser-pi-lane/VAL-FED-002-federation-peers.png"
+      ],
+      "steps": [
+        { "action": "Click 'Federation View' button on first bridge card", "expected": "Federation comparison panel opens with ≥2 peer assessments", "observed": "Panel opened showing 3 peers: 'This Instance' (online), 'Peer Alpha' (online), 'Peer Beta' (stale) with side-by-side score bars" },
+        { "action": "Extract federation panel structure via JavaScript eval", "expected": "≥2 peer columns with assessment data", "observed": "3 pi-federation-peer elements in pi-federation-grid, each with realism/fear/publicBenefit scores and status badges" }
+      ]
+    },
+    "VAL-CROSS-004": {
+      "status": "pass",
+      "title": "Global Signal → Π Lane Action",
+      "evidence": "Bridge cards in Π lane reference global thread 'Detailed / Analysis / Chokepoint / Affects' (η tag) linked to local threads 'Training / Analysis / Electricity / Costs' and 'Cloud / Spot / Pricing / Dropped' (μ tag). These same local threads appear in the Action Feed (μ lane): 'Training / Analysis / Electricity / Costs' as coordination opportunity, 'Cloud / Spot / Pricing / Dropped' as this-week suggestion. Action Feed visible with 12 items across 3 time horizons.",
+      "details": "ConnectionOpportunity flow verified: (1) Bridge card 0 references global η thread 'Detailed / Analysis / Chokepoint / Affects' with scores Realism=100, Fear=84, PublicBenefit=28. (2) Local thread 'Training / Analysis / Electricity / Costs' from bridge card appears as Action Feed item 8 (coordination opportunity). (3) Bridge card 1 references same global thread → local 'Cloud / Spot / Pricing / Dropped', which appears as Action Feed item 5 (this week). Action Feed shows 12 suggestions grouped by time horizon: 2 within-24-hours, 5 this-week, 5 coordination-opportunity.",
+      "evidenceFiles": [
+        "evidence/connection-engine/browser-pi-lane/VAL-CROSS-004-bridge-cards.png",
+        "evidence/connection-engine/browser-pi-lane/VAL-CROSS-004-action-feed.png"
+      ],
+      "steps": [
+        { "action": "Extract bridge card global thread references via JavaScript eval", "expected": "Bridge cards reference global (η) threads", "observed": "2 bridge cards, both linking global 'Detailed / Analysis / Chokepoint / Affects' (η) to local threads (μ)" },
+        { "action": "Extract action feed items via JavaScript eval", "expected": "Action feed contains items matching bridge card local threads", "observed": "12 action feed items; 'Training / Analysis / Electricity / Costs' (coordination opportunity) and 'Cloud / Spot / Pricing / Dropped' (this week) both present — matching bridge card local thread references" },
+        { "action": "Screenshot bridge cards and action feed", "expected": "Visual evidence of bridge cards in Π lane and actions in feed", "observed": "Screenshots captured showing bridge cards with η/μ thread linkage and Action Feed with time-bounded suggestions including bridge-referenced threads" }
+      ]
+    }
+  },
+  "summary": {
+    "total": 7,
+    "pass": 7,
+    "fail": 0,
+    "blocked": 0,
+    "skipped": 0
+  }
+}

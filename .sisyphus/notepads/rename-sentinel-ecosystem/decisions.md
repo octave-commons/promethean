@@ -1,0 +1,2 @@
+- Decision: Use Move patch to rename ecosystem.clj to ecosystem.cljs and update content with ns + require pattern, while keeping defapp content intact except for ecosystem call replacement.
+- Rationale: Keeps history intact via git mv; ensures cljs format and namespace discipline.

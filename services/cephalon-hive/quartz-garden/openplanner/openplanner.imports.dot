@@ -1,0 +1,108 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#fcfcff", fontname="Helvetica", fontsize=18, labelloc="t", labeljust="l", label="OpenPlanner (file-level) — services/openplanner/src"]; 
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=9, color="#c8c8d0", fillcolor="#f4f4fb"]; 
+  edge  [color="#99aabb", arrowsize=0.55, penwidth=1.0];
+
+  subgraph cluster__root_ {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="23 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="(root)";
+    "app.ts" [label="app.ts", tooltip="app.ts"];
+    "declarations.d.ts" [label="declarations.d.ts", tooltip="declarations.d.ts"];
+    "main.ts" [label="main.ts", tooltip="main.ts"];
+  }
+
+  subgraph cluster_lib {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="221 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="lib";
+    "lib/chroma.ts" [label="lib/chroma.ts", tooltip="lib/chroma.ts"];
+    "lib/config.ts" [label="lib/config.ts", tooltip="lib/config.ts"];
+    "lib/duckdb.ts" [label="lib/duckdb.ts", tooltip="lib/duckdb.ts"];
+    "lib/embedding-models.ts" [label="lib/embedding-models.ts", tooltip="lib/embedding-models.ts"];
+    "lib/embeddings.ts" [label="lib/embeddings.ts", tooltip="lib/embeddings.ts"];
+    "lib/hash.ts" [label="lib/hash.ts", tooltip="lib/hash.ts"];
+    "lib/importers/chatgpt.ts" [label="lib/importers/chatgpt.ts", tooltip="lib/importers/chatgpt.ts"];
+    "lib/jobs.ts" [label="lib/jobs.ts", tooltip="lib/jobs.ts"];
+    "lib/paths.ts" [label="lib/paths.ts", tooltip="lib/paths.ts"];
+    "lib/semantic-compaction.ts" [label="lib/semantic-compaction.ts", tooltip="lib/semantic-compaction.ts"];
+    "lib/types.ts" [label="lib/types.ts", tooltip="lib/types.ts"];
+    "lib/vector-search.ts" [label="lib/vector-search.ts", tooltip="lib/vector-search.ts"];
+  }
+
+  subgraph cluster_plugins {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="72 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="plugins";
+    "plugins/auth.ts" [label="plugins/auth.ts", tooltip="plugins/auth.ts"];
+    "plugins/chroma.ts" [label="plugins/chroma.ts", tooltip="plugins/chroma.ts"];
+    "plugins/duckdb.ts" [label="plugins/duckdb.ts", tooltip="plugins/duckdb.ts"];
+  }
+
+  subgraph cluster_routes {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="314 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="routes";
+    "routes/v1/blobs.ts" [label="routes/v1/blobs.ts", tooltip="routes/v1/blobs.ts"];
+    "routes/v1/events.ts" [label="routes/v1/events.ts", tooltip="routes/v1/events.ts"];
+    "routes/v1/health.ts" [label="routes/v1/health.ts", tooltip="routes/v1/health.ts"];
+    "routes/v1/index.ts" [label="routes/v1/index.ts", tooltip="routes/v1/index.ts"];
+    "routes/v1/jobs.ts" [label="routes/v1/jobs.ts", tooltip="routes/v1/jobs.ts"];
+    "routes/v1/search.ts" [label="routes/v1/search.ts", tooltip="routes/v1/search.ts"];
+    "routes/v1/sessions.ts" [label="routes/v1/sessions.ts", tooltip="routes/v1/sessions.ts"];
+  }
+
+  "app.ts" -> "lib/config.ts";
+  "app.ts" -> "plugins/auth.ts";
+  "app.ts" -> "plugins/duckdb.ts";
+  "app.ts" -> "plugins/chroma.ts";
+  "app.ts" -> "routes/v1/index.ts";
+  "lib/chroma.ts" -> "lib/embedding-models.ts";
+  "lib/config.ts" -> "lib/embedding-models.ts";
+  "lib/importers/chatgpt.ts" -> "lib/duckdb.ts";
+  "lib/importers/chatgpt.ts" -> "lib/types.ts";
+  "lib/semantic-compaction.ts" -> "lib/duckdb.ts";
+  "lib/semantic-compaction.ts" -> "lib/chroma.ts";
+  "lib/semantic-compaction.ts" -> "lib/config.ts";
+  "lib/semantic-compaction.ts" -> "lib/vector-search.ts";
+  "main.ts" -> "app.ts";
+  "main.ts" -> "lib/config.ts";
+  "plugins/auth.ts" -> "lib/config.ts";
+  "plugins/chroma.ts" -> "lib/config.ts";
+  "plugins/chroma.ts" -> "lib/embedding-models.ts";
+  "plugins/chroma.ts" -> "lib/chroma.ts";
+  "plugins/chroma.ts" -> "lib/embeddings.ts";
+  "plugins/duckdb.ts" -> "lib/config.ts";
+  "plugins/duckdb.ts" -> "lib/duckdb.ts";
+  "plugins/duckdb.ts" -> "lib/paths.ts";
+  "routes/v1/blobs.ts" -> "lib/hash.ts";
+  "routes/v1/blobs.ts" -> "lib/paths.ts";
+  "routes/v1/events.ts" -> "lib/duckdb.ts";
+  "routes/v1/events.ts" -> "lib/types.ts";
+  "routes/v1/index.ts" -> "routes/v1/health.ts";
+  "routes/v1/index.ts" -> "routes/v1/blobs.ts";
+  "routes/v1/index.ts" -> "routes/v1/events.ts";
+  "routes/v1/index.ts" -> "routes/v1/search.ts";
+  "routes/v1/index.ts" -> "routes/v1/sessions.ts";
+  "routes/v1/index.ts" -> "routes/v1/jobs.ts";
+  "routes/v1/jobs.ts" -> "lib/jobs.ts";
+  "routes/v1/jobs.ts" -> "lib/paths.ts";
+  "routes/v1/jobs.ts" -> "lib/importers/chatgpt.ts";
+  "routes/v1/jobs.ts" -> "lib/semantic-compaction.ts";
+  "routes/v1/search.ts" -> "lib/duckdb.ts";
+  "routes/v1/search.ts" -> "lib/types.ts";
+  "routes/v1/search.ts" -> "lib/vector-search.ts";
+  "routes/v1/sessions.ts" -> "lib/duckdb.ts";
+}

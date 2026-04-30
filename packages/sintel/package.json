@@ -1,0 +1,53 @@
+{
+  "name": "@open-hax/sintel",
+  "version": "0.1.0",
+  "private": true,
+  "license": "GPL-3.0-only",
+  "type": "module",
+  "main": "./dist/index.cjs",
+  "module": "./dist/index.js",
+  "types": "./dist/index.d.ts",
+  "exports": {
+    ".": {
+      "types": "./dist/index.d.ts",
+      "import": "./dist/index.js",
+      "require": "./dist/index.cjs"
+    },
+    "./cli": {
+      "types": "./dist/cli/index.d.ts",
+      "import": "./dist/cli/index.js",
+      "require": "./dist/cli/index.cjs"
+    }
+  },
+  "bin": {
+    "sintel": "./dist/cli/index.cjs",
+    "sintel-bsky": "./dist/cli/sintel-bsky.cjs"
+  },
+  "files": [
+    "dist",
+    "README.md",
+    "CHARTER.md"
+  ],
+  "scripts": {
+    "build": "tsup src/index.ts src/cli/index.ts src/cli/sintel-bsky.ts --format esm,cjs --dts --clean",
+    "dev": "tsup src/index.ts src/cli/index.ts src/cli/sintel-bsky.ts --format esm,cjs --dts --watch",
+    "test": "node --test tests/*.test.ts",
+    "typecheck": "tsc --noEmit"
+  },
+  "dependencies": {
+    "@ipld/dag-cbor": "^9.2.5",
+    "@open-hax/signal-contracts": "workspace:*",
+    "@open-hax/signal-radar-core": "workspace:*",
+    "cbor-x": "^1.6.4",
+    "multiformats": "^13.4.2",
+    "uuid": "^11.1.0"
+  },
+  "devDependencies": {
+    "@types/node": "^22.14.0",
+    "@types/uuid": "^10.0.0",
+    "@types/ws": "^8.5.13",
+    "tsup": "^8.5.1",
+    "typescript": "^5.9.3",
+    "ws": "^8.18.1"
+  }
+}

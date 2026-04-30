@@ -1,0 +1,41 @@
+services:
+  ourllamas:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    env_file:
+      - .env.example
+    environment:
+      OUR_LLAMAS_BIND_HOST: ${OUR_LLAMAS_BIND_HOST:-0.0.0.0}
+      OUR_LLAMAS_PORT: ${OUR_LLAMAS_PORT:-18134}
+      OUR_GPUS_API_BASE_URL: ${OUR_GPUS_API_BASE_URL:-http://our-gpus-api-1:8000}
+      OUR_LLAMAS_WATCH_ENABLED: ${OUR_LLAMAS_WATCH_ENABLED:-1}
+      OUR_LLAMAS_WATCH_INTERVAL_SECS: ${OUR_LLAMAS_WATCH_INTERVAL_SECS:-5}
+      OUR_LLAMAS_AUTO_PROBE: ${OUR_LLAMAS_AUTO_PROBE:-0}
+      OUR_LLAMAS_CONTACT_REFRESH_LIMIT: ${OUR_LLAMAS_CONTACT_REFRESH_LIMIT:-100}
+      OUR_LLAMAS_CONTACT_TIMEOUT_SECS: ${OUR_LLAMAS_CONTACT_TIMEOUT_SECS:-15}
+    ports:
+      - "${OUR_LLAMAS_HOST_BIND:-127.0.0.1}:${OUR_LLAMAS_PORT:-18134}:${OUR_LLAMAS_PORT:-18134}"
+    volumes:
+      - ./inbox:/data/inbox
+      - ./outbox:/data/outbox
+      - ./archive:/data/archive
+      - ./state:/data/state
+      - ./templates:/app/templates:ro
+    networks:
+      - default
+      - our-gpus
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+    restart: unless-stopped
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://127.0.0.1:${OUR_LLAMAS_PORT:-18134}/healthz"]
+      interval: 30s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+
+networks:
+  our-gpus:
+    external: true
+    name: our-gpus_default

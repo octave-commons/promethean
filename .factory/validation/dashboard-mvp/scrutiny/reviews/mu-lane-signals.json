@@ -1,0 +1,50 @@
+{
+  "featureId": "mu-lane-signals",
+  "reviewedAt": "2026-03-13T05:12:00.000Z",
+  "commitId": "21b92d04f501f257ac4d6faf04feccc2d04459fb",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeReview": {
+    "summary": "Solid implementation that covers all five feature requirements. MuThreadCard (308 lines) implements proximity, leverage, and time-to-act scoring with well-structured helper functions, click-to-expand details panel with keyboard accessibility (Enter/Space), and aria-expanded. MuLane (97 lines) extracts local threads from tiles, sorts by leverage score descending, and renders a clean empty state. The 345 lines of CSS follow the existing emerald theme with consistent use of CSS variables. Integration into App.tsx cleanly replaces the μ lane placeholder. 38 tests cover scoring functions, card rendering, expand/collapse behavior, sorting, and multi-tile aggregation. Code follows existing patterns (matches EtaLane/EtaThreadCard structure).",
+    "issues": [
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/MuThreadCard.tsx",
+        "line": 99,
+        "severity": "non_blocking",
+        "description": "formatRelativeTime is duplicated verbatim from EtaThreadCard.tsx (lines 16-25). Should be extracted to a shared utility (e.g., src/ui/utils.ts or src/ui/components/helpers.ts) to avoid drift between the two copies."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/MuLane.tsx",
+        "line": 34,
+        "severity": "non_blocking",
+        "description": "The 'ai' tag in extractLocalThreads is very broad — any thread tagged 'ai' (even if purely geopolitical) will appear in the μ lane. Currently no overlap with η's tag list (geopolitical, infrastructure, economic, security, climate), but future tags could cause unexpected dual-lane display. Consider whether 'ai' should remain in the μ filter or be made more specific (e.g., 'ai-oss', 'ai-local')."
+      },
+      {
+        "file": "orgs/riatzukiza/threat-radar-web/src/ui/components/MuThreadCard.tsx",
+        "line": 28,
+        "severity": "non_blocking",
+        "description": "computeLeverage and computeProximity use hardcoded magic numbers for scoring weights (0.35, 0.25, 0.15, etc.) and tag lists. These work correctly but are not configurable or documented. If the scoring model evolves, centralizing weights in a config object would ease maintenance."
+      }
+    ]
+  },
+  "sharedStateObservations": [
+    {
+      "area": "conventions",
+      "observation": "formatRelativeTime helper is duplicated between EtaThreadCard.tsx and MuThreadCard.tsx with identical implementations. AGENTS.md doesn't document a convention for shared UI utilities — the pattern of duplicating small helpers across lane components is emerging as an implicit convention that may lead to drift.",
+      "evidence": "MuThreadCard.tsx:99-109 is identical to EtaThreadCard.tsx:16-25. Both format ISO timestamps to relative time strings."
+    },
+    {
+      "area": "conventions",
+      "observation": "Lane thread filtering uses hardcoded tag lists for categorization (η: geopolitical/infrastructure/economic/security/climate; μ: local/community/oss/developer/open-source/ai). These lists are not centralized or documented, making it easy for future workers to add a tag to one lane's filter but miss the other.",
+      "evidence": "MuLane.tsx:34 vs EtaLane.tsx:77 — each lane independently defines which domain_tags qualify threads for display. No shared constant or documented mapping exists."
+    },
+    {
+      "area": "skills",
+      "observation": "Worker's skillFeedback suggests the frontend-worker skill should mention that threat-radar-mcp requires DATABASE_URL with proper Postgres auth to pass healthcheck. Worker couldn't start MCP for full visual verification, only verified with Vite dev server (empty state). Skill procedure step 5 says 'Ensure threat-radar-mcp is running on 9001' but doesn't mention the DB dependency.",
+      "evidence": "Handoff skillFeedback.suggestedChanges: 'The frontend-worker skill could mention checking if the MCP service requires specific environment variables (like DATABASE_URL with auth) for visual verification'. Transcript shows service start failed with DB auth error."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "PASS. All five feature requirements are fully implemented: μ-categorized thread extraction from tiles, thread cards with proximity/leverage/time-to-act indicators, click-to-expand signal details, leverage-based sorting, and empty state. 38 new tests pass alongside 76 existing tests (114 total). Typecheck clean. Visual verification confirmed empty state renders correctly. Three non-blocking issues found: duplicated formatRelativeTime helper, broad 'ai' tag in μ filter, and hardcoded scoring weights. No blocking issues."
+}

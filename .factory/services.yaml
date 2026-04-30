@@ -1,0 +1,28 @@
+commands:
+  install: pnpm install
+  typecheck: pnpm -r --parallel typecheck
+  build: pnpm -r --parallel build
+  test: pnpm -r run test 2>/dev/null; npx vitest run --reporter=verbose
+  lint: echo "no lint configured yet"
+
+services:
+  threat-radar-mcp:
+    start: cd orgs/riatzukiza/threat-radar-mcp && node --env-file-if-exists=.env --import tsx src/main.ts
+    stop: lsof -ti :9001 | xargs kill 2>/dev/null || true
+    healthcheck: curl -sf http://localhost:9001/health
+    port: 9001
+    depends_on: [postgres]
+
+  threat-radar-web:
+    start: cd orgs/riatzukiza/threat-radar-web && VITE_API_URL=http://localhost:9001 npx vite --port 9002 --host
+    stop: lsof -ti :9002 | xargs kill 2>/dev/null || true
+    healthcheck: curl -sf http://localhost:9002
+    port: 9002
+    depends_on: [threat-radar-mcp]
+
+  postgres:
+    start: echo "Postgres already running via Docker on 5432"
+    stop: echo "Do not stop shared Postgres"
+    healthcheck: docker exec open-hax-openai-proxy-open-hax-openai-proxy-db-1 pg_isready -h localhost -p 5432
+    port: 5432
+    depends_on: []

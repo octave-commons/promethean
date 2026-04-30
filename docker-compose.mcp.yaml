@@ -1,0 +1,164 @@
+x-hermes-base: &hermes-base
+  build:
+    context: .
+    dockerfile: services/Dockerfile.hermes
+  restart: unless-stopped
+  networks:
+    - mcp
+
+services:
+  mcp-devtools:
+    <<: *hermes-base
+    build:
+      context: .
+      dockerfile: services/Dockerfile.hermes
+      args:
+        SERVICE: mcp-devtools
+        PORT: "4014"
+    ports:
+      - "4014:4014"
+    environment:
+      - PORT=4014
+
+  mcp-exec:
+    <<: *hermes-base
+    build:
+      context: .
+      dockerfile: services/Dockerfile.hermes
+      args:
+        SERVICE: mcp-exec
+        PORT: "4018"
+    ports:
+      - "4018:4018"
+    environment:
+      - PORT=4018
+
+  mcp-github:
+    <<: *hermes-base
+    build:
+      context: .
+      dockerfile: services/Dockerfile.hermes
+      args:
+        SERVICE: mcp-github
+        PORT: "4012"
+    ports:
+      - "4012:4012"
+    environment:
+      - PORT=4012
+      - GITHUB_TOKEN=${GITHUB_TOKEN:-}
+
+  mcp-ollama:
+    <<: *hermes-base
+    build:
+      context: .
+      dockerfile: services/Dockerfile.hermes
+      args:
+        SERVICE: mcp-ollama
+        PORT: "4017"
+    ports:
+      - "4017:4017"
+    environment:
+      - PORT=4017
+      - OLLAMA_HOST=${OLLAMA_HOST:-http://host.docker.internal:11434}
+
+  mcp-process:
+    <<: *hermes-base
+    build:
+      context: .
+      dockerfile: services/Dockerfile.hermes
+      args:
+        SERVICE: mcp-process
+        PORT: "4013"
+    ports:
+      - "4013:4013"
+    environment:
+      - PORT=4013
+
+  mcp-sandboxes:
+    <<: *hermes-base
+    build:
+      context: .
+      dockerfile: services/Dockerfile.hermes
+      args:
+        SERVICE: mcp-sandboxes
+        PORT: "4016"
+    ports:
+      - "4016:4016"
+    environment:
+      - PORT=4016
+
+  mcp-tdd:
+    <<: *hermes-base
+    build:
+      context: .
+      dockerfile: services/Dockerfile.hermes
+      args:
+        SERVICE: mcp-tdd
+        PORT: "4015"
+    ports:
+      - "4015:4015"
+    environment:
+      - PORT=4015
+
+  mcp-fs-oauth:
+    build:
+      context: .
+      dockerfile: services/mcp-fs-oauth/Dockerfile
+    ports:
+      - "3000:3000"
+    environment:
+      - PORT=3000
+      - REDIS_HOST=redis
+      - REDIS_PORT=6379
+    depends_on:
+      - redis
+    restart: unless-stopped
+    networks:
+      - mcp
+
+  threat-radar-mcp:
+    build:
+      context: .
+      dockerfile: orgs/riatzukiza/threat-radar-mcp/Dockerfile
+    ports:
+      - "10002:10002"
+    environment:
+      - PORT=10002
+      - DATABASE_URL=${DATABASE_URL:?Set DATABASE_URL}
+    depends_on:
+      - postgres
+    restart: unless-stopped
+    networks:
+      - mcp
+
+  redis:
+    image: redislabs/redismod
+    ports:
+      - "6379:6379"
+    volumes:
+      - redis-data:/data
+    restart: unless-stopped
+    networks:
+      - mcp
+
+  postgres:
+    image: postgres:17-bookworm
+    ports:
+      - "5432:5432"
+    environment:
+      - POSTGRES_USER=postgres
+      - POSTGRES_PASSWORD=${POSTGRES_PASSWORD:-change-me} # pragma: allowlist secret
+      - POSTGRES_DB=threat_radar
+    volumes:
+      - pg-data:/var/lib/postgresql/data
+    restart: unless-stopped
+    networks:
+      - mcp
+
+volumes:
+  redis-data:
+  pg-data:
+
+networks:
+  mcp:
+    driver: bridge

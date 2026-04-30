@@ -1,0 +1,41 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Host Fleet Dashboard</title>
+    <link rel="stylesheet" href="./styles.css" />
+  </head>
+  <body>
+    <div class="shell">
+      <header class="hero">
+        <div>
+          <p class="kicker">Fleet Ops</p>
+          <h1>Ussy host dashboard</h1>
+          <p class="subtext">Container inventory and routed subdomains across the Promethean ussy hosts.</p>
+        </div>
+        <div class="auth-box">
+          <label for="auth-token">Bearer token</label>
+          <div class="auth-row">
+            <input id="auth-token" type="password" placeholder="dashboard auth token" />
+            <button id="save-token">Save</button>
+          </div>
+          <small id="auth-state">Token is stored only in this browser.</small>
+        </div>
+      </header>
+
+      <section class="toolbar card">
+        <div class="toolbar-group">
+          <button id="refresh">Refresh now</button>
+          <span id="updated-at" class="muted">Waiting for first sample…</span>
+        </div>
+        <div class="toolbar-group stats" id="totals"></div>
+      </section>
+
+      <section id="error-banner" class="error-banner hidden"></section>
+      <section id="hosts" class="hosts-grid"></section>
+    </div>
+
+    <script type="module" src="./app.js"></script>
+  </body>
+</html>

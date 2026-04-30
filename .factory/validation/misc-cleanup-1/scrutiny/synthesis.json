@@ -1,0 +1,49 @@
+{
+  "milestone": "misc-cleanup-1",
+  "round": 1,
+  "status": "pass",
+  "validatorsRun": {
+    "test": {
+      "passed": true,
+      "command": "pnpm run test (per-package: radar-core, signal-atproto, threat-radar-mcp, threat-radar-web)",
+      "exitCode": 0,
+      "details": "517 tests passed: radar-core 86, signal-atproto 16, threat-radar-mcp 83, threat-radar-web 332"
+    },
+    "typecheck": {
+      "passed": true,
+      "command": "pnpm run typecheck (per-package: radar-core, signal-atproto, threat-radar-mcp, threat-radar-web)",
+      "exitCode": 0,
+      "details": "All 4 mission packages typecheck clean. Pre-existing failure in @promethean-os/migrations (unrelated)"
+    },
+    "lint": {
+      "passed": true,
+      "command": "echo 'no lint configured yet'",
+      "exitCode": 0,
+      "details": "No lint configured for workspace yet"
+    }
+  },
+  "reviewsSummary": {
+    "total": 1,
+    "passed": 1,
+    "failed": 0,
+    "failedFeatures": []
+  },
+  "blockingIssues": [],
+  "appliedUpdates": [],
+  "suggestedGuidanceUpdates": [
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Document field naming convention: NarrativeBranch and similar nested domain types use snake_case (public_benefit, polarization_risk, compression_loss), while top-level TypeScript interface fields (RadarSnapshot.scoreRanges, RadarSnapshot.disagreementIndex) use camelCase. New schema fields should follow this pattern unless a full migration is done.",
+      "evidence": "Feature misc-signal-pipeline-cleanup standardized NarrativeBranch to snake_case but left RadarSnapshot top-level in camelCase. Mixed convention in packages/radar-core/src/snapshot-reducer.ts may confuse future workers.",
+      "isSystemic": false
+    },
+    {
+      "target": "AGENTS.md",
+      "suggestion": "Note that LANE_TAGS utility (threat-radar-web/src/ui/utils/lane-tags.ts) was created but components still use inline lane-tag definitions. A future cleanup should wire components to use the shared utility.",
+      "evidence": "Feature misc-signal-pipeline-cleanup extracted LANE_TAGS to src/ui/utils/lane-tags.ts but EtaThreadCard, MuThreadCard, and PiLaneConnections still define lane tags inline. grep for LANE_TAGS import in src/ui/components/ returns no matches.",
+      "isSystemic": false
+    }
+  ],
+  "rejectedObservations": [],
+  "previousRound": null
+}

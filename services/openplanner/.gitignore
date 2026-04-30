@@ -1,0 +1,10 @@
+.env
+openplanner-lake/
+runtime-secrets/
+atlas-migration-dump/
+k8s/overlays/local-kind/secret.env
+k8s/overlays/local-kind/host-proxx-endpointslice.generated.yaml
+k8s/overlays/local-kind-mongodb/openplanner-secret.env
+k8s/overlays/local-kind-mongodb/mongodb-secret.env
+k8s/overlays/local-kind-mongodb/host-proxx-endpointslice.generated.yaml
+k8s/overlays/local-kind-mongodb/generated/

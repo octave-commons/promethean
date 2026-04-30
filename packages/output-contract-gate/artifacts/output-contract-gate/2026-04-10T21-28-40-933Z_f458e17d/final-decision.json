@@ -1,0 +1,16 @@
+{
+  "ok": true,
+  "stage": "structure",
+  "exitCode": 0,
+  "contract": {
+    "name": "eta-mu-five-section-response",
+    "version": "ημ.output/response-shape@0.1.0"
+  },
+  "hashes": {
+    "contract": "f443a38fd236f57e156c61ae847edfcc52e54439fd99cba6e3187fc0889c9217",
+    "candidate": "70d9c0bac69e518078cdc8b49bc016ec331fbe6a5d02ef8d9b86e3d522530d73",
+    "candidateAst": "9d2e7207101b2bba1f58b30bd0a0d7fa027cfebcea434ddfbaa5e69bd1a14288"
+  },
+  "failureCount": 0,
+  "hasRepairPrompt": false
+}

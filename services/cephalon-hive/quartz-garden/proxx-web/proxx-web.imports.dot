@@ -1,0 +1,75 @@
+digraph G {
+  graph [rankdir=LR, bgcolor="#fcfcff", fontname="Helvetica", fontsize=18, labelloc="t", labeljust="l", label="Proxx Web (file-level) — orgs/open-hax/proxx/web/src"]; 
+  node  [shape=box, style="rounded,filled", fontname="Helvetica", fontsize=9, color="#c8c8d0", fillcolor="#f4f4fb"]; 
+  edge  [color="#99aabb", arrowsize=0.55, penwidth=1.0];
+
+  subgraph cluster__root_ {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="23 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="(root)";
+    "App.tsx" [label="App.tsx", tooltip="App.tsx"];
+    "main.tsx" [label="main.tsx", tooltip="main.tsx"];
+  }
+
+  subgraph cluster_lib {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="221 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="lib";
+    "lib/api.ts" [label="lib/api.ts", tooltip="lib/api.ts"];
+    "lib/format.ts" [label="lib/format.ts", tooltip="lib/format.ts"];
+    "lib/local-storage.ts" [label="lib/local-storage.ts", tooltip="lib/local-storage.ts"];
+    "lib/use-stored-state.ts" [label="lib/use-stored-state.ts", tooltip="lib/use-stored-state.ts"];
+  }
+
+  subgraph cluster_pages {
+    style="rounded,filled";
+    color="#e6e6ef";
+    fillcolor="228 0.28 0.96";
+    fontname="Helvetica";
+    fontsize=12;
+    label="pages";
+    "pages/AnalyticsPage.tsx" [label="pages/AnalyticsPage.tsx", tooltip="pages/AnalyticsPage.tsx"];
+    "pages/ChatPage.tsx" [label="pages/ChatPage.tsx", tooltip="pages/ChatPage.tsx"];
+    "pages/CredentialsPage.tsx" [label="pages/CredentialsPage.tsx", tooltip="pages/CredentialsPage.tsx"];
+    "pages/DashboardPage.tsx" [label="pages/DashboardPage.tsx", tooltip="pages/DashboardPage.tsx"];
+    "pages/FederationPage.tsx" [label="pages/FederationPage.tsx", tooltip="pages/FederationPage.tsx"];
+    "pages/HostsPage.tsx" [label="pages/HostsPage.tsx", tooltip="pages/HostsPage.tsx"];
+    "pages/ImagesPage.tsx" [label="pages/ImagesPage.tsx", tooltip="pages/ImagesPage.tsx"];
+    "pages/ToolsPage.tsx" [label="pages/ToolsPage.tsx", tooltip="pages/ToolsPage.tsx"];
+  }
+
+  "App.tsx" -> "lib/api.ts";
+  "App.tsx" -> "pages/ChatPage.tsx";
+  "App.tsx" -> "pages/CredentialsPage.tsx";
+  "App.tsx" -> "pages/DashboardPage.tsx";
+  "App.tsx" -> "pages/HostsPage.tsx";
+  "App.tsx" -> "pages/ToolsPage.tsx";
+  "App.tsx" -> "pages/ImagesPage.tsx";
+  "App.tsx" -> "pages/AnalyticsPage.tsx";
+  "App.tsx" -> "pages/FederationPage.tsx";
+  "lib/use-stored-state.ts" -> "lib/local-storage.ts";
+  "main.tsx" -> "App.tsx";
+  "pages/AnalyticsPage.tsx" -> "lib/api.ts";
+  "pages/AnalyticsPage.tsx" -> "lib/use-stored-state.ts";
+  "pages/ChatPage.tsx" -> "lib/api.ts";
+  "pages/ChatPage.tsx" -> "lib/use-stored-state.ts";
+  "pages/CredentialsPage.tsx" -> "lib/api.ts";
+  "pages/CredentialsPage.tsx" -> "lib/format.ts";
+  "pages/CredentialsPage.tsx" -> "lib/use-stored-state.ts";
+  "pages/DashboardPage.tsx" -> "lib/api.ts";
+  "pages/DashboardPage.tsx" -> "lib/format.ts";
+  "pages/DashboardPage.tsx" -> "lib/use-stored-state.ts";
+  "pages/FederationPage.tsx" -> "lib/api.ts";
+  "pages/FederationPage.tsx" -> "lib/format.ts";
+  "pages/HostsPage.tsx" -> "lib/api.ts";
+  "pages/ImagesPage.tsx" -> "lib/api.ts";
+  "pages/ImagesPage.tsx" -> "lib/use-stored-state.ts";
+  "pages/ToolsPage.tsx" -> "lib/api.ts";
+  "pages/ToolsPage.tsx" -> "lib/use-stored-state.ts";
+}

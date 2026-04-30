@@ -1,0 +1,118 @@
+name: main-pr-gate
+
+on:
+  pull_request:
+    branches:
+      - main
+
+permissions:
+  contents: read
+  checks: read
+
+jobs:
+  main-lint:
+    name: main-lint
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+      - run: sudo apt-get update && sudo apt-get install -y shellcheck
+      - run: go install github.com/rhysd/actionlint/cmd/actionlint@latest
+      - run: chmod +x scripts/*.sh
+      - run: ./scripts/ci-lint.sh
+      - run: /home/runner/go/bin/actionlint
+
+  main-typecheck:
+    name: main-typecheck
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run typecheck
+
+  main-unit-tests:
+    name: main-unit-tests
+    runs-on: ubuntu-latest
+    timeout-minutes: 60
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm test
+
+  main-build:
+    name: main-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run build
+
+  main-web-build:
+    name: main-web-build
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v5
+      - uses: pnpm/action-setup@v4
+        with:
+          version: 9
+      - uses: actions/setup-node@v5
+        with:
+          node-version: 22
+          cache: pnpm
+      - run: pnpm install --frozen-lockfile
+      - run: pnpm run web:build
+
+  staging-promotion-gate:
+    name: staging-promotion-gate
+    runs-on: ubuntu-latest
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v5
+        with:
+          fetch-depth: 0
+      - run: git fetch origin staging --depth=1
+      - run: git merge-base --is-ancestor "${PR_HEAD_SHA}" origin/staging
+        env:
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+      - uses: actions/github-script@v8
+        with:
+          script: |
+            const requiredChecks = ["deploy-staging", "staging-live-e2e"];
+            const { owner, repo } = context.repo;
+            const ref = context.payload.pull_request.head.sha;
+            const checks = await github.rest.checks.listForRef({ owner, repo, ref, per_page: 100 });
+            const byName = new Map(checks.data.check_runs.map((run) => [run.name, run.conclusion]));
+            const missing = requiredChecks.filter((name) => byName.get(name) !== 'success');
+            if (missing.length > 0) {
+              core.setFailed(`Missing successful staging checks for ${ref}: ${missing.join(', ')}`);
+            }

@@ -1,0 +1,419 @@
+#+title: Cephalon Event-Native Bayesian Formalism
+#+author: π
+#+startup: overview inlineimages
+#+options: toc:2 num:t tex:t
+
+* Purpose
+
+This file gives the timerless cephalon architecture a compact Bayesian shape.
+
+The goal is to define when an LLM turn should occur, not as a fixed interval,
+but as a posterior probability over *engagement opportunities* induced by live
+world activity, field state, novelty, timing, and system headroom.
+
+In short:
+
+#+begin_quote
+The mouth opens when the posterior says the world justifies speech.
+#+end_quote
+
+* Core random objects
+
+Let:
+
+- $H_t$ be the full observable history up to time $t$.
+- $X_t$ be raw external events at time $t$.
+- $Y_t$ be internal result events at time $t$.
+- $S_t$ be synthetic events derived from $H_t$.
+- $F_t$ be the deterministic field digest computed from $H_t$.
+- $R_t$ be the retrieved related context assembled from memory, graph, and daimoi walks.
+- $E_{t,a,c}$ be the Bernoulli variable that says whether cephalon should engage now with action-shape $a$ in channel $c$.
+- $M_t$ be the emitted message, with $M_t = \varnothing$ meaning silence.
+
+We define the field digest as a deterministic transformer:
+
+\[
+F_t = g(H_t)
+\]
+
+where $g$ is quantized, time-bucketed, and intentionally low-churn.
+
+* Positive engagement factors
+
+To avoid negation in both language and formalism, we define the posterior in
+terms of *positive* factors.
+
+For a candidate action-shape $a$ in channel $c$, define latent Bernoulli
+variables:
+
+- $I_t$ = invitation signal is present
+- $N_t$ = novelty is present
+- $A_t$ = anchor richness is present
+- $T_t$ = timing fit is present
+- $C_t$ = contextual fit is present
+- $Q_t$ = signal purity is present
+- $D_t$ = distinctness from recent self-output is present
+- $L_t$ = load headroom is present
+- $W_t$ = world activation is present
+
+Then the engagement posterior is:
+
+\[
+P(E_{t,a,c}=1 \mid H_t)
+\propto
+P(I_t=1 \mid H_t,a,c)
+P(N_t=1 \mid H_t,a,c)
+P(A_t=1 \mid H_t,a,c)
+P(T_t=1 \mid H_t,a,c)
+P(C_t=1 \mid H_t,a,c)
+P(Q_t=1 \mid H_t,a,c)
+P(D_t=1 \mid H_t,a,c)
+P(L_t=1 \mid H_t)
+P(W_t=1 \mid H_t)
+\]
+
+A normalized version can be written as logistic fusion:
+
+\[
+\operatorname{logit} P(E_{t,a,c}=1 \mid H_t)
+=
+\beta_0
++ \beta_I \operatorname{logit} P(I_t=1 \mid H_t,a,c)
++ \beta_N \operatorname{logit} P(N_t=1 \mid H_t,a,c)
++ \beta_A \operatorname{logit} P(A_t=1 \mid H_t,a,c)
++ \beta_T \operatorname{logit} P(T_t=1 \mid H_t,a,c)
++ \beta_C \operatorname{logit} P(C_t=1 \mid H_t,a,c)
++ \beta_Q \operatorname{logit} P(Q_t=1 \mid H_t,a,c)
++ \beta_D \operatorname{logit} P(D_t=1 \mid H_t,a,c)
++ \beta_L \operatorname{logit} P(L_t=1 \mid H_t)
++ \beta_W \operatorname{logit} P(W_t=1 \mid H_t)
+\]
+
+This is the cleanest formal substitute for a hand-tuned timer threshold.
+
+* Emission decision
+
+A message is emitted only when the posterior and expected utility both clear
+threshold.
+
+\[
+M_t \neq \varnothing
+\iff
+P(E_{t,a,c}=1 \mid H_t) \ge \tau_E
+\;\land\;
+\mathbb{E}[U_t \mid H_t,a,c,E_{t,a,c}=1] \ge 0
+\]
+
+Otherwise:
+
+\[
+M_t = \varnothing
+\]
+
+where $U_t$ can be a utility functional such as:
+
+\[
+U_t
+=
+\lambda_h H^{\mathrm{human}}_t
++ \lambda_n H^{\mathrm{novel}}_t
++ \lambda_s H^{\mathrm{struct}}_t
+- \lambda_r C^{\mathrm{repetition}}_t
+- \lambda_b C^{\mathrm{backpressure}}_t
+\]
+
+* Timing as Bayesian cadence
+
+The timerless idea still uses time, but in probabilistic form.
+
+** Per-user emission timing
+
+Let $\mathcal{B}$ be a set of timing bins, for example:
+
+\[
+\mathcal{B} = \{5s,10s,30s,1m,5m,15m,1h,6h\}
+\]
+
+For a user $u$, let $n_{u,i}$ be the observed count in timing bin $b_i$ and let
+$\alpha_{u,i}$ be the Dirichlet prior.
+
+Then:
+
+\[
+\theta_u \mid D_u \sim \operatorname{Dir}(\alpha_u + n_u)
+\]
+
+and the posterior predictive for the next inter-arrival bin is:
+
+\[
+P(\Delta^{(u)}_{t+1}=b_i \mid D_u)
+=
+\frac{\alpha_{u,i} + n_{u,i}}{\sum_j (\alpha_{u,j} + n_{u,j})}
+\]
+
+This is the first-order cadence model.
+
+** Higher-order timing n-gram
+
+To capture rhythm, use a smoothed Markov timing model:
+
+\[
+P(\Delta^{(u)}_{t+1}=b_i \mid \Delta^{(u)}_t=b_j,\Delta^{(u)}_{t-1}=b_k,D_u)
+=
+\frac{\alpha_{kji} + n_{kji}}{\sum_\ell (\alpha_{kj\ell} + n_{kj\ell})}
+\]
+
+A candidate response lag $\delta$ receives timing-fit score:
+
+\[
+T_t(\delta,u) = P(\Delta^{(u)}_{t+1} \approx \delta \mid H_t)
+\]
+
+This is how cephalon approximates “good conversational timing” per user rather
+than globally.
+
+* Global heartbeat as posterior event rate
+
+Let $N_t$ be the count of all observed raw events in a recent window of width
+$\Delta$. Put a Gamma prior on the latent world-rate $\lambda_t$:
+
+\[
+\lambda_t \sim \operatorname{Gamma}(a,b)
+\]
+
+Posterior:
+
+\[
+\lambda_t \mid D_t \sim \operatorname{Gamma}(a + N_t, b + \Delta)
+\]
+
+Posterior mean heartbeat:
+
+\[
+\rho_t = \mathbb{E}[\lambda_t \mid D_t] = \frac{a + N_t}{b + \Delta}
+\]
+
+Convert this to a bounded world-activation factor:
+
+\[
+P(W_t=1 \mid H_t) = 1 - e^{-\kappa \rho_t}
+\]
+
+This gives the system a global pulse without forcing global synchronous turns.
+
+* Lexical novelty via trie / n-gram memory
+
+Let a message candidate be tokenized as $m = (w_1,\dots,w_n)$.
+
+Suppose cephalon maintains smoothed word models at several scopes:
+
+- user model
+- channel model
+- global model
+
+For token $w_i$ with prefix/context $\pi_i$, define a mixed predictive model:
+
+\[
+P(w_i \mid \pi_i, u, c, G_t)
+=
+\eta_u P_u(w_i \mid \pi_i)
++ \eta_c P_c(w_i \mid \pi_i)
++ \eta_g P_g(w_i \mid \pi_i)
+\]
+
+with $\eta_u + \eta_c + \eta_g = 1$.
+
+Define the surprisal-based novelty functional:
+
+\[
+\mathcal{N}(m)
+=
+\frac{1}{n} \sum_{i=1}^{n} -\log P(w_i \mid \pi_i, u, c, G_t)
+\]
+
+Then novelty probability can be modeled as:
+
+\[
+P(N_t=1 \mid m,H_t)
+=
+\sigma(\gamma_0 + \gamma_1 \mathcal{N}(m))
+\]
+
+This is the formal version of “store all events, but promote only the surprising
+and worthwhile ones.”
+
+* Channel-transition probability
+
+Let $C_t$ be the most recent active channel. A channel-routing timing model can
+be written as:
+
+\[
+P(C_{t+1}=c' \mid C_t=c, C_{t-1}=c^-, D)
+=
+\frac{\alpha_{c^-,c,c'} + n_{c^-,c,c'}}{\sum_j (\alpha_{c^-,c,j} + n_{c^-,c,j})}
+\]
+
+This captures transmission probability from one room into another, conditioned
+on recent traffic.
+
+It is a formal bridge between channel pheromones and probabilistic event
+admission.
+
+* Signal purity and spam-family compression
+
+The raw event stream may contain repeated bot sludge.
+
+Let $\mathcal{F}$ be the set of spam families and let $f(m)$ be the inferred
+family for message $m$.
+
+We do not need every repeated message to become a memory. We can instead infer:
+
+\[
+P(f = f_k \mid m, H_t)
+\propto
+P(\operatorname{simhash}(m) \mid f_k)
+P(\operatorname{lex}(m) \mid f_k)
+P(\operatorname{timing}(m) \mid f_k)
+\]
+
+Signal purity for a candidate can then be treated as the posterior that the
+candidate belongs to the *interesting* portion of the stream rather than to a
+spam family:
+
+\[
+P(Q_t=1 \mid m, H_t)
+= 1 - P(f(m) \in \mathcal{F}^{\mathrm{spam}} \mid m, H_t)
+\]
+
+This formalizes aggregate-only mode.
+
+* Field digest and contextual retrieval
+
+The field digest is deterministic, but it enters probabilistic retrieval.
+
+\[
+F_t = g(H_t)
+\]
+
+where $g$ is a low-churn feature transformer over:
+
+- health state
+- pressure state
+- focus state
+- top tags / nexus keys
+- channel pressure
+- recent system chemistry
+
+Then define dual-lane retrieval:
+
+\[
+R_t = \operatorname{TopK}_{r \in \mathcal{M}}
+\left[
+\lambda_{\mathrm{canon}} \, \mathrm{sim}_{\mathrm{canon}}(q_t,r)
++ \lambda_{\mathrm{eid}} \, \mathrm{sim}_{\mathrm{eid}}(q_t,r;F_t)
++ \lambda_{\mathrm{daimoi}} \, \mathrm{walk}(q_t,r,\mathcal{G}_t)
+\right]
+\]
+
+where:
+
+- $\mathrm{sim}_{\mathrm{canon}}$ is stable semantic similarity
+- $\mathrm{sim}_{\mathrm{eid}}$ is field-conditioned similarity
+- $\mathrm{walk}$ is the bounded daimoi graph-walk score on the nexus graph
+
+This is the formal version of:
+
+#+begin_quote
+The ants notice, the daimoi walk, the graph tightens.
+#+end_quote
+
+* Synthetic event posteriors
+
+Synthetic events are not timers with extra math.
+They are posterior assertions about the world.
+
+Examples:
+
+** Conversation window opened
+
+\[
+P(S_t = \mathrm{conversation\_window\_opened} \mid H_t)
+\propto
+P(I_t=1 \mid H_t)
+P(T_t=1 \mid H_t)
+P(C_t=1 \mid H_t)
+\]
+
+** Novelty opportunity detected
+
+\[
+P(S_t = \mathrm{novelty\_opportunity} \mid H_t)
+\propto
+P(N_t=1 \mid H_t)
+P(A_t=1 \mid H_t)
+P(Q_t=1 \mid H_t)
+\]
+
+** Routing channel attractor changed
+
+\[
+P(S_t = \mathrm{routing\_channel\_attractor\_changed} \mid H_t)
+\propto
+P(C_{t+1} \neq C_t \mid H_t)
+P(T_t=1 \mid H_t)
+P(L_t=1 \mid H_t)
+\]
+
+Emit the synthetic event when the corresponding posterior exceeds a threshold
+$\tau_s$.
+
+* Message goodness posterior
+
+A delivered message should be anchored, situated, novel, and alive.
+
+Define goodness posterior:
+
+\[
+P(G_t=1 \mid M_t,H_t)
+\propto
+P(A_t=1 \mid M_t,H_t)
+P(C_t=1 \mid M_t,H_t)
+P(N_t=1 \mid M_t,H_t)
+P(T_t=1 \mid M_t,H_t)
+\]
+
+The system should prefer messages with high $P(G_t=1 \mid M_t,H_t)$ and prefer
+silence when that posterior is weak.
+
+* Operational law
+
+The old law was:
+
+\[
+\text{Act every } \Delta t
+\]
+
+The recovered law is:
+
+\[
+\text{Act when } P(E_{t,a,c}=1 \mid H_t) \text{ is high enough and } \mathbb{E}[U_t \mid H_t] \ge 0
+\]
+
+That is the mathematical definition of timerless aliveness.
+
+* Minimal implementation mapping
+
+- $H_t$ -> append-only event log + recent ring buffers + probabilistic counters
+- $F_t$ -> Field Digest object
+- $R_t$ -> canonical retrieval + eidolon retrieval + daimoi expansion
+- $P(T_t=1 \mid H_t)$ -> timing-model module
+- $P(N_t=1 \mid H_t)$ -> novelty trie / n-gram module
+- $P(Q_t=1 \mid H_t)$ -> spam-family / purity model
+- $P(W_t=1 \mid H_t)$ -> global heartbeat posterior
+- $P(E_{t,a,c}=1 \mid H_t)$ -> engagement admission module
+
+* Closing line
+
+#+begin_quote
+The timerless cephalon is a Bayesian mouth on top of a living field.
+#+end_quote

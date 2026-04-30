@@ -1,0 +1,507 @@
+services:
+  secrets-init:
+    image: busybox:1.36
+    command:
+    - echo
+    - 'Atlas Local: secrets-init skipped'
+    volumes: []
+    user: 0:0
+  vexx:
+    profiles:
+    - container-vexx
+    build:
+      context: ../../orgs/open-hax/openplanner/packages/vexx
+      dockerfile: Dockerfile
+    cpus: 1
+    cpuset: 2-21
+    ports:
+    - 127.0.0.1:${VEXX_HOST_PORT:-8787}:8788
+    environment:
+      VEXX_HOST: 0.0.0.0
+      VEXX_PORT: '8788'
+      VEXX_DEVICE: ${VEXX_DEVICE:-NPU}
+      VEXX_AUTO_ORDER: ${VEXX_AUTO_ORDER:-NPU,GPU,CPU}
+      VEXX_REQUIRE_ACCEL: ${VEXX_REQUIRE_ACCEL:-true}
+      VEXX_PAIR_CACHE_MAX_ENTRIES: ${VEXX_PAIR_CACHE_MAX_ENTRIES:-250000}
+    devices:
+    - /dev/accel:/dev/accel
+    - /dev/dri:/dev/dri
+    volumes:
+    - /lib/x86_64-linux-gnu/libze_loader.so.1.24.2:/lib/x86_64-linux-gnu/libze_loader.so.1.8.0:ro
+    - /lib/x86_64-linux-gnu/libze_intel_npu.so:/lib/x86_64-linux-gnu/libze_intel_npu.so:ro
+    - /lib/x86_64-linux-gnu/libze_intel_npu.so.1:/lib/x86_64-linux-gnu/libze_intel_npu.so.1:ro
+    - /lib/x86_64-linux-gnu/libze_intel_npu.so.1.28.0:/lib/x86_64-linux-gnu/libze_intel_npu.so.1.28.0:ro
+    - /lib/x86_64-linux-gnu/libstdc++.so.6.0.33:/lib/x86_64-linux-gnu/libstdc++.so.6.0.30:ro
+    healthcheck:
+      test:
+      - CMD
+      - curl
+      - -fsS
+      - http://127.0.0.1:8788/v1/health
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra:
+        aliases:
+        - vexx
+    user: ${DOCKER_USER:-1000:1000}
+  mongodb:
+    # MongoDB Community Server in standalone mode (no replica set)
+    # This allows persistent volumes across container recreations
+    # Vector search is handled by the embedding service (proxx)
+    image: mongo:8.0
+    command:
+    - mongod
+    - --bind_ip_all
+    - --auth
+    ports:
+    - 127.0.0.1:${OPENPLANNER_MONGODB_PORT:-27017}:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME:-openplannerRoot}
+      MONGO_INITDB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD:-change-me-root-password}
+    volumes:
+    - openplanner-mongodb-data:/data/db
+    healthcheck:
+      test:
+      - CMD
+      - mongosh
+      - -u
+      - ${MONGODB_ROOT_USERNAME:-openplannerRoot}
+      - -p
+      - ${MONGODB_ROOT_PASSWORD:-change-me-root-password}
+      - --authenticationDatabase
+      - admin
+      - --eval
+      - db.adminCommand('ping')
+      interval: 15s
+      timeout: 10s
+      retries: 10
+      start_period: 20s
+  mongot:
+    # Placeholder: Vector search via Atlas mongot disabled
+    # Using Community Server without integrated vector search
+    # Semantic search is handled by proxx embedding service
+    image: busybox:1.36
+    command:
+    - echo
+    - 'MongoDB Community Server - vector search via proxx'
+    depends_on: {}
+    entrypoint: []
+    ports: []
+    volumes: []
+    tmpfs: []
+    healthcheck:
+      test:
+      - CMD
+      - 'true'
+      - 'true'
+      interval: 60s
+      timeout: 5s
+      retries: 1
+  mongo-init:
+    image: mongo:8.0
+    depends_on:
+      mongodb:
+        condition: service_healthy
+    entrypoint:
+    - /bin/sh
+    - /scripts/mongo-init.sh
+    environment:
+      MONGODB_ROOT_USERNAME: ${MONGODB_ROOT_USERNAME:-openplannerRoot}
+      MONGODB_ROOT_PASSWORD: ${MONGODB_ROOT_PASSWORD:-change-me-root-password}
+      MONGODB_DB: ${MONGODB_DB:-openplanner}
+      OPENPLANNER_MONGO_APP_USERNAME: ${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}
+      OPENPLANNER_MONGO_APP_PASSWORD: ${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}
+      EMBEDDING_DIMENSIONS: ${EMBEDDING_DIMENSIONS:-1024}
+    volumes:
+    - ./scripts/mongo-init.sh:/scripts/mongo-init.sh:ro
+    restart: 'no'
+  openplanner:
+    build:
+      context: ../../orgs/open-hax/openplanner
+      dockerfile: Dockerfile
+    cpus: 2
+    cpuset: 2-21
+    depends_on:
+      secrets-init:
+        condition: service_completed_successfully
+      mongodb:
+        condition: service_healthy
+      mongo-init:
+        condition: service_completed_successfully
+    ports:
+    - 127.0.0.1:${OPENPLANNER_PORT:-7777}:7777
+    environment:
+      NODE_ENV: production
+      OPENPLANNER_HOST: 0.0.0.0
+      OPENPLANNER_PORT: '7777'
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      OPENPLANNER_DATA_DIR: /app/openplanner-lake
+      OPENPLANNER_STORAGE_BACKEND: mongodb
+      MONGODB_URI: mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
+      MONGODB_DB: ${MONGODB_DB:-openplanner}
+      MONGODB_EVENTS_COLLECTION: ${MONGODB_EVENTS_COLLECTION:-events}
+      MONGODB_COMPACTED_COLLECTION: ${MONGODB_COMPACTED_COLLECTION:-compacted_memories}
+      MONGODB_VECTOR_HOT_COLLECTION: ${MONGODB_VECTOR_HOT_COLLECTION:-event_chunks}
+      MONGODB_VECTOR_COMPACT_COLLECTION: ${MONGODB_VECTOR_COMPACT_COLLECTION:-compacted_vectors}
+      MONGODB_GRAPH_LAYOUT_COLLECTION: ${MONGODB_GRAPH_LAYOUT_COLLECTION:-graph_layout_overrides}
+      MONGODB_GRAPH_NODE_EMBEDDING_COLLECTION: ${MONGODB_GRAPH_NODE_EMBEDDING_COLLECTION:-graph_node_embeddings}
+      MONGODB_EVENTS_TTL_SECONDS: ${MONGODB_EVENTS_TTL_SECONDS:-0}
+      MONGODB_COMPACTED_TTL_SECONDS: ${MONGODB_COMPACTED_TTL_SECONDS:-0}
+      EMBED_PROVIDER_BASE_URL: ${OPENPLANNER_PROXX_BASE_URL:-http://openplanner-proxx:8789}
+      EMBED_PROVIDER_API_KEY: ${OPENPLANNER_PROXX_AUTH_TOKEN:-change-me-openplanner-proxx-token}
+      EMBED_PROVIDER_MODEL: ${EMBED_PROVIDER_MODEL:-qwen3-embedding:0.6b}
+      EMBED_PROVIDER_COMPACT_MODEL: ${EMBED_PROVIDER_COMPACT_MODEL:-qwen3-embedding:4b}
+      EMBED_PROVIDER_MODEL_BY_SOURCE: ${EMBED_PROVIDER_MODEL_BY_SOURCE:-}
+      EMBED_PROVIDER_MODEL_BY_KIND: ${EMBED_PROVIDER_MODEL_BY_KIND:-}
+      EMBED_PROVIDER_MODEL_BY_PROJECT: ${EMBED_PROVIDER_MODEL_BY_PROJECT:-}
+      EMBED_PROVIDER_BATCH_WINDOW_MS: ${EMBED_PROVIDER_BATCH_WINDOW_MS:-5}
+      EMBED_PROVIDER_MAX_BATCH_ITEMS: ${EMBED_PROVIDER_MAX_BATCH_ITEMS:-32}
+      EMBED_PROVIDER_CACHE_PATH: ${EMBED_PROVIDER_CACHE_PATH:-/app/openplanner-lake/cache/embed-provider-cache.jsonl}
+      VEXX_BASE_URL: ${VEXX_BASE_URL:-http://host.docker.internal:8787}
+      VEXX_API_KEY: ${VEXX_API_KEY:-}
+      VEXX_DEVICE: ${VEXX_DEVICE:-NPU}
+      VEXX_REQUIRE_ACCEL: ${VEXX_REQUIRE_ACCEL:-true}
+      VEXX_ENFORCE: ${VEXX_ENFORCE:-true}
+      VEXX_MIN_CANDIDATES: ${VEXX_MIN_CANDIDATES:-1}
+      VEXX_TIMEOUT_MS: ${VEXX_TIMEOUT_MS:-30000}
+    volumes:
+    - ./openplanner-lake:/app/openplanner-lake
+    - ../../orgs/open-hax/openplanner/dist:/app/dist:ro
+    - ../../orgs/open-hax/openplanner/node_modules:/app/node_modules:ro
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    healthcheck:
+      test:
+      - CMD
+      - node
+      - -e
+      - fetch('http://127.0.0.1:7777/v1/health').then((response) => { if (!response.ok) { process.exit(1); } }).catch(() => process.exit(1))
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra:
+        aliases:
+        - openplanner
+  openplanner-proxx-db:
+    image: postgres:16-bookworm
+    cpus: 1
+    cpuset: 2-21
+    expose:
+    - '5432'
+    environment:
+      POSTGRES_DB: ${OPENPLANNER_PROXX_DB_NAME:-openai_proxy}
+      POSTGRES_USER: ${OPENPLANNER_PROXX_DB_USER:-openai_proxy}
+      POSTGRES_PASSWORD: ${OPENPLANNER_PROXX_DB_PASSWORD:-openai_proxy}
+    volumes:
+    - openplanner-proxx-db-data:/var/lib/postgresql/data
+    healthcheck:
+      test:
+      - CMD-SHELL
+      - pg_isready -U ${OPENPLANNER_PROXX_DB_USER:-openai_proxy} -d ${OPENPLANNER_PROXX_DB_NAME:-openai_proxy}
+      interval: 10s
+      timeout: 5s
+      retries: 5
+      start_period: 10s
+    restart: unless-stopped
+    networks:
+      default: {}
+  openplanner-proxx:
+    build:
+      context: ../..
+      dockerfile: orgs/open-hax/proxx/Dockerfile
+    cpus: 1.5
+    cpuset: 2-21
+    depends_on:
+      openplanner-proxx-db:
+        condition: service_healthy
+    ports:
+    - 127.0.0.1:${OPENPLANNER_PROXX_HOST_PORT:-8790}:8789
+    - 127.0.0.1:${OPENPLANNER_PROXX_WEB_PORT:-5176}:5174
+    environment:
+      PM2_HOME: /app/data/.pm2
+      NODE_ENV: production
+      PROXY_HOST: 0.0.0.0
+      PROXY_PORT: '8789'
+      PORT: '8789'
+      PROXY_AUTH_TOKEN: ${OPENPLANNER_PROXX_AUTH_TOKEN:-change-me-openplanner-proxx-token}
+      PROXY_KEYS_FILE: /workspace/service-config/seeds/keys.json
+      PROXY_MODELS_FILE: /workspace/service-config/models.json
+      PROXY_REQUEST_LOGS_FILE: /app/data/request-logs.jsonl
+      PROXY_REQUEST_LOGS_MAX_ENTRIES: ${OPENPLANNER_PROXX_REQUEST_LOGS_MAX_ENTRIES:-25000}
+      PROXY_REQUEST_LOGS_FLUSH_MS: ${OPENPLANNER_PROXX_REQUEST_LOGS_FLUSH_MS:-1000}
+      PROXY_PROMPT_AFFINITY_FLUSH_MS: ${OPENPLANNER_PROXX_PROMPT_AFFINITY_FLUSH_MS:-250}
+      PROXY_KEY_RELOAD_MS: ${OPENPLANNER_PROXX_KEY_RELOAD_MS:-5000}
+      PROXY_KEY_COOLDOWN_MS: ${OPENPLANNER_PROXX_KEY_COOLDOWN_MS:-30000}
+      PROXY_ALLOW_UNAUTHENTICATED: 'false'
+      DATABASE_URL: postgresql://${OPENPLANNER_PROXX_DB_USER:-openai_proxy}:${OPENPLANNER_PROXX_DB_PASSWORD:-openai_proxy}@openplanner-proxx-db:5432/${OPENPLANNER_PROXX_DB_NAME:-openai_proxy}
+      UPSTREAM_PROVIDER_ID: ${OPENPLANNER_PROXX_UPSTREAM_PROVIDER_ID:-zai}
+      UPSTREAM_FALLBACK_PROVIDER_IDS: ${OPENPLANNER_PROXX_UPSTREAM_FALLBACK_PROVIDER_IDS:-rotussy,ollama-cloud,requesty}
+      UPSTREAM_BASE_URL: ${OPENPLANNER_PROXX_UPSTREAM_BASE_URL:-https://api.z.ai/api/paas/v4}
+      UPSTREAM_PROVIDER_BASE_URLS: ${OPENPLANNER_PROXX_UPSTREAM_PROVIDER_BASE_URLS:-ollama-cloud=https://ollama.com,openai=https://chatgpt.com/backend-api,vivgrid=https://api.vivgrid.com,requesty=https://router.requesty.ai/v1,zai=https://api.z.ai/api/paas/v4}
+      REQUESTY_API_TOKEN: ${REQUESTY_API_TOKEN:-}
+      OPENAI_PROVIDER_ID: ${OPENAI_PROVIDER_ID:-openai}
+      OPENAI_BASE_URL: ${OPENAI_BASE_URL:-https://chatgpt.com/backend-api}
+      OPENAI_API_BASE_URL: ${OPENAI_API_BASE_URL:-https://api.openai.com}
+      OPENAI_IMAGES_UPSTREAM_MODE: ${OPENAI_IMAGES_UPSTREAM_MODE:-auto}
+      OPENAI_OAUTH_CLIENT_ID: ${OPENAI_OAUTH_CLIENT_ID:-app_EMoamEEZ73f0CkXaXp7hrann}
+      OPENAI_OAUTH_CLIENT_SECRET: ${OPENAI_OAUTH_CLIENT_SECRET:-}
+      OPENAI_OAUTH_ISSUER: ${OPENAI_OAUTH_ISSUER:-https://auth.openai.com}
+      OPENAI_OAUTH_SCOPES: ${OPENAI_OAUTH_SCOPES:-openid profile email offline_access}
+      OPENAI_IMAGES_GENERATIONS_PATHS: ${OPENAI_IMAGES_GENERATIONS_PATHS:-}
+      IMAGE_COST_USD_DEFAULT: ${IMAGE_COST_USD_DEFAULT:-0}
+      IMAGE_COST_USD_BY_PROVIDER: ${IMAGE_COST_USD_BY_PROVIDER:-}
+      OLLAMA_BASE_URL: ${OPENPLANNER_PROXX_OLLAMA_BASE_URL:-http://ollama:11434}
+      ZAI_API_KEY: ${OPENPLANNER_PROXX_ZAI_API_KEY:-}
+      ZHIPU_API_KEY: ${ZHIPU_API_KEY:-}
+      ZAI_PROVIDER_ID: ${ZAI_PROVIDER_ID:-zai}
+      ZHIPU_PROVIDER_ID: ${ZHIPU_PROVIDER_ID:-}
+      ZAI_BASE_URL: ${ZAI_BASE_URL:-https://api.z.ai/api/paas/v4}
+      ROTUSSY_API_KEY: ${ROTUSSY_API_KEY:-}
+      ROTUSSY_PROVIDER_ID: ${ROTUSSY_PROVIDER_ID:-rotussy}
+      ROTUSSY_BASE_URL: ${ROTUSSY_BASE_URL:-https://api.ussyco.de/v1}
+      ZHIPU_BASE_URL: ${ZHIPU_BASE_URL:-}
+      UPSTREAM_CHAT_COMPLETIONS_PATH: ${UPSTREAM_CHAT_COMPLETIONS_PATH:-/v1/chat/completions}
+      OPENAI_CHAT_COMPLETIONS_PATH: ${OPENAI_CHAT_COMPLETIONS_PATH:-/codex/responses/compact}
+      UPSTREAM_MESSAGES_PATH: ${UPSTREAM_MESSAGES_PATH:-/v1/messages}
+      UPSTREAM_MESSAGES_MODEL_PREFIXES: ${UPSTREAM_MESSAGES_MODEL_PREFIXES:-claude-}
+      UPSTREAM_MESSAGES_INTERLEAVED_THINKING_BETA: ${UPSTREAM_MESSAGES_INTERLEAVED_THINKING_BETA:-interleaved-thinking-2025-05-14}
+      UPSTREAM_RESPONSES_PATH: ${UPSTREAM_RESPONSES_PATH:-/v1/responses}
+      OPENAI_RESPONSES_PATH: ${OPENAI_RESPONSES_PATH:-/codex/responses}
+      UPSTREAM_RESPONSES_MODEL_PREFIXES: ${UPSTREAM_RESPONSES_MODEL_PREFIXES:-gpt-}
+      OPENAI_MODEL_PREFIXES: ${OPENAI_MODEL_PREFIXES:-openai/,openai:}
+      OLLAMA_CHAT_PATH: ${OLLAMA_CHAT_PATH:-/api/chat}
+      OLLAMA_MODEL_PREFIXES: ${OLLAMA_MODEL_PREFIXES:-ollama/,ollama:}
+      UPSTREAM_REQUEST_TIMEOUT_MS: ${OPENPLANNER_PROXX_UPSTREAM_REQUEST_TIMEOUT_MS:-900000}
+      UPSTREAM_STREAM_BOOTSTRAP_TIMEOUT_MS: ${OPENPLANNER_PROXX_UPSTREAM_STREAM_BOOTSTRAP_TIMEOUT_MS:-900000}
+      NODE_OPTIONS: ${OPENPLANNER_PROXX_NODE_OPTIONS:---max-old-space-size=4096}
+      EMBED_MAX_BATCH_ITEMS: ${OPENPLANNER_PROXX_EMBED_MAX_BATCH_ITEMS:-64}
+      EMBED_MAX_INPUT_CHARS: ${OPENPLANNER_PROXX_EMBED_MAX_INPUT_CHARS:-200000}
+      CHROMA_URL: ${CHROMA_URL:-http://host.docker.internal:8000}
+      CHROMA_COLLECTION: ${OPENPLANNER_PROXX_CHROMA_COLLECTION:-openplanner_proxy_sessions}
+      CHROMA_EMBED_MODEL: ${CHROMA_EMBED_MODEL:-nomic-embed-text:latest}
+      OTEL_SERVICE_NAME: ${OPENPLANNER_PROXX_OTEL_SERVICE_NAME:-openplanner-proxx}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+      OTEL_EXPORTER_OTLP_HEADERS: ${OTEL_EXPORTER_OTLP_HEADERS:-}
+      OTEL_RESOURCE_ATTRIBUTES: ${OPENPLANNER_PROXX_OTEL_RESOURCE_ATTRIBUTES:-service.name=openplanner-proxx}
+      FEDERATION_SELF_NODE_ID: ${OPENPLANNER_PROXX_FEDERATION_SELF_NODE_ID:-openplanner-proxx}
+      FEDERATION_SELF_GROUP_ID: ${OPENPLANNER_PROXX_FEDERATION_SELF_GROUP_ID:-openplanner}
+      FEDERATION_SELF_CLUSTER_ID: ${OPENPLANNER_PROXX_FEDERATION_SELF_CLUSTER_ID:-openplanner-local}
+      FEDERATION_SELF_PEER_DID: ${OPENPLANNER_PROXX_FEDERATION_SELF_PEER_DID:-did:web:openplanner.proxx.local}
+      FEDERATION_SELF_PUBLIC_BASE_URL: ${OPENPLANNER_PROXX_FEDERATION_SELF_PUBLIC_BASE_URL:-http://openplanner-proxx:8789}
+      FEDERATION_DEFAULT_OWNER_SUBJECT: ${OPENPLANNER_PROXX_FEDERATION_DEFAULT_OWNER_SUBJECT:-did:web:openplanner.proxx.local}
+      FEDERATION_REQUEST_TIMEOUT_MS: ${OPENPLANNER_PROXX_FEDERATION_REQUEST_TIMEOUT_MS:-30000}
+    volumes:
+    - ../proxx/models.json:/workspace/service-config/models.json:ro
+    - ./openplanner-proxx-seeds:/workspace/service-config/seeds:ro
+    - ./openplanner-proxx-data:/app/data
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    healthcheck:
+      test:
+      - CMD
+      - node
+      - -e
+      - fetch('http://127.0.0.1:8789/health',{headers:{Authorization:'Bearer '+(process.env.PROXY_AUTH_TOKEN||'')}}).then((response)=>{if(!response.ok){process.exit(1);}}).catch(()=>process.exit(1))
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra:
+        aliases:
+        - openplanner-proxx
+    user: ${DOCKER_USER:-1000:1000}
+  openplanner-proxx-federation-sync:
+    image: python:3.12-alpine
+    cpus: 0.25
+    cpuset: 2-21
+    depends_on:
+      openplanner-proxx:
+        condition: service_healthy
+    environment:
+      LOCAL_PROXX_BASE_URL: ${OPENPLANNER_PROXX_BASE_URL:-http://openplanner-proxx:8789}
+      LOCAL_PROXX_AUTH_TOKEN: ${OPENPLANNER_PROXX_AUTH_TOKEN:-change-me-openplanner-proxx-token}
+      CANONICAL_PROXX_BASE_URL: ${OPENPLANNER_CANONICAL_PROXX_BASE_URL:-http://proxx:8789}
+      CANONICAL_PROXX_AUTH_TOKEN: ${OPENPLANNER_CANONICAL_PROXX_AUTH_TOKEN:-${OPEN_HAX_OPENAI_PROXY_AUTH_TOKEN:-${PROXY_AUTH_TOKEN:-}}}
+      PROJECTED_IMPORT_PROVIDER_IDS: ${OPENPLANNER_PROXX_PROJECTED_IMPORT_PROVIDER_IDS:-zai}
+      SYNC_INTERVAL_SECONDS: ${OPENPLANNER_PROXX_SYNC_INTERVAL_SECONDS:-300}
+    command:
+    - /bin/sh
+    - -lc
+    - "python - <<'PY'\nimport json, os, sys, time, urllib.error, urllib.request\n\nlocal_base = os.environ[\"LOCAL_PROXX_BASE_URL\"].rstrip(\"/\")\nlocal_token = os.environ[\"LOCAL_PROXX_AUTH_TOKEN\"]\n\
+      canonical_base = os.environ[\"CANONICAL_PROXX_BASE_URL\"].rstrip(\"/\")\ncanonical_token = os.environ.get(\"CANONICAL_PROXX_AUTH_TOKEN\", \"\").strip()\nprovider_ids = [entry.strip() for entry in\
+      \ os.environ.get(\"PROJECTED_IMPORT_PROVIDER_IDS\", \"zai\").split(\",\") if entry.strip()]\ninterval = max(30, int(os.environ.get(\"SYNC_INTERVAL_SECONDS\", \"300\")))\n\nif not canonical_token:\n\
+      \  print(\"openplanner-proxx-federation-sync: missing CANONICAL_PROXX_AUTH_TOKEN\", file=sys.stderr)\n  sys.exit(1)\n\ndef request(url: str, token: str, body: dict | None = None) -> dict:\n  data\
+      \ = None if body is None else json.dumps(body).encode(\"utf-8\")\n  req = urllib.request.Request(url, data=data, method=\"POST\" if body is not None else \"GET\")\n  req.add_header(\"Authorization\"\
+      , f\"Bearer {token}\")\n  if data is not None:\n    req.add_header(\"Content-Type\", \"application/json\")\n  with urllib.request.urlopen(req, timeout=15) as response:\n    payload = response.read().decode(\"\
+      utf-8\")\n    return json.loads(payload) if payload else {}\n\ndef wait_for_health(url: str, token: str) -> None:\n  health_url = f\"{url}/health\"\n  while True:\n    try:\n      request(health_url,\
+      \ token)\n      return\n    except Exception as error:  # noqa: BLE001\n      print(f\"waiting for {health_url}: {error}\", file=sys.stderr)\n      time.sleep(5)\n\npeer_payload = {\n  \"id\": \"\
+      canonical-proxx\",\n  \"ownerCredential\": local_token,\n  \"label\": \"Canonical Proxx\",\n  \"baseUrl\": canonical_base,\n  \"controlBaseUrl\": canonical_base,\n  \"auth\": {\"credential\": canonical_token},\n\
+      \  \"status\": \"active\",\n}\n\nwhile True:\n  try:\n    wait_for_health(local_base, local_token)\n    wait_for_health(canonical_base, canonical_token)\n    request(f\"{local_base}/api/v1/federation/peers\"\
+      , local_token, peer_payload)\n    request(\n      f\"{local_base}/api/v1/federation/sync/pull\",\n      local_token,\n      {\"peerId\": \"canonical-proxx\", \"pullUsage\": False},\n    )\n    for\
+      \ provider_id in provider_ids:\n      request(\n        f\"{local_base}/api/v1/federation/projected-accounts/import-all\",\n        local_token,\n        {\"sourcePeerId\": \"canonical-proxx\", \"\
+      providerId\": provider_id},\n      )\n  except urllib.error.HTTPError as error:\n    detail = error.read().decode(\"utf-8\", errors=\"replace\")\n    print(f\"openplanner-proxx-federation-sync http\
+      \ error: {error.code} {detail}\", file=sys.stderr)\n  except Exception as error:  # noqa: BLE001\n    print(f\"openplanner-proxx-federation-sync error: {error}\", file=sys.stderr)\n  time.sleep(interval)\n\
+      PY\n"
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+    user: ${DOCKER_USER:-1000:1000}
+
+  # ─── openplanner-mcp ───────────────────────────────────────────────────────
+  # MCP (Model Context Protocol) server that exposes openplanner's epistemic
+  # kernel — search, ingest, recall, graph — as tool-call endpoints for any
+  # MCP-capable client (Knoxx agents, Claude Desktop, opencode, etc.).
+  #
+  # Transport: stdio (default, for local agent sidecars) and
+  #            HTTP/SSE on port 7778 (for network clients like Knoxx).
+  #
+  # Depends on openplanner being healthy; does NOT need its own DB.
+  # Source lives in packages/openplanner-mcp inside the openplanner monorepo.
+  openplanner-mcp:
+    build:
+      context: ../../orgs/open-hax/openplanner
+      dockerfile: packages/openplanner-mcp/Dockerfile
+    cpus: 1
+    cpuset: 2-21
+    depends_on:
+      openplanner:
+        condition: service_healthy
+    ports:
+    - 127.0.0.1:${OPENPLANNER_MCP_PORT:-7778}:7778
+    environment:
+      NODE_ENV: production
+      MCP_HOST: 0.0.0.0
+      MCP_PORT: '7778'
+      # Transport: 'http' exposes SSE endpoint; 'stdio' for local sidecar use.
+      MCP_TRANSPORT: ${OPENPLANNER_MCP_TRANSPORT:-http}
+      # Bearer token required on every MCP request.
+      MCP_AUTH_TOKEN: ${OPENPLANNER_MCP_AUTH_TOKEN:-change-me-mcp-token}
+      # Upstream openplanner REST API.
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      # Which project/lake namespace MCP tool calls operate against by default.
+      # Clients may override per-call via tool arguments.
+      MCP_DEFAULT_PROJECT: ${OPENPLANNER_MCP_DEFAULT_PROJECT:-devel}
+      # Max tokens returned in a single recall/search tool response.
+      MCP_MAX_RESULT_TOKENS: ${OPENPLANNER_MCP_MAX_RESULT_TOKENS:-8192}
+      # Ingest: allow agents to write obs/fact into the epistemic store.
+      MCP_INGEST_ENABLED: ${OPENPLANNER_MCP_INGEST_ENABLED:-true}
+      # Graph: expose graph-weaver query tools.
+      MCP_GRAPH_ENABLED: ${OPENPLANNER_MCP_GRAPH_ENABLED:-true}
+      GRAPH_WEAVER_BASE_URL: ${GRAPH_WEAVER_BASE_URL:-http://graph-weaver:8796}
+      # OTEL (optional)
+      OTEL_SERVICE_NAME: ${OPENPLANNER_MCP_OTEL_SERVICE_NAME:-openplanner-mcp}
+      OTEL_EXPORTER_OTLP_ENDPOINT: ${OTEL_EXPORTER_OTLP_ENDPOINT:-}
+    volumes:
+    - ../../orgs/open-hax/openplanner/packages/openplanner-mcp/dist:/app/dist:ro
+    - ../../orgs/open-hax/openplanner/node_modules:/app/node_modules:ro
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    healthcheck:
+      test:
+      - CMD
+      - node
+      - -e
+      - >-
+        fetch('http://127.0.0.1:7778/health',
+          {headers:{Authorization:'Bearer '+(process.env.MCP_AUTH_TOKEN||'')}}
+        ).then(r=>{if(!r.ok)process.exit(1)}).catch(()=>process.exit(1))
+      interval: 30s
+      timeout: 10s
+      retries: 3
+      start_period: 15s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra:
+        aliases:
+        - openplanner-mcp
+    user: ${DOCKER_USER:-1000:1000}
+
+  graph-weaver:
+    profiles:
+    - graph-20
+    - graph
+    - graph-2
+    - graph-3
+    image: node:22-bookworm
+    cpus: 2
+    cpuset: 2-21
+    user: ${DOCKER_USER:-1000:1000}
+    working_dir: /app/workspace/devel/orgs/open-hax/openplanner
+    command: bash -lc "npx pnpm install --no-frozen-lockfile && npx pnpm -C packages/graph-weaver-aco build && cd packages/graph-weaver && npx tsx src/server.ts"
+    expose:
+    - '8796'
+    ports:
+    - 127.0.0.1:${GRAPH_WEAVER_PORT:-8796}:8796
+    environment:
+      CI: 'true'
+      NPM_CONFIG_CONFIRM_MODULES_PURGE: 'false'
+      HOST: 0.0.0.0
+      PORT: '8796'
+      REPO_ROOT: /app/workspace/devel
+      GRAPH_WEAVER_LOCAL_SOURCE: ${GRAPH_WEAVER_LOCAL_SOURCE:-openplanner-graph}
+      GRAPH_WEAVER_PERSISTENCE_MODE: ${GRAPH_WEAVER_PERSISTENCE_MODE:-openplanner}
+      GRAPH_WEAVER_INCLUDE_WEB_LAYER_WHEN_IDLE: ${GRAPH_WEAVER_INCLUDE_WEB_LAYER_WHEN_IDLE:-true}
+      GRAPH_WEAVER_INCLUDE_SEMANTIC_EDGES: ${GRAPH_WEAVER_INCLUDE_SEMANTIC_EDGES:-true}
+      GRAPH_WEAVER_SEMANTIC_MIN_SIMILARITY: ${GRAPH_WEAVER_SEMANTIC_MIN_SIMILARITY:-0.5}
+      GRAPH_WEAVER_OPENPLANNER_PROJECTS: ${GRAPH_WEAVER_OPENPLANNER_PROJECTS:-devel,web,bluesky,knoxx-session}
+      WEBGL_GRAPH_VIEW_DIST: /app/workspace/devel/orgs/open-hax/openplanner/packages/webgl-graph-view/dist
+      STATE_DIR: /app/workspace/devel/services/openplanner/openplanner-lake/graph-weaver
+      MONGODB_URI: mongodb://${OPENPLANNER_MONGO_APP_USERNAME:-openplanner}:${OPENPLANNER_MONGO_APP_PASSWORD:-change-me-openplanner-password}@mongodb:27017/${MONGODB_DB:-openplanner}?authSource=${MONGODB_DB:-openplanner}
+      MONGODB_DB: ${MONGODB_DB:-openplanner}
+      MONGODB_NODE_COLLECTION: ${GRAPH_WEAVER_NODE_COLLECTION:-graph_weaver_nodes}
+      MONGODB_EDGE_COLLECTION: ${GRAPH_WEAVER_EDGE_COLLECTION:-graph_weaver_edges}
+      OPENPLANNER_BASE_URL: http://openplanner:7777
+      OPENPLANNER_API_KEY: ${OPENPLANNER_API_KEY:-change-me}
+      GRAPH_WEAVER_WEB_CRAWL_ENABLED: ${GRAPH_WEAVER_WEB_CRAWL_ENABLED:-false}
+      MAX_RENDER_NODES: ${GRAPH_WEAVER_MAX_RENDER_NODES:-6000}
+      MAX_RENDER_EDGES: ${GRAPH_WEAVER_MAX_RENDER_EDGES:-12000}
+      SCAN_MAX_FILE_BYTES: ${GRAPH_WEAVER_SCAN_MAX_FILE_BYTES:-512000}
+      SCAN_RESCAN_INTERVAL_MS: ${GRAPH_WEAVER_SCAN_RESCAN_INTERVAL_MS:-30000}
+    volumes:
+    - ${DEVEL_ROOT_PATH:-../..}:/app/workspace/devel
+    extra_hosts:
+    - host.docker.internal:host-gateway
+    depends_on:
+      openplanner:
+        condition: service_started
+      mongo-init:
+        condition: service_completed_successfully
+    healthcheck:
+      test:
+      - CMD
+      - node
+      - -e
+      - fetch('http://127.0.0.1:8796/api/status').then((r)=>process.exit(r.ok?0:1)).catch(()=>process.exit(1))
+      interval: 30s
+      timeout: 10s
+      retries: 5
+      start_period: 20s
+    restart: unless-stopped
+    networks:
+      default: {}
+      ai-infra: {}
+
+volumes:
+  openplanner-mongodb-data: {}
+  openplanner-proxx-db-data: {}
+
+networks:
+  default: {}
+  ai-infra:
+    external: true
+    name: ${AI_INFRA_NETWORK:-ai-infra}

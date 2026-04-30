@@ -1,0 +1,36 @@
+{
+  "id": "proxx-web",
+  "title": "Proxx Web",
+  "root": "orgs/open-hax/proxx/web/src",
+  "subsystems": [
+    {
+      "name": "pages",
+      "count": 8
+    },
+    {
+      "name": "lib",
+      "count": 4
+    },
+    {
+      "name": "(root)",
+      "count": 2
+    }
+  ],
+  "edges": [
+    {
+      "from": "pages",
+      "to": "lib",
+      "count": 17
+    },
+    {
+      "from": "(root)",
+      "to": "pages",
+      "count": 8
+    },
+    {
+      "from": "(root)",
+      "to": "lib",
+      "count": 1
+    }
+  ]
+}

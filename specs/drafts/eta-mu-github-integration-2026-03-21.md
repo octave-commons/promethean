@@ -18,7 +18,7 @@ The user wants:
 - Many workspace submodules are third-party or read-only, so rollout must distinguish admin-capable repos from read-only upstreams.
 
 ## Open questions
-- Which merge gate should be authoritative for “CodeRabbit comments resolved”:
+- Which merge gate should be authoritative for "CodeRabbit comments resolved":
   1. native GitHub required review-thread resolution,
   2. an eta-mu workflow check, or
   3. both?

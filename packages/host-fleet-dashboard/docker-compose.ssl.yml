@@ -1,0 +1,26 @@
+services:
+  host-fleet-dashboard-ssl:
+    image: caddy:2.8-alpine
+    container_name: host-fleet-dashboard-ssl
+    depends_on:
+      host-fleet-dashboard:
+        condition: service_started
+    ports:
+      - "80:80"
+      - "443:443"
+    volumes:
+      - ./Caddyfile:/etc/caddy/Caddyfile:ro
+      - host-fleet-dashboard-caddy-data:/data
+      - host-fleet-dashboard-caddy-config:/config
+    restart: unless-stopped
+    networks:
+      ai-infra: {}
+
+volumes:
+  host-fleet-dashboard-caddy-data:
+  host-fleet-dashboard-caddy-config:
+
+networks:
+  ai-infra:
+    external: true
+    name: ai-infra

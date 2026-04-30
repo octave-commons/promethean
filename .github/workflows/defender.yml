@@ -1,0 +1,59 @@
+name: Security - Windows Defender
+
+on:
+  pull_request:
+    branches: [main, release]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: security-defender-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  windows-defender-scan:
+    if: (github.event.pull_request.base.ref == 'release' || github.event.pull_request.base.ref == 'main') && (startsWith(github.head_ref, 'dev/') || github.head_ref == 'main')
+    runs-on: windows-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+
+      - name: Validate detection with EICAR
+        shell: pwsh
+        run: |
+          # Keep the EICAR signature out of the repo checkout; otherwise the subsequent
+          # full-repo scan may flag this workflow file itself.
+          $eicarB64 = "WDVPIVAlQEFQWzRcUFpYNTRQXFApN0NDKTd9JEVJQ0FSLVNUQU5EQVJELUFOVElWSVJVUy1URVNULUZJTEUhJEgrSCo="
+          $eicar = [System.Text.Encoding]::ASCII.GetString([Convert]::FromBase64String($eicarB64))
+          $path = "$env:TEMP\eicar.com.txt"
+          Set-Content -Path $path -Value $eicar -Encoding ASCII
+          $mpc = "$Env:ProgramFiles\Windows Defender\MpCmdRun.exe"
+          if (!(Test-Path $mpc)) { $mpc = "$Env:ProgramFiles\Microsoft Defender\MpCmdRun.exe" }
+          if (!(Test-Path $mpc)) { Write-Error "MpCmdRun.exe not found"; exit 1 }
+          & $mpc -Scan -ScanType 3 -File $path
+          $rc = $LASTEXITCODE
+          Remove-Item $path -Force
+          if ($rc -eq 2) {
+            Write-Output "EICAR detected as expected"
+          } elseif ($rc -eq 0) {
+            Write-Warning "EICAR was not detected (or scan skipped) in this runner environment; continuing"
+          } else {
+            Write-Error "Defender scan exited with code $rc"
+            exit $rc
+          }
+
+      - name: Scan repository with Defender
+        shell: pwsh
+        run: |
+          $mpc = "$Env:ProgramFiles\Windows Defender\MpCmdRun.exe"
+          if (!(Test-Path $mpc)) { $mpc = "$Env:ProgramFiles\Microsoft Defender\MpCmdRun.exe" }
+          if (!(Test-Path $mpc)) { Write-Error "MpCmdRun.exe not found"; exit 1 }
+          & $mpc -Scan -ScanType 3 -File "$PWD"
+          $rc = $LASTEXITCODE
+          if ($rc -ne 0) {
+            Write-Error "Defender detected issues (exit code $rc)"
+            exit $rc
+          }

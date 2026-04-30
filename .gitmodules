@@ -1,21 +1,228 @@
-[submodule "orgs/open-hax/openplanner"]
-	path = orgs/open-hax/openplanner
-	url = https://github.com/open-hax/openplanner
-[submodule "orgs/open-hax/depenoxx"]
-	path = orgs/open-hax/depenoxx
-	url = git@github.com:open-hax/depenoxx.git
-[submodule "orgs/open-hax/uxx"]
-	path = orgs/open-hax/uxx
-	url = https://github.com/open-hax/uxx.git
-[submodule "orgs/octave-commons/simulacron"]
-	path = orgs/octave-commons/simulacron
-	url = git@github.com:octave-commons/simulacron.git
-[submodule "orgs/octave-commons/daimoi"]
-	path = orgs/octave-commons/daimoi
-	url = git@github.com:octave-commons/daimoi.git
-[submodule "orgs/ussyverse/routussy"]
-	path = orgs/ussyverse/routussy
-	url = https://github.com/riatzukiza/routussy.git
-[submodule "orgs/shuv/shuvcrawl"]
-	path = orgs/shuv/shuvcrawl
-	url = git@github.com:shuv1337/shuvcrawl.git
+[submodule "promethean"]
+	path = orgs/riatzukiza/promethean
+	url = git@github.com:riatzukiza/promethean.git
+	branch = device/stealth
+[submodule "dotfiles"]
+	path = orgs/riatzukiza/dotfiles
+	url = git@github.com:riatzukiza/dotfiles.git
+	branch = device/stealth
+[submodule "agent-shell"]
+	path = oss/agent-shell
+	url = git@github.com:riatzukiza/agent-shell.git
+[submodule "clojure-mcp"]
+	path = oss/clojure-mcp
+	url = git@github.com:bhauman/clojure-mcp.git
+[submodule "opencode-openai-codex-auth"]
+	path = orgs/openai/opencode-openai-codex-auth
+	url = git@github.com:numman-ali/opencode-openai-codex-auth.git
+[submodule "openai/codex"]
+	path = orgs/openai/codex
+	url = org-14957082@github.com:openai/codex.git
+[submodule "sst/opencode"]
+	path = orgs/sst/opencode
+	url = git@github.com:sst/opencode.git
+[submodule "moofone/codex-ts-sdk"]
+	path = orgs/moofone/codex-ts-sdk
+	url = git@github.com:moofone/codex-ts-sdk.git
+	branch = device/stealth
+[submodule "riatzukiza/ollama-benchmarks"]
+	path = orgs/riatzukiza/ollama-benchmarks
+	url = git@github.com:riatzukiza/ollama-benchmarks.git
+	branch = device/stealth
+[submodule "riatzukiza/riatzukiza.github.io"]
+	path = orgs/riatzukiza/riatzukiza.github.io
+	url = git@github.com:riatzukiza/riatzukiza.github.io.git
+	branch = device/stealth
+[submodule "riatzukiza/desktop"]
+	path = orgs/riatzukiza/desktop
+	url = ./orgs/riatzukiza/desktop
+[submodule "riatzukiza/book-of-shadows"]
+	path = orgs/riatzukiza/book-of-shadows
+	url = ./orgs/riatzukiza/book-of-shadows
+[submodule "riatzukiza/goblin-lessons"]
+	path = orgs/riatzukiza/goblin-lessons
+	url = git@github.com:riatzukiza/goblin-lessons.git
+	branch = device/stealth
+[submodule "riatzukiza/stt"]
+	path = orgs/riatzukiza/stt
+	url = git@github.com:riatzukiza/stt.git
+	branch = device/stealth
+[submodule "orgs/open-hax/codex"]
+	path = orgs/open-hax/codex
+	url = git@github.com:open-hax/codex.git
+	branch = device/stealth
+[submodule "orgs/open-hax/agent-actors"]
+	path = orgs/open-hax/agent-actors
+	url = git@github.com:open-hax/agent-actors.git
+	branch = device/stealth
+[submodule "orgs/open-hax/clients"]
+	path = orgs/open-hax/clients
+	url = git@github.com:open-hax/clients.git
+	branch = device/stealth
+[submodule "orgs/open-hax/cljs-plugin-template"]
+	path = orgs/open-hax/cljs-plugin-template
+	url = git@github.com:open-hax/cljs-plugin-template.git
+	branch = device/stealth
+[submodule "orgs/open-hax/plugins/codex"]
+	path = orgs/open-hax/plugins/codex
+	url = git@github.com:open-hax/codex.git
+	branch = device/stealth
+[submodule "orgs/open-hax/workbench"]
+	path = orgs/open-hax/workbench
+	url = git@github.com:open-hax/workbench.git
+	branch = device/stealth
+[submodule "orgs/octave-commons/helm"]
+	path = orgs/octave-commons/helm
+	url = git@github.com:octave-commons/helm.git
+	branch = device/stealth
+[submodule "orgs/octave-commons/pantheon"]
+	path = orgs/octave-commons/pantheon
+	url = git@github.com:octave-commons/pantheon.git
+	branch = device/stealth
+[submodule "orgs/octave-commons/promethean"]
+	path = orgs/octave-commons/promethean
+	url = git@github.com:octave-commons/promethean.git
+	branch = device/stealth
+[submodule "orgs/octave-commons/gates-of-aker"]
+	path = orgs/octave-commons/gates-of-aker
+	url = git@github.com:octave-commons/gates-of-aker.git
+	branch = device/stealth
+[submodule "orgs/octave-commons/promethean-agent-system"]
+	path = orgs/octave-commons/promethean-agent-system
+	url = git@github.com:octave-commons/promethean-agent-system.git
+	branch = device/stealth
+
+[submodule "orgs/octave-commons/lineara_conversation_export"]
+	path = orgs/octave-commons/lineara_conversation_export
+	url = git@github.com:octave-commons/lineara_conversation_export.git
+	branch = device/stealth
+
+[submodule "orgs/kcrommett/oc-manager"]
+	path = orgs/kcrommett/oc-manager
+	url = git@github.com:kcrommett/oc-manager.git
+	branch = device/stealth
+[submodule ".emacs.d"]
+	path = .emacs.d
+	url = https://github.com/syl20bnr/spacemacs
+	branch = device/stealth
+
+[submodule "orgs/open-hax/museeks"]
+	path = orgs/open-hax/museeks
+	url = https://github.com/open-hax/museeks.git
+	branch = device/stealth
+[submodule "vaults/fork_tales"]
+	path = vaults/fork_tales
+	url = https://github.com/octave-commons/fork_tales.git
+	branch = device/stealth
+[submodule "vaults/static_man"]
+	path = vaults/static_man
+	url = git@github.com:octave-commons/static_man.git
+	branch = device/stealth
+[submodule "services/vivgrid-openai-proxy"]
+	path = services/vivgrid-openai-proxy
+	url = https://github.com/open-hax/vivgrid-openai-proxy.git
+	branch = device/stealth
+[submodule "services/codex-lb"]
+	path = services/codex-lb
+	url = https://github.com/Soju06/codex-lb.git
+[submodule "orgs/ussyverse/openclawssy"]
+	path = orgs/ussyverse/openclawssy
+	url = git@github.com:mojomast/openclawssy.git
+	branch = main
+[submodule "services/open-hax-openai-proxy"]
+	path = services/open-hax-openai-proxy
+	url = https://github.com/open-hax/proxx.git
+	branch = main
+[submodule "orgs/ussyverse/kanban"]
+	path = orgs/ussyverse/kanban
+	url = https://github.com/open-hax/ussyverse-kanban.git
+[submodule "orgs/open-hax/privaxxy"]
+	path = orgs/open-hax/privaxxy
+	url = https://github.com/open-hax/privaxxy.git
+	branch = main
+[submodule "orgs/agustif/codex-linux"]
+	path = orgs/agustif/codex-linux
+	url = git@github.com:agustif/codex-linux.git
+	branch = main
+[submodule "orgs/shuv/codex-desktop-linux"]
+	path = orgs/shuv/codex-desktop-linux
+	url = git@github.com:shuv1337/codex-desktop-linux.git
+[submodule "orgs/openai/parameter-golf"]
+	path = orgs/openai/parameter-golf
+	url = org-14957082@github.com:openai/parameter-golf.git
+	branch = main
+[submodule "orgs/octave-commons/mythloom"]
+	path = orgs/octave-commons/mythloom
+	url = file:///home/err/devel/orgs/octave-commons/mythloom
+	branch = main
+[submodule "orgs/octave-commons/shibboleth"]
+	path = orgs/octave-commons/shibboleth
+	url = git@github.com:octave-commons/shibboleth.git
+	branch = main
+[submodule "orgs/open-hax/proxx"]
+	path = orgs/open-hax/proxx
+	url = https://github.com/open-hax/proxx.git
+	branch = main
+[submodule "orgs/open-hax/voxx"]
+	path = orgs/open-hax/voxx
+	url = git@github.com:open-hax/voxx.git
+	branch = main
+[submodule "orgs/riatzukiza/TANF-app"]
+	path = orgs/riatzukiza/TANF-app
+	url = git@github.com:riatzukiza/TANF-app.git
+	branch = main
+[submodule "orgs/riatzukiza/hormuz-clock-mcp"]
+	path = orgs/riatzukiza/hormuz-clock-mcp
+	url = file:///home/err/devel/orgs/riatzukiza/hormuz-clock-mcp
+	branch = main
+[submodule "threat-radar-deploy"]
+	path = threat-radar-deploy
+	url = https://github.com/riatzukiza/threat-radar.git
+	branch = main
+[submodule "bevy_replicon"]
+	path = bevy_replicon
+	url = https://github.com/simgine/bevy_replicon.git
+	branch = master
+[submodule "egregoria"]
+	path = egregoria
+	url = https://github.com/Uriopass/Egregoria.git
+	branch = master
+[submodule "game_network"]
+	path = game_network
+	url = https://github.com/jakalope/game_network.git
+	branch = master
+[submodule "gates-pr35-hardening-main"]
+	path = gates-pr35-hardening-main
+	url = git@github.com:octave-commons/gates-of-aker.git
+	branch = fix/colony-regression-hardening
+[submodule "ggrs"]
+	path = ggrs
+	url = https://github.com/gschup/ggrs.git
+	branch = main
+[submodule "lightyear"]
+	path = lightyear
+	url = https://github.com/cBournhonesque/lightyear.git
+	branch = main
+[submodule "mcp-social-publisher-live"]
+	path = mcp-social-publisher-live
+	url = https://github.com/riatzukiza/mcp-social-publisher
+	branch = main
+[submodule "orgs/anomalyco/opencode"]
+	path = orgs/anomalyco/opencode
+	url = git@github.com:riatzukiza/opencode.git
+	branch = feat/security-scans
+[submodule "orgs/badlogic/pi-mono"]
+	path = orgs/badlogic/pi-mono
+	url = git@github.com:badlogic/pi-mono.git
+	branch = main
+[submodule "verathar-server"]
+	path = verathar-server
+	url = https://github.com/isaacsaancheez/verathar-server.git
+	branch = master
+[submodule "orgs/open-hax/eta-mu-github"]
+	path = orgs/open-hax/eta-mu-github
+	url = https://github.com/open-hax/eta-mu-github.git
+[submodule "orgs/open-hax/eta-mu"]
+	path = orgs/open-hax/eta-mu
+	url = https://github.com/open-hax/eta-mu.git
+	branch = main

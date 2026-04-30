@@ -1,0 +1,68 @@
+{
+  "featureId": "fix-mcp-type-error",
+  "milestone": "foundation",
+  "reviewer": "scrutiny-feature-reviewer",
+  "reviewedAt": "2026-03-13T02:05:00.000Z",
+  "commitId": "8709a20",
+  "transcriptSkeletonReviewed": true,
+  "diffReviewed": true,
+  "status": "pass",
+  "codeQuality": {
+    "score": 4,
+    "observations": [
+      "The Array.isArray narrowing pattern is idiomatic TypeScript for handling union types from Express 5's ParamsDictionary (string | string[]).",
+      "The fallback `rawRadarId[0] ?? \"\"` correctly handles the edge case of an empty array, producing an empty string that reduceLive() will reject with a proper error.",
+      "Two catch blocks use `err: any` (lines 367, 378) which violates the mission's 'No any types' convention. Should use `unknown` with `err instanceof Error ? err.message : 'fallback'`. However, this is pre-existing uncommitted code, not introduced by the worker's type fix edit."
+    ]
+  },
+  "correctness": {
+    "score": 5,
+    "observations": [
+      "The type narrowing correctly resolves TS2345: `string | string[]` is narrowed to `string` before being passed to reduceLive(radarId: string).",
+      "Runtime behavior is preserved: Express route params (`:radarId`) are always strings at runtime, so the Array.isArray branch is never hit in practice — this is purely a compile-time fix.",
+      "tsc --noEmit passed with zero errors after the fix (verified in handoff).",
+      "The commit scope includes two new Express route handlers (/api/submit-packet, /api/reduce-live/:radarId) that were present in the working tree but uncommitted prior to this feature. The type error was in the reduce-live handler. The worker correctly fixed only the type issue and committed the whole file."
+    ]
+  },
+  "testCoverage": {
+    "score": 3,
+    "observations": [
+      "No tests were added. The worker's justification is reasonable: the feature explicitly states 'Do NOT change the runtime behavior, only fix the type error so tsc --noEmit passes', making tsc itself the verification.",
+      "The skill's TDD procedure was deviated from, but the deviation is justified for a type-only fix where there is no runtime behavior change to test."
+    ]
+  },
+  "blockingIssues": [],
+  "nonBlockingIssues": [
+    {
+      "file": "orgs/riatzukiza/threat-radar-mcp/src/main.ts",
+      "line": 367,
+      "severity": "non_blocking",
+      "description": "catch (err: any) violates 'No any types' convention. Should use `catch (err: unknown)` with `err instanceof Error` narrowing. Applies to both catch blocks at lines 367 and 378. This was pre-existing uncommitted code, not introduced by this fix."
+    },
+    {
+      "file": "orgs/riatzukiza/threat-radar-mcp/src/main.ts",
+      "line": 362,
+      "severity": "non_blocking",
+      "description": "The commit includes the /api/submit-packet route handler (lines 362-369) which is unrelated to the type error fix. This was pre-existing uncommitted code that got swept into the commit. Minor scope creep, but harmless since both routes were needed."
+    }
+  ],
+  "sharedStateObservations": [
+    {
+      "target": "skills",
+      "description": "Backend worker skill mandates 'Write failing tests first (TDD)' but doesn't carve out an exception for type-only fixes where tsc --noEmit is the verification. Worker's skillFeedback suggests adding this exception. This is a valid observation — pure type fixes (no runtime changes) should be exempt from TDD since the type checker IS the test.",
+      "evidence": "Handoff skillFeedback.deviations[0]: 'TDD doesn't apply to pure type fixes — tsc --noEmit IS the test.' Feature description explicitly says 'Do NOT change the runtime behavior, only fix the type error so tsc --noEmit passes.'"
+    },
+    {
+      "target": "library",
+      "description": "Express 5 types (@types/express-serve-static-core@5.1.1) define ParamsDictionary values as `string | string[]`, which causes type errors when passing req.params.* to functions expecting string. This is a known quirk that should be documented in library/environment.md so future workers don't spend time investigating.",
+      "evidence": "Worker transcript shows investigation of @types/express-serve-static-core@5.1.1 type definitions to understand why req.params.radarId was typed as string|string[]. The fix pattern is: `const raw = req.params.key; const val = Array.isArray(raw) ? raw[0] ?? '' : raw;`"
+    },
+    {
+      "target": "AGENTS.md",
+      "description": "The 'No any types' coding convention isn't consistently enforced. The committed code has `catch (err: any)` in two new route handlers. Consider documenting the preferred error handling pattern: `catch (err: unknown) { const msg = err instanceof Error ? err.message : 'fallback'; }`",
+      "evidence": "orgs/riatzukiza/threat-radar-mcp/src/main.ts lines 367 and 378 use `catch (err: any)` despite AGENTS.md stating 'No any types'."
+    }
+  ],
+  "addressesFailureFrom": null,
+  "summary": "The type fix is correct and minimal. The worker properly narrowed Express 5's `string | string[]` param type using Array.isArray before passing to reduceLive(). tsc --noEmit passes with zero errors. Runtime behavior is unchanged since Express route params are always strings. The commit includes two new route handlers (submit-packet and reduce-live) that were pre-existing uncommitted code — only the type narrowing in reduce-live was the actual fix. No blocking issues. Minor non-blocking observations: `err: any` in catch blocks should be `err: unknown`, and the backend-worker skill could document an exception for type-only fixes not requiring TDD."
+}

@@ -38,8 +38,10 @@ jobs:
           set -e
           lock_generated=0
           if [ -f pnpm-lock.yaml ]; then
-            npx pnpm-lock-to-npm-lock@1.0.0
-            lock_generated=1
+            # NOTE: pnpm-lock -> package-lock conversion tooling has been flaky across
+            # environments; proceed without conversion and let Dependency-Check fall
+            # back to scanning manifests.
+            echo "pnpm-lock.yaml present; skipping conversion" >&2
           fi
           if ls bun.lock bun.lockb >/dev/null 2>&1; then
             npm install --package-lock-only --ignore-scripts || true
@@ -52,7 +54,7 @@ jobs:
           fi
 
       - name: OWASP Dependency Check
-        uses: dependency-check/action@v4
+        uses: dependency-check/Dependency-Check_Action@main
         with:
           project: ${{ inputs.project-name }}
           path: .

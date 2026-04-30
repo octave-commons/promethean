@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openplanner-config
+data:
+  NODE_ENV: production
+  OPENPLANNER_HOST: 0.0.0.0
+  OPENPLANNER_PORT: "7777"
+  OPENPLANNER_DATA_DIR: /app/openplanner-lake
+  OPENPLANNER_STORAGE_BACKEND: duckdb
+  CHROMA_URL: http://openplanner-chroma:8000
+  CHROMA_COLLECTION: openplanner_events_v1
+  CHROMA_COMPACT_COLLECTION: openplanner_events_v1_compact
+  EMBED_PROVIDER_BASE_URL: http://proxx-host:8789
+  EMBED_PROVIDER_MODEL: qwen3-embedding:0.6b
+  EMBED_PROVIDER_COMPACT_MODEL: qwen3-embedding:4b
+  EMBED_PROVIDER_TRUNCATE: "true"
+  EMBED_PROVIDER_NUM_CTX: "40000"
+  SEMANTIC_COMPACTION_ENABLED: "true"

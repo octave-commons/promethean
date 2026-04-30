@@ -1,0 +1,410 @@
+{
+  "name": "eta-mu-five-section-response",
+  "version": "ημ.output/response-shape@0.1.0",
+  "targetFormat": "markdown",
+  "targetAst": "mdast",
+  "targetRoot": "document",
+  "repairMaxRetries": 2,
+  "sections": [
+    {
+      "id": "section/signal",
+      "heading": "Signal",
+      "required": true,
+      "order": 1,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote",
+        "code",
+        "table"
+      ],
+      "localRuleIds": []
+    },
+    {
+      "id": "section/evidence",
+      "heading": "Evidence",
+      "required": true,
+      "order": 2,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote",
+        "code",
+        "table"
+      ],
+      "localRuleIds": []
+    },
+    {
+      "id": "section/frames",
+      "heading": "Frames",
+      "required": true,
+      "order": 3,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote"
+      ],
+      "localRuleIds": []
+    },
+    {
+      "id": "section/countermoves",
+      "heading": "Countermoves",
+      "required": true,
+      "order": 4,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote"
+      ],
+      "localRuleIds": []
+    },
+    {
+      "id": "section/next",
+      "heading": "Next",
+      "required": true,
+      "order": 5,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list"
+      ],
+      "localRuleIds": [
+        "rule/next-exactly-one-action"
+      ]
+    }
+  ],
+  "sectionsById": {
+    "section/signal": {
+      "id": "section/signal",
+      "heading": "Signal",
+      "required": true,
+      "order": 1,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote",
+        "code",
+        "table"
+      ],
+      "localRuleIds": []
+    },
+    "section/evidence": {
+      "id": "section/evidence",
+      "heading": "Evidence",
+      "required": true,
+      "order": 2,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote",
+        "code",
+        "table"
+      ],
+      "localRuleIds": []
+    },
+    "section/frames": {
+      "id": "section/frames",
+      "heading": "Frames",
+      "required": true,
+      "order": 3,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote"
+      ],
+      "localRuleIds": []
+    },
+    "section/countermoves": {
+      "id": "section/countermoves",
+      "heading": "Countermoves",
+      "required": true,
+      "order": 4,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote"
+      ],
+      "localRuleIds": []
+    },
+    "section/next": {
+      "id": "section/next",
+      "heading": "Next",
+      "required": true,
+      "order": 5,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list"
+      ],
+      "localRuleIds": [
+        "rule/next-exactly-one-action"
+      ]
+    }
+  },
+  "sectionsByHeading": {
+    "Signal": {
+      "id": "section/signal",
+      "heading": "Signal",
+      "required": true,
+      "order": 1,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote",
+        "code",
+        "table"
+      ],
+      "localRuleIds": []
+    },
+    "Evidence": {
+      "id": "section/evidence",
+      "heading": "Evidence",
+      "required": true,
+      "order": 2,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote",
+        "code",
+        "table"
+      ],
+      "localRuleIds": []
+    },
+    "Frames": {
+      "id": "section/frames",
+      "heading": "Frames",
+      "required": true,
+      "order": 3,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote"
+      ],
+      "localRuleIds": []
+    },
+    "Countermoves": {
+      "id": "section/countermoves",
+      "heading": "Countermoves",
+      "required": true,
+      "order": 4,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list",
+        "blockquote"
+      ],
+      "localRuleIds": []
+    },
+    "Next": {
+      "id": "section/next",
+      "heading": "Next",
+      "required": true,
+      "order": 5,
+      "cardinality": "one",
+      "allowedNodeTypes": [
+        "paragraph",
+        "list"
+      ],
+      "localRuleIds": [
+        "rule/next-exactly-one-action"
+      ]
+    }
+  },
+  "rules": [
+    {
+      "id": "rule/required-section",
+      "kind": "deterministic",
+      "check": "section-present"
+    },
+    {
+      "id": "rule/unique-section",
+      "kind": "deterministic",
+      "check": "section-unique"
+    },
+    {
+      "id": "rule/section-order",
+      "kind": "deterministic",
+      "check": "heading-order"
+    },
+    {
+      "id": "rule/allowed-node-types",
+      "kind": "deterministic",
+      "check": "node-type-allowlist"
+    },
+    {
+      "id": "rule/frames-cardinality",
+      "kind": "deterministic",
+      "check": "frame-count",
+      "sectionId": "section/frames",
+      "min": 2,
+      "max": 3
+    },
+    {
+      "id": "rule/next-exactly-one-action",
+      "kind": "deterministic",
+      "check": "action-count",
+      "sectionId": "section/next",
+      "exactly": 1
+    }
+  ],
+  "rulesById": {
+    "rule/required-section": {
+      "id": "rule/required-section",
+      "kind": "deterministic",
+      "check": "section-present"
+    },
+    "rule/unique-section": {
+      "id": "rule/unique-section",
+      "kind": "deterministic",
+      "check": "section-unique"
+    },
+    "rule/section-order": {
+      "id": "rule/section-order",
+      "kind": "deterministic",
+      "check": "heading-order"
+    },
+    "rule/allowed-node-types": {
+      "id": "rule/allowed-node-types",
+      "kind": "deterministic",
+      "check": "node-type-allowlist"
+    },
+    "rule/frames-cardinality": {
+      "id": "rule/frames-cardinality",
+      "kind": "deterministic",
+      "check": "frame-count",
+      "sectionId": "section/frames",
+      "min": 2,
+      "max": 3
+    },
+    "rule/next-exactly-one-action": {
+      "id": "rule/next-exactly-one-action",
+      "kind": "deterministic",
+      "check": "action-count",
+      "sectionId": "section/next",
+      "exactly": 1
+    }
+  },
+  "repairTemplates": [
+    {
+      "id": "repair/missing-section",
+      "whenRuleId": "rule/required-section",
+      "text": "Add the missing section `{{heading}}` as a level-2 markdown header (`## {{heading}}`) in position {{order}}. Preserve all other sections. Do not use bold or emphasis in place of headers."
+    },
+    {
+      "id": "repair/reorder-sections",
+      "whenRuleId": "rule/section-order",
+      "text": "Reorder the existing sections to exactly: ## Signal, ## Evidence, ## Frames, ## Countermoves, ## Next. Each section must use a level-2 markdown header (`##`). Preserve content."
+    },
+    {
+      "id": "repair/rewrite-next",
+      "whenRuleId": "rule/next-exactly-one-action",
+      "text": "Rewrite `## Next` so it contains exactly one concrete next action."
+    },
+    {
+      "id": "repair/frames-cardinality",
+      "whenRuleId": "rule/frames-cardinality",
+      "text": "Rewrite `## Frames` so it contains 2–3 plausible interpretations."
+    },
+    {
+      "id": "repair/disallowed-node-type",
+      "whenRuleId": "rule/allowed-node-types",
+      "text": "Section `{{heading}}` contains `{{nodeType}}` nodes which are not allowed. Use `## {{heading}}` as a level-2 markdown header for section headings. Do not use bold (`**...**`), emphasis, or deeper heading levels (`###`, `####`) inside sections. Flatten sub-section content into paragraphs, lists, or blockquotes."
+    }
+  ],
+  "repairTemplatesByRuleId": {
+    "rule/required-section": [
+      {
+        "id": "repair/missing-section",
+        "whenRuleId": "rule/required-section",
+        "text": "Add the missing section `{{heading}}` as a level-2 markdown header (`## {{heading}}`) in position {{order}}. Preserve all other sections. Do not use bold or emphasis in place of headers."
+      }
+    ],
+    "rule/section-order": [
+      {
+        "id": "repair/reorder-sections",
+        "whenRuleId": "rule/section-order",
+        "text": "Reorder the existing sections to exactly: ## Signal, ## Evidence, ## Frames, ## Countermoves, ## Next. Each section must use a level-2 markdown header (`##`). Preserve content."
+      }
+    ],
+    "rule/next-exactly-one-action": [
+      {
+        "id": "repair/rewrite-next",
+        "whenRuleId": "rule/next-exactly-one-action",
+        "text": "Rewrite `## Next` so it contains exactly one concrete next action."
+      }
+    ],
+    "rule/frames-cardinality": [
+      {
+        "id": "repair/frames-cardinality",
+        "whenRuleId": "rule/frames-cardinality",
+        "text": "Rewrite `## Frames` so it contains 2–3 plausible interpretations."
+      }
+    ],
+    "rule/allowed-node-types": [
+      {
+        "id": "repair/disallowed-node-type",
+        "whenRuleId": "rule/allowed-node-types",
+        "text": "Section `{{heading}}` contains `{{nodeType}}` nodes which are not allowed. Use `## {{heading}}` as a level-2 markdown header for section headings. Do not use bold (`**...**`), emphasis, or deeper heading levels (`###`, `####`) inside sections. Flatten sub-section content into paragraphs, lists, or blockquotes."
+      }
+    ]
+  },
+  "review": {
+    "enabled": true,
+    "reviewerFamily": "gpt",
+    "threshold": 0.8,
+    "criteria": [
+      {
+        "id": "criterion/contract-fidelity",
+        "weight": 0.45
+      },
+      {
+        "id": "criterion/shortcutting-risk",
+        "weight": 0.2
+      },
+      {
+        "id": "criterion/context-alignment",
+        "weight": 0.2
+      },
+      {
+        "id": "criterion/actionability",
+        "weight": 0.15
+      }
+    ]
+  },
+  "arbitration": [
+    [
+      "accept-if",
+      [
+        "structure",
+        ":pass"
+      ],
+      [
+        "review-score-gte",
+        0.8
+      ]
+    ],
+    [
+      "reject-if",
+      [
+        "repair-retries-exhausted",
+        true
+      ],
+      [
+        "or",
+        ":structure-failed",
+        ":review-below-threshold"
+      ]
+    ]
+  ]
+}

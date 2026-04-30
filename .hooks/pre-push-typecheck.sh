@@ -1,6 +1,12 @@
 #!/usr/bin/env bash
 set -euo pipefail
 
+# Pre-push typecheck configuration:
+# - SKIP_PREPUSH_TYPECHECK=1 skips this hook.
+# - PREPUSH_TYPECHECK_MODE=fast (default) typechecks changed allowed-org submodule pointers.
+# - PREPUSH_TYPECHECK_MODE=nx runs the Nx affected typecheck path instead.
+# Example: PREPUSH_TYPECHECK_MODE=nx git push
+
 if [[ "${SKIP_PREPUSH_TYPECHECK:-0}" == "1" ]]; then
   printf "[pre-push:typecheck] Skipping because SKIP_PREPUSH_TYPECHECK=1\n"
   exit 0
@@ -99,7 +105,105 @@ ORG_PREFIXES=(
   "orgs-octave-commons-"
 )
 
-resolve_push_base() {
+ALLOWED_ORGS_REGEX='^orgs/(riatzukiza|open-hax|octave-commons)/[^/]+(/[^/]+)*$'
+
+COMPUTED_BASE_USED_FALLBACK=0
+COMPUTED_BASE_SHA=""
+
+compute_base_sha() {
+  local head_ref="$1"
+  local desired_base="$2"
+  local fallback_label="$3"
+  local failure_message="$4"
+  local base_sha=""
+
+  COMPUTED_BASE_USED_FALLBACK=0
+  COMPUTED_BASE_SHA=""
+
+  if git rev-parse --verify "$desired_base" >/dev/null 2>&1; then
+    if base_sha=$(git merge-base "$head_ref" "$desired_base" 2>/dev/null); then
+      :
+    else
+      base_sha=$(git rev-parse "$desired_base" 2>/dev/null || true)
+    fi
+  fi
+
+  if [[ -z "$base_sha" ]]; then
+    if base_sha=$(git rev-parse "${head_ref}~1" 2>/dev/null); then
+      COMPUTED_BASE_USED_FALLBACK=1
+      log "Falling back to ${head_ref}~1 for ${fallback_label}"
+    else
+      log "$failure_message"
+      return 1
+    fi
+  fi
+
+  COMPUTED_BASE_SHA="$base_sha"
+}
+
+collect_changed_submodule_paths() {
+  local base_sha="$1"
+  local head_ref="$2"
+  local diff_output=""
+  local changed_paths=()
+  local submodule_paths=()
+
+  if ! diff_output=$(git diff --name-only "$base_sha" "$head_ref"); then
+    return 1
+  fi
+
+  if [[ -n "${diff_output//[[:space:]]/}" ]]; then
+    mapfile -t changed_paths <<<"$diff_output"
+  fi
+
+  for changed_path in "${changed_paths[@]}"; do
+    if [[ "$changed_path" =~ $ALLOWED_ORGS_REGEX ]]; then
+      submodule_paths+=("$changed_path")
+    fi
+  done
+
+  if [[ ${#submodule_paths[@]} -eq 0 ]]; then
+    return 0
+  fi
+
+  printf '%s\n' "${submodule_paths[@]}" | sort -u
+}
+
+run_direct_submodule_typecheck() {
+  local base_sha="$1"
+  local head_ref="$2"
+  local submodule_output=""
+  local submodule_paths=()
+  local failed=0
+
+  if ! submodule_output=$(collect_changed_submodule_paths "$base_sha" "$head_ref"); then
+    return 1
+  fi
+
+  if [[ -n "${submodule_output//[[:space:]]/}" ]]; then
+    mapfile -t submodule_paths <<<"$submodule_output"
+  fi
+
+  if [[ ${#submodule_paths[@]} -eq 0 ]]; then
+    log "No changed allowed-org submodule pointers; skipping typecheck"
+    return 0
+  fi
+
+  log "Fast path: typechecking changed submodule pointers: ${submodule_paths[*]}"
+  for sub_path in "${submodule_paths[@]}"; do
+    if ! bun run src/giga/run-submodule.ts "$sub_path" typecheck; then
+      failed=1
+    fi
+  done
+
+  if [[ $failed -ne 0 ]]; then
+    return 1
+  fi
+
+  return 0
+}
+
+run_nx_affected_typecheck() {
   local head_ref="${NX_HEAD_REF:-HEAD}"
   local desired_base="${NX_RESOLVED_BASE:-origin/main}"
   local base_sha=""
@@ -242,23 +346,13 @@ run_nx_affected_typecheck() {
     head_ref="HEAD"
   fi
 
-  if git rev-parse --verify "$desired_base" >/dev/null 2>&1; then
-    if base_sha=$(git merge-base "$head_ref" "$desired_base" 2>/dev/null); then
-      :
-    else
-      base_sha=$(git rev-parse "$desired_base" 2>/dev/null || true)
-    fi
+  if ! compute_base_sha "$head_ref" "$desired_base" "Nx base" "Unable to determine Nx base reference (tried ${desired_base} and ${head_ref}~1)"; then
+    return 1
   fi
+  base_sha="$COMPUTED_BASE_SHA"
 
-  if [[ -z "$base_sha" ]]; then
-    if base_sha=$(git rev-parse "${head_ref}~1" 2>/dev/null); then
-      log "Falling back to ${head_ref}~1 for Nx base"
-    else
-      log "Unable to determine Nx base reference (tried ${desired_base} and ${head_ref}~1)"
-      return 1
-    fi
-  else
-    log "$PUSH_BASE_SELECTION_MSG"
+  if [[ $COMPUTED_BASE_USED_FALLBACK -eq 0 ]]; then
+    log "$NX_BASE_SELECTION_MSG (merge-base ${base_sha})"
   fi
 
   if ! affected_projects_raw=$(pnpm nx show projects --affected --base "$base_sha" --head "$head_ref"); then
@@ -295,24 +389,48 @@ run_nx_affected_typecheck() {
   pnpm nx run-many -t typecheck --projects "$(IFS=,; echo "${filtered_projects[*]}")"
 }
 
-if ! resolve_push_base; then
-  exit 1
-fi
+run_fast_typecheck() {
+  local head_ref="${NX_HEAD_REF:-HEAD}"
+  local desired_base="${NX_RESOLVED_BASE:-origin/main}"
+  local base_sha=""
 
-if ! run_push_artifact_guard "$PUSH_BASE_SHA" "$PUSH_HEAD_REF"; then
-  exit 1
-fi
+  if ! git rev-parse --verify "$head_ref" >/dev/null 2>&1; then
+    head_ref="HEAD"
+  fi
+
+  if ! compute_base_sha "$head_ref" "$desired_base" "fast-path base" "Unable to determine fast-path base reference"; then
+    return 1
+  fi
+  base_sha="$COMPUTED_BASE_SHA"
+
+  run_direct_submodule_typecheck "$base_sha" "$head_ref"
+}
 
 if command -v pnpm >/dev/null 2>&1 && [[ -f nx.json ]]; then
-  run_nx_affected_typecheck
-  nx_exit=$?
+  PREPUSH_TYPECHECK_MODE="${PREPUSH_TYPECHECK_MODE:-fast}"
+
+  if [[ "$PREPUSH_TYPECHECK_MODE" == "nx" ]]; then
+    run_nx_affected_typecheck
+    nx_exit=$?
+  else
+    run_fast_typecheck
+    nx_exit=$?
+  fi
 
   if [[ $nx_exit -eq 0 ]]; then
-    log "Nx affected typecheck completed"
+    if [[ "$PREPUSH_TYPECHECK_MODE" == "nx" ]]; then
+      log "Nx affected typecheck completed"
+    else
+      log "Fast pre-push typecheck completed"
+    fi
     exit 0
   fi
 
-  log "Nx affected typecheck failed (exit ${nx_exit}); aborting pre-push checks"
+  if [[ "$PREPUSH_TYPECHECK_MODE" == "nx" ]]; then
+    log "Nx affected typecheck failed (exit ${nx_exit}); aborting pre-push checks"
+  else
+    log "Fast pre-push typecheck failed (exit ${nx_exit}); aborting pre-push checks"
+  fi
   exit "$nx_exit"
 fi
 

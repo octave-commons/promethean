@@ -1,0 +1,12 @@
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: openplanner-config
+data:
+  OPENPLANNER_STORAGE_BACKEND: mongodb
+  OPENPLANNER_DATA_DIR: /app/openplanner-lake
+  MONGODB_DB: openplanner
+  MONGODB_EVENTS_COLLECTION: events
+  MONGODB_COMPACTED_COLLECTION: compacted_memories
+  MONGODB_VECTOR_HOT_COLLECTION: event_chunks
+  MONGODB_VECTOR_COMPACT_COLLECTION: compacted_vectors

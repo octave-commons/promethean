@@ -1,0 +1,42 @@
+{
+  "metadata": {
+    "generatedBy": "pi",
+    "description": "Normalized MCP chat bridge with an IRC adapter pointed at irc.ussy.host #ussycode"
+  },
+  "name": "chat-bridge-mcp",
+  "version": "0.1.0",
+  "transport": "http",
+  "port": 4071,
+  "path": "/mcp",
+  "tools": [
+    "chat.list_conversations",
+    "chat.read_messages",
+    "chat.send_message",
+    "chat.reply_message",
+    "chat.get_members",
+    "chat.get_capabilities"
+  ],
+  "resources": [
+    "chat://platforms",
+    "chat://workspaces/irc",
+    "chat://conversations/irc/ussy",
+    "chat://messages/irc/ussy/%23ussycode",
+    "chat://message/irc/ussy/%23ussycode/{messageId}",
+    "chat://capabilities/irc"
+  ],
+  "prompts": [
+    "summarize-channel",
+    "draft-reply",
+    "moderation-review",
+    "handoff-brief"
+  ],
+  "defaults": {
+    "irc": {
+      "host": "irc.ussy.host",
+      "port": 6697,
+      "tls": true,
+      "workspaceId": "ussy",
+      "channel": "#ussycode"
+    }
+  }
+}

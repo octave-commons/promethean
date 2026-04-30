@@ -1,0 +1,29 @@
+{
+  "lexicon": 1,
+  "id": "app.openhax.radar.signalEvent",
+  "defs": {
+    "main": {
+      "type": "record",
+      "description": "Raw incoming signal from Bluesky, Reddit, RSS, or other source. Contains provenance, text, links, domain tags.",
+      "key": "tid",
+      "record": {
+        "type": "object",
+        "required": ["provenanceSource", "text", "observedAt", "ingestedAt"],
+        "properties": {
+          "provenanceSource": { "type": "string", "description": "bluesky | reddit | rss | api | manual | ais" },
+          "provenanceAuthor": { "type": "string" },
+          "provenancePostUri": { "type": "string", "format": "uri" },
+          "provenanceParentUri": { "type": "string", "format": "uri" },
+          "confidenceClass": { "type": "string", "description": "firsthand | commentary | rumor | synthesis | unknown" },
+          "text": { "type": "string", "maxLength": 10000 },
+          "title": { "type": "string", "maxLength": 500 },
+          "links": { "type": "array", "items": { "type": "string", "format": "uri" }, "maxLength": 50 },
+          "domainTags": { "type": "array", "items": { "type": "string" }, "maxLength": 30 },
+          "contentHash": { "type": "string" },
+          "observedAt": { "type": "string", "format": "datetime" },
+          "ingestedAt": { "type": "string", "format": "datetime" }
+        }
+      }
+    }
+  }
+}

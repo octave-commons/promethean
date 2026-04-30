@@ -1,0 +1,15 @@
+# big.ussy.promethean.rest federation edge for cephalon-hive proxx
+# API/auth/health route to 8789, web console routes to 5174.
+
+federation.big.ussy.promethean.rest, brethren.big.ussy.promethean.rest, proxx.big.ussy.promethean.rest {
+  encode gzip zstd
+
+  @api path /v1* /api* /auth* /health
+  reverse_proxy @api 127.0.0.1:8789
+
+  header {
+    Strict-Transport-Security "max-age=31536000; includeSubDomains; preload"
+  }
+
+  reverse_proxy 127.0.0.1:5174
+}

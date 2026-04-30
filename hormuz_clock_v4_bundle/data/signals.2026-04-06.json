@@ -1,0 +1,239 @@
+[
+  {
+    "id": "ap_trump_ultimatum_infrastructure",
+    "timestamp_utc": "2026-04-06T12:00:00Z",
+    "source": "AP",
+    "category": "regional_escalation",
+    "value": {
+      "strength": 0.95,
+      "ordinal": 4,
+      "deadline": "2026-04-07T20:00:00-04:00"
+    },
+    "confidence": 0.95,
+    "direction": "destabilizing",
+    "notes": "Trump threatens to bomb all Iranian power plants and bridges if Hormuz not reopened by Tuesday 8pm ET deadline. 'The entire country can be taken out in one night.' Explicit escalation beyond nuclear sites to civilian infrastructure.",
+    "url": "https://apnews.com/article/87b62d531d3290fde5255077179bd3b5",
+    "experimental": false
+  },
+  {
+    "id": "ap_iran_rejects_ceasefire",
+    "timestamp_utc": "2026-04-06T10:00:00Z",
+    "source": "AP",
+    "category": "reopening_pressure",
+    "value": {
+      "strength": -0.7,
+      "proposal_days": 45,
+      "counter_proposal_points": 10
+    },
+    "confidence": 0.92,
+    "direction": "destabilizing",
+    "notes": "Iran rejected 45-day ceasefire proposal, wants permanent end to war with guarantees against future attacks. Submitted 10-point counter-proposal via Pakistan. 'We only accept an end of the war with guarantees that we won't be attacked again.'",
+    "url": "https://apnews.com/article/87b62d531d3290fde5255077179bd3b5",
+    "experimental": false
+  },
+  {
+    "id": "ap_south_pars_attack",
+    "timestamp_utc": "2026-04-06T08:00:00Z",
+    "source": "AP",
+    "category": "regional_escalation",
+    "value": {
+      "strength": 0.85,
+      "target": "South Pars gas field",
+      "significance": "world's largest gas field"
+    },
+    "confidence": 0.90,
+    "direction": "destabilizing",
+    "notes": "Israel struck South Pars natural gas field - world's largest, shared with Qatar, Iran's biggest domestic energy source for 93 million people. Major escalation targeting Iran's energy revenue.",
+    "url": "https://apnews.com/article/87b62d531d3290fde5255077179bd3b5",
+    "experimental": false
+  },
+  {
+    "id": "ap_irgc_intel_chief_killed",
+    "timestamp_utc": "2026-04-06T06:00:00Z",
+    "source": "AP",
+    "category": "attack_tempo",
+    "value": {
+      "target_rank": "Major General",
+      "role": "IRGC intelligence chief",
+      "additional_kills": ["Quds Force undercover unit leader"]
+    },
+    "confidence": 0.95,
+    "direction": "destabilizing",
+    "notes": "Israel killed IRGC intelligence chief Maj. Gen. Majid Khademi and Quds Force undercover unit leader Asghar Bakeri. Israeli DM Katz: 'We will continue to hunt them down one by one.'",
+    "url": "https://apnews.com/article/87b62d531d3290fde5255077179bd3b5",
+    "experimental": false
+  },
+  {
+    "id": "ap_us_aircraft_downed",
+    "timestamp_utc": "2026-04-06T00:00:00Z",
+    "source": "AP",
+    "category": "attack_tempo",
+    "value": {
+      "aircraft_type": "military",
+      "significance": "first US aircraft shot down by enemy in 20+ years"
+    },
+    "confidence": 0.88,
+    "direction": "destabilizing",
+    "notes": "US military aircraft shot down over Iran - first US aircraft abatidos by enemy forces in more than 20 years. Major escalation in military confrontation.",
+    "url": "https://apnews.com/article/73977fd15658f7e1da0b8e0012bb0452",
+    "experimental": false
+  },
+  {
+    "id": "ap_casualties_cumulative",
+    "timestamp_utc": "2026-04-06T14:00:00Z",
+    "source": "AP",
+    "category": "regional_escalation",
+    "value": {
+      "iran_killed": 1900,
+      "lebanon_killed": 1400,
+      "israel_killed": 23,
+      "us_military_killed": 13,
+      "iran_displaced": 1000000,
+      "lebanon_displaced": 1000000
+    },
+    "confidence": 0.85,
+    "direction": "destabilizing",
+    "notes": "Cumulative casualties: 1,900+ killed in Iran (not updated for days), 1,400+ in Lebanon, 1M+ displaced each. 23 Israeli deaths, 13 US service members killed. 29 killed in single day April 6.",
+    "url": "https://apnews.com/article/87b62d531d3290fde5255077179bd3b5",
+    "experimental": false
+  },
+  {
+    "id": "axios_brent_110",
+    "timestamp_utc": "2026-04-06T00:00:00Z",
+    "source": "Axios",
+    "category": "transit_flow",
+    "value": {
+      "brent_usd": 110,
+      "projection_high": 200
+    },
+    "confidence": 0.90,
+    "direction": "destabilizing",
+    "notes": "Brent crude above $110/bbl as markets react to Iran war uncertainty. Expert warnings of $200/bbl if Hormuz closure persists. Banks raised 2026 forecasts by $85/barrel.",
+    "url": "https://www.axios.com/2026/04/05/oil-rises-iran-war-future-trump",
+    "experimental": false
+  },
+  {
+    "id": "ap_humanitarian_aid_blocked",
+    "timestamp_utc": "2026-04-05T00:00:00Z",
+    "source": "AP",
+    "category": "asia_buffer_stress",
+    "value": {
+      "impact": "millions affected",
+      "chokepoints": ["Hormuz", "other pathways"]
+    },
+    "confidence": 0.88,
+    "direction": "destabilizing",
+    "notes": "Aid groups warn Iran war hindering food and medicine from reaching millions. Key pathways including Hormuz effectively shuttered, delaying humanitarian cargo, forcing costly reroutes.",
+    "url": "https://apnews.com/article/eae99c347456ced2989e9f253448b56b",
+    "experimental": false
+  },
+  {
+    "id": "opb_medical_supplies_dubai",
+    "timestamp_utc": "2026-04-06T00:00:00Z",
+    "source": "OPB",
+    "category": "asia_buffer_stress",
+    "value": {
+      "location": "Dubai",
+      "status": "stuck",
+      "global_impact": "clinic shortages worldwide"
+    },
+    "confidence": 0.85,
+    "direction": "destabilizing",
+    "notes": "Medical supplies stuck in Dubai as Iran war snarls shipping through Hormuz. Clinics around the world facing shortages due to blocked transit.",
+    "url": "https://www.opb.org/article/2026/04/06/medical-supplies-stuck-as-iran-war-snarls-shipping-in-the-strait-of-hormuz/",
+    "experimental": false
+  },
+  {
+    "id": "who_healthcare_attacks_20plus",
+    "timestamp_utc": "2026-04-03T00:00:00Z",
+    "source": "Al Jazeera / WHO",
+    "category": "regional_escalation",
+    "value": {
+      "healthcare_facilities_attacked": 20,
+      "since": "2026-03-01"
+    },
+    "confidence": 0.90,
+    "direction": "destabilizing",
+    "notes": "WHO reports more than 20 attacks on Iranian healthcare facilities since March 1. Health infrastructure systematically targeted.",
+    "url": "https://www.aljazeera.com/news/2026/4/3/more-than-20-attacks-on-iranian-healthcare-facilities-since-march-1-who",
+    "experimental": false
+  },
+  {
+    "id": "guardian_insurance_uninsurable",
+    "timestamp_utc": "2026-03-02T00:00:00Z",
+    "source": "The Insurer / Guardian",
+    "category": "insurance_availability",
+    "value": {
+      "premium_surge": "5x",
+      "status": "effectively uninsurable",
+      "rates_pct_value": [1.0, 1.5]
+    },
+    "confidence": 0.88,
+    "direction": "destabilizing",
+    "notes": "Gulf marine war rates spiked fivefold. Hormuz described as effectively uninsurable. Lloyd's says cover available but restricted areas and repricing intensified.",
+    "url": "https://www.theguardian.com/business/2026/mar/02/maritime-insurers-war-risk-cover-gulf-iran-shipping-strait-of-hormuz",
+    "experimental": false
+  },
+  {
+    "id": "ap_bahrain_un_force_debate",
+    "timestamp_utc": "2026-04-03T00:00:00Z",
+    "source": "AP",
+    "category": "reopening_pressure",
+    "value": {
+      "proposal": "reopen Hormuz",
+      "outcome": "watered down",
+      "objections": ["China", "Russia"]
+    },
+    "confidence": 0.92,
+    "direction": "neutral",
+    "notes": "Bahrain revised UN draft on reopening Hormuz, authorizing defensive (not offensive) action. China/Russia objected to force authorization. Diplomatic friction over restoration mechanism.",
+    "url": "https://apnews.com/article/f2a2fafe3e1691b9f0be5e7d691a90d0",
+    "experimental": false
+  },
+  {
+    "id": "businesstoday_india_75pct_bypass",
+    "timestamp_utc": "2026-03-11T00:00:00Z",
+    "source": "Business Today",
+    "category": "bypass_capacity",
+    "value": {
+      "pct_non_hormuz": 75,
+      "nations_count": 40
+    },
+    "confidence": 0.85,
+    "direction": "stabilizing",
+    "notes": "India diversified to source 75% of crude from non-Hormuz routes, sourcing from 40 nations. Major energy security policy shift. Saudi crude rerouted via Red Sea.",
+    "url": "https://www.businesstoday.in/amp/latest/economy/story/india-diversifies-crude-supply-routes-75-now-coming-from-outside-strait-of-hormuz-520157-2026-03-11/",
+    "experimental": false
+  },
+  {
+    "id": "ap_tehran_resident_bombardment",
+    "timestamp_utc": "2026-04-06T10:00:00Z",
+    "source": "AP",
+    "category": "attack_tempo",
+    "value": {
+      "status": "constant bombardment",
+      "civilian_conditions": "sleeping pills, power/gas/water cuts feared"
+    },
+    "confidence": 0.80,
+    "direction": "destabilizing",
+    "notes": "Tehran resident: 'constantly there is the sound of bombs, air defenses, drones.' Another takes sleeping pills for nightly bombardment. People worry about power, gas, water cuts.",
+    "url": "https://apnews.com/article/87b62d531d3290fde5255077179bd3b5",
+    "experimental": false
+  },
+  {
+    "id": "ap_new_supreme_leader_statement",
+    "timestamp_utc": "2026-04-06T08:00:00Z",
+    "source": "AP",
+    "category": "regional_escalation",
+    "value": {
+      "actor": "Mojtaba Khamenei",
+      "action": "rare statement",
+      "public_visibility": "not seen/heard in public"
+    },
+    "confidence": 0.90,
+    "direction": "neutral",
+    "notes": "New Supreme Leader Mojtaba Khamenei issued rare statement condoling IRGC intel chief death. Still has not been seen or heard in public since assuming role after father's death.",
+    "url": "https://apnews.com/article/87b62d531d3290fde5255077179bd3b5",
+    "experimental": false
+  }
+]
