@@ -215,6 +215,12 @@
     (treesit-auto-install 'prompt)     ;; or 't to auto-install silently
     :config
     (treesit-auto-add-to-auto-mode-alist 'all)
+    ;; in err-core/config.el, after treesit-auto setup:
+    (dolist (pair '((clojure-mode . clojure-mode)
+                     (clojurescript-mode . clojurescript-mode)
+                     (clojurec-mode . clojurec-mode)))
+      (setq major-mode-remap-alist
+        (assoc-delete-all (car pair) major-mode-remap-alist)))
     (global-treesit-auto-mode))
 
   ;; Prefer native TS modes over legacy ones.
