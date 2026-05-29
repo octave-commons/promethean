@@ -1,0 +1,122 @@
+{
+  "generatedAt": "2026-05-29T04:01:13.601Z",
+  "totalTasks": 2,
+  "columns": [
+    {
+      "status": "icebox",
+      "title": "Icebox",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "incoming",
+      "title": "Incoming",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "accepted",
+      "title": "Accepted",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "breakdown",
+      "title": "Breakdown",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "blocked",
+      "title": "Blocked",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "ready",
+      "title": "Ready",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "todo",
+      "title": "Todo",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "in_progress",
+      "title": "In Progress",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "review",
+      "title": "Review",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "document",
+      "title": "Document",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "done",
+      "title": "Done",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "rejected",
+      "title": "Rejected",
+      "taskCount": 0,
+      "tasks": []
+    },
+    {
+      "status": "draft",
+      "title": "Draft",
+      "taskCount": 2,
+      "tasks": [
+        {
+          "uuid": "orgs-octave-commons-promethean-docs-kanban-orgs-octave-commons-promethean-docs-specs-drafts-eta-mu-docs-indexer-md",
+          "title": "Spec (draft): ημ docs indexer (lazy markdown parse + backlinks cache)",
+          "slug": "spec-draft-docs-indexer-lazy-markdown-parse-backlinks-cache",
+          "status": "draft",
+          "priority": "P3",
+          "labels": [
+            "specs",
+            "migrated-spec",
+            "knowledge",
+            "eta-mu",
+            "docs",
+            "indexer",
+            "lazy"
+          ],
+          "createdAt": "2026-03-15",
+          "content": "> Source: `orgs/octave-commons/promethean/docs/specs/drafts/eta-mu-docs-indexer.md`\n> Migrated-to-kanban: `orgs/octave-commons/promethean/docs/kanban/drafts/eta-mu-docs-indexer.md`\n# ημ docs indexer (lazy markdown parse + backlinks cache)\n\n## Intent\nProvide a lightweight, Obsidian-compatible knowledge substrate for `docs/**/*.md` that is:\n\n- incremental (mtime/content-hash gated)\n- functional (derived caches are rebuildable)\n- lazy (no embeddings by default)\n- Fork Tales–named (ημ/Π/opencode runtime paths)\n\n## Inputs\n- Mounts config: `.opencode/runtime/eta_mu_mounts.v1.json`\n\n## Outputs (cache; gitignored)\n- Nodes/index: `.opencode/runtime/eta_mu_docs_index.v1.jsonl`\n- Backlinks: `.opencode/runtime/eta_mu_docs_backlinks.v1.jsonl`\n\n## Identity\n- Prefer frontmatter `uuid:` when present → `entity_id = \"doc:<uuid>\"`.\n- Otherwise:\n  - reuse `entity_id` from previous index when `source_rel_path` matches\n  - else reuse when `content_sha256` matches (move detection)\n  - else mint: `entity_id = \"doc:\" + sha256(mount_id + \":\" + source_rel_path)[0..20]`\n\n## Extracted fields per doc\n- title (first H1 if present else filename)\n- headings (H2/H3...)\n- tags\n  - frontmatter `tags:`\n  - inline `#tag`\n  - `#hashtags:` convention\n- links\n  - wikilinks `[[target|alias]]`\n  - markdown links `[text](url)` (local or external)\n\n## Definition of Done\n- `node scripts/eta_mu_docs_indexer.mjs` runs in repo root.\n- Produces index + backlinks files under `.opencode/runtime/`.\n- Re-running without file changes performs no heavy work (uses cached rows).",
+          "sourcePath": "/home/err/devel/orgs/octave-commons/promethean/docs/kanban/drafts/eta-mu-docs-indexer.md"
+        },
+        {
+          "uuid": "orgs-octave-commons-promethean-docs-kanban-orgs-octave-commons-promethean-docs-specs-drafts-eta-mu-mounts-md",
+          "title": "Spec (draft): ημ mounts for docs knowledge graph (Promethean)",
+          "slug": "spec-draft-mounts-for-docs-knowledge-graph-promethean",
+          "status": "draft",
+          "priority": "P3",
+          "labels": [
+            "specs",
+            "migrated-spec",
+            "knowledge",
+            "eta-mu",
+            "mounts",
+            "docs"
+          ],
+          "createdAt": "2026-03-15",
+          "content": "> Source: `orgs/octave-commons/promethean/docs/specs/drafts/eta-mu-mounts.md`\n> Migrated-to-kanban: `orgs/octave-commons/promethean/docs/kanban/drafts/eta-mu-mounts.md`\n# ημ mounts for docs knowledge graph (Promethean)\n\n## Intent\nDefine *graph scope* independently from the substrate directories (`.ημ/`, `.Π/`, `.opencode/runtime/*`).\n\nThis avoids the Fork Tales failure mode: *treating a directory as identity*. Directories are locators; identities live in registries/IDs.\n\n## Requirements\n- Add an explicit mounts config describing which trees are scanned for the docs knowledge graph.\n- `.ημ/` remains an **inbox** (optional capture funnel), not “the vault”.\n\n## Plan\n1. Add `.opencode/runtime/eta_mu_mounts.v1.json`.\n2. Initial mounts:\n   - `promethean-docs` → `docs/**.md`\n\n## Definition of Done\n- Mount config exists and is committed.\n- No indexing behavior changes yet (this is only scope/config).",
+          "sourcePath": "/home/err/devel/orgs/octave-commons/promethean/docs/kanban/drafts/eta-mu-mounts.md"
+        }
+      ]
+    }
+  ]
+}

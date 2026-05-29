@@ -1,26 +1,17 @@
-# Π Snapshot — 2026-03-18T04:50:47Z
+# Π handoff: eta-mu kanban migration octave commons batch
 
-- Repo: `promethean`
-- Branch: `fork-tax/2026-03-18-opencode-runtime-snapshot`
-- Remote: `origin/fork-tax/2026-03-18-opencode-runtime-snapshot`
-- Base HEAD at capture start: `8dcaf03aa`
-- Working tree at capture start: dirty
+- Time: 2026-05-29T04:02:26Z
+- Repo: `orgs/octave-commons/promethean`
+- Manifest: `/tmp/eta-mu-kanban-batches/agent_octave_commons.json`
+- Migration command: `node services/eta-mu/kanban/scripts/migrate-specs-to-kanban.mjs --root /home/err/devel --manifest /tmp/eta-mu-kanban-batches/agent_octave_commons.json`
+- Verification: `eta-mu-beta kanban count --tasks-dir <boardDir>` for each migrated board in this repo
+- Concurrent-agent policy: staged only migrated kanban directories, removed spec/specs directories, and `.ημ` handoff artifacts.
 
-## What changed
-- Capture generated `.opencode/runtime` documentation index artifacts for reproducible snapshot state.
-- Add `receipts.log` and `.ημ` handoff artifacts for this recursively snapshotted submodule.
-- Preserve detached-snapshot state on a dedicated fork-tax branch for pushable continuity.
+## Boards
 
-## Files to inspect
-- `receipts.log`
-- `.opencode/runtime/eta_mu_mounts.v1.json`
-- `.opencode/runtime/eta_mu_docs_index.v1.jsonl`
-- `.opencode/runtime/eta_mu_docs_backlinks.v1.jsonl`
-- `.ημ/Π_STATE.sexp`
+- `orgs/octave-commons/promethean/docs/kanban` (2 cards) removed `orgs/octave-commons/promethean/docs/specs`
+- `orgs/octave-commons/promethean/kanban` (101 cards) removed `orgs/octave-commons/promethean/spec`
 
-## Verification
-- skipped: generated runtime artifacts only; no code/test changes
+## Residual / blockers
 
-## Notes
-- Snapshot starts from a detached prior Π commit and is moved onto `fork-tax/2026-03-18-opencode-runtime-snapshot` for recursive handoff.
-- Artifacts capture the pre-snapshot base head; the final Π commit/tag are created after artifact assembly.
+- None known before push.
