@@ -12,7 +12,7 @@ git@github.com:riatzukiza/cli.git
 git@github.com:riatzukiza/eidolon-field.git
 git@github.com:riatzukiza/math-utils.git
 git@github.com:riatzukiza/migrations.git
-git@github.com:riatzukiza/opencode-hub.git
+git@github.com:octave-commons/helm.git
 git@github.com:riatzukiza/platform.git
 git@github.com:riatzukiza/test-classifier.git
 git@github.com:riatzukiza/clj-hacks-tools.git

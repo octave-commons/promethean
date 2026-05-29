@@ -56,7 +56,7 @@
 	branch = device/stealth
 [submodule "packages/opencode-hub"]
 	path = packages/opencode-hub
-	url = git@github.com:octave-commons/opencode-hub.git
+	url = git@github.com:octave-commons/helm.git
 	branch = device/stealth
 [submodule "packages/platform"]
 	path = packages/platform
