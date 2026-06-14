@@ -1,0 +1,20 @@
+name: Auto Merge
+
+on:
+  pull_request:
+    types: [opened, ready_for_review]
+  check_suite:
+    types: [completed]
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  auto-merge:
+    if: ${{ github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository }}
+    uses: open-hax/eta-mu/.github/workflows/auto-merge.yml@main
+    with:
+      pr: ${{ github.event.pull_request.number }}
+      merge-method: SQUASH
+    secrets: inherit
