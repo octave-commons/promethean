@@ -1,0 +1,112 @@
+name: OpenCode Kimi PR Review
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
+
+concurrency:
+  group: opencode-kimi-review-${{ github.event.pull_request.number }}
+  cancel-in-progress: true
+
+jobs:
+  review:
+    name: Review pull request with OpenCode
+    if: ${{ github.event.pull_request.draft == false && github.event.pull_request.head.repo.full_name == github.repository }}
+    runs-on: ubuntu-latest
+    env:
+      HAS_DISCORD_REVIEW_WEBHOOK_URL: ${{ secrets.DISCORD_REVIEW_WEBHOOK_URL != '' }}
+    permissions:
+      id-token: write
+      contents: read
+      pull-requests: write
+      issues: write
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Capture review start time
+        id: review_start
+        run: echo "started_at=$(date -u +%Y-%m-%dT%H:%M:%SZ)" >> "$GITHUB_OUTPUT"
+
+      - name: Run OpenCode review
+        uses: anomalyco/opencode/github@latest
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+          KIMI_API_KEY: ${{ secrets.KIMI_FOR_CODING_API_KEY }}
+        with:
+          model: kimi-for-coding/k2p5
+          use_github_token: true
+          prompt: |
+            Review this pull request as a senior maintainer.
+            Focus on correctness, security, maintainability, tests, and repo-specific conventions.
+            Check linked GitHub issues and any synced Kanban markers (`openhax-kanban-sync`) to understand the task intent.
+            If this repository has a kanban/ directory or docs/agent-workflows.md, use it as planning context and keep status/priority labels in mind.
+            Submit concrete findings as GitHub PR inline review comments on the exact changed lines whenever GitHub can attach them.
+            If there are no actionable findings, leave a short passing review summary instead of inventing comments.
+            Do not request cosmetic churn unless it prevents confusion or future defects.
+
+      - name: Send new inline review comments to Discord
+        if: ${{ always() && env.HAS_DISCORD_REVIEW_WEBHOOK_URL == 'true' }}
+        uses: actions/github-script@v7
+        env:
+          DISCORD_REVIEW_WEBHOOK_URL: ${{ secrets.DISCORD_REVIEW_WEBHOOK_URL }}
+          REVIEW_STARTED_AT: ${{ steps.review_start.outputs.started_at }}
+        with:
+          github-token: ${{ secrets.GITHUB_TOKEN }}
+          script: |
+            const webhookUrl = process.env.DISCORD_REVIEW_WEBHOOK_URL;
+            const startedAt = new Date(process.env.REVIEW_STARTED_AT || 0);
+            const { owner, repo } = context.repo;
+            const pr = context.payload.pull_request;
+            if (!webhookUrl || !pr) return;
+
+            const comments = await github.paginate(github.rest.pulls.listReviewComments, {
+              owner,
+              repo,
+              pull_number: pr.number,
+              per_page: 100,
+            });
+            const fresh = comments
+              .filter((comment) => new Date(comment.created_at) >= startedAt)
+              .sort((a, b) => new Date(a.created_at) - new Date(b.created_at));
+            if (fresh.length === 0) {
+              core.info('No new inline review comments to send to Discord.');
+              return;
+            }
+
+            const truncate = (value, max) => {
+              const text = String(value || '');
+              return text.length <= max ? text : `${text.slice(0, max - 1)}…`;
+            };
+            const embeds = fresh.map((comment) => ({
+              title: `${owner}/${repo}#${pr.number}: inline review comment`,
+              url: comment.html_url,
+              color: 0x8b5cf6,
+              description: truncate(comment.body, 3500),
+              fields: [
+                { name: 'Author', value: comment.user?.login || 'unknown', inline: true },
+                { name: 'File', value: truncate(comment.path || 'unknown', 1024), inline: true },
+                { name: 'Line', value: String(comment.line || comment.original_line || 'n/a'), inline: true },
+                { name: 'PR', value: pr.html_url, inline: false },
+              ],
+              timestamp: comment.created_at,
+            }));
+
+            for (let i = 0; i < embeds.length; i += 10) {
+              const chunk = embeds.slice(i, i + 10);
+              const response = await fetch(webhookUrl, {
+                method: 'POST',
+                headers: { 'content-type': 'application/json' },
+                body: JSON.stringify({
+                  username: 'Kimi Code Review',
+                  content: `New inline review comment${chunk.length === 1 ? '' : 's'} on ${owner}/${repo}#${pr.number}`,
+                  embeds: chunk,
+                  allowed_mentions: { parse: [] },
+                }),
+              });
+              if (!response.ok) {
+                throw new Error(`Discord webhook failed: ${response.status} ${await response.text()}`);
+              }
+            }
