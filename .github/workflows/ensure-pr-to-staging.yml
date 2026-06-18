@@ -1,0 +1,15 @@
+name: Ensure PR to Staging
+
+on:
+  schedule:
+    - cron: "*/30 * * * *"
+  workflow_dispatch:
+  create:
+
+jobs:
+  ensure-pr:
+    if: ${{ github.ref_type == 'branch' && !contains(fromJson('["staging","main","master","production","prod"]'), github.ref_name) || github.event_name != 'create' }}
+    uses: open-hax/eta-mu/.github/workflows/ensure-pr-to-staging.yml@main
+    with:
+      base: staging
+    secrets: inherit

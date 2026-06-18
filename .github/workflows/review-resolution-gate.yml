@@ -1,0 +1,21 @@
+name: Review Resolution Gate
+
+on:
+  pull_request:
+    types: [opened, reopened, synchronize, edited, ready_for_review]
+  pull_request_review:
+    types: [submitted, dismissed]
+  pull_request_review_comment:
+    types: [created]
+
+permissions:
+  contents: read
+  pull-requests: read
+
+jobs:
+  review-gate:
+    uses: open-hax/eta-mu/.github/workflows/review-resolution-gate.yml@main
+    with:
+      pr: ${{ github.event.pull_request.number }}
+      strict: true
+    secrets: inherit
