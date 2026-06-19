@@ -118,7 +118,7 @@ The Promethean monorepo has a complex build system with multiple configuration f
 #### ✅ **NX Build System**
 1. **`nx.json`** ✅
    - **Status:** PRIMARY BUILD CONFIG
-   - **Usage:** All build scripts use `scripts/run-nx-task.mjs`
+   - **Usage:** Build scripts use direct `pnpm nx` commands (`run-many`, `affected`, etc.)
    - **Integration:** Complete project graph and caching
 
 2. **`nx.enhanced.json`** ❌
