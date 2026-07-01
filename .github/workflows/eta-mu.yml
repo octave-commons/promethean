@@ -1,10 +1,6 @@
 name: eta-mu
 
 on:
-  issues:
-    types: [opened, edited]
-  issue_comment:
-    types: [created]
   pull_request:
     types: [opened, reopened, synchronize, edited, ready_for_review]
   pull_request_review:

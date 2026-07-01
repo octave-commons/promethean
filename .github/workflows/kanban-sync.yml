@@ -1,12 +1,6 @@
 name: Kanban Sync to GitHub Issues
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'kanban/**'
-  schedule:
-    - cron: "0 */6 * * *"
   workflow_dispatch:
     inputs:
       dry_run:

@@ -1,11 +1,6 @@
 name: Sync Kanban to GitHub Issues
 
 on:
-  push:
-    branches: [main]
-    paths:
-      - 'docs/agile/boards/generated.md'
-      - 'docs/agile/tasks/**'
   workflow_dispatch:
     inputs:
       dry_run:

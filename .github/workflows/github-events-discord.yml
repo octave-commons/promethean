@@ -1,10 +1,6 @@
 name: GitHub Events to Discord
 
 on:
-  issues:
-    types: [opened, reopened, closed, labeled, unlabeled, assigned, unassigned]
-  issue_comment:
-    types: [created]
   pull_request:
     types: [opened, reopened, closed, ready_for_review, converted_to_draft, synchronize]
   pull_request_review:
